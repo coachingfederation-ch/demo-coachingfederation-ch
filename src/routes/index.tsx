@@ -285,7 +285,7 @@ function Events() {
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {events.map((e) => (
             <a key={e.title} href="#" className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-1 hover:shadow-lg">
-              <div className="flex aspect-[16/10] items-center justify-center bg-gradient-to-br from-primary/10 via-accent/20/40 to-brand-cyan/20">
+              <div className="flex aspect-[16/10] items-center justify-center bg-gradient-to-br from-primary/10 via-accent/20 to-accent/30">
                 <span className="text-3xl font-semibold text-primary/60">{e.city}</span>
               </div>
               <div className="flex flex-1 flex-col p-6">
