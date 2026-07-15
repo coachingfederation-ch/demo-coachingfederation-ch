@@ -4,92 +4,125 @@ import heroImg from "@/assets/hero-coaching.jpg";
 import leadershipImg from "@/assets/leadership-team.jpg";
 import conversationImg from "@/assets/real-conversation.jpg";
 import ensoImg from "@/assets/enso.png";
+import icfLogo from "@/assets/icf-switzerland-charter-chapter.png.asset.json";
 
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
-function Logo() {
+const CARD_SHADOW =
+  "shadow-[0_1px_2px_rgba(20,20,60,0.04),0_8px_20px_-14px_rgba(20,20,60,0.08)]";
+
+function Logo({ variant = "hero" }: { variant?: "hero" | "footer" }) {
   return (
-    <Link to="/" className="flex items-center gap-2" aria-label="ICF Switzerland home">
-      <span className="grid h-10 w-10 place-items-center rounded-md bg-primary text-white">
-        <span className="text-sm font-extrabold leading-none">ICF</span>
-      </span>
-      <span className="hidden text-xs leading-tight text-muted-foreground sm:block">
-        Switzerland<br />Charter Chapter
-      </span>
+    <Link to="/" aria-label="ICF Switzerland home" className="inline-flex">
+      <img
+        src={icfLogo.url}
+        alt="ICF Switzerland Charter Chapter"
+        className={variant === "hero" ? "h-20 w-auto -ml-3 -mt-2" : "h-10 w-auto"}
+      />
     </Link>
   );
 }
 
-function Nav() {
+function HeroHeader() {
   const items = ["Find a Coach", "For Organisations", "For Coaches", "Insights", "Events", "About"];
+  const langs = ["en", "de", "fr", "it"];
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-6">
-        <div className="flex items-center gap-10">
+    <header className="bg-hero text-hero-foreground">
+      <div className="mx-auto max-w-7xl px-8 pt-6 pb-16">
+        <div className="mb-10 flex flex-wrap items-start justify-between gap-4">
           <Logo />
-          <nav className="hidden items-center gap-7 lg:flex">
-            {items.map((i) => (
-              <a key={i} href="#" className="text-sm text-foreground/80 transition hover:text-primary">{i}</a>
-            ))}
-          </nav>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="hidden items-center gap-3 text-xs font-medium text-muted-foreground md:flex">
-            <button className="text-primary">EN</button>
-            <button>DE</button>
-            <button>FR</button>
-            <button>IT</button>
+          <div className="flex flex-wrap items-center gap-3">
+            <nav
+              aria-label="Primary"
+              className="hidden items-center rounded-full bg-white/10 p-1 text-[11px] font-semibold lg:inline-flex"
+            >
+              {items.map((i, idx) => (
+                <a
+                  key={i}
+                  href="#"
+                  className={
+                    "inline-flex h-7 items-center rounded-full px-3 transition " +
+                    (idx === 0
+                      ? "bg-white text-primary shadow-sm"
+                      : "text-white/80 hover:text-white")
+                  }
+                >
+                  {i}
+                </a>
+              ))}
+            </nav>
+            <div
+              role="group"
+              aria-label="Language"
+              className="inline-flex items-center rounded-full bg-white/10 p-0.5 text-[11px] font-semibold"
+            >
+              {langs.map((l, i) => (
+                <button
+                  key={l}
+                  className={
+                    "inline-flex h-6 items-center rounded-full px-2.5 uppercase tracking-wider " +
+                    (i === 0 ? "bg-white text-primary shadow-sm" : "text-white/80")
+                  }
+                >
+                  {l}
+                </button>
+              ))}
+            </div>
+            <a
+              href="#"
+              className="inline-flex h-8 items-center rounded-full bg-accent px-4 text-[11px] font-semibold uppercase tracking-wider text-accent-foreground transition hover:opacity-90"
+            >
+              Find a Coach
+            </a>
           </div>
-          <button aria-label="Search" className="hidden rounded-full p-2 text-foreground/70 hover:bg-secondary md:inline-flex">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-          </button>
-          <a href="#" className="hidden text-sm font-medium text-foreground/80 hover:text-primary md:inline">Member Login</a>
-          <a href="#" className="inline-flex items-center rounded-full bg-primary px-4 py-2 text-sm font-medium text-white transition hover:opacity-90">
-            Find a Coach
-          </a>
+        </div>
+
+        <div className="grid gap-12 md:grid-cols-2 md:items-center">
+          <div className="max-w-2xl">
+            <p className="eyebrow !text-accent">ICF Switzerland · Charter Chapter</p>
+            <h1 className="mt-3 text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl">
+              Building a more <span className="text-accent">human</span> future through
+              professional coaching.
+            </h1>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-white/75">
+              Professional coaching helps individuals, leaders and organisations navigate
+              complexity with greater clarity, confidence and purpose.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <a
+                href="#find-a-coach"
+                className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90"
+              >
+                Find a coach →
+              </a>
+              <a
+                href="#organisations"
+                className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10"
+              >
+                For organisations
+              </a>
+            </div>
+          </div>
+          <div className="relative">
+            <img
+              src={heroImg}
+              alt="Two professionals in a coaching conversation"
+              width={1600}
+              height={1200}
+              className="aspect-[5/4] w-full rounded-2xl object-cover"
+            />
+            <img
+              src={ensoImg}
+              alt=""
+              aria-hidden
+              className="pointer-events-none absolute -right-8 -top-10 h-40 w-40 opacity-40"
+            />
+          </div>
         </div>
       </div>
     </header>
-  );
-}
-
-function Hero() {
-  return (
-    <section className="relative overflow-hidden">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 pt-16 pb-20 md:grid-cols-2 md:items-center md:pt-24 md:pb-28">
-        <div>
-          <p className="mb-6 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-            ICF Switzerland · Charter Chapter
-          </p>
-          <h1 className="text-5xl leading-[1.05] tracking-tight text-foreground md:text-6xl lg:text-7xl">
-            Building a more <em className="not-italic text-primary">human</em> future through professional coaching.
-          </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-            Professional coaching helps individuals, leaders and organisations navigate complexity with greater clarity, confidence and purpose.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <a href="#find-a-coach" className="inline-flex items-center rounded-full bg-primary px-6 py-3 text-sm font-medium text-white transition hover:opacity-90">
-              Find a coach →
-            </a>
-            <a href="#organisations" className="inline-flex items-center rounded-full border border-border bg-background px-6 py-3 text-sm font-medium text-foreground transition hover:border-primary">
-              For organisations
-            </a>
-          </div>
-        </div>
-        <div className="relative">
-          <img
-            src={heroImg}
-            alt="Two professionals in a coaching conversation"
-            width={1600}
-            height={1200}
-            className="aspect-[5/4] w-full rounded-3xl object-cover shadow-[0_30px_80px_-40px_rgba(46,49,146,0.35)]"
-          />
-          <img src={ensoImg} alt="" aria-hidden className="pointer-events-none absolute -right-8 -top-10 h-40 w-40 opacity-70" />
-        </div>
-      </div>
-    </section>
   );
 }
 
@@ -102,14 +135,21 @@ const audiences = [
 
 function Audiences() {
   return (
-    <section id="find-a-coach" className="mx-auto max-w-7xl px-6 pb-20">
-      <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+    <section id="find-a-coach" className="mx-auto -mt-8 max-w-7xl px-8">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {audiences.map((a) => (
-          <a key={a.title + a.eyebrow} href="#" className="group flex flex-col rounded-2xl border border-border bg-card p-7 transition hover:-translate-y-1 hover:border-primary hover:shadow-lg">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">{a.eyebrow}</p>
-            <h3 className="mt-3 text-2xl font-semibold text-foreground">{a.title}</h3>
-            <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{a.desc}</p>
-            <span className="mt-6 text-sm font-medium text-primary">{a.cta} →</span>
+          <a
+            key={a.title + a.eyebrow}
+            href="#"
+            className={
+              "group flex flex-col rounded-2xl border border-border/70 bg-card p-6 transition hover:-translate-y-0.5 hover:border-chip-active-border " +
+              CARD_SHADOW
+            }
+          >
+            <p className="section-label">{a.eyebrow}</p>
+            <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground">{a.title}</h3>
+            <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{a.desc}</p>
+            <span className="mt-6 text-sm font-semibold text-primary">{a.cta} →</span>
           </a>
         ))}
       </div>
@@ -126,15 +166,15 @@ const pillars = [
 
 function WhyCredentialed() {
   return (
-    <section className="relative bg-muted py-24">
+    <section className="relative bg-muted py-24 mt-16">
       <img src={ensoImg} alt="" aria-hidden className="pointer-events-none absolute -right-16 top-10 h-72 w-72 opacity-40" />
-      <div className="mx-auto max-w-7xl px-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Why choose an ICF credentialed coach?</p>
+      <div className="mx-auto max-w-7xl px-8">
+        <p className="eyebrow">Why choose an ICF credentialed coach?</p>
         <div className="mt-4 grid gap-10 md:grid-cols-2 md:items-end">
-          <h2 className="text-4xl leading-tight text-foreground md:text-5xl">
+          <h2 className="text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
             Choosing a coach is an important decision.
           </h2>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-base leading-relaxed text-muted-foreground">
             ICF credentialed coaches commit to internationally recognised standards, ethics and continuous professional development.
           </p>
         </div>
@@ -142,10 +182,10 @@ function WhyCredentialed() {
           {pillars.map((p, i) => (
             <div key={p.title} className="relative">
               <div className="mb-5 flex items-center gap-3">
-                <span className="grid h-10 w-10 place-items-center rounded-xl bg-accent/15 text-primary text-sm font-bold">
+                <span className="grid h-10 w-10 place-items-center rounded-xl bg-accent/15 btn-mono font-bold">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <h3 className="text-lg font-semibold text-foreground">{p.title}</h3>
+                <h3 className="text-lg font-semibold tracking-tight text-foreground">{p.title}</h3>
               </div>
               <p className="text-sm leading-relaxed text-muted-foreground">{p.desc}</p>
             </div>
@@ -165,23 +205,30 @@ const themes = [
 
 function CoachingInAction() {
   return (
-    <section className="mx-auto max-w-7xl px-6 py-24">
+    <section className="mx-auto max-w-7xl px-8 py-24">
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Coaching in action</p>
-          <h2 className="mt-3 max-w-2xl text-4xl leading-tight text-foreground md:text-5xl">
+          <p className="eyebrow">Coaching in action</p>
+          <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
             Building a more human future.
           </h2>
         </div>
-        <a href="#" className="text-sm font-medium text-primary hover:underline">Explore all insights →</a>
+        <a href="#" className="text-sm font-semibold text-primary hover:underline">Explore all insights →</a>
       </div>
-      <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {themes.map((t) => (
-          <a key={t.tag} href="#" className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-1 hover:shadow-lg">
-            <div className="aspect-[4/3] w-full bg-muted" />
+          <a
+            key={t.tag}
+            href="#"
+            className={
+              "group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 " +
+              CARD_SHADOW
+            }
+          >
+            <div className="aspect-[4/3] w-full bg-gradient-to-br from-primary/10 via-accent/15 to-accent/30" />
             <div className="p-6">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent">{t.tag}</p>
-              <h3 className="mt-3 text-lg font-semibold leading-snug text-foreground">
+              <p className="section-label">{t.tag}</p>
+              <h3 className="mt-2 text-base font-semibold leading-snug tracking-tight text-foreground">
                 {t.title}
               </h3>
             </div>
@@ -195,20 +242,20 @@ function CoachingInAction() {
 function ForOrganisations() {
   return (
     <section id="organisations" className="bg-primary text-white">
-      <div className="mx-auto grid max-w-7xl gap-14 px-6 py-24 md:grid-cols-2 md:items-center">
+      <div className="mx-auto grid max-w-7xl gap-14 px-8 py-24 md:grid-cols-2 md:items-center">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">For organisations</p>
-          <h2 className="mt-4 text-4xl leading-tight md:text-5xl">
+          <p className="eyebrow !text-accent">For organisations</p>
+          <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
             Coaching transforms organisations.
           </h2>
-          <p className="mt-5 max-w-lg text-lg text-white/80">
+          <p className="mt-5 max-w-lg text-base leading-relaxed text-white/75">
             Support leaders. Strengthen teams. Build coaching cultures that make healthier, more adaptive workplaces possible.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#" className="inline-flex items-center rounded-full bg-white px-6 py-3 text-sm font-medium text-primary transition hover:bg-white/90">
+            <a href="#" className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90">
               Talk to us
             </a>
-            <a href="#" className="inline-flex items-center rounded-full border border-white/30 px-6 py-3 text-sm font-medium text-white transition hover:bg-white/10">
+            <a href="#" className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10">
               Case studies
             </a>
           </div>
@@ -219,7 +266,7 @@ function ForOrganisations() {
           width={1600}
           height={1200}
           loading="lazy"
-          className="aspect-[5/4] w-full rounded-3xl object-cover shadow-2xl"
+          className="aspect-[5/4] w-full rounded-2xl object-cover"
         />
       </div>
     </section>
@@ -235,24 +282,29 @@ const communities = [
 
 function Communities() {
   return (
-    <section className="mx-auto max-w-7xl px-6 py-24 text-center">
-      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Communities</p>
-      <h2 className="mx-auto mt-4 max-w-3xl text-4xl leading-tight text-foreground md:text-5xl">
+    <section className="mx-auto max-w-7xl px-8 py-24 text-center">
+      <p className="eyebrow">Communities</p>
+      <h2 className="mx-auto mt-3 max-w-3xl text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
         A coaching community across Switzerland.
       </h2>
-      <p className="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">
+      <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
         Across regions and languages, ICF Switzerland brings coaches together to learn, collaborate and contribute to the future of our profession.
       </p>
-      <div className="mt-14 grid gap-8 text-left md:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-14 grid gap-4 text-left md:grid-cols-2 lg:grid-cols-4">
         {communities.map((c) => (
-          <div key={c.city} className="rounded-2xl border border-border bg-card p-7">
-            <h3 className="text-xl font-semibold text-foreground">{c.city}</h3>
+          <div
+            key={c.city}
+            className={"rounded-2xl border border-border/70 bg-card p-6 " + CARD_SHADOW}
+          >
+            <h3 className="text-lg font-semibold tracking-tight text-foreground">{c.city}</h3>
             <p className="mt-2 text-sm text-muted-foreground">{c.region}</p>
-            <div className="mt-6 flex items-center gap-2 text-xs font-semibold tracking-wider text-primary">
-              {c.langs.map((l, i) => (
-                <span key={l} className="flex items-center gap-2">
+            <div className="mt-6 flex flex-wrap items-center gap-2">
+              {c.langs.map((l) => (
+                <span
+                  key={l}
+                  className="inline-flex items-center rounded-full border border-border/70 bg-chip px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-chip-foreground"
+                >
                   {l}
-                  {i < c.langs.length - 1 && <span className="text-muted-foreground">·</span>}
                 </span>
               ))}
             </div>
@@ -272,32 +324,44 @@ const events = [
 function Events() {
   return (
     <section className="bg-muted py-24">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-7xl px-8">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Upcoming events</p>
-            <h2 className="mt-3 text-4xl leading-tight text-foreground md:text-5xl">
+            <p className="eyebrow">Upcoming events</p>
+            <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
               Connect. Learn. Grow.
             </h2>
           </div>
-          <a href="#" className="text-sm font-medium text-primary hover:underline">View all events →</a>
+          <a href="#" className="text-sm font-semibold text-primary hover:underline">View all events →</a>
         </div>
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
+        <div className="mt-12 grid gap-4 md:grid-cols-3">
           {events.map((e) => (
-            <a key={e.title} href="#" className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-1 hover:shadow-lg">
+            <a
+              key={e.title}
+              href="#"
+              className={
+                "group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 " +
+                CARD_SHADOW
+              }
+            >
               <div className="flex aspect-[16/10] items-center justify-center bg-gradient-to-br from-primary/10 via-accent/20 to-accent/30">
-                <span className="text-3xl font-semibold text-primary/60">{e.city}</span>
+                <span className="text-2xl font-bold tracking-tight text-primary/60">{e.city}</span>
               </div>
               <div className="flex flex-1 flex-col p-6">
-                <p className="text-xs font-medium tracking-wide text-muted-foreground">
+                <p className="btn-mono !text-muted-foreground">
                   {e.date} · {e.city}
                 </p>
-                <h3 className="mt-3 text-xl font-semibold leading-snug text-foreground">
+                <h3 className="mt-3 text-lg font-semibold leading-snug tracking-tight text-foreground">
                   {e.title}
                 </h3>
                 <div className="mt-5 flex flex-wrap items-center gap-2">
                   {e.tags.map((t) => (
-                    <span key={t} className="rounded-full bg-secondary px-3 py-1 text-xs font-medium text-foreground/80">{t}</span>
+                    <span
+                      key={t}
+                      className="inline-flex items-center rounded-full border border-border/70 bg-chip px-2.5 py-1 text-[11px] font-semibold text-chip-foreground"
+                    >
+                      {t}
+                    </span>
                   ))}
                 </div>
               </div>
@@ -317,7 +381,7 @@ const values = [
 
 function WhyCoaching() {
   return (
-    <section className="mx-auto max-w-7xl px-6 py-24">
+    <section className="mx-auto max-w-7xl px-8 py-24">
       <div className="grid gap-14 md:grid-cols-2 md:items-center">
         <img
           src={conversationImg}
@@ -325,25 +389,25 @@ function WhyCoaching() {
           width={1400}
           height={1400}
           loading="lazy"
-          className="aspect-square w-full rounded-3xl object-cover shadow-[0_30px_80px_-40px_rgba(46,49,146,0.35)]"
+          className="aspect-square w-full rounded-2xl object-cover"
         />
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Why coaching?</p>
-          <h2 className="mt-4 text-4xl leading-tight text-foreground md:text-5xl">
+          <p className="eyebrow">Why coaching?</p>
+          <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
             Better conversations create better futures.
           </h2>
-          <p className="mt-5 text-lg text-muted-foreground">
+          <p className="mt-5 text-base leading-relaxed text-muted-foreground">
             Professional coaching empowers people to think more clearly, lead more effectively and navigate change with confidence.
           </p>
           <div className="mt-10 space-y-6">
             {values.map((v, i) => (
-              <div key={v.title} className="flex gap-5 border-t border-border pt-6">
-                <span className="text-xl font-semibold text-accent">
+              <div key={v.title} className="flex gap-5 border-t border-border/70 pt-6">
+                <span className="btn-mono text-lg font-bold !text-accent">
                   0{i + 1}
                 </span>
                 <div>
-                  <h3 className="text-xl font-semibold text-foreground">{v.title}</h3>
-                  <p className="mt-2 text-muted-foreground">{v.desc}</p>
+                  <h3 className="text-lg font-semibold tracking-tight text-foreground">{v.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{v.desc}</p>
                 </div>
               </div>
             ))}
@@ -356,17 +420,23 @@ function WhyCoaching() {
 
 function Research() {
   return (
-    <section className="mx-auto max-w-7xl px-6 py-24 text-center">
-      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Research & partnerships</p>
-      <h2 className="mx-auto mt-4 max-w-3xl text-4xl leading-tight text-foreground md:text-5xl">
+    <section className="mx-auto max-w-7xl px-8 py-24 text-center">
+      <p className="eyebrow">Research & partnerships</p>
+      <h2 className="mx-auto mt-3 max-w-3xl text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
         Connecting research, practice and leadership.
       </h2>
-      <p className="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">
+      <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
         We work alongside universities, professional bodies, researchers and corporate partners to strengthen coaching across Switzerland.
       </p>
-      <div className="mt-14 grid grid-cols-2 gap-5 md:grid-cols-5">
+      <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-5">
         {["ETH Zürich", "HEC Lausanne", "USI Lugano", "SwissRe", "Nestlé"].map((p) => (
-          <div key={p} className="grid h-20 place-items-center rounded-xl border border-border bg-card text-sm font-semibold text-foreground/70">
+          <div
+            key={p}
+            className={
+              "grid h-20 place-items-center rounded-2xl border border-border/70 bg-card text-sm font-semibold text-foreground/70 " +
+              CARD_SHADOW
+            }
+          >
             {p}
           </div>
         ))}
@@ -377,39 +447,39 @@ function Research() {
 
 function Join() {
   return (
-    <section className="relative overflow-hidden bg-primary text-white">
+    <section className="relative overflow-hidden bg-hero text-hero-foreground">
       <img src={ensoImg} alt="" aria-hidden className="pointer-events-none absolute -right-16 -top-10 h-96 w-96 opacity-30" />
-      <div className="mx-auto grid max-w-7xl gap-10 px-6 py-24 md:grid-cols-[1.2fr_1fr] md:items-center">
+      <div className="mx-auto grid max-w-7xl gap-10 px-8 py-24 md:grid-cols-[1.2fr_1fr] md:items-center">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Join ICF Switzerland</p>
-          <h2 className="mt-4 text-4xl leading-tight md:text-5xl">
+          <p className="eyebrow !text-accent">Join ICF Switzerland</p>
+          <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
             A professional home for coaches.
           </h2>
-          <p className="mt-5 max-w-lg text-lg text-white/80">
+          <p className="mt-5 max-w-lg text-base leading-relaxed text-white/75">
             Whether you are beginning your coaching journey or have decades of experience, ICF Switzerland offers a professional home built on excellence, ethics and belonging.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#" className="inline-flex items-center rounded-full bg-white px-6 py-3 text-sm font-medium text-primary transition hover:bg-white/90">
+            <a href="#" className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90">
               Become a member
             </a>
-            <a href="#" className="inline-flex items-center rounded-full border border-white/30 px-6 py-3 text-sm font-medium text-white transition hover:bg-white/10">
+            <a href="#" className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10">
               Explore credentials
             </a>
           </div>
         </div>
-        <div className="rounded-3xl border border-white/15 bg-white/5 p-8 backdrop-blur">
-          <h3 className="text-2xl font-semibold">Stay connected.</h3>
-          <p className="mt-3 text-white/80">
+        <div className="rounded-2xl border border-white/15 bg-white/5 p-6 backdrop-blur">
+          <h3 className="text-xl font-semibold tracking-tight">Stay connected.</h3>
+          <p className="mt-2 text-sm leading-relaxed text-white/75">
             Ideas, research and events shaping the future of coaching — in your inbox.
           </p>
-          <form className="mt-6 flex flex-col gap-3 sm:flex-row" onSubmit={(e) => e.preventDefault()}>
+          <form className="mt-5 flex flex-col gap-2 sm:flex-row" onSubmit={(e) => e.preventDefault()}>
             <input
               type="email"
               required
               placeholder="Your email address"
-              className="w-full rounded-full border border-white/20 bg-white/10 px-5 py-3 text-sm text-white placeholder:text-white/60 outline-none focus:border-white/60"
+              className="h-10 w-full rounded-full border border-white/20 bg-white/10 px-4 text-sm text-white placeholder:text-white/60 outline-none focus:border-white/60"
             />
-            <button className="rounded-full bg-white px-6 py-3 text-sm font-medium text-primary transition hover:bg-white/90">
+            <button className="h-10 rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90">
               Subscribe
             </button>
           </form>
@@ -428,39 +498,14 @@ const footerCols = [
 
 function Footer() {
   return (
-    <footer className="border-t border-border bg-muted/60">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 md:grid-cols-[1.2fr_repeat(4,minmax(0,1fr))]">
-        <div>
-          <Logo />
-          <p className="mt-5 max-w-xs text-sm text-muted-foreground">
-            Building a more human future through professional coaching.
-          </p>
-        </div>
-        {footerCols.map((col) => (
-          <div key={col.title}>
-            <h4 className="text-sm font-semibold text-foreground">{col.title}</h4>
-            <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-              {col.links.map((l) => (
-                <li key={l}><a href="#" className="hover:text-primary">{l}</a></li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-      <div className="border-t border-border">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-6 text-xs text-muted-foreground">
-          <p>© 2026 ICF Switzerland Charter Chapter</p>
-          <div className="flex items-center gap-4">
-            <a href="#" className="hover:text-primary">Deutsch</a>
-            <a href="#" className="hover:text-primary">Français</a>
-            <a href="#" className="hover:text-primary">Italiano</a>
-          </div>
-          <div className="flex items-center gap-4">
-            <a href="#" className="hover:text-primary">Privacy</a>
-            <a href="#" className="hover:text-primary">Code of Ethics</a>
-            <a href="#" className="hover:text-primary">Imprint</a>
-          </div>
-        </div>
+    <footer className="bg-hero text-hero-foreground">
+      <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-3 px-8 py-6 text-xs sm:flex-row sm:items-center">
+        <p className="text-white/70">© {new Date().getFullYear()} ICF Switzerland — Charter Chapter</p>
+        <nav aria-label="Footer" className="flex flex-wrap items-center gap-4">
+          {["Coach Directory", "For Organisations", "For Coaches", "Insights", "Events", "Privacy", "Code of Ethics", "Imprint"].map((l) => (
+            <a key={l} href="#" className="text-white/80 hover:text-white">{l}</a>
+          ))}
+        </nav>
       </div>
     </footer>
   );
@@ -469,9 +514,8 @@ function Footer() {
 function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Nav />
+      <HeroHeader />
       <main>
-        <Hero />
         <Audiences />
         <WhyCredentialed />
         <CoachingInAction />
