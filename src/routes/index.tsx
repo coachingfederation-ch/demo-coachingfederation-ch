@@ -19,7 +19,7 @@ function Logo({ variant = "hero" }: { variant?: "hero" | "footer" }) {
       <img
         src={icfLogo.url}
         alt="ICF Switzerland Charter Chapter"
-        className={variant === "hero" ? "h-16 w-auto" : "h-10 w-auto"}
+        className={variant === "hero" ? "h-24 w-auto" : "h-12 w-auto"}
       />
     </Link>
   );
