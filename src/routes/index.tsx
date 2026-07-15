@@ -486,4 +486,3 @@ function Index() {
     </div>
   );
 }
-}
