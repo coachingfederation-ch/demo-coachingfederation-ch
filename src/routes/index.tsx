@@ -31,8 +31,8 @@ function HeroHeader() {
   const langs = ["en", "de", "fr", "it"];
   return (
     <header className="bg-hero text-hero-foreground">
-      <div className="mx-auto max-w-7xl px-8 pt-6 pb-16">
-        <div className="mb-10 flex flex-wrap items-start justify-between gap-4">
+      <div className="sticky top-0 z-50 border-b border-white/10 bg-hero/95 backdrop-blur-sm">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-start justify-between gap-4 px-8 py-4">
           <Logo />
           <div className="flex flex-wrap items-center gap-3">
             <nav
@@ -79,7 +79,8 @@ function HeroHeader() {
             </a>
           </div>
         </div>
-
+      </div>
+      <div className="mx-auto max-w-7xl px-8 pt-10 pb-16">
         <div className="grid gap-12 md:grid-cols-2 md:items-center">
           <div className="max-w-2xl">
             <p className="eyebrow !text-accent">ICF Switzerland · Charter Chapter</p>
