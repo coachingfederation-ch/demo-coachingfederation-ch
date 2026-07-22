@@ -319,7 +319,6 @@ function Communities() {
 }
 
 const events = [
-const events = [
   { date: "Thu 17 Sep 2026", city: "Zürich", title: "Coaching Perspectives Conference 2026", tags: ["EN · DE", "Leadership"], bg: "bg-mark-cream", fg: "text-mark-indigo", mark: "arrow1" as MarkName },
   { date: "Tue 6 Oct 2026", city: "Online", title: "AI & Coaching: What Stays Human?", tags: ["EN", "Webinar"], bg: "bg-mark-indigo", fg: "text-mark-yellow", mark: "asterisk3" as MarkName },
   { date: "Thu 12 Nov 2026", city: "Lausanne", title: "Soirée Coaching: Bâtir une culture de coaching", tags: ["FR", "Networking"], bg: "bg-mark-yellow", fg: "text-mark-indigo", mark: "arrow2" as MarkName },
