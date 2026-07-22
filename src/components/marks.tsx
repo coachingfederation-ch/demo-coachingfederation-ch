@@ -12,7 +12,8 @@ const normalize = (svg: string) =>
     .replace(/<\?xml[^?]*\?>/, "")
     .replace(/<style>[\s\S]*?<\/style>/g, "")
     .replace(/<defs>[\s\S]*?<\/defs>/g, "")
-    .replace(/class="cls-1"/g, 'fill="currentColor"');
+    .replace(/class="cls-1"/g, 'fill="currentColor"')
+    .replace(/<svg /, '<svg width="100%" height="100%" preserveAspectRatio="xMidYMid meet" ');
 
 const marks = {
   circular1: normalize(c1),
