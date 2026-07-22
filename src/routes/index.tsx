@@ -75,7 +75,7 @@ function HeroHeader() {
               href="#"
               className="inline-flex h-8 items-center rounded-full bg-accent px-4 text-[11px] font-semibold uppercase tracking-wider text-accent-foreground transition hover:opacity-90"
             >
-              Home
+              Find a Coach
             </a>
           </div>
         </div>
