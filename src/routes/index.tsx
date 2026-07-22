@@ -114,11 +114,9 @@ function HeroHeader() {
               height={1200}
               className="aspect-[5/4] w-full rounded-2xl object-cover"
             />
-            <img
-              src={ensoImg}
-              alt=""
-              aria-hidden
-              className="pointer-events-none absolute -right-8 -top-10 h-40 w-40 opacity-40"
+            <Mark
+              name="circular2"
+              className="pointer-events-none absolute -right-8 -top-10 h-40 w-40 text-mark-cream"
             />
           </div>
         </div>
@@ -168,7 +166,7 @@ const pillars = [
 function WhyCredentialed() {
   return (
     <section className="relative bg-muted py-24 mt-16">
-      <img src={ensoImg} alt="" aria-hidden className="pointer-events-none absolute -right-16 top-10 h-72 w-72 opacity-40" />
+      <Mark name="circular1" className="pointer-events-none absolute -right-16 top-10 h-72 w-72 text-mark-indigo opacity-30" />
       <div className="mx-auto max-w-7xl px-8">
         <p className="eyebrow">Why choose an ICF credentialed coach?</p>
         <div className="mt-4 grid gap-10 md:grid-cols-2 md:items-end">
@@ -451,7 +449,7 @@ function Research() {
 function Join() {
   return (
     <section className="relative overflow-hidden bg-hero text-hero-foreground">
-      <img src={ensoImg} alt="" aria-hidden className="pointer-events-none absolute -right-16 -top-10 h-96 w-96 opacity-30" />
+      <Mark name="circular2" className="pointer-events-none absolute -right-16 -top-10 h-96 w-96 text-mark-cream opacity-40" />
       <div className="mx-auto grid max-w-7xl gap-10 px-8 py-24 md:grid-cols-[1.2fr_1fr] md:items-center">
         <div>
           <p className="eyebrow !text-accent">Join ICF Switzerland</p>
