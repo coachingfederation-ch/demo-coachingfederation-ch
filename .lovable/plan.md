@@ -1,43 +1,43 @@
-Restyle the ICF Switzerland homepage using the design tokens from the ICFS Goal Tracker project. Only tokens and typography change — layout, copy, imagery, and component structure stay as they are.
+## Goal
+Replace the two placeholder gradient visuals on the home page with the uploaded hand-drawn SVG marks, and shift accent colors to match the marks' palette (cream `#f8f0e4`, indigo `#212251`/`#2b379b`, blue `#5778fa`, yellow `#efcb30`).
 
-## Design system swap (src/styles.css)
+## Where the placeholders are
+1. **"Coaching in action" cards** — currently `<div className="aspect-[4/3] ... bg-gradient-to-br from-primary/10 via-accent/15 to-accent/30" />`
+2. **"Upcoming events" cards** — currently `<div className="flex aspect-[16/10] ... bg-gradient-to-br ...">` with the city name centered.
 
-Replace current tokens with the Goal Tracker palette:
+## Changes
 
-- Radius: `0.75rem` (up from `0.625rem`)
-- Background: soft lavender `oklch(0.975 0.012 285)`
-- Foreground: deep indigo ink `oklch(0.18 0.06 275)`
-- Card: pure white
-- Muted / muted-foreground: `oklch(0.96 0.01 285)` / `oklch(0.48 0.04 275)`
-- Border / input / ring: soft indigo-lavender borders, indigo ring
-- Primary (brand indigo `#2B379B`): `oklch(0.31 0.16 275)`
-- Accent (teal `#00ABC8`): `oklch(0.72 0.13 210)`
-- Add tokens: `--hero`, `--hero-foreground`, `--pillar-sg` (teal), `--pillar-oe`/`--pillar-ce` (indigo), `--chip`, `--chip-foreground`, `--chip-active-border`
-- Register the new tokens in `@theme inline` as `--color-hero`, `--color-pillar-*`, `--color-chip*`
-- Drop the project-specific extras I added earlier (`--brand`, `--brand-cyan`, `--brand-soft`, `--surface`, `--surface-2`); map their usages to the new palette
+### 1. Add SVG marks as React components
+Create `src/components/marks.tsx` exporting inline SVG components for the 10 uploaded marks (`CircularMark01/02`, `Arrow01/02`, `Star01`, `Asterisk01/03`, `Other01/05`, `Line01`). Convert the fixed `fill` colors in each SVG to `fill="currentColor"` so we can theme via `text-*` utilities.
 
-## Typography
+### 2. Coaching in action tiles (4 cards)
+Replace the gradient div with a colored tile that centers one mark:
+- Card 1 (Future of Work): cream bg (`#f8f0e4`), indigo mark → `CircularMark01`
+- Card 2 (Leadership): indigo bg → cream `Star01`
+- Card 3 (AI & Coaching): yellow bg (`#efcb30`) → indigo `Asterisk01`
+- Card 4 (Diversity): blue bg (`#5778fa`) → cream `CircularMark02`
 
-- Single font family: Inter (sans) for headings and body — no serif display
-- Update the Google Fonts `<link>` in `src/routes/__root.tsx` to load Inter only, drop Fraunces
-- Remove `--font-display` and `font-display` heading rule; tighten letter-spacing to `-0.02em` on h1–h4
+Each mark rendered ~40–50% of tile height, centered, `aspect-[4/3]`.
 
-## Component color updates (src/routes/index.tsx)
+### 3. Upcoming events tiles (3 cards)
+Replace gradient + city text with mark-on-color tile; keep city name in the card body only:
+- Event 1 (Zürich): cream bg, indigo `Arrow01`
+- Event 2 (Online): indigo bg, yellow `Asterisk03`
+- Event 3 (Lausanne): yellow bg, indigo `Arrow02`
 
-Rename Tailwind color utilities to the new tokens without changing layout:
+### 4. Palette tokens (styles.css)
+Add mark palette as CSS variables and Tailwind color tokens so tiles use semantic classes, not raw hex:
+- `--mark-cream: oklch(...)` (#f8f0e4)
+- `--mark-indigo: oklch(...)` (#212251)
+- `--mark-blue: oklch(...)` (#5778fa)
+- `--mark-yellow: oklch(...)` (#efcb30)
 
-- `bg-brand` → `bg-primary`; `text-brand` → `text-primary`; `border-brand` → `border-primary`
-- `text-brand-cyan` → `text-accent`; `bg-brand-cyan/…` gradients → `bg-accent/…`
-- `bg-brand-soft` (pillar badge) → `bg-accent/15`
-- `bg-surface` / `bg-surface-2` → `bg-muted`
-- Remove `font-display` class usages (Inter is the only family now)
-- Hero emphasis `<em>` and section labels use `text-primary`
-- "For Organisations" and "Join" dark bands use `bg-primary` (was `bg-brand`); inner button `text-brand` → `text-primary`
+Register in `@theme inline` as `--color-mark-cream`, etc., enabling `bg-mark-cream`, `text-mark-indigo`, etc.
 
-## Head metadata
+### 5. Leave the rest of the design alone
+Hero, pillars, communities, organisations, join, footer, typography and existing indigo/teal tokens stay unchanged — only the two tile groups get the new marks + colors.
 
-No content changes — titles/descriptions stay as set previously.
-
-## Verification
-
-After edits, load `/` via Playwright at 1440px, take screenshots at hero, pillars, organisations band, events, why-coaching, and footer to confirm the indigo/teal on lavender palette lands cleanly and nothing regressed to the old cream/purple look.
+## Files touched
+- `src/components/marks.tsx` (new)
+- `src/styles.css` (add mark palette tokens)
+- `src/routes/index.tsx` (replace two placeholder tile groups)

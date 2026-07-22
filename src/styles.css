@@ -54,6 +54,10 @@
   --color-chip: var(--chip);
   --color-chip-foreground: var(--chip-foreground);
   --color-chip-active-border: var(--chip-active-border);
+  --color-mark-cream: var(--mark-cream);
+  --color-mark-indigo: var(--mark-indigo);
+  --color-mark-blue: var(--mark-blue);
+  --color-mark-yellow: var(--mark-yellow);
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --color-chart-1: var(--chart-1);
@@ -100,6 +104,10 @@
   --chip: oklch(0.98 0.005 285);
   --chip-foreground: oklch(0.35 0.09 275);
   --chip-active-border: oklch(0.55 0.12 270);
+  --mark-cream: oklch(0.955 0.024 80);
+  --mark-indigo: oklch(0.24 0.11 275);
+  --mark-blue: oklch(0.66 0.19 270);
+  --mark-yellow: oklch(0.85 0.16 90);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
