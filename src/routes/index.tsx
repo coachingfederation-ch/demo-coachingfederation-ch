@@ -319,9 +319,10 @@ function Communities() {
 }
 
 const events = [
-  { date: "Thu 17 Sep 2026", city: "Zürich", title: "Coaching Perspectives Conference 2026", tags: ["EN · DE", "Leadership"] },
-  { date: "Tue 6 Oct 2026", city: "Online", title: "AI & Coaching: What Stays Human?", tags: ["EN", "Webinar"] },
-  { date: "Thu 12 Nov 2026", city: "Lausanne", title: "Soirée Coaching: Bâtir une culture de coaching", tags: ["FR", "Networking"] },
+const events = [
+  { date: "Thu 17 Sep 2026", city: "Zürich", title: "Coaching Perspectives Conference 2026", tags: ["EN · DE", "Leadership"], bg: "bg-mark-cream", fg: "text-mark-indigo", mark: "arrow1" as MarkName },
+  { date: "Tue 6 Oct 2026", city: "Online", title: "AI & Coaching: What Stays Human?", tags: ["EN", "Webinar"], bg: "bg-mark-indigo", fg: "text-mark-yellow", mark: "asterisk3" as MarkName },
+  { date: "Thu 12 Nov 2026", city: "Lausanne", title: "Soirée Coaching: Bâtir une culture de coaching", tags: ["FR", "Networking"], bg: "bg-mark-yellow", fg: "text-mark-indigo", mark: "arrow2" as MarkName },
 ];
 
 function Events() {
@@ -347,8 +348,8 @@ function Events() {
                 CARD_SHADOW
               }
             >
-              <div className="flex aspect-[16/10] items-center justify-center bg-gradient-to-br from-primary/10 via-accent/20 to-accent/30">
-                <span className="text-2xl font-bold tracking-tight text-primary/60">{e.city}</span>
+              <div className={"grid aspect-[16/10] w-full place-items-center " + e.bg + " " + e.fg}>
+                <Mark name={e.mark} className="h-3/5 w-3/5" />
               </div>
               <div className="flex flex-1 flex-col p-6">
                 <p className="btn-mono !text-muted-foreground">
