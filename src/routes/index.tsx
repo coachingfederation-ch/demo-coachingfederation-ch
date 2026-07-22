@@ -27,7 +27,7 @@ function Logo({ variant = "hero" }: { variant?: "hero" | "footer" }) {
 }
 
 function HeroHeader() {
-  const items = ["Find a Coach", "For Organisations", "For Coaches", "Insights", "Events", "About"];
+  const items = ["Home", "For Organisations", "For Coaches", "Insights", "Events", "About"];
   const langs = ["en", "de", "fr", "it"];
   return (
     <header className="bg-hero text-hero-foreground">
