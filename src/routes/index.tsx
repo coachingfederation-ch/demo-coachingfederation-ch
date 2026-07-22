@@ -5,6 +5,7 @@ import leadershipImg from "@/assets/leadership-team.jpg";
 import conversationImg from "@/assets/real-conversation.jpg";
 import ensoImg from "@/assets/enso.png";
 import icfLogo from "@/assets/icf-switzerland-charter-chapter.png.asset.json";
+import { Mark, type MarkName } from "@/components/marks";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -197,10 +198,10 @@ function WhyCredentialed() {
 }
 
 const themes = [
-  { tag: "Future of Work", title: "How coaching prepares people for what work becomes next" },
-  { tag: "Leadership", title: "Better conversations create better leaders" },
-  { tag: "AI & Coaching", title: "Why trusted human conversations matter more than ever" },
-  { tag: "Diversity & Inclusion", title: "Coaching that welcomes every perspective" },
+  { tag: "Future of Work", title: "How coaching prepares people for what work becomes next", bg: "bg-mark-cream", fg: "text-mark-indigo", mark: "circular1" as MarkName },
+  { tag: "Leadership", title: "Better conversations create better leaders", bg: "bg-mark-indigo", fg: "text-mark-cream", mark: "star" as MarkName },
+  { tag: "AI & Coaching", title: "Why trusted human conversations matter more than ever", bg: "bg-mark-yellow", fg: "text-mark-indigo", mark: "asterisk1" as MarkName },
+  { tag: "Diversity & Inclusion", title: "Coaching that welcomes every perspective", bg: "bg-mark-blue", fg: "text-mark-cream", mark: "circular2" as MarkName },
 ];
 
 function CoachingInAction() {
@@ -225,7 +226,9 @@ function CoachingInAction() {
               CARD_SHADOW
             }
           >
-            <div className="aspect-[4/3] w-full bg-gradient-to-br from-primary/10 via-accent/15 to-accent/30" />
+            <div className={"grid aspect-[4/3] w-full place-items-center " + t.bg + " " + t.fg}>
+              <Mark name={t.mark} className="h-1/2 w-1/2" />
+            </div>
             <div className="p-6">
               <p className="section-label">{t.tag}</p>
               <h3 className="mt-2 text-base font-semibold leading-snug tracking-tight text-foreground">
