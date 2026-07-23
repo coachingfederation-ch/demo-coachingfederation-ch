@@ -309,51 +309,6 @@ function Events() {
   );
 }
 
-const values = [
-  { title: "Think differently", desc: "Coaching creates space to challenge assumptions and see new options." },
-  { title: "Lead better", desc: "Leaders who are coached listen deeper, decide faster and grow their people." },
-  { title: "Unlock potential", desc: "Individuals and teams reach for what matters most, with support and accountability." },
-];
-
-function WhyCoaching() {
-  return (
-    <section className="mx-auto max-w-7xl px-8 py-24">
-      <div className="grid gap-14 md:grid-cols-2 md:items-center">
-        <img
-          src={conversationImg}
-          alt="A real coaching conversation"
-          width={1400}
-          height={1400}
-          loading="lazy"
-          className="aspect-square w-full rounded-2xl object-cover"
-        />
-        <div>
-          <p className="eyebrow">Why coaching?</p>
-          <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
-            Better conversations create better futures.
-          </h2>
-          <p className="mt-5 text-base leading-relaxed text-muted-foreground">
-            Professional coaching empowers people to think more clearly, lead more effectively and navigate change with confidence.
-          </p>
-          <div className="mt-10 space-y-6">
-            {values.map((v, i) => (
-              <div key={v.title} className="flex gap-5 border-t border-border/70 pt-6">
-                <span className="btn-mono text-lg font-bold !text-accent">
-                  0{i + 1}
-                </span>
-                <div>
-                  <h3 className="text-lg font-semibold tracking-tight text-foreground">{v.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{v.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function Research() {
   return (
     <section className="mx-auto max-w-7xl px-8 py-24 text-center">
@@ -425,28 +380,6 @@ function Join() {
   );
 }
 
-const footerCols = [
-  { title: "Coaching", links: ["Coach Directory", "Why an ICF Coach?", "What is Coaching?", "FAQs"] },
-  { title: "For Organisations", links: ["Why Coaching?", "Executive Coaching", "Team Coaching", "Case Studies"] },
-  { title: "For Coaches", links: ["Membership", "Credentials", "Communities", "Mentoring & Supervision"] },
-  { title: "About", links: ["Our Vision", "Board", "Partnerships", "Contact"] },
-];
-
-function Footer() {
-  return (
-    <footer className="bg-hero text-hero-foreground">
-      <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-3 px-8 py-6 text-xs sm:flex-row sm:items-center">
-        <p className="text-white/70">© {new Date().getFullYear()} ICF Switzerland — Charter Chapter</p>
-        <nav aria-label="Footer" className="flex flex-wrap items-center gap-4">
-          {["Coach Directory", "For Organisations", "For Coaches", "Insights", "Events", "Privacy", "Code of Ethics", "Imprint"].map((l) => (
-            <a key={l} href="#" className="text-white/80 hover:text-white">{l}</a>
-          ))}
-        </nav>
-      </div>
-    </footer>
-  );
-}
-
 function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -458,11 +391,10 @@ function Index() {
         <ForOrganisations />
         <Communities />
         <Events />
-        <WhyCoaching />
         <Research />
         <Join />
       </main>
-      <Footer />
+      <SiteFooter />
     </div>
   );
 }
