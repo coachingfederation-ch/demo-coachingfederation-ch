@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { Plus, Search } from "lucide-react";
+import { ChevronRight, Plus, Search } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -142,11 +142,12 @@ function ArticlesPage() {
         </div>
 
         <div className="mt-6 overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-soft)]">
-          <div className="grid grid-cols-[minmax(0,2fr)_0.8fr_1fr_0.8fr] items-center gap-4 border-b border-border bg-secondary/50 px-6 py-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+          <div className="grid grid-cols-[minmax(0,2fr)_0.8fr_1fr_0.8fr_auto] items-center gap-4 border-b border-border bg-secondary/50 px-6 py-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
             <div>Article</div>
             <div>Language</div>
             <div>Status</div>
             <div>Updated</div>
+            <div className="w-4" />
           </div>
           {rows === null ? (
             <div className="px-6 py-10 text-center text-sm text-muted-foreground">Loading…</div>
@@ -160,12 +161,13 @@ function ArticlesPage() {
                 to="/articles/$id"
                 params={{ id: r.id }}
                 key={r.id}
-                className="grid grid-cols-[minmax(0,2fr)_0.8fr_1fr_0.8fr] items-center gap-4 border-b border-border/70 px-6 py-4 text-sm transition last:border-b-0 hover:bg-secondary/40"
+                className="group grid grid-cols-[minmax(0,2fr)_0.8fr_1fr_0.8fr_auto] items-center gap-4 border-b border-border/70 px-6 py-4 text-sm transition last:border-b-0 hover:bg-secondary/60"
               >
                 <div className="font-semibold text-foreground">{r.title || <span className="text-muted-foreground">Untitled</span>}</div>
                 <div><LangChip code={r.language} /></div>
                 <div><StatusPill status={r.status} /></div>
                 <div className="text-muted-foreground">{timeAgo(r.updated_at)}</div>
+                <ChevronRight className="h-4 w-4 text-muted-foreground transition group-hover:translate-x-0.5 group-hover:text-foreground" />
               </Link>
             ))
           )}
