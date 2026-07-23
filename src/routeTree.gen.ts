@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ForOrganisationsRouteImport } from './routes/for-organisations'
+import { Route as ForCoachesRouteImport } from './routes/for-coaches'
 import { Route as IndexRouteImport } from './routes/index'
 
 const ForOrganisationsRoute = ForOrganisationsRouteImport.update({
   id: '/for-organisations',
   path: '/for-organisations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForCoachesRoute = ForCoachesRouteImport.update({
+  id: '/for-coaches',
+  path: '/for-coaches',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,27 +31,31 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/for-organisations'
+  fullPaths: '/' | '/for-coaches' | '/for-organisations'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/for-organisations'
-  id: '__root__' | '/' | '/for-organisations'
+  to: '/' | '/for-coaches' | '/for-organisations'
+  id: '__root__' | '/' | '/for-coaches' | '/for-organisations'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ForCoachesRoute: typeof ForCoachesRoute
   ForOrganisationsRoute: typeof ForOrganisationsRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/for-organisations'
       fullPath: '/for-organisations'
       preLoaderRoute: typeof ForOrganisationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/for-coaches': {
+      id: '/for-coaches'
+      path: '/for-coaches'
+      fullPath: '/for-coaches'
+      preLoaderRoute: typeof ForCoachesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ForCoachesRoute: ForCoachesRoute,
   ForOrganisationsRoute: ForOrganisationsRoute,
 }
 export const routeTree = rootRouteImport
