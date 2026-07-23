@@ -19,6 +19,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AuthenticatedArticlesRouteImport } from './routes/_authenticated/articles'
+import { Route as AuthenticatedArticlesIndexRouteImport } from './routes/_authenticated/articles.index'
 import { Route as AuthenticatedArticlesNewRouteImport } from './routes/_authenticated/articles.new'
 import { Route as AuthenticatedArticlesIdRouteImport } from './routes/_authenticated/articles.$id'
 
@@ -71,6 +72,12 @@ const AuthenticatedArticlesRoute = AuthenticatedArticlesRouteImport.update({
   path: '/articles',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedArticlesIndexRoute =
+  AuthenticatedArticlesIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedArticlesRoute,
+  } as any)
 const AuthenticatedArticlesNewRoute =
   AuthenticatedArticlesNewRouteImport.update({
     id: '/new',
@@ -95,6 +102,7 @@ export interface FileRoutesByFullPath {
   '/auth/callback': typeof AuthCallbackRoute
   '/articles/$id': typeof AuthenticatedArticlesIdRoute
   '/articles/new': typeof AuthenticatedArticlesNewRoute
+  '/articles/': typeof AuthenticatedArticlesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -104,10 +112,10 @@ export interface FileRoutesByTo {
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
   '/insights': typeof InsightsRoute
-  '/articles': typeof AuthenticatedArticlesRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
   '/articles/$id': typeof AuthenticatedArticlesIdRoute
   '/articles/new': typeof AuthenticatedArticlesNewRoute
+  '/articles': typeof AuthenticatedArticlesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -123,6 +131,7 @@ export interface FileRoutesById {
   '/auth/callback': typeof AuthCallbackRoute
   '/_authenticated/articles/$id': typeof AuthenticatedArticlesIdRoute
   '/_authenticated/articles/new': typeof AuthenticatedArticlesNewRoute
+  '/_authenticated/articles/': typeof AuthenticatedArticlesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -138,6 +147,7 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/articles/$id'
     | '/articles/new'
+    | '/articles/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -147,10 +157,10 @@ export interface FileRouteTypes {
     | '/for-coaches'
     | '/for-organisations'
     | '/insights'
-    | '/articles'
     | '/auth/callback'
     | '/articles/$id'
     | '/articles/new'
+    | '/articles'
   id:
     | '__root__'
     | '/'
@@ -165,6 +175,7 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/_authenticated/articles/$id'
     | '/_authenticated/articles/new'
+    | '/_authenticated/articles/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -250,6 +261,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedArticlesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/articles/': {
+      id: '/_authenticated/articles/'
+      path: '/'
+      fullPath: '/articles/'
+      preLoaderRoute: typeof AuthenticatedArticlesIndexRouteImport
+      parentRoute: typeof AuthenticatedArticlesRoute
+    }
     '/_authenticated/articles/new': {
       id: '/_authenticated/articles/new'
       path: '/new'
@@ -270,11 +288,13 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedArticlesRouteChildren {
   AuthenticatedArticlesIdRoute: typeof AuthenticatedArticlesIdRoute
   AuthenticatedArticlesNewRoute: typeof AuthenticatedArticlesNewRoute
+  AuthenticatedArticlesIndexRoute: typeof AuthenticatedArticlesIndexRoute
 }
 
 const AuthenticatedArticlesRouteChildren: AuthenticatedArticlesRouteChildren = {
   AuthenticatedArticlesIdRoute: AuthenticatedArticlesIdRoute,
   AuthenticatedArticlesNewRoute: AuthenticatedArticlesNewRoute,
+  AuthenticatedArticlesIndexRoute: AuthenticatedArticlesIndexRoute,
 }
 
 const AuthenticatedArticlesRouteWithChildren =
@@ -316,3 +336,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
