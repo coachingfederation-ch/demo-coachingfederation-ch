@@ -19,6 +19,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedArticlesRouteImport } from './routes/_authenticated/articles'
 import { Route as AuthenticatedArticlesNewRouteImport } from './routes/_authenticated/articles.new'
+import { Route as AuthenticatedArticlesIdRouteImport } from './routes/_authenticated/articles.$id'
 
 const InsightsRoute = InsightsRouteImport.update({
   id: '/insights',
@@ -70,6 +71,11 @@ const AuthenticatedArticlesNewRoute =
     path: '/new',
     getParentRoute: () => AuthenticatedArticlesRoute,
   } as any)
+const AuthenticatedArticlesIdRoute = AuthenticatedArticlesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AuthenticatedArticlesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/for-organisations': typeof ForOrganisationsRoute
   '/insights': typeof InsightsRoute
   '/articles': typeof AuthenticatedArticlesRouteWithChildren
+  '/articles/$id': typeof AuthenticatedArticlesIdRoute
   '/articles/new': typeof AuthenticatedArticlesNewRoute
 }
 export interface FileRoutesByTo {
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/for-organisations': typeof ForOrganisationsRoute
   '/insights': typeof InsightsRoute
   '/articles': typeof AuthenticatedArticlesRouteWithChildren
+  '/articles/$id': typeof AuthenticatedArticlesIdRoute
   '/articles/new': typeof AuthenticatedArticlesNewRoute
 }
 export interface FileRoutesById {
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/for-organisations': typeof ForOrganisationsRoute
   '/insights': typeof InsightsRoute
   '/_authenticated/articles': typeof AuthenticatedArticlesRouteWithChildren
+  '/_authenticated/articles/$id': typeof AuthenticatedArticlesIdRoute
   '/_authenticated/articles/new': typeof AuthenticatedArticlesNewRoute
 }
 export interface FileRouteTypes {
@@ -117,6 +126,7 @@ export interface FileRouteTypes {
     | '/for-organisations'
     | '/insights'
     | '/articles'
+    | '/articles/$id'
     | '/articles/new'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -128,6 +138,7 @@ export interface FileRouteTypes {
     | '/for-organisations'
     | '/insights'
     | '/articles'
+    | '/articles/$id'
     | '/articles/new'
   id:
     | '__root__'
@@ -140,6 +151,7 @@ export interface FileRouteTypes {
     | '/for-organisations'
     | '/insights'
     | '/_authenticated/articles'
+    | '/_authenticated/articles/$id'
     | '/_authenticated/articles/new'
   fileRoutesById: FileRoutesById
 }
@@ -226,14 +238,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedArticlesNewRouteImport
       parentRoute: typeof AuthenticatedArticlesRoute
     }
+    '/_authenticated/articles/$id': {
+      id: '/_authenticated/articles/$id'
+      path: '/$id'
+      fullPath: '/articles/$id'
+      preLoaderRoute: typeof AuthenticatedArticlesIdRouteImport
+      parentRoute: typeof AuthenticatedArticlesRoute
+    }
   }
 }
 
 interface AuthenticatedArticlesRouteChildren {
+  AuthenticatedArticlesIdRoute: typeof AuthenticatedArticlesIdRoute
   AuthenticatedArticlesNewRoute: typeof AuthenticatedArticlesNewRoute
 }
 
 const AuthenticatedArticlesRouteChildren: AuthenticatedArticlesRouteChildren = {
+  AuthenticatedArticlesIdRoute: AuthenticatedArticlesIdRoute,
   AuthenticatedArticlesNewRoute: AuthenticatedArticlesNewRoute,
 }
 
