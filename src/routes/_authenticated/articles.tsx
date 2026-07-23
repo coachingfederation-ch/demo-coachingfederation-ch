@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { Plus, Search } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { supabase } from "@/integrations/supabase/client";
@@ -66,6 +67,27 @@ function ArticlesPage() {
   const [rows, setRows] = useState<Row[] | null>(null);
   const [filter, setFilter] = useState<Filter>("All");
   const [q, setQ] = useState("");
+  const [creating, setCreating] = useState(false);
+  const navigate = useNavigate();
+
+  const createDraft = async () => {
+    if (creating) return;
+    setCreating(true);
+    const { data: userData } = await supabase.auth.getUser();
+    if (!userData.user) {
+      setCreating(false);
+      navigate({ to: "/auth" });
+      return;
+    }
+    const { data, error } = await supabase
+      .from("articles")
+      .insert({ language: "en", author_id: userData.user.id, title: "Untitled" })
+      .select("id")
+      .single();
+    setCreating(false);
+    if (error || !data) return;
+    navigate({ to: "/articles/$id", params: { id: data.id } });
+  };
 
   useEffect(() => {
     supabase
@@ -104,13 +126,14 @@ function ArticlesPage() {
               {counts.total} article{counts.total === 1 ? "" : "s"} · {counts.drafts} draft{counts.drafts === 1 ? "" : "s"} · {counts.scheduled} scheduled
             </p>
           </div>
-          <Link
-            to="/articles/new"
-            className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:opacity-95"
+          <button
+            onClick={createDraft}
+            disabled={creating}
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:opacity-95 disabled:opacity-60"
           >
             <Plus className="h-4 w-4" />
-            New article
-          </Link>
+            {creating ? "Creating…" : "New article"}
+          </button>
         </header>
 
         <div className="mt-8 flex flex-wrap items-center gap-3">
