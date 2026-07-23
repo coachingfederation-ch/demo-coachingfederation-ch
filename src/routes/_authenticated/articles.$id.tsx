@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Image as ImageIcon } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -50,6 +50,38 @@ function StatusPill({ status }: { status: Status }) {
       <span className="h-1.5 w-1.5 rounded-full" style={{ background: s.dot }} />
       {s.label}
     </span>
+  );
+}
+
+function LangTab({
+  code,
+  label,
+  active,
+  disabled,
+  onClick,
+}: {
+  code: Lang;
+  label: string;
+  active: boolean;
+  disabled: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      disabled={disabled}
+      onClick={onClick}
+      className={
+        "inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold transition " +
+        (active
+          ? "bg-primary text-primary-foreground"
+          : disabled
+            ? "cursor-not-allowed border border-dashed border-border bg-transparent text-muted-foreground opacity-60"
+            : "bg-teal-soft text-teal-foreground hover:opacity-90")
+      }
+    >
+      <span>{code.toUpperCase()}</span>
+      <span className="font-medium opacity-80">· {label}</span>
+    </button>
   );
 }
 
@@ -218,27 +250,24 @@ function EditorPage() {
 
       <div className="grid grid-cols-[minmax(0,1fr)_340px] gap-8 px-8 py-8">
         <article>
-          <div className="flex flex-wrap items-center gap-2">
-            {LANGS.map((l) => (
-              <button
-                key={l.code}
-                disabled={languageLocked && article.language !== l.code}
-                onClick={() => update({ language: l.code })}
-                className={
-                  "inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold transition " +
-                  (article.language === l.code
-                    ? "bg-primary text-primary-foreground"
-                    : languageLocked
-                      ? "cursor-not-allowed border border-dashed border-border text-muted-foreground opacity-50"
-                      : "bg-card border border-border text-foreground hover:bg-secondary")
-                }
-              >
-                {l.code.toUpperCase()} <span className="font-medium opacity-80">· {l.label}</span>
-              </button>
-            ))}
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-2">
+              {LANGS.map((l) => (
+                <LangTab
+                  key={l.code}
+                  code={l.code}
+                  label={l.label}
+                  active={article.language === l.code}
+                  disabled={languageLocked && article.language !== l.code}
+                  onClick={() => update({ language: l.code })}
+                />
+              ))}
+            </div>
             {languageLocked ? (
-              <span className="ml-2 text-xs text-muted-foreground">Locked after first publication</span>
-            ) : null}
+              <span className="text-xs text-muted-foreground">Language locked after first publication</span>
+            ) : (
+              <span className="text-xs text-muted-foreground">Language can be changed until first publication</span>
+            )}
           </div>
 
           <input
@@ -252,8 +281,13 @@ function EditorPage() {
             onChange={(e) => update({ excerpt: e.target.value })}
             placeholder="Lead paragraph — a short summary that appears under the headline and in article cards."
             rows={2}
-            className="mt-4 w-full resize-none border-none bg-transparent text-lg text-muted-foreground outline-none placeholder:text-muted-foreground/60"
+            className="mt-4 w-full max-w-2xl resize-none border-none bg-transparent text-lg text-muted-foreground outline-none placeholder:text-muted-foreground/60"
           />
+
+          <div className="mt-6 flex h-64 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-border bg-secondary/40 text-muted-foreground">
+            <ImageIcon className="h-8 w-8" />
+            <span className="text-sm">Featured image — coming soon</span>
+          </div>
 
           <textarea
             value={article.content}
