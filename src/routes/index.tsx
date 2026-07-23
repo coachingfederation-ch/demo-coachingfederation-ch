@@ -2,83 +2,18 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import heroImg from "@/assets/hero-coaching.jpg";
 import leadershipImg from "@/assets/leadership-team.jpg";
-import conversationImg from "@/assets/real-conversation.jpg";
-import ensoImg from "@/assets/enso.png";
-import icfLogo from "@/assets/icf-switzerland-charter-chapter.png.asset.json";
 import { Mark, type MarkName } from "@/components/marks";
+import { SiteHeaderBar, SiteFooter, CARD_SHADOW } from "@/components/site-chrome";
 
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const CARD_SHADOW =
-  "shadow-[0_1px_2px_rgba(20,20,60,0.04),0_8px_20px_-14px_rgba(20,20,60,0.08)]";
-
-function Logo({ variant = "hero" }: { variant?: "hero" | "footer" }) {
-  return (
-    <Link to="/" aria-label="ICF Switzerland home" className="inline-flex">
-      <img
-        src={icfLogo.url}
-        alt="ICF Switzerland Charter Chapter"
-        className={variant === "hero" ? "h-24 w-auto" : "h-12 w-auto"}
-      />
-    </Link>
-  );
-}
-
 function HeroHeader() {
-  const items = ["Home", "For Organisations", "For Coaches", "Insights", "Events", "About"];
-  const langs = ["en", "de", "fr", "it"];
   return (
     <header className="bg-hero text-hero-foreground">
       <div className="mx-auto max-w-7xl px-8 pt-6 pb-16">
-        <div className="mb-10 flex flex-wrap items-start justify-between gap-4">
-          <Logo />
-          <div className="flex flex-wrap items-center gap-3">
-            <nav
-              aria-label="Primary"
-              className="hidden items-center rounded-full bg-white/10 p-1 text-[11px] font-semibold lg:inline-flex"
-            >
-              {items.map((i, idx) => (
-                <a
-                  key={i}
-                  href="#"
-                  className={
-                    "inline-flex h-7 items-center rounded-full px-3 transition " +
-                    (idx === 0
-                      ? "bg-white text-primary shadow-sm"
-                      : "text-white/80 hover:text-white")
-                  }
-                >
-                  {i}
-                </a>
-              ))}
-            </nav>
-            <div
-              role="group"
-              aria-label="Language"
-              className="inline-flex items-center rounded-full bg-white/10 p-0.5 text-[11px] font-semibold"
-            >
-              {langs.map((l, i) => (
-                <button
-                  key={l}
-                  className={
-                    "inline-flex h-6 items-center rounded-full px-2.5 uppercase tracking-wider " +
-                    (i === 0 ? "bg-white text-primary shadow-sm" : "text-white/80")
-                  }
-                >
-                  {l}
-                </button>
-              ))}
-            </div>
-            <a
-              href="#"
-              className="inline-flex h-8 items-center rounded-full bg-accent px-4 text-[11px] font-semibold uppercase tracking-wider text-accent-foreground transition hover:opacity-90"
-            >
-              Find a Coach
-            </a>
-          </div>
-        </div>
+        <div className="mb-10"><SiteHeaderBar /></div>
 
         <div className="grid gap-12 md:grid-cols-2 md:items-center">
           <div className="max-w-2xl">
@@ -98,12 +33,12 @@ function HeroHeader() {
               >
                 Find a coach →
               </a>
-              <a
-                href="#organisations"
+              <Link
+                to="/for-organisations"
                 className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10"
               >
                 For organisations
-              </a>
+              </Link>
             </div>
           </div>
           <div className="relative">
@@ -333,7 +268,7 @@ function Events() {
               Connect. Learn. Grow.
             </h2>
           </div>
-          <a href="#" className="text-sm font-semibold text-primary hover:underline">View all events →</a>
+          <Link to="/events" className="text-sm font-semibold text-primary hover:underline">View all events →</Link>
         </div>
         <div className="mt-12 grid gap-4 md:grid-cols-3">
           {events.map((e) => (
