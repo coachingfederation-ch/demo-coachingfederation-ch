@@ -1,67 +1,124 @@
-## Goal
-Create template landing pages for the five secondary nav destinations and wire the header nav to route to them. Each page reuses the existing hero header, footer, typography, mark palette, and card styling from the homepage so they feel like part of the same site — content is placeholder/template copy the user can refine later.
+## MVP scope (restated)
 
-## New routes (file-based)
-- `src/routes/for-organisations.tsx` → `/for-organisations`
-- `src/routes/for-coaches.tsx` → `/for-coaches`
-- `src/routes/insights.tsx` → `/insights` (Blog)
-- `src/routes/events.tsx` → `/events`
-- `src/routes/about.tsx` → `/about`
+- Bring the Insights Editor visual design (sidebar Shell, Articles list, Editor) into this project as new routes; leave the public ICF Switzerland site untouched.
+- Only **Articles list** and **Editor** are functional. **Categories** and **Settings** are not built and are hidden from the sidebar.
+- Single `articles` table in Supabase (Lovable Cloud) — one article, one language. No translation linking, no tags, no categories, no roles.
+- Workflow: create → pick language → draft (autosave) → publish now / schedule / unpublish → edit again.
+- Language selector is editable only until `first_published_at` is set, then locked.
+- Auth: Supabase email/password + Google, matching the ICFS Goal Tracker setup. Everything under an `_authenticated` layout.
 
-Each route defines its own `head()` with unique title, description, og:title, og:description (per project conventions). No `og:image` unless a hero image is wired.
+## Routes
+
+New file-based routes (public marketing site at `/`, `/about`, `/events`, `/insights`, etc. is untouched):
+
+- `src/routes/auth.tsx` — sign in / sign up (email+password, Google via `lovable.auth.signInWithOAuth`).
+- `src/routes/_authenticated/route.tsx` — integration-managed auth gate wrapper.
+- `src/routes/_authenticated/articles.tsx` — Articles list (design from Insights Editor `/`).
+- `src/routes/_authenticated/articles.$id.tsx` — Editor (design from Insights Editor `/editor`), also used for new articles via `/articles/new` redirect.
+- `src/routes/_authenticated/articles.new.tsx` — creates a draft row (language required) then redirects to `/articles/$id`.
+
+`/categories` and `/settings` are intentionally not created. Sidebar shows only Articles + Editor.
 
 ## Shared chrome
-Extract the current homepage `HeroHeader` + footer into `src/components/site-chrome.tsx` (exports `SiteHeader`, `SiteFooter`) so all six pages share them without duplication. The homepage keeps its existing large hero content; the new pages use a compact variant of `SiteHeader` (same indigo bar, logo, nav, lang switcher, Find a Coach CTA — no hero copy block).
 
-Nav items become `{ label, to }` pairs and render as TanStack `<Link>` with `activeProps` for the active pill state. The "Home" pill is no longer hardcoded active.
+Port `src/components/Shell.tsx` from Insights Editor, trimmed to two nav items (Articles, Editor). Keep the Insights CMS visual language (sidebar, cards, pills). No changes to the public site's `site-chrome.tsx`.
 
-## Page templates
-Each new page follows this structure, styled with existing tokens (indigo/cream/blue/yellow marks, `CARD_SHADOW`, `eyebrow`, `section-label`, `btn-mono`):
+## Supabase schema (single migration)
 
-1. **Compact indigo intro band** — eyebrow, H1, one-paragraph lede, primary CTA. Decorative `Mark` accent (cream on indigo).
-2. **2–3 content sections** tailored to the page (see below), using the existing card/tile patterns and mark tiles.
-3. **Closing CTA band** — same style as homepage "Join" section.
+```sql
+create type public.article_status as enum ('draft','scheduled','published','unpublished');
+create type public.article_lang as enum ('en','fr','de','it');
 
-### For Organisations
-- Intro: "Coaching for organisations that lead through change"
-- Sections: Outcomes (3 stat/benefit cards), How we work (3-step process cards), Featured programmes (3 mark tiles). 
-- CTA: "Talk to our organisations team".
+create table public.articles (
+  id uuid primary key default gen_random_uuid(),
+  author_id uuid not null references auth.users(id) on delete cascade,
+  language article_lang not null,
+  title text not null default '',
+  excerpt text not null default '',
+  content text not null default '',
+  status article_status not null default 'draft',
+  scheduled_at timestamptz,
+  published_at timestamptz,
+  first_published_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
 
-### For Coaches
-- Intro: "Grow your practice with ICF Switzerland"
-- Sections: Membership benefits (4 cards), Credentialing pathway (ACC/PCC/MCC cards), Chapter communities (link over to About > Communities).
-- CTA: "Become a member".
+grant select, insert, update, delete on public.articles to authenticated;
+grant all on public.articles to service_role;
+alter table public.articles enable row level security;
 
-### Insights (Blog)
-- Intro: "Insights from the Swiss coaching community"
-- Sections: Featured article (large card, mark tile visual), Recent articles grid (6 placeholder posts with category chip, title, date, 2-line excerpt), Topics filter row (chips: Leadership, AI & Coaching, Diversity, Future of Work, Research).
-- CTA: "Subscribe to the newsletter".
+create policy "authors read own" on public.articles for select to authenticated using (auth.uid() = author_id);
+create policy "authors write own" on public.articles for insert to authenticated with check (auth.uid() = author_id);
+create policy "authors update own" on public.articles for update to authenticated using (auth.uid() = author_id);
+create policy "authors delete own" on public.articles for delete to authenticated using (auth.uid() = author_id);
 
-### Events
-- Intro: "Upcoming events across Switzerland"
-- Sections: Featured event (large mark tile + details), Upcoming list (reuses the 3-tile pattern already on the homepage, extended to 6 events with date, city, format chip), Past events (compact list).
-- CTA: "Propose an event".
+-- keep updated_at fresh
+create or replace function public.tg_touch_updated_at() returns trigger language plpgsql as $$
+begin new.updated_at = now(); return new; end $$;
+create trigger articles_touch before update on public.articles
+  for each row execute function public.tg_touch_updated_at();
+```
 
-### About
-- Intro: "About ICF Switzerland Charter Chapter"
-- Sections in this order:
-  1. **Why Coaching** (relocated here per request) — headline, 2-column explainer, 3 outcome cards.
-  2. **Communities** — Zürich / Romandie / Ticino cards with lead names and meetup cadence.
-  3. **Research & Partnerships** — partner logos placeholder row + 2 research highlight cards.
-  4. Chapter board / mission short block.
-- CTA: "Get involved".
+No categories/tags tables. Author name comes from `auth.users` email (displayed as-is).
 
-## Homepage updates
-- Swap inline header for `<SiteHeader variant="hero" />` (keeps the big hero copy).
-- Remove the existing "Why Coaching" block from its current position above Events on the homepage (it now lives on About). Leave the rest of the homepage untouched.
-- Update Events section link to point to `/events`; Communities/Coaches/Organisations mentions link to their pages.
+## Data access
+
+Direct browser Supabase client (`@/integrations/supabase/client`) from the authenticated routes — RLS restricts to `author_id = auth.uid()`. No server functions required for MVP.
+
+- List: `select id, title, language, status, updated_at from articles order by updated_at desc`.
+- Editor load: `select * from articles where id = $id`.
+- Autosave: debounced (~800ms) `update` on title/excerpt/content/language; shows "Saving…/Saved just now".
+- Publish now: `update` sets `status='published'`, `published_at=now()`, `first_published_at=coalesce(first_published_at, now())`.
+- Schedule: modal/date input → `status='scheduled'`, `scheduled_at=<ts>`, sets `first_published_at` on first schedule as well (language lock semantics).
+- Unpublish: `status='unpublished'`, clears `scheduled_at`.
+- Language selector disabled when `first_published_at is not null`.
+
+Scheduled → published transition is out of MVP scope (no cron); the list simply shows `scheduled` until manually published. Acceptable per "keep it lean".
+
+## Editor UI adjustments vs. imported design
+
+Keep the layout, typography, sidebar, and card shells. Remove/hide the AI/translation-only affordances (no backend):
+- Language tabs → single language pill (locked after publish).
+- "Write once — AI translates the rest" strip → removed.
+- Right sidebar: keep Publishing block (language, publish date/schedule); drop AI assistant, Translations, Tags, Category, Author-select. Author shown as current user email.
+- Featured image dropzone → hidden for MVP (no storage).
+- Content field → plain `<textarea>` (multi-line, monospaced-friendly); block builder is out of scope.
+- Top bar: Draft/Scheduled/Published/Unpublished pill + autosave status + Schedule / Publish / Unpublish buttons depending on state.
+
+Articles list adjustments:
+- Columns: Article (title + author email), Language, Status, Updated. Drop Category and Translations columns.
+- Filters: All / Drafts / Scheduled / Published / Unpublished (client-side).
+- Search: client-side title contains, kept because trivial.
+- "New article" button opens a small dialog asking for language, then creates row and routes to `/articles/$id`.
+
+## Auth
+
+- Enable Lovable Cloud, then `supabase--configure_social_auth` for Google.
+- `/auth` page: email+password sign in / sign up, "Continue with Google" via `lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin + "/articles" })`.
+- Auth gate at `src/routes/_authenticated/route.tsx` (integration-managed pattern).
+- `onAuthStateChange` wired once in `__root.tsx` (identity events only), invalidating router/query on sign in/out.
+- Sign-out button in the Shell footer replaces the placeholder "Editor Name" card.
 
 ## Files touched
-- **New:** `src/components/site-chrome.tsx`, `src/routes/for-organisations.tsx`, `src/routes/for-coaches.tsx`, `src/routes/insights.tsx`, `src/routes/events.tsx`, `src/routes/about.tsx`
-- **Modified:** `src/routes/index.tsx` (extract chrome, remove Why Coaching block, wire links)
-- `src/routeTree.gen.ts` regenerates automatically.
 
-## Out of scope
-- No CMS, no real blog data — placeholder cards only.
-- No auth, no forms wired to backend — CTAs are visual links.
-- No new color tokens or font changes.
+**New**
+- `src/routes/auth.tsx`
+- `src/routes/_authenticated/route.tsx` (managed)
+- `src/routes/_authenticated/articles.tsx`
+- `src/routes/_authenticated/articles.new.tsx`
+- `src/routes/_authenticated/articles.$id.tsx`
+- `src/components/cms/Shell.tsx` (ported + trimmed)
+- `supabase/migrations/<ts>_articles.sql`
+
+**Modified**
+- `src/routes/__root.tsx` — add `onAuthStateChange` wiring.
+- `src/styles.css` — port the CMS-specific tokens used by the Shell (`--teal`, `--teal-soft`, `--warn`, `--warn-soft`, `--shadow-soft`) if not already present.
+
+## Out of scope (MVP)
+
+- Categories, Tags, Settings pages and tables.
+- Translations, AI actions, block editor, featured image upload.
+- Multi-role permissions, editorial approval.
+- Automatic scheduled→published cron.
+- Any change to the public marketing site or its routes.

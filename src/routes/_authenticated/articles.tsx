@@ -1,0 +1,176 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useMemo, useState } from "react";
+import { Plus, Search } from "lucide-react";
+import { Shell } from "@/components/cms/Shell";
+import { supabase } from "@/integrations/supabase/client";
+
+export const Route = createFileRoute("/_authenticated/articles")({
+  head: () => ({
+    meta: [
+      { title: "Articles — ICF Switzerland Insights CMS" },
+      { name: "description", content: "Editorial workspace for ICF Switzerland: draft, schedule and publish Insights articles." },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
+  component: ArticlesPage,
+});
+
+type Status = "draft" | "scheduled" | "published" | "unpublished";
+type Lang = "en" | "fr" | "de" | "it";
+
+interface Row {
+  id: string;
+  title: string;
+  language: Lang;
+  status: Status;
+  updated_at: string;
+}
+
+const filters = ["All", "Drafts", "Scheduled", "Published", "Unpublished"] as const;
+type Filter = (typeof filters)[number];
+
+function StatusPill({ status }: { status: Status }) {
+  const map: Record<Status, { bg: string; dot: string; label: string }> = {
+    draft: { bg: "bg-warn-soft text-[color:var(--warn)]", dot: "var(--warn)", label: "Draft" },
+    scheduled: { bg: "bg-teal-soft text-teal-foreground", dot: "var(--teal)", label: "Scheduled" },
+    published: { bg: "bg-teal-soft text-teal-foreground", dot: "var(--teal)", label: "Published" },
+    unpublished: { bg: "bg-secondary text-muted-foreground", dot: "var(--muted-foreground)", label: "Unpublished" },
+  };
+  const s = map[status];
+  return (
+    <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${s.bg}`}>
+      <span className="h-1.5 w-1.5 rounded-full" style={{ background: s.dot }} />
+      {s.label}
+    </span>
+  );
+}
+
+function LangChip({ code }: { code: Lang }) {
+  return (
+    <span className="inline-flex h-6 min-w-8 items-center justify-center rounded-md bg-primary px-1.5 text-[11px] font-semibold text-primary-foreground">
+      {code.toUpperCase()}
+    </span>
+  );
+}
+
+function timeAgo(iso: string) {
+  const d = new Date(iso);
+  const diff = Date.now() - d.getTime();
+  const day = 86400000;
+  if (diff < day && d.getDate() === new Date().getDate()) return "Today";
+  if (diff < 2 * day) return "Yesterday";
+  return d.toLocaleDateString(undefined, { day: "numeric", month: "short" });
+}
+
+function ArticlesPage() {
+  const [rows, setRows] = useState<Row[] | null>(null);
+  const [filter, setFilter] = useState<Filter>("All");
+  const [q, setQ] = useState("");
+
+  useEffect(() => {
+    supabase
+      .from("articles")
+      .select("id, title, language, status, updated_at")
+      .order("updated_at", { ascending: false })
+      .then(({ data }) => setRows((data as Row[]) ?? []));
+  }, []);
+
+  const filtered = useMemo(() => {
+    if (!rows) return [];
+    const byStatus =
+      filter === "All"
+        ? rows
+        : rows.filter((r) => r.status === filter.toLowerCase().replace(/s$/, ""));
+    const needle = q.trim().toLowerCase();
+    return needle ? byStatus.filter((r) => r.title.toLowerCase().includes(needle)) : byStatus;
+  }, [rows, filter, q]);
+
+  const counts = useMemo(() => {
+    if (!rows) return { total: 0, drafts: 0, scheduled: 0 };
+    return {
+      total: rows.length,
+      drafts: rows.filter((r) => r.status === "draft").length,
+      scheduled: rows.filter((r) => r.status === "scheduled").length,
+    };
+  }, [rows]);
+
+  return (
+    <Shell>
+      <div className="mx-auto max-w-6xl px-10 py-10">
+        <header className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Articles</h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              {counts.total} article{counts.total === 1 ? "" : "s"} · {counts.drafts} draft{counts.drafts === 1 ? "" : "s"} · {counts.scheduled} scheduled
+            </p>
+          </div>
+          <Link
+            to="/articles/new"
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:opacity-95"
+          >
+            <Plus className="h-4 w-4" />
+            New article
+          </Link>
+        </header>
+
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          <div className="relative min-w-[240px] max-w-sm flex-1">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <input
+              placeholder="Search articles…"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              className="w-full rounded-full border border-border bg-card py-2.5 pl-9 pr-4 text-sm outline-none placeholder:text-muted-foreground focus:ring-2 focus:ring-ring/30"
+            />
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {filters.map((f) => (
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                className={
+                  "rounded-full px-4 py-2 text-sm font-medium transition " +
+                  (filter === f
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-card text-foreground hover:bg-secondary")
+                }
+              >
+                {f}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-6 overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-soft)]">
+          <div className="grid grid-cols-[minmax(0,2fr)_0.8fr_1fr_0.8fr] items-center gap-4 border-b border-border bg-secondary/50 px-6 py-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <div>Article</div>
+            <div>Language</div>
+            <div>Status</div>
+            <div>Updated</div>
+          </div>
+          {rows === null ? (
+            <div className="px-6 py-10 text-center text-sm text-muted-foreground">Loading…</div>
+          ) : filtered.length === 0 ? (
+            <div className="px-6 py-10 text-center text-sm text-muted-foreground">
+              No articles yet. Click <span className="font-semibold">New article</span> to get started.
+            </div>
+          ) : (
+            filtered.map((r) => (
+              <Link
+                to="/articles/$id"
+                params={{ id: r.id }}
+                key={r.id}
+                className="grid grid-cols-[minmax(0,2fr)_0.8fr_1fr_0.8fr] items-center gap-4 border-b border-border/70 px-6 py-4 text-sm transition last:border-b-0 hover:bg-secondary/40"
+              >
+                <div className="font-semibold text-foreground">{r.title || <span className="text-muted-foreground">Untitled</span>}</div>
+                <div><LangChip code={r.language} /></div>
+                <div><StatusPill status={r.status} /></div>
+                <div className="text-muted-foreground">{timeAgo(r.updated_at)}</div>
+              </Link>
+            ))
+          )}
+        </div>
+      </div>
+    </Shell>
+  );
+}

@@ -13,8 +13,13 @@ import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as ForOrganisationsRouteImport } from './routes/for-organisations'
 import { Route as ForCoachesRouteImport } from './routes/for-coaches'
 import { Route as EventsRouteImport } from './routes/events'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedArticlesRouteImport } from './routes/_authenticated/articles'
+import { Route as AuthenticatedArticlesNewRouteImport } from './routes/_authenticated/articles.new'
+import { Route as AuthenticatedArticlesIdRouteImport } from './routes/_authenticated/articles.$id'
 
 const InsightsRoute = InsightsRouteImport.update({
   id: '/insights',
@@ -36,9 +41,18 @@ const EventsRoute = EventsRouteImport.update({
   path: '/events',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -46,62 +60,106 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedArticlesRoute = AuthenticatedArticlesRouteImport.update({
+  id: '/articles',
+  path: '/articles',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedArticlesNewRoute =
+  AuthenticatedArticlesNewRouteImport.update({
+    id: '/new',
+    path: '/new',
+    getParentRoute: () => AuthenticatedArticlesRoute,
+  } as any)
+const AuthenticatedArticlesIdRoute = AuthenticatedArticlesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AuthenticatedArticlesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/events': typeof EventsRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
   '/insights': typeof InsightsRoute
+  '/articles': typeof AuthenticatedArticlesRouteWithChildren
+  '/articles/$id': typeof AuthenticatedArticlesIdRoute
+  '/articles/new': typeof AuthenticatedArticlesNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/events': typeof EventsRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
   '/insights': typeof InsightsRoute
+  '/articles': typeof AuthenticatedArticlesRouteWithChildren
+  '/articles/$id': typeof AuthenticatedArticlesIdRoute
+  '/articles/new': typeof AuthenticatedArticlesNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/events': typeof EventsRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
   '/insights': typeof InsightsRoute
+  '/_authenticated/articles': typeof AuthenticatedArticlesRouteWithChildren
+  '/_authenticated/articles/$id': typeof AuthenticatedArticlesIdRoute
+  '/_authenticated/articles/new': typeof AuthenticatedArticlesNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/auth'
     | '/events'
     | '/for-coaches'
     | '/for-organisations'
     | '/insights'
+    | '/articles'
+    | '/articles/$id'
+    | '/articles/new'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/auth'
     | '/events'
     | '/for-coaches'
     | '/for-organisations'
     | '/insights'
+    | '/articles'
+    | '/articles/$id'
+    | '/articles/new'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/about'
+    | '/auth'
     | '/events'
     | '/for-coaches'
     | '/for-organisations'
     | '/insights'
+    | '/_authenticated/articles'
+    | '/_authenticated/articles/$id'
+    | '/_authenticated/articles/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
+  AuthRoute: typeof AuthRoute
   EventsRoute: typeof EventsRoute
   ForCoachesRoute: typeof ForCoachesRoute
   ForOrganisationsRoute: typeof ForOrganisationsRoute
@@ -138,11 +196,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -152,12 +224,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/articles': {
+      id: '/_authenticated/articles'
+      path: '/articles'
+      fullPath: '/articles'
+      preLoaderRoute: typeof AuthenticatedArticlesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/articles/new': {
+      id: '/_authenticated/articles/new'
+      path: '/new'
+      fullPath: '/articles/new'
+      preLoaderRoute: typeof AuthenticatedArticlesNewRouteImport
+      parentRoute: typeof AuthenticatedArticlesRoute
+    }
+    '/_authenticated/articles/$id': {
+      id: '/_authenticated/articles/$id'
+      path: '/$id'
+      fullPath: '/articles/$id'
+      preLoaderRoute: typeof AuthenticatedArticlesIdRouteImport
+      parentRoute: typeof AuthenticatedArticlesRoute
+    }
   }
 }
 
+interface AuthenticatedArticlesRouteChildren {
+  AuthenticatedArticlesIdRoute: typeof AuthenticatedArticlesIdRoute
+  AuthenticatedArticlesNewRoute: typeof AuthenticatedArticlesNewRoute
+}
+
+const AuthenticatedArticlesRouteChildren: AuthenticatedArticlesRouteChildren = {
+  AuthenticatedArticlesIdRoute: AuthenticatedArticlesIdRoute,
+  AuthenticatedArticlesNewRoute: AuthenticatedArticlesNewRoute,
+}
+
+const AuthenticatedArticlesRouteWithChildren =
+  AuthenticatedArticlesRoute._addFileChildren(
+    AuthenticatedArticlesRouteChildren,
+  )
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedArticlesRoute: typeof AuthenticatedArticlesRouteWithChildren
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedArticlesRoute: AuthenticatedArticlesRouteWithChildren,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
+  AuthRoute: AuthRoute,
   EventsRoute: EventsRoute,
   ForCoachesRoute: ForCoachesRoute,
   ForOrganisationsRoute: ForOrganisationsRoute,
@@ -166,13 +287,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
