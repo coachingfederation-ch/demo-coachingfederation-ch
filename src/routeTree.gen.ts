@@ -9,8 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ForOrganisationsRouteImport } from './routes/for-organisations'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ForOrganisationsRoute = ForOrganisationsRouteImport.update({
+  id: '/for-organisations',
+  path: '/for-organisations',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +25,39 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/for-organisations': typeof ForOrganisationsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/for-organisations': typeof ForOrganisationsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/for-organisations': typeof ForOrganisationsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/for-organisations'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/for-organisations'
+  id: '__root__' | '/' | '/for-organisations'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ForOrganisationsRoute: typeof ForOrganisationsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/for-organisations': {
+      id: '/for-organisations'
+      path: '/for-organisations'
+      fullPath: '/for-organisations'
+      preLoaderRoute: typeof ForOrganisationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +70,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ForOrganisationsRoute: ForOrganisationsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
