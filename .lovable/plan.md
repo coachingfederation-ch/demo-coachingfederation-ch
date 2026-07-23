@@ -1,24 +1,42 @@
-## Problem
+## Goal
 
-In the last fix, the **New article** button in `src/routes/_authenticated/articles.tsx` was changed to call `supabase.insert()` directly and jump to the editor. That bypasses `articles.new.tsx` entirely, so the language-picker page never loads and every click produces an empty `Untitled` draft in the default language (`en`).
+Rebuild the article detail page (`/articles/$id`) to visually match the Insights Editor reference's `editor.tsx` layout — the current page renders but doesn't match the reference and the user reports it as "not working". Keep the working Supabase wiring (load, autosave, publish/schedule/unpublish/delete, language lock).
 
-## Fix
+## Reference
 
-Restore `/articles/new` as the entry point for creating articles.
+`Insights Editor` project → `src/routes/editor.tsx`:
+- Top bar inside Shell: back-to-Articles pill, status pill, "Saved automatically" text, right side Preview / Schedule… / Publish buttons.
+- Two-column grid `[minmax(0,1fr)_340px]`.
+- Left column: language tabs row (EN active + DE/FR/IT), title (`text-4xl font-bold`), lead paragraph, featured-image dropzone, body blocks.
+- Right column: (AI assistant card — omit, not in MVP), Translations card — omit, Publishing card (category/author/publish date), Tags card — omit.
 
-1. **`src/routes/_authenticated/articles.tsx`**
-   - Replace the `<button onClick={createDraft}>` with a `<Link to="/articles/new">` styled identically to the current pill button.
-   - Remove the now-unused `createDraft`, `creating` state, and `useNavigate` import.
+## Changes
 
-2. **`src/routes/_authenticated/articles.new.tsx`** — leave as-is. It already:
-   - Shows the 4 language cards (EN/DE/FR/IT).
-   - Inserts the article with the chosen language on **Create draft**.
-   - Navigates to `/articles/$id`.
+### 1. `src/routes/_authenticated/articles.$id.tsx`
+Rewrite to match reference structure while keeping current behavior:
+- Header bar identical to reference (Articles back-link, `StatusPill`, autosave label). Right-side buttons: **Unpublish** (only when published/scheduled), **Schedule…**, **Publish / Republish**. Remove Preview button (not in MVP).
+- Language tab row using the reference `LangTab` styling — active = primary pill, others = `bg-teal-soft` or dashed-border when disabled by language lock. Locked note text unchanged.
+- Title as large `text-4xl` heading input (borderless).
+- Lead paragraph as borderless textarea in muted color.
+- Featured-image dropzone as visual-only placeholder (matches reference; no upload wiring in MVP) with the small "AI writes alt text" caption removed (out of scope).
+- Body as a bordered `rounded-2xl` textarea (kept — this is the MVP write surface).
+- Right sidebar: Publishing card (Status / Language / Published / Scheduled / Updated rows — current fields) + Danger zone (Delete). Drop AI/Translations/Tags cards (not in MVP).
+- Preserve all existing hooks: initial fetch, 800ms autosave debounce, publish/schedule/unpublish/delete handlers, `notFound` and loading states, `first_published_at` language lock.
 
-No schema, RLS, or auth changes.
+### 2. `src/routes/_authenticated/articles.new.tsx`
+No change to logic. Verify it renders under `/articles/new` and the Create-draft button inserts + navigates to `/articles/$id`. (User is currently on this route; if the click is silently failing, capture the console/network to confirm — but no code change planned unless a real failure is found.)
+
+### 3. `src/routes/_authenticated/articles.tsx`
+Already updated last turn to link to `/articles/new`. No further change.
+
+## Out of scope (kept as future work, matches earlier MVP scope)
+
+- AI assistant panel, translations panel, tags, categories, author selector, featured-image upload.
 
 ## Verification
 
-- Click **New article** on `/articles` → `/articles/new` loads with the language grid.
-- Pick a language → **Create draft** → lands on `/articles/$id` with that language set.
-- Cancel returns to `/articles`.
+- Load `/articles` → click **New article** → language picker at `/articles/new` renders.
+- Pick DE → **Create draft** → lands on `/articles/$id` with new visual layout, DE tab active, title focused-ready.
+- Edit title → "Saving…" then "Saved just now" within ~1s.
+- Publish → status pill flips to Published; Unpublish appears.
+- Delete → returns to `/articles`.
