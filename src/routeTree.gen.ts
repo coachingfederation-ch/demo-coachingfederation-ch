@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as ForOrganisationsRouteImport } from './routes/for-organisations'
 import { Route as ForCoachesRouteImport } from './routes/for-coaches'
+import { Route as EventsRouteImport } from './routes/events'
 import { Route as IndexRouteImport } from './routes/index'
 
 const InsightsRoute = InsightsRouteImport.update({
@@ -29,6 +30,11 @@ const ForCoachesRoute = ForCoachesRouteImport.update({
   path: '/for-coaches',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,12 +43,14 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/events': typeof EventsRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
   '/insights': typeof InsightsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/events': typeof EventsRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
   '/insights': typeof InsightsRoute
@@ -50,20 +58,33 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/events': typeof EventsRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
   '/insights': typeof InsightsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/for-coaches' | '/for-organisations' | '/insights'
+  fullPaths:
+    | '/'
+    | '/events'
+    | '/for-coaches'
+    | '/for-organisations'
+    | '/insights'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/for-coaches' | '/for-organisations' | '/insights'
-  id: '__root__' | '/' | '/for-coaches' | '/for-organisations' | '/insights'
+  to: '/' | '/events' | '/for-coaches' | '/for-organisations' | '/insights'
+  id:
+    | '__root__'
+    | '/'
+    | '/events'
+    | '/for-coaches'
+    | '/for-organisations'
+    | '/insights'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EventsRoute: typeof EventsRoute
   ForCoachesRoute: typeof ForCoachesRoute
   ForOrganisationsRoute: typeof ForOrganisationsRoute
   InsightsRoute: typeof InsightsRoute
@@ -92,6 +113,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ForCoachesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +132,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EventsRoute: EventsRoute,
   ForCoachesRoute: ForCoachesRoute,
   ForOrganisationsRoute: ForOrganisationsRoute,
   InsightsRoute: InsightsRoute,
