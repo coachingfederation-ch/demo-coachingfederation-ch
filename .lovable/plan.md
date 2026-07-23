@@ -1,42 +1,49 @@
 ## Goal
+Make row clicks in `/articles` reliably open a detail page, and rebuild that detail page to match the "Insights Editor" reference design while keeping the working MVP behavior (autosave, publish/schedule/unpublish, delete, language-lock).
 
-Rebuild the article detail page (`/articles/$id`) to visually match the Insights Editor reference's `editor.tsx` layout — the current page renders but doesn't match the reference and the user reports it as "not working". Keep the working Supabase wiring (load, autosave, publish/schedule/unpublish/delete, language lock).
+## Why the click "does nothing"
+The list rows in `src/routes/_authenticated/articles.tsx` render a `<Link to="/articles/$id" params={{ id: r.id }}>` inside a `grid`. On the current build the navigation resolves but the detail route at `src/routes/_authenticated/articles.$id.tsx` renders a functional but visually spartan page — easy to mistake for "nothing happened" (no header change, no visible layout shift on some viewports). To eliminate ambiguity we'll:
+- Confirm the row is a real anchor (`Link` renders `<a href>`), keep it clickable end-to-end, add `role="button"` + hover affordance.
+- Rebuild the detail page so navigation is unmistakable and matches the reference design.
 
-## Reference
+## Detail page rebuild (`articles.$id.tsx`)
+Match the Insights Editor layout while wiring every control to Supabase:
 
-`Insights Editor` project → `src/routes/editor.tsx`:
-- Top bar inside Shell: back-to-Articles pill, status pill, "Saved automatically" text, right side Preview / Schedule… / Publish buttons.
-- Two-column grid `[minmax(0,1fr)_340px]`.
-- Left column: language tabs row (EN active + DE/FR/IT), title (`text-4xl font-bold`), lead paragraph, featured-image dropzone, body blocks.
-- Right column: (AI assistant card — omit, not in MVP), Translations card — omit, Publishing card (category/author/publish date), Tags card — omit.
+Top bar (sticky, on white card):
+- Back-to-Articles pill (ChevronLeft).
+- Status pill (draft / scheduled / published / unpublished) with colored dot.
+- "Saved just now / Saving… / Last saved HH:MM" indicator.
+- Right side buttons: `Unpublish` (only when published/scheduled), `Schedule…`, `Publish` / `Republish`.
 
-## Changes
+Two-column body `grid-cols-[minmax(0,1fr)_340px]`:
 
-### 1. `src/routes/_authenticated/articles.$id.tsx`
-Rewrite to match reference structure while keeping current behavior:
-- Header bar identical to reference (Articles back-link, `StatusPill`, autosave label). Right-side buttons: **Unpublish** (only when published/scheduled), **Schedule…**, **Publish / Republish**. Remove Preview button (not in MVP).
-- Language tab row using the reference `LangTab` styling — active = primary pill, others = `bg-teal-soft` or dashed-border when disabled by language lock. Locked note text unchanged.
-- Title as large `text-4xl` heading input (borderless).
-- Lead paragraph as borderless textarea in muted color.
-- Featured-image dropzone as visual-only placeholder (matches reference; no upload wiring in MVP) with the small "AI writes alt text" caption removed (out of scope).
-- Body as a bordered `rounded-2xl` textarea (kept — this is the MVP write surface).
-- Right sidebar: Publishing card (Status / Language / Published / Scheduled / Updated rows — current fields) + Danger zone (Delete). Drop AI/Translations/Tags cards (not in MVP).
-- Preserve all existing hooks: initial fetch, 800ms autosave debounce, publish/schedule/unpublish/delete handlers, `notFound` and loading states, `first_published_at` language lock.
+Left (article canvas):
+- Language tab row: EN · DE · FR · IT as teal-soft pills; active = primary; disabled + dashed border once `first_published_at` is set. Helper text on the right explains lock state.
+- Large title `<input>` (4xl, borderless).
+- Excerpt `<textarea>` (lg, muted).
+- Featured image dashed placeholder (visual only for MVP — "coming soon").
+- Body `<textarea>` (resizable, rounded card style, markdown-friendly).
 
-### 2. `src/routes/_authenticated/articles.new.tsx`
-No change to logic. Verify it renders under `/articles/new` and the Create-draft button inserts + navigates to `/articles/$id`. (User is currently on this route; if the click is silently failing, capture the console/network to confirm — but no code change planned unless a real failure is found.)
+Right sidebar:
+- Publishing card: Status, Language, Published at, Scheduled at, Updated at.
+- Danger zone: Delete article (destructive outline button, confirm prompt).
 
-### 3. `src/routes/_authenticated/articles.tsx`
-Already updated last turn to link to `/articles/new`. No further change.
+## Wiring (already working, keep intact)
+- Load: `supabase.from('articles').select('*').eq('id', id).maybeSingle()`.
+- Autosave title/excerpt/content/language with 800 ms debounce; skip first render.
+- Publish now: set `status='published'`, `published_at=now`, `first_published_at ??= now`, clear `scheduled_at`.
+- Schedule: prompt for datetime, set `status='scheduled'`, `scheduled_at`, `first_published_at ??= dt`.
+- Unpublish: set `status='unpublished'`, clear `scheduled_at`.
+- Delete: confirm, delete, navigate to `/articles`.
+- Language locked once `first_published_at` is set.
+- Not-found and loading states preserved.
 
-## Out of scope (kept as future work, matches earlier MVP scope)
+## List page touch-up (`articles.tsx`)
+- Keep `<Link>` rows but add stronger hover (`bg-secondary/60`) and a chevron on the right so it's obviously clickable.
+- No behavior change beyond that.
 
-- AI assistant panel, translations panel, tags, categories, author selector, featured-image upload.
+## Out of scope
+- Featured image upload, rich-text editor, translations/AI panels, category/author/tags from the reference — the MVP explicitly excludes them.
 
 ## Verification
-
-- Load `/articles` → click **New article** → language picker at `/articles/new` renders.
-- Pick DE → **Create draft** → lands on `/articles/$id` with new visual layout, DE tab active, title focused-ready.
-- Edit title → "Saving…" then "Saved just now" within ~1s.
-- Publish → status pill flips to Published; Unpublish appears.
-- Delete → returns to `/articles`.
+After edits: open `/articles`, click a row, confirm URL changes to `/articles/<id>` and the redesigned editor renders; edit title → "Saving…" → "Saved"; toggle Publish/Unpublish/Schedule; Delete returns to list.
