@@ -14,7 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      articles: {
+        Row: {
+          author_id: string
+          content: string
+          created_at: string
+          excerpt: string
+          first_published_at: string | null
+          id: string
+          language: Database["public"]["Enums"]["article_lang"]
+          published_at: string | null
+          scheduled_at: string | null
+          status: Database["public"]["Enums"]["article_status"]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_id: string
+          content?: string
+          created_at?: string
+          excerpt?: string
+          first_published_at?: string | null
+          id?: string
+          language: Database["public"]["Enums"]["article_lang"]
+          published_at?: string | null
+          scheduled_at?: string | null
+          status?: Database["public"]["Enums"]["article_status"]
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string
+          content?: string
+          created_at?: string
+          excerpt?: string
+          first_published_at?: string | null
+          id?: string
+          language?: Database["public"]["Enums"]["article_lang"]
+          published_at?: string | null
+          scheduled_at?: string | null
+          status?: Database["public"]["Enums"]["article_status"]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +67,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      article_lang: "en" | "fr" | "de" | "it"
+      article_status: "draft" | "scheduled" | "published" | "unpublished"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +195,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      article_lang: ["en", "fr", "de", "it"],
+      article_status: ["draft", "scheduled", "published", "unpublished"],
+    },
   },
 } as const
