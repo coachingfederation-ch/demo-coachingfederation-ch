@@ -1,8 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, Image as ImageIcon } from "lucide-react";
+import { ChevronLeft, Image as ImageIcon, Upload, X } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { supabase } from "@/integrations/supabase/client";
+import { ARTICLE_CATEGORIES } from "@/lib/articles";
 
 export const Route = createFileRoute("/_authenticated/articles/$id")({
   head: () => ({
@@ -27,6 +28,9 @@ interface Article {
   scheduled_at: string | null;
   published_at: string | null;
   first_published_at: string | null;
+  category: string | null;
+  featured_image_url: string | null;
+  is_featured: boolean;
   updated_at: string;
 }
 
@@ -93,6 +97,9 @@ function EditorPage() {
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const skipNextAutosave = useRef(true);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [featuredNote, setFeaturedNote] = useState<string | null>(null);
 
   useEffect(() => {
     supabase
@@ -123,6 +130,8 @@ function EditorPage() {
           excerpt: article.excerpt,
           content: article.content,
           language: article.language,
+          category: article.category,
+          featured_image_url: article.featured_image_url,
         })
         .eq("id", article.id);
       if (!error) setSaveState("saved");
@@ -132,9 +141,57 @@ function EditorPage() {
       if (saveTimer.current) clearTimeout(saveTimer.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [article?.title, article?.excerpt, article?.content, article?.language]);
+  }, [
+    article?.title,
+    article?.excerpt,
+    article?.content,
+    article?.language,
+    article?.category,
+    article?.featured_image_url,
+  ]);
 
   const update = (patch: Partial<Article>) => setArticle((a) => (a ? { ...a, ...patch } : a));
+
+  const uploadImage = async (file: File) => {
+    if (!article) return;
+    setUploadError(null);
+    setUploading(true);
+    const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+    const path = `${article.id}/${Date.now()}.${ext}`;
+    const { error } = await supabase.storage
+      .from("article-images")
+      .upload(path, file, { upsert: true, contentType: file.type });
+    if (error) {
+      setUploadError(error.message);
+      setUploading(false);
+      return;
+    }
+    const { data: signed, error: signErr } = await supabase.storage
+      .from("article-images")
+      .createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
+    setUploading(false);
+    if (signErr || !signed) {
+      setUploadError(signErr?.message ?? "Could not create a link for this image.");
+      return;
+    }
+    update({ featured_image_url: signed.signedUrl });
+  };
+
+  const toggleFeatured = async () => {
+    if (!article) return;
+    const next = !article.is_featured;
+    const { error } = await supabase
+      .from("articles")
+      .update({ is_featured: next })
+      .eq("id", article.id);
+    if (error) return;
+    update({ is_featured: next });
+    setFeaturedNote(
+      next
+        ? "This article is now the featured story on Insights. Any previously featured article was un-featured."
+        : "Removed from the featured slot. Insights will show the newest published article instead.",
+    );
+  };
 
   const publishNow = async () => {
     if (!article) return;
@@ -284,9 +341,52 @@ function EditorPage() {
             className="mt-4 w-full max-w-2xl resize-none border-none bg-transparent text-lg text-muted-foreground outline-none placeholder:text-muted-foreground/60"
           />
 
-          <div className="mt-6 flex h-64 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-border bg-secondary/40 text-muted-foreground">
-            <ImageIcon className="h-8 w-8" />
-            <span className="text-sm">Featured image — coming soon</span>
+          <div className="mt-6 space-y-3">
+            {article.featured_image_url ? (
+              <div className="relative overflow-hidden rounded-2xl border border-border">
+                <img
+                  src={article.featured_image_url}
+                  alt="Featured"
+                  className="h-64 w-full object-cover"
+                />
+                <button
+                  onClick={() => update({ featured_image_url: null })}
+                  aria-label="Remove featured image"
+                  className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-card/90 text-foreground shadow-[var(--shadow-soft)] hover:bg-card"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            ) : (
+              <label className="flex h-64 cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-border bg-secondary/40 text-muted-foreground hover:bg-secondary/60">
+                <ImageIcon className="h-8 w-8" />
+                <span className="text-sm font-medium">
+                  {uploading ? "Uploading…" : "Upload a featured image"}
+                </span>
+                <span className="text-xs">JPG, PNG or WebP</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  disabled={uploading}
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    if (f) void uploadImage(f);
+                    e.target.value = "";
+                  }}
+                />
+              </label>
+            )}
+            <div className="flex items-center gap-2">
+              <Upload className="h-4 w-4 shrink-0 text-muted-foreground" />
+              <input
+                value={article.featured_image_url ?? ""}
+                onChange={(e) => update({ featured_image_url: e.target.value || null })}
+                placeholder="…or paste an image URL"
+                className="w-full rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring/20"
+              />
+            </div>
+            {uploadError ? <p className="text-xs text-destructive">{uploadError}</p> : null}
           </div>
 
           <textarea
@@ -327,6 +427,37 @@ function EditorPage() {
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Updated</span>
                 <span>{new Date(article.updated_at).toLocaleString()}</span>
+              </div>
+              <div className="border-t border-border pt-3">
+                <label className="flex items-center justify-between gap-3">
+                  <span className="text-muted-foreground">Category</span>
+                  <select
+                    value={article.category ?? ""}
+                    onChange={(e) => update({ category: e.target.value || null })}
+                    className="rounded-lg border border-border bg-card px-2 py-1.5 text-sm outline-none focus:ring-2 focus:ring-ring/20"
+                  >
+                    <option value="">None</option>
+                    {ARTICLE_CATEGORIES.map((c) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+              <div className="border-t border-border pt-3">
+                <label className="flex items-center justify-between gap-3">
+                  <span className="text-muted-foreground">Featured on Insights</span>
+                  <input
+                    type="checkbox"
+                    checked={article.is_featured}
+                    onChange={toggleFeatured}
+                    className="h-4 w-4 accent-[color:var(--primary)]"
+                  />
+                </label>
+                {featuredNote ? (
+                  <p className="mt-2 text-xs text-muted-foreground">{featuredNote}</p>
+                ) : null}
               </div>
             </div>
           </div>
