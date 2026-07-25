@@ -13,18 +13,19 @@ function HeroHeader() {
   return (
     <header className="bg-hero text-hero-foreground">
       <div className="mx-auto max-w-7xl px-8 pt-6 pb-16">
-        <div className="mb-10"><SiteHeaderBar /></div>
+        <div className="mb-10">
+          <SiteHeaderBar />
+        </div>
 
         <div className="grid gap-12 md:grid-cols-2 md:items-center">
           <div className="max-w-2xl">
             <p className="eyebrow !text-accent">ICF Switzerland · Charter Chapter</p>
             <h1 className="mt-3 text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl">
-              Building a more <span className="text-accent">human</span> future through
-              professional coaching.
+              Building a more <span className="text-accent">human</span> future through professional coaching.
             </h1>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-white/75">
-              Professional coaching helps individuals, leaders and organisations navigate
-              complexity with greater clarity, confidence and purpose.
+              Professional coaching helps individuals, leaders and organisations navigate complexity with greater
+              clarity, confidence and purpose.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <a
@@ -50,7 +51,7 @@ function HeroHeader() {
               className="aspect-[5/4] w-full rounded-2xl object-cover"
             />
             <Mark
-              name="circular2"
+              name="asterisk1"
               className="pointer-events-none absolute -right-8 -top-10 h-40 w-40 text-mark-cream"
             />
           </div>
@@ -62,9 +63,24 @@ function HeroHeader() {
 
 const audiences = [
   { eyebrow: "I'm looking for", title: "A Coach", desc: "Find a trusted ICF credentialed coach.", cta: "Find a Coach" },
-  { eyebrow: "I represent", title: "An Organisation", desc: "Discover how coaching develops leaders and organisations.", cta: "For Organisations" },
-  { eyebrow: "I am", title: "A Coach", desc: "Grow your practice through community, learning and professional standards.", cta: "For Coaches" },
-  { eyebrow: "I'm curious", title: "About Coaching", desc: "Learn what coaching is and why it matters.", cta: "Discover Coaching" },
+  {
+    eyebrow: "I represent",
+    title: "An Organisation",
+    desc: "Discover how coaching develops leaders and organisations.",
+    cta: "For Organisations",
+  },
+  {
+    eyebrow: "I am",
+    title: "A Coach",
+    desc: "Grow your practice through community, learning and professional standards.",
+    cta: "For Coaches",
+  },
+  {
+    eyebrow: "I'm curious",
+    title: "About Coaching",
+    desc: "Learn what coaching is and why it matters.",
+    cta: "Discover Coaching",
+  },
 ];
 
 function Audiences() {
@@ -101,7 +117,10 @@ const pillars = [
 function WhyCredentialed() {
   return (
     <section className="relative bg-muted py-24 mt-16">
-      <Mark name="circular1" className="pointer-events-none absolute -right-16 top-10 h-72 w-72 text-mark-indigo opacity-30" />
+      <Mark
+        name="circular1"
+        className="pointer-events-none absolute -right-16 top-10 h-72 w-72 text-mark-indigo opacity-30"
+      />
       <div className="mx-auto max-w-7xl px-8">
         <p className="eyebrow">Why choose an ICF credentialed coach?</p>
         <div className="mt-4 grid gap-10 md:grid-cols-2 md:items-end">
@@ -109,7 +128,8 @@ function WhyCredentialed() {
             Choosing a coach is an important decision.
           </h2>
           <p className="text-base leading-relaxed text-muted-foreground">
-            ICF credentialed coaches commit to internationally recognised standards, ethics and continuous professional development.
+            ICF credentialed coaches commit to internationally recognised standards, ethics and continuous professional
+            development.
           </p>
         </div>
         <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -131,10 +151,34 @@ function WhyCredentialed() {
 }
 
 const themes = [
-  { tag: "Future of Work", title: "How coaching prepares people for what work becomes next", bg: "bg-mark-cream", fg: "text-mark-indigo", mark: "circular1" as MarkName },
-  { tag: "Leadership", title: "Better conversations create better leaders", bg: "bg-mark-indigo", fg: "text-mark-cream", mark: "star" as MarkName },
-  { tag: "AI & Coaching", title: "Why trusted human conversations matter more than ever", bg: "bg-mark-yellow", fg: "text-mark-indigo", mark: "asterisk1" as MarkName },
-  { tag: "Diversity & Inclusion", title: "Coaching that welcomes every perspective", bg: "bg-mark-blue", fg: "text-mark-cream", mark: "circular2" as MarkName },
+  {
+    tag: "Future of Work",
+    title: "How coaching prepares people for what work becomes next",
+    bg: "bg-mark-cream",
+    fg: "text-mark-indigo",
+    mark: "circular1" as MarkName,
+  },
+  {
+    tag: "Leadership",
+    title: "Better conversations create better leaders",
+    bg: "bg-mark-indigo",
+    fg: "text-mark-cream",
+    mark: "star" as MarkName,
+  },
+  {
+    tag: "AI & Coaching",
+    title: "Why trusted human conversations matter more than ever",
+    bg: "bg-mark-yellow",
+    fg: "text-mark-indigo",
+    mark: "asterisk1" as MarkName,
+  },
+  {
+    tag: "Diversity & Inclusion",
+    title: "Coaching that welcomes every perspective",
+    bg: "bg-mark-blue",
+    fg: "text-mark-cream",
+    mark: "circular2" as MarkName,
+  },
 ];
 
 function CoachingInAction() {
@@ -147,7 +191,9 @@ function CoachingInAction() {
             Building a more human future.
           </h2>
         </div>
-        <a href="#" className="text-sm font-semibold text-primary hover:underline">Explore all insights →</a>
+        <a href="#" className="text-sm font-semibold text-primary hover:underline">
+          Explore all insights →
+        </a>
       </div>
       <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {themes.map((t) => (
@@ -164,9 +210,7 @@ function CoachingInAction() {
             </div>
             <div className="p-6">
               <p className="section-label">{t.tag}</p>
-              <h3 className="mt-2 text-base font-semibold leading-snug tracking-tight text-foreground">
-                {t.title}
-              </h3>
+              <h3 className="mt-2 text-base font-semibold leading-snug tracking-tight text-foreground">{t.title}</h3>
             </div>
           </a>
         ))}
@@ -185,13 +229,20 @@ function ForOrganisations() {
             Coaching transforms organisations.
           </h2>
           <p className="mt-5 max-w-lg text-base leading-relaxed text-white/75">
-            Support leaders. Strengthen teams. Build coaching cultures that make healthier, more adaptive workplaces possible.
+            Support leaders. Strengthen teams. Build coaching cultures that make healthier, more adaptive workplaces
+            possible.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#" className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90">
+            <a
+              href="#"
+              className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90"
+            >
               Talk to us
             </a>
-            <a href="#" className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10">
+            <a
+              href="#"
+              className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10"
+            >
               Case studies
             </a>
           </div>
@@ -224,14 +275,12 @@ function Communities() {
         A coaching community across Switzerland.
       </h2>
       <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
-        Across regions and languages, ICF Switzerland brings coaches together to learn, collaborate and contribute to the future of our profession.
+        Across regions and languages, ICF Switzerland brings coaches together to learn, collaborate and contribute to
+        the future of our profession.
       </p>
       <div className="mt-14 grid gap-4 text-left md:grid-cols-2 lg:grid-cols-4">
         {communities.map((c) => (
-          <div
-            key={c.city}
-            className={"rounded-2xl border border-border/70 bg-card p-6 " + CARD_SHADOW}
-          >
+          <div key={c.city} className={"rounded-2xl border border-border/70 bg-card p-6 " + CARD_SHADOW}>
             <h3 className="text-lg font-semibold tracking-tight text-foreground">{c.city}</h3>
             <p className="mt-2 text-sm text-muted-foreground">{c.region}</p>
             <div className="mt-6 flex flex-wrap items-center gap-2">
@@ -252,9 +301,33 @@ function Communities() {
 }
 
 const events = [
-  { date: "Thu 17 Sep 2026", city: "Zürich", title: "Coaching Perspectives Conference 2026", tags: ["EN · DE", "Leadership"], bg: "bg-mark-cream", fg: "text-mark-indigo", mark: "arrow1" as MarkName },
-  { date: "Tue 6 Oct 2026", city: "Online", title: "AI & Coaching: What Stays Human?", tags: ["EN", "Webinar"], bg: "bg-mark-indigo", fg: "text-mark-yellow", mark: "asterisk3" as MarkName },
-  { date: "Thu 12 Nov 2026", city: "Lausanne", title: "Soirée Coaching: Bâtir une culture de coaching", tags: ["FR", "Networking"], bg: "bg-mark-yellow", fg: "text-mark-indigo", mark: "arrow2" as MarkName },
+  {
+    date: "Thu 17 Sep 2026",
+    city: "Zürich",
+    title: "Coaching Perspectives Conference 2026",
+    tags: ["EN · DE", "Leadership"],
+    bg: "bg-mark-cream",
+    fg: "text-mark-indigo",
+    mark: "arrow1" as MarkName,
+  },
+  {
+    date: "Tue 6 Oct 2026",
+    city: "Online",
+    title: "AI & Coaching: What Stays Human?",
+    tags: ["EN", "Webinar"],
+    bg: "bg-mark-indigo",
+    fg: "text-mark-yellow",
+    mark: "asterisk3" as MarkName,
+  },
+  {
+    date: "Thu 12 Nov 2026",
+    city: "Lausanne",
+    title: "Soirée Coaching: Bâtir une culture de coaching",
+    tags: ["FR", "Networking"],
+    bg: "bg-mark-yellow",
+    fg: "text-mark-indigo",
+    mark: "arrow2" as MarkName,
+  },
 ];
 
 function Events() {
@@ -268,7 +341,9 @@ function Events() {
               Connect. Learn. Grow.
             </h2>
           </div>
-          <Link to="/events" className="text-sm font-semibold text-primary hover:underline">View all events →</Link>
+          <Link to="/events" className="text-sm font-semibold text-primary hover:underline">
+            View all events →
+          </Link>
         </div>
         <div className="mt-12 grid gap-4 md:grid-cols-3">
           {events.map((e) => (
@@ -287,9 +362,7 @@ function Events() {
                 <p className="btn-mono !text-muted-foreground">
                   {e.date} · {e.city}
                 </p>
-                <h3 className="mt-3 text-lg font-semibold leading-snug tracking-tight text-foreground">
-                  {e.title}
-                </h3>
+                <h3 className="mt-3 text-lg font-semibold leading-snug tracking-tight text-foreground">{e.title}</h3>
                 <div className="mt-5 flex flex-wrap items-center gap-2">
                   {e.tags.map((t) => (
                     <span
@@ -317,7 +390,8 @@ function Research() {
         Connecting research, practice and leadership.
       </h2>
       <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
-        We work alongside universities, professional bodies, researchers and corporate partners to strengthen coaching across Switzerland.
+        We work alongside universities, professional bodies, researchers and corporate partners to strengthen coaching
+        across Switzerland.
       </p>
       <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-5">
         {["ETH Zürich", "HEC Lausanne", "USI Lugano", "SwissRe", "Nestlé"].map((p) => (
@@ -339,7 +413,10 @@ function Research() {
 function Join() {
   return (
     <section className="relative overflow-hidden bg-hero text-hero-foreground">
-      <Mark name="circular2" className="pointer-events-none absolute -right-16 -top-10 h-96 w-96 text-mark-cream opacity-40" />
+      <Mark
+        name="circular2"
+        className="pointer-events-none absolute -right-16 -top-10 h-96 w-96 text-mark-cream opacity-40"
+      />
       <div className="mx-auto grid max-w-7xl gap-10 px-8 py-24 md:grid-cols-[1.2fr_1fr] md:items-center">
         <div>
           <p className="eyebrow !text-accent">Join ICF Switzerland</p>
@@ -347,13 +424,20 @@ function Join() {
             A professional home for coaches.
           </h2>
           <p className="mt-5 max-w-lg text-base leading-relaxed text-white/75">
-            Whether you are beginning your coaching journey or have decades of experience, ICF Switzerland offers a professional home built on excellence, ethics and belonging.
+            Whether you are beginning your coaching journey or have decades of experience, ICF Switzerland offers a
+            professional home built on excellence, ethics and belonging.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#" className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90">
+            <a
+              href="#"
+              className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90"
+            >
               Become a member
             </a>
-            <a href="#" className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10">
+            <a
+              href="#"
+              className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10"
+            >
               Explore credentials
             </a>
           </div>
