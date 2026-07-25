@@ -50,10 +50,7 @@ function HeroHeader() {
               height={1200}
               className="aspect-[5/4] w-full rounded-2xl object-cover"
             />
-            <Mark
-              name="asterisk1"
-              className="pointer-events-none absolute -right-8 -top-10 h-40 w-40 text-mark-cream"
-            />
+            <Mark name="asterisk1" className="pointer-events-none absolute -right-8 -top-10 h-40 w-40" />
           </div>
         </div>
       </div>
