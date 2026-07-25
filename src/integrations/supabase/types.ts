@@ -17,11 +17,14 @@ export type Database = {
       articles: {
         Row: {
           author_id: string
+          category: string | null
           content: string
           created_at: string
           excerpt: string
+          featured_image_url: string | null
           first_published_at: string | null
           id: string
+          is_featured: boolean
           language: Database["public"]["Enums"]["article_lang"]
           published_at: string | null
           scheduled_at: string | null
@@ -31,11 +34,14 @@ export type Database = {
         }
         Insert: {
           author_id: string
+          category?: string | null
           content?: string
           created_at?: string
           excerpt?: string
+          featured_image_url?: string | null
           first_published_at?: string | null
           id?: string
+          is_featured?: boolean
           language: Database["public"]["Enums"]["article_lang"]
           published_at?: string | null
           scheduled_at?: string | null
@@ -45,11 +51,14 @@ export type Database = {
         }
         Update: {
           author_id?: string
+          category?: string | null
           content?: string
           created_at?: string
           excerpt?: string
+          featured_image_url?: string | null
           first_published_at?: string | null
           id?: string
+          is_featured?: boolean
           language?: Database["public"]["Enums"]["article_lang"]
           published_at?: string | null
           scheduled_at?: string | null
