@@ -1,0 +1,1 @@
+REVOKE ALL ON FUNCTION public.tg_articles_single_featured() FROM PUBLIC, anon, authenticated;
