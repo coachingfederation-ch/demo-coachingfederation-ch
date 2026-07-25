@@ -111,10 +111,10 @@ function ArticleDetail() {
         </div>
 
         <div className="mt-10 space-y-5 text-base leading-relaxed">
-          {(article.content ?? "")
+          {String(article.content ?? "")
             .split(/\n{2,}/)
-            .filter((p) => p.trim().length > 0)
-            .map((p, i) => (
+            .filter((p: string) => p.trim().length > 0)
+            .map((p: string, i: number) => (
               <p key={i} className="whitespace-pre-line">
                 {p}
               </p>
