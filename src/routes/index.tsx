@@ -52,8 +52,7 @@ function HeroHeader() {
             />
             <Mark
               name="asterisk1"
-              className="pointer-events-none absolute -right-8 -top-10 h-40 w-40"
-              text-mark-yellow
+              className="pointer-events-none absolute -right-8 -top-10 h-40 w-40 text-mark-yellow"
             />
           </div>
         </div>
