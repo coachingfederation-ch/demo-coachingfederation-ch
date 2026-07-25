@@ -17,6 +17,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as InsightsIndexRouteImport } from './routes/insights.index'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AuthenticatedArticlesRouteImport } from './routes/_authenticated/articles'
 import { Route as AuthenticatedArticlesIndexRouteImport } from './routes/_authenticated/articles.index'
@@ -62,6 +63,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InsightsIndexRoute = InsightsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => InsightsRoute,
+} as any)
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
   id: '/callback',
   path: '/callback',
@@ -97,9 +103,10 @@ export interface FileRoutesByFullPath {
   '/events': typeof EventsRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
-  '/insights': typeof InsightsRoute
+  '/insights': typeof InsightsRouteWithChildren
   '/articles': typeof AuthenticatedArticlesRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
+  '/insights/': typeof InsightsIndexRoute
   '/articles/$id': typeof AuthenticatedArticlesIdRoute
   '/articles/new': typeof AuthenticatedArticlesNewRoute
   '/articles/': typeof AuthenticatedArticlesIndexRoute
@@ -111,8 +118,8 @@ export interface FileRoutesByTo {
   '/events': typeof EventsRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
-  '/insights': typeof InsightsRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/insights': typeof InsightsIndexRoute
   '/articles/$id': typeof AuthenticatedArticlesIdRoute
   '/articles/new': typeof AuthenticatedArticlesNewRoute
   '/articles': typeof AuthenticatedArticlesIndexRoute
@@ -126,9 +133,10 @@ export interface FileRoutesById {
   '/events': typeof EventsRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
-  '/insights': typeof InsightsRoute
+  '/insights': typeof InsightsRouteWithChildren
   '/_authenticated/articles': typeof AuthenticatedArticlesRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
+  '/insights/': typeof InsightsIndexRoute
   '/_authenticated/articles/$id': typeof AuthenticatedArticlesIdRoute
   '/_authenticated/articles/new': typeof AuthenticatedArticlesNewRoute
   '/_authenticated/articles/': typeof AuthenticatedArticlesIndexRoute
@@ -145,6 +153,7 @@ export interface FileRouteTypes {
     | '/insights'
     | '/articles'
     | '/auth/callback'
+    | '/insights/'
     | '/articles/$id'
     | '/articles/new'
     | '/articles/'
@@ -156,8 +165,8 @@ export interface FileRouteTypes {
     | '/events'
     | '/for-coaches'
     | '/for-organisations'
-    | '/insights'
     | '/auth/callback'
+    | '/insights'
     | '/articles/$id'
     | '/articles/new'
     | '/articles'
@@ -173,6 +182,7 @@ export interface FileRouteTypes {
     | '/insights'
     | '/_authenticated/articles'
     | '/auth/callback'
+    | '/insights/'
     | '/_authenticated/articles/$id'
     | '/_authenticated/articles/new'
     | '/_authenticated/articles/'
@@ -186,7 +196,7 @@ export interface RootRouteChildren {
   EventsRoute: typeof EventsRoute
   ForCoachesRoute: typeof ForCoachesRoute
   ForOrganisationsRoute: typeof ForOrganisationsRoute
-  InsightsRoute: typeof InsightsRoute
+  InsightsRoute: typeof InsightsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -246,6 +256,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/insights/': {
+      id: '/insights/'
+      path: '/'
+      fullPath: '/insights/'
+      preLoaderRoute: typeof InsightsIndexRouteImport
+      parentRoute: typeof InsightsRoute
     }
     '/auth/callback': {
       id: '/auth/callback'
@@ -323,6 +340,18 @@ const AuthRouteChildren: AuthRouteChildren = {
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
+interface InsightsRouteChildren {
+  InsightsIndexRoute: typeof InsightsIndexRoute
+}
+
+const InsightsRouteChildren: InsightsRouteChildren = {
+  InsightsIndexRoute: InsightsIndexRoute,
+}
+
+const InsightsRouteWithChildren = InsightsRoute._addFileChildren(
+  InsightsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -331,7 +360,7 @@ const rootRouteChildren: RootRouteChildren = {
   EventsRoute: EventsRoute,
   ForCoachesRoute: ForCoachesRoute,
   ForOrganisationsRoute: ForOrganisationsRoute,
-  InsightsRoute: InsightsRoute,
+  InsightsRoute: InsightsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
