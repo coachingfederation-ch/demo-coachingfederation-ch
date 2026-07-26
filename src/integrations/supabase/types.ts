@@ -181,6 +181,60 @@ export type Database = {
         }
         Relationships: []
       }
+      organisation_survey_responses: {
+        Row: {
+          answers: Json
+          consent: boolean
+          contact_email: string | null
+          contact_name: string | null
+          contact_organisation: string | null
+          created_at: string
+          dimension_scores: Json
+          id: string
+          locale: string
+          maturity_band: string | null
+          message: string | null
+          primary_pressure: string | null
+          source: string
+          total_score: number | null
+          updated_at: string
+        }
+        Insert: {
+          answers?: Json
+          consent?: boolean
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_organisation?: string | null
+          created_at?: string
+          dimension_scores?: Json
+          id?: string
+          locale?: string
+          maturity_band?: string | null
+          message?: string | null
+          primary_pressure?: string | null
+          source?: string
+          total_score?: number | null
+          updated_at?: string
+        }
+        Update: {
+          answers?: Json
+          consent?: boolean
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_organisation?: string | null
+          created_at?: string
+          dimension_scores?: Json
+          id?: string
+          locale?: string
+          maturity_band?: string | null
+          message?: string | null
+          primary_pressure?: string | null
+          source?: string
+          total_score?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
