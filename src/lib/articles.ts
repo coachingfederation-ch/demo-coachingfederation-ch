@@ -1,4 +1,5 @@
 import type { MarkName } from "@/components/marks";
+import type { Locale } from "@/i18n/config";
 
 export const ARTICLE_CATEGORIES = [
   "Leadership",
@@ -10,6 +11,52 @@ export const ARTICLE_CATEGORIES = [
 
 export type ArticleCategory = (typeof ARTICLE_CATEGORIES)[number];
 
+export interface CategoryRow {
+  id: string;
+  slug: string;
+  name: string;
+  name_de: string | null;
+  name_fr: string | null;
+  name_it: string | null;
+  sort_order: number;
+}
+
+export interface AuthorRef {
+  first_name: string | null;
+  last_name: string | null;
+}
+
+export interface TranslationRef {
+  locale: string;
+  title: string;
+  excerpt: string;
+  content?: string | null;
+}
+
+/** "Surname Name" display used in the CMS author picker and public bylines. */
+export function authorName(author: AuthorRef | null | undefined): string | null {
+  if (!author) return null;
+  const name = `${author.last_name ?? ""} ${author.first_name ?? ""}`.trim();
+  return name.length > 0 ? name : null;
+}
+
+export function categoryLabel(category: CategoryRow, locale: Locale): string {
+  if (locale === "de") return category.name_de || category.name;
+  if (locale === "fr") return category.name_fr || category.name;
+  if (locale === "it") return category.name_it || category.name;
+  return category.name;
+}
+
+export function slugify(value: string): string {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 60);
+}
+
 export interface PublicArticle {
   id: string;
   title: string;
@@ -19,10 +66,35 @@ export interface PublicArticle {
   is_featured: boolean;
   published_at: string | null;
   language: string;
+  author?: AuthorRef | null;
 }
 
 export const PUBLIC_ARTICLE_COLUMNS =
-  "id, title, excerpt, category, featured_image_url, is_featured, published_at, language";
+  "id, title, excerpt, category, featured_image_url, is_featured, published_at, language, author:profiles(first_name, last_name), translations:article_translations(locale, title, excerpt)";
+
+type WithTranslations<T> = T & { translations?: TranslationRef[] | null };
+
+/**
+ * Returns the articles readable in `locale`: source-language articles plus any
+ * article translated into that locale, with translated text overlaid.
+ */
+export function localizeArticles<T extends PublicArticle>(
+  rows: WithTranslations<T>[],
+  locale: Locale,
+): T[] {
+  const out: T[] = [];
+  for (const row of rows) {
+    const { translations, ...rest } = row;
+    if (row.language === locale) {
+      out.push(rest as T);
+      continue;
+    }
+    const match = (translations ?? []).find((tr) => tr.locale === locale);
+    if (!match) continue;
+    out.push({ ...(rest as T), title: match.title, excerpt: match.excerpt });
+  }
+  return out;
+}
 
 const TILES: { bg: string; fg: string; mark: MarkName }[] = [
   { bg: "bg-mark-indigo", fg: "text-mark-cream", mark: "star" },
