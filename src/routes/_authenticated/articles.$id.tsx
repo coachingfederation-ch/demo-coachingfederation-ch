@@ -5,6 +5,7 @@ import { Shell } from "@/components/cms/Shell";
 import { supabase } from "@/integrations/supabase/client";
 import { MarkdownToolbar } from "@/components/cms/MarkdownToolbar";
 import { TranslationsPanel } from "@/components/cms/TranslationsPanel";
+import { UnsplashPicker } from "@/components/cms/UnsplashPicker";
 import { authorName, categoryLabel, type CategoryRow } from "@/lib/articles";
 import { useCms } from "@/i18n/cms";
 
@@ -36,6 +37,9 @@ interface Article {
   author_id: string;
   content_updated_at: string | null;
   featured_image_url: string | null;
+  image_credit_name: string | null;
+  image_credit_url: string | null;
+  image_source: string | null;
   is_featured: boolean;
   updated_at: string;
 }
@@ -120,6 +124,7 @@ function EditorPage() {
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [featuredNote, setFeaturedNote] = useState<string | null>(null);
+  const [unsplashOpen, setUnsplashOpen] = useState(false);
 
   useEffect(() => {
     supabase
@@ -166,6 +171,9 @@ function EditorPage() {
           category_id: article.category_id,
           author_id: article.author_id,
           featured_image_url: article.featured_image_url,
+          image_credit_name: article.image_credit_name,
+          image_credit_url: article.image_credit_url,
+          image_source: article.image_source,
         })
         .eq("id", article.id);
       if (!error) setSaveState("saved");
@@ -183,6 +191,9 @@ function EditorPage() {
     article?.category_id,
     article?.author_id,
     article?.featured_image_url,
+    article?.image_credit_name,
+    article?.image_credit_url,
+    article?.image_source,
   ]);
 
   const update = (patch: Partial<Article>) => setArticle((a) => (a ? { ...a, ...patch } : a));
@@ -209,7 +220,12 @@ function EditorPage() {
       setUploadError(signErr?.message ?? t("editor.imageError"));
       return;
     }
-    update({ featured_image_url: signed.signedUrl });
+    update({
+      featured_image_url: signed.signedUrl,
+      image_source: "upload",
+      image_credit_name: null,
+      image_credit_url: null,
+    });
   };
 
   const toggleFeatured = async () => {
