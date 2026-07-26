@@ -5,6 +5,7 @@ import { Shell } from "@/components/cms/Shell";
 import { supabase } from "@/integrations/supabase/client";
 import { MarkdownToolbar } from "@/components/cms/MarkdownToolbar";
 import { TranslationsPanel } from "@/components/cms/TranslationsPanel";
+import { UnsplashPicker } from "@/components/cms/UnsplashPicker";
 import { authorName, categoryLabel, type CategoryRow } from "@/lib/articles";
 import { useCms } from "@/i18n/cms";
 
@@ -36,6 +37,9 @@ interface Article {
   author_id: string;
   content_updated_at: string | null;
   featured_image_url: string | null;
+  image_credit_name: string | null;
+  image_credit_url: string | null;
+  image_source: string | null;
   is_featured: boolean;
   updated_at: string;
 }
@@ -120,6 +124,7 @@ function EditorPage() {
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [featuredNote, setFeaturedNote] = useState<string | null>(null);
+  const [unsplashOpen, setUnsplashOpen] = useState(false);
 
   useEffect(() => {
     supabase
@@ -166,6 +171,9 @@ function EditorPage() {
           category_id: article.category_id,
           author_id: article.author_id,
           featured_image_url: article.featured_image_url,
+          image_credit_name: article.image_credit_name,
+          image_credit_url: article.image_credit_url,
+          image_source: article.image_source,
         })
         .eq("id", article.id);
       if (!error) setSaveState("saved");
@@ -183,6 +191,9 @@ function EditorPage() {
     article?.category_id,
     article?.author_id,
     article?.featured_image_url,
+    article?.image_credit_name,
+    article?.image_credit_url,
+    article?.image_source,
   ]);
 
   const update = (patch: Partial<Article>) => setArticle((a) => (a ? { ...a, ...patch } : a));
@@ -209,7 +220,12 @@ function EditorPage() {
       setUploadError(signErr?.message ?? t("editor.imageError"));
       return;
     }
-    update({ featured_image_url: signed.signedUrl });
+    update({
+      featured_image_url: signed.signedUrl,
+      image_source: "upload",
+      image_credit_name: null,
+      image_credit_url: null,
+    });
   };
 
   const toggleFeatured = async () => {
@@ -412,17 +428,57 @@ function EditorPage() {
                 />
               </label>
             )}
+            {article.image_credit_name ? (
+              <p className="text-xs text-muted-foreground">
+                {t("unsplash.creditPrefix")}{" "}
+                <a
+                  href={article.image_credit_url ?? "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2"
+                >
+                  {article.image_credit_name}
+                </a>{" "}
+                {t("unsplash.creditSuffix")}
+              </p>
+            ) : null}
             <div className="flex items-center gap-2">
               <Upload className="h-4 w-4 shrink-0 text-muted-foreground" />
               <input
                 value={article.featured_image_url ?? ""}
-                onChange={(e) => update({ featured_image_url: e.target.value || null })}
+                onChange={(e) =>
+                  update({
+                    featured_image_url: e.target.value || null,
+                    image_source: e.target.value ? "url" : null,
+                    image_credit_name: null,
+                    image_credit_url: null,
+                  })
+                }
                 placeholder={t("editor.orPasteUrl")}
                 className="w-full rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring/20"
               />
+              <button
+                type="button"
+                onClick={() => setUnsplashOpen(true)}
+                className="shrink-0 whitespace-nowrap rounded-full border border-border bg-card px-3 py-2 text-sm font-medium hover:bg-secondary"
+              >
+                {t("unsplash.button")}
+              </button>
             </div>
             {uploadError ? <p className="text-xs text-destructive">{uploadError}</p> : null}
           </div>
+          <UnsplashPicker
+            open={unsplashOpen}
+            onOpenChange={setUnsplashOpen}
+            onPick={(pick) =>
+              update({
+                featured_image_url: pick.url,
+                image_credit_name: pick.creditName,
+                image_credit_url: pick.creditUrl,
+                image_source: "unsplash",
+              })
+            }
+          />
 
           <MarkdownToolbar
             textareaRef={bodyRef}

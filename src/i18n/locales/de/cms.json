@@ -146,5 +146,30 @@
     "quote": "Zitat",
     "link": "Link",
     "callout": "Hinweisbox"
+  },
+  "callout": {
+    "shade": "Stil",
+    "info": "Info",
+    "highlight": "Hervorhebung",
+    "warning": "Warnung",
+    "emoji": "Emoji",
+    "noEmoji": "Keins",
+    "customEmoji": "Eigenes Emoji…",
+    "insert": "Hinweisbox einfügen",
+    "placeholder": "Etwas, das Beachtung verdient."
+  },
+  "unsplash": {
+    "button": "Unsplash",
+    "title": "Foto von Unsplash wählen",
+    "search": "Suchen",
+    "searching": "Suche…",
+    "searchPlaceholder": "Fotos suchen, z. B. Leadership Team",
+    "noResults": "Keine Fotos gefunden.",
+    "loadMore": "Mehr laden",
+    "failed": "Die Unsplash-Suche ist fehlgeschlagen. Bitte erneut versuchen.",
+    "notConfigured": "Unsplash ist nicht konfiguriert.",
+    "terms": "Fotos von Unsplash. Die Bildnachweise werden automatisch ergänzt.",
+    "creditPrefix": "Foto von",
+    "creditSuffix": "auf Unsplash"
   }
 }

@@ -146,5 +146,30 @@
     "quote": "Citazione",
     "link": "Collegamento",
     "callout": "Riquadro"
+  },
+  "callout": {
+    "shade": "Stile",
+    "info": "Info",
+    "highlight": "In evidenza",
+    "warning": "Avviso",
+    "emoji": "Emoji",
+    "noEmoji": "Nessuna",
+    "customEmoji": "Emoji personalizzata…",
+    "insert": "Inserisci riquadro",
+    "placeholder": "Qualcosa che merita attenzione."
+  },
+  "unsplash": {
+    "button": "Unsplash",
+    "title": "Scegli una foto da Unsplash",
+    "search": "Cerca",
+    "searching": "Ricerca…",
+    "searchPlaceholder": "Cerca foto, es. team di leadership",
+    "noResults": "Nessuna foto trovata.",
+    "loadMore": "Carica altre",
+    "failed": "Ricerca su Unsplash non riuscita. Riprova.",
+    "notConfigured": "Unsplash non è configurato.",
+    "terms": "Foto fornite da Unsplash. I crediti vengono aggiunti automaticamente.",
+    "creditPrefix": "Foto di",
+    "creditSuffix": "su Unsplash"
   }
 }

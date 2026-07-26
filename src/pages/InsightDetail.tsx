@@ -81,6 +81,28 @@ export default function InsightDetailPage({ article }: { article: DetailArticle 
             </div>
           )}
         </div>
+        {article.featured_image_url && article.image_credit_name ? (
+          <p className="mt-2 text-xs text-muted-foreground">
+            Photo by{" "}
+            <a
+              href={article.image_credit_url ?? "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2"
+            >
+              {article.image_credit_name}
+            </a>{" "}
+            on{" "}
+            <a
+              href="https://unsplash.com?utm_source=icf_switzerland&utm_medium=referral"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2"
+            >
+              Unsplash
+            </a>
+          </p>
+        ) : null}
 
         <div className="mt-10">
           <Markdown>{String(article.content ?? "")}</Markdown>
