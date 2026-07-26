@@ -70,29 +70,29 @@ function CompactLanguageSwitcher() {
         {LOCALE_LABELS[locale]}
       </button>
       {open && (
-        <div
-          role="menu"
+        <ul
+          aria-label={t("common.nav.languageLabel")}
           className={
             "absolute right-0 z-50 mt-2 min-w-[6rem] overflow-hidden rounded-xl border border-border/70 bg-card py-1 " +
             CARD_SHADOW
           }
         >
           {LOCALE_ORDER.filter((l) => l !== locale).map((l) => (
+            <li key={l}>
             <a
-              key={l}
-              role="menuitem"
               href={localizePath(path, l)}
               hrefLang={l}
               onClick={() => {
                 setStoredLocale(l);
                 setOpen(false);
               }}
-              className="block px-4 py-2 text-[11px] font-semibold uppercase tracking-wider text-foreground/80 hover:bg-muted hover:text-foreground"
+              className="block min-h-11 px-4 py-3 text-[11px] font-semibold uppercase leading-5 tracking-wider text-foreground/80 hover:bg-muted hover:text-foreground"
             >
               {LOCALE_LABELS[l]}
             </a>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </div>
   );
@@ -201,6 +201,7 @@ export function SiteNav() {
 }
 
 export function SiteHeaderBar({ compact = false }: { compact?: boolean }) {
+  const { t } = useI18n();
   return (
     <div
       className={
@@ -208,6 +209,13 @@ export function SiteHeaderBar({ compact = false }: { compact?: boolean }) {
         (compact ? "mb-0" : "mb-10")
       }
     >
+      {/* WCAG 2.4.1: lets keyboard users bypass the header on every page. */}
+      <a
+        href="#main"
+        className="sr-only left-0 top-0 z-50 rounded-full bg-white text-sm font-semibold text-primary focus:not-sr-only focus:absolute focus:!px-4 focus:!py-2.5"
+      >
+        {t("common.nav.skipToContent")}
+      </a>
       <Logo variant={compact ? "compact" : "hero"} />
       <SiteNav />
     </div>
@@ -236,7 +244,7 @@ export function CompactHero({
           <h1 className="mt-3 text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl">
             {title}
           </h1>
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/75">{lede}</p>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/85">{lede}</p>
           {ctaLabel && (
             <div className="mt-8">
               <a
@@ -258,7 +266,7 @@ export function SiteFooter() {
   return (
     <footer className="bg-hero text-hero-foreground">
       <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-3 px-8 py-6 text-xs sm:flex-row sm:items-center">
-        <p className="text-white/70">© {new Date().getFullYear()} {t("common.footer.copyright")}</p>
+        <p className="text-white/80">© {new Date().getFullYear()} {t("common.footer.copyright")}</p>
         <nav aria-label={t("common.nav.footerLabel")} className="flex flex-wrap items-center gap-4">
           <LocaleLink to="/find-a-coach" className="text-white/80 hover:text-white">{t("common.nav.findACoach")}</LocaleLink>
           <LocaleLink to="/for-organisations" className="text-white/80 hover:text-white">{t("common.nav.forOrganisations")}</LocaleLink>
@@ -271,7 +279,7 @@ export function SiteFooter() {
               key={label}
               aria-disabled="true"
               title={t("common.footer.comingSoon")}
-              className="cursor-not-allowed text-white/40"
+              className="cursor-not-allowed text-white/60"
             >
               {label}
             </span>

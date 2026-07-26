@@ -51,7 +51,7 @@ export function DeckSection() {
         <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
           {t("organisations.deck.title")}
         </h2>
-        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/70">
+        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/85">
           {t("organisations.deck.lede")}
         </p>
 
@@ -145,24 +145,25 @@ export function DeckSection() {
         </div>
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex flex-wrap items-center gap-1.5" role="tablist">
+          <div className="flex flex-wrap items-center gap-1.5">
             {slides.map((s, i) => (
               <button
                 key={i}
                 type="button"
-                role="tab"
-                aria-selected={i === index}
-                aria-label={`${i + 1}`}
+                aria-current={i === index ? "true" : undefined}
+                aria-label={`${t("organisations.deck.title")} ${i + 1} / ${count}`}
                 onClick={() => go(i)}
                 className={
-                  "h-1.5 rounded-full transition-all " +
-                  (i === index ? "w-7 bg-accent" : "w-3 bg-white/25 hover:bg-white/50")
+                  "relative h-6 min-w-6 rounded-full px-1.5 transition-all before:absolute before:inset-x-1.5 before:top-1/2 before:h-1.5 before:-translate-y-1/2 before:rounded-full before:transition-all " +
+                  (i === index
+                    ? "w-10 before:bg-accent"
+                    : "w-6 before:bg-white/35 hover:before:bg-white/60")
                 }
               />
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <span className="btn-mono text-xs text-white/60">
+            <span className="btn-mono text-xs text-white/75">
               {index + 1} / {count}
             </span>
             <button
@@ -192,7 +193,7 @@ export function DeckSection() {
               type="button"
               onClick={() => setShowSources((v) => !v)}
               aria-expanded={showSources}
-              className="text-xs font-semibold uppercase tracking-wider text-white/70 transition hover:text-white"
+              className="text-xs font-semibold uppercase tracking-wider text-white/85 transition hover:text-white"
             >
               {t("organisations.deck.sourcesLabel")} {showSources ? "−" : "+"}
             </button>
@@ -203,7 +204,7 @@ export function DeckSection() {
                     <p className="text-xs font-semibold uppercase tracking-wider text-accent">
                       {g.group}
                     </p>
-                    <ul className="mt-2 space-y-1 text-xs leading-relaxed text-white/65">
+                    <ul className="mt-2 space-y-1 text-xs leading-relaxed text-white/85">
                       {g.items.map((s) => (
                         <li key={s}>{s}</li>
                       ))}

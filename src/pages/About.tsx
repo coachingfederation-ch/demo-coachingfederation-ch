@@ -13,7 +13,7 @@ export default function AboutPage() {
   const research = tList<{ title: string; desc: string }>("about.research.items");
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-dvh bg-background text-foreground">
       <CompactHero
         eyebrow={t("about.hero.eyebrow")}
         title={
@@ -24,7 +24,7 @@ export default function AboutPage() {
         }
         lede={t("about.hero.lede")}
       />
-      <main>
+      <main id="main">
         <section className="mx-auto max-w-7xl px-8 py-24">
           <div className="grid gap-14 md:grid-cols-2 md:items-center">
             <img
@@ -46,7 +46,7 @@ export default function AboutPage() {
               <div className="mt-10 space-y-6">
                 {values.map((v, i) => (
                   <div key={v.title} className="flex gap-5 border-t border-border/70 pt-6">
-                    <span className="btn-mono text-lg font-bold !text-accent">0{i + 1}</span>
+                    <span className="btn-mono text-lg font-bold !text-teal-foreground">0{i + 1}</span>
                     <div>
                       <h3 className="text-lg font-semibold tracking-tight">{v.title}</h3>
                       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{v.desc}</p>
@@ -110,7 +110,7 @@ export default function AboutPage() {
               <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
                 {t("about.mission.title")}
               </h2>
-              <p className="mt-5 max-w-xl text-base leading-relaxed text-white/75">
+              <p className="mt-5 max-w-xl text-base leading-relaxed text-white/85">
                 {t("about.mission.body")}
               </p>
             </div>

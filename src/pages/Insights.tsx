@@ -42,7 +42,7 @@ function CardVisual({ article, className }: { article: PublicArticle; className:
     return (
       <img
         src={article.featured_image_url}
-        alt={article.title}
+        alt=""
         loading="lazy"
         className={"w-full object-cover " + className}
       />
@@ -130,7 +130,7 @@ export default function InsightsPage() {
   const cardCategory = (a: PublicArticle) => articleCategoryLabel(a, locale);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-dvh bg-background text-foreground">
       <CompactHero
         eyebrow={t("insights.hero.eyebrow")}
         title={
@@ -141,15 +141,17 @@ export default function InsightsPage() {
         }
         lede={t("insights.hero.lede")}
       />
-      <main>
+      <main id="main">
         <section className="mx-auto max-w-7xl px-8 pt-16">
           <div className="flex flex-wrap items-center gap-2">
             {topics.map(({ id, label }) => (
               <button
                 key={id}
+                type="button"
+                aria-pressed={id === topic}
                 onClick={() => setTopic(id)}
                 className={
-                  "inline-flex h-8 items-center rounded-full border px-3 text-[11px] font-semibold uppercase tracking-wider transition " +
+                  "inline-flex min-h-11 items-center rounded-full border px-4 text-[11px] font-semibold uppercase tracking-wider transition sm:min-h-8 " +
                   (id === topic
                     ? "border-chip-active-border bg-primary text-primary-foreground"
                     : "border-border/70 bg-chip text-chip-foreground hover:border-chip-active-border")
@@ -236,8 +238,11 @@ export default function InsightsPage() {
               {t("insights.newsletter.title")}
             </h2>
             <form onSubmit={(e) => e.preventDefault()} className="mx-auto mt-8 flex max-w-md flex-col gap-2 sm:flex-row">
-              <input type="email" required placeholder={t("insights.newsletter.placeholder")} className="h-10 w-full rounded-full border border-white/20 bg-white/10 px-4 text-sm text-white placeholder:text-white/60 outline-none focus:border-white/60" />
-              <button className="h-10 rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90">
+              <label htmlFor="insights-newsletter-email" className="sr-only">
+                {t("common.form.emailLabel")}
+              </label>
+              <input id="insights-newsletter-email" name="email" autoComplete="email" type="email" required placeholder={t("insights.newsletter.placeholder")} className="h-10 w-full rounded-full border border-white/20 bg-white/10 px-4 text-sm text-white placeholder:text-white/70 outline-none focus:border-white/60" />
+              <button type="submit" className="h-10 rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90">
                 {t("insights.newsletter.cta")}
               </button>
             </form>

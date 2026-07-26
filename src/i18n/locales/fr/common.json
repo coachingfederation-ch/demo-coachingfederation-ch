@@ -13,7 +13,8 @@
     "homeAria": "Accueil ICF Switzerland",
     "menuOpen": "Ouvrir le menu",
     "menuClose": "Fermer le menu",
-    "languageSwitch": "Changer de langue"
+    "languageSwitch": "Changer de langue",
+    "skipToContent": "Aller au contenu"
   },
   "footer": {
     "copyright": "ICF Switzerland — Charter Chapter",
@@ -26,5 +27,8 @@
     "text": "Cette page est également disponible dans votre langue.",
     "cta": "Changer de langue",
     "dismiss": "Fermer"
+  },
+  "form": {
+    "emailLabel": "Adresse e-mail"
   }
 }

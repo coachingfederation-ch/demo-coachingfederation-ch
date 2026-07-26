@@ -64,7 +64,24 @@ export function LearningTabs() {
         <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
           {t("coaches.learning.title")}
         </h2>
-        <div role="tablist" aria-label={t("coaches.learning.eyebrow")} className="mt-10 flex flex-wrap gap-2">
+        <div
+          role="tablist"
+          aria-label={t("coaches.learning.eyebrow")}
+          className="mt-10 flex flex-wrap gap-2"
+          onKeyDown={(e) => {
+            // ARIA APG tabs: arrow / Home / End move selection between tabs.
+            const last = tabs.length - 1;
+            let next: number | null = null;
+            if (e.key === "ArrowRight" || e.key === "ArrowDown") next = active === last ? 0 : active + 1;
+            else if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = active === 0 ? last : active - 1;
+            else if (e.key === "Home") next = 0;
+            else if (e.key === "End") next = last;
+            if (next === null) return;
+            e.preventDefault();
+            setActive(next);
+            document.getElementById(`learning-tab-${next}`)?.focus();
+          }}
+        >
           {tabs.map((tab, i) => (
             <button
               key={tab.label}
@@ -73,9 +90,10 @@ export function LearningTabs() {
               id={`learning-tab-${i}`}
               aria-selected={i === active}
               aria-controls={`learning-panel-${i}`}
+              tabIndex={i === active ? 0 : -1}
               onClick={() => setActive(i)}
               className={
-                "inline-flex h-9 items-center rounded-full border px-4 text-xs font-semibold transition " +
+                "inline-flex min-h-11 items-center rounded-full border px-4 text-xs font-semibold transition sm:min-h-9 " +
                 (i === active
                   ? "border-primary bg-primary text-primary-foreground"
                   : "border-border bg-card text-muted-foreground hover:text-foreground")
@@ -89,6 +107,7 @@ export function LearningTabs() {
           role="tabpanel"
           id={`learning-panel-${active}`}
           aria-labelledby={`learning-tab-${active}`}
+          tabIndex={0}
           className={"mt-6 grid gap-8 rounded-2xl border border-border/70 bg-card p-8 md:grid-cols-[1fr_1.4fr] md:p-12 " + CARD_SHADOW}
         >
           <div className="grid aspect-[4/3] place-items-center rounded-2xl bg-mark-blue text-mark-cream">

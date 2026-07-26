@@ -156,7 +156,14 @@ export function CultureSurvey() {
                 </span>
                 <span>{progress}%</span>
               </div>
-              <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-muted">
+              <div
+                role="progressbar"
+                aria-valuenow={progress}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label={t("organisations.survey.eyebrow")}
+                className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-muted"
+              >
                 <div className="h-full rounded-full bg-accent transition-all" style={{ width: `${progress}%` }} />
               </div>
               <p className="mt-8 section-label">
@@ -173,6 +180,7 @@ export function CultureSurvey() {
                     <button
                       key={value}
                       type="button"
+                      aria-pressed={selected}
                       onClick={() => answer(value)}
                       className={
                         "flex min-h-[56px] items-center gap-4 rounded-xl border px-5 py-3 text-left transition " +
@@ -230,7 +238,14 @@ export function CultureSurvey() {
                       <span>{t(`organisations.survey.dimensions.${d}`)}</span>
                       <span className="text-primary">{scores[d]}%</span>
                     </div>
-                    <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-muted">
+                    <div
+                      role="progressbar"
+                      aria-valuenow={scores[d]}
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                      aria-label={t(`organisations.survey.dimensions.${d}`)}
+                      className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-muted"
+                    >
                       <div className="h-full rounded-full bg-accent" style={{ width: `${scores[d]}%` }} />
                     </div>
                   </div>

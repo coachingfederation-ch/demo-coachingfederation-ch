@@ -5,7 +5,7 @@ import { useI18n } from "@/i18n";
 export default function FindACoachPage() {
   const { t } = useI18n();
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-dvh bg-background text-foreground">
       <CompactHero
         eyebrow={t("directory.hero.eyebrow")}
         title={
@@ -17,7 +17,7 @@ export default function FindACoachPage() {
         }
         lede={t("directory.hero.lede")}
       />
-      <main>
+      <main id="main">
         <CoachDirectory />
       </main>
       <SiteFooter />

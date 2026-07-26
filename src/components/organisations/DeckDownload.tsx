@@ -52,7 +52,7 @@ export function DeckDownload() {
       {done ? (
         <div className="flex flex-col gap-2">
           <p className="text-lg font-semibold tracking-tight">{t("organisations.deck.download.doneTitle")}</p>
-          <p className="text-sm text-white/70">{t("organisations.deck.download.doneBody")}</p>
+          <p className="text-sm text-white/85">{t("organisations.deck.download.doneBody")}</p>
           <a
             href={deck.url}
             download={deck.original_filename}
@@ -68,13 +68,13 @@ export function DeckDownload() {
             <h3 className="mt-2 text-xl font-bold tracking-tight md:text-2xl">
               {t("organisations.deck.download.title")}
             </h3>
-            <p className="mt-2 max-w-xl text-sm leading-relaxed text-white/70">
+            <p className="mt-2 max-w-xl text-sm leading-relaxed text-white/85">
               {t("organisations.deck.download.body")}
             </p>
           </div>
           <form onSubmit={onSubmit} className="flex w-full flex-col gap-3 md:w-auto">
             <label className="flex flex-col gap-1.5">
-              <span className="text-xs font-semibold uppercase tracking-wider text-white/60">
+              <span className="text-xs font-semibold uppercase tracking-wider text-white/75">
                 {t("organisations.deck.download.emailLabel")}
               </span>
               <input
@@ -101,7 +101,7 @@ export function DeckDownload() {
             >
               {t("organisations.deck.download.cta")}
             </button>
-            <p className="text-xs text-white/50">{t("organisations.deck.download.note")}</p>
+            <p className="text-xs text-white/85">{t("organisations.deck.download.note")}</p>
           </form>
         </div>
       )}
