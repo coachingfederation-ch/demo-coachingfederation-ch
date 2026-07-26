@@ -370,13 +370,19 @@ function Join() {
           <h3 className="text-xl font-semibold tracking-tight">{t("home.join.newsletterTitle")}</h3>
           <p className="mt-2 text-sm leading-relaxed text-white/85">{t("home.join.newsletterSubtitle")}</p>
           <form className="mt-5 flex flex-col gap-2 sm:flex-row" onSubmit={(e) => e.preventDefault()}>
+            <label htmlFor="home-newsletter-email" className="sr-only">
+              {t("common.form.emailLabel")}
+            </label>
             <input
+              id="home-newsletter-email"
+              name="email"
+              autoComplete="email"
               type="email"
               required
               placeholder={t("home.join.emailPlaceholder")}
               className="h-10 w-full rounded-full border border-white/20 bg-white/10 px-4 text-sm text-white placeholder:text-white/70 outline-none focus:border-white/60"
             />
-            <button className="h-10 rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90">
+            <button type="submit" className="h-10 rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90">
               {t("home.join.subscribe")}
             </button>
           </form>
