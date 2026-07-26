@@ -21,7 +21,7 @@ function HeroHeader() {
               <span className="text-accent">{t("home.hero.titleAccent")}</span>
               {t("home.hero.titlePost")}
             </h1>
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-white/75">{t("home.hero.subtitle")}</p>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-white/85">{t("home.hero.subtitle")}</p>
           </div>
           <div className="relative">
             <img
