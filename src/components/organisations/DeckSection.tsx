@@ -145,18 +145,19 @@ export function DeckSection() {
         </div>
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex flex-wrap items-center gap-1.5" role="tablist">
+          <div className="flex flex-wrap items-center gap-1.5">
             {slides.map((s, i) => (
               <button
                 key={i}
                 type="button"
-                role="tab"
-                aria-selected={i === index}
-                aria-label={`${i + 1}`}
+                aria-current={i === index ? "true" : undefined}
+                aria-label={`${t("organisations.deck.title")} ${i + 1} / ${count}`}
                 onClick={() => go(i)}
                 className={
-                  "h-1.5 rounded-full transition-all " +
-                  (i === index ? "w-7 bg-accent" : "w-3 bg-white/25 hover:bg-white/50")
+                  "relative h-6 rounded-full transition-all before:absolute before:inset-x-0 before:top-1/2 before:h-1.5 before:-translate-y-1/2 before:rounded-full before:transition-all " +
+                  (i === index
+                    ? "w-7 before:bg-accent"
+                    : "w-3 before:bg-white/35 hover:before:bg-white/60")
                 }
               />
             ))}
