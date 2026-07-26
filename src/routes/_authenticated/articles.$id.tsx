@@ -428,17 +428,57 @@ function EditorPage() {
                 />
               </label>
             )}
+            {article.image_credit_name ? (
+              <p className="text-xs text-muted-foreground">
+                {t("unsplash.creditPrefix")}{" "}
+                <a
+                  href={article.image_credit_url ?? "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2"
+                >
+                  {article.image_credit_name}
+                </a>{" "}
+                {t("unsplash.creditSuffix")}
+              </p>
+            ) : null}
             <div className="flex items-center gap-2">
               <Upload className="h-4 w-4 shrink-0 text-muted-foreground" />
               <input
                 value={article.featured_image_url ?? ""}
-                onChange={(e) => update({ featured_image_url: e.target.value || null })}
+                onChange={(e) =>
+                  update({
+                    featured_image_url: e.target.value || null,
+                    image_source: e.target.value ? "url" : null,
+                    image_credit_name: null,
+                    image_credit_url: null,
+                  })
+                }
                 placeholder={t("editor.orPasteUrl")}
                 className="w-full rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring/20"
               />
+              <button
+                type="button"
+                onClick={() => setUnsplashOpen(true)}
+                className="shrink-0 whitespace-nowrap rounded-full border border-border bg-card px-3 py-2 text-sm font-medium hover:bg-secondary"
+              >
+                {t("unsplash.button")}
+              </button>
             </div>
             {uploadError ? <p className="text-xs text-destructive">{uploadError}</p> : null}
           </div>
+          <UnsplashPicker
+            open={unsplashOpen}
+            onOpenChange={setUnsplashOpen}
+            onPick={(pick) =>
+              update({
+                featured_image_url: pick.url,
+                image_credit_name: pick.creditName,
+                image_credit_url: pick.creditUrl,
+                image_source: "unsplash",
+              })
+            }
+          />
 
           <MarkdownToolbar
             textareaRef={bodyRef}
