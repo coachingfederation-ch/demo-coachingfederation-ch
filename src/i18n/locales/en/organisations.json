@@ -9,7 +9,230 @@
     "titleAccent": "change",
     "titlePost": ".",
     "lede": "From executive one-to-ones to organisation-wide coaching cultures, ICF Switzerland connects you with credentialed coaches who deliver measurable impact.",
-    "cta": "Talk to our team"
+    "cta": "Talk to our team",
+    "cta2": "Take the culture assessment"
+  },
+  "proof": {
+    "items": [
+      { "value": "600+", "label": "Credentialed coaches across Switzerland" },
+      { "value": "4", "label": "Regional communities: Zürich, Romandie, Ticino, Online" },
+      { "value": "1995", "label": "Serving the Swiss coaching profession since" },
+      { "value": "160+", "label": "Countries in the global ICF network" }
+    ]
+  },
+  "why": {
+    "eyebrow": "Why ICF",
+    "title": "The difference between a coach and an ICF credentialed coach.",
+    "lede": "Anyone can call themselves a coach. An ICF credential is evidence of assessed skill, supervised practice and a binding code of ethics — the assurance procurement, HR and legal teams look for.",
+    "items": [
+      { "title": "Assessed competence", "desc": "Every credential requires demonstrated coaching skill against ICF core competencies, not just attendance on a course." },
+      { "title": "Logged practice hours", "desc": "ACC, PCC and MCC each require documented client hours and mentor coaching before the credential is granted." },
+      { "title": "Binding code of ethics", "desc": "Credentialed coaches commit to the ICF Code of Ethics with an independent complaints and review process behind it." },
+      { "title": "Ongoing development", "desc": "Credentials are renewed on a three-year cycle with continuing education — competence stays current." },
+      { "title": "Four-language reach", "desc": "Coaches working in German, French, Italian and English across every Swiss language region." },
+      { "title": "Independent of providers", "desc": "ICF Switzerland is a member association, not a coaching vendor. Our guidance is provider-neutral." }
+    ]
+  },
+  "deck": {
+    "eyebrow": "The case for coaching",
+    "title": "What the evidence says about coaching in organisations.",
+    "lede": "A short walkthrough of the pressures Swiss organisations face and where professional coaching demonstrably moves the needle.",
+    "prev": "Previous slide",
+    "next": "Next slide",
+    "sourcesLabel": "Sources and further reading",
+    "slides": [
+      {
+        "kicker": "The context",
+        "title": "Work is being rewritten faster than leaders are being developed.",
+        "body": "Restructuring, hybrid teams, AI adoption and thinner middle management are landing on the same leaders at once. Traditional training cycles cannot keep pace with the rate of change.",
+        "source": "ICF Switzerland, organisational briefing 2026"
+      },
+      {
+        "kicker": "The gap",
+        "stat": "77%",
+        "statLabel": "of leaders say their development has not kept up with the demands of their role.",
+        "body": "Capability gaps rarely show up as a training request. They show up as attrition, stalled decisions and teams waiting for direction."
+      },
+      {
+        "kicker": "The cost of doing nothing",
+        "title": "Disengagement is expensive, and it compounds quietly.",
+        "bullets": [
+          "Replacing a senior leader typically costs well over a year of salary.",
+          "Disengaged teams under-deliver long before anyone resigns.",
+          "Poor first-time-manager transitions ripple across every reporting line.",
+          "Change fatigue erodes discretionary effort faster than any restructure."
+        ]
+      },
+      {
+        "kicker": "What coaching changes",
+        "title": "Coaching builds thinking capacity, not dependency.",
+        "body": "A coach does not supply answers. They build the leader's own capacity to read complexity, make decisions under uncertainty and hold difficult conversations — capability that stays in the organisation."
+      },
+      {
+        "kicker": "Evidence",
+        "stat": "86%",
+        "statLabel": "of organisations report they recouped at least their investment in coaching.",
+        "source": "ICF Global Coaching Client Study"
+      },
+      {
+        "kicker": "Where it works hardest",
+        "title": "Four moments where coaching pays back fastest.",
+        "bullets": [
+          "Transition into a significantly bigger role.",
+          "Leading a team through restructuring or merger.",
+          "High-potential talent you cannot afford to lose.",
+          "Teams stuck in conflict, silence or avoidance."
+        ]
+      },
+      {
+        "kicker": "Beyond the individual",
+        "title": "A coaching culture is a management style, not a budget line.",
+        "body": "Organisations that train managers in coaching skills change how thousands of everyday conversations run — feedback, delegation, prioritisation and performance discussions all improve at once."
+      },
+      {
+        "kicker": "The ICF standard",
+        "quote": "A credential is not a certificate of attendance. It is evidence of assessed, supervised, ethically bound practice.",
+        "body": "That distinction is why procurement and HR teams increasingly specify ICF credentials in coaching frameworks."
+      },
+      {
+        "kicker": "Measurement",
+        "title": "Impact you can actually evidence.",
+        "bullets": [
+          "Define outcomes with the sponsor before the first session.",
+          "Three-way alignment between coach, coachee and organisation.",
+          "Mid-point review against agreed indicators.",
+          "Close-out summary that respects confidentiality."
+        ]
+      },
+      {
+        "kicker": "Getting started",
+        "title": "Start where the pressure is highest.",
+        "body": "Most organisations begin with a focused pilot: one leadership population, one clear outcome, one measurement window. Scale follows evidence, not enthusiasm."
+      }
+    ],
+    "sources": [
+      {
+        "group": "ICF research",
+        "items": [
+          "ICF Global Coaching Study",
+          "ICF Global Coaching Client Study",
+          "ICF Building Strong Coaching Cultures"
+        ]
+      },
+      {
+        "group": "Workplace research",
+        "items": ["Global workplace engagement reports", "Swiss labour market and skills reporting"]
+      },
+      {
+        "group": "ICF Switzerland",
+        "items": ["Chapter member survey", "Organisational briefing 2026"]
+      }
+    ]
+  },
+  "initiatives": {
+    "eyebrow": "Ways to work with us",
+    "title": "Three routes into coaching, depending on where you are.",
+    "items": [
+      {
+        "tag": "Start here",
+        "title": "A focused executive coaching pilot.",
+        "desc": "We help you scope a small, well-measured engagement for a defined leadership population, then match credentialed coaches whose experience fits your sector and language region.",
+        "lead": "Typical horizon: 4-6 months",
+        "cta": "Scope a pilot"
+      },
+      {
+        "tag": "Scale up",
+        "title": "Team coaching for units under pressure.",
+        "desc": "Whole-team engagements that surface what is unsaid, rebuild trust after change and convert good intentions into agreed working practices.",
+        "lead": "Typical horizon: 6-9 months",
+        "cta": "Discuss team coaching"
+      },
+      {
+        "tag": "Embed",
+        "title": "Building an internal coaching culture.",
+        "desc": "Programmes that develop coaching skills in your managers, support internal coach pools and set quality standards aligned to ICF competencies and ethics.",
+        "lead": "Typical horizon: 12 months and beyond",
+        "cta": "Plan a culture programme"
+      }
+    ]
+  },
+  "survey": {
+    "eyebrow": "Coaching culture assessment",
+    "title": "How mature is coaching in your organisation?",
+    "lede": "Eight questions, about three minutes. You get an immediate maturity read across four dimensions, and can request a conversation about what to do next.",
+    "start": "Start the assessment",
+    "back": "Back",
+    "next": "Next",
+    "progress": "Question {n} of {total}",
+    "pressure": {
+      "question": "What is the biggest pressure on your organisation right now?",
+      "hint": "Pick the one that feels most true today. It shapes how we read your results.",
+      "options": [
+        { "id": "retention", "label": "Retaining key people", "insight": "Attrition among people you cannot easily replace is usually a leadership-quality signal long before it is a pay signal." },
+        { "id": "leadership", "label": "Leadership capability", "insight": "Leaders promoted for technical strength rarely fail on technique. They struggle with conversations, ambiguity and delegation." },
+        { "id": "ai", "label": "AI and changing work", "insight": "Technology adoption stalls on human factors — trust, role clarity and the willingness to work differently." },
+        { "id": "inclusion", "label": "Inclusion and belonging", "insight": "Inclusion is created or undone in everyday conversations, not in policy documents." },
+        { "id": "collaboration", "label": "Cross-team collaboration", "insight": "Silos are usually a symptom of unclear priorities and unspoken conflict rather than bad intent." }
+      ]
+    },
+    "scale": [
+      { "label": "Not at all", "desc": "This is not happening today." },
+      { "label": "Rarely", "desc": "Occasional and inconsistent." },
+      { "label": "Sometimes", "desc": "Happens in pockets." },
+      { "label": "Often", "desc": "Common across most of the organisation." },
+      { "label": "Consistently", "desc": "Embedded in how we work." }
+    ],
+    "dimensions": {
+      "leadership": "Leadership behaviour",
+      "capability": "Coaching capability",
+      "access": "Access to coaching",
+      "measurement": "Measurement and quality"
+    },
+    "questions": [
+      { "id": "q1", "text": "Senior leaders visibly model coaching behaviours such as listening, asking and delegating." },
+      { "id": "q2", "text": "Difficult conversations are held early and directly rather than avoided." },
+      { "id": "q3", "text": "Managers have been trained in practical coaching skills, not just performance processes." },
+      { "id": "q4", "text": "People at all levels receive regular, useful developmental feedback." },
+      { "id": "q5", "text": "Coaching is available beyond the executive layer, including to emerging leaders." },
+      { "id": "q6", "text": "People know how to request coaching and what to expect from it." },
+      { "id": "q7", "text": "Coaching engagements start with agreed outcomes and are reviewed against them." },
+      { "id": "q8", "text": "We work with credentialed coaches and hold external providers to a clear quality standard." }
+    ],
+    "bands": {
+      "emerging": { "title": "Emerging", "desc": "Coaching happens occasionally and informally. The fastest gain is a focused pilot with clear outcomes rather than a broad rollout." },
+      "developing": { "title": "Developing", "desc": "The foundations exist but are uneven. Consistency in access, manager capability and measurement will unlock most of the value." },
+      "established": { "title": "Established", "desc": "Coaching is a recognised part of how you develop people. The next step is embedding quality standards and widening access." },
+      "embedded": { "title": "Embedded", "desc": "Coaching is part of your management style. Focus on sustaining quality, supervision and measurable renewal as your organisation changes." }
+    },
+    "result": { "eyebrow": "Your result" },
+    "form": {
+      "title": "Want to talk this through?",
+      "lede": "Send your result to our organisational team and we will come back with a short, provider-neutral view of your options.",
+      "name": "Name",
+      "email": "Work email",
+      "organisation": "Organisation",
+      "message": "Anything we should know?",
+      "consent": "I agree that ICF Switzerland may store this submission and contact me about it.",
+      "consentRequired": "Please confirm consent so we can contact you.",
+      "submit": "Send my result",
+      "sending": "Sending…",
+      "error": "Something went wrong. Please try again."
+    },
+    "thanks": {
+      "title": "Thank you — your result is on its way to us.",
+      "desc": "A member of the ICF Switzerland organisational team will be in touch shortly. In the meantime, browse our coach directory or upcoming events."
+    }
+  },
+  "events": {
+    "eyebrow": "For organisational leaders",
+    "title": "Where to meet us next.",
+    "cta": "All events",
+    "items": [
+      { "date": "Thu 17 Sep 2026", "title": "Coaching cultures roundtable, Zürich", "desc": "For HR and L&D leads building internal coaching capability." },
+      { "date": "Wed 14 Oct 2026", "title": "Leadership in transition, Lausanne", "desc": "Executive coaching in restructuring and merger contexts." },
+      { "date": "Tue 10 Nov 2026", "title": "AI, trust and teams, online", "desc": "What technology change asks of leaders and their teams." },
+      { "date": "Thu 3 Dec 2026", "title": "Measuring coaching impact, Lugano", "desc": "Practical evaluation approaches that survive scrutiny." }
+    ]
   },
   "outcomes": {
     "eyebrow": "Outcomes",
