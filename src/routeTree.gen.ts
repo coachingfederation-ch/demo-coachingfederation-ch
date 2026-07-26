@@ -32,6 +32,7 @@ import { Route as AuthenticatedArticlesIndexRouteImport } from './routes/_authen
 import { Route as LocaleInsightsIndexRouteImport } from './routes/$locale/insights.index'
 import { Route as AuthenticatedArticlesNewRouteImport } from './routes/_authenticated/articles.new'
 import { Route as AuthenticatedArticlesIdRouteImport } from './routes/_authenticated/articles.$id'
+import { Route as LocaleInsightsIdRouteImport } from './routes/$locale/insights.$id'
 
 const InsightsRoute = InsightsRouteImport.update({
   id: '/insights',
@@ -149,6 +150,11 @@ const AuthenticatedArticlesIdRoute = AuthenticatedArticlesIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => AuthenticatedArticlesRoute,
 } as any)
+const LocaleInsightsIdRoute = LocaleInsightsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => LocaleInsightsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -169,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/insights/$id': typeof InsightsIdRoute
   '/$locale/': typeof LocaleIndexRoute
   '/insights/': typeof InsightsIndexRoute
+  '/$locale/insights/$id': typeof LocaleInsightsIdRoute
   '/articles/$id': typeof AuthenticatedArticlesIdRoute
   '/articles/new': typeof AuthenticatedArticlesNewRoute
   '/$locale/insights/': typeof LocaleInsightsIndexRoute
@@ -189,6 +196,7 @@ export interface FileRoutesByTo {
   '/insights/$id': typeof InsightsIdRoute
   '/$locale': typeof LocaleIndexRoute
   '/insights': typeof InsightsIndexRoute
+  '/$locale/insights/$id': typeof LocaleInsightsIdRoute
   '/articles/$id': typeof AuthenticatedArticlesIdRoute
   '/articles/new': typeof AuthenticatedArticlesNewRoute
   '/$locale/insights': typeof LocaleInsightsIndexRoute
@@ -215,6 +223,7 @@ export interface FileRoutesById {
   '/insights/$id': typeof InsightsIdRoute
   '/$locale/': typeof LocaleIndexRoute
   '/insights/': typeof InsightsIndexRoute
+  '/$locale/insights/$id': typeof LocaleInsightsIdRoute
   '/_authenticated/articles/$id': typeof AuthenticatedArticlesIdRoute
   '/_authenticated/articles/new': typeof AuthenticatedArticlesNewRoute
   '/$locale/insights/': typeof LocaleInsightsIndexRoute
@@ -241,6 +250,7 @@ export interface FileRouteTypes {
     | '/insights/$id'
     | '/$locale/'
     | '/insights/'
+    | '/$locale/insights/$id'
     | '/articles/$id'
     | '/articles/new'
     | '/$locale/insights/'
@@ -261,6 +271,7 @@ export interface FileRouteTypes {
     | '/insights/$id'
     | '/$locale'
     | '/insights'
+    | '/$locale/insights/$id'
     | '/articles/$id'
     | '/articles/new'
     | '/$locale/insights'
@@ -286,6 +297,7 @@ export interface FileRouteTypes {
     | '/insights/$id'
     | '/$locale/'
     | '/insights/'
+    | '/$locale/insights/$id'
     | '/_authenticated/articles/$id'
     | '/_authenticated/articles/new'
     | '/$locale/insights/'
@@ -467,14 +479,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedArticlesIdRouteImport
       parentRoute: typeof AuthenticatedArticlesRoute
     }
+    '/$locale/insights/$id': {
+      id: '/$locale/insights/$id'
+      path: '/$id'
+      fullPath: '/$locale/insights/$id'
+      preLoaderRoute: typeof LocaleInsightsIdRouteImport
+      parentRoute: typeof LocaleInsightsRoute
+    }
   }
 }
 
 interface LocaleInsightsRouteChildren {
+  LocaleInsightsIdRoute: typeof LocaleInsightsIdRoute
   LocaleInsightsIndexRoute: typeof LocaleInsightsIndexRoute
 }
 
 const LocaleInsightsRouteChildren: LocaleInsightsRouteChildren = {
+  LocaleInsightsIdRoute: LocaleInsightsIdRoute,
   LocaleInsightsIndexRoute: LocaleInsightsIndexRoute,
 }
 
