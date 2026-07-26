@@ -126,15 +126,15 @@ function CoachingInAction() {
             {t("home.insights.title")}
           </h2>
         </div>
-        <a href="#" className="text-sm font-semibold text-primary hover:underline">
+        <LocaleLink to="/insights" className="text-sm font-semibold text-primary hover:underline">
           {t("home.insights.cta")}
-        </a>
+        </LocaleLink>
       </div>
       <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {themes.map((th) => (
-          <a
+          <LocaleLink
             key={th.tag}
-            href="#"
+            to="/insights"
             className={
               "group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 " +
               CARD_SHADOW
@@ -147,7 +147,7 @@ function CoachingInAction() {
               <p className="section-label">{th.tag}</p>
               <h3 className="mt-2 text-base font-semibold leading-snug tracking-tight text-foreground">{th.title}</h3>
             </div>
-          </a>
+          </LocaleLink>
         ))}
       </div>
     </section>
@@ -166,18 +166,19 @@ function ForOrganisations() {
           </h2>
           <p className="mt-5 max-w-lg text-base leading-relaxed text-white/75">{t("home.organisations.subtitle")}</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href="#"
+            <LocaleLink
+              to="/for-organisations"
+              hash="organisation-contact"
               className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90"
             >
               {t("home.organisations.talkToUs")}
-            </a>
-            <a
-              href="#"
+            </LocaleLink>
+            <LocaleLink
+              to="/for-organisations"
               className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10"
             >
               {t("home.organisations.caseStudies")}
-            </a>
+            </LocaleLink>
           </div>
         </div>
         <img
