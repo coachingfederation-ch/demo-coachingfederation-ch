@@ -1,0 +1,90 @@
+{
+  "meta": {
+    "title": "ICF Switzerland | Professional Coaching Association",
+    "description": "ICF Switzerland connects credentialed coaches, organisations and the coaching community across German, French and Italian-speaking Switzerland."
+  },
+  "hero": {
+    "eyebrow": "ICF Switzerland · Charter Chapter",
+    "titlePre": "Building a more ",
+    "titleAccent": "human",
+    "titlePost": " future through professional coaching.",
+    "subtitle": "Professional coaching helps individuals, leaders and organisations navigate complexity with greater clarity, confidence and purpose.",
+    "findCoach": "Find a coach →",
+    "forOrganisations": "For organisations",
+    "imgAlt": "Two professionals in a coaching conversation"
+  },
+  "audiences": [
+    { "eyebrow": "I'm looking for", "title": "A Coach", "desc": "Find a trusted ICF credentialed coach.", "cta": "Find a Coach" },
+    { "eyebrow": "I represent", "title": "An Organisation", "desc": "Discover how coaching develops leaders and organisations.", "cta": "For Organisations" },
+    { "eyebrow": "I am", "title": "A Coach", "desc": "Grow your practice through community, learning and professional standards.", "cta": "For Coaches" },
+    { "eyebrow": "I'm curious", "title": "About Coaching", "desc": "Learn what coaching is and why it matters.", "cta": "Discover Coaching" }
+  ],
+  "pillars": {
+    "eyebrow": "Why choose an ICF credentialed coach?",
+    "title": "Choosing a coach is an important decision.",
+    "subtitle": "ICF credentialed coaches commit to internationally recognised standards, ethics and continuous professional development.",
+    "items": [
+      { "title": "Ethics", "desc": "Bound by the ICF Code of Ethics in every engagement." },
+      { "title": "Credentials", "desc": "ACC, PCC and MCC — earned, assessed and renewed." },
+      { "title": "Experience", "desc": "Documented coaching hours behind every credential." },
+      { "title": "Development", "desc": "Ongoing professional development to stay credentialed." }
+    ]
+  },
+  "insights": {
+    "eyebrow": "Coaching in action",
+    "title": "Building a more human future.",
+    "cta": "Explore all insights →",
+    "themes": [
+      { "tag": "Future of Work", "title": "How coaching prepares people for what work becomes next" },
+      { "tag": "Leadership", "title": "Better conversations create better leaders" },
+      { "tag": "AI & Coaching", "title": "Why trusted human conversations matter more than ever" },
+      { "tag": "Diversity & Inclusion", "title": "Coaching that welcomes every perspective" }
+    ]
+  },
+  "organisations": {
+    "eyebrow": "For organisations",
+    "title": "Coaching transforms organisations.",
+    "subtitle": "Support leaders. Strengthen teams. Build coaching cultures that make healthier, more adaptive workplaces possible.",
+    "talkToUs": "Talk to us",
+    "caseStudies": "Case studies",
+    "imgAlt": "Leadership team at work"
+  },
+  "communities": {
+    "eyebrow": "Communities",
+    "title": "A coaching community across Switzerland.",
+    "subtitle": "Across regions and languages, ICF Switzerland brings coaches together to learn, collaborate and contribute to the future of our profession.",
+    "items": [
+      { "city": "Zürich", "region": "German-speaking Switzerland" },
+      { "city": "Lausanne & Genève", "region": "Romandie" },
+      { "city": "Lugano", "region": "Ticino" },
+      { "city": "Online", "region": "Events, mentoring & volunteering" }
+    ]
+  },
+  "events": {
+    "eyebrow": "Upcoming events",
+    "title": "Connect. Learn. Grow.",
+    "viewAll": "View all events →",
+    "items": [
+      { "date": "Thu 17 Sep 2026", "city": "Zürich", "title": "Coaching Perspectives Conference 2026", "tags": ["EN · DE", "Leadership"] },
+      { "date": "Tue 6 Oct 2026", "city": "Online", "title": "AI & Coaching: What Stays Human?", "tags": ["EN", "Webinar"] },
+      { "date": "Thu 12 Nov 2026", "city": "Lausanne", "title": "Soirée Coaching: Bâtir une culture de coaching", "tags": ["FR", "Networking"] }
+    ]
+  },
+  "research": {
+    "eyebrow": "Research & partnerships",
+    "title": "Connecting research, practice and leadership.",
+    "subtitle": "We work alongside universities, professional bodies, researchers and corporate partners to strengthen coaching across Switzerland.",
+    "partners": ["ETH Zürich", "HEC Lausanne", "USI Lugano", "SwissRe", "Nestlé"]
+  },
+  "join": {
+    "eyebrow": "Join ICF Switzerland",
+    "title": "A professional home for coaches.",
+    "subtitle": "Whether you are beginning your coaching journey or have decades of experience, ICF Switzerland offers a professional home built on excellence, ethics and belonging.",
+    "becomeMember": "Become a member",
+    "exploreCredentials": "Explore credentials",
+    "newsletterTitle": "Stay connected.",
+    "newsletterSubtitle": "Ideas, research and events shaping the future of coaching — in your inbox.",
+    "emailPlaceholder": "Your email address",
+    "subscribe": "Subscribe"
+  }
+}
