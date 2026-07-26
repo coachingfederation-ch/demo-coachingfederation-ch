@@ -14,7 +14,7 @@ export function DetailShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="bg-hero text-hero-foreground">
-        <div className="mx-auto max-w-7xl px-8 pt-6 pb-8">
+        <div className="mx-auto max-w-7xl px-5 pt-6 pb-8 sm:px-8">
           <SiteHeaderBar compact />
         </div>
       </header>

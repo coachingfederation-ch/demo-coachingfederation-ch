@@ -8,7 +8,7 @@ function HeroHeader() {
   const { t } = useI18n();
   return (
     <header className="bg-hero text-hero-foreground">
-      <div className="mx-auto max-w-7xl px-8 pt-6 pb-16">
+      <div className="mx-auto max-w-7xl px-5 pt-6 pb-16 sm:px-8">
         <div className="mb-10">
           <SiteHeaderBar />
         </div>

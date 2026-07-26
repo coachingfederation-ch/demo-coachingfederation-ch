@@ -10,7 +10,10 @@
     "primaryLabel": "Principal",
     "footerLabel": "Pied de page",
     "languageLabel": "Langue",
-    "homeAria": "Accueil ICF Switzerland"
+    "homeAria": "Accueil ICF Switzerland",
+    "menuOpen": "Ouvrir le menu",
+    "menuClose": "Fermer le menu",
+    "languageSwitch": "Changer de langue"
   },
   "footer": {
     "copyright": "ICF Switzerland — Charter Chapter",
