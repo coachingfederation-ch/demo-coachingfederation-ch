@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "title": "Per i coach — ICF Switzerland",
+    "description": "Affiliazione, percorsi di credenziale e community per coach professionisti in Svizzera."
+  },
+  "hero": {
+    "eyebrow": "Per i coach",
+    "titlePre": "Sviluppa la tua attività con ",
+    "titleAccent": "ICF Switzerland",
+    "titlePost": ".",
+    "lede": "Unisciti a una community svizzera di coach credenziati dediti all'eccellenza, all'etica e alla formazione continua.",
+    "cta": "Diventa membro"
+  },
+  "benefits": {
+    "eyebrow": "Vantaggi dell'affiliazione",
+    "title": "Tutto ciò di cui hai bisogno per continuare a crescere.",
+    "items": [
+      {
+        "title": "Community",
+        "desc": "Chapter regionali, peer circle e mentoring in tutta la Svizzera."
+      },
+      {
+        "title": "Formazione",
+        "desc": "Eventi accreditati CCE, workshop e sviluppo continuo."
+      },
+      {
+        "title": "Credibilità",
+        "desc": "Il badge ICF riconosciuto a livello globale e l'iscrizione al Coach Directory."
+      },
+      {
+        "title": "Rappresentanza",
+        "desc": "Una voce collettiva per la professione del coaching in Svizzera."
+      }
+    ]
+  },
+  "credentials": {
+    "eyebrow": "Percorso di credenziale",
+    "title": "Un percorso riconosciuto da ACC a MCC.",
+    "items": [
+      {
+        "level": "ACC",
+        "hours": "100+ ore",
+        "desc": "Associate Certified Coach — il percorso d'ingresso per i coach neo-diplomati."
+      },
+      {
+        "level": "PCC",
+        "hours": "500+ ore",
+        "desc": "Professional Certified Coach — lo standard per i professionisti affermati."
+      },
+      {
+        "level": "MCC",
+        "hours": "2'500+ ore",
+        "desc": "Master Certified Coach — il livello più alto, per coach di comprovata maestria."
+      }
+    ]
+  },
+  "chapters": {
+    "eyebrow": "Community dei Chapter",
+    "title": "Trova la tua community regionale.",
+    "desc": "Da Zürich alla Romandie al Ticino, le community dei nostri chapter si incontrano regolarmente per imparare, esercitarsi e supportarsi a vicenda.",
+    "cta": "Esplora le community →"
+  },
+  "join": {
+    "eyebrow": "Unisciti a noi",
+    "title": "Desideri diventare membro di ICF Switzerland?",
+    "cta1": "Diventa membro",
+    "cta2": "Esplora le credenziali"
+  }
+}

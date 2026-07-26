@@ -1,0 +1,176 @@
+{
+  "meta": {
+    "title": "ICF Switzerland | Association de coaching professionnel",
+    "description": "ICF Switzerland rassemble les coachs certifiés, les organisations et la communauté du coaching en Suisse allemande, romande et italienne."
+  },
+  "hero": {
+    "eyebrow": "ICF Switzerland · Charter Chapter",
+    "titlePre": "Construire un avenir plus ",
+    "titleAccent": "humain",
+    "titlePost": " grâce au coaching professionnel.",
+    "subtitle": "Le coaching professionnel aide les personnes, les leaders et les organisations à naviguer dans la complexité avec plus de clarté, de confiance et d'impact.",
+    "findCoach": "Trouver un coach →",
+    "forOrganisations": "Pour les organisations",
+    "imgAlt": "Deux professionnels lors d'un entretien de coaching"
+  },
+  "audiences": [
+    {
+      "eyebrow": "Je cherche",
+      "title": "Un coach",
+      "desc": "Trouvez un coach certifié ICF de confiance.",
+      "cta": "Trouver un coach"
+    },
+    {
+      "eyebrow": "Je représente",
+      "title": "Une organisation",
+      "desc": "Découvrez comment le coaching développe les leaders et les organisations.",
+      "cta": "Pour les organisations"
+    },
+    {
+      "eyebrow": "Je suis",
+      "title": "Coach",
+      "desc": "Développez votre pratique grâce à la communauté, la formation et des normes professionnelles.",
+      "cta": "Pour les coachs"
+    },
+    {
+      "eyebrow": "Je souhaite en savoir plus",
+      "title": "Sur le coaching",
+      "desc": "Découvrez ce qu'est le coaching et pourquoi il est essentiel.",
+      "cta": "Découvrir le coaching"
+    }
+  ],
+  "pillars": {
+    "eyebrow": "Pourquoi choisir un coach certifié ICF ?",
+    "title": "Choisir un coach est une décision importante.",
+    "subtitle": "Les coachs certifiés ICF s'engagent à respecter des normes, une déontologie et un développement professionnel continu reconnus à l'échelle internationale.",
+    "items": [
+      {
+        "title": "Éthique",
+        "desc": "Régis par le Code de déontologie de l'ICF dans chaque accompagnement."
+      },
+      {
+        "title": "Certifications",
+        "desc": "ACC, PCC et MCC — obtenues, évaluées et renouvelées."
+      },
+      {
+        "title": "Expérience",
+        "desc": "Des heures de coaching documentées derrière chaque certification."
+      },
+      {
+        "title": "Développement",
+        "desc": "Formation continue obligatoire pour maintenir sa certification."
+      }
+    ]
+  },
+  "insights": {
+    "eyebrow": "Le coaching en action",
+    "title": "Construire un avenir plus humain.",
+    "cta": "Explorer toutes les actualités →",
+    "themes": [
+      {
+        "tag": "Avenir du travail",
+        "title": "Comment le coaching prépare aux mutations du travail"
+      },
+      {
+        "tag": "Leadership",
+        "title": "De meilleures conversations créent de meilleurs leaders"
+      },
+      {
+        "tag": "IA & Coaching",
+        "title": "Pourquoi les conversations humaines de confiance sont plus essentielles que jamais"
+      },
+      {
+        "tag": "Diversité & Inclusion",
+        "title": "Un coaching qui accueille chaque perspective"
+      }
+    ]
+  },
+  "organisations": {
+    "eyebrow": "Pour les organisations",
+    "title": "Le coaching transforme les organisations.",
+    "subtitle": "Soutenez vos leaders. Renforcez vos équipes. Développez des cultures de coaching qui favorisent des environnements de travail plus sains et adaptatifs.",
+    "talkToUs": "Nous contacter",
+    "caseStudies": "Études de cas",
+    "imgAlt": "Équipe dirigeante au travail"
+  },
+  "communities": {
+    "eyebrow": "Communautés",
+    "title": "Une communauté de coaching à travers la Suisse.",
+    "subtitle": "À travers les régions et les langues, ICF Switzerland rassemble les coachs pour apprendre, collaborer et contribuer à l'avenir de notre profession.",
+    "items": [
+      {
+        "city": "Zürich",
+        "region": "Suisse alémanique"
+      },
+      {
+        "city": "Lausanne & Genève",
+        "region": "Romandie"
+      },
+      {
+        "city": "Lugano",
+        "region": "Ticino"
+      },
+      {
+        "city": "En ligne",
+        "region": "Événements, mentorat & bénévolat"
+      }
+    ]
+  },
+  "events": {
+    "eyebrow": "Prochains événements",
+    "title": "Échanger. Apprendre. Évoluer.",
+    "viewAll": "Voir tous les événements →",
+    "items": [
+      {
+        "date": "Jeu 17 sep 2026",
+        "city": "Zürich",
+        "title": "Coaching Perspectives Conference 2026",
+        "tags": [
+          "EN · DE",
+          "Leadership"
+        ]
+      },
+      {
+        "date": "Mar 6 oct 2026",
+        "city": "En ligne",
+        "title": "AI & Coaching: What Stays Human?",
+        "tags": [
+          "EN",
+          "Webinaire"
+        ]
+      },
+      {
+        "date": "Jeu 12 nov 2026",
+        "city": "Lausanne",
+        "title": "Soirée Coaching: Bâtir une culture de coaching",
+        "tags": [
+          "FR",
+          "Networking"
+        ]
+      }
+    ]
+  },
+  "research": {
+    "eyebrow": "Recherche & partenariats",
+    "title": "Allier recherche, pratique et leadership.",
+    "subtitle": "Nous collaborons avec des universités, des organismes professionnels, des chercheurs et des entreprises partenaires pour renforcer le coaching en Suisse.",
+    "partners": [
+      "ETH Zürich",
+      "HEC Lausanne",
+      "USI Lugano",
+      "SwissRe",
+      "Nestlé"
+    ]
+  },
+  "join": {
+    "eyebrow": "Rejoindre ICF Switzerland",
+    "title": "Un ancrage professionnel pour les coachs.",
+    "subtitle": "Que vous débutiez votre parcours de coach ou que vous ayez des décennies d'expérience, ICF Switzerland vous offre un cadre professionnel fondé sur l'excellence, l'éthique et le partage.",
+    "becomeMember": "Devenir membre",
+    "exploreCredentials": "Découvrir les certifications",
+    "newsletterTitle": "Restez connecté·e.",
+    "newsletterSubtitle": "Les idées, recherches et événements qui façonnent l'avenir du coaching — directement dans votre boîte de réception.",
+    "emailPlaceholder": "Votre adresse e-mail",
+    "subscribe": "S'abonner"
+  }
+}

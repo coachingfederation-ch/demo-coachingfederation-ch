@@ -1,0 +1,26 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "forOrganisations": "Pour les organisations",
+    "forCoaches": "Pour les coachs",
+    "insights": "Perspectives",
+    "events": "Événements",
+    "about": "À propos",
+    "findACoach": "Trouver un coach",
+    "primaryLabel": "Principal",
+    "footerLabel": "Pied de page",
+    "languageLabel": "Langue",
+    "homeAria": "Accueil ICF Switzerland"
+  },
+  "footer": {
+    "copyright": "ICF Switzerland — Charter Chapter",
+    "privacy": "Confidentialité",
+    "ethics": "Code de déontologie",
+    "imprint": "Impressum"
+  },
+  "languageNotice": {
+    "text": "Cette page est également disponible dans votre langue.",
+    "cta": "Changer de langue",
+    "dismiss": "Fermer"
+  }
+}

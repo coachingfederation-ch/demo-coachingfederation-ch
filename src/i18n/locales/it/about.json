@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "title": "Chi siamo — ICF Switzerland",
+    "description": "Informazioni sul Charter Chapter di ICF Switzerland: perché il coaching, le nostre comunità regionali e le nostre partnership di ricerca."
+  },
+  "hero": {
+    "eyebrow": "Chi siamo",
+    "titlePrefix": "ICF Switzerland ",
+    "titleAccent": "Charter Chapter.",
+    "lede": "Siamo il chapter nazionale svizzero della International Coaching Federation — la casa professionale per i coach credenziati e le organizzazioni che essi supportano."
+  },
+  "why": {
+    "eyebrow": "Perché il coaching?",
+    "title": "Conversazioni migliori creano un futuro migliore.",
+    "body": "Il coaching professionale consente alle persone di pensare con maggiore chiarezza, guidare in modo più efficace e affrontare il cambiamento con sicurezza.",
+    "imageAlt": "Una vera conversazione di coaching"
+  },
+  "values": [
+    {
+      "title": "Pensare in modo diverso",
+      "desc": "Il coaching crea lo spazio per mettere in discussione le convinzioni e individuare nuove prospettive."
+    },
+    {
+      "title": "Guidare meglio",
+      "desc": "I leader che beneficiano del coaching ascoltano più a fondo, decidono più rapidamente e fanno crescere le proprie persone."
+    },
+    {
+      "title": "Sbloccare il potenziale",
+      "desc": "Singoli e team raggiungono ciò che conta di più, con supporto e responsabilità."
+    }
+  ],
+  "communities": {
+    "eyebrow": "Comunità",
+    "title": "Una comunità di coaching in tutta la Svizzera.",
+    "items": [
+      {
+        "city": "Zürich",
+        "region": "Svizzera tedesca",
+        "cadence": "Mensile",
+        "langs": [
+          "DE",
+          "EN"
+        ],
+        "lead": "Responsabile del chapter: team Zürich"
+      },
+      {
+        "city": "Lausanne & Genève",
+        "region": "Romandie",
+        "cadence": "Mensile",
+        "langs": [
+          "FR",
+          "EN"
+        ],
+        "lead": "Responsabile del chapter: team Romandie"
+      },
+      {
+        "city": "Lugano",
+        "region": "Ticino",
+        "cadence": "Trimestrale",
+        "langs": [
+          "IT",
+          "EN"
+        ],
+        "lead": "Responsabile del chapter: team Ticino"
+      },
+      {
+        "city": "Online",
+        "region": "Eventi, mentoring e volontariato",
+        "cadence": "Continuo",
+        "langs": [
+          "DE",
+          "FR",
+          "IT",
+          "EN"
+        ],
+        "lead": "Aperto a tutti i membri"
+      }
+    ]
+  },
+  "research": {
+    "eyebrow": "Ricerca e partnership",
+    "title": "Connettere ricerca, pratica e leadership.",
+    "partners": [
+      "ETH Zürich",
+      "HEC Lausanne",
+      "USI Lugano",
+      "SwissRe",
+      "Nestlé"
+    ],
+    "items": [
+      {
+        "title": "Lo stato del coaching in Svizzera 2026",
+        "desc": "Uno studio congiunto con le università svizzere sulla crescita e l'impatto del coaching professionale."
+      },
+      {
+        "title": "Coaching, IA e il futuro del lavoro",
+        "desc": "Un programma di ricerca in partnership che esplora come l'IA sta ridefinendo la pratica del coaching."
+      }
+    ]
+  },
+  "mission": {
+    "eyebrow": "La nostra missione",
+    "title": "Promuovere il coaching professionale in Svizzera.",
+    "body": "Sosteniamo i più alti standard della professione del coaching e ne promuoviamo il valore per gli individui, le organizzazioni e la società."
+  },
+  "cta": {
+    "eyebrow": "Partecipa",
+    "title": "Unisciti a noi per plasmare il futuro del coaching.",
+    "join": "Diventa membro",
+    "contact": "Contattaci"
+  }
+}

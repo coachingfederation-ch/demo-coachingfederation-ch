@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "title": "Für Coaches — ICF Switzerland",
+    "description": "Mitgliedschaft, Zertifizierungswege und Community für professionelle Coaches in der Schweiz."
+  },
+  "hero": {
+    "eyebrow": "Für Coaches",
+    "titlePre": "Stärken Sie Ihre Praxis mit ",
+    "titleAccent": "ICF Switzerland",
+    "titlePost": ".",
+    "lede": "Werden Sie Teil einer Schweizer Community zertifizierter Coaches, die sich für Exzellenz, Ethik und kontinuierliche Entwicklung einsetzt.",
+    "cta": "Mitglied werden"
+  },
+  "benefits": {
+    "eyebrow": "Vorteile der Mitgliedschaft",
+    "title": "Alles, was Sie für Ihre kontinuierliche Entwicklung brauchen.",
+    "items": [
+      {
+        "title": "Community",
+        "desc": "Regionale Chapters, Peer Circles und Mentoring in der ganzen Schweiz."
+      },
+      {
+        "title": "Weiterbildung",
+        "desc": "CCE-akkreditierte Events, Workshops und kontinuierliche Fortbildung."
+      },
+      {
+        "title": "Glaubwürdigkeit",
+        "desc": "Das weltweit anerkannte ICF-Badge und der Eintrag im Coach-Verzeichnis."
+      },
+      {
+        "title": "Vertretung",
+        "desc": "Eine gemeinsame Stimme für den Coaching-Beruf in der Schweiz."
+      }
+    ]
+  },
+  "credentials": {
+    "eyebrow": "Zertifizierungsweg",
+    "title": "Ein anerkannter Weg von ACC bis MCC.",
+    "items": [
+      {
+        "level": "ACC",
+        "hours": "100+ Stunden",
+        "desc": "Associate Certified Coach — der Einstiegsweg für neu ausgebildete Coaches."
+      },
+      {
+        "level": "PCC",
+        "hours": "500+ Stunden",
+        "desc": "Professional Certified Coach — der Standard für erfahrene Coaches."
+      },
+      {
+        "level": "MCC",
+        "hours": "2'500+ Stunden",
+        "desc": "Master Certified Coach — die höchste Stufe für meisterhafte Coaches."
+      }
+    ]
+  },
+  "chapters": {
+    "eyebrow": "Chapter-Communities",
+    "title": "Finden Sie Ihre regionale Community.",
+    "desc": "Von Zürich über die Romandie bis ins Ticino: Unsere Chapter-Communities treffen sich regelmässig zum Lernen, Üben und gegenseitigen Unterstützen.",
+    "cta": "Communities entdecken →"
+  },
+  "join": {
+    "eyebrow": "Jetzt beitreten",
+    "title": "Bereit, Mitglied von ICF Switzerland zu werden?",
+    "cta1": "Mitglied werden",
+    "cta2": "Zertifizierungen entdecken"
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "meta": {
+    "title": "Events — ICF Switzerland",
+    "description": "Konferenzen, Webinare und Community-Treffen für Coaches und Organisationen in der ganzen Schweiz."
+  },
+  "hero": {
+    "eyebrow": "Events",
+    "titlePrefix": "Vernetzen, lernen und ",
+    "titleAccent": "wachsen",
+    "titleSuffix": " – gemeinsam.",
+    "lede": "Konferenzen, Webinare und Community-Treffen für Coaches und Organisationen in der ganzen Schweiz."
+  },
+  "featured": {
+    "eyebrow": "Highlight-Event",
+    "date": "Do. 17. Sep. 2026",
+    "city": "Zürich",
+    "title": "Coaching Perspectives Conference 2026",
+    "desc": "Ein ganztägiges Treffen von Coaches, Führungskräften und Forschenden, die die Zukunft des professionellen Coachings in der Schweiz erkunden.",
+    "tags": [
+      "EN · DE",
+      "Konferenz",
+      "Vor Ort"
+    ]
+  },
+  "upcoming": {
+    "eyebrow": "Anstehend",
+    "title": "Was als Nächstes ansteht.",
+    "items": [
+      {
+        "date": "Di. 6. Okt. 2026",
+        "city": "Online",
+        "title": "KI & Coaching: Was bleibt menschlich?",
+        "tags": [
+          "EN",
+          "Webinar"
+        ]
+      },
+      {
+        "date": "Do. 12. Nov. 2026",
+        "city": "Lausanne",
+        "title": "Soirée Coaching: Bâtir une culture de coaching",
+        "tags": [
+          "FR",
+          "Networking"
+        ]
+      },
+      {
+        "date": "Mi. 25. Nov. 2026",
+        "city": "Lugano",
+        "title": "Coaching e leadership consapevole",
+        "tags": [
+          "IT",
+          "Community"
+        ]
+      },
+      {
+        "date": "Do. 10. Dez. 2026",
+        "city": "Online",
+        "title": "Mentor Coaching Circle",
+        "tags": [
+          "EN",
+          "Mentoring"
+        ]
+      },
+      {
+        "date": "Mi. 20. Jan. 2027",
+        "city": "Zürich",
+        "title": "Neujahrs-Kickoff: Coaching 2027",
+        "tags": [
+          "DE · EN",
+          "Networking"
+        ]
+      },
+      {
+        "date": "Do. 11. Feb. 2027",
+        "city": "Genève",
+        "title": "Team Coaching Masterclass",
+        "tags": [
+          "EN",
+          "Workshop"
+        ]
+      }
+    ]
+  },
+  "past": {
+    "eyebrow": "Vergangene Events",
+    "recap": "Rückblick →",
+    "items": [
+      {
+        "date": "Do. 6. Mär. 2025",
+        "city": "Zürich",
+        "title": "Coaching Perspectives Conference 2025"
+      },
+      {
+        "date": "Mi. 19. Feb. 2025",
+        "city": "Online",
+        "title": "Ethik in der Praxis: Ein Coaching-Dialog"
+      },
+      {
+        "date": "Do. 30. Jan. 2025",
+        "city": "Lausanne",
+        "title": "Coaching et transformation culturelle"
+      }
+    ]
+  },
+  "cta": {
+    "eyebrow": "Mitwirken",
+    "title": "Möchten Sie einen Event vorschlagen?",
+    "propose": "Event vorschlagen"
+  }
+}
