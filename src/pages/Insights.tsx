@@ -236,7 +236,7 @@ export default function InsightsPage() {
               {t("insights.newsletter.title")}
             </h2>
             <form onSubmit={(e) => e.preventDefault()} className="mx-auto mt-8 flex max-w-md flex-col gap-2 sm:flex-row">
-              <input type="email" required placeholder={t("insights.newsletter.placeholder")} className="h-10 w-full rounded-full border border-white/20 bg-white/10 px-4 text-sm text-white placeholder:text-white/60 outline-none focus:border-white/60" />
+              <input type="email" required placeholder={t("insights.newsletter.placeholder")} className="h-10 w-full rounded-full border border-white/20 bg-white/10 px-4 text-sm text-white placeholder:text-white/70 outline-none focus:border-white/60" />
               <button className="h-10 rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90">
                 {t("insights.newsletter.cta")}
               </button>

@@ -110,7 +110,7 @@ export default function AboutPage() {
               <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
                 {t("about.mission.title")}
               </h2>
-              <p className="mt-5 max-w-xl text-base leading-relaxed text-white/75">
+              <p className="mt-5 max-w-xl text-base leading-relaxed text-white/85">
                 {t("about.mission.body")}
               </p>
             </div>

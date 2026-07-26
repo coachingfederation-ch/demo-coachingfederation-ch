@@ -164,7 +164,7 @@ function ForOrganisations() {
           <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
             {t("home.organisations.title")}
           </h2>
-          <p className="mt-5 max-w-lg text-base leading-relaxed text-white/75">{t("home.organisations.subtitle")}</p>
+          <p className="mt-5 max-w-lg text-base leading-relaxed text-white/85">{t("home.organisations.subtitle")}</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <LocaleLink
               to="/for-organisations"
@@ -349,7 +349,7 @@ function Join() {
         <div>
           <p className="eyebrow !text-accent">{t("home.join.eyebrow")}</p>
           <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">{t("home.join.title")}</h2>
-          <p className="mt-5 max-w-lg text-base leading-relaxed text-white/75">{t("home.join.subtitle")}</p>
+          <p className="mt-5 max-w-lg text-base leading-relaxed text-white/85">{t("home.join.subtitle")}</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <LocaleLink
               to="/for-coaches"
@@ -368,13 +368,13 @@ function Join() {
         </div>
         <div className="rounded-2xl border border-white/15 bg-white/5 p-6 backdrop-blur">
           <h3 className="text-xl font-semibold tracking-tight">{t("home.join.newsletterTitle")}</h3>
-          <p className="mt-2 text-sm leading-relaxed text-white/75">{t("home.join.newsletterSubtitle")}</p>
+          <p className="mt-2 text-sm leading-relaxed text-white/85">{t("home.join.newsletterSubtitle")}</p>
           <form className="mt-5 flex flex-col gap-2 sm:flex-row" onSubmit={(e) => e.preventDefault()}>
             <input
               type="email"
               required
               placeholder={t("home.join.emailPlaceholder")}
-              className="h-10 w-full rounded-full border border-white/20 bg-white/10 px-4 text-sm text-white placeholder:text-white/60 outline-none focus:border-white/60"
+              className="h-10 w-full rounded-full border border-white/20 bg-white/10 px-4 text-sm text-white placeholder:text-white/70 outline-none focus:border-white/60"
             />
             <button className="h-10 rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90">
               {t("home.join.subscribe")}
