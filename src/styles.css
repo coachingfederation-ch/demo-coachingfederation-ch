@@ -189,6 +189,22 @@
     font-family: var(--font-sans);
     letter-spacing: -0.02em;
   }
+
+  /*
+   * WCAG 2.4.7 / 2.4.13: many custom pills and inputs set `outline-none`,
+   * which removed the only keyboard focus indicator. Restore a consistent,
+   * token-based indicator for every interactive element. `!important` is
+   * required because Tailwind utilities are emitted after the base layer.
+   */
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-ring) !important;
+    outline-offset: 2px !important;
+  }
+
+  .bg-hero :where(a, button, input, select, textarea, [tabindex]):focus-visible,
+  .text-hero-foreground :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline-color: var(--color-hero-foreground) !important;
+  }
 }
 
 @utility eyebrow {
