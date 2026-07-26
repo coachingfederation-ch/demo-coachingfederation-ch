@@ -6,24 +6,35 @@ import { CompactHero, SiteFooter, CARD_SHADOW } from "@/components/site-chrome";
 import { supabase } from "@/integrations/supabase/client";
 import { LocaleLink, useI18n } from "@/i18n";
 import {
-  ARTICLE_CATEGORIES,
   PUBLIC_ARTICLE_COLUMNS,
+  articleCategoryLabel,
+  authorName,
+  categoryLabel,
   formatArticleDate,
+  localizeArticles,
   tileFor,
+  type CategoryRow,
   type PublicArticle,
 } from "@/lib/articles";
+import type { Locale } from "@/i18n/config";
 
-const topics = ["All", ...ARTICLE_CATEGORIES];
-
-async function fetchPublishedArticles(language: string): Promise<PublicArticle[]> {
+async function fetchPublishedArticles(locale: Locale): Promise<PublicArticle[]> {
   const { data, error } = await supabase
     .from("articles")
     .select(PUBLIC_ARTICLE_COLUMNS)
     .eq("status", "published")
-    .eq("language", language as never)
     .order("published_at", { ascending: false, nullsFirst: false });
   if (error) throw error;
-  return (data ?? []) as PublicArticle[];
+  return localizeArticles((data ?? []) as unknown as PublicArticle[], locale);
+}
+
+async function fetchCategories(): Promise<CategoryRow[]> {
+  const { data, error } = await supabase
+    .from("categories")
+    .select("id, slug, name, name_de, name_fr, name_it, sort_order")
+    .order("sort_order", { ascending: true });
+  if (error) throw error;
+  return (data ?? []) as CategoryRow[];
 }
 
 function CardVisual({ article, className }: { article: PublicArticle; className: string }) {
