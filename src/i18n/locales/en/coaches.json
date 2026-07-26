@@ -1,24 +1,44 @@
 {
   "meta": {
     "title": "For Coaches — ICF Switzerland",
-    "description": "Membership, credentialing pathways and community for professional coaches practising in Switzerland."
+    "description": "Membership, credentialing pathways, learning and community for professional coaches practising in Switzerland."
   },
   "hero": {
     "eyebrow": "For coaches",
-    "titlePre": "Grow your practice with ",
-    "titleAccent": "ICF Switzerland",
+    "titlePre": "Your professional home in ",
+    "titleAccent": "Switzerland",
     "titlePost": ".",
-    "lede": "Join a Swiss community of credentialed coaches committed to excellence, ethics and lifelong development.",
+    "lede": "Whether freshly credentialed or a seasoned MCC — a welcoming community for coaches of all backgrounds, languages and methodologies.",
     "cta": "Become a member"
   },
   "benefits": {
-    "eyebrow": "Membership benefits",
-    "title": "Everything you need to keep growing.",
+    "eyebrow": "Why join",
+    "title": "Membership benefits.",
+    "lede": "One membership, a full year of learning, connection and professional visibility across all Swiss regions.",
+    "cta": "Join as a member",
+    "ctaNote": "Membership is managed through the ICF Global member portal.",
     "items": [
-      { "title": "Community", "desc": "Regional chapters, peer circles and mentoring across Switzerland." },
-      { "title": "Learning", "desc": "CCE-accredited events, workshops and continuous development." },
-      { "title": "Credibility", "desc": "The globally recognised ICF badge and Coach Directory listing." },
-      { "title": "Advocacy", "desc": "A collective voice for the coaching profession in Switzerland." }
+      { "title": "62+ events per year", "desc": "Networking, learning, ethics and peer coaching throughout the year." },
+      { "title": "A community in your region", "desc": "Zurich, Geneva, Lausanne, Basel, Bern, Ticino and Ost-Schweiz." },
+      { "title": "Events in four languages", "desc": "Join in English, French, German or Italian — whichever fits you best." },
+      { "title": "Professional development", "desc": "Webinars and masterclasses with CCEUs for your credential renewal." },
+      { "title": "Peer coaching", "desc": "Structured peer coaching cycles and Coaching Gym formats." },
+      { "title": "Member directory listing", "desc": "Visibility in Find a Coach for clients and organisations." },
+      { "title": "A voice in governance", "desc": "Town Halls, Board Coffee and open participation in chapter decisions." },
+      { "title": "Ethics support", "desc": "Guidance on ethical practice and the ICF credentialing process." },
+      { "title": "Access to ICF Global", "desc": "The Converge Summit and the full global resource library." }
+    ]
+  },
+  "learning": {
+    "eyebrow": "Learning & development",
+    "title": "Keep growing, all year round.",
+    "tabs": [
+      { "label": "Professional dev.", "title": "Webinars and masterclasses", "desc": "Executive leadership, AI in coaching, neurodiversity and inclusion, team coaching and business development — practical sessions led by experienced practitioners." },
+      { "label": "Ethics", "title": "Ethics in practice", "desc": "Three in-person and two virtual ethics events in 2026. Reflect, discuss real dilemmas and earn CCEUs. Led by Natacha Andenmatten." },
+      { "label": "DEIB", "title": "Diversity, equity, inclusion and belonging", "desc": "Quarterly DEIB Open Houses, the Inclusive Coaching Inspiration Kit, neurodiversity webinars and member stories — resources for coaching across diverse contexts." },
+      { "label": "Peer coaching", "title": "Practise with peers", "desc": "Structured peer coaching cycles, Coaching Gyms and Open Space formats — multi-language and across all communities." },
+      { "label": "Credentials", "title": "Credentialing support", "desc": "ICF credentialing info sessions for ACC, PCC and MCC, step-by-step guides and two credentialing webinars per year." },
+      { "label": "AI in coaching", "title": "AI in coaching working group", "desc": "Led by Nicola Simionato. Exploring AI tools, the ethics of AI in practice and member education on responsible use." }
     ]
   },
   "credentials": {
@@ -30,11 +50,50 @@
       { "level": "MCC", "hours": "2,500+ hours", "desc": "Master Certified Coach — the highest tier, for masterful practitioners." }
     ]
   },
+  "deib": {
+    "eyebrow": "DEIB in your practice",
+    "title": "Coaching across difference.",
+    "desc": "Our DEIB resources help you coach across cultures, languages and identities — with competence and care. Access our Inclusive Coaching Inspiration Kit, attend a DEIB Open House, or join a neurodiversity-focused learning session.",
+    "cta": "Explore DEIB resources →",
+    "items": [
+      "Quarterly DEIB Open House events with real cases",
+      "Inclusive Coaching Inspiration Kit for all members",
+      "Neurodiversity and inclusion webinars",
+      "Event accessibility checklist for hosts"
+    ]
+  },
   "chapters": {
     "eyebrow": "Chapter communities",
     "title": "Find your regional community.",
     "desc": "From Zürich to Romandie to Ticino, our chapter communities meet regularly to learn, practise and support one another.",
-    "cta": "Explore communities →"
+    "cta": "Explore communities →",
+    "items": [
+      { "name": "Zurich", "languages": "EN / DE", "status": "Active" },
+      { "name": "Geneva", "languages": "EN / FR", "status": "Active" },
+      { "name": "Lausanne", "languages": "FR / EN", "status": "Active" },
+      { "name": "Basel", "languages": "DE / EN", "status": "Active" },
+      { "name": "Bern", "languages": "DE / EN / FR", "status": "Launched 2026" },
+      { "name": "Svizzera Italiana", "languages": "IT / EN", "status": "Active" },
+      { "name": "Ost-Schweiz", "languages": "DE", "status": "Coming 2026" },
+      { "name": "Valais", "languages": "FR / DE", "status": "Coming 2026" }
+    ]
+  },
+  "volunteer": {
+    "eyebrow": "Volunteer & lead",
+    "title": "Shape the future of coaching in Switzerland.",
+    "desc": "Lead a community, join a project team, host events or contribute to DEIB, ethics and communications. Leadership roles are open across all regions and languages.",
+    "cta": "Get involved"
+  },
+  "stories": {
+    "eyebrow": "Member stories",
+    "title": "Coaches who found their community.",
+    "prev": "Previous story",
+    "next": "Next story",
+    "items": [
+      { "quote": "The peer coaching cycles pushed my practice further in one year than anything else I have done. And I found colleagues I now call friends.", "name": "Nadia Berger", "credential": "PCC", "community": "Basel community", "languages": "DE / EN" },
+      { "quote": "Coming from a corporate HR background, the credentialing sessions gave me a clear path to ACC — and the Geneva community made the journey far less lonely.", "name": "Marc Dubois", "credential": "ACC", "community": "Geneva community", "languages": "FR / EN" },
+      { "quote": "Being able to attend events in Italian in Ticino, then in English nationally, is exactly the kind of inclusion that keeps me engaged as a member.", "name": "Giulia Ferrari", "credential": "MCC", "community": "Svizzera Italiana", "languages": "IT / EN" }
+    ]
   },
   "join": {
     "eyebrow": "Join us",
