@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as ForOrganisationsRouteImport } from './routes/for-organisations'
 import { Route as ForCoachesRouteImport } from './routes/for-coaches'
@@ -34,6 +35,11 @@ import { Route as AuthenticatedArticlesNewRouteImport } from './routes/_authenti
 import { Route as AuthenticatedArticlesIdRouteImport } from './routes/_authenticated/articles.$id'
 import { Route as LocaleInsightsIdRouteImport } from './routes/$locale/insights.$id'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InsightsRoute = InsightsRouteImport.update({
   id: '/insights',
   path: '/insights',
@@ -165,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
   '/insights': typeof InsightsRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/events': typeof LocaleEventsRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
@@ -188,6 +195,7 @@ export interface FileRoutesByTo {
   '/events': typeof EventsRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/events': typeof LocaleEventsRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
@@ -213,6 +221,7 @@ export interface FileRoutesById {
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
   '/insights': typeof InsightsRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/events': typeof LocaleEventsRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
@@ -240,6 +249,7 @@ export interface FileRouteTypes {
     | '/for-coaches'
     | '/for-organisations'
     | '/insights'
+    | '/sitemap.xml'
     | '/$locale/about'
     | '/$locale/events'
     | '/$locale/for-coaches'
@@ -263,6 +273,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/for-coaches'
     | '/for-organisations'
+    | '/sitemap.xml'
     | '/$locale/about'
     | '/$locale/events'
     | '/$locale/for-coaches'
@@ -287,6 +298,7 @@ export interface FileRouteTypes {
     | '/for-coaches'
     | '/for-organisations'
     | '/insights'
+    | '/sitemap.xml'
     | '/$locale/about'
     | '/$locale/events'
     | '/$locale/for-coaches'
@@ -314,10 +326,18 @@ export interface RootRouteChildren {
   ForCoachesRoute: typeof ForCoachesRoute
   ForOrganisationsRoute: typeof ForOrganisationsRoute
   InsightsRoute: typeof InsightsRouteWithChildren
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/insights': {
       id: '/insights'
       path: '/insights'
@@ -587,6 +607,7 @@ const rootRouteChildren: RootRouteChildren = {
   ForCoachesRoute: ForCoachesRoute,
   ForOrganisationsRoute: ForOrganisationsRoute,
   InsightsRoute: InsightsRouteWithChildren,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
