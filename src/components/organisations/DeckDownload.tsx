@@ -101,7 +101,7 @@ export function DeckDownload() {
             >
               {t("organisations.deck.download.cta")}
             </button>
-            <p className="text-xs text-white/50">{t("organisations.deck.download.note")}</p>
+            <p className="text-xs text-white/85">{t("organisations.deck.download.note")}</p>
           </form>
         </div>
       )}

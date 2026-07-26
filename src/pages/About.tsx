@@ -46,7 +46,7 @@ export default function AboutPage() {
               <div className="mt-10 space-y-6">
                 {values.map((v, i) => (
                   <div key={v.title} className="flex gap-5 border-t border-border/70 pt-6">
-                    <span className="btn-mono text-lg font-bold !text-accent">0{i + 1}</span>
+                    <span className="btn-mono text-lg font-bold text-teal-foreground">0{i + 1}</span>
                     <div>
                       <h3 className="text-lg font-semibold tracking-tight">{v.title}</h3>
                       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{v.desc}</p>
