@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { useLocale } from "../i18n";
 import { LOCALE_HTML_LANG } from "../i18n/config";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { LanguageNotice } from "../components/language-notice";
 
 function NotFoundComponent() {
   return (
@@ -133,6 +134,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <LanguageNotice />
     </QueryClientProvider>
   );
 }
