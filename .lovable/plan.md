@@ -1,48 +1,63 @@
-## What's wrong today
+## Goal
 
-Verified in the code:
+Turn `/for-organisations` into a comprehensive, conversion-oriented landing page for HR, L&D and leadership audiences — with the CIO pitch-deck narrative integrated natively and a working in-page survey that saves to the database, all fully localised (DE/FR/IT/EN).
 
-- `src/components/callout.tsx` detects callouts by inspecting **rendered React children**. `firstString()` returns the first child only, and react-markdown emits a whitespace text node (`"\n"`) as the first child of a blockquote. So `parseCallout` returns `null` and the block falls through to the plain quote branch — which is exactly what you selected in the preview: a blockquote showing the raw `[!info] ✅` marker text.
-- Even when detection succeeds, `stripMarker` mutates already-rendered elements, which is fragile (marker/emoji can survive, spacing can break).
-- The editor (`src/routes/_authenticated/articles.$id.tsx`) has **no preview at all** — only a toolbar plus a plain `<textarea>`, so authors write Markdown blind.
+## Page structure (new sequence)
 
-## Plan
+1. **Hero** — keep current `CompactHero`, sharpen copy ("Embed professional coaching in your organisation"), two CTAs: *Assess your coaching culture* (scrolls to survey) and *Find a coach*.
+2. **Proof bar** — four compact figures: member coaches, share credentialed, languages served, credential levels (ACC · PCC · MCC).
+3. **Why ICF-certified coaching** — six differentiator cards: verified credentials, ethics & inclusion, Swiss expertise, diverse coach pool, pro-bono programmes, measurable impact.
+4. **Outcomes** — keep the existing three stat cards.
+5. **How we work** — keep the existing three-step process.
+6. **Coaching in action** — three initiative blocks (coaching in organisations, coaching in education, coaching for IOs & NGOs), each with a lead, description and CTA, using existing hand-drawn marks instead of stock photos.
+7. **Deep dive: the coaching business case** — the slide deck, rebuilt natively (see below).
+8. **Programmes** — keep the existing three programme cards.
+9. **Coaching culture assessment** — the in-page survey (see below).
+10. **Events & presence** — short strip pointing to the Events page.
+11. **Closing CTA** — keep the existing indigo CTA band (talk to us / find a coach).
 
-### 1. Move callout detection into the Markdown pipeline (fixes rendering)
+## Slide deck integration
 
-Replace the children-inspection approach with a small `remark` plugin (`src/lib/remark-callout.ts`) that runs on the mdast:
+The uploaded HTML is a 2.3 MB self-unpacking bundle — embedding it would be heavy and visually foreign. Instead its narrative is rebuilt as a native, responsive **deck section**: a horizontal slide viewer with prev/next, dot indicators, keyboard arrows and swipe on mobile, each slide rendered with site typography and tokens (indigo/cream/teal, `CARD_SHADOW`).
 
-- For every `blockquote`, read the first paragraph's leading text.
-- If it starts with `[!shade]` (with existing aliases: info/note/tip, highlight/important, warning/caution/danger) plus an optional emoji, remove that marker text from the AST and attach `shade` + `emoji` as node data.
-- Marker text is deleted before rendering, so raw Markdown can never leak into output — regardless of nesting or whitespace nodes.
-- If the first line is only the marker, drop the now-empty paragraph so the callout starts flush with its content.
+Slides (condensed from 17 to ~9 meaningful ones): context ("what keeps Swiss leaders up at night", 70% stat) · what coaching is (ICF definition) · a profession, not a trend · the business case (50% less burnout, 2× intent to stay) · the proof (2.5× McKinsey) · future-ready leadership · from programmes to coaching culture · SME leverage (87%) · Swiss landscape & credentials · deploying for impact · next steps. A collapsible **sources** list carries the appendix references.
 
-`src/components/markdown.tsx` then renders `<Callout shade emoji>` when the node carries callout data, and a normal blockquote otherwise. `Callout` keeps its current three-shade styling and emoji chip, but loses the brittle `stripMarker` logic.
+All slide text lives in the translation JSON, so slides localise like every other section.
 
-### 2. Live preview in the editor
+## Survey
 
-Add a view switcher above the body field with three modes: **Write / Split / Preview** (default Split on wide screens, Write on narrow ones; choice remembered per browser).
+Adapted from the micro-site experience, as one in-page flow:
 
-- Split mode: textarea on the left, live-rendered preview on the right, both scrollable, preview updating as you type (lightly debounced so typing stays smooth).
-- The preview renders through the **same `<Markdown>` component** the public article page uses, inside a container matching the article page's typography width, so editor preview and published output are visually and structurally identical.
-- The formatting toolbar and existing autosave/dirty-state behaviour stay untouched.
+1. **Pressure picker** — "What's the biggest pressure on your organisation right now?" (retention & burnout, leadership & trust, AI disruption, inclusion & belonging, collaboration & conflict). Selecting one reveals a tailored short insight.
+2. **Maturity questions** — 8 questions across four dimensions (leadership engagement, capability, access, measurement) on a 5-point scale, with progress indicator and back/next.
+3. **Result** — instant maturity band (emerging / developing / established / embedded) with a per-dimension snapshot.
+4. **Follow-up request** — optional name, work email, organisation, message + consent checkbox, honeypot field, Zod validation. Submitting stores the whole response.
 
-### 3. Translation bodies
+Anonymous submissions allowed (no login). Written through a server function so the insert is validated and rate-limit-friendly, with a public insert policy scoped to the table; nobody can read submissions except editors/admins.
 
-Apply the same preview toggle to the translated-body textareas in `TranslationsPanel`, so translated callouts are verifiable before publishing (compact, per-locale, preview-on-demand rather than always split).
+## Database
 
-### 4. Consistency and safety checks
+New table `public.organisation_survey_responses`, designed for later expansion:
 
-- Public article rendering (`src/pages/InsightDetail.tsx`) keeps using `<Markdown>` unchanged — it inherits the callout fix automatically.
-- No schema changes, no changes to publishing, scheduling, locale routing, or article fetching.
-- Verify with a Playwright pass: open an article containing all three callout shades (with and without emoji), confirm no raw `[!info]` text renders on the public page, and confirm the editor preview matches it pixel-for-structure.
+- `locale`, `primary_pressure`
+- `answers` (jsonb — question id → score, so new questions need no migration)
+- `dimension_scores` (jsonb), `total_score`, `maturity_band`
+- `contact_name`, `contact_email`, `contact_organisation`, `message`, `consent`
+- `source` (defaults to `for-organisations`), `created_at`, `updated_at`
 
-### New UI strings
+Grants + RLS: anonymous/authenticated may insert only; only editors/admins may read.
 
-`toolbar.write`, `toolbar.split`, `toolbar.preview`, `editor.previewEmpty` added to all four `cms.json` locale files (EN/DE/FR/IT).
+## Files
+
+- `src/pages/ForOrganisations.tsx` — rebuilt as a composition of section components.
+- `src/components/organisations/` — `ProofBar`, `Differentiators`, `Initiatives`, `DeckSection`, `CultureSurvey`, `EventsStrip`.
+- `src/lib/organisation-survey.functions.ts` — validated submit server function.
+- `src/lib/organisation-survey.ts` — shared question/scoring definitions (client-safe).
+- `src/i18n/locales/{en,de,fr,it}/organisations.json` — extended with all new keys (EN authored, DE/FR/IT translated in the same pass).
+- No routing changes: `/for-organisations` and `/$locale/for-organisations` keep working as-is.
 
 ## Technical notes
 
-- Plugin is a plain mdast visitor; no extra dependencies beyond `unist-util-visit` if not already present (react-markdown's tree already ships it transitively — will confirm at build time and add explicitly if needed).
-- Callout data travels via `node.data.hProperties`-style props, read in the `blockquote` component override, avoiding React-children introspection entirely.
-- Preview reuses one memoized `<Markdown>` instance keyed on debounced content to avoid re-parsing on every keystroke.
+- Deck and survey are client-interactive but SSR-safe (no browser-only imports at module scope); the page stays public and prerenderable.
+- Mobile: deck slides go full-width single-column with swipe; survey uses one question per screen with large tap targets.
+- All copy in sentence case, existing tokens only — no new colours or fonts.

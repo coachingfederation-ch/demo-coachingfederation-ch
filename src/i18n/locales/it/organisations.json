@@ -1,15 +1,363 @@
 {
   "meta": {
     "title": "Per le organizzazioni — ICF Switzerland",
-    "description": "Programmi di coaching per sviluppare leader, rafforzare team e diffondere una cultura del coaching nelle organizzazioni svizzere."
+    "description": "Programmi di coaching per sviluppare leader, rafforzare team e creare una cultura del coaching nelle organizzazioni svizzere."
   },
   "hero": {
     "eyebrow": "Per le organizzazioni",
     "titlePre": "Coaching per le organizzazioni che guidano il ",
     "titleAccent": "cambiamento",
     "titlePost": ".",
-    "lede": "Dai percorsi individuali per executive alla diffusione di una cultura del coaching aziendale, ICF Switzerland vi mette in contatto con coach credenziali che generano un impatto misurabile.",
-    "cta": "Contatta il nostro team"
+    "lede": "Dai percorsi individuali per executive alla creazione di una cultura del coaching diffusa, ICF Switzerland ti mette in contatto con coach credenziati in grado di generare un impatto misurabile.",
+    "cta": "Parla con il nostro team",
+    "cta2": "Fai il test sulla cultura del coaching"
+  },
+  "proof": {
+    "items": [
+      {
+        "value": "600+",
+        "label": "Coach credenziati in tutta la Svizzera"
+      },
+      {
+        "value": "4",
+        "label": "Community regionali: Zürich, Romandie, Ticino, Online"
+      },
+      {
+        "value": "1995",
+        "label": "Al servizio della professione del coaching in Svizzera dal"
+      },
+      {
+        "value": "160+",
+        "label": "Paesi nella rete globale ICF"
+      }
+    ]
+  },
+  "why": {
+    "eyebrow": "Perché la ICF",
+    "title": "La differenza tra un coach e un coach credenziato ICF.",
+    "lede": "Chiunque può definirsi coach. Una credenziale ICF è la prova di competenze valutate, pratica supervisionata e un codice etico vincolante: la garanzia cercata dai team di acquisto, HR e legali.",
+    "items": [
+      {
+        "title": "Competenza valutata",
+        "desc": "Ogni credenziale richiede competenze di coaching dimostrate rispetto alle competenze chiave ICF, non la semplice frequenza di un corso."
+      },
+      {
+        "title": "Ore di pratica registrate",
+        "desc": "ACC, PCC e MCC richiedono ciascuna ore documentate di pratica con i clienti e mentor coaching prima del rilascio della credenziale."
+      },
+      {
+        "title": "Codice etico vincolante",
+        "desc": "I coach credenziati si impegnano a rispettare il Codice Etico ICF, supportato da un processo indipendente di revisione e reclamo."
+      },
+      {
+        "title": "Sviluppo continuo",
+        "desc": "Le credenziali vengono rinnovate ogni tre anni tramite la formazione continua: la competenza rimane sempre aggiornata."
+      },
+      {
+        "title": "Presenza quadri-lingue",
+        "desc": "Coach che lavorano in DE, FR, IT ed EN in ogni regione linguistica svizzera."
+      },
+      {
+        "title": "Indipendenti dai fornitori",
+        "desc": "ICF Switzerland è un'associazione di membri, non un venditore di coaching. La nostra consulenza è neutrale."
+      }
+    ]
+  },
+  "deck": {
+    "eyebrow": "I vantaggi del coaching",
+    "title": "Cosa dicono i dati sul coaching nelle organizzazioni.",
+    "lede": "Una panoramica delle sfide che le organizzazioni svizzere devono affrontare e di dove il coaching professionale fa concretamente la differenza.",
+    "prev": "Diapositiva precedente",
+    "next": "Diapositiva successiva",
+    "sourcesLabel": "Fonti e approfondimenti",
+    "slides": [
+      {
+        "kicker": "Il contesto",
+        "title": "Il mondo del lavoro si evolve più velocemente dello sviluppo dei leader.",
+        "body": "Ristrutturazioni, team ibridi, adozione dell'IA e management intermedio ridotto impattano contemporaneamente sui leader. I cicli formativi tradizionali non riescono a tenere il passo con la velocità del cambiamento.",
+        "source": "ICF Switzerland, briefing organizzativo 2026"
+      },
+      {
+        "kicker": "Il divario",
+        "stat": "77%",
+        "statLabel": "dei leader dichiara che il proprio percorso di sviluppo non ha tenuto il passo con le esigenze del ruolo.",
+        "body": "Le lacune nelle competenze raramente emergono come richieste di formazione. Si manifestano piuttosto come turnover, decisioni bloccate e team in attesa di orientamento."
+      },
+      {
+        "kicker": "Il costo dell'inazione",
+        "title": "Il disimpegno è costoso e si accumula in silenzio.",
+        "bullets": [
+          "Sostituire un senior leader costa in genere molto più di un anno di stipendio.",
+          "I team disimpegnati rendono meno ben prima che qualcuno rassegni le dimissioni.",
+          "Un passaggio di ruolo non riuscito nei primi livelli manageriali si ripercuote su ogni linea gerarchica.",
+          "La stanchezza da cambiamento erode l'impegno spontaneo più velocemente di qualsiasi ristrutturazione."
+        ]
+      },
+      {
+        "kicker": "Cosa cambia con il coaching",
+        "title": "Il coaching sviluppa la capacità di pensiero, non la dipendenza.",
+        "body": "Un coach non fornisce risposte. Sviluppa la capacità del leader di interpretare la complessità, prendere decisioni in contesti di incertezza e gestire conversazioni difficili: competenze che rimangono all'interno dell'organizzazione."
+      },
+      {
+        "kicker": "I riscontri",
+        "stat": "86%",
+        "statLabel": "delle organizzazioni dichiara di aver recuperato almeno l'investimento fatto nel coaching.",
+        "source": "ICF Global Coaching Client Study"
+      },
+      {
+        "kicker": "Dove è più efficace",
+        "title": "Quattro momenti in cui il coaching offre il massimo ritorno.",
+        "bullets": [
+          "Passaggio a un ruolo di responsabilità nettamente superiore.",
+          "Guida di un team durante una ristrutturazione o fusione.",
+          "Talenti ad alto potenziale che non ci si può permettere di perdere.",
+          "Team bloccati da conflitti, silenzi o evitamento."
+        ]
+      },
+      {
+        "kicker": "Oltre il singolo individuo",
+        "title": "Una cultura del coaching è uno stile di leadership, non una voce di bilancio.",
+        "body": "Le organizzazioni che formano i propri manager nelle competenze di coaching trasformano il modo in cui si svolgono le conversazioni quotidiane: feedback, delega, definizione delle priorità e discussioni sulle prestazioni migliorano contemporaneamente."
+      },
+      {
+        "kicker": "Lo standard ICF",
+        "quote": "Una credenziale non è un attestato di frequenza. È la prova di una pratica valutata, supervisionata e vincolata all'etica.",
+        "body": "Questa distinzione è il motivo per cui gli uffici acquisti e le risorse umane richiedono sempre più spesso credenziali ICF nei loro capitolati di coaching."
+      },
+      {
+        "kicker": "Misurazione",
+        "title": "Un impatto che puoi realmente dimostrare.",
+        "bullets": [
+          "Definizione dei risultati con lo sponsor prima della prima sessione.",
+          "Allineamento a tre tra coach, coachee e organizzazione.",
+          "Verifica intermedia rispetto agli indicatori concordati.",
+          "Sintesi finale nel rispetto della riservatezza."
+        ]
+      },
+      {
+        "kicker": "Per iniziare",
+        "title": "Inizia da dove la pressione è maggiore.",
+        "body": "La maggior parte delle organizzazioni inizia con un progetto pilota mirato: un gruppo di leader, un risultato chiaro, una finestra temporale di misurazione. L'estensione segue i risultati concreti, non l'entusiasmo."
+      }
+    ],
+    "sources": [
+      {
+        "group": "Ricerche ICF",
+        "items": [
+          "ICF Global Coaching Study",
+          "ICF Global Coaching Client Study",
+          "ICF Building Strong Coaching Cultures"
+        ]
+      },
+      {
+        "group": "Ricerche sul mondo del lavoro",
+        "items": [
+          "Rapporti globali sull'engagement sul posto di lavoro",
+          "Rapporti sul mercato del lavoro e sulle competenze in Svizzera"
+        ]
+      },
+      {
+        "group": "ICF Switzerland",
+        "items": [
+          "Sondaggio tra i membri del Chapter",
+          "Briefing organizzativo 2026"
+        ]
+      }
+    ]
+  },
+  "initiatives": {
+    "eyebrow": "Come collaborare con noi",
+    "title": "Tre percorsi di coaching, a seconda della tua situazione.",
+    "items": [
+      {
+        "tag": "Inizia da qui",
+        "title": "Un progetto pilota di executive coaching mirato.",
+        "desc": "Ti aiutiamo a definire un percorso circoscritto e ben misurato per un gruppo dirigente selezionato, individuando i coach credenziati con l'esperienza più adatta al tuo settore e alla tua regione linguistica.",
+        "lead": "Orizzonte tipico: 4-6 mesi",
+        "cta": "Definisci un progetto pilota"
+      },
+      {
+        "tag": "Amplia",
+        "title": "Team coaching per reparti sotto pressione.",
+        "desc": "Percorsi rivolti all'intero team per far emergere il non detto, ricostruire la fiducia dopo un cambiamento e trasformare le buone intenzioni in prassi di lavoro condivise.",
+        "lead": "Orizzonte tipico: 6-9 mesi",
+        "cta": "Discuti del team coaching"
+      },
+      {
+        "tag": "Integra",
+        "title": "Creare una cultura aziendale del coaching.",
+        "desc": "Programmi che sviluppano le competenze di coaching nei tuoi manager, supportano reti interne di coach e stabiliscono standard di qualità allineati alle competenze e all'etica ICF.",
+        "lead": "Orizzonte tipico: dai 12 mesi in su",
+        "cta": "Pianifica un programma sulla cultura aziendale"
+      }
+    ]
+  },
+  "survey": {
+    "eyebrow": "Valutazione della cultura del coaching",
+    "title": "Quanto è maturo il coaching nella tua organizzazione?",
+    "lede": "Otto domande, circa tre minuti. Otterrai una valutazione immediata della maturità su quattro dimensioni e potrai richiedere un confronto sui passi successivi.",
+    "start": "Inizia la valutazione",
+    "back": "Indietro",
+    "next": "Avanti",
+    "progress": "Domanda {n} di {total}",
+    "pressure": {
+      "question": "Qual è la sfida principale per la tua organizzazione in questo momento?",
+      "hint": "Scegli quella che rispecchia meglio la situazione attuale. Servirà a guidare l'analisi dei tuoi risultati.",
+      "options": [
+        {
+          "id": "retention",
+          "label": "Trattenere le figure chiave",
+          "insight": "Il turnover tra le persone difficilmente sostituibili è spesso un segnale legato alla qualità della leadership ancor prima che alla retribuzione."
+        },
+        {
+          "id": "leadership",
+          "label": "Competenze di leadership",
+          "insight": "I leader promossi per meriti tecnici raramente falliscono sul piano tecnico. Riscontrano difficoltà nella gestione delle conversazioni, dell'ambiguità e della delega."
+        },
+        {
+          "id": "ai",
+          "label": "IA e trasformazione del lavoro",
+          "insight": "L'adozione della tecnologia si arresta di fronte a fattori umani: fiducia, chiarezza dei ruoli e disponibilità a lavorare in modo diverso."
+        },
+        {
+          "id": "inclusion",
+          "label": "Inclusione e senso di appartenenza",
+          "insight": "L'inclusione si crea o si distrugge nelle conversazioni quotidiane, non nei documenti strategici."
+        },
+        {
+          "id": "collaboration",
+          "label": "Collaborazione tra team",
+          "insight": "I silos sono solitamente il sintomo di priorità poco chiare e conflitti non espressi, piuttosto che di cattiva volontà."
+        }
+      ]
+    },
+    "scale": [
+      {
+        "label": "Per nulla",
+        "desc": "Non succede attualmente."
+      },
+      {
+        "label": "Raramente",
+        "desc": "Occasionale e discontinuo."
+      },
+      {
+        "label": "A volte",
+        "desc": "Accade solo in alcuni ambiti."
+      },
+      {
+        "label": "Spesso",
+        "desc": "Comune nella maggior parte dell'organizzazione."
+      },
+      {
+        "label": "Sempre",
+        "desc": "Parte integrante del nostro modo di lavorare."
+      }
+    ],
+    "dimensions": {
+      "leadership": "Comportamento di leadership",
+      "capability": "Competenza nel coaching",
+      "access": "Accesso al coaching",
+      "measurement": "Misurazione e qualità"
+    },
+    "questions": [
+      {
+        "id": "q1",
+        "text": "I senior leader dimostrano apertamente comportamenti di coaching come ascoltare, porre domande e delegare."
+      },
+      {
+        "id": "q2",
+        "text": "Le conversazioni difficili vengono affrontate tempestivamente e direttamente anziché essere evitate."
+      },
+      {
+        "id": "q3",
+        "text": "I manager hanno ricevuto una formazione pratica sulle competenze di coaching, non solo sui processi di gestione delle prestazioni."
+      },
+      {
+        "id": "q4",
+        "text": "I collaboratori a tutti i livelli ricevono regolarmente feedback utili per la loro crescita."
+      },
+      {
+        "id": "q5",
+        "text": "Il coaching è accessibile oltre il livello executive, inclusi i leader emergenti."
+      },
+      {
+        "id": "q6",
+        "text": "Le persone sanno come richiedere un percorso di coaching e cosa aspettarsi."
+      },
+      {
+        "id": "q7",
+        "text": "I percorsi di coaching prendono avvio con obiettivi concordati e vengono valutati rispetto ad essi."
+      },
+      {
+        "id": "q8",
+        "text": "Lavoriamo con coach credenziati e richiediamo ai fornitori esterni uno standard di qualità chiaro."
+      }
+    ],
+    "bands": {
+      "emerging": {
+        "title": "In fase iniziale",
+        "desc": "Il coaching avviene in modo occasionale e informale. Il passo più efficace è un progetto pilota mirato con obiettivi chiari anziché un'ampia diffusione."
+      },
+      "developing": {
+        "title": "In sviluppo",
+        "desc": "Le basi esistono ma sono disomogenee. Rendere coerenti l'accesso, le competenze dei manager e la misurazione permetterà di esprimere gran parte del potenziale."
+      },
+      "established": {
+        "title": "Consolidato",
+        "desc": "Il coaching è un elemento riconosciuto nel percorso di sviluppo delle persone. Il passo successivo consiste nell'integrare standard di qualità e ampliarne l'accesso."
+      },
+      "embedded": {
+        "title": "Pienamente integrato",
+        "desc": "Il coaching fa parte dello stile di gestione aziendale. L'attenzione deve concentrarsi sul mantenimento della qualità, sulla supervisione e sul rinnovo misurabile man mano che l'organizzazione si evolve."
+      }
+    },
+    "result": {
+      "eyebrow": "Il tuo risultato"
+    },
+    "form": {
+      "title": "Vuoi discuterne con noi?",
+      "lede": "Invia il tuo risultato al nostro team organizzativo: ti risponderemo con una breve panoramica neutrale e priva di impegni sulle opzioni a tua disposizione.",
+      "name": "Nome",
+      "email": "E-mail professionale",
+      "organisation": "Organizzazione",
+      "message": "C'è altro che dovremmo sapere?",
+      "consent": "Acconsento al trattamento di questi dati da parte di ICF Switzerland e a essere contattato/a in merito.",
+      "consentRequired": "Conferma il consenso per consentirci di contattarti.",
+      "submit": "Invia il mio risultato",
+      "sending": "Invio in corso…",
+      "error": "Si è verificato un errore. Riprova."
+    },
+    "thanks": {
+      "title": "Grazie — abbiamo ricevuto il tuo risultato.",
+      "desc": "Un membro del team di ICF Switzerland dedicato alle organizzazioni ti contatterà a breve. Nel frattempo, consulta la nostra directory dei coach o i prossimi eventi."
+    }
+  },
+  "events": {
+    "eyebrow": "Per i leader organizzativi",
+    "title": "Dove incontrarci prossimamente.",
+    "cta": "Tutti gli eventi",
+    "items": [
+      {
+        "date": "Gio 17 set 2026",
+        "title": "Tavola rotonda sulle culture del coaching, Zürich",
+        "desc": "Per responsabili HR e L&D che desiderano sviluppare competenze di coaching interne."
+      },
+      {
+        "date": "Mer 14 ott 2026",
+        "title": "Leadership in transizione, Lausanne",
+        "desc": "Executive coaching nei contesti di ristrutturazione e fusione."
+      },
+      {
+        "date": "Mar 10 nov 2026",
+        "title": "IA, fiducia e team, online",
+        "desc": "Cosa richiede l'evoluzione tecnologica ai leader e ai loro team."
+      },
+      {
+        "date": "Gio 3 dic 2026",
+        "title": "Misurare l'impatto del coaching, Lugano",
+        "desc": "Approcci pratici di valutazione in grado di superare ogni verifica."
+      }
+    ]
   },
   "outcomes": {
     "eyebrow": "Risultati",
@@ -17,64 +365,64 @@
     "items": [
       {
         "stat": "+38%",
-        "title": "Efficacia dei leader",
-        "desc": "I leader affiancati da un coach mostrano una maggiore capacità di giudizio, una delega più efficace e una presenza più solida."
+        "title": "Efficacia della leadership",
+        "desc": "I leader affiancati da un coach dimostrano una maggiore capacità di giudizio, una delega più efficace e una presenza più solida."
       },
       {
         "stat": "2×",
-        "title": "Coinvolgimento del team",
-        "desc": "I team che adottano una cultura del coaching superano costantemente gli altri in termini di coinvolgimento."
+        "title": "Engagement del team",
+        "desc": "I team che operano in una cultura del coaching superano costantemente i colleghi in termini di coinvolgimento."
       },
       {
         "stat": "94%",
         "title": "ROI riscontrato",
-        "desc": "Le organizzazioni che investono nel coaching riscontrano ritorni misurabili entro dodici mesi."
+        "desc": "Le organizzazioni che investono nel coaching registrano ritorni misurabili entro dodici mesi."
       }
     ]
   },
   "steps": {
     "eyebrow": "Come lavoriamo",
-    "title": "Un percorso chiaro dall'ambizione all'impatto.",
+    "title": "Un percorso chiaro dalle ambizioni ai risultati.",
     "items": [
       {
         "n": "01",
         "title": "Analisi",
-        "desc": "Comprendiamo il vostro contesto, le vostre persone e gli obiettivi che contano davvero."
+        "desc": "Comprendiamo il tuo contesto, le tue persone e gli obiettivi che contano davvero."
       },
       {
         "n": "02",
         "title": "Abbinamento",
-        "desc": "Vi colleghiamo con coach in possesso di credenziale ICF la cui esperienza si adatta ai vostri obiettivi."
+        "desc": "Ti mettiamo in contatto con coach credenziati ICF la cui esperienza si adatta ai tuoi obiettivi."
       },
       {
         "n": "03",
         "title": "Misurazione",
-        "desc": "Sosteniamo il percorso con tappe intermedie, feedback e una valutazione chiara."
+        "desc": "Accompagniamo il percorso con tappe intermedie, feedback e una valutazione chiara."
       }
     ]
   },
   "programmes": {
-    "eyebrow": "Programmi principali",
-    "title": "Programmi su misura per il vostro contesto.",
+    "eyebrow": "Programmi in evidenza",
+    "title": "Programmi su misura per il tuo contesto.",
     "items": [
       {
         "tag": "Executive coaching",
-        "title": "Percorsi individuali dedicati ai senior leader che affrontano contesti complessi."
+        "title": "Percorsi individuali per senior leader che affrontano contesti complessi."
       },
       {
         "tag": "Team coaching",
-        "title": "Interventi rivolti all'intero team per costruire fiducia, allineamento e risultati."
+        "title": "Interventi dedicati all'intero team per costruire fiducia, allineamento e risultati."
       },
       {
-        "tag": "Cultura del coaching",
+        "tag": "Culture del coaching",
         "title": "Programmi per integrare le competenze di coaching in tutta l'organizzazione."
       }
     ]
   },
   "getStarted": {
-    "eyebrow": "Inizia ora",
-    "title": "Pronti a portare il coaching nella vostra organizzazione?",
-    "cta1": "Contattaci",
+    "eyebrow": "Per iniziare",
+    "title": "Vuoi introdurre il coaching nella tua organizzazione?",
+    "cta1": "Parla con noi",
     "cta2": "Casi di studio"
   }
 }
