@@ -23,6 +23,7 @@ const LANGS = [
 
 function NewArticlePage() {
   const navigate = useNavigate();
+  const { t } = useCms();
   const [lang, setLang] = useState<(typeof LANGS)[number]["code"]>("en");
   const [creating, setCreating] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -32,7 +33,7 @@ function NewArticlePage() {
     setError(null);
     const { data: userData } = await supabase.auth.getUser();
     if (!userData.user) {
-      setError("Not signed in");
+      setError(t("new.notSignedIn"));
       setCreating(false);
       return;
     }
@@ -52,10 +53,8 @@ function NewArticlePage() {
   return (
     <Shell>
       <div className="mx-auto max-w-xl px-10 py-16">
-        <h1 className="text-2xl font-bold tracking-tight">New article</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Choose the article language. This can be changed only until first publication.
-        </p>
+        <h1 className="text-2xl font-bold tracking-tight">{t("new.title")}</h1>
+        <p className="mt-2 text-sm text-muted-foreground">{t("new.subtitle")}</p>
 
         <div className="mt-8 grid grid-cols-2 gap-3">
           {LANGS.map((l) => (
@@ -83,13 +82,13 @@ function NewArticlePage() {
             disabled={creating}
             className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] hover:opacity-95 disabled:opacity-60"
           >
-            {creating ? "Creating…" : "Create draft"}
+            {creating ? t("new.creating") : t("new.create")}
           </button>
           <Link
             to="/articles"
             className="rounded-full border border-border bg-card px-5 py-2.5 text-sm font-medium hover:bg-secondary"
           >
-            Cancel
+            {t("new.cancel")}
           </Link>
         </div>
       </div>
