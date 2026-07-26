@@ -1,39 +1,32 @@
 ## Goal
 
-Make the evidence deck on /for-organisations visually stronger (especially stat slides like slide 5), and let visitors download the presentation, optionally leaving an email that we store.
+Build out `/for-coaches` using the structure and copy from the uploaded wireframe, styled entirely with the existing design system (indigo hero, lavender background, `CARD_SHADOW` cards, `eyebrow`/`btn-mono` utilities, hand-drawn marks, Inter).
 
-## 1. Bolder slide visuals
+## New page structure
 
-Rework `DeckSection` so each slide type has a distinct, confident layout instead of one generic stack:
+```text
+1. Hero (existing CompactHero)      "Your professional home in Switzerland"
+2. Membership benefits              9 benefit items as icon/number cards + "Join as a member" CTA
+3. Learning & development           tabbed section, 6 tabs (Professional Dev., Ethics,
+                                    DEIB, Peer Coaching, Credentials, AI in Coaching)
+4. Credentialing pathway            keep existing ACC / PCC / MCC cards
+5. DEIB in your practice            split section w/ CircularMark, "Coaching across difference"
+6. Communities                      keep existing chapter block, extended with the 8 community
+                                    names + languages (Zurich, Geneva, Lausanne, Basel, Bern,
+                                    Svizzera Italiana, Ost-Schweiz, Valais) as pill cards
+7. Volunteer & lead                 "Shape the future of coaching in Switzerland" + CTA
+8. Member stories                   3 placeholder testimonials (name, credential, community,
+                                    language chips) in a rotating carousel with dots
+9. Join CTA                         existing indigo closing band
+```
 
-- **Stat slides** (slides 2 and 5): the number becomes the hero — huge display type (roughly 8rem–12rem, responsive), tight tracking, accent colour, centred/left-anchored with the label beside or beneath it at larger size. Add a subtle hand-drawn mark behind the figure and an animated count-up when the slide becomes active (respecting reduced-motion).
-- **Bullet slides**: numbered bullets become larger cards in a 2x2 grid with a big two-digit index, more padding and clear separation.
-- **Quote slides**: oversized opening quote glyph, larger quote type, attribution line.
-- **Title/body slides**: bigger headline scale, shorter measure, accent rule above the kicker.
-- Shared: taller slide frame, stronger contrast between kicker / headline / support text, smooth fade-slide transition on slide change, larger progress dots and nav buttons on mobile.
+## Content
 
-No copy changes — all text stays in the existing translation files, so DE/FR/IT keep working.
-
-## 2. Download the presentation
-
-- A download bar directly under the deck: short line of copy, an email field (clearly marked optional) and a "Download the slides" button. Submitting with an empty email still downloads.
-- Validation only when an email is entered; honeypot field for spam, same pattern as the culture survey.
-- After download, a small confirmation state replaces the form.
-- Fully translated (EN/DE/FR/IT) via a new `organisations.deck.download.*` block.
-
-### The file
-
-Generate a branded PDF of the deck (one slide per page, ICF colours, logo, sources page) from the existing slide copy, one file per locale, served from `public/downloads/`. The user gets the PDF matching the language they are browsing in.
-
-### Storing the email
-
-New table `deck_download_leads`:
-- email (nullable), locale, source, consent flag, created_at
-- Public can insert only; only editors/admins can read — same policy shape as `organisation_survey_responses`.
-- Insert happens through a new server function with Zod validation; a download with no email records an anonymous row so we can still count downloads.
+All copy comes from the wireframe verbatim where available. Placeholder content created where the wireframe only describes a visual: three member testimonial quotes with invented but realistic names, credentials and communities (clearly plausible, e.g. "Nadia Berger, PCC — Basel community, DE/EN"), and short one-line descriptions for community cards.
 
 ## Technical notes
 
-- Files touched: `src/components/organisations/DeckSection.tsx`, new `src/components/organisations/DeckDownload.tsx`, new `src/lib/deck-download.functions.ts`, the four `organisations.json` locale files, plus generated PDFs in `public/downloads/`.
-- One migration for the new table with GRANTs and RLS.
-- No change to routing, existing survey, or other sections.
+- Page stays presentational: `src/pages/ForCoaches.tsx` plus small local sub-components (`BenefitGrid`, `LearningTabs`, `MemberStories`) in a new `src/components/coaches/sections.tsx`, mirroring the `src/components/organisations/` pattern.
+- Tabs and the testimonial carousel are client-side `useState` only — no new data or backend.
+- All strings added to `src/i18n/locales/en/coaches.json` (extending existing keys, keeping `hero`, `credentials`, `chapters`, `join`), then propagated to DE/FR/IT via the existing `scripts/translate.ts` workflow so all four locales stay complete.
+- Existing routes (`/for-coaches` and `/$locale/for-coaches`) and meta stay unchanged.
