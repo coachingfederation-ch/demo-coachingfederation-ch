@@ -31,7 +31,7 @@ export default function ForCoachesPage() {
         <BenefitGrid />
         <LearningTabs />
 
-        <section className="mx-auto max-w-7xl px-8 py-24">
+        <section id="credentials" className="mx-auto max-w-7xl px-8 py-24 scroll-mt-24">
           <p className="eyebrow">{t("coaches.credentials.eyebrow")}</p>
           <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
             {t("coaches.credentials.title")}

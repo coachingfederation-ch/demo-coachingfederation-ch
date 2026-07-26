@@ -58,7 +58,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="bg-muted py-24">
+        <section id="communities" className="bg-muted py-24 scroll-mt-24">
           <div className="mx-auto max-w-7xl px-8">
             <p className="eyebrow">{t("about.communities.eyebrow")}</p>
             <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
