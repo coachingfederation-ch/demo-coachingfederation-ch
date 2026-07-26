@@ -97,10 +97,10 @@ export function localeLinkTags(path: string, locale: Locale) {
     { rel: "canonical", href: `${SITE_URL}${localizePath(path, locale)}` },
     ...LOCALES.map((l) => ({
       rel: "alternate",
-      hreflang: l === "en" ? "en" : `${l}-CH`,
+      hrefLang: l === "en" ? "en" : `${l}-CH`,
       href: `${SITE_URL}${localizePath(path, l)}`,
     })),
-    { rel: "alternate", hreflang: "x-default", href: `${SITE_URL}${localizePath(path, "en")}` },
+    { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}${localizePath(path, "en")}` },
   ];
 }
 
