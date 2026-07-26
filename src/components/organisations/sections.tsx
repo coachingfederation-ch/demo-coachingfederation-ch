@@ -154,7 +154,7 @@ export function EventsStrip() {
             key={e.title}
             className={"rounded-2xl border border-border/70 bg-card p-6 " + CARD_SHADOW}
           >
-            <p className="btn-mono text-xs font-bold text-accent">{e.date}</p>
+            <p className="btn-mono text-xs font-bold !text-teal-foreground">{e.date}</p>
             <h3 className="mt-3 text-sm font-semibold leading-snug tracking-tight">{e.title}</h3>
             <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{e.desc}</p>
           </div>
