@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { ChevronRight, Plus, Search } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
+import { useCms } from "@/i18n/cms";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated/articles/")({
