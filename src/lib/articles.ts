@@ -62,6 +62,8 @@ export interface PublicArticle {
   title: string;
   excerpt: string;
   category: string | null;
+  category_id: string | null;
+  category_ref?: Pick<CategoryRow, "id" | "slug" | "name" | "name_de" | "name_fr" | "name_it"> | null;
   featured_image_url: string | null;
   is_featured: boolean;
   published_at: string | null;
@@ -70,7 +72,15 @@ export interface PublicArticle {
 }
 
 export const PUBLIC_ARTICLE_COLUMNS =
-  "id, title, excerpt, category, featured_image_url, is_featured, published_at, language, author:profiles(first_name, last_name), translations:article_translations(locale, title, excerpt)";
+  "id, title, excerpt, category, category_id, featured_image_url, is_featured, published_at, language, category_ref:categories(id, slug, name, name_de, name_fr, name_it), author:profiles(first_name, last_name), translations:article_translations(locale, title, excerpt)";
+
+/** Localized display label for an article's category, falling back to legacy text. */
+export function articleCategoryLabel(article: PublicArticle, locale: Locale): string | null {
+  if (article.category_ref) {
+    return categoryLabel(article.category_ref as CategoryRow, locale);
+  }
+  return article.category;
+}
 
 type WithTranslations<T> = T & { translations?: TranslationRef[] | null };
 
