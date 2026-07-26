@@ -30,7 +30,7 @@ function Chip({
       aria-pressed={active}
       onClick={onClick}
       className={
-        "inline-flex h-8 items-center rounded-full border px-3 text-xs font-semibold transition " +
+        "inline-flex min-h-11 items-center rounded-full border px-4 text-xs font-semibold transition sm:min-h-8 " +
         (active
           ? "border-primary bg-primary text-primary-foreground"
           : "border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-foreground")
@@ -49,13 +49,13 @@ export function CoachCard({ coach }: { coach: Coach }) {
   const { icf, local } = coach;
   return (
     <article
-      className={"flex flex-col gap-4 rounded-2xl border border-border/70 bg-card p-6 " + CARD_SHADOW}
+      className={"flex w-full flex-col gap-4 rounded-2xl border border-border/70 bg-card p-6 " + CARD_SHADOW}
     >
       <div className="flex items-start gap-4">
         {icf.photoUrl ? (
           <img
             src={icf.photoUrl}
-            alt={icf.fullName}
+            alt=""
             className="h-14 w-14 shrink-0 rounded-xl object-cover"
           />
         ) : (
@@ -324,7 +324,10 @@ export function CoachDirectory() {
 
         <div>
           <div className="mb-6 flex items-center justify-between gap-4">
-            <p className="text-sm font-semibold text-muted-foreground">{countLabel}</p>
+            {/* 4.1.3: announce the new result count when filters change. */}
+            <p role="status" aria-live="polite" className="text-sm font-semibold text-muted-foreground">
+              {countLabel}
+            </p>
             {dirty && (
               <button
                 type="button"
@@ -337,11 +340,13 @@ export function CoachDirectory() {
           </div>
 
           {results.length ? (
-            <div className="grid gap-5 md:grid-cols-2">
+            <ul className="grid list-none gap-5 p-0 md:grid-cols-2">
               {results.map((c) => (
-                <CoachCard key={c.id} coach={c} />
+                <li key={c.id} className="flex">
+                  <CoachCard coach={c} />
+                </li>
               ))}
-            </div>
+            </ul>
           ) : (
             <div className="rounded-2xl border border-border/70 bg-card px-8 py-16 text-center">
               <p className="text-base font-bold text-foreground">
