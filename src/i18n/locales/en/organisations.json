@@ -14,10 +14,22 @@
   },
   "proof": {
     "items": [
-      { "value": "600+", "label": "Credentialed coaches across Switzerland" },
-      { "value": "4", "label": "Regional communities: Zürich, Romandie, Ticino, Online" },
-      { "value": "1995", "label": "Serving the Swiss coaching profession since" },
-      { "value": "160+", "label": "Countries in the global ICF network" }
+      {
+        "value": "600+",
+        "label": "Credentialed coaches across Switzerland"
+      },
+      {
+        "value": "4",
+        "label": "Regional communities: Zürich, Romandie, Ticino, Online"
+      },
+      {
+        "value": "1995",
+        "label": "Serving the Swiss coaching profession since"
+      },
+      {
+        "value": "160+",
+        "label": "Countries in the global ICF network"
+      }
     ]
   },
   "why": {
@@ -25,12 +37,30 @@
     "title": "The difference between a coach and an ICF credentialed coach.",
     "lede": "Anyone can call themselves a coach. An ICF credential is evidence of assessed skill, supervised practice and a binding code of ethics — the assurance procurement, HR and legal teams look for.",
     "items": [
-      { "title": "Assessed competence", "desc": "Every credential requires demonstrated coaching skill against ICF core competencies, not just attendance on a course." },
-      { "title": "Logged practice hours", "desc": "ACC, PCC and MCC each require documented client hours and mentor coaching before the credential is granted." },
-      { "title": "Binding code of ethics", "desc": "Credentialed coaches commit to the ICF Code of Ethics with an independent complaints and review process behind it." },
-      { "title": "Ongoing development", "desc": "Credentials are renewed on a three-year cycle with continuing education — competence stays current." },
-      { "title": "Four-language reach", "desc": "Coaches working in German, French, Italian and English across every Swiss language region." },
-      { "title": "Independent of providers", "desc": "ICF Switzerland is a member association, not a coaching vendor. Our guidance is provider-neutral." }
+      {
+        "title": "Assessed competence",
+        "desc": "Every credential requires demonstrated coaching skill against ICF core competencies, not just attendance on a course."
+      },
+      {
+        "title": "Logged practice hours",
+        "desc": "ACC, PCC and MCC each require documented client hours and mentor coaching before the credential is granted."
+      },
+      {
+        "title": "Binding code of ethics",
+        "desc": "Credentialed coaches commit to the ICF Code of Ethics with an independent complaints and review process behind it."
+      },
+      {
+        "title": "Ongoing development",
+        "desc": "Credentials are renewed on a three-year cycle with continuing education — competence stays current."
+      },
+      {
+        "title": "Four-language reach",
+        "desc": "Coaches working in German, French, Italian and English across every Swiss language region."
+      },
+      {
+        "title": "Independent of providers",
+        "desc": "ICF Switzerland is a member association, not a coaching vendor. Our guidance is provider-neutral."
+      }
     ]
   },
   "deck": {
@@ -121,13 +151,32 @@
       },
       {
         "group": "Workplace research",
-        "items": ["Global workplace engagement reports", "Swiss labour market and skills reporting"]
+        "items": [
+          "Global workplace engagement reports",
+          "Swiss labour market and skills reporting"
+        ]
       },
       {
         "group": "ICF Switzerland",
-        "items": ["Chapter member survey", "Organisational briefing 2026"]
+        "items": [
+          "Chapter member survey",
+          "Organisational briefing 2026"
+        ]
       }
-    ]
+    ],
+    "download": {
+      "eyebrow": "Take it with you",
+      "title": "Download the evidence deck",
+      "body": "A branded PDF of this deck, ready to share with your leadership team. Your email is optional — leave it blank and download anyway.",
+      "emailLabel": "Email (optional)",
+      "emailPlaceholder": "you@organisation.ch",
+      "cta": "Download the PDF",
+      "note": "We only use your email to follow up about coaching in organisations.",
+      "invalidEmail": "Please enter a valid email address, or leave the field empty.",
+      "doneTitle": "Your download has started",
+      "doneBody": "If nothing happened, use the link below.",
+      "again": "Download again"
+    }
   },
   "initiatives": {
     "eyebrow": "Ways to work with us",
@@ -168,19 +217,54 @@
       "question": "What is the biggest pressure on your organisation right now?",
       "hint": "Pick the one that feels most true today. It shapes how we read your results.",
       "options": [
-        { "id": "retention", "label": "Retaining key people", "insight": "Attrition among people you cannot easily replace is usually a leadership-quality signal long before it is a pay signal." },
-        { "id": "leadership", "label": "Leadership capability", "insight": "Leaders promoted for technical strength rarely fail on technique. They struggle with conversations, ambiguity and delegation." },
-        { "id": "ai", "label": "AI and changing work", "insight": "Technology adoption stalls on human factors — trust, role clarity and the willingness to work differently." },
-        { "id": "inclusion", "label": "Inclusion and belonging", "insight": "Inclusion is created or undone in everyday conversations, not in policy documents." },
-        { "id": "collaboration", "label": "Cross-team collaboration", "insight": "Silos are usually a symptom of unclear priorities and unspoken conflict rather than bad intent." }
+        {
+          "id": "retention",
+          "label": "Retaining key people",
+          "insight": "Attrition among people you cannot easily replace is usually a leadership-quality signal long before it is a pay signal."
+        },
+        {
+          "id": "leadership",
+          "label": "Leadership capability",
+          "insight": "Leaders promoted for technical strength rarely fail on technique. They struggle with conversations, ambiguity and delegation."
+        },
+        {
+          "id": "ai",
+          "label": "AI and changing work",
+          "insight": "Technology adoption stalls on human factors — trust, role clarity and the willingness to work differently."
+        },
+        {
+          "id": "inclusion",
+          "label": "Inclusion and belonging",
+          "insight": "Inclusion is created or undone in everyday conversations, not in policy documents."
+        },
+        {
+          "id": "collaboration",
+          "label": "Cross-team collaboration",
+          "insight": "Silos are usually a symptom of unclear priorities and unspoken conflict rather than bad intent."
+        }
       ]
     },
     "scale": [
-      { "label": "Not at all", "desc": "This is not happening today." },
-      { "label": "Rarely", "desc": "Occasional and inconsistent." },
-      { "label": "Sometimes", "desc": "Happens in pockets." },
-      { "label": "Often", "desc": "Common across most of the organisation." },
-      { "label": "Consistently", "desc": "Embedded in how we work." }
+      {
+        "label": "Not at all",
+        "desc": "This is not happening today."
+      },
+      {
+        "label": "Rarely",
+        "desc": "Occasional and inconsistent."
+      },
+      {
+        "label": "Sometimes",
+        "desc": "Happens in pockets."
+      },
+      {
+        "label": "Often",
+        "desc": "Common across most of the organisation."
+      },
+      {
+        "label": "Consistently",
+        "desc": "Embedded in how we work."
+      }
     ],
     "dimensions": {
       "leadership": "Leadership behaviour",
@@ -189,22 +273,60 @@
       "measurement": "Measurement and quality"
     },
     "questions": [
-      { "id": "q1", "text": "Senior leaders visibly model coaching behaviours such as listening, asking and delegating." },
-      { "id": "q2", "text": "Difficult conversations are held early and directly rather than avoided." },
-      { "id": "q3", "text": "Managers have been trained in practical coaching skills, not just performance processes." },
-      { "id": "q4", "text": "People at all levels receive regular, useful developmental feedback." },
-      { "id": "q5", "text": "Coaching is available beyond the executive layer, including to emerging leaders." },
-      { "id": "q6", "text": "People know how to request coaching and what to expect from it." },
-      { "id": "q7", "text": "Coaching engagements start with agreed outcomes and are reviewed against them." },
-      { "id": "q8", "text": "We work with credentialed coaches and hold external providers to a clear quality standard." }
+      {
+        "id": "q1",
+        "text": "Senior leaders visibly model coaching behaviours such as listening, asking and delegating."
+      },
+      {
+        "id": "q2",
+        "text": "Difficult conversations are held early and directly rather than avoided."
+      },
+      {
+        "id": "q3",
+        "text": "Managers have been trained in practical coaching skills, not just performance processes."
+      },
+      {
+        "id": "q4",
+        "text": "People at all levels receive regular, useful developmental feedback."
+      },
+      {
+        "id": "q5",
+        "text": "Coaching is available beyond the executive layer, including to emerging leaders."
+      },
+      {
+        "id": "q6",
+        "text": "People know how to request coaching and what to expect from it."
+      },
+      {
+        "id": "q7",
+        "text": "Coaching engagements start with agreed outcomes and are reviewed against them."
+      },
+      {
+        "id": "q8",
+        "text": "We work with credentialed coaches and hold external providers to a clear quality standard."
+      }
     ],
     "bands": {
-      "emerging": { "title": "Emerging", "desc": "Coaching happens occasionally and informally. The fastest gain is a focused pilot with clear outcomes rather than a broad rollout." },
-      "developing": { "title": "Developing", "desc": "The foundations exist but are uneven. Consistency in access, manager capability and measurement will unlock most of the value." },
-      "established": { "title": "Established", "desc": "Coaching is a recognised part of how you develop people. The next step is embedding quality standards and widening access." },
-      "embedded": { "title": "Embedded", "desc": "Coaching is part of your management style. Focus on sustaining quality, supervision and measurable renewal as your organisation changes." }
+      "emerging": {
+        "title": "Emerging",
+        "desc": "Coaching happens occasionally and informally. The fastest gain is a focused pilot with clear outcomes rather than a broad rollout."
+      },
+      "developing": {
+        "title": "Developing",
+        "desc": "The foundations exist but are uneven. Consistency in access, manager capability and measurement will unlock most of the value."
+      },
+      "established": {
+        "title": "Established",
+        "desc": "Coaching is a recognised part of how you develop people. The next step is embedding quality standards and widening access."
+      },
+      "embedded": {
+        "title": "Embedded",
+        "desc": "Coaching is part of your management style. Focus on sustaining quality, supervision and measurable renewal as your organisation changes."
+      }
     },
-    "result": { "eyebrow": "Your result" },
+    "result": {
+      "eyebrow": "Your result"
+    },
     "form": {
       "title": "Want to talk this through?",
       "lede": "Send your result to our organisational team and we will come back with a short, provider-neutral view of your options.",
@@ -228,37 +350,86 @@
     "title": "Where to meet us next.",
     "cta": "All events",
     "items": [
-      { "date": "Thu 17 Sep 2026", "title": "Coaching cultures roundtable, Zürich", "desc": "For HR and L&D leads building internal coaching capability." },
-      { "date": "Wed 14 Oct 2026", "title": "Leadership in transition, Lausanne", "desc": "Executive coaching in restructuring and merger contexts." },
-      { "date": "Tue 10 Nov 2026", "title": "AI, trust and teams, online", "desc": "What technology change asks of leaders and their teams." },
-      { "date": "Thu 3 Dec 2026", "title": "Measuring coaching impact, Lugano", "desc": "Practical evaluation approaches that survive scrutiny." }
+      {
+        "date": "Thu 17 Sep 2026",
+        "title": "Coaching cultures roundtable, Zürich",
+        "desc": "For HR and L&D leads building internal coaching capability."
+      },
+      {
+        "date": "Wed 14 Oct 2026",
+        "title": "Leadership in transition, Lausanne",
+        "desc": "Executive coaching in restructuring and merger contexts."
+      },
+      {
+        "date": "Tue 10 Nov 2026",
+        "title": "AI, trust and teams, online",
+        "desc": "What technology change asks of leaders and their teams."
+      },
+      {
+        "date": "Thu 3 Dec 2026",
+        "title": "Measuring coaching impact, Lugano",
+        "desc": "Practical evaluation approaches that survive scrutiny."
+      }
     ]
   },
   "outcomes": {
     "eyebrow": "Outcomes",
     "title": "Why organisations choose ICF coaches.",
     "items": [
-      { "stat": "+38%", "title": "Leader effectiveness", "desc": "Coached leaders report sharper judgement, better delegation and stronger presence." },
-      { "stat": "2×", "title": "Team engagement", "desc": "Teams working with a coaching culture consistently outperform peers on engagement." },
-      { "stat": "94%", "title": "ROI reported", "desc": "Organisations investing in coaching report measurable returns within twelve months." }
+      {
+        "stat": "+38%",
+        "title": "Leader effectiveness",
+        "desc": "Coached leaders report sharper judgement, better delegation and stronger presence."
+      },
+      {
+        "stat": "2×",
+        "title": "Team engagement",
+        "desc": "Teams working with a coaching culture consistently outperform peers on engagement."
+      },
+      {
+        "stat": "94%",
+        "title": "ROI reported",
+        "desc": "Organisations investing in coaching report measurable returns within twelve months."
+      }
     ]
   },
   "steps": {
     "eyebrow": "How we work",
     "title": "A clear path from ambition to impact.",
     "items": [
-      { "n": "01", "title": "Discover", "desc": "We understand your context, your people and the outcomes that matter." },
-      { "n": "02", "title": "Match", "desc": "We connect you with ICF credentialed coaches whose experience fits your goals." },
-      { "n": "03", "title": "Measure", "desc": "We support the engagement with milestones, feedback and clear evaluation." }
+      {
+        "n": "01",
+        "title": "Discover",
+        "desc": "We understand your context, your people and the outcomes that matter."
+      },
+      {
+        "n": "02",
+        "title": "Match",
+        "desc": "We connect you with ICF credentialed coaches whose experience fits your goals."
+      },
+      {
+        "n": "03",
+        "title": "Measure",
+        "desc": "We support the engagement with milestones, feedback and clear evaluation."
+      }
     ]
   },
   "programmes": {
     "eyebrow": "Featured programmes",
     "title": "Programmes tailored to your context.",
     "items": [
-      { "tag": "Executive coaching", "title": "One-to-one work with senior leaders navigating complexity." },
-      { "tag": "Team coaching", "title": "Whole-team engagements that build trust, alignment and results." },
-      { "tag": "Coaching cultures", "title": "Programmes that embed coaching skills across your organisation." }
+      {
+        "tag": "Executive coaching",
+        "title": "One-to-one work with senior leaders navigating complexity."
+      },
+      {
+        "tag": "Team coaching",
+        "title": "Whole-team engagements that build trust, alignment and results."
+      },
+      {
+        "tag": "Coaching cultures",
+        "title": "Programmes that embed coaching skills across your organisation."
+      }
     ]
   },
   "getStarted": {
