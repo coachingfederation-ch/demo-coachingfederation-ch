@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "title": "For Organisations — ICF Switzerland",
+    "description": "Coaching programmes that develop leaders, strengthen teams and build coaching cultures across Swiss organisations."
+  },
+  "hero": {
+    "eyebrow": "For organisations",
+    "titlePre": "Coaching for organisations that lead through ",
+    "titleAccent": "change",
+    "titlePost": ".",
+    "lede": "From executive one-to-ones to organisation-wide coaching cultures, ICF Switzerland connects you with credentialed coaches who deliver measurable impact.",
+    "cta": "Talk to our team"
+  },
+  "outcomes": {
+    "eyebrow": "Outcomes",
+    "title": "Why organisations choose ICF coaches.",
+    "items": [
+      { "stat": "+38%", "title": "Leader effectiveness", "desc": "Coached leaders report sharper judgement, better delegation and stronger presence." },
+      { "stat": "2×", "title": "Team engagement", "desc": "Teams working with a coaching culture consistently outperform peers on engagement." },
+      { "stat": "94%", "title": "ROI reported", "desc": "Organisations investing in coaching report measurable returns within twelve months." }
+    ]
+  },
+  "steps": {
+    "eyebrow": "How we work",
+    "title": "A clear path from ambition to impact.",
+    "items": [
+      { "n": "01", "title": "Discover", "desc": "We understand your context, your people and the outcomes that matter." },
+      { "n": "02", "title": "Match", "desc": "We connect you with ICF credentialed coaches whose experience fits your goals." },
+      { "n": "03", "title": "Measure", "desc": "We support the engagement with milestones, feedback and clear evaluation." }
+    ]
+  },
+  "programmes": {
+    "eyebrow": "Featured programmes",
+    "title": "Programmes tailored to your context.",
+    "items": [
+      { "tag": "Executive coaching", "title": "One-to-one work with senior leaders navigating complexity." },
+      { "tag": "Team coaching", "title": "Whole-team engagements that build trust, alignment and results." },
+      { "tag": "Coaching cultures", "title": "Programmes that embed coaching skills across your organisation." }
+    ]
+  },
+  "getStarted": {
+    "eyebrow": "Get started",
+    "title": "Ready to bring coaching into your organisation?",
+    "cta1": "Talk to us",
+    "cta2": "Case studies"
+  }
+}
