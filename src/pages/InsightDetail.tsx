@@ -72,7 +72,7 @@ export default function InsightDetailPage({ article }: { article: DetailArticle 
           {article.featured_image_url ? (
             <img
               src={article.featured_image_url}
-              alt={article.title}
+              alt=""
               className="aspect-[16/9] w-full object-cover"
             />
           ) : (

@@ -42,7 +42,7 @@ function CardVisual({ article, className }: { article: PublicArticle; className:
     return (
       <img
         src={article.featured_image_url}
-        alt={article.title}
+        alt=""
         loading="lazy"
         className={"w-full object-cover " + className}
       />
