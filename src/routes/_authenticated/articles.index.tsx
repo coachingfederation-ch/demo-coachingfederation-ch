@@ -28,17 +28,22 @@ interface Row {
   language: Lang;
   status: Status;
   updated_at: string;
+  translations?: { locale: string }[] | null;
 }
 
 const filters = ["All", "Drafts", "Scheduled", "Published", "Unpublished"] as const;
 type Filter = (typeof filters)[number];
 
-function StatusPill({ status }: { status: Status }) {
+function StatusPill({ status, t }: { status: Status; t: (k: string) => string }) {
   const map: Record<Status, { bg: string; dot: string; label: string }> = {
-    draft: { bg: "bg-warn-soft text-[color:var(--warn)]", dot: "var(--warn)", label: "Draft" },
-    scheduled: { bg: "bg-teal-soft text-teal-foreground", dot: "var(--teal)", label: "Scheduled" },
-    published: { bg: "bg-teal-soft text-teal-foreground", dot: "var(--teal)", label: "Published" },
-    unpublished: { bg: "bg-secondary text-muted-foreground", dot: "var(--muted-foreground)", label: "Unpublished" },
+    draft: { bg: "bg-warn-soft text-[color:var(--warn)]", dot: "var(--warn)", label: t("status.draft") },
+    scheduled: { bg: "bg-teal-soft text-teal-foreground", dot: "var(--teal)", label: t("status.scheduled") },
+    published: { bg: "bg-teal-soft text-teal-foreground", dot: "var(--teal)", label: t("status.published") },
+    unpublished: {
+      bg: "bg-secondary text-muted-foreground",
+      dot: "var(--muted-foreground)",
+      label: t("status.unpublished"),
+    },
   };
   const s = map[status];
   return (
@@ -67,6 +72,7 @@ function timeAgo(iso: string) {
 }
 
 function ArticlesPage() {
+  const { t } = useCms();
   const [rows, setRows] = useState<Row[] | null>(null);
   const [filter, setFilter] = useState<Filter>("All");
   const [q, setQ] = useState("");
@@ -74,9 +80,9 @@ function ArticlesPage() {
   useEffect(() => {
     supabase
       .from("articles")
-      .select("id, title, language, status, updated_at")
+      .select("id, title, language, status, updated_at, translations:article_translations(locale)")
       .order("updated_at", { ascending: false })
-      .then(({ data }) => setRows((data as Row[]) ?? []));
+      .then(({ data }) => setRows((data as unknown as Row[]) ?? []));
   }, []);
 
   const filtered = useMemo(() => {
@@ -103,7 +109,7 @@ function ArticlesPage() {
       <div className="mx-auto max-w-6xl px-10 py-10">
         <header className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Articles</h1>
+            <h1 className="text-3xl font-bold tracking-tight">{t("list.title")}</h1>
             <p className="mt-2 text-sm text-muted-foreground">
               {counts.total} article{counts.total === 1 ? "" : "s"} · {counts.drafts} draft{counts.drafts === 1 ? "" : "s"} · {counts.scheduled} scheduled
             </p>
@@ -113,7 +119,7 @@ function ArticlesPage() {
             className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:opacity-95"
           >
             <Plus className="h-4 w-4" />
-            New article
+            {t("list.new")}
           </Link>
         </header>
 
@@ -121,7 +127,7 @@ function ArticlesPage() {
           <div className="relative min-w-[240px] max-w-sm flex-1">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input
-              placeholder="Search articles…"
+              placeholder={t("list.search")}
               value={q}
               onChange={(e) => setQ(e.target.value)}
               className="w-full rounded-full border border-border bg-card py-2.5 pl-9 pr-4 text-sm outline-none placeholder:text-muted-foreground focus:ring-2 focus:ring-ring/30"
@@ -139,7 +145,7 @@ function ArticlesPage() {
                     : "bg-card text-foreground hover:bg-secondary")
                 }
               >
-                {f}
+                {t(`list.filters.${f}`)}
               </button>
             ))}
           </div>
@@ -147,17 +153,17 @@ function ArticlesPage() {
 
         <div className="mt-6 overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-soft)]">
           <div className="grid grid-cols-[minmax(0,2fr)_0.8fr_1fr_0.8fr_auto] items-center gap-4 border-b border-border bg-secondary/50 px-6 py-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-            <div>Article</div>
-            <div>Language</div>
-            <div>Status</div>
-            <div>Updated</div>
+            <div>{t("list.title")}</div>
+            <div>{t("editor.sourceLanguage")}</div>
+            <div>{t("editor.statusLabel")}</div>
+            <div>{t("list.updated")}</div>
             <div className="w-4" />
           </div>
           {rows === null ? (
-            <div className="px-6 py-10 text-center text-sm text-muted-foreground">Loading…</div>
+            <div className="px-6 py-10 text-center text-sm text-muted-foreground">{t("editor.loading")}</div>
           ) : filtered.length === 0 ? (
             <div className="px-6 py-10 text-center text-sm text-muted-foreground">
-              No articles yet. Click <span className="font-semibold">New article</span> to get started.
+              {t("list.empty")}
             </div>
           ) : (
             filtered.map((r) => (
@@ -168,8 +174,18 @@ function ArticlesPage() {
                 className="group grid grid-cols-[minmax(0,2fr)_0.8fr_1fr_0.8fr_auto] items-center gap-4 border-b border-border/70 px-6 py-4 text-sm transition last:border-b-0 hover:bg-secondary/60"
               >
                 <div className="font-semibold text-foreground">{r.title || <span className="text-muted-foreground">Untitled</span>}</div>
-                <div><LangChip code={r.language} /></div>
-                <div><StatusPill status={r.status} /></div>
+                <div className="flex flex-wrap items-center gap-1">
+                  <LangChip code={r.language} />
+                  {(r.translations ?? []).map((tr) => (
+                    <span
+                      key={tr.locale}
+                      className="inline-flex h-6 min-w-8 items-center justify-center rounded-md bg-secondary px-1.5 text-[11px] font-semibold text-muted-foreground"
+                    >
+                      {tr.locale.toUpperCase()}
+                    </span>
+                  ))}
+                </div>
+                <div><StatusPill status={r.status} t={t} /></div>
                 <div className="text-muted-foreground">{timeAgo(r.updated_at)}</div>
                 <ChevronRight className="h-4 w-4 text-muted-foreground transition group-hover:translate-x-0.5 group-hover:text-foreground" />
               </Link>
