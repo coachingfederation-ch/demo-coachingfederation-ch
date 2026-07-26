@@ -5,6 +5,7 @@ import { LOCALES, localizePath, SITE_URL } from "@/i18n/config";
 
 const PATHS = [
   { path: "/", changefreq: "weekly", priority: "1.0" },
+  { path: "/find-a-coach", changefreq: "weekly", priority: "0.9" },
   { path: "/for-organisations", changefreq: "monthly", priority: "0.8" },
   { path: "/for-coaches", changefreq: "monthly", priority: "0.8" },
   { path: "/insights", changefreq: "weekly", priority: "0.8" },

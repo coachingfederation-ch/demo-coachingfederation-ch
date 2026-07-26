@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "title": "Trouver un coach — ICF Switzerland",
+    "description": "Recherchez dans l'annuaire des coachs certifiés ICF en Suisse par région, langue, niveau de certification et spécialisation."
+  },
+  "hero": {
+    "eyebrow": "Annuaire",
+    "titlePre": "Trouvez un coach ",
+    "titleAccent": "certifié",
+    "titlePost": ".",
+    "lede": "Chaque coach référencé détient une certification ICF active et s'engage à respecter le Code de déontologie de l'ICF."
+  },
+  "filters": {
+    "title": "Filtres",
+    "searchLabel": "Rechercher",
+    "searchPlaceholder": "Nom, ville ou spécialisation",
+    "cantonLabel": "Canton",
+    "cantonAll": "Tous les cantons",
+    "languageLabel": "Langue",
+    "languageAll": "Toutes les langues",
+    "credentialLabel": "Certification",
+    "specializationLabel": "Spécialisation",
+    "formatLabel": "Format",
+    "acceptingLabel": "Accepte de nouveaux clients",
+    "clear": "Réinitialiser les filtres",
+    "toggle": "Filtres"
+  },
+  "results": {
+    "one": "1 coach",
+    "many": "{count} coachs",
+    "emptyTitle": "Aucun coach ne correspond à vos filtres",
+    "emptyBody": "Essayez d'élargir votre recherche à d'autres cantons ou spécialisations."
+  },
+  "card": {
+    "featured": "En vedette",
+    "accepting": "Accepte de nouveaux clients",
+    "waitlist": "Liste d'attente uniquement",
+    "credentialSince": "Certifié(e) depuis {year}"
+  },
+  "formats": {
+    "in-person": "En présentiel",
+    "online": "En ligne"
+  },
+  "languages": {
+    "de": "Allemand",
+    "fr": "Français",
+    "it": "Italien",
+    "en": "Anglais"
+  },
+  "specializations": {
+    "leadership": "Leadership",
+    "career": "Carrière",
+    "team": "Coaching d'équipe",
+    "executive": "Executive",
+    "transition": "Transition",
+    "wellbeing": "Bien-être",
+    "systemic": "Systémique",
+    "diversity": "Diversité & inclusion"
+  },
+  "note": {
+    "title": "Profils issus d'ICF Global",
+    "body": "Les données des coachs sont gérées par ICF Global. Les membres peuvent enrichir leur profil avec du contenu supplémentaire sur ce portail."
+  }
+}

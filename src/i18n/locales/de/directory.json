@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "title": "Coach finden — ICF Switzerland",
+    "description": "Durchsuchen Sie das Verzeichnis zertifizierter ICF-Coaches in der Schweiz nach Region, Sprache, Zertifizierung und Spezialisierung."
+  },
+  "hero": {
+    "eyebrow": "Verzeichnis",
+    "titlePre": "Finden Sie einen ",
+    "titleAccent": "zertifizierten",
+    "titlePost": " Coach.",
+    "lede": "Jeder aufgeführte Coach verfügt über eine aktive ICF-Zertifizierung und verpflichtet sich zu den ethischen Richtlinien der ICF."
+  },
+  "filters": {
+    "title": "Filter",
+    "searchLabel": "Suche",
+    "searchPlaceholder": "Name, Stadt oder Spezialisierung",
+    "cantonLabel": "Kanton",
+    "cantonAll": "Alle Kantone",
+    "languageLabel": "Sprache",
+    "languageAll": "Alle Sprachen",
+    "credentialLabel": "Zertifizierung",
+    "specializationLabel": "Spezialisierung",
+    "formatLabel": "Format",
+    "acceptingLabel": "Nimmt neue Klienten an",
+    "clear": "Filter zurücksetzen",
+    "toggle": "Filter"
+  },
+  "results": {
+    "one": "1 Coach",
+    "many": "{count} Coaches",
+    "emptyTitle": "Keine Coaches entsprechen Ihren Filtern",
+    "emptyBody": "Versuchen Sie, Ihre Auswahl nach Kanton oder Spezialisierung zu erweitern."
+  },
+  "card": {
+    "featured": "Hervorgehoben",
+    "accepting": "Nimmt neue Klienten an",
+    "waitlist": "Nur Warteliste",
+    "credentialSince": "Zertifiziert seit {year}"
+  },
+  "formats": {
+    "in-person": "Vor Ort",
+    "online": "Online"
+  },
+  "languages": {
+    "de": "Deutsch",
+    "fr": "Französisch",
+    "it": "Italienisch",
+    "en": "Englisch"
+  },
+  "specializations": {
+    "leadership": "Leadership",
+    "career": "Karriere",
+    "team": "Team-Coaching",
+    "executive": "Executive",
+    "transition": "Transition",
+    "wellbeing": "Wohlbefinden",
+    "systemic": "Systemisch",
+    "diversity": "Diversity & Inklusion"
+  },
+  "note": {
+    "title": "Profile stammen von ICF Global",
+    "body": "Die Coach-Daten werden von ICF Global verwaltet. Mitglieder können ihr Profil auf diesem Portal mit zusätzlichen Inhalten ergänzen."
+  }
+}

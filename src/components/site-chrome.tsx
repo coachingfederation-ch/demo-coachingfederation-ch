@@ -70,12 +70,12 @@ export function SiteNav() {
           </a>
         ))}
       </div>
-      <a
-        href="#find-a-coach"
+      <LocaleLink
+        to="/find-a-coach"
         className="inline-flex h-8 items-center rounded-full bg-accent px-4 text-[11px] font-semibold uppercase tracking-wider text-accent-foreground transition hover:opacity-90"
       >
         {t("common.nav.findACoach")}
-      </a>
+      </LocaleLink>
     </div>
   );
 }
@@ -139,6 +139,7 @@ export function SiteFooter() {
       <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-3 px-8 py-6 text-xs sm:flex-row sm:items-center">
         <p className="text-white/70">© {new Date().getFullYear()} {t("common.footer.copyright")}</p>
         <nav aria-label={t("common.nav.footerLabel")} className="flex flex-wrap items-center gap-4">
+          <LocaleLink to="/find-a-coach" className="text-white/80 hover:text-white">{t("common.nav.findACoach")}</LocaleLink>
           <LocaleLink to="/for-organisations" className="text-white/80 hover:text-white">{t("common.nav.forOrganisations")}</LocaleLink>
           <LocaleLink to="/for-coaches" className="text-white/80 hover:text-white">{t("common.nav.forCoaches")}</LocaleLink>
           <LocaleLink to="/insights" className="text-white/80 hover:text-white">{t("common.nav.insights")}</LocaleLink>
