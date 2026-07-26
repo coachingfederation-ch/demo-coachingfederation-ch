@@ -76,11 +76,7 @@ export function MarkdownEditor({
 
   return (
     <div>
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-2">
-        <div className="flex-1">
-          <MarkdownToolbar textareaRef={ref} value={value} onChange={onChange} />
-        </div>
-      </div>
+      <MarkdownToolbar textareaRef={ref} value={value} onChange={onChange} />
       <div className="flex items-center justify-end gap-1 border-x border-border bg-secondary/50 px-2 pb-1.5">
         {MODES.map(({ key, icon: Icon }) => (
           <button

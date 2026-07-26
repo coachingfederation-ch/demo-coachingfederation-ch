@@ -177,12 +177,28 @@ export function TranslationsPanel({
                   <label className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                     {t("translations.bodyField")}
                   </label>
-                  <textarea
-                    rows={10}
-                    value={draft.content}
-                    onChange={(e) => setDraft({ ...draft, content: e.target.value })}
-                    className="w-full resize-y rounded-lg border border-border bg-card px-2 py-1.5 text-sm leading-relaxed outline-none focus:ring-2 focus:ring-ring/20"
-                  />
+                  <div className="space-y-2">
+                    <textarea
+                      rows={10}
+                      value={draft.content}
+                      onChange={(e) => setDraft({ ...draft, content: e.target.value })}
+                      className="w-full resize-y rounded-lg border border-border bg-card px-2 py-1.5 font-mono text-sm leading-relaxed outline-none focus:ring-2 focus:ring-ring/20"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setPreviewLocale(previewLocale === locale ? null : locale)}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1 text-[11px] font-medium hover:bg-secondary"
+                    >
+                      <Eye className="h-3 w-3" />
+                      {previewLocale === locale ? t("toolbar.write") : t("toolbar.preview")}
+                    </button>
+                    {previewLocale === locale ? (
+                      <MarkdownPreview
+                        content={draft.content}
+                        className="rounded-xl border border-border bg-card p-4"
+                      />
+                    ) : null}
+                  </div>
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => void saveDraft()}
