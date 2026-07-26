@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "title": "Trova un coach — ICF Switzerland",
+    "description": "Cerca nell'elenco dei coach certificati ICF in Svizzera per regione, lingua, livello di credenziale e specializzazione."
+  },
+  "hero": {
+    "eyebrow": "Elenco",
+    "titlePre": "Trova un coach ",
+    "titleAccent": "certificato",
+    "titlePost": ".",
+    "lede": "Ogni coach presente possiede una credenziale ICF attiva e si impegna a rispettare il Codice Etico ICF."
+  },
+  "filters": {
+    "title": "Filtra",
+    "searchLabel": "Cerca",
+    "searchPlaceholder": "Nome, città o specializzazione",
+    "cantonLabel": "Cantone",
+    "cantonAll": "Tutti i cantoni",
+    "languageLabel": "Lingua",
+    "languageAll": "Tutte le lingue",
+    "credentialLabel": "Credenziale",
+    "specializationLabel": "Specializzazione",
+    "formatLabel": "Formato",
+    "acceptingLabel": "Accetta nuovi clienti",
+    "clear": "Cancella filtri",
+    "toggle": "Filtri"
+  },
+  "results": {
+    "one": "1 coach",
+    "many": "{count} coach",
+    "emptyTitle": "Nessun coach corrisponde ai filtri selezionati",
+    "emptyBody": "Prova ad ampliare la ricerca per cantone o specializzazione."
+  },
+  "card": {
+    "featured": "In evidenza",
+    "accepting": "Accetta nuovi clienti",
+    "waitlist": "Solo lista d'attesa",
+    "credentialSince": "Certificato dal {year}"
+  },
+  "formats": {
+    "in-person": "In presenza",
+    "online": "Online"
+  },
+  "languages": {
+    "de": "Tedesco",
+    "fr": "Francese",
+    "it": "Italiano",
+    "en": "Inglese"
+  },
+  "specializations": {
+    "leadership": "Leadership",
+    "career": "Carriera",
+    "team": "Coaching di team",
+    "executive": "Executive",
+    "transition": "Transizione",
+    "wellbeing": "Benessere",
+    "systemic": "Sistemico",
+    "diversity": "Diversità e inclusione"
+  },
+  "note": {
+    "title": "Profili provenienti da ICF Global",
+    "body": "I dati dei coach sono gestiti da ICF Global. I membri possono arricchire il proprio profilo con contenuti aggiuntivi su questo portale."
+  }
+}

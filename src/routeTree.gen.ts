@@ -13,6 +13,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as ForOrganisationsRouteImport } from './routes/for-organisations'
 import { Route as ForCoachesRouteImport } from './routes/for-coaches'
+import { Route as FindACoachRouteImport } from './routes/find-a-coach'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
@@ -27,6 +28,7 @@ import { Route as AuthenticatedArticlesRouteImport } from './routes/_authenticat
 import { Route as LocaleInsightsRouteImport } from './routes/$locale/insights'
 import { Route as LocaleForOrganisationsRouteImport } from './routes/$locale/for-organisations'
 import { Route as LocaleForCoachesRouteImport } from './routes/$locale/for-coaches'
+import { Route as LocaleFindACoachRouteImport } from './routes/$locale/find-a-coach'
 import { Route as LocaleEventsRouteImport } from './routes/$locale/events'
 import { Route as LocaleAboutRouteImport } from './routes/$locale/about'
 import { Route as AuthenticatedArticlesIndexRouteImport } from './routes/_authenticated/articles.index'
@@ -54,6 +56,11 @@ const ForOrganisationsRoute = ForOrganisationsRouteImport.update({
 const ForCoachesRoute = ForCoachesRouteImport.update({
   id: '/for-coaches',
   path: '/for-coaches',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FindACoachRoute = FindACoachRouteImport.update({
+  id: '/find-a-coach',
+  path: '/find-a-coach',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EventsRoute = EventsRouteImport.update({
@@ -125,6 +132,11 @@ const LocaleForCoachesRoute = LocaleForCoachesRouteImport.update({
   path: '/for-coaches',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
+const LocaleFindACoachRoute = LocaleFindACoachRouteImport.update({
+  id: '/find-a-coach',
+  path: '/find-a-coach',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
 const LocaleEventsRoute = LocaleEventsRouteImport.update({
   id: '/events',
   path: '/events',
@@ -175,12 +187,14 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRouteWithChildren
   '/events': typeof EventsRoute
+  '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
   '/insights': typeof InsightsRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/events': typeof LocaleEventsRoute
+  '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
@@ -201,11 +215,13 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRouteWithChildren
   '/events': typeof EventsRoute
+  '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/events': typeof LocaleEventsRoute
+  '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
   '/auth/callback': typeof AuthCallbackRoute
@@ -227,12 +243,14 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRouteWithChildren
   '/events': typeof EventsRoute
+  '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
   '/insights': typeof InsightsRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/events': typeof LocaleEventsRoute
+  '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
@@ -256,12 +274,14 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/events'
+    | '/find-a-coach'
     | '/for-coaches'
     | '/for-organisations'
     | '/insights'
     | '/sitemap.xml'
     | '/$locale/about'
     | '/$locale/events'
+    | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
     | '/$locale/insights'
@@ -282,11 +302,13 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/events'
+    | '/find-a-coach'
     | '/for-coaches'
     | '/for-organisations'
     | '/sitemap.xml'
     | '/$locale/about'
     | '/$locale/events'
+    | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
     | '/auth/callback'
@@ -307,12 +329,14 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/events'
+    | '/find-a-coach'
     | '/for-coaches'
     | '/for-organisations'
     | '/insights'
     | '/sitemap.xml'
     | '/$locale/about'
     | '/$locale/events'
+    | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
     | '/$locale/insights'
@@ -336,6 +360,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRouteWithChildren
   EventsRoute: typeof EventsRoute
+  FindACoachRoute: typeof FindACoachRoute
   ForCoachesRoute: typeof ForCoachesRoute
   ForOrganisationsRoute: typeof ForOrganisationsRoute
   InsightsRoute: typeof InsightsRouteWithChildren
@@ -370,6 +395,13 @@ declare module '@tanstack/react-router' {
       path: '/for-coaches'
       fullPath: '/for-coaches'
       preLoaderRoute: typeof ForCoachesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/find-a-coach': {
+      id: '/find-a-coach'
+      path: '/find-a-coach'
+      fullPath: '/find-a-coach'
+      preLoaderRoute: typeof FindACoachRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/events': {
@@ -470,6 +502,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleForCoachesRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
+    '/$locale/find-a-coach': {
+      id: '/$locale/find-a-coach'
+      path: '/find-a-coach'
+      fullPath: '/$locale/find-a-coach'
+      preLoaderRoute: typeof LocaleFindACoachRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
     '/$locale/events': {
       id: '/$locale/events'
       path: '/events'
@@ -546,6 +585,7 @@ const LocaleInsightsRouteWithChildren = LocaleInsightsRoute._addFileChildren(
 interface LocaleRouteRouteChildren {
   LocaleAboutRoute: typeof LocaleAboutRoute
   LocaleEventsRoute: typeof LocaleEventsRoute
+  LocaleFindACoachRoute: typeof LocaleFindACoachRoute
   LocaleForCoachesRoute: typeof LocaleForCoachesRoute
   LocaleForOrganisationsRoute: typeof LocaleForOrganisationsRoute
   LocaleInsightsRoute: typeof LocaleInsightsRouteWithChildren
@@ -555,6 +595,7 @@ interface LocaleRouteRouteChildren {
 const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleAboutRoute: LocaleAboutRoute,
   LocaleEventsRoute: LocaleEventsRoute,
+  LocaleFindACoachRoute: LocaleFindACoachRoute,
   LocaleForCoachesRoute: LocaleForCoachesRoute,
   LocaleForOrganisationsRoute: LocaleForOrganisationsRoute,
   LocaleInsightsRoute: LocaleInsightsRouteWithChildren,
@@ -626,6 +667,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthRoute: AuthRouteWithChildren,
   EventsRoute: EventsRoute,
+  FindACoachRoute: FindACoachRoute,
   ForCoachesRoute: ForCoachesRoute,
   ForOrganisationsRoute: ForOrganisationsRoute,
   InsightsRoute: InsightsRouteWithChildren,
