@@ -130,7 +130,7 @@ export default function InsightsPage() {
   const cardCategory = (a: PublicArticle) => articleCategoryLabel(a, locale);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-dvh bg-background text-foreground">
       <CompactHero
         eyebrow={t("insights.hero.eyebrow")}
         title={
@@ -141,7 +141,7 @@ export default function InsightsPage() {
         }
         lede={t("insights.hero.lede")}
       />
-      <main>
+      <main id="main">
         <section className="mx-auto max-w-7xl px-8 pt-16">
           <div className="flex flex-wrap items-center gap-2">
             {topics.map(({ id, label }) => (

@@ -34,7 +34,7 @@ export default function EventsPage() {
   const past = tList<{ date: string; city: string; title: string }>("events.past.items");
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-dvh bg-background text-foreground">
       <CompactHero
         eyebrow={t("events.hero.eyebrow")}
         title={
@@ -46,7 +46,7 @@ export default function EventsPage() {
         }
         lede={t("events.hero.lede")}
       />
-      <main>
+      <main id="main">
         <section className="mx-auto max-w-7xl px-8 py-16">
           <p className="eyebrow">{t("events.featured.eyebrow")}</p>
           <a href="#" className={"group mt-6 grid overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 md:grid-cols-2 " + CARD_SHADOW}>

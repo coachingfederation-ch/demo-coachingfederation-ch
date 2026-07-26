@@ -23,7 +23,7 @@ export default function ForOrganisationsPage() {
   const programmes = tList<{ tag: string; title: string }>("organisations.programmes.items");
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-dvh bg-background text-foreground">
       <CompactHero
         eyebrow={t("organisations.hero.eyebrow")}
         title={
@@ -36,7 +36,7 @@ export default function ForOrganisationsPage() {
         lede={t("organisations.hero.lede")}
         ctaLabel={t("organisations.hero.cta")}
       />
-      <main>
+      <main id="main">
         <ProofBar />
 
         <section className="mx-auto max-w-7xl px-8 py-24">

@@ -13,7 +13,7 @@ export default function AboutPage() {
   const research = tList<{ title: string; desc: string }>("about.research.items");
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-dvh bg-background text-foreground">
       <CompactHero
         eyebrow={t("about.hero.eyebrow")}
         title={
@@ -24,7 +24,7 @@ export default function AboutPage() {
         }
         lede={t("about.hero.lede")}
       />
-      <main>
+      <main id="main">
         <section className="mx-auto max-w-7xl px-8 py-24">
           <div className="grid gap-14 md:grid-cols-2 md:items-center">
             <img

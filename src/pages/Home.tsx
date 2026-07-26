@@ -388,9 +388,9 @@ function Join() {
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-dvh bg-background text-foreground">
       <HeroHeader />
-      <main>
+      <main id="main">
         <Audiences />
         <WhyCredentialed />
         <CoachingInAction />

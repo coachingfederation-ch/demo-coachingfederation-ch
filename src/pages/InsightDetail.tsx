@@ -12,13 +12,13 @@ import { LocaleLink, useI18n } from "@/i18n";
 
 export function DetailShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-dvh bg-background text-foreground">
       <header className="bg-hero text-hero-foreground">
         <div className="mx-auto max-w-7xl px-5 pt-6 pb-8 sm:px-8">
           <SiteHeaderBar compact />
         </div>
       </header>
-      <main>{children}</main>
+      <main id="main">{children}</main>
       <SiteFooter />
     </div>
   );

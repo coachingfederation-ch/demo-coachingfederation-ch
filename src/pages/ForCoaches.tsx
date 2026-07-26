@@ -14,7 +14,7 @@ export default function ForCoachesPage() {
   const deibItems = tList<string>("coaches.deib.items");
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-dvh bg-background text-foreground">
       <CompactHero
         eyebrow={t("coaches.hero.eyebrow")}
         title={
@@ -27,7 +27,7 @@ export default function ForCoachesPage() {
         lede={t("coaches.hero.lede")}
         ctaLabel={t("coaches.hero.cta")}
       />
-      <main>
+      <main id="main">
         <BenefitGrid />
         <LearningTabs />
 
