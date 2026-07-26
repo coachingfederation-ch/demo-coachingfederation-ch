@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Languages, Loader2 } from "lucide-react";
+import { Languages, Loader2, Eye } from "lucide-react";
+import { MarkdownPreview } from "@/components/cms/MarkdownEditor";
 import { supabase } from "@/integrations/supabase/client";
 import { translateArticle } from "@/lib/translations.functions";
 import { useCms } from "@/i18n/cms";
@@ -34,6 +35,7 @@ export function TranslationsPanel({
   const [openLocale, setOpenLocale] = useState<string | null>(null);
   const [draft, setDraft] = useState<TranslationRow | null>(null);
   const [savedNote, setSavedNote] = useState(false);
+  const [previewLocale, setPreviewLocale] = useState<string | null>(null);
 
   const targets = LOCALE_ORDER.filter((l) => l !== sourceLanguage);
 
