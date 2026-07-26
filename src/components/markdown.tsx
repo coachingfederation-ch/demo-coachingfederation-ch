@@ -1,6 +1,5 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import type { ReactNode } from "react";
 import { Callout, parseCallout } from "@/components/callout";
 
 /** Renders article body markdown with site-token styling. Raw HTML is not allowed. */
