@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Languages, Loader2 } from "lucide-react";
+import { Languages, Loader2, Eye } from "lucide-react";
+import { MarkdownPreview } from "@/components/cms/MarkdownEditor";
 import { supabase } from "@/integrations/supabase/client";
 import { translateArticle } from "@/lib/translations.functions";
 import { useCms } from "@/i18n/cms";
@@ -34,6 +35,7 @@ export function TranslationsPanel({
   const [openLocale, setOpenLocale] = useState<string | null>(null);
   const [draft, setDraft] = useState<TranslationRow | null>(null);
   const [savedNote, setSavedNote] = useState(false);
+  const [previewLocale, setPreviewLocale] = useState<string | null>(null);
 
   const targets = LOCALE_ORDER.filter((l) => l !== sourceLanguage);
 
@@ -177,12 +179,28 @@ export function TranslationsPanel({
                   <label className="block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                     {t("translations.bodyField")}
                   </label>
-                  <textarea
-                    rows={10}
-                    value={draft.content}
-                    onChange={(e) => setDraft({ ...draft, content: e.target.value })}
-                    className="w-full resize-y rounded-lg border border-border bg-card px-2 py-1.5 text-sm leading-relaxed outline-none focus:ring-2 focus:ring-ring/20"
-                  />
+                  <div className="space-y-2">
+                    <textarea
+                      rows={10}
+                      value={draft.content}
+                      onChange={(e) => setDraft({ ...draft, content: e.target.value })}
+                      className="w-full resize-y rounded-lg border border-border bg-card px-2 py-1.5 font-mono text-sm leading-relaxed outline-none focus:ring-2 focus:ring-ring/20"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setPreviewLocale(previewLocale === locale ? null : locale)}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1 text-[11px] font-medium hover:bg-secondary"
+                    >
+                      <Eye className="h-3 w-3" />
+                      {previewLocale === locale ? t("toolbar.write") : t("toolbar.preview")}
+                    </button>
+                    {previewLocale === locale ? (
+                      <MarkdownPreview
+                        content={draft.content}
+                        className="rounded-xl border border-border bg-card p-4"
+                      />
+                    ) : null}
+                  </div>
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => void saveDraft()}

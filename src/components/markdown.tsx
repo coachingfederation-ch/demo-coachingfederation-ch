@@ -1,13 +1,14 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Callout, parseCallout } from "@/components/callout";
+import { Callout, calloutShadeFrom } from "@/components/callout";
+import { remarkCallout } from "@/lib/remark-callout";
 
 /** Renders article body markdown with site-token styling. Raw HTML is not allowed. */
 export function Markdown({ children }: { children: string }) {
   return (
     <div className="space-y-5 text-base leading-relaxed">
       <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
+        remarkPlugins={[remarkGfm, remarkCallout]}
         components={{
           h1: ({ children }) => (
             <h2 className="mt-10 text-2xl font-bold tracking-tight md:text-3xl">{children}</h2>
@@ -36,11 +37,13 @@ export function Markdown({ children }: { children: string }) {
           code: ({ children }) => (
             <code className="rounded bg-secondary px-1.5 py-0.5 text-[0.9em]">{children}</code>
           ),
-          blockquote: ({ children }) => {
-            const callout = parseCallout(children);
-            if (callout) {
+          blockquote: ({ children, node }) => {
+            const props = (node?.properties ?? {}) as Record<string, unknown>;
+            const shade = calloutShadeFrom(props["dataCallout"] ?? props["data-callout"]);
+            if (shade) {
+              const rawEmoji = props["dataCalloutEmoji"] ?? props["data-callout-emoji"];
               return (
-                <Callout shade={callout.shade} emoji={callout.emoji}>
+                <Callout shade={shade} emoji={typeof rawEmoji === "string" ? rawEmoji : null}>
                   {children}
                 </Callout>
               );

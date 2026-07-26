@@ -94,7 +94,8 @@
     "loading": "Caricamento…",
     "languageLocked": "Lingua di partenza bloccata dopo la prima pubblicazione",
     "languageUnlocked": "Lingua di partenza modificabile fino alla prima pubblicazione",
-    "imageError": "Impossibile creare un collegamento per questa immagine."
+    "imageError": "Impossibile creare un collegamento per questa immagine.",
+    "previewEmpty": "Niente da visualizzare — inizia a scrivere."
   },
   "translations": {
     "title": "Traduzioni",
@@ -145,7 +146,10 @@
     "numbered": "Elenco numerato",
     "quote": "Citazione",
     "link": "Collegamento",
-    "callout": "Riquadro"
+    "callout": "Riquadro",
+    "write": "Scrivi",
+    "split": "Diviso",
+    "preview": "Anteprima"
   },
   "callout": {
     "shade": "Stile",

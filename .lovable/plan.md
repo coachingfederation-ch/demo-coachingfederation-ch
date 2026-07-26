@@ -1,43 +1,48 @@
-## 1. Unsplash image picker (featured image)
+## What's wrong today
 
-**Where:** the "Featured image" block in the article editor sidebar, next to the existing upload and "paste a URL" options — a third option, "Search Unsplash", opening a dialog with a search field, a result grid, and pagination.
+Verified in the code:
 
-**How it works**
-- A server function `searchUnsplash` (`src/lib/unsplash.functions.ts`) calls `GET https://api.unsplash.com/search/photos` with the access key read from `process.env` inside the handler. The key never reaches the browser.
-- Results show thumbnails plus photographer name; picking one sets `featured_image_url` to the `urls.regular` link and stores the attribution.
-- Unsplash's API terms require two things we will honour:
-  - a `POST` to the photo's `links.download_location` when a picture is chosen (a second server function, `trackUnsplashDownload`);
-  - a visible credit "Photo by X on Unsplash" with UTM links, shown under the image in the editor sidebar and on the public article page.
+- `src/components/callout.tsx` detects callouts by inspecting **rendered React children**. `firstString()` returns the first child only, and react-markdown emits a whitespace text node (`"\n"`) as the first child of a blockquote. So `parseCallout` returns `null` and the block falls through to the plain quote branch — which is exactly what you selected in the preview: a blockquote showing the raw `[!info] ✅` marker text.
+- Even when detection succeeds, `stripMarker` mutates already-rendered elements, which is fragile (marker/emoji can survive, spacing can break).
+- The editor (`src/routes/_authenticated/articles.$id.tsx`) has **no preview at all** — only a toolbar plus a plain `<textarea>`, so authors write Markdown blind.
 
-**Database:** one migration adding three nullable columns to `public.articles` — `image_credit_name`, `image_credit_url`, `image_source` ('upload' | 'unsplash' | 'url'). Existing grants and RLS policies stay unchanged; no new tables.
+## Plan
 
-**Credentials:** I'll request `UNSPLASH_ACCESS_KEY` through the secure secrets form when we start building (the application ID and secret key aren't needed for public photo search). If you'd rather also store them, say so and I'll include them.
+### 1. Move callout detection into the Markdown pipeline (fixes rendering)
 
-**Localisation:** new CMS strings ("Search Unsplash", "Search photos…", "Photo by {name} on Unsplash", "No results", "Load more") added to all four `cms.json` dictionaries.
+Replace the children-inspection approach with a small `remark` plugin (`src/lib/remark-callout.ts`) that runs on the mdast:
 
-## 2. Callout redesign — three shades + emoji
+- For every `blockquote`, read the first paragraph's leading text.
+- If it starts with `[!shade]` (with existing aliases: info/note/tip, highlight/important, warning/caution/danger) plus an optional emoji, remove that marker text from the AST and attach `shade` + `emoji` as node data.
+- Marker text is deleted before rendering, so raw Markdown can never leak into output — regardless of nesting or whitespace nodes.
+- If the first line is only the marker, drop the now-empty paragraph so the callout starts flush with its content.
 
-**Current state:** `> [!note]` renders as a flat grey box; the marker is stripped and only a single paragraph of plain text survives, so bold, links and lists inside a callout are lost.
+`src/components/markdown.tsx` then renders `<Callout shade emoji>` when the node carries callout data, and a normal blockquote otherwise. `Callout` keeps its current three-shade styling and emoji chip, but loses the brittle `stripMarker` logic.
 
-**New Markdown syntax** (backwards compatible with existing `[!note]` / `[!info]` / `[!tip]` / `[!warning]` articles):
+### 2. Live preview in the editor
 
-```text
-> [!info] 💡
-> Body text, **formatting** and [links](https://…) all keep working.
-```
+Add a view switcher above the body field with three modes: **Write / Split / Preview** (default Split on wide screens, Write on narrow ones; choice remembered per browser).
 
-Three shades, all built from existing design tokens (no hardcoded colours):
-- `info` — neutral/lavender surface, indigo left accent (default; `note`/`tip` map here)
-- `highlight` — warm accent shade using the yellow mark token
-- `warning` — stronger accent shade using the blue/indigo mark token
+- Split mode: textarea on the left, live-rendered preview on the right, both scrollable, preview updating as you type (lightly debounced so typing stays smooth).
+- The preview renders through the **same `<Markdown>` component** the public article page uses, inside a container matching the article page's typography width, so editor preview and published output are visually and structurally identical.
+- The formatting toolbar and existing autosave/dirty-state behaviour stay untouched.
 
-Visual treatment: rounded-2xl surface, tinted border, coloured left rail, emoji in a circular chip at the top-left, body text flowing beside it.
+### 3. Translation bodies
 
-**Renderer** (`src/components/markdown.tsx`): parse the `[!shade]` marker plus an optional leading emoji from the first paragraph, strip only those characters, and render the remaining children through the normal Markdown component map so nested formatting survives.
+Apply the same preview toggle to the translated-body textareas in `TranslationsPanel`, so translated callouts are verifiable before publishing (compact, per-locale, preview-on-demand rather than always split).
 
-**Editor toolbar** (`src/components/cms/MarkdownToolbar.tsx`): the callout button becomes a small popover — pick one of the three shades (colour swatches) and optionally an emoji from a compact set (💡 ⭐ ⚠️ ✅ 📌 🎯 ❤️ 🔍, plus a free-text field for any other emoji) — then inserts the block wrapping the current selection.
+### 4. Consistency and safety checks
 
-**Preview parity:** the callout styling lives in one shared component used by both the public article renderer and the editor's rendered view, so what an editor picks is what publishes.
+- Public article rendering (`src/pages/InsightDetail.tsx`) keeps using `<Markdown>` unchanged — it inherits the callout fix automatically.
+- No schema changes, no changes to publishing, scheduling, locale routing, or article fetching.
+- Verify with a Playwright pass: open an article containing all three callout shades (with and without emoji), confirm no raw `[!info]` text renders on the public page, and confirm the editor preview matches it pixel-for-structure.
 
-## Out of scope
-Unsplash images are hot-linked from Unsplash's CDN (as their terms require), not copied into our storage. Existing uploaded images and their signed URLs are untouched.
+### New UI strings
+
+`toolbar.write`, `toolbar.split`, `toolbar.preview`, `editor.previewEmpty` added to all four `cms.json` locale files (EN/DE/FR/IT).
+
+## Technical notes
+
+- Plugin is a plain mdast visitor; no extra dependencies beyond `unist-util-visit` if not already present (react-markdown's tree already ships it transitively — will confirm at build time and add explicitly if needed).
+- Callout data travels via `node.data.hProperties`-style props, read in the `blockquote` component override, avoiding React-children introspection entirely.
+- Preview reuses one memoized `<Markdown>` instance keyed on debounced content to avoid re-parsing on every keystroke.

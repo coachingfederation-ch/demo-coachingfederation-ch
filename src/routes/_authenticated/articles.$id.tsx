@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, Image as ImageIcon, Upload, X } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { supabase } from "@/integrations/supabase/client";
-import { MarkdownToolbar } from "@/components/cms/MarkdownToolbar";
+import { MarkdownEditor } from "@/components/cms/MarkdownEditor";
 import { TranslationsPanel } from "@/components/cms/TranslationsPanel";
 import { UnsplashPicker } from "@/components/cms/UnsplashPicker";
 import { authorName, categoryLabel, type CategoryRow } from "@/lib/articles";
@@ -480,18 +480,11 @@ function EditorPage() {
             }
           />
 
-          <MarkdownToolbar
+          <MarkdownEditor
             textareaRef={bodyRef}
             value={article.content}
             onChange={(next) => update({ content: next })}
-          />
-          <textarea
-            ref={bodyRef}
-            value={article.content}
-            onChange={(e) => update({ content: e.target.value })}
             placeholder={t("editor.bodyPlaceholder")}
-            rows={20}
-            className="w-full resize-y rounded-b-2xl border border-border bg-card p-5 text-[15px] leading-relaxed text-foreground outline-none focus:ring-2 focus:ring-ring/20"
           />
         </article>
 
