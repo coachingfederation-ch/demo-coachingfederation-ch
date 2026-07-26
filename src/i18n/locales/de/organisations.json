@@ -10,7 +10,7 @@
     "titlePost": " führen.",
     "lede": "Von Einzel-Executive-Coaching bis hin zu organisationsweiten Coaching-Kulturen: ICF Switzerland verbindet Sie mit zertifizierten Coaches, die messbare Wirkung erzielen.",
     "cta": "Sprechen Sie mit unserem Team",
-    "cta2": "Kultur-Assessment machen"
+    "cta2": "Kultur-Assessment starten"
   },
   "proof": {
     "items": [
@@ -24,7 +24,7 @@
       },
       {
         "value": "1995",
-        "label": "Im Dienste der Schweizer Coaching-Profession seit"
+        "label": "Im Dienste des Schweizer Coaching-Berufsstandes seit"
       },
       {
         "value": "160+",
@@ -35,109 +35,109 @@
   "why": {
     "eyebrow": "Warum ICF",
     "title": "Der Unterschied zwischen einem Coach und einem ICF-zertifizierten Coach.",
-    "lede": "Jede Person kann sich Coach nennen. Eine ICF-Zertifizierung ist der Nachweis geprüfter Fähigkeiten, supervidierter Praxis und eines verbindlichen Ethikcodes — genau die Sicherheit, die Einkauf, HR und Rechtsabteilungen suchen.",
+    "lede": "Jede Person kann sich Coach nennen. Eine ICF-Zertifizierung ist der Nachweis geprüfter Kompetenz, supervidierter Praxis und eines verbindlichen Ethikcodex – die Sicherheit, nach der Einkauf, HR und Rechtsabteilungen suchen.",
     "items": [
       {
         "title": "Geprüfte Kompetenz",
-        "desc": "Jede Zertifizierung erfordert den Nachweis von Coaching-Fähigkeiten gemäss den ICF-Kernkompetenzen, nicht nur die Teilnahme an einem Kurs."
+        "desc": "Jede Zertifizierung erfordert den Nachweis von Coaching-Kompetenzen gemäss den ICF-Kernkompetenzen, nicht nur die Teilnahme an einem Kurs."
       },
       {
-        "title": "Nachgewiesene Praxisstunden",
+        "title": "Dokumentierte Praxisstunden",
         "desc": "ACC, PCC und MCC erfordern jeweils dokumentierte Kundenstunden und Mentor-Coaching, bevor die Zertifizierung erteilt wird."
       },
       {
-        "title": "Verbindlicher Ethikcode",
-        "desc": "Zertifizierte Coaches verpflichten sich dem ICF-Ethikcode, unterstützt durch ein unabhängiges Beschwerde- und Überprüfungsverfahren."
+        "title": "Verbindlicher Ethikcodex",
+        "desc": "Zertifizierte Coaches verpflichten sich dem ICF-Ethikcodex, unterstützt durch ein unabhängiges Beschwerde- und Überprüfungsverfahren."
       },
       {
         "title": "Kontinuierliche Weiterbildung",
-        "desc": "Zertifizierungen werden in einem Dreijahreszyklus mit Weiterbildung erneuert — so bleibt die Kompetenz aktuell."
+        "desc": "Zertifizierungen werden in einem Dreijahresrhythmus mit Fortbildungen erneuert – so bleibt die Kompetenz aktuell."
       },
       {
         "title": "Viersprachige Reichweite",
-        "desc": "Coaches arbeiten auf Deutsch, Französisch, Italienisch und Englisch in allen Schweizer Sprachregionen."
+        "desc": "Coaches, die auf Deutsch, Französisch, Italienisch und Englisch in allen Schweizer Sprachregionen arbeiten."
       },
       {
-        "title": "Anbieterunabhängig",
+        "title": "Unabhängig von Anbietern",
         "desc": "ICF Switzerland ist ein Mitgliederverband, kein Coaching-Anbieter. Unsere Beratung ist anbieterneutral."
       }
     ]
   },
   "deck": {
-    "eyebrow": "Das Plädoyer für Coaching",
-    "title": "Was die Evidenz über Coaching in Organisationen sagt.",
-    "lede": "Ein kurzer Überblick über den Druck, dem Schweizer Organisationen ausgesetzt sind, und wo professionelles Coaching nachweislich etwas verändert.",
+    "eyebrow": "Gute Gründe für Coaching",
+    "title": "Was die Fakten über Coaching in Organisationen sagen.",
+    "lede": "Ein kurzer Überblick über den Druck, unter dem Schweizer Organisationen stehen, und wo professionelles Coaching nachweislich etwas verändert.",
     "prev": "Vorherige Folie",
     "next": "Nächste Folie",
-    "sourcesLabel": "Quellen und weiterführende Lektüre",
+    "sourcesLabel": "Quellen und weiterführende Literatur",
     "slides": [
       {
         "kicker": "Der Kontext",
         "title": "Die Arbeitswelt verändert sich schneller, als Führungskräfte entwickelt werden können.",
-        "body": "Umstrukturierungen, hybride Teams, KI-Einführung und eine schlankere mittlere Führungsebene treffen Führungskräfte gleichzeitig. Traditionelle Ausbildungszyklen können mit dem Tempo der Veränderung nicht mithalten.",
+        "body": "Restrukturierungen, hybride Teams, KI-Einführung und eine dünnere mittlere Führungsebene treffen Führungskräfte gleichzeitig. Traditionelle Weiterbildungszyklen können mit dem Tempo der Veränderung nicht mithalten.",
         "source": "ICF Switzerland, Organisations-Briefing 2026"
       },
       {
         "kicker": "Die Lücke",
         "stat": "77%",
-        "statLabel": "der Führungskräfte geben an, dass ihre Entwicklung nicht mit den Anforderungen ihrer Rolle Schritt gehalten hat.",
-        "body": "Kompetenzlücken zeigen sich selten als Schulungsanfrage. Sie zeigen sich in Fluktuation, ins Stocken geratenen Entscheidungen und Teams, die auf Orientierung warten."
+        "statLabel": "der Führungskräfte sagen, dass ihre Entwicklung nicht mit den Anforderungen ihrer Rolle Schritt gehalten hat.",
+        "body": "Kompetenzlücken zeigen sich selten als Weiterbildungswunsch. Sie zeigen sich in Fluktuation, stockenden Entscheidungen und Teams, die auf Orientierung warten."
       },
       {
         "kicker": "Die Kosten des Nichtstuns",
-        "title": "Dienst nach Vorschrift ist teuer und summiert sich im Stillen.",
+        "title": "Mangelndes Engagement ist teuer und summiert sich im Stillen.",
         "bullets": [
-          "Der Ersatz einer erfahrenen Führungskraft kostet in der Regel weit mehr als ein Jahresgehalt.",
-          "Unmotivierte Teams erbringen schlechtere Leistungen, lange bevor jemand kündigt.",
-          "Mangelhafte Übergänge bei erstmaligen Führungskräften wirken sich auf alle Führungsebenen aus.",
-          "Veränderungsmüdigkeit zehrt freiwilliges Engagement schneller auf als jede Umstrukturierung."
+          "Der Ersatz einer erfahrenen Führungskraft kostet typischerweise deutlich mehr als ein Jahresgehalt.",
+          "Demotivierte Teams erbringen weniger Leistung, lange bevor jemand kündigt.",
+          "Schlecht begleitete Übergänge bei neuen Führungskräften wirken sich auf alle Berichtslinien aus.",
+          "Veränderungsmüdigkeit untergräbt das freiwillige Engagement schneller als jede Restrukturierung."
         ]
       },
       {
         "kicker": "Was Coaching verändert",
-        "title": "Coaching baut Denkfähigkeit auf, keine Abhängigkeit.",
-        "body": "Ein Coach liefert keine Antworten. Er stärkt die eigene Fähigkeit der Führungskraft, Komplexität zu erfassen, Entscheidungen unter Unsicherheit zu treffen und schwierige Gespräche zu führen — Fähigkeiten, die in der Organisation verbleiben."
+        "title": "Coaching baut Denkvermögen auf, keine Abhängigkeit.",
+        "body": "Ein Coach liefert keine Antworten. Er stärkt die eigene Fähigkeit der Führungskraft, Komplexität zu erfassen, Entscheidungen unter Unsicherheit zu treffen und schwierige Gespräche zu führen – Kompetenzen, die in der Organisation bleiben."
       },
       {
         "kicker": "Evidenz",
         "stat": "86%",
-        "statLabel": "der Organisationen berichten, dass sie mindestens ihre Investition in Coaching zurückerhalten haben.",
+        "statLabel": "der Organisationen geben an, dass sie ihre Investition in Coaching mindestens wieder eingespielt haben.",
         "source": "ICF Global Coaching Client Study"
       },
       {
         "kicker": "Wo es am stärksten wirkt",
         "title": "Vier Momente, in denen sich Coaching am schnellsten auszahlt.",
         "bullets": [
-          "Übergang in eine deutlich grössere Rolle.",
-          "Führen eines Teams durch Umstrukturierungen oder Fusionen.",
-          "High-Potential-Talente, die Sie nicht verlieren können.",
+          "Wechsel in eine deutlich grössere Rolle.",
+          "Führen eines Teams durch Restrukturierung oder Fusion.",
+          "Schlüsselpersonen mit hohem Potenzial, die man nicht verlieren darf.",
           "Teams, die in Konflikten, Schweigen oder Vermeidung feststecken."
         ]
       },
       {
         "kicker": "Über das Individuum hinaus",
         "title": "Eine Coaching-Kultur ist ein Führungsstil, kein Budgetposten.",
-        "body": "Organisationen, die Führungskräfte in Coaching-Kompetenzen schulen, verändern Tausende von alltäglichen Gesprächen — Feedback, Delegation, Priorisierung und Leistungsgespräche verbessern sich gleichzeitig."
+        "body": "Organisationen, die Führungskräfte in Coaching-Kompetenzen schulen, verändern die Art und Weise, wie Tausende alltäglicher Gespräche ablaufen – Feedback, Delegation, Priorisierung und Leistungsgespräche verbessern sich gleichzeitig."
       },
       {
         "kicker": "Der ICF-Standard",
-        "quote": "Eine Zertifizierung ist kein Teilnahmezertifikat. Sie ist der Nachweis einer geprüften, supervidierten und ethisch gebundenen Praxis.",
-        "body": "Dieser Unterschied ist der Grund, warum Einkauf und HR-Teams in Coaching-Frameworks zunehmend ICF-Zertifizierungen voraussetzen."
+        "quote": "Eine Zertifizierung ist keine Teilnahmebestätigung. Sie ist der Nachweis von geprüfter, supervidierter und ethisch gebundener Praxis.",
+        "body": "Dieser Unterschied ist der Grund, warum Einkauf und HR in Coaching-Frameworks zunehmend ICF-Zertifizierungen voraussetzen."
       },
       {
-        "kicker": "Messung",
+        "kicker": "Messbarkeit",
         "title": "Wirkung, die Sie tatsächlich nachweisen können.",
         "bullets": [
-          "Ergebnisse vor der ersten Sitzung mit dem Sponsor definieren.",
+          "Ziele vor der ersten Sitzung gemeinsam mit dem Sponsor definieren.",
           "Dreiecksabstimmung zwischen Coach, Coachee und Organisation.",
-          "Zwischenüberprüfung anhand vereinbarter Indikatoren.",
-          "Abschlusszusammenfassung unter Wahrung der Vertraulichkeit."
+          "Zwischenbeurteilung anhand vereinbarter Indikatoren.",
+          "Abschlussbericht unter Wahrung der Vertraulichkeit."
         ]
       },
       {
         "kicker": "Erste Schritte",
-        "title": "Beginnen Sie dort, wo der Druck am grössten ist.",
-        "body": "Die meisten Organisationen beginnen mit einem gezielten Pilotprojekt: eine Führungsgruppe, ein klares Ergebnis, ein Messzeitraum. Skalierung folgt der Evidenz, nicht der Begeisterung."
+        "title": "Starten Sie dort, wo der Druck am grössten ist.",
+        "body": "Die meisten Organisationen beginnen mit einem gezielten Pilotprojekt: eine Führungsgruppe, ein klares Ziel, ein Messzeitraum. Skalierung folgt der Evidenz, nicht der Begeisterung."
       }
     ],
     "sources": [
@@ -150,9 +150,9 @@
         ]
       },
       {
-        "group": "Arbeitsmarktforschung",
+        "group": "Arbeitswelt-Forschung",
         "items": [
-          "Globale Berichte zum Engagement am Arbeitsplatz",
+          "Berichte zum globalen Engagement am Arbeitsplatz",
           "Schweizer Arbeitsmarkt- und Kompetenzberichte"
         ]
       },
@@ -163,61 +163,74 @@
           "Organisations-Briefing 2026"
         ]
       }
-    ]
+    ],
+    "download": {
+      "eyebrow": "Zum Mitnehmen",
+      "title": "Laden Sie das Präsentationsdeck herunter",
+      "body": "Ein PDF dieser Präsentation im ICF-Design, bereit zur Weitergabe an Ihr Führungsteam. Die Eingabe Ihrer E-Mail-Adresse ist freiwillig – Sie können die Datei auch ohne Eingabe herunterladen.",
+      "emailLabel": "E-Mail (optional)",
+      "emailPlaceholder": "ihr.name@organisation.ch",
+      "cta": "PDF herunterladen",
+      "note": "Wir verwenden Ihre E-Mail-Adresse ausschliesslich für Kontaktaufnahmen zum Thema Coaching in Organisationen.",
+      "invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein oder lassen Sie das Feld leer.",
+      "doneTitle": "Ihr Download hat begonnen",
+      "doneBody": "Falls nichts passiert ist, nutzen Sie bitte den untenstehenden Link.",
+      "again": "Erneut herunterladen"
+    }
   },
   "initiatives": {
     "eyebrow": "Möglichkeiten der Zusammenarbeit",
-    "title": "Drei Wege zum Coaching, je nachdem, wo Sie stehen.",
+    "title": "Drei Wege zum Coaching – je nachdem, wo Sie stehen.",
     "items": [
       {
         "tag": "Hier starten",
         "title": "Ein gezieltes Executive-Coaching-Pilotprojekt.",
-        "desc": "Wir helfen Ihnen, ein kleines, gut messbares Engagement für eine definierte Führungsgruppe zu konzipieren, und vermitteln zertifizierte Coaches, deren Erfahrung zu Ihrer Branche und Sprachregion passt.",
-        "lead": "Typischer Zeithorizont: 4-6 Monate",
-        "cta": "Pilotprojekt planen"
+        "desc": "Wir helfen Ihnen bei der Konzeption eines überschaubaren, gut messbaren Projekts für eine definierte Führungsgruppe und vermitteln anschliessend zertifizierte Coaches, deren Erfahrung zu Ihrer Branche und Sprachregion passt.",
+        "lead": "Typischer Zeithorizont: 4–6 Monate",
+        "cta": "Pilotprojekt konzipieren"
       },
       {
         "tag": "Skalieren",
-        "title": "Team-Coaching für Einheiten unter Druck.",
-        "desc": "Engagements für ganze Teams, die Ungesagtes an die Oberfläche bringen, Vertrauen nach Veränderungen wiederaufbauen und gute Absichten in vereinbarte Arbeitsweisen umwandeln.",
-        "lead": "Typischer Zeithorizont: 6-9 Monate",
+        "title": "Team-Coaching für Teams unter Druck.",
+        "desc": "Begleitung ganzer Teams, die Ungesagtes an die Oberfläche bringt, Vertrauen nach Veränderungen wiederaufbaut und gute Absichten in verbindliche Arbeitsweisen übersetzt.",
+        "lead": "Typischer Zeithorizont: 6–9 Monate",
         "cta": "Team-Coaching besprechen"
       },
       {
         "tag": "Verankern",
         "title": "Aufbau einer internen Coaching-Kultur.",
-        "desc": "Programme, die Coaching-Fähigkeiten bei Ihren Führungskräften entwickeln, interne Coach-Pools unterstützen und Qualitätsstandards festlegen, die an den ICF-Kompetenzen und der Ethik ausgerichtet sind.",
-        "lead": "Typischer Zeithorizont: 12 Monate und darüber hinaus",
+        "desc": "Programme, die Coaching-Kompetenzen bei Ihren Führungskräften entwickeln, interne Coach-Pools unterstützen und Qualitätsstandards festlegen, die an den ICF-Kompetenzen und -Ethikregeln ausgerichtet sind.",
+        "lead": "Typischer Zeithorizont: 12 Monate und mehr",
         "cta": "Kulturprogramm planen"
       }
     ]
   },
   "survey": {
-    "eyebrow": "Assessment der Coaching-Kultur",
-    "title": "Wie reif ist Coaching in Ihrer Organisation?",
-    "lede": "Acht Fragen, etwa drei Minuten. Sie erhalten eine sofortige Einschätzung des Reifegrads über vier Dimensionen und können ein Gespräch über die nächsten Schritte anfordern.",
+    "eyebrow": "Coaching-Kultur-Assessment",
+    "title": "Wie ausgereift ist Coaching in Ihrer Organisation?",
+    "lede": "Acht Fragen, etwa drei Minuten. Sie erhalten eine sofortige Standortbestimmung über vier Dimensionen und können ein Gespräch über die nächsten Schritte anfragen.",
     "start": "Assessment starten",
     "back": "Zurück",
     "next": "Weiter",
     "progress": "Frage {n} von {total}",
     "pressure": {
       "question": "Was ist derzeit der grösste Druck auf Ihre Organisation?",
-      "hint": "Wählen Sie die Option, die heute am zutreffendsten ist. Sie beeinflusst, wie wir Ihre Ergebnisse interpretieren.",
+      "hint": "Wählen Sie die Option, die heute am ehesten zutrifft. Sie beeinflusst die Einordnung Ihrer Ergebnisse.",
       "options": [
         {
           "id": "retention",
-          "label": "Schlüsselfachkräfte halten",
-          "insight": "Fluktuation bei Personen, die Sie nicht leicht ersetzen können, ist meist ein Signal für die Führungsqualität, lange bevor es ein Gehaltssignal ist."
+          "label": "Schlüsselpersonen halten",
+          "insight": "Fluktuation unter Personen, die schwer zu ersetzen sind, ist meist ein Signal für die Führungsqualität, lange bevor es ein Gehaltsthema ist."
         },
         {
           "id": "leadership",
           "label": "Führungskompetenz",
-          "insight": "Führungskräfte, die aufgrund ihrer fachlichen Stärke befördert werden, scheitern selten an der Fachlichkeit. Sie kämpfen mit Gesprächen, Ungewissheit und Delegation."
+          "insight": "Führungskräfte, die aufgrund technischer Stärken befördert wurden, scheitern selten am Fachlichen. Sie kämpfen mit Gesprächen, Ungewissheit und Delegation."
         },
         {
           "id": "ai",
           "label": "KI und sich verändernde Arbeit",
-          "insight": "Einführung von Technologie gerät an menschlichen Faktoren ins Stocken — Vertrauen, Rollenklarheit und die Bereitschaft, anders zu arbeiten."
+          "insight": "Die Einführung von Technologien gerät an menschlichen Faktoren ins Stocken – Vertrauen, Rollenklarheit und die Bereitschaft, anders zu arbeiten."
         },
         {
           "id": "inclusion",
@@ -226,19 +239,19 @@
         },
         {
           "id": "collaboration",
-          "label": "Teamübergreifende Zusammenarbeit",
-          "insight": "Silos sind meist ein Symptom für unklare Prioritäten und ungesprochene Konflikte statt für böse Absicht."
+          "label": "Teamsübergreifende Zusammenarbeit",
+          "insight": "Silos sind meist ein Symptom für unklare Prioritäten und ungesagte Konflikte, nicht für böse Absichten."
         }
       ]
     },
     "scale": [
       {
         "label": "Gar nicht",
-        "desc": "Das findet heute nicht statt."
+        "desc": "Das ist heute nicht der Fall."
       },
       {
         "label": "Selten",
-        "desc": "Gelegentlich und unregelmässig."
+        "desc": "Gelegentlich und uneinheitlich."
       },
       {
         "label": "Manchmal",
@@ -246,7 +259,7 @@
       },
       {
         "label": "Oft",
-        "desc": "In den meisten Teilen der Organisation üblich."
+        "desc": "In den meisten Bereichen der Organisation üblich."
       },
       {
         "label": "Konsequent",
@@ -262,7 +275,7 @@
     "questions": [
       {
         "id": "q1",
-        "text": "Obere Führungskräfte leben sichtbar Coaching-Verhaltensweisen wie Zuhören, Fragen und Delegieren vor."
+        "text": "Erfahrene Führungskräfte leben Coaching-Verhaltensweisen wie Zuhören, Fragen stellen und Delegieren sichtbar vor."
       },
       {
         "id": "q2",
@@ -270,15 +283,15 @@
       },
       {
         "id": "q3",
-        "text": "Führungskräfte wurden in praktischen Coaching-Fähigkeiten geschult, nicht nur in Beurteilungsprozessen."
+        "text": "Führungskräfte wurden in praktischen Coaching-Kompetenzen geschult, nicht nur in Beurteilungsprozessen."
       },
       {
         "id": "q4",
-        "text": "Mitarbeitende auf allen Ebenen erhalten regelmässiges, nützliches Entwicklungsfeedback."
+        "text": "Mitarbeitende auf allen Stufen erhalten regelmässiges, nützliches Entwicklungs-Feedback."
       },
       {
         "id": "q5",
-        "text": "Coaching steht über die Führungsebene hinaus zur Verfügung, auch für angehende Führungskräfte."
+        "text": "Coaching steht auch ausserhalb der obersten Führungsebene zur Verfügung, einschliesslich angehender Führungskräfte."
       },
       {
         "id": "q6",
@@ -286,50 +299,50 @@
       },
       {
         "id": "q7",
-        "text": "Coaching-Engagements beginnen mit vereinbarten Ergebnissen und werden an diesen überprüft."
+        "text": "Coaching-Mandate beginnen mit vereinbarten Zielen und werden anhand dieser überprüft."
       },
       {
         "id": "q8",
-        "text": "Wir arbeiten mit zertifizierten Coaches und verpflichten externe Anbieter auf einen klaren Qualitätsstandard."
+        "text": "Wir arbeiten mit zertifizierten Coaches zusammen und stellen an externe Anbieter einen klaren Qualitätsanspruch."
       }
     ],
     "bands": {
       "emerging": {
         "title": "Im Aufbau",
-        "desc": "Coaching findet gelegentlich und informell statt. Der schnellste Gewinn ist ein gezieltes Pilotprojekt mit klaren Ergebnissen statt ein breiter Rollout."
+        "desc": "Coaching findet gelegentlich und informell statt. Der schnellste Gewinn ist ein gezieltes Pilotprojekt mit klaren Zielen statt einer breiten Einführung."
       },
       "developing": {
-        "title": "Sich entwickelnd",
+        "title": "In Entwicklung",
         "desc": "Die Grundlagen sind vorhanden, aber uneinheitlich. Konsistenz beim Zugang, bei den Kompetenzen der Führungskräfte und bei der Messung wird den grössten Mehrwert freisetzen."
       },
       "established": {
         "title": "Etabliert",
-        "desc": "Coaching ist ein anerkannter Teil der Personalentwicklung. Der nächste Schritt ist die Verankerung von Qualitätsstandards und die Erweiterung des Zugangs."
+        "desc": "Coaching ist ein anerkannter Bestandteil der Personalentwicklung. Der nächste Schritt ist die Verankerung von Qualitätsstandards und die Erweiterung des Zugangs."
       },
       "embedded": {
         "title": "Verankert",
-        "desc": "Coaching ist Teil Ihres Führungsstils. Konzentrieren Sie sich darauf, die Qualität, die Supervision und die messbare Erneuerung bei Veränderungen in Ihrer Organisation aufrechtzuerhalten."
+        "desc": "Coaching ist Teil Ihres Führungsstils. Konzentrieren Sie sich auf die Aufrechterhaltung der Qualität, Supervision und messbare Erneuerung im Zuge von Veränderungen in Ihrer Organisation."
       }
     },
     "result": {
       "eyebrow": "Ihr Ergebnis"
     },
     "form": {
-      "title": "Möchten Sie das besprechen?",
-      "lede": "Senden Sie Ihr Ergebnis an unser Organisationsteam. Wir melden uns mit einer kurzen, anbieterneutralen Einschätzung Ihrer Optionen zurück.",
+      "title": "Möchten Sie das Ergebnis besprechen?",
+      "lede": "Senden Sie Ihr Ergebnis an unser Organisations-Team und wir melden uns mit einer kurzen, anbieterneutralen Einschätzung Ihrer Optionen zurück.",
       "name": "Name",
       "email": "Geschäftliche E-Mail",
       "organisation": "Organisation",
       "message": "Gibt es etwas, das wir wissen sollten?",
-      "consent": "Ich stimme zu, dass ICF Switzerland diese Eingabe speichern und mich dazu kontaktieren darf.",
-      "consentRequired": "Bitte bestätigen Sie die Einwilligung, damit wir Sie kontaktieren können.",
+      "consent": "Ich stimme zu, dass ICF Switzerland diese Angaben speichern und mich dazu kontaktieren darf.",
+      "consentRequired": "Bitte bestätigen Sie die Zustimmung, damit wir Sie kontaktieren können.",
       "submit": "Mein Ergebnis senden",
       "sending": "Wird gesendet…",
       "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
     },
     "thanks": {
-      "title": "Vielen Dank — Ihr Ergebnis ist auf dem Weg zu uns.",
-      "desc": "Ein Mitglied des Organisationsteams von ICF Switzerland wird sich in Kürze bei Ihnen melden. In der Zwischenzeit können Sie in unserem Coach-Verzeichnis stöbern oder kommende Veranstaltungen entdecken."
+      "title": "Vielen Dank – Ihr Ergebnis ist auf dem Weg zu uns.",
+      "desc": "Ein Mitglied des Organisations-Teams von ICF Switzerland wird sich in Kürze bei Ihnen melden. In der Zwischenzeit können Sie unser Coach-Verzeichnis durchsuchen oder kommende Veranstaltungen entdecken."
     }
   },
   "events": {
@@ -338,34 +351,34 @@
     "cta": "Alle Veranstaltungen",
     "items": [
       {
-        "date": "Do, 17. Sep 2026",
+        "date": "Do. 17. Sep. 2026",
         "title": "Roundtable Coaching-Kulturen, Zürich",
-        "desc": "Für HR- und L&D-Verantwortliche, die interne Coaching-Kompetenzen aufbauen."
+        "desc": "Für HR- und L&D-Verantwortliche, die interne Coaching-Kapazitäten aufbauen."
       },
       {
-        "date": "Mi, 14. Okt 2026",
+        "date": "Mi. 14. Okt. 2026",
         "title": "Führung im Wandel, Lausanne",
-        "desc": "Executive-Coaching in Umstrukturierungs- und Fusionskontexten."
+        "desc": "Executive-Coaching im Kontext von Restrukturierungen und Fusionen."
       },
       {
-        "date": "Di, 10. Nov 2026",
+        "date": "Di. 10. Nov. 2026",
         "title": "KI, Vertrauen und Teams, online",
         "desc": "Was der technologische Wandel von Führungskräften und ihren Teams verlangt."
       },
       {
-        "date": "Do, 3. Dez 2026",
+        "date": "Do. 3. Dez. 2026",
         "title": "Coaching-Wirkung messen, Lugano",
-        "desc": "Praktische Evaluationsansätze, die Überprüfungen standhalten."
+        "desc": "Praktische Evaluationsansätze, die jeder Überprüfung standhalten."
       }
     ]
   },
   "outcomes": {
     "eyebrow": "Ergebnisse",
-    "title": "Warum sich Organisationen für ICF-Coaches entscheiden.",
+    "title": "Warum Organisationen ICF-Coaches wählen.",
     "items": [
       {
         "stat": "+38%",
-        "title": "Effektivität der Führungskräfte",
+        "title": "Führungseffektivität",
         "desc": "Gecoachte Führungskräfte berichten von schärferem Urteilsvermögen, besserer Delegation und stärkerer Präsenz."
       },
       {
@@ -376,28 +389,28 @@
       {
         "stat": "94%",
         "title": "Berichteter ROI",
-        "desc": "Organisationen, die in Coaching investieren, berichten von messbaren Erträgen innerhalb von zwölf Monaten."
+        "desc": "Organisationen, die in Coaching investieren, berichten innerhalb von zwölf Monaten von messbarem Nutzen."
       }
     ]
   },
   "steps": {
     "eyebrow": "Wie wir arbeiten",
-    "title": "Ein klarer Weg von der Ambition zur Wirkung.",
+    "title": "Ein klarer Weg vom Ziel zur Wirkung.",
     "items": [
       {
         "n": "01",
         "title": "Verstehen",
-        "desc": "Wir verstehen Ihren Kontext, Ihre Mitarbeitenden und die Ergebnisse, auf die es ankommt."
+        "desc": "Wir erfassen Ihren Kontext, Ihre Mitarbeitenden und die Ergebnisse, auf die es ankommt."
       },
       {
         "n": "02",
-        "title": "Matchen",
-        "desc": "Wir verbinden Sie mit zertifizierten ICF-Coaches, deren Erfahrung zu Ihren Zielen passt."
+        "title": "Zuordnen",
+        "desc": "Wir verbinden Sie mit ICF-zertifizierten Coaches, deren Erfahrung zu Ihren Zielen passt."
       },
       {
         "n": "03",
         "title": "Messen",
-        "desc": "Wir begleiten das Engagement mit Meilensteinen, Feedback und klarer Evaluation."
+        "desc": "Wir begleiten den Prozess mit Meilensteinen, Feedback und klarer Evaluation."
       }
     ]
   },
@@ -407,15 +420,15 @@
     "items": [
       {
         "tag": "Executive-Coaching",
-        "title": "Einzelarbeit mit erfahrenen Führungskräften in komplexen Situationen."
+        "title": "Individualbegleitung von Führungskräften in komplexen Situationen."
       },
       {
         "tag": "Team-Coaching",
-        "title": "Engagements für ganze Teams, die Vertrauen, Ausrichtung und Ergebnisse stärken."
+        "title": "Begleitung ganzer Teams für mehr Vertrauen, Ausrichtung und Ergebnisse."
       },
       {
         "tag": "Coaching-Kulturen",
-        "title": "Programme, die Coaching-Fähigkeiten in Ihrer gesamten Organisation verankern."
+        "title": "Programme, die Coaching-Kompetenzen in Ihrer gesamten Organisation verankern."
       }
     ]
   },

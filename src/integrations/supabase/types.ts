@@ -181,6 +181,33 @@ export type Database = {
         }
         Relationships: []
       }
+      deck_download_leads: {
+        Row: {
+          consent: boolean
+          created_at: string
+          email: string | null
+          id: string
+          locale: string
+          source: string
+        }
+        Insert: {
+          consent?: boolean
+          created_at?: string
+          email?: string | null
+          id?: string
+          locale?: string
+          source?: string
+        }
+        Update: {
+          consent?: boolean
+          created_at?: string
+          email?: string | null
+          id?: string
+          locale?: string
+          source?: string
+        }
+        Relationships: []
+      }
       organisation_survey_responses: {
         Row: {
           answers: Json
