@@ -1,5 +1,13 @@
 import { Mark, type MarkName } from "@/components/marks";
 import { CompactHero, SiteFooter, CARD_SHADOW } from "@/components/site-chrome";
+import { CultureSurvey } from "@/components/organisations/CultureSurvey";
+import { DeckSection } from "@/components/organisations/DeckSection";
+import {
+  Differentiators,
+  EventsStrip,
+  Initiatives,
+  ProofBar,
+} from "@/components/organisations/sections";
 import { useI18n } from "@/i18n";
 
 const programmeVisuals: { bg: string; fg: string; mark: MarkName }[] = [
@@ -29,6 +37,8 @@ export default function ForOrganisationsPage() {
         ctaLabel={t("organisations.hero.cta")}
       />
       <main>
+        <ProofBar />
+
         <section className="mx-auto max-w-7xl px-8 py-24">
           <p className="eyebrow">{t("organisations.outcomes.eyebrow")}</p>
           <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
@@ -44,6 +54,10 @@ export default function ForOrganisationsPage() {
             ))}
           </div>
         </section>
+
+        <Differentiators />
+
+        <DeckSection />
 
         <section className="bg-muted py-24">
           <div className="mx-auto max-w-7xl px-8">
@@ -64,6 +78,8 @@ export default function ForOrganisationsPage() {
             </div>
           </div>
         </section>
+
+        <Initiatives />
 
         <section className="mx-auto max-w-7xl px-8 py-24">
           <p className="eyebrow">{t("organisations.programmes.eyebrow")}</p>
@@ -88,6 +104,10 @@ export default function ForOrganisationsPage() {
           </div>
         </section>
 
+        <CultureSurvey />
+
+        <EventsStrip />
+
         <section className="bg-hero text-hero-foreground">
           <div className="mx-auto max-w-7xl px-8 py-20 text-center">
             <p className="eyebrow !text-accent">{t("organisations.getStarted.eyebrow")}</p>
@@ -95,7 +115,7 @@ export default function ForOrganisationsPage() {
               {t("organisations.getStarted.title")}
             </h2>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <a href="#" className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90">{t("organisations.getStarted.cta1")}</a>
+              <a href="#assessment" className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90">{t("organisations.getStarted.cta1")}</a>
               <a href="#" className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10">{t("organisations.getStarted.cta2")}</a>
             </div>
           </div>
