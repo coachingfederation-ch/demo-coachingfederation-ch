@@ -1,6 +1,13 @@
 import { Mark } from "@/components/marks";
+import { Markdown } from "@/components/markdown";
 import { SiteHeaderBar, SiteFooter } from "@/components/site-chrome";
-import { formatArticleDate, tileFor, type PublicArticle } from "@/lib/articles";
+import {
+  articleCategoryLabel,
+  authorName,
+  formatArticleDate,
+  tileFor,
+  type PublicArticle,
+} from "@/lib/articles";
 import { LocaleLink, useI18n } from "@/i18n";
 
 export function DetailShell({ children }: { children: React.ReactNode }) {
@@ -35,11 +42,16 @@ export function ArticleFallback({ titleKey, bodyKey }: { titleKey: string; bodyK
   );
 }
 
-type DetailArticle = Omit<PublicArticle, "is_featured"> & { content?: string | null };
+type DetailArticle = Omit<PublicArticle, "is_featured"> & {
+  content?: string | null;
+  resolvedLocale?: string;
+};
 
 export default function InsightDetailPage({ article }: { article: DetailArticle }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const tile = tileFor(article.id);
+  const category = articleCategoryLabel(article as PublicArticle, locale);
+  const byline = authorName(article.author) ?? t("insights.byline");
 
   return (
     <DetailShell>
@@ -47,10 +59,10 @@ export default function InsightDetailPage({ article }: { article: DetailArticle 
         <LocaleLink to="/insights" className="btn-mono !text-muted-foreground hover:!text-foreground">
           {t("insights.detail.back")}
         </LocaleLink>
-        {article.category ? <p className="section-label mt-6">{article.category}</p> : null}
+        {category ? <p className="section-label mt-6">{category}</p> : null}
         <h1 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-5xl">{article.title}</h1>
         <p className="btn-mono mt-5 !text-muted-foreground">
-          {formatArticleDate(article.published_at)} · {article.language?.toUpperCase()}
+          {formatArticleDate(article.published_at)} · {byline}
         </p>
         {article.excerpt ? (
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground">{article.excerpt}</p>
@@ -70,15 +82,8 @@ export default function InsightDetailPage({ article }: { article: DetailArticle 
           )}
         </div>
 
-        <div className="mt-10 space-y-5 text-base leading-relaxed">
-          {String(article.content ?? "")
-            .split(/\n{2,}/)
-            .filter((p: string) => p.trim().length > 0)
-            .map((p: string, i: number) => (
-              <p key={i} className="whitespace-pre-line">
-                {p}
-              </p>
-            ))}
+        <div className="mt-10">
+          <Markdown>{String(article.content ?? "")}</Markdown>
         </div>
       </article>
     </DetailShell>
