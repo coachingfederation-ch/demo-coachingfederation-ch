@@ -3,7 +3,10 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, Image as ImageIcon, Upload, X } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { supabase } from "@/integrations/supabase/client";
-import { ARTICLE_CATEGORIES } from "@/lib/articles";
+import { MarkdownToolbar } from "@/components/cms/MarkdownToolbar";
+import { TranslationsPanel } from "@/components/cms/TranslationsPanel";
+import { authorName, categoryLabel, type CategoryRow } from "@/lib/articles";
+import { useCms } from "@/i18n/cms";
 
 export const Route = createFileRoute("/_authenticated/articles/$id")({
   head: () => ({
@@ -29,9 +32,19 @@ interface Article {
   published_at: string | null;
   first_published_at: string | null;
   category: string | null;
+  category_id: string | null;
+  author_id: string;
+  content_updated_at: string | null;
   featured_image_url: string | null;
   is_featured: boolean;
   updated_at: string;
+}
+
+interface ProfileRow {
+  id: string;
+  first_name: string | null;
+  last_name: string | null;
+  email: string;
 }
 
 const LANGS: { code: Lang; label: string }[] = [
@@ -41,12 +54,16 @@ const LANGS: { code: Lang; label: string }[] = [
   { code: "it", label: "Italiano" },
 ];
 
-function StatusPill({ status }: { status: Status }) {
+function StatusPill({ status, t }: { status: Status; t: (k: string) => string }) {
   const map: Record<Status, { cls: string; dot: string; label: string }> = {
-    draft: { cls: "bg-warn-soft text-[color:var(--warn)]", dot: "var(--warn)", label: "Draft" },
-    scheduled: { cls: "bg-teal-soft text-teal-foreground", dot: "var(--teal)", label: "Scheduled" },
-    published: { cls: "bg-teal-soft text-teal-foreground", dot: "var(--teal)", label: "Published" },
-    unpublished: { cls: "bg-secondary text-muted-foreground", dot: "var(--muted-foreground)", label: "Unpublished" },
+    draft: { cls: "bg-warn-soft text-[color:var(--warn)]", dot: "var(--warn)", label: t("status.draft") },
+    scheduled: { cls: "bg-teal-soft text-teal-foreground", dot: "var(--teal)", label: t("status.scheduled") },
+    published: { cls: "bg-teal-soft text-teal-foreground", dot: "var(--teal)", label: t("status.published") },
+    unpublished: {
+      cls: "bg-secondary text-muted-foreground",
+      dot: "var(--muted-foreground)",
+      label: t("status.unpublished"),
+    },
   };
   const s = map[status];
   return (
