@@ -22,20 +22,6 @@ function HeroHeader() {
               {t("home.hero.titlePost")}
             </h1>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-white/75">{t("home.hero.subtitle")}</p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a
-                href="#find-a-coach"
-                className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90"
-              >
-                {t("home.hero.findCoach")}
-              </a>
-              <LocaleLink
-                to="/for-organisations"
-                className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10"
-              >
-                {t("home.hero.forOrganisations")}
-              </LocaleLink>
-            </div>
           </div>
           <div className="relative">
             <img
@@ -59,13 +45,14 @@ function HeroHeader() {
 function Audiences() {
   const { tList } = useI18n();
   const audiences = tList<{ eyebrow: string; title: string; desc: string; cta: string }>("home.audiences");
+  const targets = ["/find-a-coach", "/for-organisations", "/for-coaches", "/about"];
   return (
     <section id="find-a-coach" className="mx-auto -mt-8 max-w-7xl px-8">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {audiences.map((a) => (
-          <a
+        {audiences.map((a, i) => (
+          <LocaleLink
             key={a.title + a.eyebrow}
-            href="#"
+            to={targets[i] ?? "/about"}
             className={
               "group flex flex-col rounded-2xl border border-border/70 bg-card p-6 transition hover:-translate-y-0.5 hover:border-chip-active-border " +
               CARD_SHADOW
@@ -75,7 +62,7 @@ function Audiences() {
             <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground">{a.title}</h3>
             <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{a.desc}</p>
             <span className="mt-6 text-sm font-semibold text-primary">{a.cta} →</span>
-          </a>
+          </LocaleLink>
         ))}
       </div>
     </section>
