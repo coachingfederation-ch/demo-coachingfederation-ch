@@ -65,6 +65,8 @@ export interface PublicArticle {
   category_id: string | null;
   category_ref?: Pick<CategoryRow, "id" | "slug" | "name" | "name_de" | "name_fr" | "name_it"> | null;
   featured_image_url: string | null;
+  image_credit_name?: string | null;
+  image_credit_url?: string | null;
   is_featured: boolean;
   published_at: string | null;
   language: string;
