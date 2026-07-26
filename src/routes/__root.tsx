@@ -10,6 +10,8 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import { useLocale } from "../i18n";
+import { LOCALE_HTML_LANG } from "../i18n/config";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -110,8 +112,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const locale = useLocale();
   return (
-    <html lang="en">
+    <html lang={LOCALE_HTML_LANG[locale]}>
       <head>
         <HeadContent />
       </head>
