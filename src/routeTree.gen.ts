@@ -32,6 +32,7 @@ import { Route as LocaleAboutRouteImport } from './routes/$locale/about'
 import { Route as AuthenticatedArticlesIndexRouteImport } from './routes/_authenticated/articles.index'
 import { Route as LocaleInsightsIndexRouteImport } from './routes/$locale/insights.index'
 import { Route as AuthenticatedArticlesNewRouteImport } from './routes/_authenticated/articles.new'
+import { Route as AuthenticatedArticlesCategoriesRouteImport } from './routes/_authenticated/articles.categories'
 import { Route as AuthenticatedArticlesIdRouteImport } from './routes/_authenticated/articles.$id'
 import { Route as LocaleInsightsIdRouteImport } from './routes/$locale/insights.$id'
 
@@ -151,6 +152,12 @@ const AuthenticatedArticlesNewRoute =
     path: '/new',
     getParentRoute: () => AuthenticatedArticlesRoute,
   } as any)
+const AuthenticatedArticlesCategoriesRoute =
+  AuthenticatedArticlesCategoriesRouteImport.update({
+    id: '/categories',
+    path: '/categories',
+    getParentRoute: () => AuthenticatedArticlesRoute,
+  } as any)
 const AuthenticatedArticlesIdRoute = AuthenticatedArticlesIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -184,6 +191,7 @@ export interface FileRoutesByFullPath {
   '/insights/': typeof InsightsIndexRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
   '/articles/$id': typeof AuthenticatedArticlesIdRoute
+  '/articles/categories': typeof AuthenticatedArticlesCategoriesRoute
   '/articles/new': typeof AuthenticatedArticlesNewRoute
   '/$locale/insights/': typeof LocaleInsightsIndexRoute
   '/articles/': typeof AuthenticatedArticlesIndexRoute
@@ -206,6 +214,7 @@ export interface FileRoutesByTo {
   '/insights': typeof InsightsIndexRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
   '/articles/$id': typeof AuthenticatedArticlesIdRoute
+  '/articles/categories': typeof AuthenticatedArticlesCategoriesRoute
   '/articles/new': typeof AuthenticatedArticlesNewRoute
   '/$locale/insights': typeof LocaleInsightsIndexRoute
   '/articles': typeof AuthenticatedArticlesIndexRoute
@@ -234,6 +243,7 @@ export interface FileRoutesById {
   '/insights/': typeof InsightsIndexRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
   '/_authenticated/articles/$id': typeof AuthenticatedArticlesIdRoute
+  '/_authenticated/articles/categories': typeof AuthenticatedArticlesCategoriesRoute
   '/_authenticated/articles/new': typeof AuthenticatedArticlesNewRoute
   '/$locale/insights/': typeof LocaleInsightsIndexRoute
   '/_authenticated/articles/': typeof AuthenticatedArticlesIndexRoute
@@ -262,6 +272,7 @@ export interface FileRouteTypes {
     | '/insights/'
     | '/$locale/insights/$id'
     | '/articles/$id'
+    | '/articles/categories'
     | '/articles/new'
     | '/$locale/insights/'
     | '/articles/'
@@ -284,6 +295,7 @@ export interface FileRouteTypes {
     | '/insights'
     | '/$locale/insights/$id'
     | '/articles/$id'
+    | '/articles/categories'
     | '/articles/new'
     | '/$locale/insights'
     | '/articles'
@@ -311,6 +323,7 @@ export interface FileRouteTypes {
     | '/insights/'
     | '/$locale/insights/$id'
     | '/_authenticated/articles/$id'
+    | '/_authenticated/articles/categories'
     | '/_authenticated/articles/new'
     | '/$locale/insights/'
     | '/_authenticated/articles/'
@@ -492,6 +505,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedArticlesNewRouteImport
       parentRoute: typeof AuthenticatedArticlesRoute
     }
+    '/_authenticated/articles/categories': {
+      id: '/_authenticated/articles/categories'
+      path: '/categories'
+      fullPath: '/articles/categories'
+      preLoaderRoute: typeof AuthenticatedArticlesCategoriesRouteImport
+      parentRoute: typeof AuthenticatedArticlesRoute
+    }
     '/_authenticated/articles/$id': {
       id: '/_authenticated/articles/$id'
       path: '/$id'
@@ -547,12 +567,14 @@ const LocaleRouteRouteWithChildren = LocaleRouteRoute._addFileChildren(
 
 interface AuthenticatedArticlesRouteChildren {
   AuthenticatedArticlesIdRoute: typeof AuthenticatedArticlesIdRoute
+  AuthenticatedArticlesCategoriesRoute: typeof AuthenticatedArticlesCategoriesRoute
   AuthenticatedArticlesNewRoute: typeof AuthenticatedArticlesNewRoute
   AuthenticatedArticlesIndexRoute: typeof AuthenticatedArticlesIndexRoute
 }
 
 const AuthenticatedArticlesRouteChildren: AuthenticatedArticlesRouteChildren = {
   AuthenticatedArticlesIdRoute: AuthenticatedArticlesIdRoute,
+  AuthenticatedArticlesCategoriesRoute: AuthenticatedArticlesCategoriesRoute,
   AuthenticatedArticlesNewRoute: AuthenticatedArticlesNewRoute,
   AuthenticatedArticlesIndexRoute: AuthenticatedArticlesIndexRoute,
 }
