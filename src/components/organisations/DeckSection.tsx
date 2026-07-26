@@ -154,10 +154,10 @@ export function DeckSection() {
                 aria-label={`${t("organisations.deck.title")} ${i + 1} / ${count}`}
                 onClick={() => go(i)}
                 className={
-                  "relative h-6 rounded-full transition-all before:absolute before:inset-x-0 before:top-1/2 before:h-1.5 before:-translate-y-1/2 before:rounded-full before:transition-all " +
+                  "relative h-6 min-w-6 rounded-full px-1.5 transition-all before:absolute before:inset-x-1.5 before:top-1/2 before:h-1.5 before:-translate-y-1/2 before:rounded-full before:transition-all " +
                   (i === index
-                    ? "w-7 before:bg-accent"
-                    : "w-3 before:bg-white/35 hover:before:bg-white/60")
+                    ? "w-10 before:bg-accent"
+                    : "w-6 before:bg-white/35 hover:before:bg-white/60")
                 }
               />
             ))}
