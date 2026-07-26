@@ -146,5 +146,30 @@
     "quote": "Quote",
     "link": "Link",
     "callout": "Callout"
+  },
+  "callout": {
+    "shade": "Style",
+    "info": "Info",
+    "highlight": "Highlight",
+    "warning": "Warning",
+    "emoji": "Emoji",
+    "noEmoji": "None",
+    "customEmoji": "Custom emoji…",
+    "insert": "Insert callout",
+    "placeholder": "Something worth highlighting."
+  },
+  "unsplash": {
+    "button": "Unsplash",
+    "title": "Choose a photo from Unsplash",
+    "search": "Search",
+    "searching": "Searching…",
+    "searchPlaceholder": "Search photos, e.g. leadership team",
+    "noResults": "No photos found.",
+    "loadMore": "Load more",
+    "failed": "Unsplash search failed. Please try again.",
+    "notConfigured": "Unsplash is not configured.",
+    "terms": "Photos provided by Unsplash. Attribution is added automatically.",
+    "creditPrefix": "Photo by",
+    "creditSuffix": "on Unsplash"
   }
 }
