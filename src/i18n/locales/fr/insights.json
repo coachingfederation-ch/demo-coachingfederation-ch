@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "title": "Insights — ICF Switzerland",
+    "description": "Idées, recherches et récits de la communauté suisse du coaching — leadership, IA, diversité et avenir du travail."
+  },
+  "hero": {
+    "eyebrow": "Insights",
+    "titleLead": "Insights de la communauté suisse du ",
+    "titleAccent": "coaching",
+    "titleTail": ".",
+    "lede": "Idées, recherches et récits sur le leadership, l'IA, la diversité et l'avenir du travail — par des coachs exerçant dans toute la Suisse."
+  },
+  "filters": {
+    "all": "Tous"
+  },
+  "categories": {
+    "Leadership": "Leadership",
+    "AI & Coaching": "IA & Coaching",
+    "Diversity": "Diversité",
+    "Future of Work": "Avenir du travail",
+    "Research": "Recherche"
+  },
+  "recent": "Articles récents",
+  "featured": "À la une",
+  "byline": "Rédaction ICF Switzerland",
+  "noneInTopic": "Aucun autre article dans ce thème pour le moment.",
+  "error": {
+    "title": "Insights indisponibles",
+    "body": "Nous n'avons pas pu charger les articles pour le moment. Veuillez réessayer dans un instant."
+  },
+  "empty": {
+    "title": "Aucun article publié pour le moment",
+    "body": "Les nouvelles publications de la communauté suisse du coaching apparaîtront ici dès leur parution.",
+    "topicTitle": "Rien ici pour le moment",
+    "topicBody": "Essayez un autre thème ou parcourez l'ensemble des articles avec le filtre « Tous ».",
+    "otherLanguage": "Lire l'édition en anglais →"
+  },
+  "newsletter": {
+    "eyebrow": "Restons en contact",
+    "title": "Recevez les nouvelles perspectives directement dans votre boîte de réception.",
+    "placeholder": "Votre adresse e-mail",
+    "cta": "S'abonner"
+  },
+  "detail": {
+    "back": "← Insights",
+    "backCta": "Retour aux Insights",
+    "notFoundTitle": "Article non trouvé",
+    "notFoundBody": "Cet article a peut-être été dépublié ou déplacé.",
+    "errorTitle": "Impossible de charger cet article",
+    "errorBody": "Veuillez réessayer dans un instant.",
+    "notFoundMetaTitle": "Article non trouvé — ICF Switzerland",
+    "fallbackDescription": "Un article issu de la collection d'insights d'ICF Switzerland."
+  }
+}

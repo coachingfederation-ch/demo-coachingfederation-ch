@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "title": "Pour les coachs — ICF Switzerland",
+    "description": "Adhésion, parcours de certification et communauté pour les coachs professionnels en Suisse."
+  },
+  "hero": {
+    "eyebrow": "Pour les coachs",
+    "titlePre": "Développez votre pratique avec ",
+    "titleAccent": "ICF Switzerland",
+    "titlePost": ".",
+    "lede": "Rejoignez une communauté suisse de coachs certifiés engagés envers l'excellence, l'éthique et le développement continu.",
+    "cta": "Devenir membre"
+  },
+  "benefits": {
+    "eyebrow": "Avantages des membres",
+    "title": "Tout ce dont vous avez besoin pour continuer à grandir.",
+    "items": [
+      {
+        "title": "Communauté",
+        "desc": "Antennes régionales, cercles de pairs et mentorat à travers toute la Suisse."
+      },
+      {
+        "title": "Apprentissage",
+        "desc": "Événements accrédités CCE, ateliers et développement continu."
+      },
+      {
+        "title": "Crédibilité",
+        "desc": "Le badge ICF reconnu dans le monde entier et la présence dans l'Annuaire des coachs."
+      },
+      {
+        "title": "Représentation",
+        "desc": "Une voix collective pour la profession de coach en Suisse."
+      }
+    ]
+  },
+  "credentials": {
+    "eyebrow": "Parcours de certification",
+    "title": "Un chemin reconnu de l'ACC au MCC.",
+    "items": [
+      {
+        "level": "ACC",
+        "hours": "100+ heures",
+        "desc": "Associate Certified Coach — la voie d'entrée pour les coachs nouvellement formés."
+      },
+      {
+        "level": "PCC",
+        "hours": "500+ heures",
+        "desc": "Professional Certified Coach — le standard pour les praticiens expérimentés."
+      },
+      {
+        "level": "MCC",
+        "hours": "2'500+ heures",
+        "desc": "Master Certified Coach — le plus haut niveau, pour les praticiens experts."
+      }
+    ]
+  },
+  "chapters": {
+    "eyebrow": "Communautés régionales",
+    "title": "Trouvez votre communauté régionale.",
+    "desc": "De Zürich à la Romandie et au Ticino, nos communautés régionales se réunissent régulièrement pour apprendre, pratiquer et se soutenir mutuellement.",
+    "cta": "Explorer les communautés →"
+  },
+  "join": {
+    "eyebrow": "Rejoignez-nous",
+    "title": "Prêt à devenir membre d'ICF Switzerland ?",
+    "cta1": "Devenir membre",
+    "cta2": "Découvrir les certifications"
+  }
+}

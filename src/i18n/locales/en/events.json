@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "title": "Events — ICF Switzerland",
+    "description": "Conferences, webinars and community gatherings for coaches and organisations across Switzerland."
+  },
+  "hero": {
+    "eyebrow": "Events",
+    "titlePrefix": "Connect, learn and ",
+    "titleAccent": "grow",
+    "titleSuffix": " together.",
+    "lede": "Conferences, webinars and community gatherings for coaches and organisations across Switzerland."
+  },
+  "featured": {
+    "eyebrow": "Featured event",
+    "date": "Thu 17 Sep 2026",
+    "city": "Zürich",
+    "title": "Coaching Perspectives Conference 2026",
+    "desc": "A full-day gathering of coaches, leaders and researchers exploring the future of professional coaching in Switzerland.",
+    "tags": ["EN · DE", "Conference", "In-person"]
+  },
+  "upcoming": {
+    "eyebrow": "Upcoming",
+    "title": "What's coming up.",
+    "items": [
+      { "date": "Tue 6 Oct 2026", "city": "Online", "title": "AI & Coaching: What Stays Human?", "tags": ["EN", "Webinar"] },
+      { "date": "Thu 12 Nov 2026", "city": "Lausanne", "title": "Soirée Coaching: Bâtir une culture de coaching", "tags": ["FR", "Networking"] },
+      { "date": "Wed 25 Nov 2026", "city": "Lugano", "title": "Coaching e leadership consapevole", "tags": ["IT", "Community"] },
+      { "date": "Thu 10 Dec 2026", "city": "Online", "title": "Mentor Coaching Circle", "tags": ["EN", "Mentoring"] },
+      { "date": "Wed 20 Jan 2027", "city": "Zürich", "title": "New Year Kickoff: Coaching in 2027", "tags": ["DE · EN", "Networking"] },
+      { "date": "Thu 11 Feb 2027", "city": "Geneva", "title": "Team Coaching Masterclass", "tags": ["EN", "Workshop"] }
+    ]
+  },
+  "past": {
+    "eyebrow": "Past events",
+    "recap": "Recap →",
+    "items": [
+      { "date": "Thu 6 Mar 2025", "city": "Zürich", "title": "Coaching Perspectives Conference 2025" },
+      { "date": "Wed 19 Feb 2025", "city": "Online", "title": "Ethics in Practice: A Coaching Dialogue" },
+      { "date": "Thu 30 Jan 2025", "city": "Lausanne", "title": "Coaching et transformation culturelle" }
+    ]
+  },
+  "cta": {
+    "eyebrow": "Contribute",
+    "title": "Have an event to propose?",
+    "propose": "Propose an event"
+  }
+}

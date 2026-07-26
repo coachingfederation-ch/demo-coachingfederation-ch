@@ -2,21 +2,22 @@ import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
 import InsightDetailPage, { ArticleFallback } from "@/pages/InsightDetail";
 import { getPublishedArticle } from "@/lib/insights.functions";
 import { articleHead } from "@/lib/insight-head";
-import { isLocale } from "@/i18n/config";
+import { isLocale, type Locale } from "@/i18n/config";
 
-export const Route = createFileRoute("/insights/$id")({
+export const Route = createFileRoute("/$locale/insights/$id")({
   loader: async ({ params }) => {
     const article = await getPublishedArticle({ data: { id: params.id } });
     if (!article) throw notFound();
-    if (article.language !== "en" && isLocale(article.language)) {
+    if (article.language !== params.locale) {
+      const lang = isLocale(article.language) ? article.language : "en";
       throw redirect({
-        to: "/$locale/insights/$id",
-        params: { locale: article.language, id: params.id } as never,
+        to: lang === "en" ? "/insights/$id" : "/$locale/insights/$id",
+        params: lang === "en" ? { id: params.id } : ({ locale: lang, id: params.id } as never),
       });
     }
     return { article };
   },
-  head: ({ loaderData, params }) => articleHead(loaderData, "en", params.id),
+  head: ({ loaderData, params }) => articleHead(loaderData, params.locale as Locale, params.id),
   errorComponent: () => (
     <ArticleFallback titleKey="insights.detail.errorTitle" bodyKey="insights.detail.errorBody" />
   ),

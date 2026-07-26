@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "title": "About — ICF Switzerland",
+    "description": "About ICF Switzerland Charter Chapter: why coaching, our regional communities, and our research partnerships."
+  },
+  "hero": {
+    "eyebrow": "About",
+    "titlePrefix": "ICF Switzerland ",
+    "titleAccent": "Charter Chapter.",
+    "lede": "We are the Swiss national chapter of the International Coaching Federation — a professional home for credentialed coaches and the organisations they serve."
+  },
+  "why": {
+    "eyebrow": "Why coaching?",
+    "title": "Better conversations create better futures.",
+    "body": "Professional coaching empowers people to think more clearly, lead more effectively and navigate change with confidence.",
+    "imageAlt": "A real coaching conversation"
+  },
+  "values": [
+    { "title": "Think differently", "desc": "Coaching creates space to challenge assumptions and see new options." },
+    { "title": "Lead better", "desc": "Leaders who are coached listen deeper, decide faster and grow their people." },
+    { "title": "Unlock potential", "desc": "Individuals and teams reach for what matters most, with support and accountability." }
+  ],
+  "communities": {
+    "eyebrow": "Communities",
+    "title": "A coaching community across Switzerland.",
+    "items": [
+      { "city": "Zürich", "region": "German-speaking Switzerland", "cadence": "Monthly", "langs": ["DE", "EN"], "lead": "Chapter lead: Zürich team" },
+      { "city": "Lausanne & Genève", "region": "Romandie", "cadence": "Monthly", "langs": ["FR", "EN"], "lead": "Chapter lead: Romandie team" },
+      { "city": "Lugano", "region": "Ticino", "cadence": "Quarterly", "langs": ["IT", "EN"], "lead": "Chapter lead: Ticino team" },
+      { "city": "Online", "region": "Events, mentoring & volunteering", "cadence": "Ongoing", "langs": ["DE", "FR", "IT", "EN"], "lead": "Open to all members" }
+    ]
+  },
+  "research": {
+    "eyebrow": "Research & partnerships",
+    "title": "Connecting research, practice and leadership.",
+    "partners": ["ETH Zürich", "HEC Lausanne", "USI Lugano", "SwissRe", "Nestlé"],
+    "items": [
+      { "title": "The state of coaching in Switzerland 2026", "desc": "A joint study with Swiss universities on the growth and impact of professional coaching." },
+      { "title": "Coaching, AI and the future of work", "desc": "A partnership research programme exploring how AI is reshaping coaching practice." }
+    ]
+  },
+  "mission": {
+    "eyebrow": "Our mission",
+    "title": "Advancing professional coaching in Switzerland.",
+    "body": "We uphold the highest standards of the coaching profession and champion its value for individuals, organisations and society."
+  },
+  "cta": {
+    "eyebrow": "Get involved",
+    "title": "Join us in shaping the future of coaching.",
+    "join": "Become a member",
+    "contact": "Contact us"
+  }
+}

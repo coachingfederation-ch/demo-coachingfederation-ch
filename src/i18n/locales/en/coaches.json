@@ -1,0 +1,45 @@
+{
+  "meta": {
+    "title": "For Coaches — ICF Switzerland",
+    "description": "Membership, credentialing pathways and community for professional coaches practising in Switzerland."
+  },
+  "hero": {
+    "eyebrow": "For coaches",
+    "titlePre": "Grow your practice with ",
+    "titleAccent": "ICF Switzerland",
+    "titlePost": ".",
+    "lede": "Join a Swiss community of credentialed coaches committed to excellence, ethics and lifelong development.",
+    "cta": "Become a member"
+  },
+  "benefits": {
+    "eyebrow": "Membership benefits",
+    "title": "Everything you need to keep growing.",
+    "items": [
+      { "title": "Community", "desc": "Regional chapters, peer circles and mentoring across Switzerland." },
+      { "title": "Learning", "desc": "CCE-accredited events, workshops and continuous development." },
+      { "title": "Credibility", "desc": "The globally recognised ICF badge and Coach Directory listing." },
+      { "title": "Advocacy", "desc": "A collective voice for the coaching profession in Switzerland." }
+    ]
+  },
+  "credentials": {
+    "eyebrow": "Credentialing pathway",
+    "title": "A recognised path from ACC to MCC.",
+    "items": [
+      { "level": "ACC", "hours": "100+ hours", "desc": "Associate Certified Coach — the entry pathway for newly trained coaches." },
+      { "level": "PCC", "hours": "500+ hours", "desc": "Professional Certified Coach — the standard for established practitioners." },
+      { "level": "MCC", "hours": "2,500+ hours", "desc": "Master Certified Coach — the highest tier, for masterful practitioners." }
+    ]
+  },
+  "chapters": {
+    "eyebrow": "Chapter communities",
+    "title": "Find your regional community.",
+    "desc": "From Zürich to Romandie to Ticino, our chapter communities meet regularly to learn, practise and support one another.",
+    "cta": "Explore communities →"
+  },
+  "join": {
+    "eyebrow": "Join us",
+    "title": "Ready to become an ICF Switzerland member?",
+    "cta1": "Become a member",
+    "cta2": "Explore credentials"
+  }
+}

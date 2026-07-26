@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "title": "Insights — ICF Switzerland",
+    "description": "Idee, ricerche e storie dalla community di coaching svizzera su leadership, IA, diversità e futuro del lavoro."
+  },
+  "hero": {
+    "eyebrow": "Insights",
+    "titleLead": "Spunti e visioni dalla",
+    "titleAccent": "community di coaching",
+    "titleTail": "svizzera.",
+    "lede": "Idee, ricerche e storie su leadership, IA, diversità e futuro del lavoro — da coach attivi in tutta la Svizzera."
+  },
+  "filters": {
+    "all": "Tutti"
+  },
+  "categories": {
+    "Leadership": "Leadership",
+    "AI & Coaching": "IA e Coaching",
+    "Diversity": "Diversità",
+    "Future of Work": "Futuro del lavoro",
+    "Research": "Ricerca"
+  },
+  "recent": "Articoli recenti",
+  "featured": "In evidenza",
+  "byline": "Redazione ICF Switzerland",
+  "noneInTopic": "Nessun altro articolo su questo argomento al momento.",
+  "error": {
+    "title": "Gli Insights non sono disponibili",
+    "body": "Impossibile caricare gli articoli al momento. Riprova tra qualche istante."
+  },
+  "empty": {
+    "title": "Nessun articolo ancora pubblicato",
+    "body": "I nuovi contributi della community di coaching svizzera appariranno qui non appena pubblicati.",
+    "topicTitle": "Ancora nulla qui",
+    "topicBody": "Prova un altro argomento o esplora tutti i contenuti con il filtro Tutti.",
+    "otherLanguage": "Leggi l'edizione in inglese →"
+  },
+  "newsletter": {
+    "eyebrow": "Rimani in contatto",
+    "title": "Ricevi i nuovi approfondimenti nella tua casella di posta.",
+    "placeholder": "Il tuo indirizzo e-mail",
+    "cta": "Iscriviti"
+  },
+  "detail": {
+    "back": "← Insights",
+    "backCta": "Torna a Insights",
+    "notFoundTitle": "Articolo non trovato",
+    "notFoundBody": "Questo articolo potrebbe essere stato rimosso o spostato.",
+    "errorTitle": "Impossibile caricare questo articolo",
+    "errorBody": "Riprova tra qualche istante.",
+    "notFoundMetaTitle": "Articolo non trovato — ICF Switzerland",
+    "fallbackDescription": "Un articolo della raccolta di approfondimenti di ICF Switzerland."
+  }
+}

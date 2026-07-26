@@ -1,0 +1,80 @@
+{
+  "meta": {
+    "title": "Für Organisationen — ICF Switzerland",
+    "description": "Coaching-Programme, die Führungskräfte entwickeln, Teams stärken und Coaching-Kulturen in Schweizer Organisationen aufbauen."
+  },
+  "hero": {
+    "eyebrow": "Für Organisationen",
+    "titlePre": "Coaching für Organisationen, die durch ",
+    "titleAccent": "Wandel führen",
+    "titlePost": ".",
+    "lede": "Von Einzel-Executive-Coaching bis hin zu organisationsweiten Coaching-Kulturen: ICF Switzerland verbindet Sie mit zertifizierten Coaches, die messbare Wirkung erzielen.",
+    "cta": "Sprechen Sie mit unserem Team"
+  },
+  "outcomes": {
+    "eyebrow": "Resultate",
+    "title": "Warum Organisationen auf ICF-Coaches setzen.",
+    "items": [
+      {
+        "stat": "+38%",
+        "title": "Führungseffektivität",
+        "desc": "Gecoachte Führungskräfte berichten von klarerer Urteilskraft, besserer Delegation und stärkerer Präsenz."
+      },
+      {
+        "stat": "2×",
+        "title": "Team-Engagement",
+        "desc": "Teams in einer Coaching-Kultur schneiden beim Engagement konsequent besser ab als andere."
+      },
+      {
+        "stat": "94%",
+        "title": "Berichteter ROI",
+        "desc": "Organisationen, die in Coaching investieren, berichten von messbaren Erträgen innerhalb von zwölf Monaten."
+      }
+    ]
+  },
+  "steps": {
+    "eyebrow": "Wie wir arbeiten",
+    "title": "Ein klarer Weg von der Ambition zur Wirkung.",
+    "items": [
+      {
+        "n": "01",
+        "title": "Verstehen",
+        "desc": "Wir verstehen Ihren Kontext, Ihre Mitarbeitenden und die Ergebnisse, auf die es ankommt."
+      },
+      {
+        "n": "02",
+        "title": "Matching",
+        "desc": "Wir verbinden Sie mit zertifizierten ICF-Coaches, deren Erfahrung zu Ihren Zielen passt."
+      },
+      {
+        "n": "03",
+        "title": "Messen",
+        "desc": "Wir begleiten die Zusammenarbeit mit Meilensteinen, Feedback und klarer Evaluation."
+      }
+    ]
+  },
+  "programmes": {
+    "eyebrow": "Ausgewählte Programme",
+    "title": "Auf Ihren Kontext zugeschnittene Programme.",
+    "items": [
+      {
+        "tag": "Executive Coaching",
+        "title": "Einzel-Coaching für Führungskräfte in komplexen Situationen."
+      },
+      {
+        "tag": "Team-Coaching",
+        "title": "Begleitung ganzer Teams für mehr Vertrauen, Ausrichtung und Ergebnisse."
+      },
+      {
+        "tag": "Coaching-Kulturen",
+        "title": "Programme, die Coaching-Kompetenzen in Ihrer gesamten Organisation verankern."
+      }
+    ]
+  },
+  "getStarted": {
+    "eyebrow": "Jetzt starten",
+    "title": "Bereit, Coaching in Ihre Organisation zu bringen?",
+    "cta1": "Kontaktieren Sie uns",
+    "cta2": "Fallstudien"
+  }
+}

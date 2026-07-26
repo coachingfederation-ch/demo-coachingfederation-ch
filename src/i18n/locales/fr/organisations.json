@@ -1,0 +1,80 @@
+{
+  "meta": {
+    "title": "Pour les organisations — ICF Switzerland",
+    "description": "Programmes de coaching pour développer le leadership, renforcer les équipes et ancrer une culture du coaching au sein des organisations en Suisse."
+  },
+  "hero": {
+    "eyebrow": "Pour les organisations",
+    "titlePre": "Le coaching pour les organisations qui façonnent le ",
+    "titleAccent": "changement",
+    "titlePost": ".",
+    "lede": "Du coaching individuel de dirigeants au développement d'une culture de coaching globale, ICF Switzerland vous met en relation avec des coachs certifiés à l'impact mesurable.",
+    "cta": "Contacter notre équipe"
+  },
+  "outcomes": {
+    "eyebrow": "Résultats",
+    "title": "Pourquoi les organisations choisissent des coachs ICF.",
+    "items": [
+      {
+        "stat": "+38%",
+        "title": "Efficacité des leaders",
+        "desc": "Les leaders accompagnés constatent un discernement plus aigu, une meilleure délégation et une présence renforcée."
+      },
+      {
+        "stat": "2×",
+        "title": "Engagement des équipes",
+        "desc": "Les équipes évoluant dans une culture de coaching surpassent durablement leurs pairs en matière d'engagement."
+      },
+      {
+        "stat": "94%",
+        "title": "ROI constaté",
+        "desc": "Les organisations investissant dans le coaching constatent un retour mesurable dans les douze mois."
+      }
+    ]
+  },
+  "steps": {
+    "eyebrow": "Notre démarche",
+    "title": "Un parcours clair, de l'ambition à l'impact.",
+    "items": [
+      {
+        "n": "01",
+        "title": "Découvrir",
+        "desc": "Nous comprenons votre contexte, vos collaborateurs et vos enjeux prioritaires."
+      },
+      {
+        "n": "02",
+        "title": "Connecter",
+        "desc": "Nous vous mettons en relation avec des coachs certifiés ICF dont l'expérience correspond à vos objectifs."
+      },
+      {
+        "n": "03",
+        "title": "Mesurer",
+        "desc": "Nous accompagnons la démarche avec des jalons, des retours d'expérience et une évaluation claire."
+      }
+    ]
+  },
+  "programmes": {
+    "eyebrow": "Programmes phares",
+    "title": "Des programmes adaptés à votre contexte.",
+    "items": [
+      {
+        "tag": "Coaching de dirigeants",
+        "title": "Accompagnement individuel pour les dirigeants face à la complexité."
+      },
+      {
+        "tag": "Coaching d'équipe",
+        "title": "Des démarches d'équipe fondées sur la confiance, l'alignement et les résultats."
+      },
+      {
+        "tag": "Cultures de coaching",
+        "title": "Des programmes pour ancrer les compétences de coaching dans toute l'organisation."
+      }
+    ]
+  },
+  "getStarted": {
+    "eyebrow": "Lancez-vous",
+    "title": "Prêt à intégrer le coaching au cœur de votre organisation ?",
+    "cta1": "Nous contacter",
+    "cta2": "Études de cas"
+  }
+}

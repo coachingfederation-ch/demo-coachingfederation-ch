@@ -1,0 +1,80 @@
+{
+  "meta": {
+    "title": "Per le organizzazioni — ICF Switzerland",
+    "description": "Programmi di coaching per sviluppare leader, rafforzare team e diffondere una cultura del coaching nelle organizzazioni svizzere."
+  },
+  "hero": {
+    "eyebrow": "Per le organizzazioni",
+    "titlePre": "Coaching per le organizzazioni che guidano il ",
+    "titleAccent": "cambiamento",
+    "titlePost": ".",
+    "lede": "Dai percorsi individuali per executive alla diffusione di una cultura del coaching aziendale, ICF Switzerland vi mette in contatto con coach credenziali che generano un impatto misurabile.",
+    "cta": "Contatta il nostro team"
+  },
+  "outcomes": {
+    "eyebrow": "Risultati",
+    "title": "Perché le organizzazioni scelgono i coach ICF.",
+    "items": [
+      {
+        "stat": "+38%",
+        "title": "Efficacia dei leader",
+        "desc": "I leader affiancati da un coach mostrano una maggiore capacità di giudizio, una delega più efficace e una presenza più solida."
+      },
+      {
+        "stat": "2×",
+        "title": "Coinvolgimento del team",
+        "desc": "I team che adottano una cultura del coaching superano costantemente gli altri in termini di coinvolgimento."
+      },
+      {
+        "stat": "94%",
+        "title": "ROI riscontrato",
+        "desc": "Le organizzazioni che investono nel coaching riscontrano ritorni misurabili entro dodici mesi."
+      }
+    ]
+  },
+  "steps": {
+    "eyebrow": "Come lavoriamo",
+    "title": "Un percorso chiaro dall'ambizione all'impatto.",
+    "items": [
+      {
+        "n": "01",
+        "title": "Analisi",
+        "desc": "Comprendiamo il vostro contesto, le vostre persone e gli obiettivi che contano davvero."
+      },
+      {
+        "n": "02",
+        "title": "Abbinamento",
+        "desc": "Vi colleghiamo con coach in possesso di credenziale ICF la cui esperienza si adatta ai vostri obiettivi."
+      },
+      {
+        "n": "03",
+        "title": "Misurazione",
+        "desc": "Sosteniamo il percorso con tappe intermedie, feedback e una valutazione chiara."
+      }
+    ]
+  },
+  "programmes": {
+    "eyebrow": "Programmi principali",
+    "title": "Programmi su misura per il vostro contesto.",
+    "items": [
+      {
+        "tag": "Executive coaching",
+        "title": "Percorsi individuali dedicati ai senior leader che affrontano contesti complessi."
+      },
+      {
+        "tag": "Team coaching",
+        "title": "Interventi rivolti all'intero team per costruire fiducia, allineamento e risultati."
+      },
+      {
+        "tag": "Cultura del coaching",
+        "title": "Programmi per integrare le competenze di coaching in tutta l'organizzazione."
+      }
+    ]
+  },
+  "getStarted": {
+    "eyebrow": "Inizia ora",
+    "title": "Pronti a portare il coaching nella vostra organizzazione?",
+    "cta1": "Contattaci",
+    "cta2": "Casi di studio"
+  }
+}
