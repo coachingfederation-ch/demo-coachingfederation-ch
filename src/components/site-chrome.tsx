@@ -168,14 +168,13 @@ export function SiteNav() {
         onClick={() => setMenuOpen((v) => !v)}
         className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 lg:hidden"
       >
-        {menuOpen ? <Menu className="hidden" /> : null}
         {menuOpen ? <X className="h-4 w-4" aria-hidden="true" /> : <Menu className="h-4 w-4" aria-hidden="true" />}
       </button>
       {menuOpen && (
         <nav
           id="site-mobile-nav"
           aria-label={t("common.nav.primaryLabel")}
-          className="absolute inset-x-5 top-full z-40 mt-3 flex flex-col rounded-2xl bg-white/10 p-2 text-[13px] font-semibold backdrop-blur-sm sm:inset-x-8 lg:hidden"
+          className="absolute inset-x-0 top-full z-40 mt-3 flex flex-col rounded-2xl bg-primary/95 p-2 text-[13px] font-semibold shadow-lg backdrop-blur-sm lg:hidden"
         >
           {navItems.map((i) => (
             <LocaleLink
