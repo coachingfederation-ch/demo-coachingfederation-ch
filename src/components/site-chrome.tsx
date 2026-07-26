@@ -70,29 +70,29 @@ function CompactLanguageSwitcher() {
         {LOCALE_LABELS[locale]}
       </button>
       {open && (
-        <div
-          role="menu"
+        <ul
+          aria-label={t("common.nav.languageLabel")}
           className={
             "absolute right-0 z-50 mt-2 min-w-[6rem] overflow-hidden rounded-xl border border-border/70 bg-card py-1 " +
             CARD_SHADOW
           }
         >
           {LOCALE_ORDER.filter((l) => l !== locale).map((l) => (
+            <li key={l}>
             <a
-              key={l}
-              role="menuitem"
               href={localizePath(path, l)}
               hrefLang={l}
               onClick={() => {
                 setStoredLocale(l);
                 setOpen(false);
               }}
-              className="block px-4 py-2 text-[11px] font-semibold uppercase tracking-wider text-foreground/80 hover:bg-muted hover:text-foreground"
+              className="block min-h-11 px-4 py-3 text-[11px] font-semibold uppercase leading-5 tracking-wider text-foreground/80 hover:bg-muted hover:text-foreground"
             >
               {LOCALE_LABELS[l]}
             </a>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </div>
   );
