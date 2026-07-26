@@ -39,7 +39,7 @@ export default function ForCoachesPage() {
           <div className="mt-12 grid gap-4 md:grid-cols-3">
             {credentials.map((c) => (
               <div key={c.level} className={"rounded-2xl border border-border/70 bg-card p-8 " + CARD_SHADOW}>
-                <p className="btn-mono text-teal-foreground">{c.hours}</p>
+                <p className="btn-mono !text-teal-foreground">{c.hours}</p>
                 <h3 className="mt-3 text-3xl font-bold tracking-tight text-primary">{c.level}</h3>
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{c.desc}</p>
               </div>
