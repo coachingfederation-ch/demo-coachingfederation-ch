@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Mark } from "@/components/marks";
 import { CARD_SHADOW } from "@/components/site-chrome";
+import { DeckDownload } from "@/components/organisations/DeckDownload";
 import { useI18n } from "@/i18n";
 
 type Slide = {
@@ -90,8 +91,14 @@ export function DeckSection() {
                 </h3>
               ) : null}
               {slide.quote ? (
-                <blockquote className="mt-4 max-w-3xl text-xl font-medium leading-snug tracking-tight text-primary md:text-2xl">
-                  “{slide.quote}”
+                <blockquote className="relative mt-6 max-w-3xl pl-8 text-2xl font-bold leading-tight tracking-tight text-primary md:pl-12 md:text-4xl">
+                  <span
+                    aria-hidden
+                    className="absolute left-0 top-0 text-6xl leading-none text-accent md:text-8xl"
+                  >
+                    “
+                  </span>
+                  {slide.quote}
                 </blockquote>
               ) : null}
               {slide.body ? (
@@ -100,23 +107,29 @@ export function DeckSection() {
                 </p>
               ) : null}
               {slide.stat ? (
-                <div className="mt-8 flex flex-wrap items-baseline gap-4">
-                  <span className="text-5xl font-bold tracking-tight text-accent md:text-6xl">
-                    {slide.stat}
-                  </span>
-                  <span className="max-w-sm text-sm leading-snug text-muted-foreground">
+                <div className="relative mt-10 flex flex-col gap-6 md:flex-row md:items-center md:gap-10">
+                  <div className="relative shrink-0">
+                    <Mark
+                      name="circular2"
+                      className="pointer-events-none absolute left-1/2 top-1/2 h-[130%] w-[130%] -translate-x-1/2 -translate-y-1/2 text-accent/15"
+                    />
+                    <span className="relative block text-[5.5rem] font-bold leading-[0.85] tracking-tighter text-accent md:text-[9rem]">
+                      {slide.stat}
+                    </span>
+                  </div>
+                  <span className="max-w-sm text-lg font-semibold leading-snug tracking-tight text-foreground md:text-2xl">
                     {slide.statLabel}
                   </span>
                 </div>
               ) : null}
               {slide.bullets && slide.bullets.length > 0 ? (
-                <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+                <ul className="mt-8 grid gap-4 sm:grid-cols-2">
                   {slide.bullets.map((b, i) => (
                     <li
                       key={b}
-                      className="flex gap-3 rounded-xl border border-border/70 bg-background p-4 text-sm leading-snug"
+                      className="flex flex-col gap-3 rounded-2xl border border-border/70 bg-background p-5 text-base font-medium leading-snug md:p-6"
                     >
-                      <span className="btn-mono text-xs font-bold text-accent">
+                      <span className="btn-mono text-2xl font-bold leading-none text-accent md:text-3xl">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                       <span>{b}</span>
@@ -201,6 +214,8 @@ export function DeckSection() {
             ) : null}
           </div>
         ) : null}
+
+        <DeckDownload />
       </div>
     </section>
   );
