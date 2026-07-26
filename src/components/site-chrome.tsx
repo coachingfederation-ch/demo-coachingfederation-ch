@@ -229,7 +229,7 @@ export function CompactHero({
 }) {
   return (
     <header className="bg-hero text-hero-foreground">
-      <div className="mx-auto max-w-7xl px-8 pt-6 pb-20">
+      <div className="mx-auto max-w-7xl px-5 pt-6 pb-20 sm:px-8">
         <SiteHeaderBar compact />
         <div className="mt-14 max-w-3xl">
           <p className="eyebrow !text-accent">{eyebrow}</p>
