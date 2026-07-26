@@ -35,11 +35,9 @@ export function ArticleFallback({ titleKey, bodyKey }: { titleKey: string; bodyK
   );
 }
 
-export default function InsightDetailPage({
-  article,
-}: {
-  article: PublicArticle & { content?: string | null };
-}) {
+type DetailArticle = Omit<PublicArticle, "is_featured"> & { content?: string | null };
+
+export default function InsightDetailPage({ article }: { article: DetailArticle }) {
   const { t } = useI18n();
   const tile = tileFor(article.id);
 
