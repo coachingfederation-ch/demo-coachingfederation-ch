@@ -44,7 +44,6 @@ interface ProfileRow {
   id: string;
   first_name: string | null;
   last_name: string | null;
-  email: string;
 }
 
 const LANGS: { code: Lang; label: string }[] = [
@@ -142,7 +141,7 @@ function EditorPage() {
       .then(({ data }) => setCategories((data ?? []) as CategoryRow[]));
     supabase
       .from("profiles")
-      .select("id, first_name, last_name, email")
+      .select("id, first_name, last_name")
       .order("last_name", { ascending: true })
       .then(({ data }) => setProfiles((data ?? []) as ProfileRow[]));
   }, []);
@@ -497,7 +496,7 @@ function EditorPage() {
                   >
                     {profiles.map((p) => (
                       <option key={p.id} value={p.id}>
-                        {authorName(p) ?? p.email}
+                        {authorName(p) ?? t("editor.author")}
                       </option>
                     ))}
                   </select>
