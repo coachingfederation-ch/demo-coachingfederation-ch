@@ -14,11 +14,60 @@ export type Database = {
   }
   public: {
     Tables: {
+      article_translations: {
+        Row: {
+          article_id: string
+          content: string
+          created_at: string
+          excerpt: string
+          id: string
+          locale: string
+          manually_edited: boolean
+          source_updated_at: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          article_id: string
+          content?: string
+          created_at?: string
+          excerpt?: string
+          id?: string
+          locale: string
+          manually_edited?: boolean
+          source_updated_at?: string
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          article_id?: string
+          content?: string
+          created_at?: string
+          excerpt?: string
+          id?: string
+          locale?: string
+          manually_edited?: boolean
+          source_updated_at?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_translations_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       articles: {
         Row: {
           author_id: string
           category: string | null
+          category_id: string | null
           content: string
+          content_updated_at: string
           created_at: string
           excerpt: string
           featured_image_url: string | null
@@ -35,7 +84,9 @@ export type Database = {
         Insert: {
           author_id: string
           category?: string | null
+          category_id?: string | null
           content?: string
+          content_updated_at?: string
           created_at?: string
           excerpt?: string
           featured_image_url?: string | null
@@ -52,7 +103,9 @@ export type Database = {
         Update: {
           author_id?: string
           category?: string | null
+          category_id?: string | null
           content?: string
+          content_updated_at?: string
           created_at?: string
           excerpt?: string
           featured_image_url?: string | null
@@ -64,6 +117,84 @@ export type Database = {
           scheduled_at?: string | null
           status?: Database["public"]["Enums"]["article_status"]
           title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "articles_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "articles_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      categories: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          name_de: string | null
+          name_fr: string | null
+          name_it: string | null
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string
+          first_name?: string
+          id: string
+          last_name?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string
           updated_at?: string
         }
         Relationships: []

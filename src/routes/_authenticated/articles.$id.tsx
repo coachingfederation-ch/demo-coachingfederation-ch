@@ -3,7 +3,10 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, Image as ImageIcon, Upload, X } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { supabase } from "@/integrations/supabase/client";
-import { ARTICLE_CATEGORIES } from "@/lib/articles";
+import { MarkdownToolbar } from "@/components/cms/MarkdownToolbar";
+import { TranslationsPanel } from "@/components/cms/TranslationsPanel";
+import { authorName, categoryLabel, type CategoryRow } from "@/lib/articles";
+import { useCms } from "@/i18n/cms";
 
 export const Route = createFileRoute("/_authenticated/articles/$id")({
   head: () => ({
@@ -29,9 +32,19 @@ interface Article {
   published_at: string | null;
   first_published_at: string | null;
   category: string | null;
+  category_id: string | null;
+  author_id: string;
+  content_updated_at: string | null;
   featured_image_url: string | null;
   is_featured: boolean;
   updated_at: string;
+}
+
+interface ProfileRow {
+  id: string;
+  first_name: string | null;
+  last_name: string | null;
+  email: string;
 }
 
 const LANGS: { code: Lang; label: string }[] = [
@@ -41,12 +54,16 @@ const LANGS: { code: Lang; label: string }[] = [
   { code: "it", label: "Italiano" },
 ];
 
-function StatusPill({ status }: { status: Status }) {
+function StatusPill({ status, t }: { status: Status; t: (k: string) => string }) {
   const map: Record<Status, { cls: string; dot: string; label: string }> = {
-    draft: { cls: "bg-warn-soft text-[color:var(--warn)]", dot: "var(--warn)", label: "Draft" },
-    scheduled: { cls: "bg-teal-soft text-teal-foreground", dot: "var(--teal)", label: "Scheduled" },
-    published: { cls: "bg-teal-soft text-teal-foreground", dot: "var(--teal)", label: "Published" },
-    unpublished: { cls: "bg-secondary text-muted-foreground", dot: "var(--muted-foreground)", label: "Unpublished" },
+    draft: { cls: "bg-warn-soft text-[color:var(--warn)]", dot: "var(--warn)", label: t("status.draft") },
+    scheduled: { cls: "bg-teal-soft text-teal-foreground", dot: "var(--teal)", label: t("status.scheduled") },
+    published: { cls: "bg-teal-soft text-teal-foreground", dot: "var(--teal)", label: t("status.published") },
+    unpublished: {
+      cls: "bg-secondary text-muted-foreground",
+      dot: "var(--muted-foreground)",
+      label: t("status.unpublished"),
+    },
   };
   const s = map[status];
   return (
@@ -92,7 +109,11 @@ function LangTab({
 function EditorPage() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
+  const { t, locale } = useCms();
   const [article, setArticle] = useState<Article | null>(null);
+  const [categories, setCategories] = useState<CategoryRow[]>([]);
+  const [profiles, setProfiles] = useState<ProfileRow[]>([]);
+  const bodyRef = useRef<HTMLTextAreaElement | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -113,6 +134,19 @@ function EditorPage() {
       });
   }, [id]);
 
+  useEffect(() => {
+    supabase
+      .from("categories")
+      .select("id, slug, name, name_de, name_fr, name_it, sort_order")
+      .order("sort_order", { ascending: true })
+      .then(({ data }) => setCategories((data ?? []) as CategoryRow[]));
+    supabase
+      .from("profiles")
+      .select("id, first_name, last_name, email")
+      .order("last_name", { ascending: true })
+      .then(({ data }) => setProfiles((data ?? []) as ProfileRow[]));
+  }, []);
+
   // Autosave title/excerpt/content/language
   useEffect(() => {
     if (!article) return;
@@ -130,7 +164,8 @@ function EditorPage() {
           excerpt: article.excerpt,
           content: article.content,
           language: article.language,
-          category: article.category,
+          category_id: article.category_id,
+          author_id: article.author_id,
           featured_image_url: article.featured_image_url,
         })
         .eq("id", article.id);
@@ -146,7 +181,8 @@ function EditorPage() {
     article?.excerpt,
     article?.content,
     article?.language,
-    article?.category,
+    article?.category_id,
+    article?.author_id,
     article?.featured_image_url,
   ]);
 
@@ -171,7 +207,7 @@ function EditorPage() {
       .createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
     setUploading(false);
     if (signErr || !signed) {
-      setUploadError(signErr?.message ?? "Could not create a link for this image.");
+      setUploadError(signErr?.message ?? t("editor.imageError"));
       return;
     }
     update({ featured_image_url: signed.signedUrl });
@@ -186,11 +222,7 @@ function EditorPage() {
       .eq("id", article.id);
     if (error) return;
     update({ is_featured: next });
-    setFeaturedNote(
-      next
-        ? "This article is now the featured story on Insights. Any previously featured article was un-featured."
-        : "Removed from the featured slot. Insights will show the newest published article instead.",
-    );
+    setFeaturedNote(next ? t("editor.featuredOn") : t("editor.featuredOff"));
   };
 
   const publishNow = async () => {
@@ -209,13 +241,13 @@ function EditorPage() {
   const schedule = async () => {
     if (!article) return;
     const input = window.prompt(
-      "Publish at (YYYY-MM-DD HH:MM, local time)",
+      t("editor.schedulePrompt"),
       new Date(Date.now() + 3600_000).toISOString().slice(0, 16).replace("T", " "),
     );
     if (!input) return;
     const dt = new Date(input.replace(" ", "T"));
     if (isNaN(dt.getTime())) {
-      alert("Invalid date");
+      alert(t("editor.invalidDate"));
       return;
     }
     const patch = {
@@ -236,7 +268,7 @@ function EditorPage() {
 
   const remove = async () => {
     if (!article) return;
-    if (!window.confirm("Delete this article? This cannot be undone.")) return;
+    if (!window.confirm(t("editor.confirmDelete"))) return;
     const { error } = await supabase.from("articles").delete().eq("id", article.id);
     if (!error) navigate({ to: "/articles" });
   };
@@ -245,10 +277,10 @@ function EditorPage() {
     return (
       <Shell>
         <div className="mx-auto max-w-xl px-10 py-16 text-center">
-          <h1 className="text-2xl font-bold">Article not found</h1>
-          <p className="mt-2 text-sm text-muted-foreground">It may have been deleted.</p>
+          <h1 className="text-2xl font-bold">{t("editor.notFound")}</h1>
+          <p className="mt-2 text-sm text-muted-foreground">{t("editor.notFoundBody")}</p>
           <Link to="/articles" className="mt-6 inline-block text-sm font-semibold text-primary hover:underline">
-            ← Back to articles
+            {t("editor.backToArticles")}
           </Link>
         </div>
       </Shell>
@@ -258,14 +290,18 @@ function EditorPage() {
   if (!article) {
     return (
       <Shell>
-        <div className="px-10 py-16 text-sm text-muted-foreground">Loading…</div>
+        <div className="px-10 py-16 text-sm text-muted-foreground">{t("editor.loading")}</div>
       </Shell>
     );
   }
 
   const languageLocked = !!article.first_published_at;
   const saveLabel =
-    saveState === "saving" ? "Saving…" : saveState === "saved" ? "Saved just now" : `Last saved ${new Date(article.updated_at).toLocaleTimeString()}`;
+    saveState === "saving"
+      ? t("editor.saving")
+      : saveState === "saved"
+        ? t("editor.saved")
+        : `${t("editor.lastSaved")} ${new Date(article.updated_at).toLocaleTimeString()}`;
 
   return (
     <Shell>
@@ -276,9 +312,9 @@ function EditorPage() {
             className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground hover:bg-secondary"
           >
             <ChevronLeft className="h-4 w-4" />
-            Articles
+            {t("editor.back")}
           </Link>
-          <StatusPill status={article.status} />
+          <StatusPill status={article.status} t={t} />
           <span className="text-xs text-muted-foreground">{saveLabel}</span>
         </div>
         <div className="flex items-center gap-2">
@@ -287,20 +323,20 @@ function EditorPage() {
               onClick={unpublish}
               className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium hover:bg-secondary"
             >
-              Unpublish
+              {t("editor.unpublish")}
             </button>
           ) : null}
           <button
             onClick={schedule}
             className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium hover:bg-secondary"
           >
-            Schedule…
+            {t("editor.schedule")}
           </button>
           <button
             onClick={publishNow}
             className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] hover:opacity-95"
           >
-            {article.status === "published" ? "Republish" : "Publish"}
+            {article.status === "published" ? t("editor.republish") : t("editor.publish")}
           </button>
         </div>
       </div>
@@ -321,22 +357,22 @@ function EditorPage() {
               ))}
             </div>
             {languageLocked ? (
-              <span className="text-xs text-muted-foreground">Language locked after first publication</span>
+              <span className="text-xs text-muted-foreground">{t("editor.languageLocked")}</span>
             ) : (
-              <span className="text-xs text-muted-foreground">Language can be changed until first publication</span>
+              <span className="text-xs text-muted-foreground">{t("editor.languageUnlocked")}</span>
             )}
           </div>
 
           <input
             value={article.title}
             onChange={(e) => update({ title: e.target.value })}
-            placeholder="Article title"
+            placeholder={t("editor.titlePlaceholder")}
             className="mt-8 w-full border-none bg-transparent text-4xl font-bold tracking-tight text-foreground outline-none placeholder:text-muted-foreground/50"
           />
           <textarea
             value={article.excerpt}
             onChange={(e) => update({ excerpt: e.target.value })}
-            placeholder="Lead paragraph — a short summary that appears under the headline and in article cards."
+            placeholder={t("editor.excerptPlaceholder")}
             rows={2}
             className="mt-4 w-full max-w-2xl resize-none border-none bg-transparent text-lg text-muted-foreground outline-none placeholder:text-muted-foreground/60"
           />
@@ -351,7 +387,7 @@ function EditorPage() {
                 />
                 <button
                   onClick={() => update({ featured_image_url: null })}
-                  aria-label="Remove featured image"
+                  aria-label={t("editor.removeImage")}
                   className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-card/90 text-foreground shadow-[var(--shadow-soft)] hover:bg-card"
                 >
                   <X className="h-4 w-4" />
@@ -361,9 +397,9 @@ function EditorPage() {
               <label className="flex h-64 cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-border bg-secondary/40 text-muted-foreground hover:bg-secondary/60">
                 <ImageIcon className="h-8 w-8" />
                 <span className="text-sm font-medium">
-                  {uploading ? "Uploading…" : "Upload a featured image"}
+                  {uploading ? t("editor.uploading") : t("editor.uploadImage")}
                 </span>
-                <span className="text-xs">JPG, PNG or WebP</span>
+                <span className="text-xs">{t("editor.uploadHint")}</span>
                 <input
                   type="file"
                   accept="image/*"
@@ -382,64 +418,70 @@ function EditorPage() {
               <input
                 value={article.featured_image_url ?? ""}
                 onChange={(e) => update({ featured_image_url: e.target.value || null })}
-                placeholder="…or paste an image URL"
+                placeholder={t("editor.orPasteUrl")}
                 className="w-full rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring/20"
               />
             </div>
             {uploadError ? <p className="text-xs text-destructive">{uploadError}</p> : null}
           </div>
 
+          <MarkdownToolbar
+            textareaRef={bodyRef}
+            value={article.content}
+            onChange={(next) => update({ content: next })}
+          />
           <textarea
+            ref={bodyRef}
             value={article.content}
             onChange={(e) => update({ content: e.target.value })}
-            placeholder="Body text — write your article here. Markdown-friendly."
+            placeholder={t("editor.bodyPlaceholder")}
             rows={20}
-            className="mt-6 w-full resize-y rounded-2xl border border-border bg-card p-5 text-[15px] leading-relaxed text-foreground outline-none focus:ring-2 focus:ring-ring/20"
+            className="w-full resize-y rounded-b-2xl border border-border bg-card p-5 text-[15px] leading-relaxed text-foreground outline-none focus:ring-2 focus:ring-ring/20"
           />
         </article>
 
         <aside className="space-y-6">
           <div>
             <div className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">
-              Publishing
+              {t("editor.publishing")}
             </div>
             <div className="space-y-3 rounded-2xl border border-border bg-card p-4 text-sm">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Status</span>
-                <StatusPill status={article.status} />
+                <span className="text-muted-foreground">{t("editor.statusLabel")}</span>
+                <StatusPill status={article.status} t={t} />
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Language</span>
+                <span className="text-muted-foreground">{t("editor.sourceLanguage")}</span>
                 <span className="font-semibold">{article.language.toUpperCase()}</span>
               </div>
               {article.published_at ? (
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Published</span>
+                  <span className="text-muted-foreground">{t("editor.publishedAt")}</span>
                   <span>{new Date(article.published_at).toLocaleString()}</span>
                 </div>
               ) : null}
               {article.scheduled_at ? (
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Scheduled</span>
+                  <span className="text-muted-foreground">{t("editor.scheduledAt")}</span>
                   <span>{new Date(article.scheduled_at).toLocaleString()}</span>
                 </div>
               ) : null}
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Updated</span>
+                <span className="text-muted-foreground">{t("editor.updated")}</span>
                 <span>{new Date(article.updated_at).toLocaleString()}</span>
               </div>
               <div className="border-t border-border pt-3">
                 <label className="flex items-center justify-between gap-3">
-                  <span className="text-muted-foreground">Category</span>
+                  <span className="text-muted-foreground">{t("editor.category")}</span>
                   <select
-                    value={article.category ?? ""}
-                    onChange={(e) => update({ category: e.target.value || null })}
+                    value={article.category_id ?? ""}
+                    onChange={(e) => update({ category_id: e.target.value || null })}
                     className="rounded-lg border border-border bg-card px-2 py-1.5 text-sm outline-none focus:ring-2 focus:ring-ring/20"
                   >
-                    <option value="">None</option>
-                    {ARTICLE_CATEGORIES.map((c) => (
-                      <option key={c} value={c}>
-                        {c}
+                    <option value="">{t("editor.none")}</option>
+                    {categories.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {categoryLabel(c, locale)}
                       </option>
                     ))}
                   </select>
@@ -447,7 +489,23 @@ function EditorPage() {
               </div>
               <div className="border-t border-border pt-3">
                 <label className="flex items-center justify-between gap-3">
-                  <span className="text-muted-foreground">Featured on Insights</span>
+                  <span className="text-muted-foreground">{t("editor.author")}</span>
+                  <select
+                    value={article.author_id}
+                    onChange={(e) => update({ author_id: e.target.value })}
+                    className="max-w-[190px] rounded-lg border border-border bg-card px-2 py-1.5 text-sm outline-none focus:ring-2 focus:ring-ring/20"
+                  >
+                    {profiles.map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {authorName(p) ?? p.email}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+              <div className="border-t border-border pt-3">
+                <label className="flex items-center justify-between gap-3">
+                  <span className="text-muted-foreground">{t("editor.featured")}</span>
                   <input
                     type="checkbox"
                     checked={article.is_featured}
@@ -463,14 +521,22 @@ function EditorPage() {
           </div>
 
           <div>
+            <TranslationsPanel
+              articleId={article.id}
+              sourceLanguage={article.language}
+              contentUpdatedAt={article.content_updated_at}
+            />
+          </div>
+
+          <div>
             <div className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">
-              Danger zone
+              {t("editor.dangerZone")}
             </div>
             <button
               onClick={remove}
               className="w-full rounded-xl border border-destructive/40 bg-card px-4 py-2.5 text-sm font-medium text-destructive hover:bg-destructive/10"
             >
-              Delete article
+              {t("editor.delete")}
             </button>
           </div>
         </aside>

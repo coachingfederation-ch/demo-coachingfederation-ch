@@ -6,12 +6,12 @@ import { isLocale } from "@/i18n/config";
 
 export const Route = createFileRoute("/insights/$id")({
   loader: async ({ params }) => {
-    const article = await getPublishedArticle({ data: { id: params.id } });
+    const article = await getPublishedArticle({ data: { id: params.id, locale: "en" } });
     if (!article) throw notFound();
-    if (article.language !== "en" && isLocale(article.language)) {
+    if (article.resolvedLocale !== "en" && isLocale(article.resolvedLocale)) {
       throw redirect({
         to: "/$locale/insights/$id",
-        params: { locale: article.language, id: params.id } as never,
+        params: { locale: article.resolvedLocale, id: params.id } as never,
       });
     }
     return { article };

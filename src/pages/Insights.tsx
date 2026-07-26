@@ -6,24 +6,35 @@ import { CompactHero, SiteFooter, CARD_SHADOW } from "@/components/site-chrome";
 import { supabase } from "@/integrations/supabase/client";
 import { LocaleLink, useI18n } from "@/i18n";
 import {
-  ARTICLE_CATEGORIES,
   PUBLIC_ARTICLE_COLUMNS,
+  articleCategoryLabel,
+  authorName,
+  categoryLabel,
   formatArticleDate,
+  localizeArticles,
   tileFor,
+  type CategoryRow,
   type PublicArticle,
 } from "@/lib/articles";
+import type { Locale } from "@/i18n/config";
 
-const topics = ["All", ...ARTICLE_CATEGORIES];
-
-async function fetchPublishedArticles(language: string): Promise<PublicArticle[]> {
+async function fetchPublishedArticles(locale: Locale): Promise<PublicArticle[]> {
   const { data, error } = await supabase
     .from("articles")
     .select(PUBLIC_ARTICLE_COLUMNS)
     .eq("status", "published")
-    .eq("language", language as never)
     .order("published_at", { ascending: false, nullsFirst: false });
   if (error) throw error;
-  return (data ?? []) as PublicArticle[];
+  return localizeArticles((data ?? []) as unknown as PublicArticle[], locale);
+}
+
+async function fetchCategories(): Promise<CategoryRow[]> {
+  const { data, error } = await supabase
+    .from("categories")
+    .select("id, slug, name, name_de, name_fr, name_it, sort_order")
+    .order("sort_order", { ascending: true });
+  if (error) throw error;
+  return (data ?? []) as CategoryRow[];
 }
 
 function CardVisual({ article, className }: { article: PublicArticle; className: string }) {
@@ -100,18 +111,23 @@ function EmptyState({
 
 export default function InsightsPage() {
   const { t, locale } = useI18n();
-  const [topic, setTopic] = useState<string>("All");
+  const [topic, setTopic] = useState<string>("all");
   const { data, isPending, isError } = useQuery({
     queryKey: ["published-articles", locale],
     queryFn: () => fetchPublishedArticles(locale),
   });
+  const { data: categoryData } = useQuery({ queryKey: ["categories"], queryFn: fetchCategories });
+  const categories = categoryData ?? [];
 
   const all = data ?? [];
-  const visible = topic === "All" ? all : all.filter((a) => a.category === topic);
+  const visible = topic === "all" ? all : all.filter((a) => a.category_id === topic);
   const featured = visible.find((a) => a.is_featured) ?? visible[0];
   const rest = featured ? visible.filter((a) => a.id !== featured.id) : [];
-  const label = (topicName: string) =>
-    topicName === "All" ? t("insights.filters.all") : t(`insights.categories.${topicName}`);
+  const topics = [
+    { id: "all", label: t("insights.filters.all") },
+    ...categories.map((c) => ({ id: c.id, label: categoryLabel(c, locale) })),
+  ];
+  const cardCategory = (a: PublicArticle) => articleCategoryLabel(a, locale);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -128,18 +144,18 @@ export default function InsightsPage() {
       <main>
         <section className="mx-auto max-w-7xl px-8 pt-16">
           <div className="flex flex-wrap items-center gap-2">
-            {topics.map((name) => (
+            {topics.map(({ id, label }) => (
               <button
-                key={name}
-                onClick={() => setTopic(name)}
+                key={id}
+                onClick={() => setTopic(id)}
                 className={
                   "inline-flex h-8 items-center rounded-full border px-3 text-[11px] font-semibold uppercase tracking-wider transition " +
-                  (name === topic
+                  (id === topic
                     ? "border-chip-active-border bg-primary text-primary-foreground"
                     : "border-border/70 bg-chip text-chip-foreground hover:border-chip-active-border")
                 }
               >
-                {label(name)}
+                {label}
               </button>
             ))}
           </div>
@@ -151,10 +167,10 @@ export default function InsightsPage() {
           <EmptyState title={t("insights.error.title")} body={t("insights.error.body")} />
         ) : !featured ? (
           <EmptyState
-            title={topic === "All" ? t("insights.empty.title") : t("insights.empty.topicTitle")}
-            body={topic === "All" ? t("insights.empty.body") : t("insights.empty.topicBody")}
+            title={topic === "all" ? t("insights.empty.title") : t("insights.empty.topicTitle")}
+            body={topic === "all" ? t("insights.empty.body") : t("insights.empty.topicBody")}
           >
-            {topic === "All" && locale !== "en" ? (
+            {topic === "all" && locale !== "en" ? (
               <Link
                 to="/insights"
                 className="mt-6 inline-flex h-10 items-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground"
@@ -174,12 +190,13 @@ export default function InsightsPage() {
                 <div className="flex flex-col justify-center p-10">
                   <p className="section-label">
                     {t("insights.featured")}
-                    {featured.category ? ` · ${label(featured.category)}` : ""}
+                    {cardCategory(featured) ? ` · ${cardCategory(featured)}` : ""}
                   </p>
                   <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight md:text-3xl">{featured.title}</h2>
                   <p className="mt-4 text-base leading-relaxed text-muted-foreground">{featured.excerpt}</p>
                   <p className="btn-mono mt-6 !text-muted-foreground">
-                    {formatArticleDate(featured.published_at)} · {t("insights.byline")}
+                    {formatArticleDate(featured.published_at)} ·{" "}
+                    {authorName(featured.author) ?? t("insights.byline")}
                   </p>
                 </div>
               </LocaleLink>
@@ -199,7 +216,7 @@ export default function InsightsPage() {
                     >
                       <CardVisual article={p} className="aspect-[16/10]" />
                       <div className="flex flex-1 flex-col p-6">
-                        {p.category ? <p className="section-label">{label(p.category)}</p> : null}
+                        {cardCategory(p) ? <p className="section-label">{cardCategory(p)}</p> : null}
                         <h3 className="mt-2 text-base font-semibold leading-snug tracking-tight">{p.title}</h3>
                         <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{p.excerpt}</p>
                         <p className="btn-mono mt-4 !text-muted-foreground">{formatArticleDate(p.published_at)}</p>
