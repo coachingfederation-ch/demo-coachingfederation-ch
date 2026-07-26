@@ -312,9 +312,9 @@ function EditorPage() {
             className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground hover:bg-secondary"
           >
             <ChevronLeft className="h-4 w-4" />
-            Articles
+            {t("editor.back")}
           </Link>
-          <StatusPill status={article.status} />
+          <StatusPill status={article.status} t={t} />
           <span className="text-xs text-muted-foreground">{saveLabel}</span>
         </div>
         <div className="flex items-center gap-2">
@@ -323,20 +323,20 @@ function EditorPage() {
               onClick={unpublish}
               className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium hover:bg-secondary"
             >
-              Unpublish
+              {t("editor.unpublish")}
             </button>
           ) : null}
           <button
             onClick={schedule}
             className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium hover:bg-secondary"
           >
-            Schedule…
+            {t("editor.schedule")}
           </button>
           <button
             onClick={publishNow}
             className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] hover:opacity-95"
           >
-            {article.status === "published" ? "Republish" : "Publish"}
+            {article.status === "published" ? t("editor.republish") : t("editor.publish")}
           </button>
         </div>
       </div>
@@ -357,22 +357,22 @@ function EditorPage() {
               ))}
             </div>
             {languageLocked ? (
-              <span className="text-xs text-muted-foreground">Language locked after first publication</span>
+              <span className="text-xs text-muted-foreground">{t("editor.languageLocked")}</span>
             ) : (
-              <span className="text-xs text-muted-foreground">Language can be changed until first publication</span>
+              <span className="text-xs text-muted-foreground">{t("editor.languageUnlocked")}</span>
             )}
           </div>
 
           <input
             value={article.title}
             onChange={(e) => update({ title: e.target.value })}
-            placeholder="Article title"
+            placeholder={t("editor.titlePlaceholder")}
             className="mt-8 w-full border-none bg-transparent text-4xl font-bold tracking-tight text-foreground outline-none placeholder:text-muted-foreground/50"
           />
           <textarea
             value={article.excerpt}
             onChange={(e) => update({ excerpt: e.target.value })}
-            placeholder="Lead paragraph — a short summary that appears under the headline and in article cards."
+            placeholder={t("editor.excerptPlaceholder")}
             rows={2}
             className="mt-4 w-full max-w-2xl resize-none border-none bg-transparent text-lg text-muted-foreground outline-none placeholder:text-muted-foreground/60"
           />
@@ -387,7 +387,7 @@ function EditorPage() {
                 />
                 <button
                   onClick={() => update({ featured_image_url: null })}
-                  aria-label="Remove featured image"
+                  aria-label={t("editor.removeImage")}
                   className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-card/90 text-foreground shadow-[var(--shadow-soft)] hover:bg-card"
                 >
                   <X className="h-4 w-4" />
@@ -397,9 +397,9 @@ function EditorPage() {
               <label className="flex h-64 cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-border bg-secondary/40 text-muted-foreground hover:bg-secondary/60">
                 <ImageIcon className="h-8 w-8" />
                 <span className="text-sm font-medium">
-                  {uploading ? "Uploading…" : "Upload a featured image"}
+                  {uploading ? t("editor.uploading") : t("editor.uploadImage")}
                 </span>
-                <span className="text-xs">JPG, PNG or WebP</span>
+                <span className="text-xs">{t("editor.uploadHint")}</span>
                 <input
                   type="file"
                   accept="image/*"
@@ -418,64 +418,70 @@ function EditorPage() {
               <input
                 value={article.featured_image_url ?? ""}
                 onChange={(e) => update({ featured_image_url: e.target.value || null })}
-                placeholder="…or paste an image URL"
+                placeholder={t("editor.orPasteUrl")}
                 className="w-full rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring/20"
               />
             </div>
             {uploadError ? <p className="text-xs text-destructive">{uploadError}</p> : null}
           </div>
 
+          <MarkdownToolbar
+            textareaRef={bodyRef}
+            value={article.content}
+            onChange={(next) => update({ content: next })}
+          />
           <textarea
+            ref={bodyRef}
             value={article.content}
             onChange={(e) => update({ content: e.target.value })}
-            placeholder="Body text — write your article here. Markdown-friendly."
+            placeholder={t("editor.bodyPlaceholder")}
             rows={20}
-            className="mt-6 w-full resize-y rounded-2xl border border-border bg-card p-5 text-[15px] leading-relaxed text-foreground outline-none focus:ring-2 focus:ring-ring/20"
+            className="w-full resize-y rounded-b-2xl border border-border bg-card p-5 text-[15px] leading-relaxed text-foreground outline-none focus:ring-2 focus:ring-ring/20"
           />
         </article>
 
         <aside className="space-y-6">
           <div>
             <div className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">
-              Publishing
+              {t("editor.publishing")}
             </div>
             <div className="space-y-3 rounded-2xl border border-border bg-card p-4 text-sm">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Status</span>
-                <StatusPill status={article.status} />
+                <span className="text-muted-foreground">{t("editor.statusLabel")}</span>
+                <StatusPill status={article.status} t={t} />
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Language</span>
+                <span className="text-muted-foreground">{t("editor.sourceLanguage")}</span>
                 <span className="font-semibold">{article.language.toUpperCase()}</span>
               </div>
               {article.published_at ? (
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Published</span>
+                  <span className="text-muted-foreground">{t("editor.publishedAt")}</span>
                   <span>{new Date(article.published_at).toLocaleString()}</span>
                 </div>
               ) : null}
               {article.scheduled_at ? (
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Scheduled</span>
+                  <span className="text-muted-foreground">{t("editor.scheduledAt")}</span>
                   <span>{new Date(article.scheduled_at).toLocaleString()}</span>
                 </div>
               ) : null}
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Updated</span>
+                <span className="text-muted-foreground">{t("editor.updated")}</span>
                 <span>{new Date(article.updated_at).toLocaleString()}</span>
               </div>
               <div className="border-t border-border pt-3">
                 <label className="flex items-center justify-between gap-3">
-                  <span className="text-muted-foreground">Category</span>
+                  <span className="text-muted-foreground">{t("editor.category")}</span>
                   <select
-                    value={article.category ?? ""}
-                    onChange={(e) => update({ category: e.target.value || null })}
+                    value={article.category_id ?? ""}
+                    onChange={(e) => update({ category_id: e.target.value || null })}
                     className="rounded-lg border border-border bg-card px-2 py-1.5 text-sm outline-none focus:ring-2 focus:ring-ring/20"
                   >
-                    <option value="">None</option>
-                    {ARTICLE_CATEGORIES.map((c) => (
-                      <option key={c} value={c}>
-                        {c}
+                    <option value="">{t("editor.none")}</option>
+                    {categories.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {categoryLabel(c, locale)}
                       </option>
                     ))}
                   </select>
@@ -483,7 +489,23 @@ function EditorPage() {
               </div>
               <div className="border-t border-border pt-3">
                 <label className="flex items-center justify-between gap-3">
-                  <span className="text-muted-foreground">Featured on Insights</span>
+                  <span className="text-muted-foreground">{t("editor.author")}</span>
+                  <select
+                    value={article.author_id}
+                    onChange={(e) => update({ author_id: e.target.value })}
+                    className="max-w-[190px] rounded-lg border border-border bg-card px-2 py-1.5 text-sm outline-none focus:ring-2 focus:ring-ring/20"
+                  >
+                    {profiles.map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {authorName(p) ?? p.email}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+              <div className="border-t border-border pt-3">
+                <label className="flex items-center justify-between gap-3">
+                  <span className="text-muted-foreground">{t("editor.featured")}</span>
                   <input
                     type="checkbox"
                     checked={article.is_featured}
@@ -499,14 +521,22 @@ function EditorPage() {
           </div>
 
           <div>
+            <TranslationsPanel
+              articleId={article.id}
+              sourceLanguage={article.language}
+              contentUpdatedAt={article.content_updated_at}
+            />
+          </div>
+
+          <div>
             <div className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">
-              Danger zone
+              {t("editor.dangerZone")}
             </div>
             <button
               onClick={remove}
               className="w-full rounded-xl border border-destructive/40 bg-card px-4 py-2.5 text-sm font-medium text-destructive hover:bg-destructive/10"
             >
-              Delete article
+              {t("editor.delete")}
             </button>
           </div>
         </aside>
