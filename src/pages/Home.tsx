@@ -218,7 +218,15 @@ function Communities() {
       </p>
       <div className="mt-14 grid gap-4 text-left md:grid-cols-2 lg:grid-cols-4">
         {communities.map((c) => (
-          <div key={c.city} className={"rounded-2xl border border-border/70 bg-card p-6 " + CARD_SHADOW}>
+          <LocaleLink
+            key={c.city}
+            to="/about"
+            hash="communities"
+            className={
+              "block rounded-2xl border border-border/70 bg-card p-6 transition hover:-translate-y-0.5 hover:border-chip-active-border " +
+              CARD_SHADOW
+            }
+          >
             <h3 className="text-lg font-semibold tracking-tight text-foreground">{c.city}</h3>
             <p className="mt-2 text-sm text-muted-foreground">{c.region}</p>
             <div className="mt-6 flex flex-wrap items-center gap-2">
@@ -231,7 +239,7 @@ function Communities() {
                 </span>
               ))}
             </div>
-          </div>
+          </LocaleLink>
         ))}
       </div>
     </section>
@@ -265,9 +273,9 @@ function Events() {
         </div>
         <div className="mt-12 grid gap-4 md:grid-cols-3">
           {events.map((e) => (
-            <a
+            <LocaleLink
               key={e.title}
-              href="#"
+              to="/events"
               className={
                 "group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 " +
                 CARD_SHADOW
@@ -292,7 +300,7 @@ function Events() {
                   ))}
                 </div>
               </div>
-            </a>
+            </LocaleLink>
           ))}
         </div>
       </div>
@@ -343,18 +351,19 @@ function Join() {
           <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">{t("home.join.title")}</h2>
           <p className="mt-5 max-w-lg text-base leading-relaxed text-white/75">{t("home.join.subtitle")}</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href="#"
+            <LocaleLink
+              to="/for-coaches"
               className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90"
             >
               {t("home.join.becomeMember")}
-            </a>
-            <a
-              href="#"
+            </LocaleLink>
+            <LocaleLink
+              to="/for-coaches"
+              hash="credentials"
               className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10"
             >
               {t("home.join.exploreCredentials")}
-            </a>
+            </LocaleLink>
           </div>
         </div>
         <div className="rounded-2xl border border-white/15 bg-white/5 p-6 backdrop-blur">
