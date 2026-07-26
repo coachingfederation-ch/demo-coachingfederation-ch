@@ -1,4 +1,4 @@
-import type { RefObject } from "react";
+import { useState, type RefObject } from "react";
 import {
   Bold,
   Italic,
@@ -11,6 +11,10 @@ import {
   Info,
 } from "lucide-react";
 import { useCms } from "@/i18n/cms";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { CALLOUT_SHADES, SHADE_SWATCH, type CalloutShade } from "@/components/callout";
+
+const EMOJIS = ["💡", "⭐", "⚠️", "✅", "📌", "🎯", "❤️", "🔍"];
 
 type Action =
   | { kind: "wrap"; before: string; after: string }
@@ -30,11 +34,6 @@ const BUTTONS: { key: string; icon: typeof Bold; action: Action }[] = [
     icon: Link2,
     action: { kind: "block", template: (s) => `[${s || "link text"}](https://)` },
   },
-  {
-    key: "callout",
-    icon: Info,
-    action: { kind: "block", template: (s) => `> [!note]\n> ${s || "Something worth highlighting."}` },
-  },
 ];
 
 /** Formatting toolbar that edits the Markdown body textarea in place. */
@@ -48,6 +47,9 @@ export function MarkdownToolbar({
   onChange: (next: string) => void;
 }) {
   const { t } = useCms();
+  const [open, setOpen] = useState(false);
+  const [shade, setShade] = useState<CalloutShade>("info");
+  const [emoji, setEmoji] = useState("💡");
 
   const apply = (action: Action) => {
     const el = textareaRef.current;
@@ -102,6 +104,91 @@ export function MarkdownToolbar({
           <Icon className="h-4 w-4" />
         </button>
       ))}
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <button
+            type="button"
+            title={t("toolbar.callout")}
+            aria-label={t("toolbar.callout")}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-card hover:text-foreground"
+          >
+            <Info className="h-4 w-4" />
+          </button>
+        </PopoverTrigger>
+        <PopoverContent align="start" className="w-72 space-y-4 rounded-2xl">
+          <div>
+            <div className="mb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              {t("callout.shade")}
+            </div>
+            <div className="flex gap-2">
+              {CALLOUT_SHADES.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => setShade(s)}
+                  className={
+                    "flex flex-1 items-center gap-2 rounded-xl border px-2.5 py-2 text-xs font-medium transition " +
+                    (shade === s ? "border-primary bg-secondary" : "border-border hover:bg-secondary/60")
+                  }
+                >
+                  <span className={`h-3 w-3 rounded-full ${SHADE_SWATCH[s]}`} />
+                  {t(`callout.${s}`)}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="mb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              {t("callout.emoji")}
+            </div>
+            <div className="flex flex-wrap gap-1">
+              {EMOJIS.map((e) => (
+                <button
+                  key={e}
+                  type="button"
+                  onClick={() => setEmoji(e)}
+                  className={
+                    "inline-flex h-8 w-8 items-center justify-center rounded-lg text-base transition " +
+                    (emoji === e ? "bg-secondary ring-2 ring-primary/40" : "hover:bg-secondary/60")
+                  }
+                >
+                  {e}
+                </button>
+              ))}
+              <button
+                type="button"
+                onClick={() => setEmoji("")}
+                className={
+                  "inline-flex h-8 items-center rounded-lg px-2 text-xs font-medium text-muted-foreground transition " +
+                  (emoji === "" ? "bg-secondary ring-2 ring-primary/40" : "hover:bg-secondary/60")
+                }
+              >
+                {t("callout.noEmoji")}
+              </button>
+            </div>
+            <input
+              value={emoji}
+              onChange={(e) => setEmoji(e.target.value.slice(0, 4))}
+              placeholder={t("callout.customEmoji")}
+              className="mt-2 w-full rounded-xl border border-border bg-card px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-ring/20"
+            />
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              apply({
+                kind: "block",
+                template: (s) =>
+                  `> [!${shade}]${emoji ? ` ${emoji}` : ""}\n> ${s || t("callout.placeholder")}`,
+              });
+              setOpen(false);
+            }}
+            className="w-full rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-95"
+          >
+            {t("callout.insert")}
+          </button>
+        </PopoverContent>
+      </Popover>
     </div>
   );
 }
