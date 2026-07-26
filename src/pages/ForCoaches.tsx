@@ -1,11 +1,17 @@
 import { Mark } from "@/components/marks";
 import { CompactHero, SiteFooter, CARD_SHADOW } from "@/components/site-chrome";
+import {
+  BenefitGrid,
+  CommunityGrid,
+  LearningTabs,
+  MemberStories,
+} from "@/components/coaches/sections";
 import { useI18n, LocaleLink } from "@/i18n";
 
 export default function ForCoachesPage() {
   const { t, tList } = useI18n();
-  const benefits = tList<{ title: string; desc: string }>("coaches.benefits.items");
   const credentials = tList<{ level: string; hours: string; desc: string }>("coaches.credentials.items");
+  const deibItems = tList<string>("coaches.deib.items");
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -22,58 +28,91 @@ export default function ForCoachesPage() {
         ctaLabel={t("coaches.hero.cta")}
       />
       <main>
+        <BenefitGrid />
+        <LearningTabs />
+
         <section className="mx-auto max-w-7xl px-8 py-24">
-          <p className="eyebrow">{t("coaches.benefits.eyebrow")}</p>
+          <p className="eyebrow">{t("coaches.credentials.eyebrow")}</p>
           <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
-            {t("coaches.benefits.title")}
+            {t("coaches.credentials.title")}
           </h2>
-          <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {benefits.map((b) => (
-              <div key={b.title} className={"rounded-2xl border border-border/70 bg-card p-6 " + CARD_SHADOW}>
-                <h3 className="text-lg font-semibold tracking-tight">{b.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{b.desc}</p>
+          <div className="mt-12 grid gap-4 md:grid-cols-3">
+            {credentials.map((c) => (
+              <div key={c.level} className={"rounded-2xl border border-border/70 bg-card p-8 " + CARD_SHADOW}>
+                <p className="btn-mono !text-accent">{c.hours}</p>
+                <h3 className="mt-3 text-3xl font-bold tracking-tight text-primary">{c.level}</h3>
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{c.desc}</p>
               </div>
             ))}
           </div>
         </section>
 
         <section className="bg-muted py-24">
-          <div className="mx-auto max-w-7xl px-8">
-            <p className="eyebrow">{t("coaches.credentials.eyebrow")}</p>
-            <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
-              {t("coaches.credentials.title")}
-            </h2>
-            <div className="mt-12 grid gap-4 md:grid-cols-3">
-              {credentials.map((c) => (
-                <div key={c.level} className={"rounded-2xl border border-border/70 bg-card p-8 " + CARD_SHADOW}>
-                  <p className="btn-mono !text-accent">{c.hours}</p>
-                  <h3 className="mt-3 text-3xl font-bold tracking-tight text-primary">{c.level}</h3>
-                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{c.desc}</p>
-                </div>
-              ))}
+          <div className="mx-auto grid max-w-7xl gap-10 px-8 md:grid-cols-[1fr_1.2fr] md:items-center">
+            <div className="grid aspect-[4/3] place-items-center rounded-2xl bg-mark-blue text-mark-cream">
+              <Mark name="asterisk1" className="h-1/2 w-1/2" />
+            </div>
+            <div>
+              <p className="eyebrow">{t("coaches.deib.eyebrow")}</p>
+              <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+                {t("coaches.deib.title")}
+              </h2>
+              <p className="mt-5 text-base leading-relaxed text-muted-foreground">
+                {t("coaches.deib.desc")}
+              </p>
+              <ul className="mt-6 space-y-2">
+                {deibItems.map((item) => (
+                  <li key={item} className="flex gap-3 text-sm text-muted-foreground">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <a href="#" className="mt-6 inline-flex text-sm font-semibold text-primary hover:underline">
+                {t("coaches.deib.cta")}
+              </a>
             </div>
           </div>
         </section>
 
         <section className="mx-auto max-w-7xl px-8 py-24">
-          <div className="grid gap-10 md:grid-cols-[1fr_1.2fr] md:items-center">
-            <div className="grid aspect-[4/3] place-items-center rounded-2xl bg-mark-blue text-mark-cream">
-              <Mark name="circular2" className="h-1/2 w-1/2" />
-            </div>
+          <p className="eyebrow">{t("coaches.chapters.eyebrow")}</p>
+          <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+            {t("coaches.chapters.title")}
+          </h2>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
+            {t("coaches.chapters.desc")}
+          </p>
+          <CommunityGrid />
+          <LocaleLink to="/about" className="mt-8 inline-flex text-sm font-semibold text-primary hover:underline">
+            {t("coaches.chapters.cta")}
+          </LocaleLink>
+        </section>
+
+        <section className="bg-muted py-20">
+          <div className="mx-auto grid max-w-7xl gap-10 px-8 md:grid-cols-[1.4fr_1fr] md:items-center">
             <div>
-              <p className="eyebrow">{t("coaches.chapters.eyebrow")}</p>
+              <p className="eyebrow">{t("coaches.volunteer.eyebrow")}</p>
               <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
-                {t("coaches.chapters.title")}
+                {t("coaches.volunteer.title")}
               </h2>
-              <p className="mt-5 text-base leading-relaxed text-muted-foreground">
-                {t("coaches.chapters.desc")}
+              <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
+                {t("coaches.volunteer.desc")}
               </p>
-              <LocaleLink to="/about" className="mt-6 inline-flex text-sm font-semibold text-primary hover:underline">
-                {t("coaches.chapters.cta")}
-              </LocaleLink>
+              <a
+                href="#"
+                className="mt-7 inline-flex h-10 items-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground transition hover:opacity-90"
+              >
+                {t("coaches.volunteer.cta")}
+              </a>
+            </div>
+            <div className="grid aspect-[4/3] place-items-center rounded-2xl bg-mark-blue text-mark-cream">
+              <Mark name="star" className="h-1/2 w-1/2" />
             </div>
           </div>
         </section>
+
+        <MemberStories />
 
         <section className="bg-hero text-hero-foreground">
           <div className="mx-auto max-w-7xl px-8 py-20 text-center">
