@@ -109,7 +109,11 @@ function LangTab({
 function EditorPage() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
+  const { t, locale } = useCms();
   const [article, setArticle] = useState<Article | null>(null);
+  const [categories, setCategories] = useState<CategoryRow[]>([]);
+  const [profiles, setProfiles] = useState<ProfileRow[]>([]);
+  const bodyRef = useRef<HTMLTextAreaElement | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -130,6 +134,19 @@ function EditorPage() {
       });
   }, [id]);
 
+  useEffect(() => {
+    supabase
+      .from("categories")
+      .select("id, slug, name, name_de, name_fr, name_it, sort_order")
+      .order("sort_order", { ascending: true })
+      .then(({ data }) => setCategories((data ?? []) as CategoryRow[]));
+    supabase
+      .from("profiles")
+      .select("id, first_name, last_name, email")
+      .order("last_name", { ascending: true })
+      .then(({ data }) => setProfiles((data ?? []) as ProfileRow[]));
+  }, []);
+
   // Autosave title/excerpt/content/language
   useEffect(() => {
     if (!article) return;
@@ -147,7 +164,8 @@ function EditorPage() {
           excerpt: article.excerpt,
           content: article.content,
           language: article.language,
-          category: article.category,
+          category_id: article.category_id,
+          author_id: article.author_id,
           featured_image_url: article.featured_image_url,
         })
         .eq("id", article.id);
@@ -163,7 +181,8 @@ function EditorPage() {
     article?.excerpt,
     article?.content,
     article?.language,
-    article?.category,
+    article?.category_id,
+    article?.author_id,
     article?.featured_image_url,
   ]);
 
@@ -188,7 +207,7 @@ function EditorPage() {
       .createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
     setUploading(false);
     if (signErr || !signed) {
-      setUploadError(signErr?.message ?? "Could not create a link for this image.");
+      setUploadError(signErr?.message ?? t("editor.imageError"));
       return;
     }
     update({ featured_image_url: signed.signedUrl });
@@ -203,11 +222,7 @@ function EditorPage() {
       .eq("id", article.id);
     if (error) return;
     update({ is_featured: next });
-    setFeaturedNote(
-      next
-        ? "This article is now the featured story on Insights. Any previously featured article was un-featured."
-        : "Removed from the featured slot. Insights will show the newest published article instead.",
-    );
+    setFeaturedNote(next ? t("editor.featuredOn") : t("editor.featuredOff"));
   };
 
   const publishNow = async () => {
@@ -226,13 +241,13 @@ function EditorPage() {
   const schedule = async () => {
     if (!article) return;
     const input = window.prompt(
-      "Publish at (YYYY-MM-DD HH:MM, local time)",
+      t("editor.schedulePrompt"),
       new Date(Date.now() + 3600_000).toISOString().slice(0, 16).replace("T", " "),
     );
     if (!input) return;
     const dt = new Date(input.replace(" ", "T"));
     if (isNaN(dt.getTime())) {
-      alert("Invalid date");
+      alert(t("editor.invalidDate"));
       return;
     }
     const patch = {
@@ -253,7 +268,7 @@ function EditorPage() {
 
   const remove = async () => {
     if (!article) return;
-    if (!window.confirm("Delete this article? This cannot be undone.")) return;
+    if (!window.confirm(t("editor.confirmDelete"))) return;
     const { error } = await supabase.from("articles").delete().eq("id", article.id);
     if (!error) navigate({ to: "/articles" });
   };
@@ -262,10 +277,10 @@ function EditorPage() {
     return (
       <Shell>
         <div className="mx-auto max-w-xl px-10 py-16 text-center">
-          <h1 className="text-2xl font-bold">Article not found</h1>
-          <p className="mt-2 text-sm text-muted-foreground">It may have been deleted.</p>
+          <h1 className="text-2xl font-bold">{t("editor.notFound")}</h1>
+          <p className="mt-2 text-sm text-muted-foreground">{t("editor.notFoundBody")}</p>
           <Link to="/articles" className="mt-6 inline-block text-sm font-semibold text-primary hover:underline">
-            ← Back to articles
+            {t("editor.backToArticles")}
           </Link>
         </div>
       </Shell>
@@ -275,14 +290,18 @@ function EditorPage() {
   if (!article) {
     return (
       <Shell>
-        <div className="px-10 py-16 text-sm text-muted-foreground">Loading…</div>
+        <div className="px-10 py-16 text-sm text-muted-foreground">{t("editor.loading")}</div>
       </Shell>
     );
   }
 
   const languageLocked = !!article.first_published_at;
   const saveLabel =
-    saveState === "saving" ? "Saving…" : saveState === "saved" ? "Saved just now" : `Last saved ${new Date(article.updated_at).toLocaleTimeString()}`;
+    saveState === "saving"
+      ? t("editor.saving")
+      : saveState === "saved"
+        ? t("editor.saved")
+        : `${t("editor.lastSaved")} ${new Date(article.updated_at).toLocaleTimeString()}`;
 
   return (
     <Shell>
