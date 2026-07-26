@@ -73,6 +73,9 @@ export type Database = {
           featured_image_url: string | null
           first_published_at: string | null
           id: string
+          image_credit_name: string | null
+          image_credit_url: string | null
+          image_source: string | null
           is_featured: boolean
           language: Database["public"]["Enums"]["article_lang"]
           published_at: string | null
@@ -92,6 +95,9 @@ export type Database = {
           featured_image_url?: string | null
           first_published_at?: string | null
           id?: string
+          image_credit_name?: string | null
+          image_credit_url?: string | null
+          image_source?: string | null
           is_featured?: boolean
           language: Database["public"]["Enums"]["article_lang"]
           published_at?: string | null
@@ -111,6 +117,9 @@ export type Database = {
           featured_image_url?: string | null
           first_published_at?: string | null
           id?: string
+          image_credit_name?: string | null
+          image_credit_url?: string | null
+          image_source?: string | null
           is_featured?: boolean
           language?: Database["public"]["Enums"]["article_lang"]
           published_at?: string | null
