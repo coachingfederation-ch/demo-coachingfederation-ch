@@ -174,7 +174,7 @@ export function SiteNav() {
         <nav
           id="site-mobile-nav"
           aria-label={t("common.nav.primaryLabel")}
-          className="absolute inset-x-0 top-full z-40 mt-3 flex flex-col rounded-2xl bg-primary/95 p-2 text-[13px] font-semibold shadow-lg backdrop-blur-sm lg:hidden"
+          className="absolute inset-x-0 top-full z-40 mt-3 flex flex-col rounded-2xl bg-hero p-2 text-[13px] font-semibold shadow-xl ring-1 ring-white/15 lg:hidden"
         >
           {navItems.map((i) => (
             <LocaleLink
