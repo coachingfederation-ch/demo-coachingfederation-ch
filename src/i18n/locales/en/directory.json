@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "title": "Find a Coach — ICF Switzerland",
+    "description": "Search the directory of ICF-credentialed coaches across Switzerland by region, language, credential level and specialisation."
+  },
+  "hero": {
+    "eyebrow": "Directory",
+    "titlePre": "Find a ",
+    "titleAccent": "credentialed",
+    "titlePost": " coach.",
+    "lede": "Every coach listed holds an active ICF credential and commits to the ICF Code of Ethics."
+  },
+  "filters": {
+    "title": "Filter",
+    "searchLabel": "Search",
+    "searchPlaceholder": "Name, city or specialisation",
+    "cantonLabel": "Canton",
+    "cantonAll": "All cantons",
+    "languageLabel": "Language",
+    "languageAll": "All languages",
+    "credentialLabel": "Credential",
+    "specializationLabel": "Specialisation",
+    "formatLabel": "Format",
+    "acceptingLabel": "Accepting new clients",
+    "clear": "Clear filters",
+    "toggle": "Filters"
+  },
+  "results": {
+    "one": "1 coach",
+    "many": "{count} coaches",
+    "emptyTitle": "No coaches match your filters",
+    "emptyBody": "Try widening your canton or specialisation."
+  },
+  "card": {
+    "featured": "Featured",
+    "accepting": "Accepting new clients",
+    "waitlist": "Waitlist only",
+    "credentialSince": "Credentialed since {year}"
+  },
+  "formats": {
+    "in-person": "In person",
+    "online": "Online"
+  },
+  "languages": {
+    "de": "German",
+    "fr": "French",
+    "it": "Italian",
+    "en": "English"
+  },
+  "specializations": {
+    "leadership": "Leadership",
+    "career": "Career",
+    "team": "Team coaching",
+    "executive": "Executive",
+    "transition": "Transition",
+    "wellbeing": "Wellbeing",
+    "systemic": "Systemic",
+    "diversity": "Diversity & inclusion"
+  },
+  "note": {
+    "title": "Profiles sourced from ICF Global",
+    "body": "Coach records are maintained by ICF Global. Members can extend their profile with additional content on this portal."
+  }
+}
