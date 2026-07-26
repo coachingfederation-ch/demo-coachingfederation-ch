@@ -1,17 +1,7 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import type { ReactNode } from "react";
-
-const CALLOUT = /^\[!(INFO|NOTE|TIP|WARNING)\]\s*/i;
-
-function firstText(node: ReactNode): string {
-  if (typeof node === "string") return node;
-  if (Array.isArray(node)) return node.map(firstText).join("");
-  if (node && typeof node === "object" && "props" in (node as never)) {
-    return firstText((node as { props: { children?: ReactNode } }).props.children);
-  }
-  return "";
-}
+import { Callout, parseCallout } from "@/components/callout";
 
 /** Renders article body markdown with site-token styling. Raw HTML is not allowed. */
 export function Markdown({ children }: { children: string }) {
@@ -48,12 +38,12 @@ export function Markdown({ children }: { children: string }) {
             <code className="rounded bg-secondary px-1.5 py-0.5 text-[0.9em]">{children}</code>
           ),
           blockquote: ({ children }) => {
-            const text = firstText(children).trimStart();
-            if (CALLOUT.test(text)) {
+            const callout = parseCallout(children);
+            if (callout) {
               return (
-                <div className="rounded-2xl border border-border/70 bg-secondary/60 p-6 text-[15px] leading-relaxed">
-                  <MarkdownCalloutBody>{children}</MarkdownCalloutBody>
-                </div>
+                <Callout shade={callout.shade} emoji={callout.emoji}>
+                  {children}
+                </Callout>
               );
             }
             return (
@@ -68,10 +58,4 @@ export function Markdown({ children }: { children: string }) {
       </ReactMarkdown>
     </div>
   );
-}
-
-/** Strips the `[!INFO]` marker from the first paragraph of a callout. */
-function MarkdownCalloutBody({ children }: { children: ReactNode }) {
-  const text = firstText(children).replace(CALLOUT, "").trim();
-  return <p>{text}</p>;
 }
