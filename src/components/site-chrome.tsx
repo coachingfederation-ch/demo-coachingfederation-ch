@@ -266,9 +266,16 @@ export function SiteFooter() {
           <LocaleLink to="/insights" className="text-white/80 hover:text-white">{t("common.nav.insights")}</LocaleLink>
           <LocaleLink to="/events" className="text-white/80 hover:text-white">{t("common.nav.events")}</LocaleLink>
           <LocaleLink to="/about" className="text-white/80 hover:text-white">{t("common.nav.about")}</LocaleLink>
-          <a href="#" className="text-white/80 hover:text-white">{t("common.footer.privacy")}</a>
-          <a href="#" className="text-white/80 hover:text-white">{t("common.footer.ethics")}</a>
-          <a href="#" className="text-white/80 hover:text-white">{t("common.footer.imprint")}</a>
+          {[t("common.footer.privacy"), t("common.footer.ethics"), t("common.footer.imprint")].map((label) => (
+            <span
+              key={label}
+              aria-disabled="true"
+              title={t("common.footer.comingSoon")}
+              className="cursor-not-allowed text-white/40"
+            >
+              {label}
+            </span>
+          ))}
         </nav>
       </div>
     </footer>

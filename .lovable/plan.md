@@ -1,29 +1,41 @@
-## Goal
-Make the site header work cleanly at 375/390/414px without overlap or horizontal scroll, keeping the current colors, pill styling, and spacing.
+## Homepage link audit (current state)
 
-## What changes
+Verified in `src/pages/Home.tsx` and `src/components/site-chrome.tsx`:
 
-### 1. Language switcher (compact mode)
-- Below `lg`, replace the four-pill DE/FR/IT/EN group with a single pill button showing the active locale plus a small globe/chevron icon, styled exactly like the current active pill (white bg, primary text, rounded-full).
-- Tapping opens a small dropdown panel (white, rounded, existing card shadow) listing the other three languages as links to `localizePath(path, l)`, preserving the current `localStorage` write and `hrefLang`.
-- At `lg` and above, the existing full pill group stays exactly as it is today.
-- Dropdown closes on outside click, Escape, and selection; button gets `aria-expanded` / `aria-haspopup`.
+| # | Element | Current target | Status |
+|---|---|---|---|
+| 1 | Hero "Find a coach" button | `#find-a-coach` (scrolls to cards below) | Redundant — remove |
+| 2 | Hero "For organisations" button | `/for-organisations` | Valid (removed with hero CTA row) |
+| 3 | 4 audience cards (Looking for a coach / Organisation / I am a coach / Curious) | `href="#"` | Broken |
+| 4 | "Coaching in action" view-all link | `href="#"` | Broken |
+| 5 | 4 theme cards (Future of Work, Leadership, AI, D&I) | `href="#"` | Broken |
+| 6 | Organisations "Talk to us" | `href="#"` | Broken |
+| 7 | Organisations "Case studies" | `href="#"` | Broken |
+| 8 | 4 community cards (Zürich, Lausanne & Genève, Lugano, Online) | not links at all | Missing |
+| 9 | Events view-all | `/events` | Valid |
+| 10 | 3 event cards | `href="#"` | Broken |
+| 11 | Join "Become a member" | `href="#"` | Broken |
+| 12 | Join "Explore credentials" | `href="#"` | Broken |
+| 13 | Newsletter form | `preventDefault`, no handler | Left as-is (no backend requested) |
+| 14 | Footer Privacy / Code of Ethics / Imprint | `href="#"` | Broken, no page exists |
 
-### 2. Mobile nav (hamburger)
-- Below `lg` (where the nav pill group is already hidden), add a hamburger button in the same `bg-white/10` rounded-full style.
-- It toggles a panel containing the six nav links stacked vertically plus the "Find a Coach" CTA, rendered under the header row inside the hero container so nothing overlaps.
-- Active link keeps the current white-pill active treatment. Panel closes on route change and Escape.
+Existing routes: `/`, `/find-a-coach`, `/for-organisations`, `/for-coaches`, `/insights`, `/insights/$id`, `/events`, `/about` (all locale-prefixed too).
 
-### 3. Header row layout
-- `SiteHeaderBar` becomes a two-column responsive row (`grid-cols-[minmax(0,1fr)_auto]`, promoted to flex at `sm:`), logo `shrink-0`, controls `shrink-0`, so logo + controls never wrap awkwardly.
-- Reduce logo height on mobile (e.g. `h-16` mobile → `h-24`/`h-16` at `sm:` per variant) and tighten container padding from `px-8` to `px-5 sm:px-8` so the row fits at 375px.
-- Keep the "Find a Coach" CTA visible on desktop; on mobile it moves into the hamburger panel to free space.
+## Fixes
 
-### 4. Translations
-Add three keys to `nav` in `common.json` for EN/DE/FR/IT: `menuOpen`, `menuClose`, `languageSwitch` (used for aria-labels only, no visible new copy).
+1. **Hero** — delete the CTA button row entirely; the four audience cards immediately below cover all journeys. Hero keeps eyebrow, headline, subtitle, image.
+2. **Audience cards** → `LocaleLink` to `/find-a-coach`, `/for-organisations`, `/for-coaches`, `/about` (in card order).
+3. **Coaching in action** → view-all and all four theme cards link to `/insights`.
+4. **For organisations** → "Talk to us" → `/for-organisations#organisation-contact` (anchor already exists in the organisations sections component); "Case studies" → `/for-organisations`.
+5. **Communities** → make each card a `LocaleLink` to `/about#communities`; add `id="communities"` to the communities section on the About page.
+6. **Event cards** → `LocaleLink` to `/events` (no per-event detail route exists yet).
+7. **Join** → "Become a member" → `/for-coaches`; "Explore credentials" → `/for-coaches#credentials`, adding `id="credentials"` to the relevant For Coaches section.
+8. **Footer legal links** — no Privacy / Code of Ethics / Imprint pages exist. Render them as a deliberate disabled state (non-anchor `span`, `aria-disabled="true"`, `cursor-not-allowed`, dimmed to `text-white/40`, `title` from existing copy) instead of dead `#` anchors. Same treatment used site-wide since the footer is shared.
+
+All new links use `LocaleLink` so DE/FR/IT/EN prefixes are preserved; hash targets are appended via the locale-aware href.
+
+## Out of scope (noted, not changed)
+Placeholder `#` links still exist on `/for-organisations`, `/for-coaches`, `/events`, `/about`, and the coaches sections components. Say the word and I'll apply the same audit-and-fix pass to those pages next.
 
 ## Verification
-Playwright screenshots of `/` and a subpage (e.g. `/find-a-coach`) at 375, 390, 414, 768, and 1280px; assert `document.documentElement.scrollWidth <= clientWidth` at each mobile width and confirm the language dropdown and hamburger panel open/close correctly.
-
-## Technical notes
-All work stays in `src/components/site-chrome.tsx` (plus a small local dropdown/menu state) and the four `common.json` files. No route, data, or business-logic changes.
+Playwright pass over the homepage: assert every `<a>` has a non-`#` href or is a disabled `span`, click through each audience card and confirm the resulting route, and re-check at 390px that nothing shifted.
