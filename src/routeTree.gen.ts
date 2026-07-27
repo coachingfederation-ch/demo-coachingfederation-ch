@@ -25,7 +25,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as InsightsIndexRouteImport } from './routes/insights.index'
 import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
 import { Route as InsightsIdRouteImport } from './routes/insights.$id'
-import { Route as FindACoachProfileIdRouteImport } from './routes/find-a-coach.$profileId'
+import { Route as CoachProfileIdRouteImport } from './routes/coach.$profileId'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as StaffVocabulariesRouteImport } from './routes/_staff/vocabularies'
 import { Route as StaffIntegrationRouteImport } from './routes/_staff/integration'
@@ -47,7 +47,7 @@ import { Route as StaffArticlesNewRouteImport } from './routes/_staff/articles.n
 import { Route as StaffArticlesCategoriesRouteImport } from './routes/_staff/articles.categories'
 import { Route as StaffArticlesIdRouteImport } from './routes/_staff/articles.$id'
 import { Route as LocaleInsightsIdRouteImport } from './routes/$locale/insights.$id'
-import { Route as LocaleFindACoachProfileIdRouteImport } from './routes/$locale/find-a-coach.$profileId'
+import { Route as LocaleCoachProfileIdRouteImport } from './routes/$locale/coach.$profileId'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -127,10 +127,10 @@ const InsightsIdRoute = InsightsIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => InsightsRoute,
 } as any)
-const FindACoachProfileIdRoute = FindACoachProfileIdRouteImport.update({
-  id: '/$profileId',
-  path: '/$profileId',
-  getParentRoute: () => FindACoachRoute,
+const CoachProfileIdRoute = CoachProfileIdRouteImport.update({
+  id: '/coach/$profileId',
+  path: '/coach/$profileId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
   id: '/callback',
@@ -237,12 +237,11 @@ const LocaleInsightsIdRoute = LocaleInsightsIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => LocaleInsightsRoute,
 } as any)
-const LocaleFindACoachProfileIdRoute =
-  LocaleFindACoachProfileIdRouteImport.update({
-    id: '/$profileId',
-    path: '/$profileId',
-    getParentRoute: () => LocaleFindACoachRoute,
-  } as any)
+const LocaleCoachProfileIdRoute = LocaleCoachProfileIdRouteImport.update({
+  id: '/coach/$profileId',
+  path: '/coach/$profileId',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -250,7 +249,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRouteWithChildren
   '/events': typeof EventsRoute
-  '/find-a-coach': typeof FindACoachRouteWithChildren
+  '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
   '/insights': typeof InsightsRouteWithChildren
@@ -258,7 +257,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/events': typeof LocaleEventsRoute
-  '/$locale/find-a-coach': typeof LocaleFindACoachRouteWithChildren
+  '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
@@ -268,11 +267,11 @@ export interface FileRoutesByFullPath {
   '/integration': typeof StaffIntegrationRoute
   '/vocabularies': typeof StaffVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
-  '/find-a-coach/$profileId': typeof FindACoachProfileIdRoute
+  '/coach/$profileId': typeof CoachProfileIdRoute
   '/insights/$id': typeof InsightsIdRoute
   '/$locale/': typeof LocaleIndexRoute
   '/insights/': typeof InsightsIndexRoute
-  '/$locale/find-a-coach/$profileId': typeof LocaleFindACoachProfileIdRoute
+  '/$locale/coach/$profileId': typeof LocaleCoachProfileIdRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
   '/articles/$id': typeof StaffArticlesIdRoute
   '/articles/categories': typeof StaffArticlesCategoriesRoute
@@ -288,14 +287,14 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRouteWithChildren
   '/events': typeof EventsRoute
-  '/find-a-coach': typeof FindACoachRouteWithChildren
+  '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
   '/no-access': typeof NoAccessRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/events': typeof LocaleEventsRoute
-  '/$locale/find-a-coach': typeof LocaleFindACoachRouteWithChildren
+  '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
   '/my-profile': typeof MemberMyProfileRoute
@@ -303,11 +302,11 @@ export interface FileRoutesByTo {
   '/integration': typeof StaffIntegrationRoute
   '/vocabularies': typeof StaffVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
-  '/find-a-coach/$profileId': typeof FindACoachProfileIdRoute
+  '/coach/$profileId': typeof CoachProfileIdRoute
   '/insights/$id': typeof InsightsIdRoute
   '/$locale': typeof LocaleIndexRoute
   '/insights': typeof InsightsIndexRoute
-  '/$locale/find-a-coach/$profileId': typeof LocaleFindACoachProfileIdRoute
+  '/$locale/coach/$profileId': typeof LocaleCoachProfileIdRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
   '/articles/$id': typeof StaffArticlesIdRoute
   '/articles/categories': typeof StaffArticlesCategoriesRoute
@@ -327,7 +326,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRouteWithChildren
   '/events': typeof EventsRoute
-  '/find-a-coach': typeof FindACoachRouteWithChildren
+  '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
   '/insights': typeof InsightsRouteWithChildren
@@ -335,7 +334,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/events': typeof LocaleEventsRoute
-  '/$locale/find-a-coach': typeof LocaleFindACoachRouteWithChildren
+  '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
@@ -345,11 +344,11 @@ export interface FileRoutesById {
   '/_staff/integration': typeof StaffIntegrationRoute
   '/_staff/vocabularies': typeof StaffVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
-  '/find-a-coach/$profileId': typeof FindACoachProfileIdRoute
+  '/coach/$profileId': typeof CoachProfileIdRoute
   '/insights/$id': typeof InsightsIdRoute
   '/$locale/': typeof LocaleIndexRoute
   '/insights/': typeof InsightsIndexRoute
-  '/$locale/find-a-coach/$profileId': typeof LocaleFindACoachProfileIdRoute
+  '/$locale/coach/$profileId': typeof LocaleCoachProfileIdRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
   '/_staff/articles/$id': typeof StaffArticlesIdRoute
   '/_staff/articles/categories': typeof StaffArticlesCategoriesRoute
@@ -386,11 +385,11 @@ export interface FileRouteTypes {
     | '/integration'
     | '/vocabularies'
     | '/auth/callback'
-    | '/find-a-coach/$profileId'
+    | '/coach/$profileId'
     | '/insights/$id'
     | '/$locale/'
     | '/insights/'
-    | '/$locale/find-a-coach/$profileId'
+    | '/$locale/coach/$profileId'
     | '/$locale/insights/$id'
     | '/articles/$id'
     | '/articles/categories'
@@ -421,11 +420,11 @@ export interface FileRouteTypes {
     | '/integration'
     | '/vocabularies'
     | '/auth/callback'
-    | '/find-a-coach/$profileId'
+    | '/coach/$profileId'
     | '/insights/$id'
     | '/$locale'
     | '/insights'
-    | '/$locale/find-a-coach/$profileId'
+    | '/$locale/coach/$profileId'
     | '/$locale/insights/$id'
     | '/articles/$id'
     | '/articles/categories'
@@ -462,11 +461,11 @@ export interface FileRouteTypes {
     | '/_staff/integration'
     | '/_staff/vocabularies'
     | '/auth/callback'
-    | '/find-a-coach/$profileId'
+    | '/coach/$profileId'
     | '/insights/$id'
     | '/$locale/'
     | '/insights/'
-    | '/$locale/find-a-coach/$profileId'
+    | '/$locale/coach/$profileId'
     | '/$locale/insights/$id'
     | '/_staff/articles/$id'
     | '/_staff/articles/categories'
@@ -486,12 +485,13 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRouteWithChildren
   EventsRoute: typeof EventsRoute
-  FindACoachRoute: typeof FindACoachRouteWithChildren
+  FindACoachRoute: typeof FindACoachRoute
   ForCoachesRoute: typeof ForCoachesRoute
   ForOrganisationsRoute: typeof ForOrganisationsRoute
   InsightsRoute: typeof InsightsRouteWithChildren
   NoAccessRoute: typeof NoAccessRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  CoachProfileIdRoute: typeof CoachProfileIdRoute
   ApiPublicMemberSyncRoute: typeof ApiPublicMemberSyncRoute
 }
 
@@ -609,12 +609,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InsightsIdRouteImport
       parentRoute: typeof InsightsRoute
     }
-    '/find-a-coach/$profileId': {
-      id: '/find-a-coach/$profileId'
-      path: '/$profileId'
-      fullPath: '/find-a-coach/$profileId'
-      preLoaderRoute: typeof FindACoachProfileIdRouteImport
-      parentRoute: typeof FindACoachRoute
+    '/coach/$profileId': {
+      id: '/coach/$profileId'
+      path: '/coach/$profileId'
+      fullPath: '/coach/$profileId'
+      preLoaderRoute: typeof CoachProfileIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/auth/callback': {
       id: '/auth/callback'
@@ -763,26 +763,15 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleInsightsIdRouteImport
       parentRoute: typeof LocaleInsightsRoute
     }
-    '/$locale/find-a-coach/$profileId': {
-      id: '/$locale/find-a-coach/$profileId'
-      path: '/$profileId'
-      fullPath: '/$locale/find-a-coach/$profileId'
-      preLoaderRoute: typeof LocaleFindACoachProfileIdRouteImport
-      parentRoute: typeof LocaleFindACoachRoute
+    '/$locale/coach/$profileId': {
+      id: '/$locale/coach/$profileId'
+      path: '/coach/$profileId'
+      fullPath: '/$locale/coach/$profileId'
+      preLoaderRoute: typeof LocaleCoachProfileIdRouteImport
+      parentRoute: typeof LocaleRouteRoute
     }
   }
 }
-
-interface LocaleFindACoachRouteChildren {
-  LocaleFindACoachProfileIdRoute: typeof LocaleFindACoachProfileIdRoute
-}
-
-const LocaleFindACoachRouteChildren: LocaleFindACoachRouteChildren = {
-  LocaleFindACoachProfileIdRoute: LocaleFindACoachProfileIdRoute,
-}
-
-const LocaleFindACoachRouteWithChildren =
-  LocaleFindACoachRoute._addFileChildren(LocaleFindACoachRouteChildren)
 
 interface LocaleInsightsRouteChildren {
   LocaleInsightsIdRoute: typeof LocaleInsightsIdRoute
@@ -801,21 +790,23 @@ const LocaleInsightsRouteWithChildren = LocaleInsightsRoute._addFileChildren(
 interface LocaleRouteRouteChildren {
   LocaleAboutRoute: typeof LocaleAboutRoute
   LocaleEventsRoute: typeof LocaleEventsRoute
-  LocaleFindACoachRoute: typeof LocaleFindACoachRouteWithChildren
+  LocaleFindACoachRoute: typeof LocaleFindACoachRoute
   LocaleForCoachesRoute: typeof LocaleForCoachesRoute
   LocaleForOrganisationsRoute: typeof LocaleForOrganisationsRoute
   LocaleInsightsRoute: typeof LocaleInsightsRouteWithChildren
   LocaleIndexRoute: typeof LocaleIndexRoute
+  LocaleCoachProfileIdRoute: typeof LocaleCoachProfileIdRoute
 }
 
 const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleAboutRoute: LocaleAboutRoute,
   LocaleEventsRoute: LocaleEventsRoute,
-  LocaleFindACoachRoute: LocaleFindACoachRouteWithChildren,
+  LocaleFindACoachRoute: LocaleFindACoachRoute,
   LocaleForCoachesRoute: LocaleForCoachesRoute,
   LocaleForOrganisationsRoute: LocaleForOrganisationsRoute,
   LocaleInsightsRoute: LocaleInsightsRouteWithChildren,
   LocaleIndexRoute: LocaleIndexRoute,
+  LocaleCoachProfileIdRoute: LocaleCoachProfileIdRoute,
 }
 
 const LocaleRouteRouteWithChildren = LocaleRouteRoute._addFileChildren(
@@ -884,18 +875,6 @@ const AuthRouteChildren: AuthRouteChildren = {
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
-interface FindACoachRouteChildren {
-  FindACoachProfileIdRoute: typeof FindACoachProfileIdRoute
-}
-
-const FindACoachRouteChildren: FindACoachRouteChildren = {
-  FindACoachProfileIdRoute: FindACoachProfileIdRoute,
-}
-
-const FindACoachRouteWithChildren = FindACoachRoute._addFileChildren(
-  FindACoachRouteChildren,
-)
-
 interface InsightsRouteChildren {
   InsightsIdRoute: typeof InsightsIdRoute
   InsightsIndexRoute: typeof InsightsIndexRoute
@@ -918,12 +897,13 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthRoute: AuthRouteWithChildren,
   EventsRoute: EventsRoute,
-  FindACoachRoute: FindACoachRouteWithChildren,
+  FindACoachRoute: FindACoachRoute,
   ForCoachesRoute: ForCoachesRoute,
   ForOrganisationsRoute: ForOrganisationsRoute,
   InsightsRoute: InsightsRouteWithChildren,
   NoAccessRoute: NoAccessRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  CoachProfileIdRoute: CoachProfileIdRoute,
   ApiPublicMemberSyncRoute: ApiPublicMemberSyncRoute,
 }
 export const routeTree = rootRouteImport
