@@ -8,13 +8,18 @@
  */
 import { useMemo, useState } from "react";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { CARD_SHADOW } from "@/components/site-chrome";
 import { LocaleLink, useI18n } from "@/i18n";
 import { queryCoachDirectory, type DirectoryEntry } from "@/lib/directory.functions";
 import {
+  activeFinderModes,
+  fetchCoachFinderConfig,
   fetchActiveVocabularies,
   vocabLabel,
+  type CoachFinderConfig,
   type CoachFinderVocabularies,
+  type FinderMode,
   type VocabRow,
 } from "@/lib/vocabularies";
 
@@ -95,6 +100,66 @@ function Chip({
 
 const FIELD =
   "h-10 w-full rounded-full border border-border bg-card px-4 text-sm text-foreground outline-none transition focus:border-primary";
+
+/**
+ * Segmented mode switcher. Rendered only when settings enable more than one
+ * finder mode; labels come from `coach_finder_config`, never from a hardcoded
+ * list in this file.
+ */
+function ModeTabs({
+  modes,
+  value,
+  onChange,
+  ariaLabel,
+}: {
+  modes: FinderMode[];
+  value: string;
+  onChange: (slug: string) => void;
+  ariaLabel: string;
+}) {
+  function onKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+    const delta = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
+    if (!delta) return;
+    event.preventDefault();
+    const index = modes.findIndex((m) => m.slug === value);
+    const next = modes[(index + delta + modes.length) % modes.length];
+    if (next) onChange(next.slug);
+  }
+
+  return (
+    <div
+      role="tablist"
+      aria-label={ariaLabel}
+      onKeyDown={onKeyDown}
+      className={
+        "inline-flex flex-wrap gap-1 rounded-full border border-border/70 bg-card p-1 " +
+        CARD_SHADOW
+      }
+    >
+      {modes.map((mode) => {
+        const active = mode.slug === value;
+        return (
+          <button
+            key={mode.slug}
+            type="button"
+            role="tab"
+            aria-selected={active}
+            tabIndex={active ? 0 : -1}
+            onClick={() => onChange(mode.slug)}
+            className={
+              "inline-flex min-h-10 items-center rounded-full px-5 text-sm font-semibold transition " +
+              (active
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground")
+            }
+          >
+            {mode.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
 
 type LabelLookup = (slug: string) => string;
 
@@ -200,11 +265,27 @@ export function CoachCard({
 
 export function CoachDirectory() {
   const { t, locale } = useI18n();
+  const navigate = useNavigate();
+  // `strict: false` because the same component renders under both the
+  // localised and the non-localised find-a-coach route.
+  const search = useSearch({ strict: false }) as { mode?: string };
   const { data: vocab } = useQuery<CoachFinderVocabularies>({
     queryKey: ["coach-finder-vocabularies"],
     queryFn: fetchActiveVocabularies,
     staleTime: 5 * 60 * 1000,
   });
+  const { data: finderConfig } = useQuery<CoachFinderConfig | null>({
+    queryKey: ["coach-finder-config"],
+    queryFn: fetchCoachFinderConfig,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const modes = useMemo(() => activeFinderModes(finderConfig), [finderConfig]);
+  // An unknown or absent ?mode= resolves to the first active mode, so links to
+  // a since-disabled mode still show results instead of an empty list.
+  const mode =
+    modes.find((m) => m.slug === search.mode)?.slug ?? modes[0]?.slug ?? null;
+  const modeLabel = modes.find((m) => m.slug === mode)?.label ?? null;
 
   const regions = vocab?.cf_regions ?? [];
   const languages = vocab?.cf_languages ?? [];
@@ -222,6 +303,18 @@ export function CoachDirectory() {
   const [showFilters, setShowFilters] = useState(false);
   const [page, setPage] = useState(0);
 
+  /** Mode is navigation, not a filter: it lives in the URL. */
+  function selectMode(slug: string) {
+    setPage(0);
+    // Facets are mode-specific; region/language/free text carry over.
+    setCredentials([]);
+    setSpecializations([]);
+    void navigate({
+      to: ".",
+      search: (prev: Record<string, unknown>) => ({ ...prev, mode: slug }),
+    });
+  }
+
   const label = (row: VocabRow) => vocabLabel(row, locale);
   const lookup = (rows: VocabRow[]): LabelLookup => {
     const map = new Map(rows.map((r) => [r.slug, vocabLabel(r, locale)]));
@@ -237,6 +330,7 @@ export function CoachDirectory() {
 
   const filters = useMemo(
     () => ({
+      services: mode ? [mode] : undefined,
       regions: region === "all" ? undefined : [region],
       languages: language === "all" ? undefined : [language],
       credentials: credentials.length ? credentials : undefined,
@@ -244,7 +338,7 @@ export function CoachDirectory() {
       formats: formats.length ? formats : undefined,
       page,
     }),
-    [region, language, credentials, specializations, formats, page],
+    [mode, region, language, credentials, specializations, formats, page],
   );
 
   const { data, isPending, isError } = useQuery({
@@ -301,10 +395,14 @@ export function CoachDirectory() {
   const pageSize = data?.pageSize ?? 12;
   const narrowed = query.trim() !== "" || acceptingOnly;
   const shownCount = narrowed ? results.length : total;
-  const countLabel =
-    shownCount === 1
-      ? t("directory.results.one")
-      : t("directory.results.many").replace("{count}", String(shownCount));
+  // When a mode is resolved the count names it ("3 mentoring coaches"); the
+  // generic strings remain the fallback when no mode is configured.
+  const countKey = shownCount === 1 ? "one" : "many";
+  const countLabel = (
+    modeLabel
+      ? t(`directory.results.${countKey}Mode`).replace("{mode}", modeLabel)
+      : t(`directory.results.${countKey}`)
+  ).replace("{count}", String(shownCount));
   const hasMore = !narrowed && (page + 1) * pageSize < total;
 
   const filterPanel = (
@@ -439,6 +537,16 @@ export function CoachDirectory() {
 
   return (
     <section className="mx-auto max-w-7xl px-8 py-16">
+      {modes.length > 1 && mode && (
+        <div className="mb-10">
+          <ModeTabs
+            modes={modes}
+            value={mode}
+            onChange={selectMode}
+            ariaLabel={t("directory.modes.aria")}
+          />
+        </div>
+      )}
       <div className="grid gap-10 lg:grid-cols-[280px_1fr] lg:items-start">
         <div className="lg:sticky lg:top-8">
           <button
@@ -514,7 +622,9 @@ export function CoachDirectory() {
                 {t("directory.results.emptyTitle")}
               </p>
               <p className="mt-2 text-sm text-muted-foreground">
-                {t("directory.results.emptyBody")}
+                {modeLabel
+                  ? t("directory.results.emptyModeBody").replace("{mode}", modeLabel)
+                  : t("directory.results.emptyBody")}
               </p>
             </div>
           )}
