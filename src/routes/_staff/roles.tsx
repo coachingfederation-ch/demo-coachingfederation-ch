@@ -171,6 +171,56 @@ function RolesPage() {
           </table>
         </div>
 
+        {/* Internal accounts: admins (and legacy staff roles) with no imported
+            ICF member record. Read-only — admin is provisioned by migration and
+            the database refuses to grant editor to a non-member. */}
+        <h2 className="mt-10 text-lg font-semibold tracking-tight">{t("roles.internalTitle")}</h2>
+        <p className="mt-1 max-w-2xl text-sm text-muted-foreground">{t("roles.internalIntro")}</p>
+        <div className="mt-3 overflow-hidden rounded-2xl border border-border bg-card">
+          <table className="w-full text-left text-sm">
+            <thead className="bg-secondary/60 text-xs uppercase tracking-wide text-muted-foreground">
+              <tr>
+                <th className="px-4 py-3 font-semibold">{t("roles.colName")}</th>
+                <th className="px-4 py-3 font-semibold">{t("roles.colEmail")}</th>
+                <th className="px-4 py-3 font-semibold">{t("roles.colRoles")}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td colSpan={3} className="px-4 py-6 text-muted-foreground">
+                    {t("roles.loading")}
+                  </td>
+                </tr>
+              ) : internal.length === 0 ? (
+                <tr>
+                  <td colSpan={3} className="px-4 py-6 text-muted-foreground">
+                    {t("roles.internalEmpty")}
+                  </td>
+                </tr>
+              ) : (
+                internal.map((a) => (
+                  <tr key={a.authUserId} className="border-t border-border">
+                    <td className="px-4 py-3 font-medium">{a.name ?? a.email ?? a.authUserId}</td>
+                    <td className="px-4 py-3 text-muted-foreground">{a.email ?? "—"}</td>
+                    <td className="px-4 py-3">
+                      {a.roles.map((role) => (
+                        <span
+                          key={role}
+                          className="mr-1.5 inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary"
+                        >
+                          <ShieldCheck className="h-3.5 w-3.5" />
+                          {role}
+                        </span>
+                      ))}
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+
         <h2 className="mt-10 text-lg font-semibold tracking-tight">{t("roles.auditTitle")}</h2>
         <p className="mt-1 text-sm text-muted-foreground">{t("roles.auditIntro")}</p>
         <ul className="mt-3 space-y-2 text-sm">
