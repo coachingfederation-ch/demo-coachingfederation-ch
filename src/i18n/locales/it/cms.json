@@ -200,7 +200,8 @@
       "credentials": "Credenziali",
       "formats": "Formati",
       "languages": "Lingue",
-      "availability": "Disponibilità"
+      "availability": "Disponibilità",
+      "clientTypes": "Tipi di clienti"
     }
   },
   "finder": {

@@ -200,7 +200,8 @@
       "credentials": "Zertifizierungen",
       "formats": "Formate",
       "languages": "Sprachen",
-      "availability": "Verfügbarkeit"
+      "availability": "Verfügbarkeit",
+      "clientTypes": "Kliententypen"
     }
   },
   "finder": {
