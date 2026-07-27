@@ -756,6 +756,8 @@ export function MemberProfileEditor() {
         ) : null}
       </Section>
 
+      <ProfileTranslationsPanel />
+
       <Section title={t("member.publicationTitle")} note={t("member.publicationNote")}>
         <p className="mt-2 text-sm">
           {t("member.currentState")}: <strong>{t(`members.visibility.${profile.visibility}`)}</strong>

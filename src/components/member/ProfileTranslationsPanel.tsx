@@ -126,14 +126,14 @@ export function ProfileTranslationsPanel() {
   };
 
   return (
-    <section>
-      <div className="mb-3 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground">
-        <Languages className="h-3.5 w-3.5" />
+    <section className="mt-5 rounded-2xl border border-border bg-card p-5">
+      <h2 className="flex items-center gap-1.5 text-sm font-semibold">
+        <Languages className="h-4 w-4" />
         {t("profileTranslations.title")}
-      </div>
+      </h2>
+      <p className="mt-1 text-xs text-muted-foreground">{t("profileTranslations.hint")}</p>
 
-      <div className="space-y-4 rounded-2xl border border-border bg-card p-5 text-sm">
-        <p className="text-xs text-muted-foreground">{t("profileTranslations.hint")}</p>
+      <div className="mt-4 space-y-4 text-sm">
 
         <div>
           <label
