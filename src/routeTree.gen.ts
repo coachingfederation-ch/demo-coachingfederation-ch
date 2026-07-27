@@ -35,6 +35,7 @@ import { Route as LocaleEventsRouteImport } from './routes/$locale/events'
 import { Route as LocaleAboutRouteImport } from './routes/$locale/about'
 import { Route as AuthenticatedArticlesIndexRouteImport } from './routes/_authenticated/articles.index'
 import { Route as LocaleInsightsIndexRouteImport } from './routes/$locale/insights.index'
+import { Route as ApiPublicMemberSyncRouteImport } from './routes/api/public/member-sync'
 import { Route as AuthenticatedArticlesNewRouteImport } from './routes/_authenticated/articles.new'
 import { Route as AuthenticatedArticlesCategoriesRouteImport } from './routes/_authenticated/articles.categories'
 import { Route as AuthenticatedArticlesIdRouteImport } from './routes/_authenticated/articles.$id'
@@ -172,6 +173,11 @@ const LocaleInsightsIndexRoute = LocaleInsightsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => LocaleInsightsRoute,
 } as any)
+const ApiPublicMemberSyncRoute = ApiPublicMemberSyncRouteImport.update({
+  id: '/api/public/member-sync',
+  path: '/api/public/member-sync',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedArticlesNewRoute =
   AuthenticatedArticlesNewRouteImport.update({
     id: '/new',
@@ -223,6 +229,7 @@ export interface FileRoutesByFullPath {
   '/articles/$id': typeof AuthenticatedArticlesIdRoute
   '/articles/categories': typeof AuthenticatedArticlesCategoriesRoute
   '/articles/new': typeof AuthenticatedArticlesNewRoute
+  '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
   '/$locale/insights/': typeof LocaleInsightsIndexRoute
   '/articles/': typeof AuthenticatedArticlesIndexRoute
 }
@@ -250,6 +257,7 @@ export interface FileRoutesByTo {
   '/articles/$id': typeof AuthenticatedArticlesIdRoute
   '/articles/categories': typeof AuthenticatedArticlesCategoriesRoute
   '/articles/new': typeof AuthenticatedArticlesNewRoute
+  '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
   '/$locale/insights': typeof LocaleInsightsIndexRoute
   '/articles': typeof AuthenticatedArticlesIndexRoute
 }
@@ -283,6 +291,7 @@ export interface FileRoutesById {
   '/_authenticated/articles/$id': typeof AuthenticatedArticlesIdRoute
   '/_authenticated/articles/categories': typeof AuthenticatedArticlesCategoriesRoute
   '/_authenticated/articles/new': typeof AuthenticatedArticlesNewRoute
+  '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
   '/$locale/insights/': typeof LocaleInsightsIndexRoute
   '/_authenticated/articles/': typeof AuthenticatedArticlesIndexRoute
 }
@@ -316,6 +325,7 @@ export interface FileRouteTypes {
     | '/articles/$id'
     | '/articles/categories'
     | '/articles/new'
+    | '/api/public/member-sync'
     | '/$locale/insights/'
     | '/articles/'
   fileRoutesByTo: FileRoutesByTo
@@ -343,6 +353,7 @@ export interface FileRouteTypes {
     | '/articles/$id'
     | '/articles/categories'
     | '/articles/new'
+    | '/api/public/member-sync'
     | '/$locale/insights'
     | '/articles'
   id:
@@ -375,6 +386,7 @@ export interface FileRouteTypes {
     | '/_authenticated/articles/$id'
     | '/_authenticated/articles/categories'
     | '/_authenticated/articles/new'
+    | '/api/public/member-sync'
     | '/$locale/insights/'
     | '/_authenticated/articles/'
   fileRoutesById: FileRoutesById
@@ -391,6 +403,7 @@ export interface RootRouteChildren {
   ForOrganisationsRoute: typeof ForOrganisationsRoute
   InsightsRoute: typeof InsightsRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ApiPublicMemberSyncRoute: typeof ApiPublicMemberSyncRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -577,6 +590,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleInsightsIndexRouteImport
       parentRoute: typeof LocaleInsightsRoute
     }
+    '/api/public/member-sync': {
+      id: '/api/public/member-sync'
+      path: '/api/public/member-sync'
+      fullPath: '/api/public/member-sync'
+      preLoaderRoute: typeof ApiPublicMemberSyncRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/articles/new': {
       id: '/_authenticated/articles/new'
       path: '/new'
@@ -716,6 +736,7 @@ const rootRouteChildren: RootRouteChildren = {
   ForOrganisationsRoute: ForOrganisationsRoute,
   InsightsRoute: InsightsRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ApiPublicMemberSyncRoute: ApiPublicMemberSyncRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
