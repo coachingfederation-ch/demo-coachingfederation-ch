@@ -44,18 +44,29 @@ const EMPTY: Omit<NormalizedMember, "cst_recno"> = {
   membership_expiration_date: null,
 };
 
+/**
+ * ICF runs a netFORUM xWeb service: `Signon.asmx` issues a token, then
+ * `netFORUMXML.asmx` executes a named web method with that token in a SOAP
+ * header. Every value below is a server-only secret and is never logged.
+ */
 export function soapCredentials(mode: IntegrationMode) {
   const prefix = mode === "live" ? "ICF_SOAP_LIVE" : "ICF_SOAP_TEST";
-  const url = process.env[`${prefix}_URL`];
+  const baseUrl = (process.env[`${prefix}_BASE_URL`] ?? "").replace(/\/+$/, "");
   const username = process.env[`${prefix}_USERNAME`];
   const password = process.env[`${prefix}_PASSWORD`];
-  const chapterCode = process.env[`${prefix}_CHAPTER_CODE`] ?? "";
-  if (!url || !username || !password) {
+  const cstKey = process.env[`${prefix}_CST_KEY`];
+  if (!baseUrl || !username || !password || !cstKey) {
     throw new Error(
-      `Missing ICF SOAP credentials for ${mode} mode (${prefix}_URL / _USERNAME / _PASSWORD).`,
+      `Missing ICF API credentials for ${mode} mode (${prefix}_BASE_URL / _USERNAME / _PASSWORD / _CST_KEY).`,
     );
   }
-  return { url, username, password, chapterCode };
+  return {
+    signonUrl: `${baseUrl}/Signon.asmx`,
+    executeUrl: `${baseUrl}/netFORUMXML.asmx`,
+    username,
+    password,
+    cstKey,
+  };
 }
 
 function text(value: unknown): string | null {
@@ -151,47 +162,63 @@ function escapeXml(value: string): string {
   );
 }
 
-const SOAP_NS = "http://www.icf.org/";
+/** netFORUM xWeb namespace, shared by Signon.asmx and netFORUMXML.asmx. */
+const XWEB_NS = "http://www.avectra.com/2005/";
 
-function envelope(operation: string, inner: string): string {
-  return `<?xml version="1.0" encoding="utf-8"?>
-<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-  <soap:Body>
-    <${operation} xmlns="${SOAP_NS}">${inner}</${operation}>
-  </soap:Body>
-</soap:Envelope>`;
-}
+export const WEB_SERVICE_NAME = "ICF_Chapter_API";
+export const WEB_METHOD = "GetIndividualInfoHavingChapterRelationship";
 
 /**
  * Credentials never leave this module: they are read from server-only env vars
- * inside the request, sent to ICF, and never logged. SOAP fault bodies are not
- * echoed back to callers, because an ICF fault can quote the request envelope.
+ * inside the request and are never logged. Fault bodies are not echoed back to
+ * callers, because a fault can quote the request envelope (and its token).
  */
-async function callSoap(url: string, operation: string, inner: string): Promise<string> {
+async function callSoap(
+  url: string,
+  operation: string,
+  bodyXml: string,
+  headerXml = "",
+): Promise<string> {
+  const envelope = `<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <soap:Header>${headerXml}</soap:Header>
+  <soap:Body>${bodyXml}</soap:Body>
+</soap:Envelope>`;
+
   const response = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "text/xml; charset=utf-8",
-      SOAPAction: `${SOAP_NS}${operation}`,
+      SOAPAction: `${XWEB_NS}${operation}`,
     },
-    body: envelope(operation, inner),
+    body: envelope,
   });
 
-  const body = await response.text();
+  const text = await response.text();
   if (!response.ok) {
-    throw new Error(`ICF SOAP ${operation} failed with status ${response.status}`);
+    throw new Error(`ICF ${operation} failed with status ${response.status}`);
   }
-  if (/<(\w+:)?Fault>/i.test(body)) {
-    throw new Error(`ICF SOAP ${operation} returned a Fault response`);
+  if (/<(\w+:)?Fault>/i.test(text)) {
+    throw new Error(`ICF ${operation} returned a Fault response`);
   }
-  return body;
+  return text;
 }
 
-/** Depth-first search for the first non-empty token-shaped value in the response. */
+function xmlParser(): XMLParser {
+  return new XMLParser({
+    ignoreAttributes: true,
+    parseTagValue: false,
+    trimValues: true,
+    removeNSPrefix: true,
+    processEntities: false,
+  });
+}
+
+/** Depth-first search for the first non-empty token-shaped value. */
 function findToken(node: unknown): string | null {
   if (!node || typeof node !== "object") return null;
   for (const [key, value] of Object.entries(node as Record<string, unknown>)) {
-    if (/(token|sessionid|ticket|authkey)/i.test(key) && value && typeof value !== "object") {
+    if (/(token|authenticateresult|sessionid)/i.test(key) && value && typeof value !== "object") {
       const s = String(value).trim();
       if (s && s.toLowerCase() !== "null") return s;
     }
@@ -202,41 +229,42 @@ function findToken(node: unknown): string | null {
 }
 
 /**
- * Step 1 — Authenticate. Exchanges the stored username/password for a session
- * token. Some ICF endpoints authenticate inline on each call instead of
- * issuing a token; in that case this returns null and the member call falls
- * back to inline credentials.
+ * Step 1 — Authenticate against Signon.asmx and return the session token that
+ * every subsequent Execute call must carry.
  */
-export async function authenticate(mode: IntegrationMode): Promise<string | null> {
-  const { url, username, password } = soapCredentials(mode);
+export async function authenticate(mode: IntegrationMode): Promise<string> {
+  const { signonUrl, username, password } = soapCredentials(mode);
   const body = await callSoap(
-    url,
+    signonUrl,
     "Authenticate",
-    `<username>${escapeXml(username)}</username><password>${escapeXml(password)}</password>`,
+    `<Authenticate xmlns="${XWEB_NS}"><userName>${escapeXml(username)}</userName><password>${escapeXml(password)}</password></Authenticate>`,
   );
-  const parser = new XMLParser({
-    ignoreAttributes: true,
-    parseTagValue: false,
-    trimValues: true,
-    removeNSPrefix: true,
-    processEntities: false,
-  });
-  return findToken(parser.parse(body));
+  const token = findToken(xmlParser().parse(body));
+  if (!token) throw new Error("ICF Authenticate returned no token.");
+  return token;
 }
 
-/** Step 2 — fetch the authoritative full active-member snapshot. */
+/**
+ * Step 2 — Execute `ICF_Chapter_API.GetIndividualInfoHavingChapterRelationship`
+ * with the chapter's cst_key. The response is treated as the authoritative full
+ * active-member snapshot for the run.
+ */
 export async function fetchActiveMemberFeed(mode: IntegrationMode): Promise<NormalizedMember[]> {
-  const { url, username, password, chapterCode } = soapCredentials(mode);
+  const { executeUrl, cstKey } = soapCredentials(mode);
   const token = await authenticate(mode);
 
-  const credentialFragment = token
-    ? `<token>${escapeXml(token)}</token>`
-    : `<username>${escapeXml(username)}</username><password>${escapeXml(password)}</password>`;
-
   const body = await callSoap(
-    url,
-    "GetChapterMembers",
-    `${credentialFragment}<chapterCode>${escapeXml(chapterCode)}</chapterCode>`,
+    executeUrl,
+    "ExecuteMethod",
+    `<ExecuteMethod xmlns="${XWEB_NS}">
+      <objectName>${WEB_SERVICE_NAME}</objectName>
+      <methodName>${WEB_METHOD}</methodName>
+      <parameters>
+        <string>cst_key</string>
+        <string>${escapeXml(cstKey)}</string>
+      </parameters>
+    </ExecuteMethod>`,
+    `<AuthorizationToken xmlns="${XWEB_NS}"><Token>${escapeXml(token)}</Token></AuthorizationToken>`,
   );
   return parseMemberFeed(body);
 }
