@@ -537,6 +537,16 @@ export function CoachDirectory() {
 
   return (
     <section className="mx-auto max-w-7xl px-8 py-16">
+      {modes.length > 1 && mode && (
+        <div className="mb-10">
+          <ModeTabs
+            modes={modes}
+            value={mode}
+            onChange={selectMode}
+            ariaLabel={t("directory.modes.aria")}
+          />
+        </div>
+      )}
       <div className="grid gap-10 lg:grid-cols-[280px_1fr] lg:items-start">
         <div className="lg:sticky lg:top-8">
           <button
