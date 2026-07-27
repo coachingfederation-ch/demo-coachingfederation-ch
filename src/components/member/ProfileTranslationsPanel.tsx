@@ -153,9 +153,7 @@ export function ProfileTranslationsPanel() {
           >
             {LOCALE_ORDER.map((l) => (
               <option key={l} value={l}>
-                {t(`profileTranslations.localeNames.${l}`) === `profileTranslations.localeNames.${l}`
-                  ? l.toUpperCase()
-                  : t(`profileTranslations.localeNames.${l}`)}
+                {l.toUpperCase()}
               </option>
             ))}
           </select>
