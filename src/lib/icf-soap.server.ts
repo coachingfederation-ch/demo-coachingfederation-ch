@@ -260,11 +260,15 @@ async function callSoap(
   });
 
   const text = await response.text();
+  // A SOAP fault arrives as HTTP 500, so read faultstring before the status
+  // check. Only the short fault string is surfaced: the full body can quote the
+  // request envelope, including the session token.
+  const fault = text.match(/<faultstring>([^<]{0,200})<\/faultstring>/i)?.[1];
+  if (fault) {
+    throw new Error(`ICF ${operation} returned a Fault: ${fault}`);
+  }
   if (!response.ok) {
     throw new Error(`ICF ${operation} failed with status ${response.status}`);
-  }
-  if (/<(\w+:)?Fault>/i.test(text)) {
-    throw new Error(`ICF ${operation} returned a Fault response`);
   }
   return text;
 }
