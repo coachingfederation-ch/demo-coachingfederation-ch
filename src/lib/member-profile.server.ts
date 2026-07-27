@@ -18,6 +18,7 @@ import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import {
   directoryEligibilityReason,
   isDirectoryEligible,
+  publishBlockReason,
   type MemberVisibility,
 } from "./directory-eligibility";
 
@@ -284,16 +285,22 @@ export async function updateMyMemberProfile(
     // member cannot publish an ineligible or region-less profile. The database
     // trigger enforces eligibility again as the real boundary.
     if (input.visibility === "published") {
-      if (!isDirectoryEligible(member)) throw new Error("Not directory-eligible.");
-      const regions = input.region_ids;
-      if (regions && regions.length === 0) throw new Error("Select at least one service area.");
-      if (!regions) {
+      // Region count comes from this same request when the caller is also
+      // replacing the facet, otherwise from what is already stored.
+      let regionCount = input.region_ids?.length;
+      if (regionCount === undefined) {
         const { count } = await supabaseAdmin
           .from("member_profile_regions")
           .select("region_id", { count: "exact", head: true })
           .eq("profile_id", profile.id);
-        if (!count) throw new Error("Select at least one service area.");
+        regionCount = count ?? 0;
       }
+      const blocked = publishBlockReason({
+        eligible: isDirectoryEligible(member),
+        regionCount,
+      });
+      if (blocked === "ineligible") throw new Error("Not directory-eligible.");
+      if (blocked === "no_region") throw new Error("Select at least one service area.");
     }
     const current = profile.visibility as string;
     // Only draft <-> published are member-controlled; a staff suppression

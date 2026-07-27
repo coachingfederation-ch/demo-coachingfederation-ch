@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
-import { createClient } from "@supabase/supabase-js";
 import { LOCALES, localizePath, SITE_URL } from "@/i18n/config";
 
 const PATHS = [
@@ -30,12 +29,8 @@ export const Route = createFileRoute("/sitemap.xml")({
         }
 
         try {
-          const supabase = createClient(
-            process.env.VITE_SUPABASE_URL ?? import.meta.env.VITE_SUPABASE_URL,
-            process.env.VITE_SUPABASE_PUBLISHABLE_KEY ??
-              import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-            { auth: { persistSession: false } },
-          );
+          const { publicSupabaseClient } = await import("@/lib/supabase-public.server");
+          const supabase = publicSupabaseClient();
           const { data } = await supabase
             .from("articles")
             .select("id, language, published_at")

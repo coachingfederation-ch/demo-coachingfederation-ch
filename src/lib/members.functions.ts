@@ -113,7 +113,7 @@ export const requestMemberClaim = createServerFn({ method: "POST" })
 
 /** Read-only token state for the /claim/$token screen. Never returns the raw email. */
 export const getMemberClaimStatus = createServerFn({ method: "GET" }).handler(async () => {
-  const { loadIntegrationConfigAdmin } = await import("./member-email.server");
+  const { loadIntegrationConfigAdmin } = await import("./integration-config.server");
   const config = await loadIntegrationConfigAdmin();
   return {
     enabled:

@@ -11,7 +11,6 @@
  * where someone lives is not where they offer to work.
  */
 import { createServerFn } from "@tanstack/react-start";
-import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -51,61 +50,12 @@ export type DirectoryPage = {
   pageSize: number;
 };
 
-/**
- * Signed URLs live for 24h: the bucket stays private, the URL only ever leaves
- * the server for rows the public view already cleared as published + eligible,
- * and a day-long window keeps re-signing cost off every page view. A later
- * milestone replaces this with a published-photos public bucket.
- */
-const IMAGE_URL_TTL_SECONDS = 60 * 60 * 24;
-
-/**
- * Mint signed URLs for the given storage paths. Called only with paths taken
- * from rows returned by `coach_directory_public`, never from client input, and
- * only for the rows on the page being rendered.
- */
-async function signProfileImages(paths: string[]): Promise<Map<string, string>> {
-  const unique = [...new Set(paths.filter(Boolean))];
-  const signed = new Map<string, string>();
-  if (!unique.length) return signed;
-  try {
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data, error } = await supabaseAdmin.storage
-      .from("member-profile-images")
-      .createSignedUrls(unique, IMAGE_URL_TTL_SECONDS);
-    if (error) return signed;
-    for (const row of data ?? []) {
-      if (row.path && row.signedUrl && !row.error) signed.set(row.path, row.signedUrl);
-    }
-  } catch {
-    // A signing outage must never break the directory: fall back to initials.
-  }
-  return signed;
-}
-
-function publicClient() {
-  const key = process.env.SUPABASE_PUBLISHABLE_KEY!;
-  return createClient<Database>(process.env.SUPABASE_URL!, key, {
-    auth: { persistSession: false, autoRefreshToken: false },
-    global: {
-      // Opaque sb_ publishable keys are not JWTs; PostgREST rejects them as
-      // a bearer token, so send them as `apikey` only.
-      fetch: (input, init) => {
-        const headers = new Headers(init?.headers);
-        if (key.startsWith("sb_") && headers.get("Authorization") === `Bearer ${key}`) {
-          headers.delete("Authorization");
-        }
-        headers.set("apikey", key);
-        return fetch(input, { ...init, headers });
-      },
-    },
-  });
-}
-
 export const queryCoachDirectory = createServerFn({ method: "GET" })
   .inputValidator((input: unknown) => filterSchema.parse(input ?? {}))
   .handler(async ({ data }): Promise<DirectoryPage> => {
-    const supabasePublic = publicClient();
+    const { publicSupabaseClient } = await import("./supabase-public.server");
+    const { signProfileImages } = await import("./storage.server");
+    const supabasePublic = publicSupabaseClient();
 
     const { data: config } = await supabasePublic
       .from("coach_finder_config")
@@ -161,7 +111,9 @@ export const getPublicCoachProfile = createServerFn({ method: "GET" })
     z.object({ profileId: z.string().uuid() }).parse(input ?? {}),
   )
   .handler(async ({ data }): Promise<PublicCoachProfile | null> => {
-    const supabasePublic = publicClient();
+    const { publicSupabaseClient } = await import("./supabase-public.server");
+    const { signProfileImages } = await import("./storage.server");
+    const supabasePublic = publicSupabaseClient();
     const { data: row, error } = await supabasePublic
       .from("coach_directory_public")
       .select("*")

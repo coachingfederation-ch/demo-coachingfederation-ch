@@ -7,8 +7,9 @@
  * LIVE after cutover.
  */
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
-import type { IntegrationConfig } from "./integration";
 import { isTestShapedEmail } from "./integration";
+import type { IntegrationConfig } from "./integration";
+import { loadIntegrationConfigAdmin } from "./integration-config.server";
 
 export type MemberEmail = {
   memberId?: string | null;
@@ -21,16 +22,6 @@ export type MemberEmail = {
 export type MemberEmailResult =
   | { sent: false; reason: "suppressed" | "test_shaped_recipient" | "failed" }
   | { sent: true; redirected: boolean };
-
-export async function loadIntegrationConfigAdmin(): Promise<IntegrationConfig> {
-  const { data, error } = await supabaseAdmin
-    .from("integration_config")
-    .select("*")
-    .eq("id", true)
-    .single();
-  if (error) throw error;
-  return data as unknown as IntegrationConfig;
-}
 
 export async function sendMemberEmail(email: MemberEmail): Promise<MemberEmailResult> {
   const config = await loadIntegrationConfigAdmin();

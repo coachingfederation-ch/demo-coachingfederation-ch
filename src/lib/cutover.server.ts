@@ -8,7 +8,7 @@
  * member-authored exists during TEST.
  */
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
-import { loadIntegrationConfigAdmin } from "./member-email.server";
+import { loadIntegrationConfigAdmin } from "./integration-config.server";
 import { runMemberSync } from "./member-sync.server";
 import { soapCredentials } from "./icf-soap.server";
 import { isTestShapedEmail } from "./integration";

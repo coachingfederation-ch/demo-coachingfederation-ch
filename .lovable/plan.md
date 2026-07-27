@@ -1,112 +1,68 @@
-## 1. Where we are today vs. the production profile
+# Cleanup & documentation pass
 
-I rendered three things: our current `/coach/:id` page, the attached mock, and the live production profile.
+Scope: consolidate genuinely duplicated logic, give the articles CMS the same server-function boundary every other domain already has, and write current-state docs. No redesign, no cosmetic churn, no behaviour change.
 
-| | Current portal profile | Production profile (coachingfederation.ch) | Attached mock |
-|---|---|---|---|
-| Header | Small card in a sidebar, square photo | Full-width tinted hero, round photo, name + role + website, two contact buttons | Hero band with initials/photo, name, credential, role, location, languages, availability, two CTAs |
-| Intro | Tagline line | Role line under the name | Role line + meta row |
-| About | Plain paragraph | "About Me" card with read-more | "About Marie", two paragraphs |
-| How the coaching works | — | — | "How I work" — three numbered steps |
-| Training / qualifications | — | "Training Qualifications & Experience" | "Credentials & training" list with years |
-| Specialisations / formats / languages / regions | Chip rows | Sidebar lists | Chips + sidebar facts |
-| Experience level | — | "My Experience": credential + years band | Credential + "since 2016" |
-| Client types | — | "Type Of Client": organisational / personal | — |
-| Availability / lead time | Accepting / waitlist dot | "Availability: typically two weeks" | Availability line |
-| Fees | — | "Fees" free text + "Average price" band | — |
-| Contact / booking | Website + LinkedIn links only | "Message Me", "Call Me", "Book a Meeting With Me", email | "Book an intro call", "Send a message", reply-time note |
-| Social proof | — | Reviews with star ratings | One pull quote |
-| Trust note | Small note at the bottom | — | Credential + Code of Ethics note in the sidebar |
+## Part 1 — Assessment (already done, summarised)
 
-Summary: our data model is already correct for *search* (facets), but thin for a *decision* page. The three real gaps are: no way to contact or book, no depth about the coach's practice (approach, training, experience, fees), and no social proof.
+Healthy: `src/lib` domain modules, `directory-eligibility.ts` as the eligibility source of truth, member/coach/admin server-function boundaries, `CoachProfile.tsx` and `coaches/directory.tsx` as presentation-only.
 
-## 2. Recommended additional fields (all optional)
+Debt, in priority order:
+1. `src/routes/_staff/articles.$id.tsx` (602 lines) is the only domain with no server-function layer — direct Supabase reads, debounced autosave, status transitions, delete and image upload all inline in a route component.
+2. Three independent signed-URL implementations with three different TTLs (24h / 1h / 10 years) and bucket names as magic literals in three files.
+3. The publish gate ("directory-eligible + at least one region") is expressed three separate times: server, staff UI, member UI.
+4. The anon Supabase client construction (publishable-key `apikey` workaround) is copy-pasted across three `.functions.ts` files.
+5. `loadIntegrationConfigAdmin` — the config hub for sync, claim and cutover — lives in a file named `member-email.server.ts`.
+6. No root README, no `docs/`; architecture knowledge sits in five point-in-time `.lovable/plan-rev*.md` files.
 
-Deliberately small, member-owned, no free-form HTML:
+## Part 2 — Refactor pass
 
-**Contact & conversion**
-- `booking_url` — "Book an intro call" (https only, same validation as existing links)
-- `contact_email_public` (boolean) — opt-in to show the ICF-held email as a mailto CTA; we never expose email without this flag
-- `response_time_note` — short text, e.g. "usually replies within 2 business days"
+Each item is behaviour-preserving. Existing TTLs, route behaviour and the public data contract stay exactly as they are.
 
-**Practice depth**
-- `approach` — free text, "How I work" (rendered as paragraphs; the mock's 01/02/03 steps come from splitting on blank lines, no new structure needed)
-- `qualifications` — free text list, "Training & qualifications"
-- `experience_band` — enum-ish slug (`0-2`, `3-5`, `6-10`, `10+`), mirrors production's "My Experience"
-- `session_length_note` — short text, e.g. "60–90 min"
-- `fees_note` — free text, "Fees"
-- `availability_note` — short text, "typically two weeks"
+### 2.1 Storage helpers — `src/lib/storage.server.ts` (new) + `src/lib/storage.ts` (new)
+- Server module owns bucket names and TTL constants as named exports (`PROFILE_IMAGE_BUCKET`, `ARTICLE_IMAGE_BUCKET`, `PROFILE_IMAGE_TTL`, …) plus `signOne()` / `signMany()` wrappers.
+- `directory.functions.ts` `signProfileImages` becomes a thin call into it, keeping the 24h TTL.
+- The browser-side path in `MemberProfileEditor.tsx` keeps calling the browser client (moving it server-side would change upload behaviour) but imports the shared bucket constant from a small client-safe `storage.ts` instead of re-declaring `PHOTO_BUCKET`.
+- Article image signing moves behind the same helper once 2.4 lands.
 
-**Social proof**
-- `testimonial_quote` + `testimonial_attribution` — one optional pull quote. Not a reviews system: no ratings, no moderation queue, no user-generated submissions.
+### 2.2 Shared anon client — `src/lib/supabase-public.server.ts` (new)
+One `publicSupabaseClient()` factory with the `apikey`-header workaround and its explanatory comment. `directory.functions.ts`, `deck-download.functions.ts` and `organisation-survey.functions.ts` each drop their copy.
 
-**New facet (follows the existing vocabulary pattern)**
-- `cf_client_types` vocabulary + `member_profile_client_types` join — "Organisational / Personal / Team". This is the only addition that is also filterable, and it matches the production profile's "Type Of Client".
+### 2.3 Publish gate — one predicate
+Add `canPublishDirectoryProfile({ eligible, regionCount })` (plus a reason enum) to the existing `src/lib/directory-eligibility.ts`. All three call sites use it. Same truth table as today.
 
-Deliberately **not** adding: reviews/ratings, price ranges as numeric filters, multiple locations (regions already cover this), calendar integration, messaging inbox.
+### 2.4 Articles domain gets a server-function layer
+- New `src/lib/articles.server.ts` — load article + categories + author options, save/patch, status transition, delete, image upload/sign.
+- New `src/lib/articles.functions.ts` — `createServerFn` wrappers with `requireSupabaseAuth`, matching the `members.functions.ts` shape. Thin-wrapper rule respected (imports + exported server fns only).
+- `src/routes/_staff/articles.$id.tsx` keeps its editor UI, debounce timing and autosave semantics but calls the server functions instead of Supabase directly. Target: roughly 350 lines, with the editor form extracted to `src/components/cms/ArticleEditorForm.tsx` if the split is clean.
+- Explicitly out of scope: changing autosave cadence, status-machine rules, or the 10-year article image TTL.
 
-## 3. Schema changes
+### 2.5 Config module rename
+`loadIntegrationConfigAdmin` moves from `member-email.server.ts` to a new `src/lib/integration-config.server.ts`; the four importing modules update. `member-email.server.ts` keeps only the email gate.
 
-One migration:
+### 2.6 Not doing (deliberately)
+- No split of `member-sync.server.ts` or `cutover.server.ts` — long but procedural by nature, well commented, and touching them before go-live is the wrong risk trade.
+- No restructuring of `coaches/directory.tsx` beyond hoisting the repeated `"not-accepting"` literal to a named constant.
+- No change to `translations.functions.ts` auth. Instead, its RLS-only boundary is verified against the actual policies and the result is written into `docs/architecture.md` — flagged as debt if the policies turn out weaker than the explicit-check pattern.
 
-```text
-ALTER member_directory_profiles
-  ADD booking_url, contact_email_public, response_time_note,
-      approach, qualifications, experience_band,
-      session_length_note, fees_note, availability_note,
-      testimonial_quote, testimonial_attribution   -- all nullable
+## Part 3 & 4 — Documentation deliverables
 
-CREATE cf_client_types            (same shape as cf_formats: slug, name, name_de/fr/it, sort_order, is_active)
-CREATE member_profile_client_types (profile_id, client_type_id)   + GRANTs + RLS mirroring member_profile_formats
+### `README.md` (root, new)
+What ICF Switzerland's site is; the four functional areas (public site, coach directory, member area, staff CMS + member backend); high-level architecture; stack (TanStack Start on Cloudflare Workers, Supabase, Tailwind v4); folder layout; where to start reading; env/config concepts including the TEST/LIVE `integration_config` switch; links into `docs/`; a status section separating shipped from gated/pending for go-live.
 
-REPLACE VIEW coach_directory_public
-  -> add the new columns, plus client_type_slugs aggregate,
-     and expose email ONLY as: CASE WHEN contact_email_public THEN m.email END
-```
+### `docs/` (new)
+- `docs/architecture.md` — layers and boundaries, the public-safe / member-only / staff-only trichotomy and exactly where each is enforced (RLS, the `coach_directory_public` view, `requireSupabaseAuth`, `assertAdmin`), Supabase surface (tables, the public view, security-definer functions, buckets, key policies), image-handling strategy and why the buckets are private.
+- `docs/code-map.md` — module-by-module ownership table: every `*.functions.ts`, `*.server.ts`, route group and key component, with its responsibility and auth boundary.
+- `docs/auth-and-claim-flow.md` — the role model, the `members.auth_user_id` binding rule (never email equality), the custom hashed-token claim state machine, and the flags that keep it switched off.
+- `docs/public-directory.md` — finder flow end to end: filters, mode tabs, pagination, eligibility/visibility states, the detail page, signed images.
+- `docs/operations-and-go-live.md` — sync job and cron, integration modes, cutover and rehearsal, email suppression, lifecycle/anonymisation, plus the outstanding go-live checklist distilled from `.lovable/plan.md`.
+- `docs/tech-debt.md` — known follow-ups, including the ones this pass deliberately skips.
 
-Everything stays nullable, so no existing profile changes behaviour and the directory listing query is untouched.
+The `.lovable/plan-rev*.md` files stay as historical record; `docs/` becomes the living reference and the README points there.
 
-## 4. Redesigned public profile page
+## Verification
 
-Composition follows the mock; palette, type and card/shadow treatments stay exactly as the current design system (Goal Tracker: lavender background, indigo hero, teal accent, Inter, `CARD_SHADOW`, `eyebrow`, `btn-mono`).
+After the refactor: typecheck, then a Playwright pass over `/find-a-coach`, a coach detail page, `/my-profile` (photo upload + publish gate) and the staff article editor (load, autosave, status change, image upload) to confirm identical behaviour. Public directory JSON shape compared before/after.
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│ indigo hero band                                          │
-│  ← Back to search                                         │
-│  ◯ photo   Marie Dubois  [ACC]                            │
-│            Executive & leadership coach                   │
-│            Genève · in person & online · FR · EN          │
-│            ● Accepting new clients      [Book] [Email]    │
-└──────────────────────────────────────────────────────────┘
-  ┌────────────────────────────┐  ┌────────────────────────┐
-  │ About                      │  │ WORK WITH …            │
-  │ How I work (01/02/03)      │  │ Format · Session ·     │
-  │ Specialisations  (chips)   │  │ Languages · Availability│
-  │ Client types     (chips)   │  │ Response time          │
-  │ Training & qualifications  │  │ [Book an intro call]   │
-  │ “pull quote” — attribution │  │ [Send a message]       │
-  │ Fees                       │  │ ── credential + Code   │
-  │ Service areas    (chips)   │  │    of Ethics note      │
-  └────────────────────────────┘  └────────────────────────┘
-```
+## Deliverables
 
-Empty-state behaviour is the core requirement: every block is conditional. A profile with only name, credential and regions renders as a clean hero + a compact sidebar with no gaps or empty headings — the sidebar collapses to just the credential/ethics note, and the main column shows only what exists. I'll verify this by rendering a minimal profile and a fully-populated one side by side.
-
-## 5. Member editing
-
-`MemberProfileEditor` gains one new collapsible "Practice details" section (approach, qualifications, experience, session, fees, availability, response time), one "Contact & booking" section (booking URL, show-my-email toggle), one "Testimonial" section, and a client-types chip group alongside the existing facet groups. Same save path, same character limits and sanitising as `tagline`/`description`; `booking_url` reuses the https-only link rule.
-
-## Technical notes
-
-- `PublicCoachProfile` in `src/lib/directory.functions.ts` extends with the new columns; `queryCoachDirectory` (listing) keeps its current projection so search is untouched.
-- Email is only ever selected through the `contact_email_public` CASE in the view — the public path can't leak it, and the "Send a message" CTA is a plain `mailto:` (no inbox, no spam surface beyond what the member opted into).
-- `experience_band` and client types are slugs, so they're translation-ready via the existing `vocabLabel` mechanism; member free text stays untranslated, as with tagline/description today.
-- New i18n keys added to `directory.json` and `cms.json` in EN/DE/FR/IT.
-- Verification: Playwright render of a fully-populated profile, a minimal profile, and mobile width; plus a search regression check on `/find-a-coach`.
-
-## Follow-ups (not in this change)
-
-- Real reviews with moderation, if the chapter wants parity with production.
-- Structured "locations" if regions ever prove too coarse.
-- Profile completeness meter in the Member Area to nudge members to fill the new fields before launch.
+Refactored code as above; README; six docs files; a written summary of what changed and why; a tech-debt list.

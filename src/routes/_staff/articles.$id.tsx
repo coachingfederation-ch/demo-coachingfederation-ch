@@ -7,7 +7,23 @@ import { supabase } from "@/integrations/supabase/client";
 import { MarkdownEditor } from "@/components/cms/MarkdownEditor";
 import { TranslationsPanel } from "@/components/cms/TranslationsPanel";
 import { UnsplashPicker } from "@/components/cms/UnsplashPicker";
-import { authorName, categoryLabel, type CategoryRow } from "@/lib/articles";
+import {
+  authorName,
+  categoryLabel,
+  type ArticleLang,
+  type ArticleRow,
+  type ArticleStatus,
+  type CategoryRow,
+  type ProfileRow,
+} from "@/lib/articles";
+import { ARTICLE_IMAGE_BUCKET, ARTICLE_IMAGE_TTL_SECONDS } from "@/lib/storage";
+import {
+  changeArticleStatus,
+  getArticleEditorData,
+  removeArticle,
+  saveArticle,
+  setArticleFeaturedFlag,
+} from "@/lib/articles.functions";
 import { useCms } from "@/i18n/cms";
 
 export const Route = createFileRoute("/_staff/articles/$id")({
@@ -20,36 +36,9 @@ export const Route = createFileRoute("/_staff/articles/$id")({
   component: EditorPage,
 });
 
-type Status = "draft" | "scheduled" | "published" | "unpublished";
-type Lang = "en" | "fr" | "de" | "it";
-
-interface Article {
-  id: string;
-  language: Lang;
-  title: string;
-  excerpt: string;
-  content: string;
-  status: Status;
-  scheduled_at: string | null;
-  published_at: string | null;
-  first_published_at: string | null;
-  category: string | null;
-  category_id: string | null;
-  author_id: string;
-  content_updated_at: string | null;
-  featured_image_url: string | null;
-  image_credit_name: string | null;
-  image_credit_url: string | null;
-  image_source: string | null;
-  is_featured: boolean;
-  updated_at: string;
-}
-
-interface ProfileRow {
-  id: string;
-  first_name: string | null;
-  last_name: string | null;
-}
+type Status = ArticleStatus;
+type Lang = ArticleLang;
+type Article = ArticleRow;
 
 const LANGS: { code: Lang; label: string }[] = [
   { code: "en", label: "English" },
@@ -129,29 +118,18 @@ function EditorPage() {
   const [unsplashOpen, setUnsplashOpen] = useState(false);
 
   useEffect(() => {
-    supabase
-      .from("articles")
-      .select("*")
-      .eq("id", id)
-      .maybeSingle()
-      .then(({ data }) => {
-        if (!data) setNotFound(true);
-        else setArticle(data as Article);
-      });
+    void (async () => {
+      try {
+        const data = await getArticleEditorData({ data: { id } });
+        setCategories(data.categories);
+        setProfiles(data.profiles);
+        if (!data.article) setNotFound(true);
+        else setArticle(data.article);
+      } catch {
+        setNotFound(true);
+      }
+    })();
   }, [id]);
-
-  useEffect(() => {
-    supabase
-      .from("categories")
-      .select("id, slug, name, name_de, name_fr, name_it, sort_order")
-      .order("sort_order", { ascending: true })
-      .then(({ data }) => setCategories((data ?? []) as CategoryRow[]));
-    supabase
-      .from("profiles")
-      .select("id, first_name, last_name")
-      .order("last_name", { ascending: true })
-      .then(({ data }) => setProfiles((data ?? []) as ProfileRow[]));
-  }, []);
 
   // Autosave title/excerpt/content/language
   useEffect(() => {
@@ -163,23 +141,26 @@ function EditorPage() {
     setSaveState("saving");
     if (saveTimer.current) clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(async () => {
-      const { error } = await supabase
-        .from("articles")
-        .update({
-          title: article.title,
-          excerpt: article.excerpt,
-          content: article.content,
-          language: article.language,
-          category_id: article.category_id,
-          author_id: article.author_id,
-          featured_image_url: article.featured_image_url,
-          image_credit_name: article.image_credit_name,
-          image_credit_url: article.image_credit_url,
-          image_source: article.image_source,
-        })
-        .eq("id", article.id);
-      if (!error) setSaveState("saved");
-      else setSaveState("idle");
+      try {
+        await saveArticle({
+          data: {
+            id: article.id,
+            title: article.title,
+            excerpt: article.excerpt,
+            content: article.content,
+            language: article.language,
+            category_id: article.category_id,
+            author_id: article.author_id,
+            featured_image_url: article.featured_image_url,
+            image_credit_name: article.image_credit_name,
+            image_credit_url: article.image_credit_url,
+            image_source: article.image_source,
+          },
+        });
+        setSaveState("saved");
+      } catch {
+        setSaveState("idle");
+      }
     }, 800);
     return () => {
       if (saveTimer.current) clearTimeout(saveTimer.current);
@@ -206,8 +187,11 @@ function EditorPage() {
     setUploading(true);
     const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
     const path = `${article.id}/${Date.now()}.${ext}`;
+    // The upload stays on the browser client (RLS on storage.objects is the
+    // boundary) so the file bytes never cross the server-function RPC. Bucket
+    // and TTL come from @/lib/storage so they are declared in one place.
     const { error } = await supabase.storage
-      .from("article-images")
+      .from(ARTICLE_IMAGE_BUCKET)
       .upload(path, file, { upsert: true, contentType: file.type });
     if (error) {
       setUploadError(error.message);
@@ -215,8 +199,8 @@ function EditorPage() {
       return;
     }
     const { data: signed, error: signErr } = await supabase.storage
-      .from("article-images")
-      .createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
+      .from(ARTICLE_IMAGE_BUCKET)
+      .createSignedUrl(path, ARTICLE_IMAGE_TTL_SECONDS);
     setUploading(false);
     if (signErr || !signed) {
       setUploadError(signErr?.message ?? t("editor.imageError"));
@@ -233,26 +217,23 @@ function EditorPage() {
   const toggleFeatured = async () => {
     if (!article) return;
     const next = !article.is_featured;
-    const { error } = await supabase
-      .from("articles")
-      .update({ is_featured: next })
-      .eq("id", article.id);
-    if (error) return;
+    try {
+      await setArticleFeaturedFlag({ data: { id: article.id, featured: next } });
+    } catch {
+      return;
+    }
     update({ is_featured: next });
     setFeaturedNote(next ? t("editor.featuredOn") : t("editor.featuredOff"));
   };
 
   const publishNow = async () => {
     if (!article) return;
-    const now = new Date().toISOString();
-    const patch = {
-      status: "published" as const,
-      published_at: now,
-      first_published_at: article.first_published_at ?? now,
-      scheduled_at: null,
-    };
-    const { error } = await supabase.from("articles").update(patch).eq("id", article.id);
-    if (!error) update(patch);
+    try {
+      const patch = await changeArticleStatus({ data: { id: article.id, action: "publish" } });
+      update(patch as Partial<Article>);
+    } catch {
+      /* the status pill simply stays as it was */
+    }
   };
 
   const schedule = async () => {
@@ -267,27 +248,35 @@ function EditorPage() {
       alert(t("editor.invalidDate"));
       return;
     }
-    const patch = {
-      status: "scheduled" as const,
-      scheduled_at: dt.toISOString(),
-      first_published_at: article.first_published_at ?? dt.toISOString(),
-    };
-    const { error } = await supabase.from("articles").update(patch).eq("id", article.id);
-    if (!error) update(patch);
+    try {
+      const patch = await changeArticleStatus({
+        data: { id: article.id, action: "schedule", scheduledAt: dt.toISOString() },
+      });
+      update(patch as Partial<Article>);
+    } catch {
+      /* keep the current status */
+    }
   };
 
   const unpublish = async () => {
     if (!article) return;
-    const patch = { status: "unpublished" as const, scheduled_at: null };
-    const { error } = await supabase.from("articles").update(patch).eq("id", article.id);
-    if (!error) update(patch);
+    try {
+      const patch = await changeArticleStatus({ data: { id: article.id, action: "unpublish" } });
+      update(patch as Partial<Article>);
+    } catch {
+      /* keep the current status */
+    }
   };
 
   const remove = async () => {
     if (!article) return;
     if (!window.confirm(t("editor.confirmDelete"))) return;
-    const { error } = await supabase.from("articles").delete().eq("id", article.id);
-    if (!error) navigate({ to: "/articles" });
+    try {
+      await removeArticle({ data: { id: article.id } });
+      navigate({ to: "/articles" });
+    } catch {
+      /* RLS refused the delete; stay on the page */
+    }
   };
 
   if (notFound) {

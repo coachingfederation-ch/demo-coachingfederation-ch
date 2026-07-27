@@ -19,7 +19,7 @@
  */
 import { createHash, randomBytes, timingSafeEqual } from "crypto";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
-import { loadIntegrationConfigAdmin } from "./member-email.server";
+import { loadIntegrationConfigAdmin } from "./integration-config.server";
 import { isTestShapedEmail } from "./integration";
 
 export type ClaimResult =

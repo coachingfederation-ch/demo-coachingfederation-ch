@@ -16,8 +16,10 @@ import {
   type VocabRow,
 } from "@/lib/vocabularies";
 import { getMyMemberProfile, saveMyMemberProfile } from "@/lib/member-profile.functions";
+import { publishBlockReason } from "@/lib/directory-eligibility";
+import { PROFILE_IMAGE_BUCKET, PROFILE_IMAGE_PREVIEW_TTL_SECONDS } from "@/lib/storage";
 
-export const PHOTO_BUCKET = "member-profile-images";
+export const PHOTO_BUCKET = PROFILE_IMAGE_BUCKET;
 const PHOTO_SIZE = 512;
 const DESCRIPTION_MAX = 3000;
 const TAGLINE_MAX = 160;
@@ -290,7 +292,7 @@ export function MemberProfileEditor() {
     }
     void supabase.storage
       .from(PHOTO_BUCKET)
-      .createSignedUrl(imagePath, 3600)
+      .createSignedUrl(imagePath, PROFILE_IMAGE_PREVIEW_TTL_SECONDS)
       .then(({ data: signed }) => {
         if (active) setImageUrl(signed?.signedUrl ?? null);
       });
@@ -304,8 +306,12 @@ export function MemberProfileEditor() {
   const eligible = typeof data === "object" && data ? data.eligibility.eligible : false;
 
   const publishBlocked = useMemo(() => {
-    if (!eligible) return t("member.blockedIneligible");
-    if (!facets.region_ids.length) return t("member.blockedNoRegion");
+    const reason = publishBlockReason({
+      eligible,
+      regionCount: facets.region_ids.length,
+    });
+    if (reason === "ineligible") return t("member.blockedIneligible");
+    if (reason === "no_region") return t("member.blockedNoRegion");
     return null;
   }, [eligible, facets.region_ids, t]);
 
