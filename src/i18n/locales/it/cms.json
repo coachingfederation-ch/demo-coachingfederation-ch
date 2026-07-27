@@ -348,7 +348,14 @@
     "colStatus": "Stato",
     "colFeed": "Feed",
     "colChanges": "Nuovi / aggiornati / disattivati",
-    "noRuns": "Nessuna sincronizzazione registrata."
+    "noRuns": "Nessuna sincronizzazione registrata.",
+    "rehearseTitle": "Prova del passaggio",
+    "rehearseBody": "Simulazione non distruttiva: verifica i prerequisiti, crea uno snapshot di archivio e mostra esattamente cosa un passaggio reale eliminerebbe, scollegherebbe e commuterebbe. Nulla viene eliminato e l’integrazione resta in modalità TEST.",
+    "rehearseRun": "Prova il passaggio",
+    "rehearseRunning": "Prova in corso…",
+    "rehearseDone": "Prova completata — nessun dato modificato.",
+    "rehearseColStep": "Passaggio",
+    "rehearseColDetail": "Risultato"
   },
   "member": {
     "title": "Il mio profilo di coach",
