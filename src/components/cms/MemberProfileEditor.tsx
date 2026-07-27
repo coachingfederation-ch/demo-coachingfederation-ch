@@ -11,6 +11,7 @@ import { useCms } from "@/i18n/cms";
 import {
   fetchActiveVocabularies,
   vocabLabel,
+  EXPERIENCE_BANDS,
   type CoachFinderVocabularies,
   type VocabRow,
 } from "@/lib/vocabularies";
@@ -21,9 +22,41 @@ const PHOTO_SIZE = 512;
 const DESCRIPTION_MAX = 3000;
 const TAGLINE_MAX = 160;
 const LINKS_MAX = 6;
+const RICH_TEXT_MAX = 2000;
+const NOTE_MAX = 120;
+const QUOTE_MAX = 400;
 
 type Profile = NonNullable<Awaited<ReturnType<typeof getMyMemberProfile>>>;
 type LinkDraft = { link_type: "website" | "linkedin" | "other"; label: string; url: string };
+
+/** The optional free-text practice fields, kept as one flat draft object. */
+type PracticeDraft = {
+  approach: string;
+  qualifications: string;
+  experience_band: string;
+  session_length_note: string;
+  fees_note: string;
+  availability_note: string;
+  response_time_note: string;
+  booking_url: string;
+  contact_email_public: boolean;
+  testimonial_quote: string;
+  testimonial_attribution: string;
+};
+
+const EMPTY_PRACTICE: PracticeDraft = {
+  approach: "",
+  qualifications: "",
+  experience_band: "",
+  session_length_note: "",
+  fees_note: "",
+  availability_note: "",
+  response_time_note: "",
+  booking_url: "",
+  contact_email_public: false,
+  testimonial_quote: "",
+  testimonial_attribution: "",
+};
 
 function initialsOf(name: string | null): string {
   const parts = (name ?? "").trim().split(/\s+/).filter(Boolean);
@@ -101,6 +134,77 @@ function Section({ title, note, children }: { title: string; note?: string; chil
   );
 }
 
+/** Labelled single-line field used by the practice/contact sections. */
+function Field({
+  id,
+  label,
+  value,
+  onChange,
+  max,
+  placeholder,
+  type = "text",
+}: {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  max: number;
+  placeholder?: string;
+  type?: string;
+}) {
+  return (
+    <div className="mt-4">
+      <label className="block text-xs font-semibold text-muted-foreground" htmlFor={id}>
+        {label}
+      </label>
+      <input
+        id={id}
+        type={type}
+        value={value}
+        maxLength={max}
+        placeholder={placeholder}
+        onChange={(e) => onChange(e.target.value)}
+        className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+      />
+    </div>
+  );
+}
+
+function TextArea({
+  id,
+  label,
+  note,
+  value,
+  onChange,
+  max,
+  rows = 5,
+}: {
+  id: string;
+  label: string;
+  note?: string;
+  value: string;
+  onChange: (value: string) => void;
+  max: number;
+  rows?: number;
+}) {
+  return (
+    <div className="mt-4">
+      <label className="block text-xs font-semibold text-muted-foreground" htmlFor={id}>
+        {label}
+      </label>
+      {note ? <p className="mt-1 text-xs text-muted-foreground">{note}</p> : null}
+      <textarea
+        id={id}
+        value={value}
+        rows={rows}
+        maxLength={max}
+        onChange={(e) => onChange(e.target.value)}
+        className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+      />
+    </div>
+  );
+}
+
 export function MemberProfileEditor() {
   const { t, locale } = useCms();
   const [data, setData] = useState<Profile | null | "unbound">(null);
@@ -114,7 +218,9 @@ export function MemberProfileEditor() {
     language_ids: [] as string[],
     format_ids: [] as string[],
     specialisation_ids: [] as string[],
+    client_type_ids: [] as string[],
   });
+  const [practice, setPractice] = useState<PracticeDraft>(EMPTY_PRACTICE);
   const [links, setLinks] = useState<LinkDraft[]>([]);
   const [imagePath, setImagePath] = useState<string | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -138,6 +244,20 @@ export function MemberProfileEditor() {
       language_ids: p?.language_ids ?? [],
       format_ids: p?.format_ids ?? [],
       specialisation_ids: p?.specialisation_ids ?? [],
+      client_type_ids: p?.client_type_ids ?? [],
+    });
+    setPractice({
+      approach: p?.approach ?? "",
+      qualifications: p?.qualifications ?? "",
+      experience_band: p?.experience_band ?? "",
+      session_length_note: p?.session_length_note ?? "",
+      fees_note: p?.fees_note ?? "",
+      availability_note: p?.availability_note ?? "",
+      response_time_note: p?.response_time_note ?? "",
+      booking_url: p?.booking_url ?? "",
+      contact_email_public: p?.contact_email_public ?? false,
+      testimonial_quote: p?.testimonial_quote ?? "",
+      testimonial_attribution: p?.testimonial_attribution ?? "",
     });
     setLinks(
       (p?.links ?? []).map((l) => ({ link_type: l.link_type, label: l.label ?? "", url: l.url })),
@@ -209,6 +329,17 @@ export function MemberProfileEditor() {
           supervision_available: services.supervision,
           profile_image_path: imagePath,
           ...facets,
+          approach: practice.approach || null,
+          qualifications: practice.qualifications || null,
+          experience_band: (practice.experience_band || null) as never,
+          session_length_note: practice.session_length_note || null,
+          fees_note: practice.fees_note || null,
+          availability_note: practice.availability_note || null,
+          response_time_note: practice.response_time_note || null,
+          booking_url: practice.booking_url.trim() || null,
+          contact_email_public: practice.contact_email_public,
+          testimonial_quote: practice.testimonial_quote || null,
+          testimonial_attribution: practice.testimonial_attribution || null,
           links: links
             .filter((l) => l.url.trim().startsWith("https://"))
             .map((l) => ({ link_type: l.link_type, label: l.label || null, url: l.url.trim() })),
