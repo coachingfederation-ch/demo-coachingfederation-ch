@@ -891,34 +891,46 @@ export type Database = {
       }
       member_profile_links: {
         Row: {
+          attempts: number
           completed_at: string | null
+          consumed_at: string | null
           created_at: string
           email: string
           expires_at: string | null
           id: string
+          last_attempt_at: string | null
           member_id: string
           requested_at: string
           status: string
+          token_hash: string | null
         }
         Insert: {
+          attempts?: number
           completed_at?: string | null
+          consumed_at?: string | null
           created_at?: string
           email: string
           expires_at?: string | null
           id?: string
+          last_attempt_at?: string | null
           member_id: string
           requested_at?: string
           status?: string
+          token_hash?: string | null
         }
         Update: {
+          attempts?: number
           completed_at?: string | null
+          consumed_at?: string | null
           created_at?: string
           email?: string
           expires_at?: string | null
           id?: string
+          last_attempt_at?: string | null
           member_id?: string
           requested_at?: string
           status?: string
+          token_hash?: string | null
         }
         Relationships: [
           {
