@@ -229,6 +229,11 @@ export async function runMemberSync(options: {
       deactivated += 1;
     }
 
+    const createdProfiles = await ensureDirectoryProfiles(runId);
+    if (createdProfiles) {
+      await logEvent(runId, "directory_profiles_created", `Created ${createdProfiles} draft directory profiles.`);
+    }
+
     await reconcileDirectoryVisibility(runId);
 
     return await finish({ status: "succeeded", feedCount: feed.length, created, updated, deactivated });
@@ -284,6 +289,46 @@ export async function runLifecycleCleanup(actorUserId: string): Promise<{ anonym
     anonymized += 1;
   }
   return { anonymized };
+}
+
+/**
+ * Give every active member a directory profile, always as `draft`.
+ *
+ * Deliberately creates an *empty* profile: no regions, languages,
+ * specialisations or formats are inferred. In this project a region is the
+ * canton a member wants to work in **in person**, chosen by the member and
+ * possibly several — it is not their postal address. Seeding it from the
+ * imported ICF city/state/zip would silently publish a claim the member never
+ * made, so imported location stays read-only reference data on `members`.
+ *
+ * Existing profiles are never touched, so this is safe to run on every sync.
+ */
+export async function ensureDirectoryProfiles(_runId: string | null): Promise<number> {
+  const { data: members, error } = await supabaseAdmin
+    .from("members")
+    .select("id")
+    .eq("activity_state", "active");
+  if (error) throw error;
+
+  const { data: existing, error: existingError } = await supabaseAdmin
+    .from("member_directory_profiles")
+    .select("member_id");
+  if (existingError) throw existingError;
+
+  const have = new Set((existing ?? []).map((row) => row.member_id as string));
+  const missing = (members ?? []).map((row) => row.id as string).filter((id) => !have.has(id));
+  if (!missing.length) return 0;
+
+  for (let i = 0; i < missing.length; i += 200) {
+    const { error: insertError } = await supabaseAdmin.from("member_directory_profiles").insert(
+      missing.slice(i, i + 200).map((memberId) => ({
+        member_id: memberId,
+        visibility: "draft" as const,
+      })),
+    );
+    if (insertError) throw insertError;
+  }
+  return missing.length;
 }
 
 /**

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Download, Search } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
@@ -184,7 +184,15 @@ function MembersPage() {
               ) : (
                 visible.map((row) => (
                   <tr key={row.id} className="border-t border-border">
-                    <td className="px-4 py-2 font-medium">{row.full_name ?? "—"}</td>
+                    <td className="px-4 py-2 font-medium">
+                      <Link
+                        to="/members/$id"
+                        params={{ id: row.id }}
+                        className="underline-offset-2 hover:underline"
+                      >
+                        {row.full_name ?? "—"}
+                      </Link>
+                    </td>
                     <td className="px-4 py-2 text-muted-foreground">{row.email ?? "—"}</td>
                     <td className="px-4 py-2">{row.city ?? "—"}</td>
                     <td className="px-4 py-2 uppercase">{row.credential_slug ?? "—"}</td>

@@ -49,6 +49,42 @@ export const exportMembersCsv = createServerFn({ method: "POST" })
     return await buildMembersCsv();
   });
 
+/** Admin member detail: imported ICF reference data + local directory fields. */
+export const getMemberDetail = createServerFn({ method: "POST" })
+  .inputValidator((input) => z.object({ memberId: z.string().uuid() }).parse(input))
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context, data }) => {
+    await assertAdmin(context as never);
+    const { loadMemberDetail } = await import("./member-admin.server");
+    return await loadMemberDetail(data.memberId);
+  });
+
+/**
+ * Staff-owned directory fields. Service-area regions are declared, never
+ * derived from the imported address, so they are only written from here or
+ * (later) from the Member Area.
+ */
+export const updateMemberDirectory = createServerFn({ method: "POST" })
+  .inputValidator((input) =>
+    z
+      .object({
+        memberId: z.string().uuid(),
+        visibility: z
+          .enum(["draft", "published", "hidden_no_credential", "hidden_inactive", "hidden_admin"])
+          .optional(),
+        mentor_accredited: z.boolean().optional(),
+        supervision_accredited: z.boolean().optional(),
+        region_ids: z.array(z.string().uuid()).max(40).optional(),
+      })
+      .parse(input),
+  )
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context, data }) => {
+    const userId = await assertAdmin(context as never);
+    const { updateMemberDirectoryAdmin } = await import("./member-admin.server");
+    return await updateMemberDirectoryAdmin(userId, data);
+  });
+
 /**
  * Member account claim. Built now, inert until the chapter explicitly opens the
  * Member Area after the LIVE cutover — `account_claim_enabled` cannot be true
