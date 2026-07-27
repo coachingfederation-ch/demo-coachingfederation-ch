@@ -70,6 +70,7 @@ function MemberDetailPage() {
   const [status, setStatus] = useState<"idle" | "saving" | "saved">("idle");
   const [error, setError] = useState<string | null>(null);
   const [bindEmail, setBindEmail] = useState("");
+  const [claimLink, setClaimLink] = useState<string | null>(null);
   const [bindBusy, setBindBusy] = useState(false);
   const [bindError, setBindError] = useState<string | null>(null);
 
