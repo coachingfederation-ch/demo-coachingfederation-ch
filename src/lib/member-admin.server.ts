@@ -277,3 +277,43 @@ export async function unbindMemberAuthUser(actorUserId: string, memberId: string
     details: {},
   });
 }
+
+/**
+ * Claim readiness for the members list.
+ *
+ * Derived, never stored: a member is `claimed` once the explicit `auth_user_id`
+ * binding exists (never by email equality), `invited` while an unconsumed link
+ * is still inside its TTL, `expired` when the last link lapsed unused, and
+ * `never` when no link was ever issued. Operators use this to chase the tail of
+ * an invitation wave.
+ */
+export type MemberClaimStatus = "claimed" | "invited" | "expired" | "never";
+
+export async function loadClaimStatuses(): Promise<Record<string, MemberClaimStatus>> {
+  const status: Record<string, MemberClaimStatus> = {};
+
+  const { data: bound, error: boundError } = await supabaseAdmin
+    .from("members")
+    .select("id, auth_user_id")
+    .not("auth_user_id", "is", null);
+  if (boundError) throw boundError;
+  for (const row of bound ?? []) status[row.id as string] = "claimed";
+
+  // Oldest first, so the newest link for a member overwrites earlier ones — a
+  // freshly issued link supersedes a lapsed one in the operator's view too.
+  const { data: links, error: linkError } = await supabaseAdmin
+    .from("member_profile_links")
+    .select("member_id, consumed_at, expires_at")
+    .order("requested_at", { ascending: true });
+  if (linkError) throw linkError;
+
+  const now = Date.now();
+  for (const link of links ?? []) {
+    const memberId = link.member_id as string;
+    if (status[memberId] === "claimed") continue;
+    const expired = link.expires_at ? new Date(link.expires_at as string).getTime() < now : true;
+    status[memberId] = link.consumed_at ? "claimed" : expired ? "expired" : "invited";
+  }
+
+  return status;
+}
