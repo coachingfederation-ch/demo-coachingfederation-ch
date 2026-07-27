@@ -110,8 +110,8 @@ export async function runCutover(
   const { data: archive, error: archiveError } = await supabaseAdmin
     .from("member_archive_snapshots")
     .insert({
-      label: `pre-live-cutover-${new Date().toISOString()}`,
-      reason: "test_to_live_cutover",
+      label: `${dryRun ? "cutover-rehearsal" : "pre-live-cutover"}-${new Date().toISOString()}`,
+      reason: dryRun ? "cutover_rehearsal" : "test_to_live_cutover",
       taken_by: actorUserId,
       table_counts: counts as never,
       payload: payload as never,
@@ -123,6 +123,32 @@ export async function runCutover(
     return { ok: false, steps };
   }
   record("archive", true, `Archived ${Object.values(counts).reduce((a, b) => a + b, 0)} rows (snapshot ${archive.id}).`);
+
+  // Rehearsal stops here: everything below mutates state irreversibly.
+  if (dryRun) {
+    const { boundUserIds, memberRoleUserIds } = await releaseTestMemberBindings(true);
+    const { data: staffRoles } = await supabaseAdmin
+      .from("user_roles")
+      .select("user_id")
+      .neq("role", "member");
+    const staffIds = new Set((staffRoles ?? []).map((r) => r.user_id));
+    const { data: authList } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1000 });
+    const wouldDeleteUsers = (authList?.users ?? []).filter((u) => !staffIds.has(u.id)).length;
+    const purgeSummary = MEMBER_DOMAIN_TABLES.map((t) => `${t}: ${counts[t] ?? 0}`).join(", ");
+    record("purge_preview", true, `Would delete — ${purgeSummary}.`);
+    record(
+      "binding_preview",
+      true,
+      `Would unbind ${boundUserIds.length} member↔account link(s), revoke ${memberRoleUserIds.length} member role grant(s), and delete ${wouldDeleteUsers} non-staff auth user(s).`,
+    );
+    record(
+      "switch_preview",
+      true,
+      "Would switch mode to LIVE with emails suppressed and account claim closed, then run the first LIVE import.",
+    );
+    record("rehearsal_complete", true, "Rehearsal only — no data was deleted and the integration is still in TEST mode.");
+    return { ok: true, steps };
+  }
 
   // 3. Freeze
   await supabaseAdmin
