@@ -47,7 +47,7 @@ The cutover's validation step asserts `members` is empty immediately before the 
 
 Trigger-enforced invariants: `mode='test'` forces `emails_suppressed=true` **and** `account_claim_enabled=false`; `account_claim_enabled` can only be set true when `mode='live'` and `cutover_completed_at` is set. So claim cannot be switched on in TEST even by mistake.
 
-The claim architecture is built now but inert: the server function short-circuits with a "not available" result whenever `account_claim_enabled` is false, and no claim/set-password UI is linked from the public site or member area. `/auth` keeps serving staff CMS sign-in only, exactly as today.
+The claim architecture is built now but inert: the server function short-circuits with a "not available" result whenever `account_claim_enabled` is false, and no claim/set-password UI is linked from the public site or member area. `/auth` keeps serving staff CMS sign-in only, exactly as today. **[Superseded by rev. 5 §6: `/auth` is now the shared entry point for staff and members, with role-based dispatch.]**
 
 **TEST auth rule:** no member auth users are created during TEST at all, because claim never runs. If any appear (manual testing), the cutover deletes every `auth.users` row that has no `user_roles` entry. Staff/admin accounts are preserved.
 
@@ -66,7 +66,7 @@ Every member-facing send goes through one helper that reads `integration_config`
 1. **Pre-flight** — caller `has_role('admin')`; assert `mode='test'`, `cutover_completed_at is null`, LIVE credentials present.
 2. **Archive** — full JSONB dump of all member-domain tables into `member_archive_snapshots` plus a downloadable bundle.
 3. **Freeze** — disable the sync cron, set `cutover_in_progress`; Coach Finder member queries return a maintenance state. CMS/vocabularies stay editable.
-4. **Purge** — delete in FK order: `member_profile_links` → member↔vocabulary joins → `member_directory_profiles` → `member_import_snapshots` → `member_sync_events` → `member_lifecycle_queue` → `member_email_log` → `members`. Delete non-staff `auth.users`. Remove orphaned profile images (bucket preserved).
+4. **Purge** — delete in FK order: `member_profile_links` → member↔vocabulary joins → `member_directory_profiles` → `member_import_snapshots` → `member_sync_events` → `member_lifecycle_queue` → `member_email_log` → `members`. Explicitly unbind every `members.auth_user_id` and revoke every `member` role grant, then delete non-staff `auth.users`. **[Amended per rev. 5 §6: a TEST member binding carries a `user_roles` row, so the orphan sweep alone no longer catches it. Implemented in `runCutover`; validation now also asserts zero surviving `member` grants.]** Remove orphaned profile images (bucket preserved).
 5. **Switch** — `mode='live'`, `soap_endpoint_key='live'`; `emails_suppressed` stays true, `account_claim_enabled` stays false.
 6. **First LIVE import** — run manually, not on cron. Feed-drop safety valve aborts without writing if the feed returns implausibly few members.
 7. **Validate** — `members` was empty before import; count within expected range; zero `zz`-pattern emails; zero non-null `auth_user_id`; spot-check N records against the ICF portal; `cf_*` rows and `coach_finder_config` checksum-identical before/after; `/find-a-coach` renders LIVE rows against Phase 1 vocabularies.

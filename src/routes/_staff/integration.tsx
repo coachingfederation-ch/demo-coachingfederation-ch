@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { AlertTriangle, CheckCircle2, RefreshCw } from "lucide-react";
+import { AlertTriangle, CheckCircle2, ClipboardCheck, RefreshCw } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { useCms } from "@/i18n/cms";
 import {
@@ -10,7 +10,12 @@ import {
   type IntegrationConfig,
   type SyncRun,
 } from "@/lib/integration";
-import { runSyncNow, executeCutover, cleanupExpiredMembers } from "@/lib/members.functions";
+import {
+  runSyncNow,
+  executeCutover,
+  rehearseCutover,
+  cleanupExpiredMembers,
+} from "@/lib/members.functions";
 
 export const Route = createFileRoute("/_staff/integration")({
   head: () => ({
@@ -38,6 +43,9 @@ function IntegrationPage() {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [confirmText, setConfirmText] = useState("");
+  const [rehearsal, setRehearsal] = useState<{ step: string; ok: boolean; detail: string }[] | null>(
+    null,
+  );
 
   const reload = async () => {
     try {
@@ -226,6 +234,50 @@ function IntegrationPage() {
                 </>
               )}
             </section>
+
+            {!config.cutover_completed_at && (
+              <section className={CARD}>
+                <h2 className="flex items-center gap-2 text-sm font-bold">
+                  <ClipboardCheck className="h-4 w-4 text-teal" /> {t("integration.rehearseTitle")}
+                </h2>
+                <p className="mt-2 text-sm text-muted-foreground">{t("integration.rehearseBody")}</p>
+                <button
+                  className={BTN + " mt-4"}
+                  disabled={busy !== null}
+                  onClick={() =>
+                    void act("rehearse", async () => {
+                      const r = await rehearseCutover({});
+                      setRehearsal(r.steps);
+                      return t("integration.rehearseDone");
+                    })
+                  }
+                >
+                  {busy === "rehearse" ? t("integration.rehearseRunning") : t("integration.rehearseRun")}
+                </button>
+                {rehearsal && (
+                  <div className="mt-4 overflow-x-auto">
+                    <table className="w-full text-left text-xs">
+                      <thead className="text-muted-foreground">
+                        <tr>
+                          <th className="py-1 pr-3">{t("integration.rehearseColStep")}</th>
+                          <th className="py-1">{t("integration.rehearseColDetail")}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rehearsal.map((s) => (
+                          <tr key={s.step} className="border-t border-border/60 align-top">
+                            <td className="py-1 pr-3 font-semibold">
+                              {s.ok ? "✓" : "✗"} {s.step}
+                            </td>
+                            <td className="py-1 text-muted-foreground">{s.detail}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </section>
+            )}
 
             <section className={CARD}>
               <h2 className="text-sm font-bold">{t("integration.history")}</h2>

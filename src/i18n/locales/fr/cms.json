@@ -348,7 +348,14 @@
     "colStatus": "Statut",
     "colFeed": "Flux",
     "colChanges": "Nouveaux / mis à jour / désactivés",
-    "noRuns": "Aucune synchronisation enregistrée pour l’instant."
+    "noRuns": "Aucune synchronisation enregistrée pour l’instant.",
+    "rehearseTitle": "Répétition de la bascule",
+    "rehearseBody": "Simulation sans risque : vérifie les prérequis, crée un instantané d’archive et indique précisément ce qu’une vraie bascule supprimerait, délierait et basculerait. Rien n’est purgé et l’intégration reste en mode TEST.",
+    "rehearseRun": "Répéter la bascule",
+    "rehearseRunning": "Répétition en cours…",
+    "rehearseDone": "Répétition terminée — aucune donnée modifiée.",
+    "rehearseColStep": "Étape",
+    "rehearseColDetail": "Résultat"
   },
   "member": {
     "title": "Mon profil de coach",

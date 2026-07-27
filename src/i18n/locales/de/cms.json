@@ -348,7 +348,14 @@
     "colStatus": "Status",
     "colFeed": "Feed",
     "colChanges": "Neu / aktualisiert / deaktiviert",
-    "noRuns": "Noch keine Synchronisationsläufe erfasst."
+    "noRuns": "Noch keine Synchronisationsläufe erfasst.",
+    "rehearseTitle": "Probelauf der Umstellung",
+    "rehearseBody": "Unschädlicher Probelauf: prüft die Voraussetzungen, erstellt einen Archiv-Snapshot und zeigt genau, was eine echte Umstellung löschen, trennen und umschalten würde. Es wird nichts gelöscht, die Integration bleibt im TEST-Modus.",
+    "rehearseRun": "Umstellung proben",
+    "rehearseRunning": "Probelauf läuft…",
+    "rehearseDone": "Probelauf abgeschlossen – es wurden keine Daten geändert.",
+    "rehearseColStep": "Schritt",
+    "rehearseColDetail": "Ergebnis"
   },
   "member": {
     "title": "Mein Coach-Profil",

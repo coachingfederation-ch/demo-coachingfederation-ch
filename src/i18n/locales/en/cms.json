@@ -348,7 +348,14 @@
     "colStatus": "Status",
     "colFeed": "Feed",
     "colChanges": "New / updated / deactivated",
-    "noRuns": "No sync runs recorded yet."
+    "noRuns": "No sync runs recorded yet.",
+    "rehearseTitle": "Cutover readiness rehearsal",
+    "rehearseBody": "Non-destructive dry run: checks pre-flight, takes an archive snapshot, and reports exactly what a real cutover would delete, unbind and switch. Nothing is purged and the integration stays in TEST mode.",
+    "rehearseRun": "Rehearse cutover",
+    "rehearseRunning": "Rehearsing…",
+    "rehearseDone": "Rehearsal complete — no data was changed.",
+    "rehearseColStep": "Step",
+    "rehearseColDetail": "Result"
   },
   "member": {
     "title": "My coach profile",

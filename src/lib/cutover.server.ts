@@ -15,6 +15,7 @@ import { isTestShapedEmail } from "./integration";
 
 export type CutoverStep = { step: string; ok: boolean; detail: string };
 export type CutoverResult = { ok: boolean; steps: CutoverStep[] };
+export type CutoverOptions = { dryRun?: boolean };
 
 const MEMBER_DOMAIN_TABLES = [
   "member_profile_regions",
@@ -37,7 +38,41 @@ async function dumpTable(table: string) {
   return data ?? [];
 }
 
-export async function runCutover(actorUserId: string): Promise<CutoverResult> {
+/**
+ * Members bound to an auth account during TEST carry a `member` role row, so the
+ * orphan sweep ("delete auth users with no user_roles entry") no longer catches
+ * them. The purge therefore unbinds and revokes explicitly — see plan rev. 5 §6.
+ */
+async function releaseTestMemberBindings(dryRun: boolean) {
+  const { data: bound } = await supabaseAdmin
+    .from("members")
+    .select("id, auth_user_id")
+    .not("auth_user_id", "is", null);
+  const boundUserIds = [...new Set((bound ?? []).map((m) => m.auth_user_id as string))];
+  if (!dryRun && boundUserIds.length > 0) {
+    await supabaseAdmin
+      .from("members")
+      .update({ auth_user_id: null })
+      .not("auth_user_id", "is", null);
+  }
+
+  // Revoke every `member` grant: after the purge no member record exists to justify one.
+  const { data: memberRoles } = await supabaseAdmin
+    .from("user_roles")
+    .select("user_id")
+    .eq("role", "member");
+  const memberRoleUserIds = (memberRoles ?? []).map((r) => r.user_id);
+  if (!dryRun && memberRoleUserIds.length > 0) {
+    await supabaseAdmin.from("user_roles").delete().eq("role", "member");
+  }
+  return { boundUserIds, memberRoleUserIds };
+}
+
+export async function runCutover(
+  actorUserId: string,
+  options: CutoverOptions = {},
+): Promise<CutoverResult> {
+  const dryRun = options.dryRun === true;
   const steps: CutoverStep[] = [];
   const record = (step: string, ok: boolean, detail: string) => {
     steps.push({ step, ok, detail });
@@ -56,7 +91,13 @@ export async function runCutover(actorUserId: string): Promise<CutoverResult> {
     record("preflight", false, error instanceof Error ? error.message : String(error));
     return { ok: false, steps };
   }
-  record("preflight", true, "TEST mode confirmed, LIVE credentials present.");
+  record(
+    "preflight",
+    true,
+    dryRun
+      ? "Rehearsal: TEST mode confirmed, LIVE credentials present. Nothing will be deleted or switched."
+      : "TEST mode confirmed, LIVE credentials present.",
+  );
 
   // 2. Archive the whole member domain
   const payload: Record<string, unknown> = {};
@@ -69,8 +110,8 @@ export async function runCutover(actorUserId: string): Promise<CutoverResult> {
   const { data: archive, error: archiveError } = await supabaseAdmin
     .from("member_archive_snapshots")
     .insert({
-      label: `pre-live-cutover-${new Date().toISOString()}`,
-      reason: "test_to_live_cutover",
+      label: `${dryRun ? "cutover-rehearsal" : "pre-live-cutover"}-${new Date().toISOString()}`,
+      reason: dryRun ? "cutover_rehearsal" : "test_to_live_cutover",
       taken_by: actorUserId,
       table_counts: counts as never,
       payload: payload as never,
@@ -83,6 +124,32 @@ export async function runCutover(actorUserId: string): Promise<CutoverResult> {
   }
   record("archive", true, `Archived ${Object.values(counts).reduce((a, b) => a + b, 0)} rows (snapshot ${archive.id}).`);
 
+  // Rehearsal stops here: everything below mutates state irreversibly.
+  if (dryRun) {
+    const { boundUserIds, memberRoleUserIds } = await releaseTestMemberBindings(true);
+    const { data: staffRoles } = await supabaseAdmin
+      .from("user_roles")
+      .select("user_id")
+      .neq("role", "member");
+    const staffIds = new Set((staffRoles ?? []).map((r) => r.user_id));
+    const { data: authList } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1000 });
+    const wouldDeleteUsers = (authList?.users ?? []).filter((u) => !staffIds.has(u.id)).length;
+    const purgeSummary = MEMBER_DOMAIN_TABLES.map((t) => `${t}: ${counts[t] ?? 0}`).join(", ");
+    record("purge_preview", true, `Would delete — ${purgeSummary}.`);
+    record(
+      "binding_preview",
+      true,
+      `Would unbind ${boundUserIds.length} member↔account link(s), revoke ${memberRoleUserIds.length} member role grant(s), and delete ${wouldDeleteUsers} non-staff auth user(s).`,
+    );
+    record(
+      "switch_preview",
+      true,
+      "Would switch mode to LIVE with emails suppressed and account claim closed, then run the first LIVE import.",
+    );
+    record("rehearsal_complete", true, "Rehearsal only — no data was deleted and the integration is still in TEST mode.");
+    return { ok: true, steps };
+  }
+
   // 3. Freeze
   await supabaseAdmin
     .from("integration_config")
@@ -91,6 +158,9 @@ export async function runCutover(actorUserId: string): Promise<CutoverResult> {
   record("freeze", true, "Member reads/writes frozen; account claim held closed.");
 
   // 4. Purge member domain + TEST auth users
+  // Release TEST bindings first: a bound member holds a `member` role row, so the
+  // orphan sweep below would otherwise leave both the grant and the account behind.
+  const released = await releaseTestMemberBindings(false);
   for (const table of MEMBER_DOMAIN_TABLES) {
     const { error } = await supabaseAdmin
       .from(table as never)
@@ -102,7 +172,10 @@ export async function runCutover(actorUserId: string): Promise<CutoverResult> {
     }
   }
   let deletedAuthUsers = 0;
-  const { data: staffRoles } = await supabaseAdmin.from("user_roles").select("user_id");
+  const { data: staffRoles } = await supabaseAdmin
+    .from("user_roles")
+    .select("user_id")
+    .neq("role", "member");
   const staffIds = new Set((staffRoles ?? []).map((r) => r.user_id));
   const { data: authList } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1000 });
   for (const user of authList?.users ?? []) {
@@ -110,7 +183,11 @@ export async function runCutover(actorUserId: string): Promise<CutoverResult> {
     await supabaseAdmin.auth.admin.deleteUser(user.id);
     deletedAuthUsers += 1;
   }
-  record("purge", true, `Member tables emptied; ${deletedAuthUsers} non-staff auth user(s) deleted.`);
+  record(
+    "purge",
+    true,
+    `Member tables emptied; ${released.boundUserIds.length} binding(s) released, ${released.memberRoleUserIds.length} member role grant(s) revoked, ${deletedAuthUsers} non-staff auth user(s) deleted.`,
+  );
 
   // 5. Switch mode (emails + claim stay off)
   const { error: switchError } = await supabaseAdmin
@@ -139,11 +216,20 @@ export async function runCutover(actorUserId: string): Promise<CutoverResult> {
   const { count: vocabCount } = await supabaseAdmin
     .from("cf_regions")
     .select("id", { count: "exact", head: true });
-  const validationOk = testShaped === 0 && linked === 0 && rows.length > 0 && (vocabCount ?? 0) > 0;
+  const { count: memberRoleCount } = await supabaseAdmin
+    .from("user_roles")
+    .select("id", { count: "exact", head: true })
+    .eq("role", "member");
+  const validationOk =
+    testShaped === 0 &&
+    linked === 0 &&
+    rows.length > 0 &&
+    (vocabCount ?? 0) > 0 &&
+    (memberRoleCount ?? 0) === 0;
   record(
     "validate",
     validationOk,
-    `${rows.length} member(s); ${testShaped} TEST-shaped email(s); ${linked} pre-linked account(s); ${vocabCount ?? 0} region vocabulary row(s) preserved.`,
+    `${rows.length} member(s); ${testShaped} TEST-shaped email(s); ${linked} pre-linked account(s); ${memberRoleCount ?? 0} surviving member role grant(s); ${vocabCount ?? 0} region vocabulary row(s) preserved.`,
   );
   if (!validationOk) return { ok: false, steps };
 
