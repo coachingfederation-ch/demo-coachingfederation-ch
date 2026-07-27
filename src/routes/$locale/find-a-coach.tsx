@@ -3,7 +3,7 @@ import { zodValidator } from "@tanstack/zod-adapter";
 import FindACoachPage from "@/pages/FindACoach";
 import { localeLinkTags, localeMeta } from "@/i18n";
 import type { Locale } from "@/i18n/config";
-import { finderSearchSchema } from "@/routes/find-a-coach";
+import { finderSearchSchema } from "@/lib/finder-search";
 
 export const Route = createFileRoute("/$locale/find-a-coach")({
   validateSearch: zodValidator(finderSearchSchema),

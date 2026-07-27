@@ -1,12 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { zodValidator, fallback } from "@tanstack/zod-adapter";
-import { z } from "zod";
+import { zodValidator } from "@tanstack/zod-adapter";
 import FindACoachPage from "@/pages/FindACoach";
 import { localeLinkTags, localeMeta } from "@/i18n";
-
-export const finderSearchSchema = z.object({
-  mode: fallback(z.string(), "").default(""),
-});
+import { finderSearchSchema } from "@/lib/finder-search";
 
 export const Route = createFileRoute("/find-a-coach")({
   validateSearch: zodValidator(finderSearchSchema),
