@@ -58,6 +58,26 @@ export type MemberDetail = {
 const MEMBER_COLUMNS =
   "id, auth_user_id, cst_recno, full_name, first_name, last_name, email, phone, city, country, organisation, credential_slug, credential_awarded_on, credential_expires_on, member_type, membership_join_date, membership_expiration_date, activity_state, scheduled_deletion_at, last_synced_at, diagnostics";
 
+/**
+ * Staff members list.
+ *
+ * Reads through the admin client on purpose: `anon`/`authenticated` only hold
+ * column-level SELECT on the directory-safe columns of `members`, so contact
+ * details are unreachable from the browser client. Staff identity is proven by
+ * the caller (`assertStaff`) before this runs.
+ */
+export async function listMembersForStaff() {
+  const { data, error } = await supabaseAdmin
+    .from("members")
+    .select(
+      "id, cst_recno, full_name, email, city, credential_slug, credential_expires_on, activity_state, last_synced_at",
+    )
+    .order("last_name", { ascending: true })
+    .limit(2000);
+  if (error) throw error;
+  return data ?? [];
+}
+
 export async function loadMemberDetail(memberId: string): Promise<MemberDetail> {
   const { data: member, error } = await supabaseAdmin
     .from("members")
