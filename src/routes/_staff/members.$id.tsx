@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   bindMemberAccount,
   getMemberDetail,
+  issueMemberClaimLink,
   unbindMemberAccount,
   updateMemberDirectory,
 } from "@/lib/members.functions";
@@ -147,6 +148,22 @@ function MemberDetailPage() {
       else await unbindMemberAccount({ data: { memberId: id } });
       applyDetail(await getMemberDetail({ data: { memberId: id } }));
       setBindEmail("");
+    } catch (err) {
+      setBindError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setBindBusy(false);
+    }
+  };
+
+  // Support path for the claim flow: the member-facing email transport is still
+  // inert, so a claim link can only reach a member by hand. Shown once.
+  const issueClaimLink = async () => {
+    setBindBusy(true);
+    setBindError(null);
+    setClaimLink(null);
+    try {
+      const result = await issueMemberClaimLink({ data: { memberId: id } });
+      setClaimLink(result.url);
     } catch (err) {
       setBindError(err instanceof Error ? err.message : String(err));
     } finally {
@@ -343,6 +360,27 @@ function MemberDetailPage() {
                   >
                     {t("members.detail.bind")}
                   </button>
+                </div>
+              )}
+              {!detail.member.auth_user_id && (
+                <div className="mt-4 border-t border-border pt-4">
+                  <p className="text-xs text-muted-foreground">{t("members.issueLinkHint")}</p>
+                  <button
+                    type="button"
+                    disabled={bindBusy}
+                    onClick={() => void issueClaimLink()}
+                    className="mt-2 rounded-full border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary disabled:opacity-50"
+                  >
+                    {t("members.issueLink")}
+                  </button>
+                  {claimLink && (
+                    <div className="mt-3">
+                      <p className="text-xs font-semibold">{t("members.linkIssued")}</p>
+                      <code className="mt-1 block break-all rounded-lg bg-secondary px-3 py-2 text-[11px]">
+                        {claimLink}
+                      </code>
+                    </div>
+                  )}
                 </div>
               )}
               {bindError ? <p className="mt-2 text-xs text-destructive">{bindError}</p> : null}
