@@ -108,3 +108,32 @@ export async function fetchCoachFinderConfig(): Promise<CoachFinderConfig | null
   if (error) throw error;
   return (data as CoachFinderConfig | null) ?? null;
 }
+
+/**
+ * Finder modes ("coaching" / "mentoring" / "supervision") are the service
+ * slugs emitted by the `coach_directory_public.services` array. Which ones
+ * exist publicly, and what they are called, is owned entirely by
+ * `coach_finder_config` — the public UI never hardcodes tabs.
+ */
+export type FinderModeSlug = "coaching" | "mentoring" | "supervision";
+
+export type FinderMode = { slug: FinderModeSlug; label: string };
+
+const FINDER_MODE_FIELDS: {
+  slug: FinderModeSlug;
+  enabled: keyof CoachFinderConfig;
+  label: keyof CoachFinderConfig;
+}[] = [
+  { slug: "coaching", enabled: "coaching_enabled", label: "coaching_label" },
+  { slug: "mentoring", enabled: "mentoring_enabled", label: "mentoring_label" },
+  { slug: "supervision", enabled: "supervision_enabled", label: "supervision_label" },
+];
+
+/** Enabled modes in fixed order, labelled from the configured label fields. */
+export function activeFinderModes(config: CoachFinderConfig | null | undefined): FinderMode[] {
+  if (!config) return [];
+  return FINDER_MODE_FIELDS.filter((f) => config[f.enabled] === true).map((f) => ({
+    slug: f.slug,
+    label: String(config[f.label] ?? "").trim() || f.slug,
+  }));
+}
