@@ -216,11 +216,20 @@ export async function runCutover(
   const { count: vocabCount } = await supabaseAdmin
     .from("cf_regions")
     .select("id", { count: "exact", head: true });
-  const validationOk = testShaped === 0 && linked === 0 && rows.length > 0 && (vocabCount ?? 0) > 0;
+  const { count: memberRoleCount } = await supabaseAdmin
+    .from("user_roles")
+    .select("id", { count: "exact", head: true })
+    .eq("role", "member");
+  const validationOk =
+    testShaped === 0 &&
+    linked === 0 &&
+    rows.length > 0 &&
+    (vocabCount ?? 0) > 0 &&
+    (memberRoleCount ?? 0) === 0;
   record(
     "validate",
     validationOk,
-    `${rows.length} member(s); ${testShaped} TEST-shaped email(s); ${linked} pre-linked account(s); ${vocabCount ?? 0} region vocabulary row(s) preserved.`,
+    `${rows.length} member(s); ${testShaped} TEST-shaped email(s); ${linked} pre-linked account(s); ${memberRoleCount ?? 0} surviving member role grant(s); ${vocabCount ?? 0} region vocabulary row(s) preserved.`,
   );
   if (!validationOk) return { ok: false, steps };
 
