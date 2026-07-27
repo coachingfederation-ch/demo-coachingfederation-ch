@@ -173,12 +173,16 @@ export async function runMemberSync(options: {
       for (const row of upserted ?? []) {
         const member = feed.find((m) => m.cst_recno === String(row.cst_recno));
         if (!member) continue;
+        const changed = changedByRecno.get(member.cst_recno) ?? [];
+        // Only record a snapshot when something actually moved. Otherwise a
+        // daily run would add ~500 identical rows to the audit trail forever.
+        if (!changed.length) continue;
         snapshots.push({
           sync_run_id: runId,
           member_id: row.id,
           cst_recno: member.cst_recno,
           normalized_payload: member,
-          changed_fields: changedByRecno.get(member.cst_recno) ?? [],
+          changed_fields: changed,
         });
       }
     }
