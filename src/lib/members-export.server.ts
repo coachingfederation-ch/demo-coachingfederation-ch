@@ -8,6 +8,8 @@ const COLUMNS = [
   "city",
   "country",
   "credential_slug",
+  "credential_awarded_on",
+  "credential_expires_on",
   "member_type",
   "membership_join_date",
   "membership_expiration_date",
