@@ -337,8 +337,9 @@ export function CoachDirectory() {
       specialisations: specializations.length ? specializations : undefined,
       formats: formats.length ? formats : undefined,
       page,
+      locale,
     }),
-    [mode, region, language, credentials, specializations, formats, page],
+    [mode, region, language, credentials, specializations, formats, page, locale],
   );
 
   const { data, isPending, isError } = useQuery({
