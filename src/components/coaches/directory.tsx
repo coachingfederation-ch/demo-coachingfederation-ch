@@ -17,7 +17,7 @@ import {
   fetchCoachFinderConfig,
   fetchActiveVocabularies,
   vocabLabel,
-  type CoachFinderConfig,
+  type PublicCoachFinderConfig,
   type CoachFinderVocabularies,
   type FinderMode,
   type VocabRow,
