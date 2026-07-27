@@ -22,7 +22,7 @@ export function coachHead(
   const title = `${name} — ICF Switzerland`;
   const description =
     p.tagline || t("directory.detail.metaFallback").replace("{name}", name);
-  const url = `${SITE_URL}${localizePath(`/find-a-coach/${profileId}`, locale)}`;
+  const url = `${SITE_URL}${localizePath(`/coach/${profileId}`, locale)}`;
   return {
     meta: [
       { title },

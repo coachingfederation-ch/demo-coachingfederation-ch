@@ -142,7 +142,7 @@ export function CoachCard({
             {/* Single link per card, stretched over the whole surface: the card
                 is clickable without nesting interactive elements. */}
             <LocaleLink
-              to={`/find-a-coach/${entry.profile_id}`}
+              to={`/coach/${entry.profile_id}`}
               className="outline-none after:absolute after:inset-0 after:rounded-2xl after:content-['']"
             >
               {name}
