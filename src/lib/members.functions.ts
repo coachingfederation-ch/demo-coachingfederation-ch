@@ -112,6 +112,15 @@ export const requestMemberClaim = createServerFn({ method: "POST" })
   });
 
 /** Read-only token state for the /claim/$token screen. Never returns the raw email. */
+export const getMemberClaimStatus = createServerFn({ method: "GET" }).handler(async () => {
+  const { loadIntegrationConfigAdmin } = await import("./member-email.server");
+  const config = await loadIntegrationConfigAdmin();
+  return {
+    enabled:
+      config.account_claim_enabled && config.mode === "live" && !config.cutover_in_progress,
+  };
+});
+
 export const checkMemberClaimToken = createServerFn({ method: "POST" })
   .inputValidator((input) => z.object({ token: z.string().min(20).max(200) }).parse(input))
   .handler(async ({ data }) => {
