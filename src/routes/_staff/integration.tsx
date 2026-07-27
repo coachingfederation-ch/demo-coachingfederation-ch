@@ -12,7 +12,7 @@ import {
 } from "@/lib/integration";
 import { runSyncNow, executeCutover, cleanupExpiredMembers } from "@/lib/members.functions";
 
-export const Route = createFileRoute("/_authenticated/integration")({
+export const Route = createFileRoute("/_staff/integration")({
   head: () => ({
     meta: [
       { title: "Integration status — ICF Switzerland CMS" },

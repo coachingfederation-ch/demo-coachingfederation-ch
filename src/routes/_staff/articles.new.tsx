@@ -4,7 +4,7 @@ import { Shell } from "@/components/cms/Shell";
 import { useCms } from "@/i18n/cms";
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/_authenticated/articles/new")({
+export const Route = createFileRoute("/_staff/articles/new")({
   head: () => ({
     meta: [
       { title: "New article — ICF Switzerland Insights CMS" },

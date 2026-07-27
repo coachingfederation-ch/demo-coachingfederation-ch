@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useCms } from "@/i18n/cms";
 import { CONFIG_COLUMNS, type CoachFinderConfig } from "@/lib/vocabularies";
 
-export const Route = createFileRoute("/_authenticated/coach-finder")({
+export const Route = createFileRoute("/_staff/coach-finder")({
   head: () => ({
     meta: [
       { title: "Coach Finder settings — ICF Switzerland CMS" },

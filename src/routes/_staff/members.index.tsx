@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { exportMembersCsv } from "@/lib/members.functions";
 import { directoryEligibilityReason } from "@/lib/directory-eligibility";
 
-export const Route = createFileRoute("/_authenticated/members/")({
+export const Route = createFileRoute("/_staff/members/")({
   head: () => ({
     meta: [
       { title: "Members — ICF Switzerland CMS" },

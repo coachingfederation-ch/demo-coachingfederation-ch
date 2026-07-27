@@ -20,7 +20,7 @@ import {
   type MemberVisibility,
 } from "@/lib/directory-eligibility";
 
-export const Route = createFileRoute("/_authenticated/members/$id")({
+export const Route = createFileRoute("/_staff/members/$id")({
   head: () => ({
     meta: [
       { title: "Member — ICF Switzerland CMS" },
@@ -59,7 +59,7 @@ function Flag({ label, on }: { label: string; on: boolean }) {
 
 function MemberDetailPage() {
   const { t, locale } = useCms();
-  const { id } = useParams({ from: "/_authenticated/members/$id" });
+  const { id } = useParams({ from: "/_staff/members/$id" });
   const [detail, setDetail] = useState<Detail | null>(null);
   const [regions, setRegions] = useState<VocabRow[]>([]);
   const [selectedRegions, setSelectedRegions] = useState<string[]>([]);

@@ -187,6 +187,20 @@ export async function bindMemberToAuthUser(
   const user = data.users.find((u) => (u.email ?? "").toLowerCase() === normalised);
   if (!user) throw new Error(`No account found for ${normalised}. The user must sign in once first.`);
 
+  // Email is only how staff *locate* the account. The binding itself — and
+  // every later access decision — rests on this explicit auth_user_id link
+  // plus the granted `member` role, never on an email match.
+  const { data: emailMatches, error: matchError } = await supabaseAdmin
+    .from("members")
+    .select("id")
+    .eq("email", normalised);
+  if (matchError) throw matchError;
+  if ((emailMatches ?? []).length > 1 && !(emailMatches ?? []).some((m) => m.id === memberId)) {
+    throw new Error(
+      "Several member records share this email address. Pick the intended member record explicitly.",
+    );
+  }
+
   // One account may only ever back one member (also a unique index).
   const { data: existing, error: existingError } = await supabaseAdmin
     .from("members")
@@ -204,6 +218,13 @@ export async function bindMemberToAuthUser(
     .eq("id", memberId);
   if (updateError) throw updateError;
 
+  // The Member Area gate is role-based, so the link and the role are granted
+  // together. A staff account keeps its staff roles alongside this one.
+  const { error: roleError } = await supabaseAdmin
+    .from("user_roles")
+    .upsert({ user_id: user.id, role: "member" }, { onConflict: "user_id,role" });
+  if (roleError) throw roleError;
+
   await supabaseAdmin.from("member_sync_events").insert({
     member_id: memberId,
     event_type: "member_account_bound_by_staff",
@@ -217,11 +238,36 @@ export async function bindMemberToAuthUser(
 }
 
 export async function unbindMemberAuthUser(actorUserId: string, memberId: string): Promise<void> {
+  const { data: current, error: readError } = await supabaseAdmin
+    .from("members")
+    .select("auth_user_id")
+    .eq("id", memberId)
+    .maybeSingle();
+  if (readError) throw readError;
+
   const { error } = await supabaseAdmin
     .from("members")
     .update({ auth_user_id: null })
     .eq("id", memberId);
   if (error) throw error;
+
+  // Revoke the member role unless the account is still linked elsewhere.
+  if (current?.auth_user_id) {
+    const { data: stillLinked, error: linkError } = await supabaseAdmin
+      .from("members")
+      .select("id")
+      .eq("auth_user_id", current.auth_user_id)
+      .limit(1);
+    if (linkError) throw linkError;
+    if (!stillLinked?.length) {
+      await supabaseAdmin
+        .from("user_roles")
+        .delete()
+        .eq("user_id", current.auth_user_id)
+        .eq("role", "member");
+    }
+  }
+
   await supabaseAdmin.from("member_sync_events").insert({
     member_id: memberId,
     event_type: "member_account_unbound_by_staff",

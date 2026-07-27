@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { slugify, type CategoryRow } from "@/lib/articles";
 import { useCms } from "@/i18n/cms";
 
-export const Route = createFileRoute("/_authenticated/articles/categories")({
+export const Route = createFileRoute("/_staff/articles/categories")({
   head: () => ({
     meta: [
       { title: "Categories — ICF Switzerland Insights CMS" },

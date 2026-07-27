@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as NoAccessRouteImport } from './routes/no-access'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as ForOrganisationsRouteImport } from './routes/for-organisations'
 import { Route as ForCoachesRouteImport } from './routes/for-coaches'
@@ -17,37 +18,43 @@ import { Route as FindACoachRouteImport } from './routes/find-a-coach'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as StaffRouteRouteImport } from './routes/_staff/route'
+import { Route as MemberRouteRouteImport } from './routes/_member/route'
 import { Route as LocaleRouteRouteImport } from './routes/$locale/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as InsightsIndexRouteImport } from './routes/insights.index'
 import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
 import { Route as InsightsIdRouteImport } from './routes/insights.$id'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
-import { Route as AuthenticatedVocabulariesRouteImport } from './routes/_authenticated/vocabularies'
-import { Route as AuthenticatedIntegrationRouteImport } from './routes/_authenticated/integration'
-import { Route as AuthenticatedCoachFinderRouteImport } from './routes/_authenticated/coach-finder'
-import { Route as AuthenticatedArticlesRouteImport } from './routes/_authenticated/articles'
+import { Route as StaffVocabulariesRouteImport } from './routes/_staff/vocabularies'
+import { Route as StaffIntegrationRouteImport } from './routes/_staff/integration'
+import { Route as StaffCoachFinderRouteImport } from './routes/_staff/coach-finder'
+import { Route as StaffArticlesRouteImport } from './routes/_staff/articles'
+import { Route as MemberMyProfileRouteImport } from './routes/_member/my-profile'
 import { Route as LocaleInsightsRouteImport } from './routes/$locale/insights'
 import { Route as LocaleForOrganisationsRouteImport } from './routes/$locale/for-organisations'
 import { Route as LocaleForCoachesRouteImport } from './routes/$locale/for-coaches'
 import { Route as LocaleFindACoachRouteImport } from './routes/$locale/find-a-coach'
 import { Route as LocaleEventsRouteImport } from './routes/$locale/events'
 import { Route as LocaleAboutRouteImport } from './routes/$locale/about'
-import { Route as AuthenticatedMembersIndexRouteImport } from './routes/_authenticated/members.index'
-import { Route as AuthenticatedMemberIndexRouteImport } from './routes/_authenticated/member.index'
-import { Route as AuthenticatedArticlesIndexRouteImport } from './routes/_authenticated/articles.index'
+import { Route as StaffMembersIndexRouteImport } from './routes/_staff/members.index'
+import { Route as StaffArticlesIndexRouteImport } from './routes/_staff/articles.index'
 import { Route as LocaleInsightsIndexRouteImport } from './routes/$locale/insights.index'
 import { Route as ApiPublicMemberSyncRouteImport } from './routes/api/public/member-sync'
-import { Route as AuthenticatedMembersIdRouteImport } from './routes/_authenticated/members.$id'
-import { Route as AuthenticatedArticlesNewRouteImport } from './routes/_authenticated/articles.new'
-import { Route as AuthenticatedArticlesCategoriesRouteImport } from './routes/_authenticated/articles.categories'
-import { Route as AuthenticatedArticlesIdRouteImport } from './routes/_authenticated/articles.$id'
+import { Route as StaffMembersIdRouteImport } from './routes/_staff/members.$id'
+import { Route as StaffArticlesNewRouteImport } from './routes/_staff/articles.new'
+import { Route as StaffArticlesCategoriesRouteImport } from './routes/_staff/articles.categories'
+import { Route as StaffArticlesIdRouteImport } from './routes/_staff/articles.$id'
 import { Route as LocaleInsightsIdRouteImport } from './routes/$locale/insights.$id'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NoAccessRoute = NoAccessRouteImport.update({
+  id: '/no-access',
+  path: '/no-access',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InsightsRoute = InsightsRouteImport.update({
@@ -85,8 +92,12 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
+const StaffRouteRoute = StaffRouteRouteImport.update({
+  id: '/_staff',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MemberRouteRoute = MemberRouteRouteImport.update({
+  id: '/_member',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleRouteRoute = LocaleRouteRouteImport.update({
@@ -119,28 +130,30 @@ const AuthCallbackRoute = AuthCallbackRouteImport.update({
   path: '/callback',
   getParentRoute: () => AuthRoute,
 } as any)
-const AuthenticatedVocabulariesRoute =
-  AuthenticatedVocabulariesRouteImport.update({
-    id: '/vocabularies',
-    path: '/vocabularies',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedIntegrationRoute =
-  AuthenticatedIntegrationRouteImport.update({
-    id: '/integration',
-    path: '/integration',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedCoachFinderRoute =
-  AuthenticatedCoachFinderRouteImport.update({
-    id: '/coach-finder',
-    path: '/coach-finder',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedArticlesRoute = AuthenticatedArticlesRouteImport.update({
+const StaffVocabulariesRoute = StaffVocabulariesRouteImport.update({
+  id: '/vocabularies',
+  path: '/vocabularies',
+  getParentRoute: () => StaffRouteRoute,
+} as any)
+const StaffIntegrationRoute = StaffIntegrationRouteImport.update({
+  id: '/integration',
+  path: '/integration',
+  getParentRoute: () => StaffRouteRoute,
+} as any)
+const StaffCoachFinderRoute = StaffCoachFinderRouteImport.update({
+  id: '/coach-finder',
+  path: '/coach-finder',
+  getParentRoute: () => StaffRouteRoute,
+} as any)
+const StaffArticlesRoute = StaffArticlesRouteImport.update({
   id: '/articles',
   path: '/articles',
-  getParentRoute: () => AuthenticatedRouteRoute,
+  getParentRoute: () => StaffRouteRoute,
+} as any)
+const MemberMyProfileRoute = MemberMyProfileRouteImport.update({
+  id: '/my-profile',
+  path: '/my-profile',
+  getParentRoute: () => MemberRouteRoute,
 } as any)
 const LocaleInsightsRoute = LocaleInsightsRouteImport.update({
   id: '/insights',
@@ -172,24 +185,16 @@ const LocaleAboutRoute = LocaleAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
-const AuthenticatedMembersIndexRoute =
-  AuthenticatedMembersIndexRouteImport.update({
-    id: '/members/',
-    path: '/members/',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedMemberIndexRoute =
-  AuthenticatedMemberIndexRouteImport.update({
-    id: '/member/',
-    path: '/member/',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedArticlesIndexRoute =
-  AuthenticatedArticlesIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => AuthenticatedArticlesRoute,
-  } as any)
+const StaffMembersIndexRoute = StaffMembersIndexRouteImport.update({
+  id: '/members/',
+  path: '/members/',
+  getParentRoute: () => StaffRouteRoute,
+} as any)
+const StaffArticlesIndexRoute = StaffArticlesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => StaffArticlesRoute,
+} as any)
 const LocaleInsightsIndexRoute = LocaleInsightsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -200,27 +205,25 @@ const ApiPublicMemberSyncRoute = ApiPublicMemberSyncRouteImport.update({
   path: '/api/public/member-sync',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedMembersIdRoute = AuthenticatedMembersIdRouteImport.update({
+const StaffMembersIdRoute = StaffMembersIdRouteImport.update({
   id: '/members/$id',
   path: '/members/$id',
-  getParentRoute: () => AuthenticatedRouteRoute,
+  getParentRoute: () => StaffRouteRoute,
 } as any)
-const AuthenticatedArticlesNewRoute =
-  AuthenticatedArticlesNewRouteImport.update({
-    id: '/new',
-    path: '/new',
-    getParentRoute: () => AuthenticatedArticlesRoute,
-  } as any)
-const AuthenticatedArticlesCategoriesRoute =
-  AuthenticatedArticlesCategoriesRouteImport.update({
-    id: '/categories',
-    path: '/categories',
-    getParentRoute: () => AuthenticatedArticlesRoute,
-  } as any)
-const AuthenticatedArticlesIdRoute = AuthenticatedArticlesIdRouteImport.update({
+const StaffArticlesNewRoute = StaffArticlesNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => StaffArticlesRoute,
+} as any)
+const StaffArticlesCategoriesRoute = StaffArticlesCategoriesRouteImport.update({
+  id: '/categories',
+  path: '/categories',
+  getParentRoute: () => StaffArticlesRoute,
+} as any)
+const StaffArticlesIdRoute = StaffArticlesIdRouteImport.update({
   id: '/$id',
   path: '/$id',
-  getParentRoute: () => AuthenticatedArticlesRoute,
+  getParentRoute: () => StaffArticlesRoute,
 } as any)
 const LocaleInsightsIdRoute = LocaleInsightsIdRouteImport.update({
   id: '/$id',
@@ -238,6 +241,7 @@ export interface FileRoutesByFullPath {
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
   '/insights': typeof InsightsRouteWithChildren
+  '/no-access': typeof NoAccessRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/events': typeof LocaleEventsRoute
@@ -245,24 +249,24 @@ export interface FileRoutesByFullPath {
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
-  '/articles': typeof AuthenticatedArticlesRouteWithChildren
-  '/coach-finder': typeof AuthenticatedCoachFinderRoute
-  '/integration': typeof AuthenticatedIntegrationRoute
-  '/vocabularies': typeof AuthenticatedVocabulariesRoute
+  '/my-profile': typeof MemberMyProfileRoute
+  '/articles': typeof StaffArticlesRouteWithChildren
+  '/coach-finder': typeof StaffCoachFinderRoute
+  '/integration': typeof StaffIntegrationRoute
+  '/vocabularies': typeof StaffVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/insights/$id': typeof InsightsIdRoute
   '/$locale/': typeof LocaleIndexRoute
   '/insights/': typeof InsightsIndexRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
-  '/articles/$id': typeof AuthenticatedArticlesIdRoute
-  '/articles/categories': typeof AuthenticatedArticlesCategoriesRoute
-  '/articles/new': typeof AuthenticatedArticlesNewRoute
-  '/members/$id': typeof AuthenticatedMembersIdRoute
+  '/articles/$id': typeof StaffArticlesIdRoute
+  '/articles/categories': typeof StaffArticlesCategoriesRoute
+  '/articles/new': typeof StaffArticlesNewRoute
+  '/members/$id': typeof StaffMembersIdRoute
   '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
   '/$locale/insights/': typeof LocaleInsightsIndexRoute
-  '/articles/': typeof AuthenticatedArticlesIndexRoute
-  '/member/': typeof AuthenticatedMemberIndexRoute
-  '/members/': typeof AuthenticatedMembersIndexRoute
+  '/articles/': typeof StaffArticlesIndexRoute
+  '/members/': typeof StaffMembersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -272,35 +276,37 @@ export interface FileRoutesByTo {
   '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
+  '/no-access': typeof NoAccessRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/events': typeof LocaleEventsRoute
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
-  '/coach-finder': typeof AuthenticatedCoachFinderRoute
-  '/integration': typeof AuthenticatedIntegrationRoute
-  '/vocabularies': typeof AuthenticatedVocabulariesRoute
+  '/my-profile': typeof MemberMyProfileRoute
+  '/coach-finder': typeof StaffCoachFinderRoute
+  '/integration': typeof StaffIntegrationRoute
+  '/vocabularies': typeof StaffVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/insights/$id': typeof InsightsIdRoute
   '/$locale': typeof LocaleIndexRoute
   '/insights': typeof InsightsIndexRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
-  '/articles/$id': typeof AuthenticatedArticlesIdRoute
-  '/articles/categories': typeof AuthenticatedArticlesCategoriesRoute
-  '/articles/new': typeof AuthenticatedArticlesNewRoute
-  '/members/$id': typeof AuthenticatedMembersIdRoute
+  '/articles/$id': typeof StaffArticlesIdRoute
+  '/articles/categories': typeof StaffArticlesCategoriesRoute
+  '/articles/new': typeof StaffArticlesNewRoute
+  '/members/$id': typeof StaffMembersIdRoute
   '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
   '/$locale/insights': typeof LocaleInsightsIndexRoute
-  '/articles': typeof AuthenticatedArticlesIndexRoute
-  '/member': typeof AuthenticatedMemberIndexRoute
-  '/members': typeof AuthenticatedMembersIndexRoute
+  '/articles': typeof StaffArticlesIndexRoute
+  '/members': typeof StaffMembersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$locale': typeof LocaleRouteRouteWithChildren
-  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/_member': typeof MemberRouteRouteWithChildren
+  '/_staff': typeof StaffRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/auth': typeof AuthRouteWithChildren
   '/events': typeof EventsRoute
@@ -308,6 +314,7 @@ export interface FileRoutesById {
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
   '/insights': typeof InsightsRouteWithChildren
+  '/no-access': typeof NoAccessRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/events': typeof LocaleEventsRoute
@@ -315,24 +322,24 @@ export interface FileRoutesById {
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
-  '/_authenticated/articles': typeof AuthenticatedArticlesRouteWithChildren
-  '/_authenticated/coach-finder': typeof AuthenticatedCoachFinderRoute
-  '/_authenticated/integration': typeof AuthenticatedIntegrationRoute
-  '/_authenticated/vocabularies': typeof AuthenticatedVocabulariesRoute
+  '/_member/my-profile': typeof MemberMyProfileRoute
+  '/_staff/articles': typeof StaffArticlesRouteWithChildren
+  '/_staff/coach-finder': typeof StaffCoachFinderRoute
+  '/_staff/integration': typeof StaffIntegrationRoute
+  '/_staff/vocabularies': typeof StaffVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/insights/$id': typeof InsightsIdRoute
   '/$locale/': typeof LocaleIndexRoute
   '/insights/': typeof InsightsIndexRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
-  '/_authenticated/articles/$id': typeof AuthenticatedArticlesIdRoute
-  '/_authenticated/articles/categories': typeof AuthenticatedArticlesCategoriesRoute
-  '/_authenticated/articles/new': typeof AuthenticatedArticlesNewRoute
-  '/_authenticated/members/$id': typeof AuthenticatedMembersIdRoute
+  '/_staff/articles/$id': typeof StaffArticlesIdRoute
+  '/_staff/articles/categories': typeof StaffArticlesCategoriesRoute
+  '/_staff/articles/new': typeof StaffArticlesNewRoute
+  '/_staff/members/$id': typeof StaffMembersIdRoute
   '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
   '/$locale/insights/': typeof LocaleInsightsIndexRoute
-  '/_authenticated/articles/': typeof AuthenticatedArticlesIndexRoute
-  '/_authenticated/member/': typeof AuthenticatedMemberIndexRoute
-  '/_authenticated/members/': typeof AuthenticatedMembersIndexRoute
+  '/_staff/articles/': typeof StaffArticlesIndexRoute
+  '/_staff/members/': typeof StaffMembersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -346,6 +353,7 @@ export interface FileRouteTypes {
     | '/for-coaches'
     | '/for-organisations'
     | '/insights'
+    | '/no-access'
     | '/sitemap.xml'
     | '/$locale/about'
     | '/$locale/events'
@@ -353,6 +361,7 @@ export interface FileRouteTypes {
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
     | '/$locale/insights'
+    | '/my-profile'
     | '/articles'
     | '/coach-finder'
     | '/integration'
@@ -369,7 +378,6 @@ export interface FileRouteTypes {
     | '/api/public/member-sync'
     | '/$locale/insights/'
     | '/articles/'
-    | '/member/'
     | '/members/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -380,12 +388,14 @@ export interface FileRouteTypes {
     | '/find-a-coach'
     | '/for-coaches'
     | '/for-organisations'
+    | '/no-access'
     | '/sitemap.xml'
     | '/$locale/about'
     | '/$locale/events'
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
+    | '/my-profile'
     | '/coach-finder'
     | '/integration'
     | '/vocabularies'
@@ -401,13 +411,13 @@ export interface FileRouteTypes {
     | '/api/public/member-sync'
     | '/$locale/insights'
     | '/articles'
-    | '/member'
     | '/members'
   id:
     | '__root__'
     | '/'
     | '/$locale'
-    | '/_authenticated'
+    | '/_member'
+    | '/_staff'
     | '/about'
     | '/auth'
     | '/events'
@@ -415,6 +425,7 @@ export interface FileRouteTypes {
     | '/for-coaches'
     | '/for-organisations'
     | '/insights'
+    | '/no-access'
     | '/sitemap.xml'
     | '/$locale/about'
     | '/$locale/events'
@@ -422,30 +433,31 @@ export interface FileRouteTypes {
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
     | '/$locale/insights'
-    | '/_authenticated/articles'
-    | '/_authenticated/coach-finder'
-    | '/_authenticated/integration'
-    | '/_authenticated/vocabularies'
+    | '/_member/my-profile'
+    | '/_staff/articles'
+    | '/_staff/coach-finder'
+    | '/_staff/integration'
+    | '/_staff/vocabularies'
     | '/auth/callback'
     | '/insights/$id'
     | '/$locale/'
     | '/insights/'
     | '/$locale/insights/$id'
-    | '/_authenticated/articles/$id'
-    | '/_authenticated/articles/categories'
-    | '/_authenticated/articles/new'
-    | '/_authenticated/members/$id'
+    | '/_staff/articles/$id'
+    | '/_staff/articles/categories'
+    | '/_staff/articles/new'
+    | '/_staff/members/$id'
     | '/api/public/member-sync'
     | '/$locale/insights/'
-    | '/_authenticated/articles/'
-    | '/_authenticated/member/'
-    | '/_authenticated/members/'
+    | '/_staff/articles/'
+    | '/_staff/members/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LocaleRouteRoute: typeof LocaleRouteRouteWithChildren
-  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  MemberRouteRoute: typeof MemberRouteRouteWithChildren
+  StaffRouteRoute: typeof StaffRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRouteWithChildren
   EventsRoute: typeof EventsRoute
@@ -453,6 +465,7 @@ export interface RootRouteChildren {
   ForCoachesRoute: typeof ForCoachesRoute
   ForOrganisationsRoute: typeof ForOrganisationsRoute
   InsightsRoute: typeof InsightsRouteWithChildren
+  NoAccessRoute: typeof NoAccessRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiPublicMemberSyncRoute: typeof ApiPublicMemberSyncRoute
 }
@@ -464,6 +477,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/no-access': {
+      id: '/no-access'
+      path: '/no-access'
+      fullPath: '/no-access'
+      preLoaderRoute: typeof NoAccessRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/insights': {
@@ -515,11 +535,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated': {
-      id: '/_authenticated'
+    '/_staff': {
+      id: '/_staff'
       path: ''
       fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      preLoaderRoute: typeof StaffRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_member': {
+      id: '/_member'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof MemberRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale': {
@@ -564,33 +591,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof AuthRoute
     }
-    '/_authenticated/vocabularies': {
-      id: '/_authenticated/vocabularies'
+    '/_staff/vocabularies': {
+      id: '/_staff/vocabularies'
       path: '/vocabularies'
       fullPath: '/vocabularies'
-      preLoaderRoute: typeof AuthenticatedVocabulariesRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      preLoaderRoute: typeof StaffVocabulariesRouteImport
+      parentRoute: typeof StaffRouteRoute
     }
-    '/_authenticated/integration': {
-      id: '/_authenticated/integration'
+    '/_staff/integration': {
+      id: '/_staff/integration'
       path: '/integration'
       fullPath: '/integration'
-      preLoaderRoute: typeof AuthenticatedIntegrationRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      preLoaderRoute: typeof StaffIntegrationRouteImport
+      parentRoute: typeof StaffRouteRoute
     }
-    '/_authenticated/coach-finder': {
-      id: '/_authenticated/coach-finder'
+    '/_staff/coach-finder': {
+      id: '/_staff/coach-finder'
       path: '/coach-finder'
       fullPath: '/coach-finder'
-      preLoaderRoute: typeof AuthenticatedCoachFinderRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      preLoaderRoute: typeof StaffCoachFinderRouteImport
+      parentRoute: typeof StaffRouteRoute
     }
-    '/_authenticated/articles': {
-      id: '/_authenticated/articles'
+    '/_staff/articles': {
+      id: '/_staff/articles'
       path: '/articles'
       fullPath: '/articles'
-      preLoaderRoute: typeof AuthenticatedArticlesRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      preLoaderRoute: typeof StaffArticlesRouteImport
+      parentRoute: typeof StaffRouteRoute
+    }
+    '/_member/my-profile': {
+      id: '/_member/my-profile'
+      path: '/my-profile'
+      fullPath: '/my-profile'
+      preLoaderRoute: typeof MemberMyProfileRouteImport
+      parentRoute: typeof MemberRouteRoute
     }
     '/$locale/insights': {
       id: '/$locale/insights'
@@ -634,26 +668,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAboutRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
-    '/_authenticated/members/': {
-      id: '/_authenticated/members/'
+    '/_staff/members/': {
+      id: '/_staff/members/'
       path: '/members'
       fullPath: '/members/'
-      preLoaderRoute: typeof AuthenticatedMembersIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      preLoaderRoute: typeof StaffMembersIndexRouteImport
+      parentRoute: typeof StaffRouteRoute
     }
-    '/_authenticated/member/': {
-      id: '/_authenticated/member/'
-      path: '/member'
-      fullPath: '/member/'
-      preLoaderRoute: typeof AuthenticatedMemberIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/articles/': {
-      id: '/_authenticated/articles/'
+    '/_staff/articles/': {
+      id: '/_staff/articles/'
       path: '/'
       fullPath: '/articles/'
-      preLoaderRoute: typeof AuthenticatedArticlesIndexRouteImport
-      parentRoute: typeof AuthenticatedArticlesRoute
+      preLoaderRoute: typeof StaffArticlesIndexRouteImport
+      parentRoute: typeof StaffArticlesRoute
     }
     '/$locale/insights/': {
       id: '/$locale/insights/'
@@ -669,33 +696,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicMemberSyncRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/members/$id': {
-      id: '/_authenticated/members/$id'
+    '/_staff/members/$id': {
+      id: '/_staff/members/$id'
       path: '/members/$id'
       fullPath: '/members/$id'
-      preLoaderRoute: typeof AuthenticatedMembersIdRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      preLoaderRoute: typeof StaffMembersIdRouteImport
+      parentRoute: typeof StaffRouteRoute
     }
-    '/_authenticated/articles/new': {
-      id: '/_authenticated/articles/new'
+    '/_staff/articles/new': {
+      id: '/_staff/articles/new'
       path: '/new'
       fullPath: '/articles/new'
-      preLoaderRoute: typeof AuthenticatedArticlesNewRouteImport
-      parentRoute: typeof AuthenticatedArticlesRoute
+      preLoaderRoute: typeof StaffArticlesNewRouteImport
+      parentRoute: typeof StaffArticlesRoute
     }
-    '/_authenticated/articles/categories': {
-      id: '/_authenticated/articles/categories'
+    '/_staff/articles/categories': {
+      id: '/_staff/articles/categories'
       path: '/categories'
       fullPath: '/articles/categories'
-      preLoaderRoute: typeof AuthenticatedArticlesCategoriesRouteImport
-      parentRoute: typeof AuthenticatedArticlesRoute
+      preLoaderRoute: typeof StaffArticlesCategoriesRouteImport
+      parentRoute: typeof StaffArticlesRoute
     }
-    '/_authenticated/articles/$id': {
-      id: '/_authenticated/articles/$id'
+    '/_staff/articles/$id': {
+      id: '/_staff/articles/$id'
       path: '/$id'
       fullPath: '/articles/$id'
-      preLoaderRoute: typeof AuthenticatedArticlesIdRouteImport
-      parentRoute: typeof AuthenticatedArticlesRoute
+      preLoaderRoute: typeof StaffArticlesIdRouteImport
+      parentRoute: typeof StaffArticlesRoute
     }
     '/$locale/insights/$id': {
       id: '/$locale/insights/$id'
@@ -745,47 +772,57 @@ const LocaleRouteRouteWithChildren = LocaleRouteRoute._addFileChildren(
   LocaleRouteRouteChildren,
 )
 
-interface AuthenticatedArticlesRouteChildren {
-  AuthenticatedArticlesIdRoute: typeof AuthenticatedArticlesIdRoute
-  AuthenticatedArticlesCategoriesRoute: typeof AuthenticatedArticlesCategoriesRoute
-  AuthenticatedArticlesNewRoute: typeof AuthenticatedArticlesNewRoute
-  AuthenticatedArticlesIndexRoute: typeof AuthenticatedArticlesIndexRoute
+interface MemberRouteRouteChildren {
+  MemberMyProfileRoute: typeof MemberMyProfileRoute
 }
 
-const AuthenticatedArticlesRouteChildren: AuthenticatedArticlesRouteChildren = {
-  AuthenticatedArticlesIdRoute: AuthenticatedArticlesIdRoute,
-  AuthenticatedArticlesCategoriesRoute: AuthenticatedArticlesCategoriesRoute,
-  AuthenticatedArticlesNewRoute: AuthenticatedArticlesNewRoute,
-  AuthenticatedArticlesIndexRoute: AuthenticatedArticlesIndexRoute,
+const MemberRouteRouteChildren: MemberRouteRouteChildren = {
+  MemberMyProfileRoute: MemberMyProfileRoute,
 }
 
-const AuthenticatedArticlesRouteWithChildren =
-  AuthenticatedArticlesRoute._addFileChildren(
-    AuthenticatedArticlesRouteChildren,
-  )
+const MemberRouteRouteWithChildren = MemberRouteRoute._addFileChildren(
+  MemberRouteRouteChildren,
+)
 
-interface AuthenticatedRouteRouteChildren {
-  AuthenticatedArticlesRoute: typeof AuthenticatedArticlesRouteWithChildren
-  AuthenticatedCoachFinderRoute: typeof AuthenticatedCoachFinderRoute
-  AuthenticatedIntegrationRoute: typeof AuthenticatedIntegrationRoute
-  AuthenticatedVocabulariesRoute: typeof AuthenticatedVocabulariesRoute
-  AuthenticatedMembersIdRoute: typeof AuthenticatedMembersIdRoute
-  AuthenticatedMemberIndexRoute: typeof AuthenticatedMemberIndexRoute
-  AuthenticatedMembersIndexRoute: typeof AuthenticatedMembersIndexRoute
+interface StaffArticlesRouteChildren {
+  StaffArticlesIdRoute: typeof StaffArticlesIdRoute
+  StaffArticlesCategoriesRoute: typeof StaffArticlesCategoriesRoute
+  StaffArticlesNewRoute: typeof StaffArticlesNewRoute
+  StaffArticlesIndexRoute: typeof StaffArticlesIndexRoute
 }
 
-const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedArticlesRoute: AuthenticatedArticlesRouteWithChildren,
-  AuthenticatedCoachFinderRoute: AuthenticatedCoachFinderRoute,
-  AuthenticatedIntegrationRoute: AuthenticatedIntegrationRoute,
-  AuthenticatedVocabulariesRoute: AuthenticatedVocabulariesRoute,
-  AuthenticatedMembersIdRoute: AuthenticatedMembersIdRoute,
-  AuthenticatedMemberIndexRoute: AuthenticatedMemberIndexRoute,
-  AuthenticatedMembersIndexRoute: AuthenticatedMembersIndexRoute,
+const StaffArticlesRouteChildren: StaffArticlesRouteChildren = {
+  StaffArticlesIdRoute: StaffArticlesIdRoute,
+  StaffArticlesCategoriesRoute: StaffArticlesCategoriesRoute,
+  StaffArticlesNewRoute: StaffArticlesNewRoute,
+  StaffArticlesIndexRoute: StaffArticlesIndexRoute,
 }
 
-const AuthenticatedRouteRouteWithChildren =
-  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+const StaffArticlesRouteWithChildren = StaffArticlesRoute._addFileChildren(
+  StaffArticlesRouteChildren,
+)
+
+interface StaffRouteRouteChildren {
+  StaffArticlesRoute: typeof StaffArticlesRouteWithChildren
+  StaffCoachFinderRoute: typeof StaffCoachFinderRoute
+  StaffIntegrationRoute: typeof StaffIntegrationRoute
+  StaffVocabulariesRoute: typeof StaffVocabulariesRoute
+  StaffMembersIdRoute: typeof StaffMembersIdRoute
+  StaffMembersIndexRoute: typeof StaffMembersIndexRoute
+}
+
+const StaffRouteRouteChildren: StaffRouteRouteChildren = {
+  StaffArticlesRoute: StaffArticlesRouteWithChildren,
+  StaffCoachFinderRoute: StaffCoachFinderRoute,
+  StaffIntegrationRoute: StaffIntegrationRoute,
+  StaffVocabulariesRoute: StaffVocabulariesRoute,
+  StaffMembersIdRoute: StaffMembersIdRoute,
+  StaffMembersIndexRoute: StaffMembersIndexRoute,
+}
+
+const StaffRouteRouteWithChildren = StaffRouteRoute._addFileChildren(
+  StaffRouteRouteChildren,
+)
 
 interface AuthRouteChildren {
   AuthCallbackRoute: typeof AuthCallbackRoute
@@ -814,7 +851,8 @@ const InsightsRouteWithChildren = InsightsRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LocaleRouteRoute: LocaleRouteRouteWithChildren,
-  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  MemberRouteRoute: MemberRouteRouteWithChildren,
+  StaffRouteRoute: StaffRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AuthRoute: AuthRouteWithChildren,
   EventsRoute: EventsRoute,
@@ -822,6 +860,7 @@ const rootRouteChildren: RootRouteChildren = {
   ForCoachesRoute: ForCoachesRoute,
   ForOrganisationsRoute: ForOrganisationsRoute,
   InsightsRoute: InsightsRouteWithChildren,
+  NoAccessRoute: NoAccessRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiPublicMemberSyncRoute: ApiPublicMemberSyncRoute,
 }

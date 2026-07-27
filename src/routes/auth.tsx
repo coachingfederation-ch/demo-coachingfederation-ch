@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { useCms } from "@/i18n/cms";
 import { LOCALE_LABELS, LOCALE_ORDER } from "@/i18n/config";
+import { landingPathForSession } from "@/lib/roles";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -26,10 +27,17 @@ function AuthPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/articles" });
+    void supabase.auth.getSession().then(async ({ data }) => {
+      if (!data.session) return;
+      navigate({ to: await landingPathForSession(data.session.user.id) });
     });
   }, [navigate]);
+
+  /** Destination is role-driven: staff -> CMS, member -> Member Area. */
+  const goToArea = async () => {
+    const { data } = await supabase.auth.getUser();
+    navigate({ to: data.user ? await landingPathForSession(data.user.id) : "/auth" });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,7 +55,7 @@ function AuthPage() {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
       }
-      navigate({ to: "/articles" });
+      await goToArea();
     } catch (err) {
       setError(err instanceof Error ? err.message : t("auth.genericError"));
     } finally {
@@ -65,7 +73,7 @@ function AuthPage() {
       return;
     }
     if (result.redirected) return;
-    navigate({ to: "/articles" });
+    await goToArea();
   };
 
   return (
