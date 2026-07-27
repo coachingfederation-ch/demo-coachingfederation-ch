@@ -15,6 +15,7 @@ import { isTestShapedEmail } from "./integration";
 
 export type CutoverStep = { step: string; ok: boolean; detail: string };
 export type CutoverResult = { ok: boolean; steps: CutoverStep[] };
+export type CutoverOptions = { dryRun?: boolean };
 
 const MEMBER_DOMAIN_TABLES = [
   "member_profile_regions",
@@ -37,7 +38,41 @@ async function dumpTable(table: string) {
   return data ?? [];
 }
 
-export async function runCutover(actorUserId: string): Promise<CutoverResult> {
+/**
+ * Members bound to an auth account during TEST carry a `member` role row, so the
+ * orphan sweep ("delete auth users with no user_roles entry") no longer catches
+ * them. The purge therefore unbinds and revokes explicitly — see plan rev. 5 §6.
+ */
+async function releaseTestMemberBindings(dryRun: boolean) {
+  const { data: bound } = await supabaseAdmin
+    .from("members")
+    .select("id, auth_user_id")
+    .not("auth_user_id", "is", null);
+  const boundUserIds = [...new Set((bound ?? []).map((m) => m.auth_user_id as string))];
+  if (!dryRun && boundUserIds.length > 0) {
+    await supabaseAdmin
+      .from("members")
+      .update({ auth_user_id: null })
+      .not("auth_user_id", "is", null);
+  }
+
+  // Revoke every `member` grant: after the purge no member record exists to justify one.
+  const { data: memberRoles } = await supabaseAdmin
+    .from("user_roles")
+    .select("user_id")
+    .eq("role", "member");
+  const memberRoleUserIds = (memberRoles ?? []).map((r) => r.user_id);
+  if (!dryRun && memberRoleUserIds.length > 0) {
+    await supabaseAdmin.from("user_roles").delete().eq("role", "member");
+  }
+  return { boundUserIds, memberRoleUserIds };
+}
+
+export async function runCutover(
+  actorUserId: string,
+  options: CutoverOptions = {},
+): Promise<CutoverResult> {
+  const dryRun = options.dryRun === true;
   const steps: CutoverStep[] = [];
   const record = (step: string, ok: boolean, detail: string) => {
     steps.push({ step, ok, detail });
@@ -56,7 +91,13 @@ export async function runCutover(actorUserId: string): Promise<CutoverResult> {
     record("preflight", false, error instanceof Error ? error.message : String(error));
     return { ok: false, steps };
   }
-  record("preflight", true, "TEST mode confirmed, LIVE credentials present.");
+  record(
+    "preflight",
+    true,
+    dryRun
+      ? "Rehearsal: TEST mode confirmed, LIVE credentials present. Nothing will be deleted or switched."
+      : "TEST mode confirmed, LIVE credentials present.",
+  );
 
   // 2. Archive the whole member domain
   const payload: Record<string, unknown> = {};
