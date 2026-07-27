@@ -141,39 +141,50 @@ export async function runMemberSync(options: {
     const now = new Date().toISOString();
     const snapshots: Record<string, unknown>[] = [];
 
+    // Upserted in chunks: the chapter feed is ~500 rows, and one round trip per
+    // member would not finish inside a serverless request budget.
+    const changedByRecno = new Map<string, string[]>();
     for (const member of feed) {
       const existing = byRecno.get(member.cst_recno);
       const changed = IMPORTED_FIELDS.filter(
         (field) => !existing || (existing[field] ?? null) !== (member[field] ?? null),
       );
-
-      const { data: upserted, error: upsertError } = await supabaseAdmin
-        .from("members")
-        .upsert(
-          {
-            ...member,
-            activity_state: "active",
-            inactive_since: null,
-            scheduled_deletion_at: null,
-            last_synced_at: now,
-            last_sync_run_id: runId,
-          },
-          { onConflict: "cst_recno" },
-        )
-        .select("id")
-        .single();
-      if (upsertError) throw upsertError;
-
+      changedByRecno.set(member.cst_recno, existing ? changed : [...IMPORTED_FIELDS]);
       if (existing) updated += changed.length ? 1 : 0;
       else created += 1;
+    }
 
-      snapshots.push({
-        sync_run_id: runId,
-        member_id: upserted.id,
-        cst_recno: member.cst_recno,
-        normalized_payload: member,
-        changed_fields: existing ? changed : IMPORTED_FIELDS,
-      });
+    const CHUNK = 200;
+    for (let i = 0; i < feed.length; i += CHUNK) {
+      const chunk = feed.slice(i, i + CHUNK).map((member) => ({
+        ...member,
+        activity_state: "active" as const,
+        inactive_since: null,
+        scheduled_deletion_at: null,
+        last_synced_at: now,
+        last_sync_run_id: runId,
+      }));
+      const { data: upserted, error: upsertError } = await supabaseAdmin
+        .from("members")
+        .upsert(chunk, { onConflict: "cst_recno" })
+        .select("id, cst_recno");
+      if (upsertError) throw upsertError;
+
+      for (const row of upserted ?? []) {
+        const member = feed.find((m) => m.cst_recno === String(row.cst_recno));
+        if (!member) continue;
+        const changed = changedByRecno.get(member.cst_recno) ?? [];
+        // Only record a snapshot when something actually moved. Otherwise a
+        // daily run would add ~500 identical rows to the audit trail forever.
+        if (!changed.length) continue;
+        snapshots.push({
+          sync_run_id: runId,
+          member_id: row.id,
+          cst_recno: member.cst_recno,
+          normalized_payload: member,
+          changed_fields: changed,
+        });
+      }
     }
 
     for (let i = 0; i < snapshots.length; i += 200) {

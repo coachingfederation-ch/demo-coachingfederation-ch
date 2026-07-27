@@ -20,6 +20,64 @@ section 9 of the rev. 5 proposal are now decided and folded into scope below.
 
 ---
 
+### Milestone A — TEST sync verification: COMPLETE (2026-07-27)
+
+**Connection.** Three defects in the SOAP client were found and fixed:
+
+1. `Authenticate` is served by `netFORUMXML.asmx`, not `Signon.asmx`.
+2. The session token is the `<Token>` in the response's `AuthorizationToken`
+   **SOAP header**, not `AuthenticateResult` in the body. The body value is
+   rejected with an `InvalidTokenException` reading "Locked".
+3. `ExecuteMethod`'s real signature is `(serviceName, methodName, parameters)`
+   where `parameters` is an `ArrayOfParameter` of `Name`/`Value` pairs — the
+   client was sending `objectName` and a bare string array. Authorised calls
+   must go to the `/secure/` endpoint.
+
+The base-URL secret is now normalised to the xweb directory (query string,
+`.asmx` filename and `/secure` are all stripped), so a differently-shaped LIVE
+URL needs no code change.
+
+**Feed shape, confirmed against the live TEST endpoint.** 501 active
+`<Individual>` records, no duplicate `cst_recno`. Fields supplied:
+`cst_recno`, `Member_Status` (all `Active`), `Member_Type` (`Coach` 484 /
+`CIO` 17), `First_Name`, `Last_Name`, `Email`, `Phone`, `City`, `Zip`, `State`,
+`Country`, `Chapter_Start_Date`, `Membership_Join_Date`,
+`Membership_Expiration_Date`, `Flagship_Credential` (ACC 108 / PCC 105 /
+MCC 12), `Credential_Award_Date`, `Credential_Expire_Date`, optional
+`ACTC_Credential` + dates (8 members), `Reinstate/Rejoin`, `Auto_Renewal`.
+
+Consequences folded into the normaliser:
+
+- Dates arrive as US `MM/DD/YYYY` and are now parsed explicitly.
+- `credential_slug` is upper-cased, because `cf_credentials` slugs are
+  `ACC | PCC | MCC`.
+- The feed carries **no organisation** and **no composed full name**; the name
+  is derived, organisation stays permanently null unless a later feed adds it.
+- The feed carries **no mentor or supervisor accreditation**. ACTC is a team-
+  coaching credential, not a mentor/supervisor one. **Decision 3 is confirmed:
+  those flags stay staff-maintained.**
+- Zip, State, credential dates, ACTC, chapter start and auto-renewal have no
+  column of their own and are preserved in `members.diagnostics`, so a future
+  column can be backfilled without re-querying ICF.
+- All 501 TEST emails are obfuscated by ICF as `zz…zz`, which the email gate
+  already refuses to send to — a useful second safety net during TEST.
+
+**Runs.** Three syncs executed. Run 1 created 501 members in ~8s; runs 2 and 3
+reported 0 created / 0 updated, so the pipeline is idempotent. Upserts are now
+chunked (200 per round trip) instead of one request per member, which is what
+makes a 500-row feed finish inside a serverless request budget. Snapshots are
+only written when a field actually changed, so a daily run no longer appends
+~500 identical audit rows; the duplicates from run 2 were removed.
+
+**Cron.** `icf-member-sync-daily` (`15 3 * * *`) is active. The endpoint answers
+on the stable preview URL and returns 401 without the key. It still points at
+the preview host — repoint it at the production host as part of Milestone D.
+
+**Not done here, by design:** no directory profiles were created (Milestone B),
+mode remains `test`, emails and account claim remain off.
+
+---
+
 ### 1. Already built
 
 - Full member schema: `members`, `member_directory_profiles`, four vocabulary join tables,
@@ -44,10 +102,10 @@ section 9 of the rev. 5 proposal are now decided and folded into scope below.
 
 ### 2. Verified gaps
 
-`members` = 0 rows, no sync run has ever executed, mode = `test`, no cutover recorded.
+Resolved by Milestone A: gap 1 below is closed (501 members imported, mapping verified). Gaps 2-8 remain open.
 
-1. SOAP field mapping is inferred, never confirmed against a real response.
-2. Sync never creates `member_directory_profiles` rows.
+1. ~~SOAP field mapping is inferred~~ — verified against the real TEST response.
+2. Sync never creates `member_directory_profiles` rows. (Still open — Milestone B.)
 3. No public read path — every member table has a single `authenticated` SELECT policy.
 4. `/find-a-coach` still reads the hardcoded `src/lib/coaches.ts` array and has no
    mentor/supervisor concept.
@@ -158,7 +216,7 @@ choice is a late, low-risk swap.
 
 ### 8. Milestone sequence
 
-**A — TEST sync verification.** Confirm the TEST endpoint and token, run one manual sync,
+**A — TEST sync verification. DONE.** Confirm the TEST endpoint and token, run one manual sync,
 inspect run/event/snapshot rows, correct the normaliser against the real response shape,
 confirm whether the feed carries mentor/supervisor accreditation (decision 3 revisit
 trigger), verify the cron reaches the endpoint, record the baseline count.
