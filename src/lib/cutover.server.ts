@@ -158,6 +158,9 @@ export async function runCutover(
   record("freeze", true, "Member reads/writes frozen; account claim held closed.");
 
   // 4. Purge member domain + TEST auth users
+  // Release TEST bindings first: a bound member holds a `member` role row, so the
+  // orphan sweep below would otherwise leave both the grant and the account behind.
+  const released = await releaseTestMemberBindings(false);
   for (const table of MEMBER_DOMAIN_TABLES) {
     const { error } = await supabaseAdmin
       .from(table as never)
@@ -169,7 +172,10 @@ export async function runCutover(
     }
   }
   let deletedAuthUsers = 0;
-  const { data: staffRoles } = await supabaseAdmin.from("user_roles").select("user_id");
+  const { data: staffRoles } = await supabaseAdmin
+    .from("user_roles")
+    .select("user_id")
+    .neq("role", "member");
   const staffIds = new Set((staffRoles ?? []).map((r) => r.user_id));
   const { data: authList } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1000 });
   for (const user of authList?.users ?? []) {
@@ -177,7 +183,11 @@ export async function runCutover(
     await supabaseAdmin.auth.admin.deleteUser(user.id);
     deletedAuthUsers += 1;
   }
-  record("purge", true, `Member tables emptied; ${deletedAuthUsers} non-staff auth user(s) deleted.`);
+  record(
+    "purge",
+    true,
+    `Member tables emptied; ${released.boundUserIds.length} binding(s) released, ${released.memberRoleUserIds.length} member role grant(s) revoked, ${deletedAuthUsers} non-staff auth user(s) deleted.`,
+  );
 
   // 5. Switch mode (emails + claim stay off)
   const { error: switchError } = await supabaseAdmin
