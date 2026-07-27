@@ -28,10 +28,14 @@ enforced in Postgres, and the TypeScript merely mirrors it for a better user
 experience:
 
 - **Roles.** Stored in `user_roles`, never on a profile row. Checked through
-  the security-definer functions `has_role`, `is_editor` and `is_staff`, which
-  RLS policies call. A user cannot grant themselves a role, because
-  `user_roles` has no insert or update policy at all — role changes are
-  service-role only.
+  the security-definer functions `private.has_role`, `private.is_editor` and
+  `private.is_staff`, which RLS policies call. They live in the `private`
+  schema, which PostgREST does not expose, so they are not callable as RPC
+  endpoints — a signed-in user cannot probe another account's roles.
+  Application code checks roles by reading `user_roles` through the caller's
+  own client (`src/lib/authz.ts`). A user cannot grant themselves a role,
+  because `user_roles` has no insert or update policy at all — role changes
+  are service-role only.
 - **Article access.** Editors and admins manage everything; contributors can
   read their own articles and may only insert, update or delete their **own
   drafts**. Anonymous visitors see published articles only. This is why the

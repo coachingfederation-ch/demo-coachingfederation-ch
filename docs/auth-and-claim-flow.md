@@ -32,6 +32,18 @@ RLS calls the security-definer helpers `has_role(uid, role)`, `is_editor(uid)`
 and `is_staff(uid)`. They are `security definer` so that policies can read
 `user_roles` without recursing into that table's own policies.
 
+They live in the **`private` schema**, not `public`. `security definer` plus
+`EXECUTE` for `authenticated` is exactly what a policy needs, but in `public`
+it also publishes them as PostgREST RPC endpoints, letting any signed-in user
+ask whether an arbitrary account is an admin. Moving them out removes the
+endpoint while leaving policies untouched (`ALTER FUNCTION ... SET SCHEMA`
+preserves the OID that policies are bound to).
+
+Consequence for application code: **do not call these over RPC.** Server
+functions gate themselves with `assertStaff` / `assertAdmin` / `assertEditor`
+from `src/lib/authz.ts`, which read `user_roles` through the caller's own
+RLS-scoped client.
+
 The contributor boundary is enforced by policy, not by the UI: the article
 policies restrict contributor insert/update/delete to rows where
 `author_id = auth.uid() AND status = 'draft'`. Hiding the publish button is a

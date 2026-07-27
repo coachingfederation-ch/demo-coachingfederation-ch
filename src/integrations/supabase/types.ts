@@ -1542,15 +1542,6 @@ export type Database = {
       }
     }
     Functions: {
-      has_role: {
-        Args: {
-          _role: Database["public"]["Enums"]["app_role"]
-          _user_id: string
-        }
-        Returns: boolean
-      }
-      is_editor: { Args: { _user_id: string }; Returns: boolean }
-      is_staff: { Args: { _user_id: string }; Returns: boolean }
       member_has_directory_credential: {
         Args: { _credential_expires_on: string; _credential_slug: string }
         Returns: boolean
@@ -1563,11 +1554,6 @@ export type Database = {
       }
       member_is_directory_eligible: {
         Args: { _member_id: string }
-        Returns: boolean
-      }
-      member_owns_profile: { Args: { _profile_id: string }; Returns: boolean }
-      member_owns_storage_folder: {
-        Args: { _folder: string }
         Returns: boolean
       }
     }

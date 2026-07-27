@@ -9,13 +9,15 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { assertStaff as assertStaffRole } from "./authz";
 
-/** Staff gate: admin, editor or contributor. Role is checked as the caller. */
+/**
+ * Staff gate: admin, editor or contributor. The role is read from
+ * `user_roles` through the caller's own RLS-scoped client (see `authz.ts`),
+ * never from client-supplied input.
+ */
 async function assertStaff(context: { supabase: any; userId: string }) {
-  const { data, error } = await context.supabase.rpc("is_staff", {
-    _user_id: context.userId,
-  });
-  if (error || !data) throw new Error("Forbidden");
+  await assertStaffRole(context);
   return context.supabase;
 }
 

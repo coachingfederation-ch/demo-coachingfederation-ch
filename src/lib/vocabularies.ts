@@ -93,7 +93,16 @@ export async function fetchActiveVocabularies(): Promise<CoachFinderVocabularies
 export const EXPERIENCE_BANDS = ["0-2", "3-5", "6-10", "10+"] as const;
 export type ExperienceBand = (typeof EXPERIENCE_BANDS)[number];
 
-export type CoachFinderConfig = {
+/**
+ * Coach Finder settings split into two shapes.
+ *
+ * `coach_finder_config` mixes visitor-facing display settings with internal
+ * operational tuning (export caps, retention, sync thresholds). Only the
+ * display half is granted to `anon`/`authenticated` at the column level, so
+ * the public UI must never select the internal fields — it would get a
+ * permission error rather than a filtered row.
+ */
+export type PublicCoachFinderConfig = {
   coaching_enabled: boolean;
   mentoring_enabled: boolean;
   supervision_enabled: boolean;
@@ -102,21 +111,26 @@ export type CoachFinderConfig = {
   supervision_label: string;
   default_sort: string;
   page_size: number;
+};
+
+/** Full row, including internal tuning. Staff-only; read via a server function. */
+export type CoachFinderConfig = PublicCoachFinderConfig & {
   feed_drop_threshold_pct: number;
   snapshot_retention_months: number;
   csv_export_row_cap: number;
 };
 
-export const CONFIG_COLUMNS =
-  "coaching_enabled, mentoring_enabled, supervision_enabled, coaching_label, mentoring_label, supervision_label, default_sort, page_size, feed_drop_threshold_pct, snapshot_retention_months, csv_export_row_cap";
+/** The columns `anon` and `authenticated` are granted SELECT on. */
+export const PUBLIC_CONFIG_COLUMNS =
+  "coaching_enabled, mentoring_enabled, supervision_enabled, coaching_label, mentoring_label, supervision_label, default_sort, page_size";
 
-export async function fetchCoachFinderConfig(): Promise<CoachFinderConfig | null> {
+export async function fetchCoachFinderConfig(): Promise<PublicCoachFinderConfig | null> {
   const { data, error } = await supabase
     .from("coach_finder_config")
-    .select(CONFIG_COLUMNS)
+    .select(PUBLIC_CONFIG_COLUMNS)
     .maybeSingle();
   if (error) throw error;
-  return (data as CoachFinderConfig | null) ?? null;
+  return (data as PublicCoachFinderConfig | null) ?? null;
 }
 
 /**
@@ -131,8 +145,8 @@ export type FinderMode = { slug: FinderModeSlug; label: string };
 
 const FINDER_MODE_FIELDS: {
   slug: FinderModeSlug;
-  enabled: keyof CoachFinderConfig;
-  label: keyof CoachFinderConfig;
+  enabled: keyof PublicCoachFinderConfig;
+  label: keyof PublicCoachFinderConfig;
 }[] = [
   { slug: "coaching", enabled: "coaching_enabled", label: "coaching_label" },
   { slug: "mentoring", enabled: "mentoring_enabled", label: "mentoring_label" },
@@ -140,7 +154,9 @@ const FINDER_MODE_FIELDS: {
 ];
 
 /** Enabled modes in fixed order, labelled from the configured label fields. */
-export function activeFinderModes(config: CoachFinderConfig | null | undefined): FinderMode[] {
+export function activeFinderModes(
+  config: PublicCoachFinderConfig | null | undefined,
+): FinderMode[] {
   if (!config) return [];
   return FINDER_MODE_FIELDS.filter((f) => config[f.enabled] === true).map((f) => ({
     slug: f.slug,
