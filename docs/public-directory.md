@@ -44,6 +44,13 @@ base tables. The view is the projection boundary: it filters to eligible,
 published profiles and exposes only safe columns. A coach's email appears only
 when `contact_email_public` is true.
 
+The view is `security_invoker = on`: it does not run with its creator's
+privileges, so the RLS policies on the base tables are evaluated as the actual
+caller. Anonymous and signed-in visitors both have published-row read policies
+on every table the view touches, which is what keeps the two consistent. If you
+add a table to the view, give it **both** an `anon` and an `authenticated`
+published-row SELECT policy, or signed-in visitors will silently see no results.
+
 This means adding a field to the public profile is a two-step change: add the
 column, then add it to the view. Forgetting the second step is the usual reason
 a new field renders blank.

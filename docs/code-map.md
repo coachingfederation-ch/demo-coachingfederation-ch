@@ -72,9 +72,15 @@ before adding a new file.
 ## Database objects worth knowing
 
 - **`coach_directory_public`** — the view every public directory read goes
-  through. Change the projection here, not in application code.
-- **`user_roles`** + `has_role` / `is_editor` / `is_staff` — the whole
-  authorization model.
+  through. Change the projection here, not in application code. It is
+  `security_invoker = on`, so the caller's own RLS still applies underneath.
+- **`user_roles`** + `private.has_role` / `private.is_editor` /
+  `private.is_staff` — the whole authorization model. The helpers sit in the
+  non-exposed `private` schema; application code uses `src/lib/authz.ts`
+  instead of calling them over RPC.
+- **`coach_finder_config`** — one row. Display columns are readable by
+  visitors; the internal tuning columns are restricted by **column-level**
+  grants and read through `coach-finder-config.functions.ts` by staff.
 - **`integration_config`** — one row, guarded by a trigger, controlling the
   TEST/LIVE posture.
 - **`member_sync_runs`, `member_sync_events`, `member_import_snapshots`** — the
