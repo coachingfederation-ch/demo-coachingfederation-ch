@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Shell } from "@/components/cms/Shell";
+import { MemberShell } from "@/components/member/MemberShell";
 import { MemberProfileEditor } from "@/components/cms/MemberProfileEditor";
 
 export const Route = createFileRoute("/_member/my-profile")({
@@ -14,10 +14,10 @@ export const Route = createFileRoute("/_member/my-profile")({
 
 function MemberAreaPage() {
   return (
-    <Shell>
+    <MemberShell>
       <div className="mx-auto max-w-4xl px-10 py-10">
         <MemberProfileEditor />
       </div>
-    </Shell>
+    </MemberShell>
   );
 }

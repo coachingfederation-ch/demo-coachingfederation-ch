@@ -59,7 +59,7 @@ function Flag({ label, on }: { label: string; on: boolean }) {
 
 function MemberDetailPage() {
   const { t, locale } = useCms();
-  const { id } = useParams({ from: "/_authenticated/members/$id" });
+  const { id } = useParams({ from: "/_staff/members/$id" });
   const [detail, setDetail] = useState<Detail | null>(null);
   const [regions, setRegions] = useState<VocabRow[]>([]);
   const [selectedRegions, setSelectedRegions] = useState<string[]>([]);

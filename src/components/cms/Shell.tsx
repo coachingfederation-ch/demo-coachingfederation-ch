@@ -9,22 +9,25 @@ import {
   SlidersHorizontal,
   Users,
   PlugZap,
-  UserCircle,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import { useCms } from "@/i18n/cms";
 import { LOCALE_LABELS, LOCALE_ORDER } from "@/i18n/config";
+import { useMyRoles } from "@/lib/roles";
 
+/**
+ * Staff navigation. `editorOnly` items are hidden from contributors — the real
+ * boundary is RLS plus the server-side role checks, this only avoids dead ends.
+ */
 const nav = [
-  { to: "/articles", key: "nav.articles", icon: FileText },
-  { to: "/articles/new", key: "nav.newArticle", icon: PencilLine },
-  { to: "/articles/categories", key: "nav.categories", icon: Tags },
-  { to: "/vocabularies", key: "nav.vocabularies", icon: ListTree },
-  { to: "/coach-finder", key: "nav.coachFinder", icon: SlidersHorizontal },
-  { to: "/members", key: "nav.members", icon: Users },
-  { to: "/integration", key: "nav.integration", icon: PlugZap },
-  { to: "/member", key: "nav.myProfile", icon: UserCircle },
+  { to: "/articles", key: "nav.articles", icon: FileText, editorOnly: false },
+  { to: "/articles/new", key: "nav.newArticle", icon: PencilLine, editorOnly: false },
+  { to: "/articles/categories", key: "nav.categories", icon: Tags, editorOnly: true },
+  { to: "/vocabularies", key: "nav.vocabularies", icon: ListTree, editorOnly: true },
+  { to: "/coach-finder", key: "nav.coachFinder", icon: SlidersHorizontal, editorOnly: true },
+  { to: "/members", key: "nav.members", icon: Users, editorOnly: true },
+  { to: "/integration", key: "nav.integration", icon: PlugZap, editorOnly: true },
 ] as const;
 
 function Logo({ title }: { title: string }) {
@@ -54,6 +57,8 @@ export function Shell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [email, setEmail] = useState<string | null>(null);
   const { t, locale, setLocale } = useCms();
+  const { roles } = useMyRoles();
+  const items = nav.filter((item) => !item.editorOnly || roles.isEditor);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setEmail(data.user?.email ?? null));
@@ -72,7 +77,7 @@ export function Shell({ children }: { children: ReactNode }) {
         <div>
           <Logo title={t("nav.workspace")} />
           <nav className="mt-2 flex flex-col gap-1 px-3">
-            {nav.map(({ to, key, icon: Icon }) => {
+            {items.map(({ to, key, icon: Icon }) => {
               const active = to === "/articles" ? pathname === "/articles" : pathname.startsWith(to);
               return (
                 <Link
