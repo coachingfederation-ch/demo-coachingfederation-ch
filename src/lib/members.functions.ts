@@ -40,6 +40,19 @@ export const executeCutover = createServerFn({ method: "POST" })
     return await runCutover(userId);
   });
 
+/**
+ * Cutover readiness rehearsal (admin only, non-destructive). Runs pre-flight and
+ * the archive snapshot, then reports exactly what a real cutover would delete,
+ * unbind and switch — without freezing, purging, changing mode or importing.
+ */
+export const rehearseCutover = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const userId = await assertAdmin(context as never);
+    const { runCutover } = await import("./cutover.server");
+    return await runCutover(userId, { dryRun: true });
+  });
+
 /** Bulk PII export — admin only, never editors. */
 export const exportMembersCsv = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
