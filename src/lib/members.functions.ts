@@ -1,16 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-
-/** Admin-only guard: role is verified against the caller's own RLS-scoped client. */
-async function assertAdmin(context: { supabase: any; userId: string }) {
-  const { data, error } = await context.supabase.rpc("has_role", {
-    _user_id: context.userId,
-    _role: "admin",
-  });
-  if (error || !data) throw new Error("Forbidden");
-  return context.userId;
-}
+import { assertAdmin } from "./authz";
 
 /** Manual sync run (admin). Uses whichever mode integration_config is in. */
 export const runSyncNow = createServerFn({ method: "POST" })
