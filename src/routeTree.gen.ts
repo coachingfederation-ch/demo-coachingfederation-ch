@@ -20,6 +20,7 @@ import { Route as FindACoachRouteImport } from './routes/find-a-coach'
 import { Route as ForCoachesRouteImport } from './routes/for-coaches'
 import { Route as ForOrganisationsRouteImport } from './routes/for-organisations'
 import { Route as InsightsRouteImport } from './routes/insights'
+import { Route as McpRouteImport } from './routes/mcp'
 import { Route as NoAccessRouteImport } from './routes/no-access'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
@@ -29,6 +30,8 @@ import { Route as LocaleFindACoachRouteImport } from './routes/$locale/find-a-co
 import { Route as LocaleForCoachesRouteImport } from './routes/$locale/for-coaches'
 import { Route as LocaleForOrganisationsRouteImport } from './routes/$locale/for-organisations'
 import { Route as LocaleInsightsRouteImport } from './routes/$locale/insights'
+import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as MemberMyProfileRouteImport } from './routes/_member/my-profile'
 import { Route as StaffArticlesRouteImport } from './routes/_staff/articles'
 import { Route as StaffCoachFinderRouteImport } from './routes/_staff/coach-finder'
@@ -43,6 +46,7 @@ import { Route as InsightsIdRouteImport } from './routes/insights.$id'
 import { Route as LocaleCoachProfileIdRouteImport } from './routes/$locale/coach.$profileId'
 import { Route as LocaleInsightsIndexRouteImport } from './routes/$locale/insights.index'
 import { Route as LocaleInsightsIdRouteImport } from './routes/$locale/insights.$id'
+import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as StaffArticlesIndexRouteImport } from './routes/_staff/articles.index'
 import { Route as StaffArticlesIdRouteImport } from './routes/_staff/articles.$id'
 import { Route as StaffArticlesCategoriesRouteImport } from './routes/_staff/articles.categories'
@@ -104,6 +108,11 @@ const InsightsRoute = InsightsRouteImport.update({
   path: '/insights',
   getParentRoute: () => rootRouteImport,
 } as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NoAccessRoute = NoAccessRouteImport.update({
   id: '/no-access',
   path: '/no-access',
@@ -149,6 +158,18 @@ const LocaleInsightsRoute = LocaleInsightsRouteImport.update({
   path: '/insights',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
+const Char91DotmcpChar93ListToolsRoute =
+  Char91DotmcpChar93ListToolsRouteImport.update({
+    id: '/.mcp/list-tools',
+    path: '/.mcp/list-tools',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const MemberMyProfileRoute = MemberMyProfileRouteImport.update({
   id: '/my-profile',
   path: '/my-profile',
@@ -219,6 +240,12 @@ const LocaleInsightsIdRoute = LocaleInsightsIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => LocaleInsightsRoute,
 } as any)
+const Char91DotmcpChar93InvokeToolToolRoute =
+  Char91DotmcpChar93InvokeToolToolRouteImport.update({
+    id: '/.mcp/invoke-tool/$tool',
+    path: '/.mcp/invoke-tool/$tool',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const StaffArticlesIndexRoute = StaffArticlesIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -265,6 +292,7 @@ export interface FileRoutesByFullPath {
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
   '/insights': typeof InsightsRouteWithChildren
+  '/mcp': typeof McpRoute
   '/no-access': typeof NoAccessRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/$locale/about': typeof LocaleAboutRoute
@@ -273,6 +301,8 @@ export interface FileRoutesByFullPath {
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/my-profile': typeof MemberMyProfileRoute
   '/articles': typeof StaffArticlesRouteWithChildren
   '/coach-finder': typeof StaffCoachFinderRoute
@@ -287,6 +317,7 @@ export interface FileRoutesByFullPath {
   '/insights/': typeof InsightsIndexRoute
   '/$locale/coach/$profileId': typeof LocaleCoachProfileIdRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/articles/$id': typeof StaffArticlesIdRoute
   '/articles/categories': typeof StaffArticlesCategoriesRoute
   '/articles/new': typeof StaffArticlesNewRoute
@@ -304,6 +335,7 @@ export interface FileRoutesByTo {
   '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
+  '/mcp': typeof McpRoute
   '/no-access': typeof NoAccessRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/$locale/about': typeof LocaleAboutRoute
@@ -311,6 +343,8 @@ export interface FileRoutesByTo {
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/my-profile': typeof MemberMyProfileRoute
   '/coach-finder': typeof StaffCoachFinderRoute
   '/integration': typeof StaffIntegrationRoute
@@ -324,6 +358,7 @@ export interface FileRoutesByTo {
   '/insights': typeof InsightsIndexRoute
   '/$locale/coach/$profileId': typeof LocaleCoachProfileIdRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/articles/$id': typeof StaffArticlesIdRoute
   '/articles/categories': typeof StaffArticlesCategoriesRoute
   '/articles/new': typeof StaffArticlesNewRoute
@@ -346,6 +381,7 @@ export interface FileRoutesById {
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
   '/insights': typeof InsightsRouteWithChildren
+  '/mcp': typeof McpRoute
   '/no-access': typeof NoAccessRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/$locale/about': typeof LocaleAboutRoute
@@ -354,6 +390,8 @@ export interface FileRoutesById {
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/_member/my-profile': typeof MemberMyProfileRoute
   '/_staff/articles': typeof StaffArticlesRouteWithChildren
   '/_staff/coach-finder': typeof StaffCoachFinderRoute
@@ -368,6 +406,7 @@ export interface FileRoutesById {
   '/insights/': typeof InsightsIndexRoute
   '/$locale/coach/$profileId': typeof LocaleCoachProfileIdRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/_staff/articles/$id': typeof StaffArticlesIdRoute
   '/_staff/articles/categories': typeof StaffArticlesCategoriesRoute
   '/_staff/articles/new': typeof StaffArticlesNewRoute
@@ -389,6 +428,7 @@ export interface FileRouteTypes {
     | '/for-coaches'
     | '/for-organisations'
     | '/insights'
+    | '/mcp'
     | '/no-access'
     | '/sitemap.xml'
     | '/$locale/about'
@@ -397,6 +437,8 @@ export interface FileRouteTypes {
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
     | '/$locale/insights'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/my-profile'
     | '/articles'
     | '/coach-finder'
@@ -411,6 +453,7 @@ export interface FileRouteTypes {
     | '/insights/'
     | '/$locale/coach/$profileId'
     | '/$locale/insights/$id'
+    | '/.mcp/invoke-tool/$tool'
     | '/articles/$id'
     | '/articles/categories'
     | '/articles/new'
@@ -428,6 +471,7 @@ export interface FileRouteTypes {
     | '/find-a-coach'
     | '/for-coaches'
     | '/for-organisations'
+    | '/mcp'
     | '/no-access'
     | '/sitemap.xml'
     | '/$locale/about'
@@ -435,6 +479,8 @@ export interface FileRouteTypes {
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/my-profile'
     | '/coach-finder'
     | '/integration'
@@ -448,6 +494,7 @@ export interface FileRouteTypes {
     | '/insights'
     | '/$locale/coach/$profileId'
     | '/$locale/insights/$id'
+    | '/.mcp/invoke-tool/$tool'
     | '/articles/$id'
     | '/articles/categories'
     | '/articles/new'
@@ -469,6 +516,7 @@ export interface FileRouteTypes {
     | '/for-coaches'
     | '/for-organisations'
     | '/insights'
+    | '/mcp'
     | '/no-access'
     | '/sitemap.xml'
     | '/$locale/about'
@@ -477,6 +525,8 @@ export interface FileRouteTypes {
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
     | '/$locale/insights'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/_member/my-profile'
     | '/_staff/articles'
     | '/_staff/coach-finder'
@@ -491,6 +541,7 @@ export interface FileRouteTypes {
     | '/insights/'
     | '/$locale/coach/$profileId'
     | '/$locale/insights/$id'
+    | '/.mcp/invoke-tool/$tool'
     | '/_staff/articles/$id'
     | '/_staff/articles/categories'
     | '/_staff/articles/new'
@@ -513,11 +564,15 @@ export interface RootRouteChildren {
   ForCoachesRoute: typeof ForCoachesRoute
   ForOrganisationsRoute: typeof ForOrganisationsRoute
   InsightsRoute: typeof InsightsRouteWithChildren
+  McpRoute: typeof McpRoute
   NoAccessRoute: typeof NoAccessRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
+  Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ClaimTokenRoute: typeof ClaimTokenRoute
   CoachProfileIdRoute: typeof CoachProfileIdRoute
   ClaimIndexRoute: typeof ClaimIndexRoute
+  Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicMemberSyncRoute: typeof ApiPublicMemberSyncRoute
 }
 
@@ -600,6 +655,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InsightsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/no-access': {
       id: '/no-access'
       path: '/no-access'
@@ -662,6 +724,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/$locale/insights'
       preLoaderRoute: typeof LocaleInsightsRouteImport
       parentRoute: typeof LocaleRouteRoute
+    }
+    '/.mcp/list-tools': {
+      id: '/.mcp/list-tools'
+      path: '/.mcp/list-tools'
+      fullPath: '/.mcp/list-tools'
+      preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_member/my-profile': {
       id: '/_member/my-profile'
@@ -760,6 +836,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/$locale/insights/$id'
       preLoaderRoute: typeof LocaleInsightsIdRouteImport
       parentRoute: typeof LocaleInsightsRoute
+    }
+    '/.mcp/invoke-tool/$tool': {
+      id: '/.mcp/invoke-tool/$tool'
+      path: '/.mcp/invoke-tool/$tool'
+      fullPath: '/.mcp/invoke-tool/$tool'
+      preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_staff/articles/': {
       id: '/_staff/articles/'
@@ -941,11 +1024,16 @@ const rootRouteChildren: RootRouteChildren = {
   ForCoachesRoute: ForCoachesRoute,
   ForOrganisationsRoute: ForOrganisationsRoute,
   InsightsRoute: InsightsRouteWithChildren,
+  McpRoute: McpRoute,
   NoAccessRoute: NoAccessRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
+  Char91DotwellKnownChar93OauthProtectedResourceRoute:
+    Char91DotwellKnownChar93OauthProtectedResourceRoute,
   ClaimTokenRoute: ClaimTokenRoute,
   CoachProfileIdRoute: CoachProfileIdRoute,
   ClaimIndexRoute: ClaimIndexRoute,
+  Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicMemberSyncRoute: ApiPublicMemberSyncRoute,
 }
 export const routeTree = rootRouteImport

@@ -1,0 +1,168 @@
+{
+  "version": 1,
+  "sdk_version": "0.24.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://dhmzxwtsigbcrlfcxudh.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "icf-switzerland",
+      "version": "0.1.0",
+      "title": "ICF Switzerland"
+    },
+    "tools": [
+      {
+        "name": "search_coaches",
+        "title": "Search coaches",
+        "description": "Search the published ICF Switzerland coach directory by free text, canton/region, language, credential (acc, pcc, mcc), specialisation or service (coaching, mentoring, supervision).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "query": {
+              "description": "Free text matched against name and tagline.",
+              "type": "string",
+              "maxLength": 120
+            },
+            "region": {
+              "description": "Service-area region slug, e.g. 'zurich'.",
+              "type": "string",
+              "maxLength": 64
+            },
+            "language": {
+              "description": "Language slug, e.g. 'de', 'fr', 'it', 'en'.",
+              "type": "string",
+              "maxLength": 64
+            },
+            "credential": {
+              "description": "ICF credential slug: acc, pcc or mcc.",
+              "type": "string",
+              "maxLength": 16
+            },
+            "specialisation": {
+              "description": "Specialisation slug.",
+              "type": "string",
+              "maxLength": 64
+            },
+            "service": {
+              "description": "Restrict to coaches offering this service.",
+              "type": "string",
+              "enum": [
+                "coaching",
+                "mentoring",
+                "supervision"
+              ]
+            },
+            "limit": {
+              "description": "Max results, default 10.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_coach_profile",
+        "title": "Get coach profile",
+        "description": "Read one published coach profile in full (about, approach, qualifications, fees, availability, service areas, links) by its profile id from search_coaches.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "profile_id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "description": "profile_id returned by search_coaches."
+            }
+          },
+          "required": [
+            "profile_id"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_insights",
+        "title": "List insights articles",
+        "description": "List published ICF Switzerland Insights articles (title, excerpt, category, language, publication date), newest first.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "language": {
+              "description": "Article language.",
+              "type": "string",
+              "enum": [
+                "en",
+                "de",
+                "fr",
+                "it"
+              ]
+            },
+            "query": {
+              "description": "Free text matched against title and excerpt.",
+              "type": "string",
+              "maxLength": 120
+            },
+            "limit": {
+              "description": "Max results, default 10.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_insight",
+        "title": "Read an insights article",
+        "description": "Read the full markdown body of one published Insights article by its id.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "description": "Article id returned by list_insights."
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
