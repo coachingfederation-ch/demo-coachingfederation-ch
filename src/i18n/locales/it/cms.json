@@ -506,5 +506,46 @@
       "already_claimed": "Esiste già un account per questa adesione.",
       "account_exists": "Esiste già un account per questo indirizzo e-mail. Effettua l'accesso."
     }
+  },
+  "profileTranslations": {
+    "title": "Lingue del profilo",
+    "hint": "Il suo profilo è scritto in una lingua principale. Aggiunga altre lingue solo se lo desidera — nulla viene tradotto automaticamente.",
+    "primaryLabel": "Lingua principale",
+    "primaryHint": "I visitatori vedono questa lingua finché non è pubblicata una traduzione nella loro.",
+    "primaryLocked": "Elimini tutte le traduzioni prima di cambiare la lingua principale.",
+    "translate": "Traduci con l'IA",
+    "refresh": "Ritraduci",
+    "working": "In corso…",
+    "open": "Modifica",
+    "close": "Chiudi",
+    "save": "Salva traduzione",
+    "saved": "Traduzione salvata.",
+    "publish": "Pubblica questa lingua",
+    "unpublish": "Annulla pubblicazione",
+    "remove": "Elimina",
+    "confirmOverwrite": "Questa lingua contiene modifiche manuali. Una nuova traduzione le sovrascriverà. Continuare?",
+    "confirmRemove": "Eliminare questa traduzione? I visitatori vedranno la sua lingua principale.",
+    "source": "Testo nella lingua principale",
+    "outdatedHint": "Ha modificato il profilo dopo questa traduzione. La ritraduca oppure la rilegga e la salvi.",
+    "failed": "Traduzione non riuscita. Riprovi.",
+    "states": {
+      "missing": "Non creata",
+      "auto_draft": "Bozza tradotta dall'IA",
+      "edited_draft": "Bozza modificata",
+      "published": "Pubblicata",
+      "outdated": "Non aggiornata"
+    },
+    "fields": {
+      "tagline": "Slogan",
+      "description": "Chi sono",
+      "approach": "Come lavoro",
+      "qualifications": "Qualifiche e formazione",
+      "fees_note": "Onorari",
+      "session_length_note": "Durata della sessione",
+      "availability_note": "Disponibilità",
+      "response_time_note": "Tempo di risposta",
+      "testimonial_quote": "Testimonianza",
+      "testimonial_attribution": "Autore della testimonianza"
+    }
   }
 }

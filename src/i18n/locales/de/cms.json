@@ -506,5 +506,46 @@
       "already_claimed": "Für diese Mitgliedschaft besteht bereits ein Konto.",
       "account_exists": "Für diese E-Mail-Adresse besteht bereits ein Konto. Bitte melden Sie sich an."
     }
+  },
+  "profileTranslations": {
+    "title": "Profilsprachen",
+    "hint": "Ihr Profil ist in einer Hauptsprache verfasst. Weitere Sprachen fügen Sie nur hinzu, wenn Sie möchten — es wird nichts automatisch übersetzt.",
+    "primaryLabel": "Hauptsprache",
+    "primaryHint": "Besucherinnen und Besucher sehen diese Sprache, solange für ihre Sprache keine Übersetzung veröffentlicht ist.",
+    "primaryLocked": "Entfernen Sie alle Übersetzungen, bevor Sie die Hauptsprache ändern.",
+    "translate": "Mit KI übersetzen",
+    "refresh": "Neu übersetzen",
+    "working": "In Arbeit…",
+    "open": "Bearbeiten",
+    "close": "Schliessen",
+    "save": "Übersetzung speichern",
+    "saved": "Übersetzung gespeichert.",
+    "publish": "Diese Sprache veröffentlichen",
+    "unpublish": "Veröffentlichung zurückziehen",
+    "remove": "Löschen",
+    "confirmOverwrite": "Diese Sprache enthält manuelle Änderungen. Eine neue Übersetzung überschreibt sie. Fortfahren?",
+    "confirmRemove": "Diese Übersetzung löschen? Besucher sehen dann Ihre Hauptsprache.",
+    "source": "Text in der Hauptsprache",
+    "outdatedHint": "Sie haben Ihr Profil nach dieser Übersetzung geändert. Übersetzen Sie neu oder prüfen und speichern Sie den Text.",
+    "failed": "Übersetzung fehlgeschlagen. Bitte erneut versuchen.",
+    "states": {
+      "missing": "Nicht erstellt",
+      "auto_draft": "Automatischer Entwurf",
+      "edited_draft": "Bearbeiteter Entwurf",
+      "published": "Veröffentlicht",
+      "outdated": "Veraltet"
+    },
+    "fields": {
+      "tagline": "Kurzbeschreibung",
+      "description": "Über mich",
+      "approach": "So arbeite ich",
+      "qualifications": "Qualifikationen & Ausbildung",
+      "fees_note": "Honorar",
+      "session_length_note": "Sitzungsdauer",
+      "availability_note": "Verfügbarkeit",
+      "response_time_note": "Antwortzeit",
+      "testimonial_quote": "Kundenstimme",
+      "testimonial_attribution": "Quelle der Kundenstimme"
+    }
   }
 }
