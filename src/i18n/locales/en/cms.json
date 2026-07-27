@@ -247,6 +247,13 @@
       "active": "Active",
       "grace": "Grace period",
       "anonymized": "Anonymised"
+    },
+    "colEligibility": "Directory eligibility",
+    "eligibility": {
+      "eligible": "Eligible",
+      "inactive": "Membership inactive",
+      "no_credential": "No ACC/PCC/MCC",
+      "credential_expired": "Credential expired"
     }
   },
   "integration": {
