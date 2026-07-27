@@ -227,9 +227,18 @@ export async function completeClaim(token: string, password: string): Promise<Co
     email_confirm: true,
   });
   if (createError || !created?.user) {
-    // An existing account must sign in instead; claiming would silently take
-    // over an identity we did not create here.
-    return { status: "account_exists" };
+    // Only a genuine collision is a member-facing outcome: an existing account
+    // must sign in instead, because claiming would silently take over an
+    // identity we did not create here. Anything else (GoTrue outage, failing
+    // auth trigger) is an infrastructure fault and must surface as an error —
+    // mapping it to "account exists" once hid a broken sign-up trigger behind
+    // advice the member could never act on.
+    const message = createError?.message ?? "";
+    const isCollision =
+      createError?.status === 422 ||
+      /already (been )?registered|already exists/i.test(message);
+    if (isCollision) return { status: "account_exists" };
+    throw new Error(`Account creation failed: ${message || "unknown auth error"}`);
   }
   const authUserId = created.user.id;
 

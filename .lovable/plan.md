@@ -1,62 +1,41 @@
-## What's left on the roadmap
+## Can 9875144 be reset for testing?
 
-After today's directory work, two items remain:
+Yes. It is currently bound to your own staff account (which holds `admin`, `editor` and `member`), its directory profile is `published`, and its email is the TEST-shaped `zz…zz` address. Unbinding is already supported through the audited **Unbind** action on `/members/$id`, so no schema change or manual data surgery is needed.
 
-1. **Milestone D — member account claim flow** (this plan). The request half exists (`attemptMemberClaim` writes a `member_profile_links` row and calls the inert email gate); the token-consumption and set-password half does not.
-2. **The LIVE cutover execution itself** (runbook in `plan-rev4.md` §6, rehearsal delivered in `plan-rev6.md`). That is a business-timed operation, not a build step — it runs when the chapter decides to go live.
+Two findings change the shape of the test:
 
-Nothing else from the member-backend scope is open: sync, projection layer, eligibility rules, staff CMS, Member Area, member-owned service areas, and the live coach directory with detail pages are all delivered.
+- **The claim gate does not block this.** Only `attemptMemberClaim` (the public `/claim` request form) requires LIVE mode plus `account_claim_enabled`. Token verification and completion have no such check, so an admin-issued link can be completed end to end while the integration stays in TEST — which is exactly the pre-cutover path the flow was designed around.
+- **The zz-address only blocks the self-service half.** `issueClaimLinkForMember` does not reject TEST-shaped emails, so the staff-issued link works for 9875144; only the public email request form would refuse that address. That half is verifiable separately with a unit-level check rather than a live run.
 
----
+### Recommended: use a fresh member, leave 9875144 alone
 
-## Milestone D — claim flow (custom token, transport still inert)
+There are 500 unbound active members in the TEST feed and only one bound record — yours. Testing on an untouched member avoids disturbing the one account you use daily and gives a cleaner signal, because the resulting account starts with no roles at all.
 
-### Behaviour
+1. Pick an unbound active member with an email and a directory-eligible credential.
+2. Issue a claim link from `/members/$id`, complete it in a clean browser session.
+3. Verify: account created, `auth_user_id` set, `member` role granted and nothing else, `/my-profile` loads that member, `/articles` and `/members` are refused, token reuse reports "already used", and a second issued link supersedes the first.
+4. Confirm the audit trail: `member_claim_link_issued_by_staff` and `member_account_claimed` rows in `member_sync_events`.
+5. Clean up: unbind the member and delete the created auth user so the feed returns to one bound record.
 
-A member who is in the imported feed but has no account can request access with their email, receive a one-time link, set a password, and land in the Member Area with their member record bound and the `member` role granted.
+### If you specifically want 9875144
 
-The whole flow stays **hard-disabled** exactly as today: every server function short-circuits unless the integration is in LIVE mode with `account_claim_enabled` true and a recorded cutover, and no public UI links to it until that flag flips.
+Because it is your published, directory-visible member with a real profile, it is the better subject if you want to see the claimed account land on a fully populated `/my-profile`. The reset is:
 
-### Data model
+1. Unbind 9875144 from your staff account on `/members/$id`.
+2. Remove the now-orphaned `member` role row from your staff account, so role-based landing stays honest.
+3. Issue a claim link, complete it in a clean session — this creates a **separate, member-only** auth account for the zz-address, which is the most faithful reproduction of a real member's first login.
+4. Verify as above, and confirm the published directory profile and its photo carry over unchanged to the new account.
+5. Restore afterwards: unbind, delete the claimed auth user, rebind 9875144 to your staff account, and re-grant the `member` role.
 
-Extend `public.member_profile_links` (it currently has no token column):
-
-- `token_hash text` — SHA-256 of a 32-byte random token; the raw token only ever exists in the link.
-- `consumed_at timestamptz`, `attempts int`, `last_attempt_at timestamptz` for throttling and audit.
-- Unique index on `token_hash`; partial index on pending, unexpired rows per member.
-- No new grants: the table stays staff-read-only through the Data API. All reads and writes happen in server functions with the admin client.
-
-### Server half
-
-- `requestMemberClaim(email)` — reuses the existing `attemptMemberClaim` gate and matching rule (email only *nominates*; ambiguous or already-linked rows are refused), then mints the token, stores the hash, and hands the URL to `sendMemberEmail`. Always returns the same neutral "if this address is registered…" result so it can't be used to enumerate members.
-- `verifyMemberClaimToken(token)` — read-only: valid / expired / consumed / unknown, plus the masked email for display.
-- `completeMemberClaim(token, password)` — inside one guarded path: re-verify, create the auth user with `supabaseAdmin.auth.admin.createUser` (email confirmed), set `members.auth_user_id`, grant the `member` role, mark the link consumed, and log a `member_sync_events` entry. Refuses if the member gained a binding in the meantime, so a leaked older link can never re-bind a claimed member.
-- Rate limiting: max attempts per token and per email per hour, recorded on the row.
-
-The binding rule from `plan-rev5.md` §5 is preserved — the durable boundary is the explicit `auth_user_id` link plus the granted role, never email equality.
-
-### UI
-
-- `/claim` — email request form, neutral confirmation screen. Rendered only when claim is enabled; otherwise a "member access isn't open yet" notice.
-- `/claim/$token` — token state screen, then password set (strength rules, confirm field), then automatic sign-in and redirect to `/my-profile`. Expired/consumed/unknown states each get their own calm message with a path back to `/claim`.
-- Both pages use the existing public site chrome, are `noindex`, and are localised DE/FR/IT/EN.
-- `/auth` gets a "First time here? Set up your member access" link, shown only when claim is enabled.
-
-### Verification without live email
-
-Email transport stays inert (`no_transport` logging), so testing uses a staff path: on `/members/$id`, an admin-only, audited **"Issue claim link"** action mints a token and displays the URL once for copy-paste. It sits beside the existing bind/unbind support tooling and writes a `member_sync_events` record. This is the only way a token exists before the LIVE cutover.
-
-Verification run in TEST: issue a link for an unbound member, complete the flow in a fresh browser session, confirm the member row is bound, the `member` role is granted, `/my-profile` loads that member's profile, staff routes are refused, and the token is rejected on reuse.
-
-### Docs
-
-Append a Milestone D section to `plan-rev6.md` (or a short `plan-rev7.md`) covering the token model, the gate, the admin-issued link, and the one remaining cutover step that must flip `account_claim_enabled`.
-
----
+Step 2 and the restore in step 5 both need data changes, which run through the migration/insert tooling rather than the UI.
 
 ### Technical notes
 
-- Token: `crypto.randomBytes(32)` base64url, hashed with `crypto.createHash('sha256')` — both available in the Worker runtime. Constant-time compare on lookup by hash.
-- New server functions live in `src/lib/members.functions.ts` with handlers delegating to `src/lib/member-claim.server.ts`; the admin client is imported inside handlers.
-- Routes: `src/routes/claim.index.tsx` and `src/routes/claim.$token.tsx`, plus `$locale` equivalents, following the pattern used by the coach detail routes.
-- Password sign-in after `createUser` uses the browser client so the session hydrates normally before redirecting.
+- `completeClaim` creates the auth user with `email_confirm: true`, so the fake `.chzz` domain never needs to receive mail.
+- The one-open-link-per-member unique index means issuing a second link automatically supersedes the first — worth asserting rather than assuming.
+- Nothing in this test writes to the ICF feed; a subsequent sync re-reads the member row and leaves `auth_user_id` untouched.
+
+  
+**Approval Notes**
+
+Yes, use 9875144 for verification as described. 
