@@ -1,45 +1,62 @@
-## Current state summary (as of Milestone C)
+## What's left on the roadmap
 
-See `plan-rev6.md` for the delivered Milestone C detail, `plan-rev5.md` for the role model and staff/member split, `plan-rev4.md` for the cutover runbook, and `plan-milestone-b.md` for the directory projection layer.
+After today's directory work, two items remain:
 
-## 1. Are the three docs reconciled?
+1. **Milestone D — member account claim flow** (this plan). The request half exists (`attemptMemberClaim` writes a `member_profile_links` row and calls the inert email gate); the token-consumption and set-password half does not.
+2. **The LIVE cutover execution itself** (runbook in `plan-rev4.md` §6, rehearsal delivered in `plan-rev6.md`). That is a business-timed operation, not a build step — it runs when the chapter decides to go live.
 
-Verified by reading all three in full. **Yes, they are consistent — with two small residues.**
+Nothing else from the member-backend scope is open: sync, projection layer, eligibility rules, staff CMS, Member Area, member-owned service areas, and the live coach directory with detail pages are all delivered.
 
-- `plan-rev5.md` explicitly supersedes rev. 4 only on access control/routing, lists what stays unchanged, and adds the binding rule and redirect table.
-- `plan.md` (Milestone B) is marked delivered and correctly places `/members/$id` under `_staff/`, notes the Member Area already exists, and points forward to C → D.
-- Residue A (now fixed, marked inline in rev. 4): rev. 4 §4's sentence "`/auth` keeps serving staff CMS sign-in only" is still present in rev. 4's own text; it's corrected only by rev. 5 §6. Fine if rev. 5 is always read alongside, worth an inline "superseded" marker otherwise.
-- Residue B (now fixed in code and doc): rev. 4 §6 step 4 still says the purge deletes auth users with no `user_roles` row. Rev. 5 §6 flags that TEST member bindings now *do* carry a role row — but the code (`src/lib/cutover.server.ts`) still implements only the orphan sweep, so the bound test member's `member` role would survive the cutover. Doc-level noted, code-level unfixed.
+---
 
-## 2. `integration_config` singleton
+## Milestone D — claim flow (custom token, transport still inert)
 
-**Built and live.** One row exists: `mode=test`, `emails_suppressed=true`, `account_claim_enabled=false`, `cutover_in_progress=false`, `cutover_completed_at=null`, `soap_endpoint_key=test`, last successful sync today.
+### Behaviour
 
-The trigger `integration_config_guard` **is attached** to the table and enforces all three invariants: TEST forces email suppression and claim off, claim requires `mode='live'` + a recorded cutover, and live→test reversion raises. Admin panel exists at `/integration` under `_staff`.
+A member who is in the imported feed but has no account can request access with their email, receive a one-time link, set a password, and land in the Member Area with their member record bound and the `member` role granted.
 
-## 3. Claim / set-password flow
+The whole flow stays **hard-disabled** exactly as today: every server function short-circuits unless the integration is in LIVE mode with `account_claim_enabled` true and a recorded cutover, and no public UI links to it until that flag flips.
 
-**Architecture built, correctly inert. No UI exists.**
+### Data model
 
-- `src/lib/member-claim.server.ts` short-circuits to `{status:"disabled"}` unless claim is enabled, mode is live, and no cutover is in progress; it also rejects TEST-shaped emails, ambiguous email matches, and already-linked records — matching rev. 5 §5.
-- Exposed only through a server function in `src/lib/members.functions.ts`; **no route or component calls it**, and there is no set-password/claim page in `src/routes`.
-- Gap: `attemptMemberClaim` writes a `member_profile_links` row and sends a claim email, but there is **no token-consumption / set-password half** yet — that's the missing part of Milestone D, not a defect in the disable gate.
+Extend `public.member_profile_links` (it currently has no token column):
 
-## 4. Recommended next steps, in order
+- `token_hash text` — SHA-256 of a 32-byte random token; the raw token only ever exists in the link.
+- `consumed_at timestamptz`, `attempts int`, `last_attempt_at timestamptz` for throttling and audit.
+- Unique index on `token_hash`; partial index on pending, unexpired rows per member.
+- No new grants: the table stays staff-read-only through the Data API. All reads and writes happen in server functions with the admin client.
 
-**Step 1 — Close the cutover/binding gap (small, blocks C).**
-Extend `runCutover` purge to explicitly unbind TEST member bindings and revoke the `member` role for accounts that are not staff, instead of relying on the orphan sweep. Add a validation assertion "zero `member` roles remain". Reconcile the wording in rev. 4 §6 step 4.
+### Server half
 
-**Step 2 — Milestone C: cutover readiness rehearsal (dry-run mode).**
-Add a `dryRun` path to `runCutover` that performs pre-flight, archive, and a full counts/validation report **without** freeze, purge, mode switch, or LIVE import — surfaced as a "Rehearse cutover" action on `/integration` with a step-by-step result table. This is the piece that lets the chapter see exactly what would be deleted before anyone types the confirmation.
+- `requestMemberClaim(email)` — reuses the existing `attemptMemberClaim` gate and matching rule (email only *nominates*; ambiguous or already-linked rows are refused), then mints the token, stores the hash, and hands the URL to `sendMemberEmail`. Always returns the same neutral "if this address is registered…" result so it can't be used to enumerate members.
+- `verifyMemberClaimToken(token)` — read-only: valid / expired / consumed / unknown, plus the masked email for display.
+- `completeMemberClaim(token, password)` — inside one guarded path: re-verify, create the auth user with `supabaseAdmin.auth.admin.createUser` (email confirmed), set `members.auth_user_id`, grant the `member` role, mark the link consumed, and log a `member_sync_events` entry. Refuses if the member gained a binding in the meantime, so a leaked older link can never re-bind a claimed member.
+- Rate limiting: max attempts per token and per email per hour, recorded on the row.
 
-**Step 3 — Repoint `/find-a-coach` at real member rows.**
-Confirmed still on mock data (`src/lib/coaches.ts`); `src/lib/directory.functions.ts` already queries `coach_directory_public` with filters and paging but is unused. Wire the page to it, keep the mock as an explicit fallback behind a config flag until LIVE data exists. This is rev. 4 build-order item 7 and the last non-claim delivery.
+The binding rule from `plan-rev5.md` §5 is preserved — the durable boundary is the explicit `auth_user_id` link plus the granted role, never email equality.
 
-**Step 4 — Milestone E: member-owned service-area editing.**
-Let the bound member set their own `cf_regions` multi-select (and languages/specialisations/formats) from `/my-profile`, since no auto-created profile can be published without a declared region today. Small scope, unblocks any real published directory row.
+### UI
 
-**Step 5 — Milestone D: claim flow completion (still hard-disabled).**
-Build the missing second half — token consumption, set-password page, `member` role grant on completion, expiry/replay handling — behind the same `account_claim_enabled` gate, with no linked UI until the post-cutover human decision. Deliberately last: it depends on the binding rule, on LIVE data existing, and on emails being un-suppressed.
+- `/claim` — email request form, neutral confirmation screen. Rendered only when claim is enabled; otherwise a "member access isn't open yet" notice.
+- `/claim/$token` — token state screen, then password set (strength rules, confirm field), then automatic sign-in and redirect to `/my-profile`. Expired/consumed/unknown states each get their own calm message with a path back to `/claim`.
+- Both pages use the existing public site chrome, are `noindex`, and are localised DE/FR/IT/EN.
+- `/auth` gets a "First time here? Set up your member access" link, shown only when claim is enabled.
 
-**Status:** steps 1 and 2 are delivered (see `plan-rev6.md`). Steps 3-5 (Coach Finder swap, Milestone E member-owned service areas, Milestone D claim completion) remain open, in that order.
+### Verification without live email
+
+Email transport stays inert (`no_transport` logging), so testing uses a staff path: on `/members/$id`, an admin-only, audited **"Issue claim link"** action mints a token and displays the URL once for copy-paste. It sits beside the existing bind/unbind support tooling and writes a `member_sync_events` record. This is the only way a token exists before the LIVE cutover.
+
+Verification run in TEST: issue a link for an unbound member, complete the flow in a fresh browser session, confirm the member row is bound, the `member` role is granted, `/my-profile` loads that member's profile, staff routes are refused, and the token is rejected on reuse.
+
+### Docs
+
+Append a Milestone D section to `plan-rev6.md` (or a short `plan-rev7.md`) covering the token model, the gate, the admin-issued link, and the one remaining cutover step that must flip `account_claim_enabled`.
+
+---
+
+### Technical notes
+
+- Token: `crypto.randomBytes(32)` base64url, hashed with `crypto.createHash('sha256')` — both available in the Worker runtime. Constant-time compare on lookup by hash.
+- New server functions live in `src/lib/members.functions.ts` with handlers delegating to `src/lib/member-claim.server.ts`; the admin client is imported inside handlers.
+- Routes: `src/routes/claim.index.tsx` and `src/routes/claim.$token.tsx`, plus `$locale` equivalents, following the pattern used by the coach detail routes.
+- Password sign-in after `createUser` uses the browser client so the session hydrates normally before redirecting.
