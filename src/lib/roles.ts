@@ -52,6 +52,17 @@ export async function fetchMyRoles(userId: string): Promise<RoleSet> {
 }
 
 /** Client-side role state for nav/affordance gating only — never a boundary. */
+export async function landingPathForSession(
+  userId: string,
+): Promise<"/articles" | "/my-profile" | "/no-access"> {
+  const roles = await fetchMyRoles(userId);
+  // Staff wins when an account holds both grants: the CMS is the working
+  // surface, and the Member Area stays reachable at /my-profile.
+  if (roles.isStaff) return "/articles";
+  if (roles.isMember) return "/my-profile";
+  return "/no-access";
+}
+
 export function useMyRoles(): { roles: RoleSet; loading: boolean } {
   const [roles, setRoles] = useState<RoleSet>(EMPTY_ROLES);
   const [loading, setLoading] = useState(true);

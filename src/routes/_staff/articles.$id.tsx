@@ -333,7 +333,10 @@ function EditorPage() {
           <span className="text-xs text-muted-foreground">{saveLabel}</span>
         </div>
         <div className="flex items-center gap-2">
-          {article.status === "published" || article.status === "scheduled" ? (
+          {!roles.isEditor ? (
+            <span className="text-xs text-muted-foreground">{t("editor.contributorNote")}</span>
+          ) : null}
+          {roles.isEditor && (article.status === "published" || article.status === "scheduled") ? (
             <button
               onClick={unpublish}
               className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium hover:bg-secondary"
@@ -341,18 +344,22 @@ function EditorPage() {
               {t("editor.unpublish")}
             </button>
           ) : null}
-          <button
-            onClick={schedule}
-            className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium hover:bg-secondary"
-          >
-            {t("editor.schedule")}
-          </button>
-          <button
-            onClick={publishNow}
-            className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] hover:opacity-95"
-          >
-            {article.status === "published" ? t("editor.republish") : t("editor.publish")}
-          </button>
+          {roles.isEditor ? (
+            <>
+              <button
+                onClick={schedule}
+                className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium hover:bg-secondary"
+              >
+                {t("editor.schedule")}
+              </button>
+              <button
+                onClick={publishNow}
+                className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] hover:opacity-95"
+              >
+                {article.status === "published" ? t("editor.republish") : t("editor.publish")}
+              </button>
+            </>
+          ) : null}
         </div>
       </div>
 
