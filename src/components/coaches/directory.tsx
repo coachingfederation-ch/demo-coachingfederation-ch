@@ -274,7 +274,7 @@ export function CoachDirectory() {
     queryFn: fetchActiveVocabularies,
     staleTime: 5 * 60 * 1000,
   });
-  const { data: finderConfig } = useQuery<CoachFinderConfig | null>({
+  const { data: finderConfig } = useQuery<PublicCoachFinderConfig | null>({
     queryKey: ["coach-finder-config"],
     queryFn: fetchCoachFinderConfig,
     staleTime: 5 * 60 * 1000,

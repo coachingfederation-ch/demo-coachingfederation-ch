@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { Shell } from "@/components/cms/Shell";
 import { supabase } from "@/integrations/supabase/client";
 import { useCms } from "@/i18n/cms";
-import { CONFIG_COLUMNS, type CoachFinderConfig } from "@/lib/vocabularies";
+import { getCoachFinderConfigForStaff } from "@/lib/coach-finder-config.functions";
+import { type CoachFinderConfig } from "@/lib/vocabularies";
 
 export const Route = createFileRoute("/_staff/coach-finder")({
   head: () => ({
@@ -39,12 +40,13 @@ function CoachFinderSettingsPage() {
 
   useEffect(() => {
     void (async () => {
-      const { data, error: err } = await supabase
-        .from("coach_finder_config")
-        .select(CONFIG_COLUMNS)
-        .maybeSingle();
-      if (err) setError(err.message);
-      else setConfig(data as CoachFinderConfig | null);
+      // The internal tuning columns are not granted to `authenticated` over
+      // the Data API, so the full row comes from a staff-gated server function.
+      try {
+        setConfig(await getCoachFinderConfigForStaff());
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Could not load settings");
+      }
     })();
   }, []);
 
