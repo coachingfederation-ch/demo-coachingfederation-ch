@@ -284,8 +284,13 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
   return (
     <CoachProfileShell>
       {/* Hero: identity, at-a-glance meta and the two contact actions. */}
-      <div className="bg-hero text-hero-foreground">
-        <div className="mx-auto max-w-6xl px-5 pb-12 sm:px-8 sm:pb-16">
+      <div className="relative overflow-hidden bg-hero text-hero-foreground">
+        {/* Soft teal glow — the palette accent carried into the hero band. */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute -top-40 -right-24 h-96 w-96 rounded-full bg-accent opacity-15 blur-3xl"
+        />
+        <div className="relative mx-auto max-w-6xl px-5 pb-12 sm:px-8 sm:pb-16">
           <LocaleLink
             to="/find-a-coach"
             className="inline-flex items-center text-sm font-semibold text-hero-foreground/80 hover:text-hero-foreground"
