@@ -1,0 +1,148 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { Shell } from "@/components/cms/Shell";
+import { supabase } from "@/integrations/supabase/client";
+import { useCms } from "@/i18n/cms";
+import { CONFIG_COLUMNS, type CoachFinderConfig } from "@/lib/vocabularies";
+
+export const Route = createFileRoute("/_authenticated/coach-finder")({
+  head: () => ({
+    meta: [
+      { title: "Coach Finder settings — ICF Switzerland CMS" },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
+  component: CoachFinderSettingsPage,
+});
+
+const FACETS = [
+  { enabled: "coaching_enabled", label: "coaching_label", key: "coaching" },
+  { enabled: "mentoring_enabled", label: "mentoring_label", key: "mentoring" },
+  { enabled: "supervision_enabled", label: "supervision_label", key: "supervision" },
+] as const;
+
+const NUMBERS = [
+  { field: "page_size", key: "pageSize" },
+  { field: "feed_drop_threshold_pct", key: "feedDrop" },
+  { field: "snapshot_retention_months", key: "retention" },
+  { field: "csv_export_row_cap", key: "csvCap" },
+] as const;
+
+const INPUT =
+  "rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring/20";
+
+function CoachFinderSettingsPage() {
+  const { t } = useCms();
+  const [config, setConfig] = useState<CoachFinderConfig | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    void (async () => {
+      const { data, error: err } = await supabase
+        .from("coach_finder_config")
+        .select(CONFIG_COLUMNS)
+        .maybeSingle();
+      if (err) setError(err.message);
+      else setConfig(data as CoachFinderConfig | null);
+    })();
+  }, []);
+
+  const patch = async (values: Partial<CoachFinderConfig>) => {
+    setConfig((prev) => (prev ? { ...prev, ...values } : prev));
+    const { error: err } = await supabase.from("coach_finder_config").update(values).eq("id", true);
+    if (err) {
+      setError(err.message);
+      return;
+    }
+    setError(null);
+    setSaved(true);
+    window.setTimeout(() => setSaved(false), 1500);
+  };
+
+  return (
+    <Shell>
+      <div className="mx-auto max-w-3xl px-10 py-10">
+        <h1 className="text-2xl font-bold tracking-tight">{t("finder.title")}</h1>
+        <p className="mt-1 text-sm text-muted-foreground">{t("finder.subtitle")}</p>
+        {error ? <p className="mt-3 text-xs text-destructive">{error}</p> : null}
+        <p className="mt-3 h-4 text-xs text-muted-foreground" role="status" aria-live="polite">
+          {saved ? t("finder.saved") : ""}
+        </p>
+
+        {!config ? (
+          <p className="mt-6 text-sm text-muted-foreground">{t("finder.loading")}</p>
+        ) : (
+          <div className="mt-4 space-y-4">
+            <section className="rounded-2xl border border-border bg-card p-5">
+              <h2 className="text-sm font-bold">{t("finder.modes")}</h2>
+              <div className="mt-3 space-y-3">
+                {FACETS.map((f) => (
+                  <div key={f.key} className="flex items-center gap-3">
+                    <label className="inline-flex w-40 items-center gap-2 text-sm">
+                      <input
+                        type="checkbox"
+                        checked={config[f.enabled]}
+                        onChange={(e) => void patch({ [f.enabled]: e.target.checked })}
+                        className="h-4 w-4 accent-[var(--color-primary)]"
+                      />
+                      {t(`finder.facets.${f.key}`)}
+                    </label>
+                    <input
+                      value={config[f.label]}
+                      aria-label={t(`finder.facets.${f.key}`) + " — " + t("finder.label")}
+                      onChange={(e) =>
+                        setConfig((prev) => (prev ? { ...prev, [f.label]: e.target.value } : prev))
+                      }
+                      onBlur={(e) => void patch({ [f.label]: e.target.value })}
+                      className={INPUT + " flex-1"}
+                    />
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="rounded-2xl border border-border bg-card p-5">
+              <h2 className="text-sm font-bold">{t("finder.display")}</h2>
+              <label className="mt-3 block text-xs text-muted-foreground">
+                {t("finder.defaultSort")}
+                <select
+                  value={config.default_sort}
+                  onChange={(e) => void patch({ default_sort: e.target.value })}
+                  className={INPUT + " mt-1 block w-56"}
+                >
+                  <option value="name">{t("finder.sort.name")}</option>
+                  <option value="credential">{t("finder.sort.credential")}</option>
+                  <option value="recent">{t("finder.sort.recent")}</option>
+                </select>
+              </label>
+            </section>
+
+            <section className="rounded-2xl border border-border bg-card p-5">
+              <h2 className="text-sm font-bold">{t("finder.tunables")}</h2>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                {NUMBERS.map((n) => (
+                  <label key={n.field} className="text-xs text-muted-foreground">
+                    {t(`finder.numbers.${n.key}`)}
+                    <input
+                      type="number"
+                      min={1}
+                      value={config[n.field]}
+                      onChange={(e) =>
+                        setConfig((prev) =>
+                          prev ? { ...prev, [n.field]: Number(e.target.value) } : prev,
+                        )
+                      }
+                      onBlur={(e) => void patch({ [n.field]: Number(e.target.value) })}
+                      className={INPUT + " mt-1 w-full"}
+                    />
+                  </label>
+                ))}
+              </div>
+            </section>
+          </div>
+        )}
+      </div>
+    </Shell>
+  );
+}
