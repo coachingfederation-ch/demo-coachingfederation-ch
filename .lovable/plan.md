@@ -1,57 +1,71 @@
 ## Goal
 
-Rework the public coach profile (`/coach/$profileId`, and the localised `/$locale/coach/$profileId`) into the "ICF journey detail" direction: bolder use of the ICF palette to separate sections, a visual flow for "How I work", and Fees / Service areas / Links relocated to the right column.
+Give every coach profile one primary authoring language plus opt-in translations, using the same pattern already proven for Insights articles: a translation row per locale, AI-assisted first draft, manual refinement, freshness tracking, and locale fallback on the public site.
 
-Presentation-only. No schema, no server-function, no query changes — the same `PublicCoachProfile` data is used.
+## Data model
 
-## Layout changes (`src/pages/CoachProfile.tsx`)
+New table `public.member_profile_translations`, mirroring `article_translations`:
 
-Left column (main), each block a rounded-2xl card on the lavender page background, with a numbered mono eyebrow (`01 / About`, `02 / How I work`, …) so sections read as distinct panels instead of hairline-separated text:
+| Column | Notes |
+|---|---|
+| `profile_id` | FK to `member_directory_profiles`, unique with `locale` |
+| `locale` | `de` / `fr` / `it` / `en` |
+| `tagline`, `description`, `approach`, `qualifications`, `fees_note`, `session_length_note`, `availability_note`, `response_time_note`, `testimonial_quote`, `testimonial_attribution` | all nullable; blank fields simply fall back |
+| `manually_edited` | false after auto-translation, true after a member saves an edit |
+| `is_ready` | false while it is still a draft; only ready rows are shown publicly |
+| `source_updated_at` | snapshot of the source profile's content timestamp at translation time |
+| `created_at` / `updated_at` | standard, with touch trigger |
 
-1. About
-2. How I work — flow (below)
-3. Specialisation + Who I work with, side by side on desktop, each with a coloured left border (teal / lavender) as the palette accent
-4. Credentials & training
-5. Testimonial (kept as a highlighted quote card, indigo-tinted)
+Two columns added to `member_directory_profiles`:
+- `primary_locale` (default `en`) — the authoring language of the base row.
+- `content_updated_at` — bumped by a trigger whenever any translatable field changes. This is exactly what `articles.content_updated_at` does and is what makes "outdated" detectable.
 
-Right column (sticky), stacked cards in this order:
+Access rules: members read/write only rows belonging to their own profile; staff may read all; the public never reads this table directly.
 
-1. "Working with {name}" facts card + Book / Message CTAs + response-time note (existing)
-2. Fees — moved from left
-3. Service areas — moved from left, region chips
-4. Links — moved from left, arrow-affordance list
-5. "Profiles sourced from ICF Global" note (existing)
+## Translation states
 
-Hero stays structurally as-is (indigo band, avatar, name, credential badge, tagline, meta, availability dot, CTAs) but gets a soft teal radial accent shape for boldness.
+Derived, not stored — same derivation as the Insights panel:
 
-## "How I work" as a flow
+```text
+no row                                  -> Not created
+row, manually_edited = false, is_ready=false -> Auto-translated draft
+row, manually_edited = true,  is_ready=false -> Edited draft
+row, is_ready = true                    -> Published (live for that language)
+row.source_updated_at < profile.content_updated_at -> Outdated (badge overlays the above)
+```
 
-Replace the current numbered grid with a waypoint flow:
+## Public read path
 
-- Desktop: horizontal row of step nodes (numbered circles, alternating indigo / teal / lavender fills) with a connecting gradient line running behind them; heading-less steps show the paragraph text under each node.
-- Mobile / 5–6 steps: falls back to a vertical timeline with the connector on the left, so long text stays readable.
-- Keeps the existing parsing rule: paragraphs split on blank lines, max 6; fewer than 2 paragraphs still renders as plain prose (no half-built flow).
+`coach_directory_public` gains a `translations` JSONB column: an aggregate of the ready translation rows keyed by locale, built inside the view so the view stays the single safety boundary (no new public table exposure, unchanged column safety guarantees).
 
-## Graceful degradation
+`queryCoachDirectory` and `getPublicCoachProfile` take the active locale and resolve each field field-by-field: use the translated value when non-empty, otherwise the primary-language value. This means a partially translated profile is never half-empty. `resolvedLocale` is returned alongside, so the profile page can show the existing "shown in <language>" notice component when a fallback happened, and `head()` metadata uses the resolved text.
 
-Every card is already conditional on its field being present. Rules kept:
+Search, facets and sorting keep matching primary-language content and slug facets — translations affect display only.
 
-- Empty Fees / Service areas / Links simply omit those sidebar cards.
-- If the whole sidebar would be empty apart from the ICF note, the main column widens rather than leaving a gap.
-- The 3rd row (Specialisation / Who I work with) collapses to a single full-width card when only one of the two has values.
+## Member portal flow
 
-## Tokens and styling
+A "Languages" panel is added to `MemberProfileEditor`, modelled on `TranslationsPanel`:
 
-- No hardcoded hex. The prototype's indigo `#2E3192`, cyan `#00AEEF`, lavender `#E6E6FA` and cream map to the existing semantic tokens (`--hero`/`--primary`, `--accent`, `--secondary`/`--muted`, background). If the flow needs a distinct lavender step fill not covered today, one token is added in `src/styles.css` under the existing `@theme inline` block.
-- Reuses `CARD_SHADOW`, `eyebrow`, `btn-mono` conventions from `src/components/site-chrome.tsx`.
+1. Pick the primary language (locked to the profile, changeable while no translations exist).
+2. For each other language: a status badge and a "Translate" button. Nothing is generated automatically — the coach opts in per language.
+3. Auto-translation calls a new `translateMemberProfile` server function using the same Lovable AI gateway and prompt conventions as `translateArticle`, writing an unready draft.
+4. The coach opens the language, edits any field inline, and saves — which flips `manually_edited` to true.
+5. A "Publish this language" toggle sets `is_ready`. Until then the public site falls back to the primary language.
+6. Re-running translation on a row with `manually_edited = true` requires an explicit confirmation, reusing the existing overwrite-confirmation copy.
+7. Editing the source profile bumps `content_updated_at`, so all translations immediately show the "Outdated" badge with a "Refresh" action; the coach can also dismiss it by re-saving the translation manually.
 
-## Copy / i18n
+Staff keep read-only visibility of translation status on the admin member detail screen.
 
-No new user-facing strings expected — section titles reuse existing `directory.detail.*` keys. If the numbered eyebrows need a separate label, they are composed from the existing titles rather than new keys, so DE/FR/IT stay in sync automatically.
+## Localisation of the UI itself
 
-## Verification
+New strings for the panel, states and public fallback notice added to the `cms` and `directory` dictionaries in all four languages, following the existing `src/i18n/locales` layout.
 
-- Render the current live profile (Hartmuth Gieldanowski, 4 "How I work" paragraphs, no fees/links) at desktop and mobile widths and screenshot both.
-- Render a sparse profile to confirm no empty cards or orphan headings.
-- Contrast check on the teal-on-indigo and lavender-on-white step nodes.
-- Typecheck.
+## Documentation
+
+`docs/public-directory.md` and `docs/code-map.md` are extended with a "Profile translations" section covering the table, the state machine above, the fallback rule, and the member editing flow.
+
+## Technical notes
+
+- Migration order per project convention: create table, GRANT, enable RLS, policies, trigger; then view replacement with `security_invoker = on`.
+- Server work goes in `src/lib/member-translations.server.ts` (writes, AI call) with the RPC surface in `member-profile.functions.ts` / a sibling `.functions.ts`, all behind `requireSupabaseAuth`.
+- No change to the sync engine: translations are local portal data and survive ICF imports, like the rest of the profile's local fields.
