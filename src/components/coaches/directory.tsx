@@ -1,14 +1,31 @@
+/**
+ * Public Coach Finder UI.
+ *
+ * Data comes from `queryCoachDirectory` (the `coach_directory_public` view),
+ * never from local fixtures: only members that are active, credentialed and
+ * whose profile is `published` are ever returned. Facet filters are applied
+ * server-side; the free-text box narrows the current page client-side.
+ */
 import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { CARD_SHADOW } from "@/components/site-chrome";
 import { useI18n } from "@/i18n";
-import { COACHES, initials, type Coach } from "@/lib/coaches";
+import { queryCoachDirectory, type DirectoryEntry } from "@/lib/directory.functions";
 import {
   fetchActiveVocabularies,
   vocabLabel,
   type CoachFinderVocabularies,
   type VocabRow,
 } from "@/lib/vocabularies";
+
+export function initials(name: string) {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? "")
+    .join("");
+}
 
 function Chip({
   active,
@@ -39,67 +56,72 @@ function Chip({
 const FIELD =
   "h-10 w-full rounded-full border border-border bg-card px-4 text-sm text-foreground outline-none transition focus:border-primary";
 
-export function CoachCard({ coach }: { coach: Coach }) {
+type LabelLookup = (slug: string) => string;
+
+export function CoachCard({
+  entry,
+  specialisationLabel,
+  formatLabel,
+}: {
+  entry: DirectoryEntry;
+  specialisationLabel: LabelLookup;
+  formatLabel: LabelLookup;
+}) {
   const { t } = useI18n();
-  const { icf, local } = coach;
+  const name = entry.full_name ?? "";
+  const location = [entry.city, entry.country].filter(Boolean).join(" · ");
+  const langs = (entry.language_slugs ?? []).map((l) => l.toUpperCase()).join(" / ");
+  const accepting = entry.availability_slug !== "not-accepting";
+  const credentialYear = entry.credential_awarded_on
+    ? new Date(entry.credential_awarded_on).getFullYear()
+    : null;
+
   return (
     <article
       className={"flex w-full flex-col gap-4 rounded-2xl border border-border/70 bg-card p-6 " + CARD_SHADOW}
     >
       <div className="flex items-start gap-4">
-        {icf.photoUrl ? (
-          <img
-            src={icf.photoUrl}
-            alt=""
-            className="h-14 w-14 shrink-0 rounded-xl object-cover"
-          />
-        ) : (
-          <span
-            aria-hidden
-            className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-primary/10 text-lg font-bold text-primary"
-          >
-            {initials(icf.fullName)}
-          </span>
-        )}
+        <span
+          aria-hidden
+          className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-primary/10 text-lg font-bold text-primary"
+        >
+          {initials(name)}
+        </span>
         <div className="min-w-0">
-          <h3 className="text-lg font-bold tracking-tight text-foreground">{icf.fullName}</h3>
+          <h3 className="text-lg font-bold tracking-tight text-foreground">{name}</h3>
           <p className="mt-1 text-xs font-semibold text-muted-foreground">
-            {icf.city} · {icf.canton} ·{" "}
-            {icf.languages.map((l) => l.toUpperCase()).join(" / ")}
+            {[location, langs].filter(Boolean).join(" · ")}
           </p>
         </div>
         <div className="ml-auto flex shrink-0 flex-col items-end gap-1.5">
-          <span className="inline-flex h-6 items-center rounded-full bg-primary px-2.5 text-[11px] font-bold tracking-wider text-primary-foreground">
-            {icf.credential}
-          </span>
-          {local.featured && (
-            <span className="inline-flex h-6 items-center rounded-full bg-accent px-2.5 text-[11px] font-bold uppercase tracking-wider text-accent-foreground">
-              {t("directory.card.featured")}
+          {entry.credential_slug && (
+            <span className="inline-flex h-6 items-center rounded-full bg-primary px-2.5 text-[11px] font-bold tracking-wider text-primary-foreground">
+              {entry.credential_slug.toUpperCase()}
             </span>
           )}
         </div>
       </div>
 
-      {local.customHeadline && (
-        <p className="text-sm font-semibold text-primary">{local.customHeadline}</p>
+      {entry.tagline && <p className="text-sm font-semibold text-primary">{entry.tagline}</p>}
+      {entry.description && (
+        <p className="text-sm leading-relaxed text-muted-foreground">{entry.description}</p>
       )}
-      <p className="text-sm leading-relaxed text-muted-foreground">{icf.bioSnippet}</p>
 
       <div className="flex flex-wrap gap-2">
-        {icf.specializations.map((s) => (
+        {(entry.specialisation_slugs ?? []).map((s) => (
           <span
             key={s}
             className="inline-flex h-6 items-center rounded-full bg-muted px-2.5 text-[11px] font-semibold text-muted-foreground"
           >
-            {t(`directory.specializations.${s}`)}
+            {specialisationLabel(s)}
           </span>
         ))}
-        {icf.formats.map((f) => (
+        {(entry.format_slugs ?? []).map((f) => (
           <span
             key={f}
             className="inline-flex h-6 items-center rounded-full border border-border px-2.5 text-[11px] font-semibold text-muted-foreground"
           >
-            {t(`directory.formats.${f}`)}
+            {formatLabel(f)}
           </span>
         ))}
       </div>
@@ -107,16 +129,16 @@ export function CoachCard({ coach }: { coach: Coach }) {
       <div className="mt-auto flex items-center gap-2 border-t border-border/70 pt-4 text-xs font-semibold">
         <span
           aria-hidden
-          className={
-            "h-2 w-2 rounded-full " + (local.acceptingClients ? "bg-accent" : "bg-border")
-          }
+          className={"h-2 w-2 rounded-full " + (accepting ? "bg-accent" : "bg-border")}
         />
-        <span className={local.acceptingClients ? "text-foreground" : "text-muted-foreground"}>
-          {local.acceptingClients ? t("directory.card.accepting") : t("directory.card.waitlist")}
+        <span className={accepting ? "text-foreground" : "text-muted-foreground"}>
+          {accepting ? t("directory.card.accepting") : t("directory.card.waitlist")}
         </span>
-        <span className="ml-auto font-normal text-muted-foreground">
-          {t("directory.card.credentialSince").replace("{year}", String(icf.credentialSince))}
-        </span>
+        {credentialYear && (
+          <span className="ml-auto font-normal text-muted-foreground">
+            {t("directory.card.credentialSince").replace("{year}", String(credentialYear))}
+          </span>
+        )}
       </div>
     </article>
   );
@@ -144,12 +166,38 @@ export function CoachDirectory() {
   const [formats, setFormats] = useState<string[]>([]);
   const [acceptingOnly, setAcceptingOnly] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const [page, setPage] = useState(0);
 
   const label = (row: VocabRow) => vocabLabel(row, locale);
+  const lookup = (rows: VocabRow[]): LabelLookup => {
+    const map = new Map(rows.map((r) => [r.slug, vocabLabel(r, locale)]));
+    return (slug) => map.get(slug) ?? slug;
+  };
+  const specialisationLabel = useMemo(() => lookup(specialisationTerms), [specialisationTerms, locale]);
+  const formatLabel = useMemo(() => lookup(formatTerms), [formatTerms, locale]);
 
   function toggle(list: string[], set: (v: string[]) => void, value: string) {
+    setPage(0);
     set(list.includes(value) ? list.filter((v) => v !== value) : [...list, value]);
   }
+
+  const filters = useMemo(
+    () => ({
+      regions: region === "all" ? undefined : [region],
+      languages: language === "all" ? undefined : [language],
+      credentials: credentials.length ? credentials : undefined,
+      specialisations: specializations.length ? specializations : undefined,
+      formats: formats.length ? formats : undefined,
+      page,
+    }),
+    [region, language, credentials, specializations, formats, page],
+  );
+
+  const { data, isPending, isError } = useQuery({
+    queryKey: ["coach-directory", filters],
+    queryFn: () => queryCoachDirectory({ data: filters }),
+    placeholderData: keepPreviousData,
+  });
 
   const dirty =
     query !== "" ||
@@ -168,39 +216,42 @@ export function CoachDirectory() {
     setSpecializations([]);
     setFormats([]);
     setAcceptingOnly(false);
+    setPage(0);
   }
 
-  const results = useMemo(
-    () =>
-      COACHES.filter(({ icf, local }) => {
-        if (region !== "all" && icf.regionSlug !== region) return false;
-        if (language !== "all" && !icf.languages.some((l) => l === language)) return false;
-        if (credentials.length && !credentials.includes(icf.credential)) return false;
-        if (specializations.length && !specializations.some((s) => icf.specializations.includes(s)))
-          return false;
-        if (formats.length && !formats.some((f) => icf.formats.some((cf) => cf === f))) return false;
-        if (acceptingOnly && !local.acceptingClients) return false;
-        if (query) {
-          const haystack = [
-            icf.fullName,
-            icf.city,
-            icf.canton,
-            icf.bioSnippet,
-            ...icf.specializations.map((s) => t(`directory.specializations.${s}`)),
-          ]
-            .join(" ")
-            .toLowerCase();
-          if (!haystack.includes(query.toLowerCase())) return false;
-        }
-        return true;
-      }),
-    [query, region, language, credentials, specializations, formats, acceptingOnly, t],
-  );
+  // Free text and availability narrow the page the server returned; the facet
+  // filters above are what the view is queried with.
+  const results = useMemo(() => {
+    const entries = data?.entries ?? [];
+    const needle = query.trim().toLowerCase();
+    return entries.filter((e) => {
+      if (acceptingOnly && e.availability_slug !== "accepting") return false;
+      if (!needle) return true;
+      const haystack = [
+        e.full_name,
+        e.city,
+        e.country,
+        e.organisation,
+        e.tagline,
+        e.description,
+        ...(e.specialisation_slugs ?? []).map(specialisationLabel),
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+      return haystack.includes(needle);
+    });
+  }, [data, query, acceptingOnly, specialisationLabel]);
 
+  const total = data?.total ?? 0;
+  const pageSize = data?.pageSize ?? 12;
+  const narrowed = query.trim() !== "" || acceptingOnly;
+  const shownCount = narrowed ? results.length : total;
   const countLabel =
-    results.length === 1
+    shownCount === 1
       ? t("directory.results.one")
-      : t("directory.results.many").replace("{count}", String(results.length));
+      : t("directory.results.many").replace("{count}", String(shownCount));
+  const hasMore = !narrowed && (page + 1) * pageSize < total;
 
   const filterPanel = (
     <div className="flex flex-col gap-6">
@@ -225,7 +276,10 @@ export function CoachDirectory() {
         <select
           id="coach-region"
           value={region}
-          onChange={(e) => setRegion(e.target.value)}
+          onChange={(e) => {
+            setPage(0);
+            setRegion(e.target.value);
+          }}
           className={FIELD}
         >
           <option value="all">{t("directory.filters.regionAll")}</option>
@@ -244,7 +298,10 @@ export function CoachDirectory() {
         <select
           id="coach-language"
           value={language}
-          onChange={(e) => setLanguage(e.target.value)}
+          onChange={(e) => {
+            setPage(0);
+            setLanguage(e.target.value);
+          }}
           className={FIELD}
         >
           <option value="all">{t("directory.filters.languageAll")}</option>
@@ -345,7 +402,7 @@ export function CoachDirectory() {
           <div className="mb-6 flex items-center justify-between gap-4">
             {/* 4.1.3: announce the new result count when filters change. */}
             <p role="status" aria-live="polite" className="text-sm font-semibold text-muted-foreground">
-              {countLabel}
+              {isPending ? t("directory.results.loading") : countLabel}
             </p>
             {dirty && (
               <button
@@ -358,15 +415,46 @@ export function CoachDirectory() {
             )}
           </div>
 
-          {results.length ? (
-            <ul className="grid list-none gap-5 p-0 md:grid-cols-2">
-              {results.map((c) => (
-                <li key={c.id} className="flex">
-                  <CoachCard coach={c} />
-                </li>
-              ))}
-            </ul>
-          ) : (
+          {isError ? (
+            <div className="rounded-2xl border border-border/70 bg-card px-8 py-16 text-center">
+              <p className="text-base font-bold text-foreground">{t("directory.results.errorTitle")}</p>
+              <p className="mt-2 text-sm text-muted-foreground">{t("directory.results.errorBody")}</p>
+            </div>
+          ) : results.length ? (
+            <>
+              <ul className="grid list-none gap-5 p-0 md:grid-cols-2">
+                {results.map((entry) => (
+                  <li key={entry.profile_id} className="flex">
+                    <CoachCard
+                      entry={entry}
+                      specialisationLabel={specialisationLabel}
+                      formatLabel={formatLabel}
+                    />
+                  </li>
+                ))}
+              </ul>
+              {(page > 0 || hasMore) && (
+                <div className="mt-8 flex items-center justify-center gap-3">
+                  <button
+                    type="button"
+                    disabled={page === 0}
+                    onClick={() => setPage((p) => Math.max(0, p - 1))}
+                    className="inline-flex h-10 items-center rounded-full border border-border bg-card px-5 text-sm font-semibold text-foreground disabled:opacity-40"
+                  >
+                    {t("directory.results.prev")}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={!hasMore}
+                    onClick={() => setPage((p) => p + 1)}
+                    className="inline-flex h-10 items-center rounded-full border border-border bg-card px-5 text-sm font-semibold text-foreground disabled:opacity-40"
+                  >
+                    {t("directory.results.next")}
+                  </button>
+                </div>
+              )}
+            </>
+          ) : isPending ? null : (
             <div className="rounded-2xl border border-border/70 bg-card px-8 py-16 text-center">
               <p className="text-base font-bold text-foreground">
                 {t("directory.results.emptyTitle")}
