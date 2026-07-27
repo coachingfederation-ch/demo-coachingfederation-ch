@@ -151,34 +151,92 @@ function escapeXml(value: string): string {
   );
 }
 
-export async function fetchActiveMemberFeed(mode: IntegrationMode): Promise<NormalizedMember[]> {
-  const { url, username, password, chapterCode } = soapCredentials(mode);
-  const envelope = `<?xml version="1.0" encoding="utf-8"?>
+const SOAP_NS = "http://www.icf.org/";
+
+function envelope(operation: string, inner: string): string {
+  return `<?xml version="1.0" encoding="utf-8"?>
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
   <soap:Body>
-    <GetChapterMembers xmlns="http://www.icf.org/">
-      <username>${escapeXml(username)}</username>
-      <password>${escapeXml(password)}</password>
-      <chapterCode>${escapeXml(chapterCode)}</chapterCode>
-    </GetChapterMembers>
+    <${operation} xmlns="${SOAP_NS}">${inner}</${operation}>
   </soap:Body>
 </soap:Envelope>`;
+}
 
+/**
+ * Credentials never leave this module: they are read from server-only env vars
+ * inside the request, sent to ICF, and never logged. SOAP fault bodies are not
+ * echoed back to callers, because an ICF fault can quote the request envelope.
+ */
+async function callSoap(url: string, operation: string, inner: string): Promise<string> {
   const response = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "text/xml; charset=utf-8",
-      SOAPAction: "http://www.icf.org/GetChapterMembers",
+      SOAPAction: `${SOAP_NS}${operation}`,
     },
-    body: envelope,
+    body: envelope(operation, inner),
   });
 
   const body = await response.text();
   if (!response.ok) {
-    throw new Error(`ICF SOAP request failed with status ${response.status}`);
+    throw new Error(`ICF SOAP ${operation} failed with status ${response.status}`);
   }
   if (/<(\w+:)?Fault>/i.test(body)) {
-    throw new Error("ICF SOAP endpoint returned a Fault response");
+    throw new Error(`ICF SOAP ${operation} returned a Fault response`);
   }
+  return body;
+}
+
+/** Depth-first search for the first non-empty token-shaped value in the response. */
+function findToken(node: unknown): string | null {
+  if (!node || typeof node !== "object") return null;
+  for (const [key, value] of Object.entries(node as Record<string, unknown>)) {
+    if (/(token|sessionid|ticket|authkey)/i.test(key) && value && typeof value !== "object") {
+      const s = String(value).trim();
+      if (s && s.toLowerCase() !== "null") return s;
+    }
+    const nested = findToken(value);
+    if (nested) return nested;
+  }
+  return null;
+}
+
+/**
+ * Step 1 — Authenticate. Exchanges the stored username/password for a session
+ * token. Some ICF endpoints authenticate inline on each call instead of
+ * issuing a token; in that case this returns null and the member call falls
+ * back to inline credentials.
+ */
+export async function authenticate(mode: IntegrationMode): Promise<string | null> {
+  const { url, username, password } = soapCredentials(mode);
+  const body = await callSoap(
+    url,
+    "Authenticate",
+    `<username>${escapeXml(username)}</username><password>${escapeXml(password)}</password>`,
+  );
+  const parser = new XMLParser({
+    ignoreAttributes: true,
+    parseTagValue: false,
+    trimValues: true,
+    removeNSPrefix: true,
+    processEntities: false,
+  });
+  return findToken(parser.parse(body));
+}
+
+/** Step 2 — fetch the authoritative full active-member snapshot. */
+export async function fetchActiveMemberFeed(mode: IntegrationMode): Promise<NormalizedMember[]> {
+  const { url, username, password, chapterCode } = soapCredentials(mode);
+  const token = await authenticate(mode);
+
+  const credentialFragment = token
+    ? `<token>${escapeXml(token)}</token>`
+    : `<username>${escapeXml(username)}</username><password>${escapeXml(password)}</password>`;
+
+  const body = await callSoap(
+    url,
+    "GetChapterMembers",
+    `${credentialFragment}<chapterCode>${escapeXml(chapterCode)}</chapterCode>`,
+  );
   return parseMemberFeed(body);
 }
