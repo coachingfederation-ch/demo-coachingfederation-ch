@@ -1,46 +1,96 @@
-Noted and locked in: **CSV export is admin-only** — the export server fn re-verifies `has_role(auth.uid(), 'admin')` server-side and returns 403 for editors; the button is hidden for non-admins. Editors keep read access to the admin members table (no bulk PII download); Clean up stays admin-only too. This replaces the `admin|editor` assumption in rev. 3 §8b and §11.
+## Phase 2 (rev. 4) — Member backend, TEST-only build, full-reset cutover
 
-Everything else in the approved rev. 3 architecture stands unchanged (full-snapshot sync with explicit null rule, `member_activity_state` split from diagnostics, four-state visibility, service facets, per-run import snapshots, admin Clean up action, admin members list).
+Simplified per your call: no member-authored content survives TEST, no claim flow goes live in TEST, and the cutover is a clean purge of the member domain followed by a fresh LIVE import.
 
-## Phase 1 — CMS-managed vocabularies + Coach Finder config
+The database today has no member tables — only the Phase 1 `cf_*` vocabularies, `coach_finder_config`, and the articles/profiles/roles set. So Phase 2 builds the member schema plus the safety rails around it.
 
-Goal: get the controlled filter vocabularies into the database and under admin management, and repoint `/find-a-coach` at them. No member data, no sync, no auth changes yet. Directory rows stay mock; only the *filter options* become real.
+---
 
-### Migration
+### 1. Data classification
 
-Six vocabulary tables, all sharing the existing `categories` shape so one admin screen serves them all:
+| Class | Data | Cutover rule |
+|---|---|---|
+| **Preserve** | `cf_*` vocabularies, `coach_finder_config`, `categories`, `user_roles`, staff `profiles`, schema, RLS, grants, storage buckets, cron jobs, server routes | Untouched by cutover |
+| **Purge** | `members`, `member_directory_profiles`, member↔vocabulary joins, `member_import_snapshots`, `member_sync_runs`/`member_sync_events`, `member_lifecycle_queue`, `member_email_log`, `member_profile_links`, TEST-created `auth.users`, TEST profile images in storage | Archived once, then wiped before first LIVE import |
 
-`cf_regions`, `cf_specialisations`, `cf_credentials`, `cf_formats`, `cf_languages`, `cf_availability_labels`
+No third "migratable" class — there is nothing member-authored to carry.
 
-Each: `id uuid pk`, `slug text unique`, `name text`, `name_de`, `name_fr`, `name_it`, `sort_order int`, `is_active bool default true`, `created_at`, `updated_at` + touch trigger.
+---
 
-Plus `coach_finder_config` — a singleton row (`id` with a one-row check) holding scalars: per-facet enablement and labels (`coaching`/`mentoring`/`supervision`), default sort, page size, and the tunables the later phases read (feed-drop threshold, snapshot retention months, CSV row cap).
+### 2. No carryover
 
-Per table, in order: CREATE TABLE → GRANTs (`SELECT` to `anon` + `authenticated`; `SELECT/INSERT/UPDATE/DELETE` to `authenticated`; `ALL` to `service_role`) → ENABLE RLS → policies:
-- public read: `SELECT` to `anon, authenticated` where `is_active` (admins/editors see inactive rows too)
-- writes: `has_role(admin)` or `has_role(editor)` via the existing inline `EXISTS` pattern already used by `categories`, matching the security memory's documented approach
+The optional enrichment-carryover staging table and reconciliation step are removed. If real local content ever accumulates before a future re-cutover, we add a whitelist export at that point; it is not part of this build.
 
-Seed rows in the same migration: Swiss regions (the cantonal/linguistic groupings already implied by the directory, incl. Romandie and Ticino), the current specialisation keys from `src/lib/coaches.ts` (leadership, career, team, executive, transition, wellbeing, systemic, diversity), credentials ACC/PCC/MCC, formats in-person/online, languages DE/FR/IT/EN in that order, and availability labels (accepting / waitlist / not accepting). EN names are authored now; DE/FR/IT columns are seeded with the best available translation and flagged for chapter review.
+---
 
-### Admin UI
+### 3. `imported_in_mode` dropped
 
-- New "Vocabularies" entry in the CMS sidebar (`src/components/cms/Shell.tsx`), following the existing Articles/Categories pattern.
-- One generic list/editor screen driven by a table descriptor, reused for all six vocabularies: add, rename, edit the three translations, reorder via `sort_order`, toggle `is_active` (soft-disable rather than delete, so existing references never break).
-- A small settings screen for the `coach_finder_config` singleton.
-- All strings go through the existing `cms.json` dictionaries for EN/DE/FR/IT.
-- Routes under `src/routes/_authenticated/`, reads/writes through the browser Supabase client with RLS doing the gating (consistent with how Categories works today).
+Agreed — with a hard purge between TEST and LIVE, a per-row mode flag is dead weight that every query would have to filter on forever. Dropped from `members`.
 
-### Coach Finder wiring
+Kept instead, at negligible cost: `member_sync_runs.mode` (`test`/`live`). That's a run-level audit stamp, not an operational filter — it lets the status panel and the post-cutover validation show "all surviving rows came from LIVE run #1" without polluting the member schema or the Coach Finder query.
 
-- `src/lib/coaches.ts` keeps its mock `COACHES` array for now, but the hardcoded `SPECIALIZATION_KEYS`, `CREDENTIAL_LEVELS`, `COACHING_FORMATS`, `COACH_LANGUAGES` and derived `CANTONS` constants stop being the source of the filter UI.
-- A public server fn loads active vocabulary rows; the `/find-a-coach` route loader prefetches it via the existing query pattern, and `src/components/coaches/directory.tsx` renders filter options from that data with locale-aware labels.
-- Mock coaches are mapped onto vocabulary slugs so filtering keeps working end to end; any mock value without a matching slug is dropped from the filters rather than silently shown.
-- No visual redesign — same controls, same layout, same accessibility work already in place (labels, `role="status"` result count, focus rings).
+The cutover's validation step asserts `members` is empty immediately before the first LIVE import, which is the real guarantee that no TEST row survives.
 
-### Verification
+---
 
-Migration applies with GRANTs and RLS on all seven tables; linter clean. Admin can create/edit/reorder/deactivate a term in each vocabulary and see it appear or disappear in the public filters. `/find-a-coach` filters populate from the database in all four locales, filtering still narrows results, and a Playwright pass confirms no console errors and no regression at 375px and 1280px.
+### 4. Auth and claim: built, hard-disabled
 
-### Out of scope for Phase 1
+`integration_config` singleton (one row, admin-write, admin/editor read):
 
-`members` and profile tables, sync pipeline, claim flow, Member Area, lifecycle, admin members list and CSV export — those are Phases 2-7 as approved.
+- `mode` — `test` | `live`
+- `soap_endpoint_key` — selects the TEST vs LIVE credential set
+- `emails_suppressed boolean` — default true
+- `email_redirect_to text` — optional internal catch-all
+- `account_claim_enabled boolean` — default **false**
+- `cutover_completed_at`, `cutover_completed_by`
+- `last_successful_sync_at`, `last_failed_sync_at`, `last_sync_run_id`
+
+Trigger-enforced invariants: `mode='test'` forces `emails_suppressed=true` **and** `account_claim_enabled=false`; `account_claim_enabled` can only be set true when `mode='live'` and `cutover_completed_at` is set. So claim cannot be switched on in TEST even by mistake.
+
+The claim architecture is built now but inert: the server function short-circuits with a "not available" result whenever `account_claim_enabled` is false, and no claim/set-password UI is linked from the public site or member area. `/auth` keeps serving staff CMS sign-in only, exactly as today.
+
+**TEST auth rule:** no member auth users are created during TEST at all, because claim never runs. If any appear (manual testing), the cutover deletes every `auth.users` row that has no `user_roles` entry. Staff/admin accounts are preserved.
+
+**Claim enablement gate (post-cutover, explicit human decision):** first LIVE import succeeded → member count in the expected range (~500) → no email matches the TEST `zz` wrapper pattern → chapter decides to open the Member Area. Only then does an admin flip `account_claim_enabled` and `emails_suppressed`.
+
+---
+
+### 5. Email safety
+
+Every member-facing send goes through one helper that reads `integration_config` first. With `emails_suppressed=true` no provider call is made — the intent is written to `member_email_log` as `suppressed`. With `email_redirect_to` set, it goes to that single internal inbox with the real recipient in the header. There is no email queue table, so nothing can drain into LIVE later; the suppressed log is archived and wiped at cutover regardless.
+
+---
+
+### 6. First LIVE cutover runbook (one-time, admin-only, typed confirmation)
+
+1. **Pre-flight** — caller `has_role('admin')`; assert `mode='test'`, `cutover_completed_at is null`, LIVE credentials present.
+2. **Archive** — full JSONB dump of all member-domain tables into `member_archive_snapshots` plus a downloadable bundle.
+3. **Freeze** — disable the sync cron, set `cutover_in_progress`; Coach Finder member queries return a maintenance state. CMS/vocabularies stay editable.
+4. **Purge** — delete in FK order: `member_profile_links` → member↔vocabulary joins → `member_directory_profiles` → `member_import_snapshots` → `member_sync_events` → `member_lifecycle_queue` → `member_email_log` → `members`. Delete non-staff `auth.users`. Remove orphaned profile images (bucket preserved).
+5. **Switch** — `mode='live'`, `soap_endpoint_key='live'`; `emails_suppressed` stays true, `account_claim_enabled` stays false.
+6. **First LIVE import** — run manually, not on cron. Feed-drop safety valve aborts without writing if the feed returns implausibly few members.
+7. **Validate** — `members` was empty before import; count within expected range; zero `zz`-pattern emails; zero non-null `auth_user_id`; spot-check N records against the ICF portal; `cf_*` rows and `coach_finder_config` checksum-identical before/after; `/find-a-coach` renders LIVE rows against Phase 1 vocabularies.
+8. **Go live (directory only)** — clear the freeze, re-enable the sync cron, stamp `cutover_completed_at`/`_by`. Emails and claim stay off.
+9. **Later, separately** — flip `emails_suppressed=false` and `account_claim_enabled=true` when the §4 gate is met.
+
+Steps 1–5 fail safe: anything before the switch leaves TEST state intact and restorable from step 2.
+
+---
+
+### 7. Operational visibility
+
+Admin "Integration status" panel (read admin+editor, write admin): current mode with a loud TEST badge, email suppression + redirect target, claim-enabled state, last successful sync, last failed sync with error summary, cutover timestamp + actor, recent sync-run history. The TEST badge also renders in the CMS shell so nobody mistakes TEST data for production.
+
+---
+
+### 8. Build order
+
+1. `integration_config` + `member_email_log` + status panel + email gate (rails first).
+2. Member schema — `members` (unique `cst_recno`, `member_activity_state`, no mode column), `member_directory_profiles` with the four-state visibility model, service-facet columns, vocabulary joins, `member_import_snapshots`, `member_sync_runs`/`member_sync_events`, `member_lifecycle_queue` — with GRANTs and RLS.
+3. SOAP sync against TEST with full-snapshot replacement semantics (rev. 3 null rule) and the feed-drop valve.
+4. Admin members list: sortable/filterable table, admin-only CSV export, admin-only Clean up action.
+5. Claim/auth architecture built but hard-disabled.
+6. Cutover routine + runbook screen.
+7. Coach Finder repointed from mock data to real member rows.
+
+Chapter still owes DE/FR/IT copy for the Phase 1 vocabularies and for member-facing email templates.

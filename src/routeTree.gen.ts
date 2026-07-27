@@ -25,6 +25,7 @@ import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
 import { Route as InsightsIdRouteImport } from './routes/insights.$id'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AuthenticatedVocabulariesRouteImport } from './routes/_authenticated/vocabularies'
+import { Route as AuthenticatedIntegrationRouteImport } from './routes/_authenticated/integration'
 import { Route as AuthenticatedCoachFinderRouteImport } from './routes/_authenticated/coach-finder'
 import { Route as AuthenticatedArticlesRouteImport } from './routes/_authenticated/articles'
 import { Route as LocaleInsightsRouteImport } from './routes/$locale/insights'
@@ -33,8 +34,10 @@ import { Route as LocaleForCoachesRouteImport } from './routes/$locale/for-coach
 import { Route as LocaleFindACoachRouteImport } from './routes/$locale/find-a-coach'
 import { Route as LocaleEventsRouteImport } from './routes/$locale/events'
 import { Route as LocaleAboutRouteImport } from './routes/$locale/about'
+import { Route as AuthenticatedMembersIndexRouteImport } from './routes/_authenticated/members.index'
 import { Route as AuthenticatedArticlesIndexRouteImport } from './routes/_authenticated/articles.index'
 import { Route as LocaleInsightsIndexRouteImport } from './routes/$locale/insights.index'
+import { Route as ApiPublicMemberSyncRouteImport } from './routes/api/public/member-sync'
 import { Route as AuthenticatedArticlesNewRouteImport } from './routes/_authenticated/articles.new'
 import { Route as AuthenticatedArticlesCategoriesRouteImport } from './routes/_authenticated/articles.categories'
 import { Route as AuthenticatedArticlesIdRouteImport } from './routes/_authenticated/articles.$id'
@@ -120,6 +123,12 @@ const AuthenticatedVocabulariesRoute =
     path: '/vocabularies',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedIntegrationRoute =
+  AuthenticatedIntegrationRouteImport.update({
+    id: '/integration',
+    path: '/integration',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedCoachFinderRoute =
   AuthenticatedCoachFinderRouteImport.update({
     id: '/coach-finder',
@@ -161,6 +170,12 @@ const LocaleAboutRoute = LocaleAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
+const AuthenticatedMembersIndexRoute =
+  AuthenticatedMembersIndexRouteImport.update({
+    id: '/members/',
+    path: '/members/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedArticlesIndexRoute =
   AuthenticatedArticlesIndexRouteImport.update({
     id: '/',
@@ -171,6 +186,11 @@ const LocaleInsightsIndexRoute = LocaleInsightsIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => LocaleInsightsRoute,
+} as any)
+const ApiPublicMemberSyncRoute = ApiPublicMemberSyncRouteImport.update({
+  id: '/api/public/member-sync',
+  path: '/api/public/member-sync',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedArticlesNewRoute =
   AuthenticatedArticlesNewRouteImport.update({
@@ -214,6 +234,7 @@ export interface FileRoutesByFullPath {
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
   '/articles': typeof AuthenticatedArticlesRouteWithChildren
   '/coach-finder': typeof AuthenticatedCoachFinderRoute
+  '/integration': typeof AuthenticatedIntegrationRoute
   '/vocabularies': typeof AuthenticatedVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/insights/$id': typeof InsightsIdRoute
@@ -223,8 +244,10 @@ export interface FileRoutesByFullPath {
   '/articles/$id': typeof AuthenticatedArticlesIdRoute
   '/articles/categories': typeof AuthenticatedArticlesCategoriesRoute
   '/articles/new': typeof AuthenticatedArticlesNewRoute
+  '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
   '/$locale/insights/': typeof LocaleInsightsIndexRoute
   '/articles/': typeof AuthenticatedArticlesIndexRoute
+  '/members/': typeof AuthenticatedMembersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -241,6 +264,7 @@ export interface FileRoutesByTo {
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
   '/coach-finder': typeof AuthenticatedCoachFinderRoute
+  '/integration': typeof AuthenticatedIntegrationRoute
   '/vocabularies': typeof AuthenticatedVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/insights/$id': typeof InsightsIdRoute
@@ -250,8 +274,10 @@ export interface FileRoutesByTo {
   '/articles/$id': typeof AuthenticatedArticlesIdRoute
   '/articles/categories': typeof AuthenticatedArticlesCategoriesRoute
   '/articles/new': typeof AuthenticatedArticlesNewRoute
+  '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
   '/$locale/insights': typeof LocaleInsightsIndexRoute
   '/articles': typeof AuthenticatedArticlesIndexRoute
+  '/members': typeof AuthenticatedMembersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -274,6 +300,7 @@ export interface FileRoutesById {
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
   '/_authenticated/articles': typeof AuthenticatedArticlesRouteWithChildren
   '/_authenticated/coach-finder': typeof AuthenticatedCoachFinderRoute
+  '/_authenticated/integration': typeof AuthenticatedIntegrationRoute
   '/_authenticated/vocabularies': typeof AuthenticatedVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/insights/$id': typeof InsightsIdRoute
@@ -283,8 +310,10 @@ export interface FileRoutesById {
   '/_authenticated/articles/$id': typeof AuthenticatedArticlesIdRoute
   '/_authenticated/articles/categories': typeof AuthenticatedArticlesCategoriesRoute
   '/_authenticated/articles/new': typeof AuthenticatedArticlesNewRoute
+  '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
   '/$locale/insights/': typeof LocaleInsightsIndexRoute
   '/_authenticated/articles/': typeof AuthenticatedArticlesIndexRoute
+  '/_authenticated/members/': typeof AuthenticatedMembersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -307,6 +336,7 @@ export interface FileRouteTypes {
     | '/$locale/insights'
     | '/articles'
     | '/coach-finder'
+    | '/integration'
     | '/vocabularies'
     | '/auth/callback'
     | '/insights/$id'
@@ -316,8 +346,10 @@ export interface FileRouteTypes {
     | '/articles/$id'
     | '/articles/categories'
     | '/articles/new'
+    | '/api/public/member-sync'
     | '/$locale/insights/'
     | '/articles/'
+    | '/members/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -334,6 +366,7 @@ export interface FileRouteTypes {
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
     | '/coach-finder'
+    | '/integration'
     | '/vocabularies'
     | '/auth/callback'
     | '/insights/$id'
@@ -343,8 +376,10 @@ export interface FileRouteTypes {
     | '/articles/$id'
     | '/articles/categories'
     | '/articles/new'
+    | '/api/public/member-sync'
     | '/$locale/insights'
     | '/articles'
+    | '/members'
   id:
     | '__root__'
     | '/'
@@ -366,6 +401,7 @@ export interface FileRouteTypes {
     | '/$locale/insights'
     | '/_authenticated/articles'
     | '/_authenticated/coach-finder'
+    | '/_authenticated/integration'
     | '/_authenticated/vocabularies'
     | '/auth/callback'
     | '/insights/$id'
@@ -375,8 +411,10 @@ export interface FileRouteTypes {
     | '/_authenticated/articles/$id'
     | '/_authenticated/articles/categories'
     | '/_authenticated/articles/new'
+    | '/api/public/member-sync'
     | '/$locale/insights/'
     | '/_authenticated/articles/'
+    | '/_authenticated/members/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -391,6 +429,7 @@ export interface RootRouteChildren {
   ForOrganisationsRoute: typeof ForOrganisationsRoute
   InsightsRoute: typeof InsightsRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ApiPublicMemberSyncRoute: typeof ApiPublicMemberSyncRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -507,6 +546,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedVocabulariesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/integration': {
+      id: '/_authenticated/integration'
+      path: '/integration'
+      fullPath: '/integration'
+      preLoaderRoute: typeof AuthenticatedIntegrationRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/coach-finder': {
       id: '/_authenticated/coach-finder'
       path: '/coach-finder'
@@ -563,6 +609,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleAboutRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
+    '/_authenticated/members/': {
+      id: '/_authenticated/members/'
+      path: '/members'
+      fullPath: '/members/'
+      preLoaderRoute: typeof AuthenticatedMembersIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/articles/': {
       id: '/_authenticated/articles/'
       path: '/'
@@ -576,6 +629,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/$locale/insights/'
       preLoaderRoute: typeof LocaleInsightsIndexRouteImport
       parentRoute: typeof LocaleInsightsRoute
+    }
+    '/api/public/member-sync': {
+      id: '/api/public/member-sync'
+      path: '/api/public/member-sync'
+      fullPath: '/api/public/member-sync'
+      preLoaderRoute: typeof ApiPublicMemberSyncRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/articles/new': {
       id: '/_authenticated/articles/new'
@@ -668,13 +728,17 @@ const AuthenticatedArticlesRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedArticlesRoute: typeof AuthenticatedArticlesRouteWithChildren
   AuthenticatedCoachFinderRoute: typeof AuthenticatedCoachFinderRoute
+  AuthenticatedIntegrationRoute: typeof AuthenticatedIntegrationRoute
   AuthenticatedVocabulariesRoute: typeof AuthenticatedVocabulariesRoute
+  AuthenticatedMembersIndexRoute: typeof AuthenticatedMembersIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedArticlesRoute: AuthenticatedArticlesRouteWithChildren,
   AuthenticatedCoachFinderRoute: AuthenticatedCoachFinderRoute,
+  AuthenticatedIntegrationRoute: AuthenticatedIntegrationRoute,
   AuthenticatedVocabulariesRoute: AuthenticatedVocabulariesRoute,
+  AuthenticatedMembersIndexRoute: AuthenticatedMembersIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -716,6 +780,7 @@ const rootRouteChildren: RootRouteChildren = {
   ForOrganisationsRoute: ForOrganisationsRoute,
   InsightsRoute: InsightsRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ApiPublicMemberSyncRoute: ApiPublicMemberSyncRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,0 +1,202 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useMemo, useState } from "react";
+import { Download, Search } from "lucide-react";
+import { Shell } from "@/components/cms/Shell";
+import { useCms } from "@/i18n/cms";
+import { supabase } from "@/integrations/supabase/client";
+import { exportMembersCsv } from "@/lib/members.functions";
+
+export const Route = createFileRoute("/_authenticated/members/")({
+  head: () => ({
+    meta: [
+      { title: "Members — ICF Switzerland CMS" },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
+  component: MembersPage,
+});
+
+type MemberRow = {
+  id: string;
+  cst_recno: string;
+  full_name: string | null;
+  email: string | null;
+  city: string | null;
+  credential_slug: string | null;
+  activity_state: string;
+  last_synced_at: string | null;
+};
+
+const COLUMNS: { key: keyof MemberRow; labelKey: string }[] = [
+  { key: "full_name", labelKey: "members.colName" },
+  { key: "email", labelKey: "members.colEmail" },
+  { key: "city", labelKey: "members.colCity" },
+  { key: "credential_slug", labelKey: "members.colCredential" },
+  { key: "activity_state", labelKey: "members.colState" },
+  { key: "last_synced_at", labelKey: "members.colSynced" },
+];
+
+function MembersPage() {
+  const { t } = useCms();
+  const [rows, setRows] = useState<MemberRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
+  const [state, setState] = useState("all");
+  const [sort, setSort] = useState<{ key: keyof MemberRow; asc: boolean }>({
+    key: "full_name",
+    asc: true,
+  });
+  const [exporting, setExporting] = useState(false);
+
+  useEffect(() => {
+    supabase
+      .from("members")
+      .select("id, cst_recno, full_name, email, city, credential_slug, activity_state, last_synced_at")
+      .order("last_name", { ascending: true })
+      .limit(2000)
+      .then(({ data, error: err }) => {
+        if (err) setError(err.message);
+        else setRows((data ?? []) as MemberRow[]);
+        setLoading(false);
+      });
+  }, []);
+
+  const visible = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    const filtered = rows.filter((row) => {
+      if (state !== "all" && row.activity_state !== state) return false;
+      if (!q) return true;
+      return [row.full_name, row.email, row.city, row.cst_recno]
+        .filter(Boolean)
+        .some((value) => String(value).toLowerCase().includes(q));
+    });
+    return [...filtered].sort((a, b) => {
+      const av = String(a[sort.key] ?? "");
+      const bv = String(b[sort.key] ?? "");
+      return sort.asc ? av.localeCompare(bv) : bv.localeCompare(av);
+    });
+  }, [rows, query, state, sort]);
+
+  const handleExport = async () => {
+    setExporting(true);
+    setError(null);
+    try {
+      const { csv, filename } = await exportMembersCsv();
+      const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setExporting(false);
+    }
+  };
+
+  return (
+    <Shell>
+      <div className="mx-auto max-w-6xl px-10 py-10">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">{t("members.title")}</h1>
+            <p className="mt-1 text-sm text-muted-foreground">{t("members.subtitle")}</p>
+          </div>
+          <button
+            onClick={() => void handleExport()}
+            disabled={exporting}
+            className="rounded-full border border-border px-4 py-2 text-sm font-semibold hover:bg-secondary disabled:opacity-50"
+          >
+            <Download className="mr-2 inline h-3.5 w-3.5" />
+            {t("members.export")}
+          </button>
+        </div>
+
+        <div className="mt-5 flex flex-wrap gap-2">
+          <div className="relative">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={t("members.searchPlaceholder")}
+              aria-label={t("members.searchPlaceholder")}
+              className="w-64 rounded-full border border-border bg-card py-2 pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-ring/20"
+            />
+          </div>
+          <select
+            value={state}
+            onChange={(e) => setState(e.target.value)}
+            aria-label={t("members.colState")}
+            className="rounded-full border border-border bg-card px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring/20"
+          >
+            {["all", "active", "grace", "anonymized"].map((value) => (
+              <option key={value} value={value}>
+                {t(`members.state.${value}`)}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {error ? <p className="mt-3 text-xs text-destructive">{error}</p> : null}
+
+        <div className="mt-4 overflow-x-auto rounded-2xl border border-border bg-card">
+          <table className="w-full text-left text-sm">
+            <thead className="bg-secondary/60 text-xs text-muted-foreground">
+              <tr>
+                {COLUMNS.map((col) => (
+                  <th key={col.key} className="px-4 py-2 font-semibold">
+                    <button
+                      onClick={() =>
+                        setSort((prev) =>
+                          prev.key === col.key ? { key: col.key, asc: !prev.asc } : { key: col.key, asc: true },
+                        )
+                      }
+                      className="inline-flex items-center gap-1 hover:text-foreground"
+                      aria-label={t(col.labelKey)}
+                    >
+                      {t(col.labelKey)}
+                      {sort.key === col.key ? <span aria-hidden>{sort.asc ? "▲" : "▼"}</span> : null}
+                    </button>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td colSpan={COLUMNS.length} className="px-4 py-6 text-muted-foreground">
+                    {t("members.loading")}
+                  </td>
+                </tr>
+              ) : visible.length === 0 ? (
+                <tr>
+                  <td colSpan={COLUMNS.length} className="px-4 py-6 text-muted-foreground">
+                    {t("members.empty")}
+                  </td>
+                </tr>
+              ) : (
+                visible.map((row) => (
+                  <tr key={row.id} className="border-t border-border">
+                    <td className="px-4 py-2 font-medium">{row.full_name ?? "—"}</td>
+                    <td className="px-4 py-2 text-muted-foreground">{row.email ?? "—"}</td>
+                    <td className="px-4 py-2">{row.city ?? "—"}</td>
+                    <td className="px-4 py-2 uppercase">{row.credential_slug ?? "—"}</td>
+                    <td className="px-4 py-2">{t(`members.state.${row.activity_state}`)}</td>
+                    <td className="px-4 py-2 text-muted-foreground">
+                      {row.last_synced_at ? new Date(row.last_synced_at).toLocaleDateString() : "—"}
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+        <p className="mt-2 text-xs text-muted-foreground">
+          {visible.length} / {rows.length}
+        </p>
+      </div>
+    </Shell>
+  );
+}
