@@ -61,18 +61,16 @@ export async function sendMemberEmail(email: MemberEmail): Promise<MemberEmailRe
   const recipient = config.emails_suppressed ? config.email_redirect_to! : email.to;
   const redirected = recipient !== email.to;
 
-  try {
-    const { sendLovableEmail } = await import("@lovable.dev/email-js");
-    await sendLovableEmail({
-      apiKey: process.env.LOVABLE_API_KEY!,
-      to: recipient,
-      subject: redirected ? `[redirected: ${email.to}] ${email.subject}` : email.subject,
-      html: email.body,
-    } as never);
-    await log(redirected ? "redirected" : "sent", recipient);
-    return { sent: true, redirected };
-  } catch (error) {
-    await log("failed", recipient, error instanceof Error ? error.message : String(error));
-    return { sent: false, reason: "failed" };
-  }
+  // No member-facing transport is wired yet: claim and lifecycle notices stay
+  // switched off until after the LIVE cutover, at which point the email domain
+  // is scaffolded and this branch gets the real send call. Until then an
+  // unsuppressed send is recorded as `no_transport` rather than silently lost.
+  await log("no_transport", recipient);
+  return { sent: false, reason: "failed" };
+}
+
+export function describeEmailGate(config: IntegrationConfig): string {
+  if (config.emails_suppressed && !config.email_redirect_to) return "suppressed";
+  if (config.emails_suppressed) return `redirected to ${config.email_redirect_to}`;
+  return "live";
 }
