@@ -96,3 +96,27 @@ export const requestMemberClaim = createServerFn({ method: "POST" })
     const { attemptMemberClaim } = await import("./member-claim.server");
     return await attemptMemberClaim(data.email);
   });
+/**
+ * Staff-support account binding (admin only). Separate from the future
+ * member-initiated claim flow — this is testing/support tooling.
+ */
+export const bindMemberAccount = createServerFn({ method: "POST" })
+  .inputValidator((input) =>
+    z.object({ memberId: z.string().uuid(), email: z.string().email().max(320) }).parse(input),
+  )
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context, data }) => {
+    const userId = await assertAdmin(context as never);
+    const { bindMemberToAuthUser } = await import("./member-admin.server");
+    return await bindMemberToAuthUser(userId, data.memberId, data.email);
+  });
+
+export const unbindMemberAccount = createServerFn({ method: "POST" })
+  .inputValidator((input) => z.object({ memberId: z.string().uuid() }).parse(input))
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context, data }) => {
+    const userId = await assertAdmin(context as never);
+    const { unbindMemberAuthUser } = await import("./member-admin.server");
+    await unbindMemberAuthUser(userId, data.memberId);
+    return { ok: true };
+  });
