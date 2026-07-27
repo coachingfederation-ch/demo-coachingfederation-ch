@@ -58,9 +58,15 @@ suppressed, and the test binding intact.
 - **Milestone E** — member-owned service-area editing in `/my-profile`. No auto-created
   profile can be published without a declared region, so this gates any real published
   directory row.
-- **Coach Finder swap** — `/find-a-coach` still renders the mock data in
-  `src/lib/coaches.ts`; `src/lib/directory.functions.ts` already queries
-  `coach_directory_public` and is unused. Rev. 4 build-order item 7.
+- ~~**Coach Finder swap**~~ — done. `/find-a-coach` now reads
+  `coach_directory_public` through `queryCoachDirectory`; the `src/lib/coaches.ts`
+  fixture is deleted. Facets (region, language, credential, specialisation,
+  format) filter server-side; free text and "accepting new clients" narrow the
+  returned page client-side; paging uses `coach_finder_config.page_size`. Cards
+  render initials rather than photos, since profile images live in a private
+  bucket that anon cannot sign. The page correctly shows the empty state today —
+  all 501 imported profiles are still `draft`, so nothing is directory-visible
+  until Milestone E lets members complete and publish them.
 - **Milestone D — claim flow completion.** `attemptMemberClaim` requests the link and
   sends the (currently suppressed) email; the token-consumption / set-password half does
   not exist yet. Still correctly inert: the function short-circuits unless claim is

@@ -29,7 +29,12 @@
     "one": "1 coach",
     "many": "{count} coach",
     "emptyTitle": "Nessun coach corrisponde ai filtri selezionati",
-    "emptyBody": "Prova ad ampliare la ricerca per cantone o specializzazione."
+    "emptyBody": "Prova ad ampliare la ricerca per cantone o specializzazione.",
+    "loading": "Caricamento dei coach…",
+    "errorTitle": "La directory non è momentaneamente disponibile",
+    "errorBody": "Riprova tra un momento.",
+    "prev": "Precedente",
+    "next": "Successivo"
   },
   "card": {
     "featured": "In evidenza",

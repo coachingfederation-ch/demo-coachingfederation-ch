@@ -29,7 +29,12 @@
     "one": "1 coach",
     "many": "{count} coachs",
     "emptyTitle": "Aucun coach ne correspond à vos filtres",
-    "emptyBody": "Essayez d'élargir votre recherche à d'autres cantons ou spécialisations."
+    "emptyBody": "Essayez d'élargir votre recherche à d'autres cantons ou spécialisations.",
+    "loading": "Chargement des coachs…",
+    "errorTitle": "L'annuaire est momentanément indisponible",
+    "errorBody": "Merci de réessayer dans un instant.",
+    "prev": "Précédent",
+    "next": "Suivant"
   },
   "card": {
     "featured": "En vedette",
