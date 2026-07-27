@@ -302,6 +302,15 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
             ← {t("directory.detail.back")}
           </LocaleLink>
 
+          {showFallbackNotice && (
+            <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-hero-foreground/10 px-3 py-1.5 text-xs font-medium text-hero-foreground/90">
+              {t("directory.detail.languageFallback").replace(
+                "{language}",
+                t(`common.languages.${resolvedLocale}`),
+              )}
+            </p>
+          )}
+
           <div className="mt-8 grid grid-cols-[minmax(0,1fr)] items-start gap-8 sm:grid-cols-[auto_minmax(0,1fr)]">
             <CoachAvatar
               name={name}
