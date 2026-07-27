@@ -380,6 +380,23 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
               <Prose text={profile.description} />
             </Panel>
           )}
+          {profile.testimonial_quote && (
+            <figure
+              className={
+                "rounded-2xl border border-border/60 bg-hero p-8 text-hero-foreground " +
+                CARD_SHADOW
+              }
+            >
+              <blockquote className="text-lg font-semibold leading-relaxed">
+                “{profile.testimonial_quote}”
+              </blockquote>
+              {profile.testimonial_attribution && (
+                <figcaption className="mt-4 text-xs font-semibold text-hero-foreground/70">
+                  {profile.testimonial_attribution}
+                </figcaption>
+              )}
+            </figure>
+          )}
           {profile.approach && (
             <Panel index={panel()} title={t("directory.detail.approach")} edge="accent">
               <Steps text={profile.approach} />
@@ -408,23 +425,6 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
             <Panel index={panel()} title={t("directory.detail.qualifications")} edge="primary">
               <Prose text={profile.qualifications} />
             </Panel>
-          )}
-          {profile.testimonial_quote && (
-            <figure
-              className={
-                "rounded-2xl border border-border/60 bg-hero p-8 text-hero-foreground " +
-                CARD_SHADOW
-              }
-            >
-              <blockquote className="text-lg font-semibold leading-relaxed">
-                “{profile.testimonial_quote}”
-              </blockquote>
-              {profile.testimonial_attribution && (
-                <figcaption className="mt-4 text-xs font-semibold text-hero-foreground/70">
-                  {profile.testimonial_attribution}
-                </figcaption>
-              )}
-            </figure>
           )}
         </div>
 
