@@ -40,7 +40,8 @@
     "featured": "In evidenza",
     "accepting": "Accetta nuovi clienti",
     "waitlist": "Solo lista d'attesa",
-    "credentialSince": "Certificato dal {year}"
+    "credentialSince": "Certificato dal {year}",
+    "viewProfile": "Vedi profilo"
   },
   "formats": {
     "in-person": "In presenza",
@@ -65,5 +66,17 @@
   "note": {
     "title": "Profili provenienti da ICF Global",
     "body": "I dati dei coach sono gestiti da ICF Global. I membri possono arricchire il proprio profilo con contenuti aggiuntivi su questo portale."
+  },
+  "detail": {
+    "back": "Torna alla ricerca",
+    "about": "Chi è",
+    "specialisations": "Specializzazione",
+    "formats": "Formato",
+    "languages": "Lingue",
+    "regions": "Aree di intervento",
+    "links": "Link",
+    "notFoundTitle": "Questo profilo di coach non è disponibile",
+    "notFoundBody": "Il profilo potrebbe essere stato ritirato. Consulta la directory per trovare un altro coach certificato.",
+    "metaFallback": "{name} è un coach certificato ICF presente nella directory di ICF Switzerland."
   }
 }

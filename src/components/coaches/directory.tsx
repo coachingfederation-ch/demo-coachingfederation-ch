@@ -9,7 +9,7 @@
 import { useMemo, useState } from "react";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { CARD_SHADOW } from "@/components/site-chrome";
-import { useI18n } from "@/i18n";
+import { LocaleLink, useI18n } from "@/i18n";
 import { queryCoachDirectory, type DirectoryEntry } from "@/lib/directory.functions";
 import {
   fetchActiveVocabularies,
@@ -25,6 +25,46 @@ export function initials(name: string) {
     .slice(0, 2)
     .map((part) => part[0]?.toUpperCase() ?? "")
     .join("");
+}
+
+/**
+ * Fixed-size avatar. The photo comes from a short-lived signed URL minted
+ * server-side; the initials tile occupies the exact same box, so a missing or
+ * expired image causes no layout shift.
+ */
+export function CoachAvatar({
+  name,
+  imageUrl,
+  className = "h-14 w-14 rounded-xl text-lg",
+}: {
+  name: string;
+  imageUrl?: string | null;
+  className?: string;
+}) {
+  const [failed, setFailed] = useState(false);
+  const showImage = !!imageUrl && !failed;
+  return (
+    <span
+      aria-hidden
+      className={
+        "grid shrink-0 place-items-center overflow-hidden bg-primary/10 font-bold text-primary " +
+        className
+      }
+    >
+      {showImage ? (
+        <img
+          src={imageUrl!}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          onError={() => setFailed(true)}
+          className="h-full w-full object-cover"
+        />
+      ) : (
+        initials(name)
+      )}
+    </span>
+  );
 }
 
 function Chip({
@@ -75,20 +115,39 @@ export function CoachCard({
   const credentialYear = entry.credential_awarded_on
     ? new Date(entry.credential_awarded_on).getFullYear()
     : null;
+  const chips = [
+    ...(entry.specialisation_slugs ?? []).slice(0, 3).map((s) => ({
+      key: `s-${s}`,
+      label: specialisationLabel(s),
+      outlined: false,
+    })),
+    ...(entry.format_slugs ?? []).slice(0, 1).map((f) => ({
+      key: `f-${f}`,
+      label: formatLabel(f),
+      outlined: true,
+    })),
+  ];
 
   return (
     <article
-      className={"flex w-full flex-col gap-4 rounded-2xl border border-border/70 bg-card p-6 " + CARD_SHADOW}
+      className={
+        "relative flex w-full flex-col gap-4 rounded-2xl border border-border/70 bg-card p-6 transition hover:border-primary/40 focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 " +
+        CARD_SHADOW
+      }
     >
       <div className="flex items-start gap-4">
-        <span
-          aria-hidden
-          className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-primary/10 text-lg font-bold text-primary"
-        >
-          {initials(name)}
-        </span>
+        <CoachAvatar name={name} imageUrl={entry.image_url} />
         <div className="min-w-0">
-          <h3 className="text-lg font-bold tracking-tight text-foreground">{name}</h3>
+          <h3 className="text-lg font-bold tracking-tight text-foreground">
+            {/* Single link per card, stretched over the whole surface: the card
+                is clickable without nesting interactive elements. */}
+            <LocaleLink
+              to={`/coach/${entry.profile_id}`}
+              className="outline-none after:absolute after:inset-0 after:rounded-2xl after:content-['']"
+            >
+              {name}
+            </LocaleLink>
+          </h3>
           <p className="mt-1 text-xs font-semibold text-muted-foreground">
             {[location, langs].filter(Boolean).join(" · ")}
           </p>
@@ -103,25 +162,17 @@ export function CoachCard({
       </div>
 
       {entry.tagline && <p className="text-sm font-semibold text-primary">{entry.tagline}</p>}
-      {entry.description && (
-        <p className="text-sm leading-relaxed text-muted-foreground">{entry.description}</p>
-      )}
 
       <div className="flex flex-wrap gap-2">
-        {(entry.specialisation_slugs ?? []).map((s) => (
+        {chips.map((chip) => (
           <span
-            key={s}
-            className="inline-flex h-6 items-center rounded-full bg-muted px-2.5 text-[11px] font-semibold text-muted-foreground"
+            key={chip.key}
+            className={
+              "inline-flex h-6 items-center rounded-full px-2.5 text-[11px] font-semibold text-muted-foreground " +
+              (chip.outlined ? "border border-border" : "bg-muted")
+            }
           >
-            {specialisationLabel(s)}
-          </span>
-        ))}
-        {(entry.format_slugs ?? []).map((f) => (
-          <span
-            key={f}
-            className="inline-flex h-6 items-center rounded-full border border-border px-2.5 text-[11px] font-semibold text-muted-foreground"
-          >
-            {formatLabel(f)}
+            {chip.label}
           </span>
         ))}
       </div>
@@ -140,6 +191,9 @@ export function CoachCard({
           </span>
         )}
       </div>
+      <p aria-hidden className="text-xs font-semibold text-primary">
+        {t("directory.card.viewProfile")} →
+      </p>
     </article>
   );
 }

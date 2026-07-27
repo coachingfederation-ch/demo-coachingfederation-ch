@@ -25,6 +25,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as InsightsIndexRouteImport } from './routes/insights.index'
 import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
 import { Route as InsightsIdRouteImport } from './routes/insights.$id'
+import { Route as CoachProfileIdRouteImport } from './routes/coach.$profileId'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as StaffVocabulariesRouteImport } from './routes/_staff/vocabularies'
 import { Route as StaffIntegrationRouteImport } from './routes/_staff/integration'
@@ -46,6 +47,7 @@ import { Route as StaffArticlesNewRouteImport } from './routes/_staff/articles.n
 import { Route as StaffArticlesCategoriesRouteImport } from './routes/_staff/articles.categories'
 import { Route as StaffArticlesIdRouteImport } from './routes/_staff/articles.$id'
 import { Route as LocaleInsightsIdRouteImport } from './routes/$locale/insights.$id'
+import { Route as LocaleCoachProfileIdRouteImport } from './routes/$locale/coach.$profileId'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -124,6 +126,11 @@ const InsightsIdRoute = InsightsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => InsightsRoute,
+} as any)
+const CoachProfileIdRoute = CoachProfileIdRouteImport.update({
+  id: '/coach/$profileId',
+  path: '/coach/$profileId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
   id: '/callback',
@@ -230,6 +237,11 @@ const LocaleInsightsIdRoute = LocaleInsightsIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => LocaleInsightsRoute,
 } as any)
+const LocaleCoachProfileIdRoute = LocaleCoachProfileIdRouteImport.update({
+  id: '/coach/$profileId',
+  path: '/coach/$profileId',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -255,9 +267,11 @@ export interface FileRoutesByFullPath {
   '/integration': typeof StaffIntegrationRoute
   '/vocabularies': typeof StaffVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/coach/$profileId': typeof CoachProfileIdRoute
   '/insights/$id': typeof InsightsIdRoute
   '/$locale/': typeof LocaleIndexRoute
   '/insights/': typeof InsightsIndexRoute
+  '/$locale/coach/$profileId': typeof LocaleCoachProfileIdRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
   '/articles/$id': typeof StaffArticlesIdRoute
   '/articles/categories': typeof StaffArticlesCategoriesRoute
@@ -288,9 +302,11 @@ export interface FileRoutesByTo {
   '/integration': typeof StaffIntegrationRoute
   '/vocabularies': typeof StaffVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/coach/$profileId': typeof CoachProfileIdRoute
   '/insights/$id': typeof InsightsIdRoute
   '/$locale': typeof LocaleIndexRoute
   '/insights': typeof InsightsIndexRoute
+  '/$locale/coach/$profileId': typeof LocaleCoachProfileIdRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
   '/articles/$id': typeof StaffArticlesIdRoute
   '/articles/categories': typeof StaffArticlesCategoriesRoute
@@ -328,9 +344,11 @@ export interface FileRoutesById {
   '/_staff/integration': typeof StaffIntegrationRoute
   '/_staff/vocabularies': typeof StaffVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/coach/$profileId': typeof CoachProfileIdRoute
   '/insights/$id': typeof InsightsIdRoute
   '/$locale/': typeof LocaleIndexRoute
   '/insights/': typeof InsightsIndexRoute
+  '/$locale/coach/$profileId': typeof LocaleCoachProfileIdRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
   '/_staff/articles/$id': typeof StaffArticlesIdRoute
   '/_staff/articles/categories': typeof StaffArticlesCategoriesRoute
@@ -367,9 +385,11 @@ export interface FileRouteTypes {
     | '/integration'
     | '/vocabularies'
     | '/auth/callback'
+    | '/coach/$profileId'
     | '/insights/$id'
     | '/$locale/'
     | '/insights/'
+    | '/$locale/coach/$profileId'
     | '/$locale/insights/$id'
     | '/articles/$id'
     | '/articles/categories'
@@ -400,9 +420,11 @@ export interface FileRouteTypes {
     | '/integration'
     | '/vocabularies'
     | '/auth/callback'
+    | '/coach/$profileId'
     | '/insights/$id'
     | '/$locale'
     | '/insights'
+    | '/$locale/coach/$profileId'
     | '/$locale/insights/$id'
     | '/articles/$id'
     | '/articles/categories'
@@ -439,9 +461,11 @@ export interface FileRouteTypes {
     | '/_staff/integration'
     | '/_staff/vocabularies'
     | '/auth/callback'
+    | '/coach/$profileId'
     | '/insights/$id'
     | '/$locale/'
     | '/insights/'
+    | '/$locale/coach/$profileId'
     | '/$locale/insights/$id'
     | '/_staff/articles/$id'
     | '/_staff/articles/categories'
@@ -467,6 +491,7 @@ export interface RootRouteChildren {
   InsightsRoute: typeof InsightsRouteWithChildren
   NoAccessRoute: typeof NoAccessRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  CoachProfileIdRoute: typeof CoachProfileIdRoute
   ApiPublicMemberSyncRoute: typeof ApiPublicMemberSyncRoute
 }
 
@@ -583,6 +608,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/insights/$id'
       preLoaderRoute: typeof InsightsIdRouteImport
       parentRoute: typeof InsightsRoute
+    }
+    '/coach/$profileId': {
+      id: '/coach/$profileId'
+      path: '/coach/$profileId'
+      fullPath: '/coach/$profileId'
+      preLoaderRoute: typeof CoachProfileIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/auth/callback': {
       id: '/auth/callback'
@@ -731,6 +763,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleInsightsIdRouteImport
       parentRoute: typeof LocaleInsightsRoute
     }
+    '/$locale/coach/$profileId': {
+      id: '/$locale/coach/$profileId'
+      path: '/coach/$profileId'
+      fullPath: '/$locale/coach/$profileId'
+      preLoaderRoute: typeof LocaleCoachProfileIdRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
   }
 }
 
@@ -756,6 +795,7 @@ interface LocaleRouteRouteChildren {
   LocaleForOrganisationsRoute: typeof LocaleForOrganisationsRoute
   LocaleInsightsRoute: typeof LocaleInsightsRouteWithChildren
   LocaleIndexRoute: typeof LocaleIndexRoute
+  LocaleCoachProfileIdRoute: typeof LocaleCoachProfileIdRoute
 }
 
 const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
@@ -766,6 +806,7 @@ const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleForOrganisationsRoute: LocaleForOrganisationsRoute,
   LocaleInsightsRoute: LocaleInsightsRouteWithChildren,
   LocaleIndexRoute: LocaleIndexRoute,
+  LocaleCoachProfileIdRoute: LocaleCoachProfileIdRoute,
 }
 
 const LocaleRouteRouteWithChildren = LocaleRouteRoute._addFileChildren(
@@ -862,6 +903,7 @@ const rootRouteChildren: RootRouteChildren = {
   InsightsRoute: InsightsRouteWithChildren,
   NoAccessRoute: NoAccessRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  CoachProfileIdRoute: CoachProfileIdRoute,
   ApiPublicMemberSyncRoute: ApiPublicMemberSyncRoute,
 }
 export const routeTree = rootRouteImport

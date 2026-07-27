@@ -30,7 +30,19 @@ const filterSchema = z.object({
 export type DirectoryFilters = z.infer<typeof filterSchema>;
 
 export type DirectoryEntry =
-  Database["public"]["Views"]["coach_directory_public"]["Row"];
+  Database["public"]["Views"]["coach_directory_public"]["Row"] & {
+    /** Short-lived signed URL, minted server-side only. Null when absent. */
+    image_url?: string | null;
+  };
+
+export type CoachProfileLink = {
+  id: string;
+  link_type: string;
+  label: string | null;
+  url: string;
+};
+
+export type PublicCoachProfile = DirectoryEntry & { links: CoachProfileLink[] };
 
 export type DirectoryPage = {
   entries: DirectoryEntry[];
@@ -39,25 +51,61 @@ export type DirectoryPage = {
   pageSize: number;
 };
 
+/**
+ * Signed URLs live for 24h: the bucket stays private, the URL only ever leaves
+ * the server for rows the public view already cleared as published + eligible,
+ * and a day-long window keeps re-signing cost off every page view. A later
+ * milestone replaces this with a published-photos public bucket.
+ */
+const IMAGE_URL_TTL_SECONDS = 60 * 60 * 24;
+
+/**
+ * Mint signed URLs for the given storage paths. Called only with paths taken
+ * from rows returned by `coach_directory_public`, never from client input, and
+ * only for the rows on the page being rendered.
+ */
+async function signProfileImages(paths: string[]): Promise<Map<string, string>> {
+  const unique = [...new Set(paths.filter(Boolean))];
+  const signed = new Map<string, string>();
+  if (!unique.length) return signed;
+  try {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data, error } = await supabaseAdmin.storage
+      .from("member-profile-images")
+      .createSignedUrls(unique, IMAGE_URL_TTL_SECONDS);
+    if (error) return signed;
+    for (const row of data ?? []) {
+      if (row.path && row.signedUrl && !row.error) signed.set(row.path, row.signedUrl);
+    }
+  } catch {
+    // A signing outage must never break the directory: fall back to initials.
+  }
+  return signed;
+}
+
+function publicClient() {
+  const key = process.env.SUPABASE_PUBLISHABLE_KEY!;
+  return createClient<Database>(process.env.SUPABASE_URL!, key, {
+    auth: { persistSession: false, autoRefreshToken: false },
+    global: {
+      // Opaque sb_ publishable keys are not JWTs; PostgREST rejects them as
+      // a bearer token, so send them as `apikey` only.
+      fetch: (input, init) => {
+        const headers = new Headers(init?.headers);
+        if (key.startsWith("sb_") && headers.get("Authorization") === `Bearer ${key}`) {
+          headers.delete("Authorization");
+        }
+        headers.set("apikey", key);
+        return fetch(input, { ...init, headers });
+      },
+    },
+  });
+}
+
 export const queryCoachDirectory = createServerFn({ method: "GET" })
   .inputValidator((input: unknown) => filterSchema.parse(input ?? {}))
   .handler(async ({ data }): Promise<DirectoryPage> => {
-    const key = process.env.SUPABASE_PUBLISHABLE_KEY!;
-    const supabasePublic = createClient<Database>(process.env.SUPABASE_URL!, key, {
-      auth: { persistSession: false, autoRefreshToken: false },
-      global: {
-        // Opaque sb_ publishable keys are not JWTs; PostgREST rejects them as
-        // a bearer token, so send them as `apikey` only.
-        fetch: (input, init) => {
-          const headers = new Headers(init?.headers);
-          if (key.startsWith("sb_") && headers.get("Authorization") === `Bearer ${key}`) {
-            headers.delete("Authorization");
-          }
-          headers.set("apikey", key);
-          return fetch(input, { ...init, headers });
-        },
-      },
-    });
+    const supabasePublic = publicClient();
 
     const { data: config } = await supabasePublic
       .from("coach_finder_config")
@@ -88,5 +136,55 @@ export const queryCoachDirectory = createServerFn({ method: "GET" })
       .range(page * pageSize, page * pageSize + pageSize - 1);
     if (error) throw error;
 
-    return { entries: (rows ?? []) as DirectoryEntry[], total: count ?? 0, page, pageSize };
+    // Sign only the images of the rows on this page.
+    const entries = (rows ?? []) as DirectoryEntry[];
+    const signed = await signProfileImages(
+      entries.map((e) => e.profile_image_path).filter((p): p is string => !!p),
+    );
+    for (const entry of entries) {
+      entry.image_url = entry.profile_image_path
+        ? (signed.get(entry.profile_image_path) ?? null)
+        : null;
+    }
+
+    return { entries, total: count ?? 0, page, pageSize };
+  });
+
+/**
+ * Public read-only coach detail. The view is queried first: if it returns no
+ * row the profile is not published/eligible and we return null before touching
+ * anything privileged. Website links are only loaded after that gate passes,
+ * and only the public-safe columns are projected.
+ */
+export const getPublicCoachProfile = createServerFn({ method: "GET" })
+  .inputValidator((input: unknown) =>
+    z.object({ profileId: z.string().uuid() }).parse(input ?? {}),
+  )
+  .handler(async ({ data }): Promise<PublicCoachProfile | null> => {
+    const supabasePublic = publicClient();
+    const { data: row, error } = await supabasePublic
+      .from("coach_directory_public")
+      .select("*")
+      .eq("profile_id", data.profileId)
+      .maybeSingle();
+    if (error) throw error;
+    if (!row) return null;
+
+    const entry = row as DirectoryEntry;
+    const signed = entry.profile_image_path
+      ? await signProfileImages([entry.profile_image_path])
+      : new Map<string, string>();
+    entry.image_url = entry.profile_image_path
+      ? (signed.get(entry.profile_image_path) ?? null)
+      : null;
+
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: linkRows } = await supabaseAdmin
+      .from("member_profile_websites")
+      .select("id, link_type, label, url")
+      .eq("profile_id", data.profileId)
+      .order("sort_order", { ascending: true });
+
+    const links = (linkRows ?? []).filter((l) => /^https:\/\//i.test(l.url)) as CoachProfileLink[];
+    return { ...entry, links };
   });

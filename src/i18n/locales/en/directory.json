@@ -40,7 +40,8 @@
     "featured": "Featured",
     "accepting": "Accepting new clients",
     "waitlist": "Waitlist only",
-    "credentialSince": "Credentialed since {year}"
+    "credentialSince": "Credentialed since {year}",
+    "viewProfile": "View profile"
   },
   "formats": {
     "in-person": "In person",
@@ -65,5 +66,17 @@
   "note": {
     "title": "Profiles sourced from ICF Global",
     "body": "Coach records are maintained by ICF Global. Members can extend their profile with additional content on this portal."
+  },
+  "detail": {
+    "back": "Back to search",
+    "about": "About",
+    "specialisations": "Specialisation",
+    "formats": "Format",
+    "languages": "Languages",
+    "regions": "Service areas",
+    "links": "Links",
+    "notFoundTitle": "This coach profile is unavailable",
+    "notFoundBody": "The profile may have been unpublished. Browse the directory to find another credentialed coach.",
+    "metaFallback": "{name} is an ICF-credentialed coach listed in the ICF Switzerland directory."
   }
 }
