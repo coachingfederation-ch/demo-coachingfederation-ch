@@ -22,6 +22,12 @@ export type NormalizedMember = {
   member_type: string | null;
   membership_join_date: string | null;
   membership_expiration_date: string | null;
+  /**
+   * Feed values the members table has no dedicated column for (postcode, state,
+   * credential award/expiry, ACTC, chapter start, auto-renewal). Kept verbatim
+   * so a later column can be backfilled without re-querying ICF.
+   */
+  diagnostics: Record<string, string>;
 };
 
 /**
@@ -42,6 +48,7 @@ const EMPTY: Omit<NormalizedMember, "cst_recno"> = {
   member_type: null,
   membership_join_date: null,
   membership_expiration_date: null,
+  diagnostics: {},
 };
 
 /**
@@ -51,18 +58,31 @@ const EMPTY: Omit<NormalizedMember, "cst_recno"> = {
  */
 export function soapCredentials(mode: IntegrationMode) {
   const prefix = mode === "live" ? "ICF_SOAP_LIVE" : "ICF_SOAP_TEST";
-  const baseUrl = (process.env[`${prefix}_BASE_URL`] ?? "").replace(/\/+$/, "");
+  const configured = process.env[`${prefix}_BASE_URL`] ?? "";
   const username = process.env[`${prefix}_USERNAME`];
   const password = process.env[`${prefix}_PASSWORD`];
   const cstKey = process.env[`${prefix}_CST_KEY`];
-  if (!baseUrl || !username || !password || !cstKey) {
+  if (!configured || !username || !password || !cstKey) {
     throw new Error(
       `Missing ICF API credentials for ${mode} mode (${prefix}_BASE_URL / _USERNAME / _PASSWORD / _CST_KEY).`,
     );
   }
+  // The stored value may be any form of the xWeb address people copy out of the
+  // ICF docs: with or without a trailing .asmx, with or without /secure, with a
+  // ?op= query. Reduce all of them to the xweb directory and derive both
+  // endpoints from it, so a differently-shaped LIVE URL still works.
+  const parsed = new URL(configured);
+  const dir =
+    parsed.origin +
+    parsed.pathname
+      .replace(/\/[^/]*\.asmx$/i, "")
+      .replace(/\/secure$/i, "")
+      .replace(/\/+$/, "");
   return {
-    signonUrl: `${baseUrl}/Signon.asmx`,
-    executeUrl: `${baseUrl}/netFORUMXML.asmx`,
+    // Authenticate is served by the open endpoint; every authorised call must
+    // go to the /secure variant or xWeb rejects the token as "Locked".
+    signonUrl: `${dir}/netFORUMXML.asmx`,
+    executeUrl: `${dir}/secure/netFORUMXML.asmx`,
     username,
     password,
     cstKey,
@@ -79,6 +99,16 @@ function text(value: unknown): string | null {
 function date(value: unknown): string | null {
   const s = text(value);
   if (!s) return null;
+  // xWeb emits US MM/DD/YYYY. Parse it explicitly rather than trusting Date's
+  // locale-dependent handling of slash-separated dates.
+  const us = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (us) {
+    const [, m, d, y] = us;
+    const month = Number(m);
+    const day = Number(d);
+    if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+    return `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`;
+  }
   const d = new Date(s);
   return Number.isNaN(d.getTime()) ? null : d.toISOString().slice(0, 10);
 }
@@ -92,29 +122,64 @@ function pick(row: Record<string, unknown>, ...keys: string[]): unknown {
   return undefined;
 }
 
+/** Extra feed tags carried into `members.diagnostics`. */
+const DIAGNOSTIC_TAGS = [
+  "Zip",
+  "State",
+  "Chapter_Start_Date",
+  "Credential_Award_Date",
+  "Credential_Expire_Date",
+  "ACTC_Credential",
+  "ACTC_Credential_Award_Date",
+  "ACTC_Credential_Expire_Date",
+  "Auto_Renewal",
+  "Member_Status",
+];
+
+/**
+ * Verified against the TEST feed on 2026-07-27. Each `<Individual>` carries:
+ * cst_recno, Member_Status, Member_Type, First_Name, Last_Name, Email, Phone,
+ * City, Zip, State, Country, Chapter_Start_Date, Membership_Join_Date,
+ * Membership_Expiration_Date, Flagship_Credential (+ award/expiry dates),
+ * optional ACTC_Credential (+ dates), Reinstate/Rejoin and Auto_Renewal.
+ *
+ * The feed does NOT carry an organisation, a composed full name, or any
+ * mentor/supervisor accreditation — those stay local, per the roadmap.
+ */
 export function normalizeMemberRow(row: Record<string, unknown>): NormalizedMember | null {
   const recno = text(pick(row, "cst_recno", "cstRecno", "RecordNumber"));
   if (!recno) return null;
-  const first = text(pick(row, "cst_first_name", "FirstName", "first_name"));
-  const last = text(pick(row, "cst_last_name", "LastName", "last_name"));
-  const full = text(pick(row, "cst_full_name", "FullName", "full_name"));
+  const first = text(pick(row, "First_Name", "cst_first_name", "FirstName"));
+  const last = text(pick(row, "Last_Name", "cst_last_name", "LastName"));
+  const full = text(pick(row, "Full_Name", "cst_full_name", "FullName"));
+
+  const diagnostics: Record<string, string> = {};
+  for (const tag of DIAGNOSTIC_TAGS) {
+    const value = text(pick(row, tag));
+    if (value) diagnostics[tag.toLowerCase()] = value;
+  }
+
   return {
     ...EMPTY,
     cst_recno: recno,
     first_name: first,
     last_name: last,
     full_name: full ?? ([first, last].filter(Boolean).join(" ") || null),
-    email: text(pick(row, "cst_eml_address_dn", "Email", "email"))?.toLowerCase() ?? null,
-    phone: text(pick(row, "cst_phn_number_complete_dn", "Phone", "phone")),
-    city: text(pick(row, "cst_adr_city", "City", "city")),
-    country: text(pick(row, "cst_adr_country", "Country", "country")),
-    organisation: text(pick(row, "cst_organization", "Organization", "organisation")),
-    credential_slug: text(pick(row, "credential", "cst_credential", "CredentialLevel"))?.toLowerCase() ?? null,
-    member_type: text(pick(row, "member_type", "cst_member_type", "MemberType")),
-    membership_join_date: date(pick(row, "membership_join_date", "JoinDate", "cst_join_date")),
+    email: text(pick(row, "Email", "cst_eml_address_dn", "email"))?.toLowerCase() ?? null,
+    phone: text(pick(row, "Phone", "cst_phn_number_complete_dn")),
+    city: text(pick(row, "City", "cst_adr_city")),
+    country: text(pick(row, "Country", "cst_adr_country")),
+    organisation: text(pick(row, "Organization", "cst_organization", "organisation")),
+    // cf_credentials slugs are upper-case (ACC | PCC | MCC), so the feed value
+    // is upper-cased rather than lower-cased to keep the join working.
+    credential_slug:
+      text(pick(row, "Flagship_Credential", "credential", "CredentialLevel"))?.toUpperCase() ?? null,
+    member_type: text(pick(row, "Member_Type", "cst_member_type", "MemberType")),
+    membership_join_date: date(pick(row, "Membership_Join_Date", "JoinDate", "cst_join_date")),
     membership_expiration_date: date(
-      pick(row, "membership_expiration_date", "ExpirationDate", "cst_expiration_date"),
+      pick(row, "Membership_Expiration_Date", "ExpirationDate", "cst_expiration_date"),
     ),
+    diagnostics,
   };
 }
 
