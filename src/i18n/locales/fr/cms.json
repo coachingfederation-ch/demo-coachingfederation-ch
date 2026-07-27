@@ -7,7 +7,9 @@
     "role": "Éditeur",
     "signedIn": "Connecté(e)",
     "workspace": "Insights CMS",
-    "language": "Langue de l'interface"
+    "language": "Langue de l'interface",
+    "vocabularies": "Vocabulaires",
+    "coachFinder": "Coach Finder"
   },
   "auth": {
     "signInSub": "Connectez-vous pour continuer",
@@ -175,5 +177,54 @@
     "terms": "Photos fournies par Unsplash. L'attribution est ajoutée automatiquement.",
     "creditPrefix": "Photo de",
     "creditSuffix": "sur Unsplash"
+  },
+  "vocab": {
+    "title": "Vocabulaires du Coach Finder",
+    "subtitle": "Gérez les listes de filtres de l'annuaire des coachs. Désactivez un terme plutôt que de le supprimer s'il est déjà utilisé.",
+    "namePlaceholder": "Nouveau terme (anglais)",
+    "add": "Ajouter",
+    "empty": "Aucun terme pour le moment.",
+    "active": "Actif",
+    "moveUp": "Monter",
+    "moveDown": "Descendre",
+    "delete": "Supprimer le terme",
+    "confirmDelete": "Supprimer ce terme ? La désactivation est généralement plus sûre.",
+    "localeNames": "Traductions",
+    "slug": "Code",
+    "tables": {
+      "regions": "Régions",
+      "specialisations": "Spécialisations",
+      "credentials": "Accréditations",
+      "formats": "Formats",
+      "languages": "Langues",
+      "availability": "Disponibilité"
+    }
+  },
+  "finder": {
+    "title": "Réglages du Coach Finder",
+    "subtitle": "Modes de recherche activés, affichage des résultats et limites techniques utilisées par la synchronisation des membres.",
+    "loading": "Chargement…",
+    "saved": "Enregistré",
+    "modes": "Modes de recherche",
+    "label": "Libellé",
+    "display": "Affichage",
+    "defaultSort": "Tri par défaut",
+    "tunables": "Limites techniques",
+    "facets": {
+      "coaching": "Coaching",
+      "mentoring": "Mentorat",
+      "supervision": "Supervision"
+    },
+    "sort": {
+      "name": "Nom",
+      "credential": "Accréditation",
+      "recent": "Récemment mis à jour"
+    },
+    "numbers": {
+      "pageSize": "Résultats par page",
+      "feedDrop": "Seuil de baisse du flux membres (%)",
+      "retention": "Conservation de l'historique d'import (mois)",
+      "csvCap": "Limite de lignes export CSV"
+    }
   }
 }

@@ -7,7 +7,9 @@
     "role": "Editor",
     "signedIn": "Connesso/a",
     "workspace": "Insights CMS",
-    "language": "Lingua dell'interfaccia"
+    "language": "Lingua dell'interfaccia",
+    "vocabularies": "Vocabolari",
+    "coachFinder": "Coach Finder"
   },
   "auth": {
     "signInSub": "Accedi per continuare",
@@ -175,5 +177,54 @@
     "terms": "Foto fornite da Unsplash. L'attribuzione viene aggiunta automaticamente.",
     "creditPrefix": "Foto di",
     "creditSuffix": "su Unsplash"
+  },
+  "vocab": {
+    "title": "Vocabolari del Coach Finder",
+    "subtitle": "Gestisci gli elenchi di filtri della directory dei coach. Disattiva un termine invece di eliminarlo se è già in uso.",
+    "namePlaceholder": "Nuovo termine (inglese)",
+    "add": "Aggiungi",
+    "empty": "Nessun termine.",
+    "active": "Attivo",
+    "moveUp": "Sposta su",
+    "moveDown": "Sposta giù",
+    "delete": "Elimina termine",
+    "confirmDelete": "Eliminare questo termine? Disattivarlo è di solito più sicuro.",
+    "localeNames": "Traduzioni",
+    "slug": "Codice",
+    "tables": {
+      "regions": "Regioni",
+      "specialisations": "Specializzazioni",
+      "credentials": "Credenziali",
+      "formats": "Formati",
+      "languages": "Lingue",
+      "availability": "Disponibilità"
+    }
+  },
+  "finder": {
+    "title": "Impostazioni Coach Finder",
+    "subtitle": "Quali modalità di ricerca sono attive, come appaiono i risultati e i limiti tecnici usati dalla sincronizzazione dei membri.",
+    "loading": "Caricamento…",
+    "saved": "Salvato",
+    "modes": "Modalità di ricerca",
+    "label": "Etichetta",
+    "display": "Visualizzazione",
+    "defaultSort": "Ordinamento predefinito",
+    "tunables": "Limiti tecnici",
+    "facets": {
+      "coaching": "Coaching",
+      "mentoring": "Mentoring",
+      "supervision": "Supervisione"
+    },
+    "sort": {
+      "name": "Nome",
+      "credential": "Credenziale",
+      "recent": "Aggiornati di recente"
+    },
+    "numbers": {
+      "pageSize": "Risultati per pagina",
+      "feedDrop": "Soglia di calo del feed membri (%)",
+      "retention": "Conservazione storico import (mesi)",
+      "csvCap": "Limite righe esportazione CSV"
+    }
   }
 }
