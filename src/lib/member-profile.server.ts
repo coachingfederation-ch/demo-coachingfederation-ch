@@ -1,0 +1,274 @@
+/**
+ * Member Area — a member editing their own directory profile.
+ *
+ * Source-of-truth split (same rule as the admin screen, from the other side):
+ *  - Imported ICF identity (name, credential, membership dates) is read-only
+ *    here; it is replaced wholesale on every sync.
+ *  - Local portal data (tagline, description, service-area regions, languages,
+ *    formats, specialisations, availability, links, photo, publication) is
+ *    owned by the member.
+ *  - Accreditation flags (`mentor_accredited`, `supervision_accredited`) stay
+ *    staff-maintained: a member may only toggle *availability*, never
+ *    accreditation.
+ *
+ * Every function resolves the member from the authenticated user id, never
+ * from client input, so a caller can only ever reach their own record.
+ */
+import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import {
+  directoryEligibilityReason,
+  isDirectoryEligible,
+  type MemberVisibility,
+} from "./directory-eligibility";
+
+export const DESCRIPTION_MAX = 3000;
+export const TAGLINE_MAX = 160;
+export const LINKS_MAX = 6;
+
+export type MemberProfileLink = {
+  id: string;
+  link_type: "website" | "linkedin" | "other";
+  label: string | null;
+  url: string;
+  sort_order: number;
+};
+
+export type MyMemberProfile = {
+  member: {
+    id: string;
+    cst_recno: string;
+    full_name: string | null;
+    email: string | null;
+    city: string | null;
+    country: string | null;
+    credential_slug: string | null;
+    credential_expires_on: string | null;
+    membership_expiration_date: string | null;
+    activity_state: string;
+  };
+  eligibility: { eligible: boolean; reason: string };
+  profile: {
+    id: string;
+    visibility: MemberVisibility;
+    tagline: string | null;
+    description: string | null;
+    profile_image_path: string | null;
+    availability_slug: string | null;
+    coaching_available: boolean;
+    mentoring_available: boolean;
+    supervision_available: boolean;
+    mentor_accredited: boolean;
+    supervision_accredited: boolean;
+    region_ids: string[];
+    language_ids: string[];
+    format_ids: string[];
+    specialisation_ids: string[];
+    links: MemberProfileLink[];
+  } | null;
+};
+
+const MEMBER_COLUMNS =
+  "id, cst_recno, full_name, email, city, country, credential_slug, credential_expires_on, membership_expiration_date, activity_state";
+
+const PROFILE_COLUMNS =
+  "id, visibility, tagline, description, profile_image_path, availability_slug, coaching_available, mentoring_available, supervision_available, mentor_accredited, supervision_accredited";
+
+const JOINS = [
+  { table: "member_profile_regions", column: "region_id", key: "region_ids" },
+  { table: "member_profile_languages", column: "language_id", key: "language_ids" },
+  { table: "member_profile_formats", column: "format_id", key: "format_ids" },
+  { table: "member_profile_specialisations", column: "specialisation_id", key: "specialisation_ids" },
+] as const;
+
+/** The member record bound to this auth account, or null when unbound. */
+async function resolveMember(userId: string) {
+  const { data, error } = await supabaseAdmin
+    .from("members")
+    .select(MEMBER_COLUMNS)
+    .eq("auth_user_id", userId)
+    .maybeSingle();
+  if (error) throw error;
+  return data;
+}
+
+export async function loadMyMemberProfile(userId: string): Promise<MyMemberProfile | null> {
+  const member = await resolveMember(userId);
+  if (!member) return null;
+
+  const { data: profile, error } = await supabaseAdmin
+    .from("member_directory_profiles")
+    .select(PROFILE_COLUMNS)
+    .eq("member_id", member.id)
+    .maybeSingle();
+  if (error) throw error;
+
+  let facets: Record<string, string[]> = {
+    region_ids: [],
+    language_ids: [],
+    format_ids: [],
+    specialisation_ids: [],
+  };
+  let links: MemberProfileLink[] = [];
+
+  if (profile) {
+    const results = await Promise.all(
+      JOINS.map((join) =>
+        supabaseAdmin.from(join.table).select(join.column).eq("profile_id", profile.id),
+      ),
+    );
+    facets = Object.fromEntries(
+      JOINS.map((join, i) => {
+        const res = results[i]!;
+        if (res.error) throw res.error;
+        return [join.key, (res.data ?? []).map((row: never) => (row as never)[join.column] as string)];
+      }),
+    ) as typeof facets;
+
+    const { data: linkRows, error: linkError } = await supabaseAdmin
+      .from("member_profile_websites")
+      .select("id, link_type, label, url, sort_order")
+      .eq("profile_id", profile.id)
+      .order("sort_order", { ascending: true });
+    if (linkError) throw linkError;
+    links = (linkRows ?? []) as MemberProfileLink[];
+  }
+
+  return {
+    member: member as MyMemberProfile["member"],
+    eligibility: {
+      eligible: isDirectoryEligible(member),
+      reason: directoryEligibilityReason(member),
+    },
+    profile: profile
+      ? ({ ...profile, ...facets, links } as unknown as MyMemberProfile["profile"])
+      : null,
+  };
+}
+
+export type MyProfileUpdate = {
+  tagline?: string | null;
+  description?: string | null;
+  availability_slug?: string | null;
+  coaching_available?: boolean;
+  mentoring_available?: boolean;
+  supervision_available?: boolean;
+  visibility?: "draft" | "published";
+  profile_image_path?: string | null;
+  region_ids?: string[];
+  language_ids?: string[];
+  format_ids?: string[];
+  specialisation_ids?: string[];
+  links?: { link_type: "website" | "linkedin" | "other"; label?: string | null; url: string }[];
+};
+
+/** Plain text only: strip control characters and hard-cap the length. */
+function cleanText(value: string | null | undefined, max: number): string | null {
+  if (value == null) return null;
+  const cleaned = value.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "").trim();
+  return cleaned ? cleaned.slice(0, max) : null;
+}
+
+async function replaceFacet(profileId: string, table: string, column: string, ids: string[]) {
+  const { error } = await supabaseAdmin.from(table).delete().eq("profile_id", profileId);
+  if (error) throw error;
+  if (!ids.length) return;
+  const { error: insertError } = await supabaseAdmin
+    .from(table)
+    .insert(ids.map((id) => ({ profile_id: profileId, [column]: id })) as never);
+  if (insertError) throw insertError;
+}
+
+export async function updateMyMemberProfile(
+  userId: string,
+  input: MyProfileUpdate,
+): Promise<MyMemberProfile> {
+  const member = await resolveMember(userId);
+  if (!member) throw new Error("No member record is linked to this account.");
+
+  const { data: profile, error } = await supabaseAdmin
+    .from("member_directory_profiles")
+    .select("id, visibility")
+    .eq("member_id", member.id)
+    .maybeSingle();
+  if (error) throw error;
+  if (!profile) throw new Error("This member has no directory profile yet.");
+
+  const patch: Record<string, unknown> = {};
+  if (input.tagline !== undefined) patch.tagline = cleanText(input.tagline, TAGLINE_MAX);
+  if (input.description !== undefined) patch.description = cleanText(input.description, DESCRIPTION_MAX);
+  if (input.availability_slug !== undefined) patch.availability_slug = input.availability_slug || null;
+  if (input.coaching_available !== undefined) patch.coaching_available = input.coaching_available;
+  if (input.mentoring_available !== undefined) patch.mentoring_available = input.mentoring_available;
+  if (input.supervision_available !== undefined) {
+    patch.supervision_available = input.supervision_available;
+  }
+  if (input.profile_image_path !== undefined) {
+    // The path must live inside this member's own storage folder.
+    const path = input.profile_image_path;
+    if (path && !path.startsWith(`${member.id}/`)) throw new Error("Invalid image path.");
+    patch.profile_image_path = path || null;
+  }
+
+  if (input.visibility !== undefined) {
+    // System states (hidden_*) are never reachable from the Member Area, and a
+    // member cannot publish an ineligible or region-less profile. The database
+    // trigger enforces eligibility again as the real boundary.
+    if (input.visibility === "published") {
+      if (!isDirectoryEligible(member)) throw new Error("Not directory-eligible.");
+      const regions = input.region_ids;
+      if (regions && regions.length === 0) throw new Error("Select at least one service area.");
+      if (!regions) {
+        const { count } = await supabaseAdmin
+          .from("member_profile_regions")
+          .select("region_id", { count: "exact", head: true })
+          .eq("profile_id", profile.id);
+        if (!count) throw new Error("Select at least one service area.");
+      }
+    }
+    const current = profile.visibility as string;
+    // Only draft <-> published are member-controlled; a staff suppression
+    // (hidden_admin) or a system demotion must not be silently overwritten.
+    if (current === "draft" || current === "published") patch.visibility = input.visibility;
+  }
+
+  if (Object.keys(patch).length) {
+    const { error: updateError } = await supabaseAdmin
+      .from("member_directory_profiles")
+      .update(patch as never)
+      .eq("id", profile.id);
+    if (updateError) throw updateError;
+  }
+
+  for (const join of JOINS) {
+    const ids = input[join.key];
+    if (ids) await replaceFacet(profile.id, join.table, join.column, ids);
+  }
+
+  if (input.links) {
+    const rows = input.links
+      .filter((link) => /^https:\/\/\S{3,250}$/i.test(link.url.trim()))
+      .slice(0, LINKS_MAX)
+      .map((link, index) => ({
+        profile_id: profile.id,
+        link_type: link.link_type,
+        label: cleanText(link.label ?? null, 80),
+        url: link.url.trim(),
+        sort_order: index,
+      }));
+    const { error: deleteError } = await supabaseAdmin
+      .from("member_profile_websites")
+      .delete()
+      .eq("profile_id", profile.id);
+    if (deleteError) throw deleteError;
+    if (rows.length) {
+      const { error: insertError } = await supabaseAdmin
+        .from("member_profile_websites")
+        .insert(rows as never);
+      if (insertError) throw insertError;
+    }
+  }
+
+  const next = await loadMyMemberProfile(userId);
+  if (!next) throw new Error("Profile reload failed.");
+  return next;
+}
