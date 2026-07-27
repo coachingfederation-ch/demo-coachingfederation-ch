@@ -29,7 +29,12 @@
     "one": "1 coach",
     "many": "{count} coaches",
     "emptyTitle": "No coaches match your filters",
-    "emptyBody": "Try widening your canton or specialisation."
+    "emptyBody": "Try widening your canton or specialisation.",
+    "loading": "Loading coaches…",
+    "errorTitle": "The directory is temporarily unavailable",
+    "errorBody": "Please try again in a moment.",
+    "prev": "Previous",
+    "next": "Next"
   },
   "card": {
     "featured": "Featured",
