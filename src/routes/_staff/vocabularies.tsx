@@ -12,7 +12,7 @@ import {
   type VocabTable,
 } from "@/lib/vocabularies";
 
-export const Route = createFileRoute("/_authenticated/vocabularies")({
+export const Route = createFileRoute("/_staff/vocabularies")({
   head: () => ({
     meta: [
       { title: "Coach Finder vocabularies — ICF Switzerland CMS" },

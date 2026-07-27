@@ -9,7 +9,7 @@ import { UnsplashPicker } from "@/components/cms/UnsplashPicker";
 import { authorName, categoryLabel, type CategoryRow } from "@/lib/articles";
 import { useCms } from "@/i18n/cms";
 
-export const Route = createFileRoute("/_authenticated/articles/$id")({
+export const Route = createFileRoute("/_staff/articles/$id")({
   head: () => ({
     meta: [
       { title: "Editor — ICF Switzerland Insights CMS" },

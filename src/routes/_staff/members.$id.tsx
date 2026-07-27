@@ -20,7 +20,7 @@ import {
   type MemberVisibility,
 } from "@/lib/directory-eligibility";
 
-export const Route = createFileRoute("/_authenticated/members/$id")({
+export const Route = createFileRoute("/_staff/members/$id")({
   head: () => ({
     meta: [
       { title: "Member — ICF Switzerland CMS" },
