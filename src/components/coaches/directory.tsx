@@ -395,10 +395,14 @@ export function CoachDirectory() {
   const pageSize = data?.pageSize ?? 12;
   const narrowed = query.trim() !== "" || acceptingOnly;
   const shownCount = narrowed ? results.length : total;
-  const countLabel =
-    shownCount === 1
-      ? t("directory.results.one")
-      : t("directory.results.many").replace("{count}", String(shownCount));
+  // When a mode is resolved the count names it ("3 mentoring coaches"); the
+  // generic strings remain the fallback when no mode is configured.
+  const countKey = shownCount === 1 ? "one" : "many";
+  const countLabel = (
+    modeLabel
+      ? t(`directory.results.${countKey}Mode`).replace("{mode}", modeLabel)
+      : t(`directory.results.${countKey}`)
+  ).replace("{count}", String(shownCount));
   const hasMore = !narrowed && (page + 1) * pageSize < total;
 
   const filterPanel = (
