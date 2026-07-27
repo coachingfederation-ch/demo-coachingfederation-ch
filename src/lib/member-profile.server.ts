@@ -176,10 +176,22 @@ export type MyProfileUpdate = {
   supervision_available?: boolean;
   visibility?: "draft" | "published";
   profile_image_path?: string | null;
+  booking_url?: string | null;
+  contact_email_public?: boolean;
+  response_time_note?: string | null;
+  approach?: string | null;
+  qualifications?: string | null;
+  experience_band?: string | null;
+  session_length_note?: string | null;
+  fees_note?: string | null;
+  availability_note?: string | null;
+  testimonial_quote?: string | null;
+  testimonial_attribution?: string | null;
   region_ids?: string[];
   language_ids?: string[];
   format_ids?: string[];
   specialisation_ids?: string[];
+  client_type_ids?: string[];
   links?: { link_type: "website" | "linkedin" | "other"; label?: string | null; url: string }[];
 };
 
@@ -225,6 +237,41 @@ export async function updateMyMemberProfile(
   if (input.supervision_available !== undefined) {
     patch.supervision_available = input.supervision_available;
   }
+
+  // Optional "practice detail" fields. All are plain text, cleaned and capped
+  // exactly like tagline/description; none of them affect eligibility.
+  if (input.approach !== undefined) patch.approach = cleanText(input.approach, RICH_TEXT_MAX);
+  if (input.qualifications !== undefined) {
+    patch.qualifications = cleanText(input.qualifications, RICH_TEXT_MAX);
+  }
+  if (input.fees_note !== undefined) patch.fees_note = cleanText(input.fees_note, RICH_TEXT_MAX);
+  if (input.session_length_note !== undefined) {
+    patch.session_length_note = cleanText(input.session_length_note, NOTE_MAX);
+  }
+  if (input.availability_note !== undefined) {
+    patch.availability_note = cleanText(input.availability_note, NOTE_MAX);
+  }
+  if (input.response_time_note !== undefined) {
+    patch.response_time_note = cleanText(input.response_time_note, NOTE_MAX);
+  }
+  if (input.experience_band !== undefined) patch.experience_band = input.experience_band || null;
+  if (input.testimonial_quote !== undefined) {
+    patch.testimonial_quote = cleanText(input.testimonial_quote, QUOTE_MAX);
+  }
+  if (input.testimonial_attribution !== undefined) {
+    patch.testimonial_attribution = cleanText(input.testimonial_attribution, NOTE_MAX);
+  }
+  if (input.contact_email_public !== undefined) {
+    // Opt-in only: the public view reveals the ICF-held email solely when
+    // this flag is true, so it is the member's own consent switch.
+    patch.contact_email_public = input.contact_email_public;
+  }
+  if (input.booking_url !== undefined) {
+    const url = (input.booking_url ?? "").trim();
+    if (url && !/^https:\/\/\S{3,250}$/i.test(url)) throw new Error("Booking link must start with https://.");
+    patch.booking_url = url || null;
+  }
+
   if (input.profile_image_path !== undefined) {
     // The path must live inside this member's own storage folder.
     const path = input.profile_image_path;
