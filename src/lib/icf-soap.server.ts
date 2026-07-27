@@ -92,7 +92,7 @@ export function normalizeMemberRow(row: Record<string, unknown>): NormalizedMemb
     cst_recno: recno,
     first_name: first,
     last_name: last,
-    full_name: full ?? [first, last].filter(Boolean).join(" ") || null,
+    full_name: full ?? ([first, last].filter(Boolean).join(" ") || null),
     email: text(pick(row, "cst_eml_address_dn", "Email", "email"))?.toLowerCase() ?? null,
     phone: text(pick(row, "cst_phn_number_complete_dn", "Phone", "phone")),
     city: text(pick(row, "cst_adr_city", "City", "city")),
