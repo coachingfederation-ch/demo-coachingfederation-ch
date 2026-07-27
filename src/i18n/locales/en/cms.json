@@ -307,7 +307,14 @@
     "issueLink": "Issue claim link",
     "issueLinkHint": "Mints a one-time link for this member. Copy it now — it is shown only once.",
     "linkIssued": "One-time claim link (copy now):",
-    "copy": "Copy"
+    "copy": "Copy",
+    "colClaim": "Account",
+    "claim": {
+      "claimed": "Claimed",
+      "invited": "Invited",
+      "expired": "Link expired",
+      "never": "Not invited"
+    }
   },
   "integration": {
     "title": "Integration status",

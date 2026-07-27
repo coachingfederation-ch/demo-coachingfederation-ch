@@ -160,6 +160,18 @@ export const issueMemberClaimLink = createServerFn({ method: "POST" })
  * Staff-support account binding (admin only). Separate from the future
  * member-initiated claim flow — this is testing/support tooling.
  */
+export const getMemberClaimStatuses = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertAdmin(context as never);
+    const { loadClaimStatuses } = await import("./member-admin.server");
+    return await loadClaimStatuses();
+  });
+
+/**
+ * Staff-support account binding (admin only). Separate from the future
+ * member-initiated claim flow — this is testing/support tooling.
+ */
 export const bindMemberAccount = createServerFn({ method: "POST" })
   .inputValidator((input) =>
     z.object({ memberId: z.string().uuid(), email: z.string().email().max(320) }).parse(input),

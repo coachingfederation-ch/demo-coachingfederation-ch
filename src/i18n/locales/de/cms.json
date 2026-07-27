@@ -307,7 +307,14 @@
     "issueLink": "Claim-Link erstellen",
     "issueLinkHint": "Erstellt einen einmaligen Link für dieses Mitglied. Jetzt kopieren – er wird nur einmal angezeigt.",
     "linkIssued": "Einmaliger Claim-Link (jetzt kopieren):",
-    "copy": "Kopieren"
+    "copy": "Kopieren",
+    "colClaim": "Konto",
+    "claim": {
+      "claimed": "Übernommen",
+      "invited": "Eingeladen",
+      "expired": "Link abgelaufen",
+      "never": "Nicht eingeladen"
+    }
   },
   "integration": {
     "title": "Integrationsstatus",

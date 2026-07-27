@@ -4,7 +4,7 @@ import { Download, Search } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { useCms } from "@/i18n/cms";
 import { supabase } from "@/integrations/supabase/client";
-import { exportMembersCsv } from "@/lib/members.functions";
+import { exportMembersCsv, getMemberClaimStatuses } from "@/lib/members.functions";
 import { directoryEligibilityReason } from "@/lib/directory-eligibility";
 
 export const Route = createFileRoute("/_staff/members/")({
@@ -29,13 +29,18 @@ type MemberRow = {
   last_synced_at: string | null;
 };
 
-const COLUMNS: { key: keyof MemberRow; labelKey: string }[] = [
+type MemberClaimStatus = "claimed" | "invited" | "expired" | "never";
+
+type SortKey = keyof MemberRow | "claim_status";
+
+const COLUMNS: { key: SortKey; labelKey: string }[] = [
   { key: "full_name", labelKey: "members.colName" },
   { key: "email", labelKey: "members.colEmail" },
   { key: "city", labelKey: "members.colCity" },
   { key: "credential_slug", labelKey: "members.colCredential" },
   { key: "activity_state", labelKey: "members.colState" },
   { key: "credential_expires_on", labelKey: "members.colEligibility" },
+  { key: "claim_status", labelKey: "members.colClaim" },
   { key: "last_synced_at", labelKey: "members.colSynced" },
 ];
 
@@ -46,7 +51,8 @@ function MembersPage() {
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [state, setState] = useState("all");
-  const [sort, setSort] = useState<{ key: keyof MemberRow; asc: boolean }>({
+  const [claimStatuses, setClaimStatuses] = useState<Record<string, MemberClaimStatus>>({});
+  const [sort, setSort] = useState<{ key: SortKey; asc: boolean }>({
     key: "full_name",
     asc: true,
   });
@@ -67,6 +73,13 @@ function MembersPage() {
       });
   }, []);
 
+  // Claim readiness is admin-only data; non-admin staff simply see "—".
+  useEffect(() => {
+    getMemberClaimStatuses()
+      .then((data) => setClaimStatuses((data ?? {}) as Record<string, MemberClaimStatus>))
+      .catch(() => setClaimStatuses({}));
+  }, []);
+
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
     const filtered = rows.filter((row) => {
@@ -77,11 +90,15 @@ function MembersPage() {
         .some((value) => String(value).toLowerCase().includes(q));
     });
     return [...filtered].sort((a, b) => {
-      const av = String(a[sort.key] ?? "");
-      const bv = String(b[sort.key] ?? "");
+      const read = (row: MemberRow) =>
+        sort.key === "claim_status"
+          ? (claimStatuses[row.id] ?? "never")
+          : String(row[sort.key as keyof MemberRow] ?? "");
+      const av = read(a);
+      const bv = read(b);
       return sort.asc ? av.localeCompare(bv) : bv.localeCompare(av);
     });
-  }, [rows, query, state, sort]);
+  }, [rows, query, state, sort, claimStatuses]);
 
   const handleExport = async () => {
     setExporting(true);
@@ -211,6 +228,24 @@ function MembersPage() {
                             }
                           >
                             {t(`members.eligibility.${reason}`)}
+                          </span>
+                        );
+                      })()}
+                    </td>
+                    <td className="px-4 py-2">
+                      {(() => {
+                        const claim = claimStatuses[row.id] ?? "never";
+                        return (
+                          <span
+                            className={
+                              claim === "claimed"
+                                ? "rounded-full bg-secondary px-2 py-0.5 text-xs font-semibold"
+                                : claim === "invited"
+                                  ? "rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary"
+                                  : "rounded-full px-2 py-0.5 text-xs font-semibold text-muted-foreground"
+                            }
+                          >
+                            {t(`members.claim.${claim}`)}
                           </span>
                         );
                       })()}

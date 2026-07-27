@@ -307,7 +307,14 @@
     "issueLink": "Générer un lien d'activation",
     "issueLinkHint": "Crée un lien à usage unique pour ce membre. Copiez-le maintenant : il n'est affiché qu'une fois.",
     "linkIssued": "Lien d'activation à usage unique (à copier) :",
-    "copy": "Copier"
+    "copy": "Copier",
+    "colClaim": "Compte",
+    "claim": {
+      "claimed": "Revendiqué",
+      "invited": "Invité",
+      "expired": "Lien expiré",
+      "never": "Non invité"
+    }
   },
   "integration": {
     "title": "État de l’intégration",

@@ -307,7 +307,14 @@
     "issueLink": "Genera link di attivazione",
     "issueLinkHint": "Crea un link monouso per questo socio. Copialo ora: viene mostrato una sola volta.",
     "linkIssued": "Link di attivazione monouso (copialo ora):",
-    "copy": "Copia"
+    "copy": "Copia",
+    "colClaim": "Account",
+    "claim": {
+      "claimed": "Rivendicato",
+      "invited": "Invitato",
+      "expired": "Link scaduto",
+      "never": "Non invitato"
+    }
   },
   "integration": {
     "title": "Stato dell’integrazione",
