@@ -83,6 +83,22 @@
     "links": "Link",
     "notFoundTitle": "Questo profilo di coach non è disponibile",
     "notFoundBody": "Il profilo potrebbe essere stato ritirato. Consulta la directory per trovare un altro coach certificato.",
-    "metaFallback": "{name} è un coach certificato ICF presente nella directory di ICF Switzerland."
+    "metaFallback": "{name} è un coach certificato ICF presente nella directory di ICF Switzerland.",
+    "approach": "Come lavoro",
+    "clientTypes": "Con chi lavoro",
+    "qualifications": "Credenziali e formazione",
+    "fees": "Onorari",
+    "session": "Durata delle sessioni",
+    "experience": "Esperienza",
+    "availability": "Disponibilità",
+    "book": "Prenota una sessione",
+    "message": "Invia un messaggio",
+    "workWith": "Lavorare con {name}",
+    "experienceBands": {
+      "0-2": "0–2 anni",
+      "3-5": "3–5 anni",
+      "6-10": "6–10 anni",
+      "10+": "10+ anni"
+    }
   }
 }
