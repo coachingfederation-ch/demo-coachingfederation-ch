@@ -200,7 +200,8 @@
       "credentials": "Accréditations",
       "formats": "Formats",
       "languages": "Langues",
-      "availability": "Disponibilité"
+      "availability": "Disponibilité",
+      "clientTypes": "Types de clients"
     }
   },
   "finder": {
@@ -428,7 +429,7 @@
     "publish": "Publier le profil",
     "unpublish": "Dépublier",
     "areaTitle": "Espace membre",
-    "clientTypesTitle": "Avec qui vous travaillez",
+    "clientTypesTitle": "Types de clients",
     "clientTypesNote": "Facultatif. Aide les clients à savoir si vous leur correspondez.",
     "practiceTitle": "Votre pratique",
     "practiceNote": "Tout est facultatif. Les champs vides n'apparaissent pas sur votre profil public.",

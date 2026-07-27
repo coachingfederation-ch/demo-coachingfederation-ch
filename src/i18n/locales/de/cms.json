@@ -200,7 +200,8 @@
       "credentials": "Zertifizierungen",
       "formats": "Formate",
       "languages": "Sprachen",
-      "availability": "Verfügbarkeit"
+      "availability": "Verfügbarkeit",
+      "clientTypes": "Kliententypen"
     }
   },
   "finder": {
@@ -428,7 +429,7 @@
     "publish": "Profil veröffentlichen",
     "unpublish": "Veröffentlichung zurückziehen",
     "areaTitle": "Mitgliederbereich",
-    "clientTypesTitle": "Mit wem Sie arbeiten",
+    "clientTypesTitle": "Kliententypen",
     "clientTypesNote": "Optional. Hilft Klientinnen und Klienten einzuschätzen, ob Sie passen.",
     "practiceTitle": "Ihre Praxis",
     "practiceNote": "Alles optional. Leere Felder erscheinen nicht im öffentlichen Profil.",

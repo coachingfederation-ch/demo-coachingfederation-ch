@@ -200,7 +200,8 @@
       "credentials": "Credentials",
       "formats": "Formats",
       "languages": "Languages",
-      "availability": "Availability"
+      "availability": "Availability",
+      "clientTypes": "Client Types"
     }
   },
   "finder": {
@@ -428,7 +429,7 @@
     "publish": "Publish profile",
     "unpublish": "Unpublish",
     "areaTitle": "Member Area",
-    "clientTypesTitle": "Who you work with",
+    "clientTypesTitle": "Client Types",
     "clientTypesNote": "Optional. Helps clients recognise whether you are the right fit.",
     "practiceTitle": "Your practice",
     "practiceNote": "All optional. Empty fields are simply left out of your public profile.",
