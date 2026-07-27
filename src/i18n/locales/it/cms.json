@@ -247,6 +247,13 @@
       "active": "Attivo",
       "grace": "Periodo di tolleranza",
       "anonymized": "Anonimizzato"
+    },
+    "colEligibility": "Idoneità alla directory",
+    "eligibility": {
+      "eligible": "Idoneo",
+      "inactive": "Iscrizione non attiva",
+      "no_credential": "Nessun ACC/PCC/MCC",
+      "credential_expired": "Accreditamento scaduto"
     }
   },
   "integration": {

@@ -247,6 +247,13 @@
       "active": "Actif",
       "grace": "Délai de grâce",
       "anonymized": "Anonymisé"
+    },
+    "colEligibility": "Éligibilité à l’annuaire",
+    "eligibility": {
+      "eligible": "Éligible",
+      "inactive": "Adhésion inactive",
+      "no_credential": "Pas d’ACC/PCC/MCC",
+      "credential_expired": "Accréditation expirée"
     }
   },
   "integration": {

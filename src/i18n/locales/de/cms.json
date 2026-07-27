@@ -247,6 +247,13 @@
       "active": "Aktiv",
       "grace": "Karenzfrist",
       "anonymized": "Anonymisiert"
+    },
+    "colEligibility": "Verzeichnis-Berechtigung",
+    "eligibility": {
+      "eligible": "Berechtigt",
+      "inactive": "Mitgliedschaft inaktiv",
+      "no_credential": "Kein ACC/PCC/MCC",
+      "credential_expired": "Akkreditierung abgelaufen"
     }
   },
   "integration": {

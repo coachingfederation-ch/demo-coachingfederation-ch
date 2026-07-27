@@ -643,6 +643,13 @@ export type Database = {
             foreignKeyName: "member_directory_profiles_member_id_fkey"
             columns: ["member_id"]
             isOneToOne: true
+            referencedRelation: "coach_directory_public"
+            referencedColumns: ["member_id"]
+          },
+          {
+            foreignKeyName: "member_directory_profiles_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: true
             referencedRelation: "members"
             referencedColumns: ["id"]
           },
@@ -687,6 +694,13 @@ export type Database = {
             foreignKeyName: "member_email_log_member_id_fkey"
             columns: ["member_id"]
             isOneToOne: false
+            referencedRelation: "coach_directory_public"
+            referencedColumns: ["member_id"]
+          },
+          {
+            foreignKeyName: "member_email_log_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
             referencedRelation: "members"
             referencedColumns: ["id"]
           },
@@ -721,6 +735,13 @@ export type Database = {
           sync_run_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "member_import_snapshots_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "coach_directory_public"
+            referencedColumns: ["member_id"]
+          },
           {
             foreignKeyName: "member_import_snapshots_member_id_fkey"
             columns: ["member_id"]
@@ -776,6 +797,13 @@ export type Database = {
             foreignKeyName: "member_lifecycle_queue_member_id_fkey"
             columns: ["member_id"]
             isOneToOne: true
+            referencedRelation: "coach_directory_public"
+            referencedColumns: ["member_id"]
+          },
+          {
+            foreignKeyName: "member_lifecycle_queue_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: true
             referencedRelation: "members"
             referencedColumns: ["id"]
           },
@@ -809,6 +837,13 @@ export type Database = {
             foreignKeyName: "member_profile_formats_profile_id_fkey"
             columns: ["profile_id"]
             isOneToOne: false
+            referencedRelation: "coach_directory_public"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "member_profile_formats_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
             referencedRelation: "member_directory_profiles"
             referencedColumns: ["id"]
           },
@@ -837,6 +872,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "cf_languages"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_profile_languages_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "coach_directory_public"
+            referencedColumns: ["profile_id"]
           },
           {
             foreignKeyName: "member_profile_languages_profile_id_fkey"
@@ -883,6 +925,13 @@ export type Database = {
             foreignKeyName: "member_profile_links_member_id_fkey"
             columns: ["member_id"]
             isOneToOne: false
+            referencedRelation: "coach_directory_public"
+            referencedColumns: ["member_id"]
+          },
+          {
+            foreignKeyName: "member_profile_links_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
             referencedRelation: "members"
             referencedColumns: ["id"]
           },
@@ -905,6 +954,13 @@ export type Database = {
           region_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "member_profile_regions_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "coach_directory_public"
+            referencedColumns: ["profile_id"]
+          },
           {
             foreignKeyName: "member_profile_regions_profile_id_fkey"
             columns: ["profile_id"]
@@ -938,6 +994,13 @@ export type Database = {
           specialisation_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "member_profile_specialisations_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "coach_directory_public"
+            referencedColumns: ["profile_id"]
+          },
           {
             foreignKeyName: "member_profile_specialisations_profile_id_fkey"
             columns: ["profile_id"]
@@ -992,6 +1055,13 @@ export type Database = {
           sync_run_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "member_sync_events_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "coach_directory_public"
+            referencedColumns: ["member_id"]
+          },
           {
             foreignKeyName: "member_sync_events_member_id_fkey"
             columns: ["member_id"]
@@ -1064,6 +1134,8 @@ export type Database = {
           city: string | null
           country: string | null
           created_at: string
+          credential_awarded_on: string | null
+          credential_expires_on: string | null
           credential_slug: string | null
           cst_recno: string
           diagnostics: Json
@@ -1090,6 +1162,8 @@ export type Database = {
           city?: string | null
           country?: string | null
           created_at?: string
+          credential_awarded_on?: string | null
+          credential_expires_on?: string | null
           credential_slug?: string | null
           cst_recno: string
           diagnostics?: Json
@@ -1116,6 +1190,8 @@ export type Database = {
           city?: string | null
           country?: string | null
           created_at?: string
+          credential_awarded_on?: string | null
+          credential_expires_on?: string | null
           credential_slug?: string | null
           cst_recno?: string
           diagnostics?: Json
@@ -1246,7 +1322,40 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      coach_directory_public: {
+        Row: {
+          availability_slug: string | null
+          city: string | null
+          coaching_available: boolean | null
+          country: string | null
+          credential_awarded_on: string | null
+          credential_slug: string | null
+          description: string | null
+          format_slugs: string[] | null
+          full_name: string | null
+          has_directory_credential: boolean | null
+          is_active_member: boolean | null
+          is_directory_eligible: boolean | null
+          is_directory_visible: boolean | null
+          language_slugs: string[] | null
+          linkedin_url: string | null
+          member_id: string | null
+          mentor_accredited: boolean | null
+          mentoring_available: boolean | null
+          organisation: string | null
+          profile_id: string | null
+          profile_image_path: string | null
+          region_slugs: string[] | null
+          services: string[] | null
+          specialisation_slugs: string[] | null
+          supervision_accredited: boolean | null
+          supervision_available: boolean | null
+          tagline: string | null
+          updated_at: string | null
+          website_url: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {
@@ -1257,6 +1366,20 @@ export type Database = {
         Returns: boolean
       }
       is_editor: { Args: { _user_id: string }; Returns: boolean }
+      member_has_directory_credential: {
+        Args: { _credential_expires_on: string; _credential_slug: string }
+        Returns: boolean
+      }
+      member_is_active: {
+        Args: {
+          _activity_state: Database["public"]["Enums"]["member_activity_state"]
+        }
+        Returns: boolean
+      }
+      member_is_directory_eligible: {
+        Args: { _member_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       app_role: "admin" | "editor" | "user"
@@ -1269,6 +1392,7 @@ export type Database = {
         | "published"
         | "hidden_inactive"
         | "hidden_admin"
+        | "hidden_no_credential"
       sync_run_status: "running" | "succeeded" | "failed" | "aborted"
     }
     CompositeTypes: {
@@ -1407,6 +1531,7 @@ export const Constants = {
         "published",
         "hidden_inactive",
         "hidden_admin",
+        "hidden_no_credential",
       ],
       sync_run_status: ["running", "succeeded", "failed", "aborted"],
     },

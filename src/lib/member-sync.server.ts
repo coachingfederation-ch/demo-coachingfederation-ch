@@ -12,6 +12,11 @@
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { fetchActiveMemberFeed, type NormalizedMember } from "./icf-soap.server";
 import { loadIntegrationConfigAdmin } from "./member-email.server";
+import {
+  directoryEligibilityReason,
+  enforcedVisibility,
+  type MemberEligibilityFacts,
+} from "./directory-eligibility";
 
 export type SyncResult = {
   runId: string;
@@ -36,6 +41,8 @@ const IMPORTED_FIELDS: (keyof NormalizedMember)[] = [
   "member_type",
   "membership_join_date",
   "membership_expiration_date",
+  "credential_awarded_on",
+  "credential_expires_on",
 ];
 
 async function logEvent(
@@ -222,6 +229,8 @@ export async function runMemberSync(options: {
       deactivated += 1;
     }
 
+    await reconcileDirectoryVisibility(runId);
+
     return await finish({ status: "succeeded", feedCount: feed.length, created, updated, deactivated });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
@@ -275,4 +284,72 @@ export async function runLifecycleCleanup(actorUserId: string): Promise<{ anonym
     anonymized += 1;
   }
   return { anonymized };
+}
+
+/**
+ * Re-derive directory visibility from eligibility after every sync.
+ *
+ * Membership and credential validity both change silently in the ICF feed, so
+ * a profile published yesterday can become ineligible today without anyone
+ * touching it. This pass is the projection step: it demotes profiles that lost
+ * eligibility (distinguishing lapsed membership from a missing/expired
+ * credential) and lifts system-imposed hidden states back to `draft` once the
+ * member is eligible again. `hidden_admin` is a deliberate staff decision and
+ * is never overridden here; `draft` and `published` for eligible members are
+ * member/staff intent and are left untouched.
+ */
+export async function reconcileDirectoryVisibility(runId: string | null): Promise<{
+  demoted: number;
+  restored: number;
+}> {
+  const { data: profiles, error } = await supabaseAdmin
+    .from("member_directory_profiles")
+    .select(
+      "id, member_id, visibility, members!inner(id, cst_recno, activity_state, credential_slug, credential_expires_on)",
+    );
+  if (error) throw error;
+
+  let demoted = 0;
+  let restored = 0;
+
+  for (const row of (profiles ?? []) as unknown as {
+    id: string;
+    member_id: string;
+    visibility: string;
+    members: MemberEligibilityFacts & { id: string; cst_recno: string };
+  }[]) {
+    if (row.visibility === "hidden_admin") continue;
+    const facts = row.members;
+    const forced = enforcedVisibility(facts);
+    const next =
+      forced ??
+      (row.visibility === "hidden_inactive" || row.visibility === "hidden_no_credential"
+        ? "draft"
+        : row.visibility);
+    if (next === row.visibility) continue;
+
+    const { error: updateError } = await supabaseAdmin
+      .from("member_directory_profiles")
+      .update({ visibility: next as never })
+      .eq("id", row.id);
+    if (updateError) throw updateError;
+
+    if (forced) demoted += 1;
+    else restored += 1;
+
+    await logEvent(
+      runId,
+      forced ? "directory_visibility_demoted" : "directory_visibility_restored",
+      `Directory profile moved ${row.visibility} -> ${next} (${directoryEligibilityReason(facts)}).`,
+      {
+        member_id: row.member_id,
+        cst_recno: facts.cst_recno,
+        severity: forced ? "warning" : "info",
+        from: row.visibility,
+        to: next,
+      },
+    );
+  }
+
+  return { demoted, restored };
 }

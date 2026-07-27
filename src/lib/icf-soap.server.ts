@@ -23,9 +23,15 @@ export type NormalizedMember = {
   membership_join_date: string | null;
   membership_expiration_date: string | null;
   /**
+   * Flagship credential validity. Promoted out of `diagnostics` to real
+   * columns because directory eligibility depends on them.
+   */
+  credential_awarded_on: string | null;
+  credential_expires_on: string | null;
+  /**
    * Feed values the members table has no dedicated column for (postcode, state,
-   * credential award/expiry, ACTC, chapter start, auto-renewal). Kept verbatim
-   * so a later column can be backfilled without re-querying ICF.
+   * ACTC, chapter start, auto-renewal). Kept verbatim so a later column can be
+   * backfilled without re-querying ICF.
    */
   diagnostics: Record<string, string>;
 };
@@ -48,6 +54,8 @@ const EMPTY: Omit<NormalizedMember, "cst_recno"> = {
   member_type: null,
   membership_join_date: null,
   membership_expiration_date: null,
+  credential_awarded_on: null,
+  credential_expires_on: null,
   diagnostics: {},
 };
 
@@ -179,6 +187,8 @@ export function normalizeMemberRow(row: Record<string, unknown>): NormalizedMemb
     membership_expiration_date: date(
       pick(row, "Membership_Expiration_Date", "ExpirationDate", "cst_expiration_date"),
     ),
+    credential_awarded_on: date(pick(row, "Credential_Award_Date", "CredentialAwardDate")),
+    credential_expires_on: date(pick(row, "Credential_Expire_Date", "CredentialExpireDate")),
     diagnostics,
   };
 }

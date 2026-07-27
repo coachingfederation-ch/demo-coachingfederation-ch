@@ -5,6 +5,7 @@ import { Shell } from "@/components/cms/Shell";
 import { useCms } from "@/i18n/cms";
 import { supabase } from "@/integrations/supabase/client";
 import { exportMembersCsv } from "@/lib/members.functions";
+import { directoryEligibilityReason } from "@/lib/directory-eligibility";
 
 export const Route = createFileRoute("/_authenticated/members/")({
   head: () => ({
@@ -23,6 +24,7 @@ type MemberRow = {
   email: string | null;
   city: string | null;
   credential_slug: string | null;
+  credential_expires_on: string | null;
   activity_state: string;
   last_synced_at: string | null;
 };
@@ -33,6 +35,7 @@ const COLUMNS: { key: keyof MemberRow; labelKey: string }[] = [
   { key: "city", labelKey: "members.colCity" },
   { key: "credential_slug", labelKey: "members.colCredential" },
   { key: "activity_state", labelKey: "members.colState" },
+  { key: "credential_expires_on", labelKey: "members.colEligibility" },
   { key: "last_synced_at", labelKey: "members.colSynced" },
 ];
 
@@ -52,7 +55,9 @@ function MembersPage() {
   useEffect(() => {
     supabase
       .from("members")
-      .select("id, cst_recno, full_name, email, city, credential_slug, activity_state, last_synced_at")
+      .select(
+        "id, cst_recno, full_name, email, city, credential_slug, credential_expires_on, activity_state, last_synced_at",
+      )
       .order("last_name", { ascending: true })
       .limit(2000)
       .then(({ data, error: err }) => {
@@ -184,6 +189,24 @@ function MembersPage() {
                     <td className="px-4 py-2">{row.city ?? "—"}</td>
                     <td className="px-4 py-2 uppercase">{row.credential_slug ?? "—"}</td>
                     <td className="px-4 py-2">{t(`members.state.${row.activity_state}`)}</td>
+                    <td className="px-4 py-2">
+                      {(() => {
+                        // Eligibility is derived, never stored: membership and
+                        // credential validity move independently in the feed.
+                        const reason = directoryEligibilityReason(row);
+                        return (
+                          <span
+                            className={
+                              reason === "eligible"
+                                ? "rounded-full bg-secondary px-2 py-0.5 text-xs font-semibold"
+                                : "rounded-full bg-destructive/10 px-2 py-0.5 text-xs font-semibold text-destructive"
+                            }
+                          >
+                            {t(`members.eligibility.${reason}`)}
+                          </span>
+                        );
+                      })()}
+                    </td>
                     <td className="px-4 py-2 text-muted-foreground">
                       {row.last_synced_at ? new Date(row.last_synced_at).toLocaleDateString() : "—"}
                     </td>
