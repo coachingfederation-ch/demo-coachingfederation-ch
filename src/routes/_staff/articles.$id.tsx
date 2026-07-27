@@ -113,6 +113,7 @@ function EditorPage() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
   const { t, locale } = useCms();
+  const { roles } = useMyRoles();
   const [article, setArticle] = useState<Article | null>(null);
   const [categories, setCategories] = useState<CategoryRow[]>([]);
   const [profiles, setProfiles] = useState<ProfileRow[]>([]);
