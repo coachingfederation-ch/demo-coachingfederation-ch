@@ -7,8 +7,12 @@ import { useCms } from "@/i18n/cms";
 import { LOCALE_LABELS, LOCALE_ORDER } from "@/i18n/config";
 import { landingPathForSession } from "@/lib/roles";
 import { getMemberClaimStatus } from "@/lib/members.functions";
+import { safeNext } from "@/lib/safe-next";
 
 export const Route = createFileRoute("/auth")({
+  // `next` lets a flow that needed sign-in (e.g. the OAuth consent screen)
+  // resume exactly where it left off.
+  validateSearch: (search: Record<string, unknown>) => ({ next: safeNext(search.next) }),
   head: () => ({
     meta: [
       { title: "Sign in — ICF Switzerland Insights CMS" },
@@ -21,6 +25,7 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
+  const { next } = Route.useSearch();
   const { t, locale, setLocale } = useCms();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
@@ -37,12 +42,20 @@ function AuthPage() {
   useEffect(() => {
     void supabase.auth.getSession().then(async ({ data }) => {
       if (!data.session) return;
+      if (next) {
+        window.location.href = next;
+        return;
+      }
       navigate({ to: await landingPathForSession(data.session.user.id) });
     });
-  }, [navigate]);
+  }, [navigate, next]);
 
   /** Destination is role-driven: staff -> CMS, member -> Member Area. */
   const goToArea = async () => {
+    if (next) {
+      window.location.href = next;
+      return;
+    }
     const { data } = await supabase.auth.getUser();
     navigate({ to: data.user ? await landingPathForSession(data.user.id) : "/auth" });
   };
@@ -56,7 +69,11 @@ function AuthPage() {
         const { error } = await supabase.auth.signUp({
           email,
           password,
-          options: { emailRedirectTo: window.location.origin + "/articles" },
+          options: {
+            emailRedirectTo:
+              window.location.origin +
+              (next ? `/auth/callback?next=${encodeURIComponent(next)}` : "/articles"),
+          },
         });
         if (error) throw error;
       } else {
@@ -74,7 +91,10 @@ function AuthPage() {
   const handleGoogle = async () => {
     setError(null);
     const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin + "/auth/callback",
+      redirect_uri:
+        window.location.origin +
+        "/auth/callback" +
+        (next ? `?next=${encodeURIComponent(next)}` : ""),
     });
     if (result.error) {
       setError(result.error.message ?? t("auth.googleError"));
