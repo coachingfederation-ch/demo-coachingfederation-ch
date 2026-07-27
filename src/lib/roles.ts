@@ -1,48 +1,24 @@
 /**
- * Role model for the two authenticated areas.
+ * Client-side role loading.
  *
  * Access is decided by ROLES, and member data access is decided by the
- * explicit `members.auth_user_id` linkage — never by an email match. A single
- * account may legitimately hold both a staff role and a linked member record
- * (controlled support/testing), so the two areas are independent grants, not
- * mutually exclusive states.
+ * explicit `members.auth_user_id` linkage — never by an email match. Roles are
+ * additive: a claimed member granted `editor` keeps full Member Area access
+ * and gains the Insights CMS on top (see `role-model.ts`).
+ *
+ * One cached query serves both the route guards (`ensureQueryData` in
+ * `beforeLoad`) and the components (`useMyRoles`), so a navigation costs a
+ * single request instead of one per gate plus one per mounted consumer. The
+ * cache is invalidated on every auth state change.
  */
+import { queryOptions, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useEffect, useState } from "react";
+import { EMPTY_ROLES, landingPath, toRoleSet } from "./role-model";
+import type { AppRole, RoleSet } from "./role-model";
 
-export type AppRole = "admin" | "editor" | "contributor" | "member" | "user";
-
-export const STAFF_ROLES: AppRole[] = ["admin", "editor", "contributor"];
-
-export type RoleSet = {
-  roles: AppRole[];
-  isAdmin: boolean;
-  isEditor: boolean;
-  isContributor: boolean;
-  isStaff: boolean;
-  isMember: boolean;
-};
-
-export const EMPTY_ROLES: RoleSet = {
-  roles: [],
-  isAdmin: false,
-  isEditor: false,
-  isContributor: false,
-  isStaff: false,
-  isMember: false,
-};
-
-export function toRoleSet(roles: AppRole[]): RoleSet {
-  const has = (r: AppRole) => roles.includes(r);
-  return {
-    roles,
-    isAdmin: has("admin"),
-    isEditor: has("admin") || has("editor"),
-    isContributor: has("contributor"),
-    isStaff: STAFF_ROLES.some(has),
-    isMember: has("member"),
-  };
-}
+export type { AppRole, RoleSet } from "./role-model";
+export { EMPTY_ROLES, MANAGED_ROLE, STAFF_ROLES, landingPath, toRoleSet } from "./role-model";
 
 /** Reads the caller's own roles (RLS: users may only read their own rows). */
 export async function fetchMyRoles(userId: string): Promise<RoleSet> {
@@ -51,34 +27,42 @@ export async function fetchMyRoles(userId: string): Promise<RoleSet> {
   return toRoleSet((data ?? []).map((row) => row.role as AppRole));
 }
 
-/** Client-side role state for nav/affordance gating only — never a boundary. */
+export const myRolesQueryOptions = (userId: string | null) =>
+  queryOptions({
+    queryKey: ["my-roles", userId],
+    queryFn: () => (userId ? fetchMyRoles(userId) : Promise.resolve(EMPTY_ROLES)),
+    staleTime: 5 * 60_000,
+  });
+
 export async function landingPathForSession(
   userId: string,
 ): Promise<"/articles" | "/my-profile" | "/no-access"> {
-  const roles = await fetchMyRoles(userId);
-  // Staff wins when an account holds both grants: the CMS is the working
-  // surface, and the Member Area stays reachable at /my-profile.
-  if (roles.isStaff) return "/articles";
-  if (roles.isMember) return "/my-profile";
-  return "/no-access";
+  return landingPath(await fetchMyRoles(userId));
 }
 
+/** Client-side role state for nav/affordance gating only — never a boundary. */
 export function useMyRoles(): { roles: RoleSet; loading: boolean } {
-  const [roles, setRoles] = useState<RoleSet>(EMPTY_ROLES);
-  const [loading, setLoading] = useState(true);
+  const queryClient = useQueryClient();
+  const session = useQuery({
+    queryKey: ["auth-user-id"],
+    queryFn: async () => (await supabase.auth.getUser()).data.user?.id ?? null,
+    staleTime: 5 * 60_000,
+  });
+  const userId = session.data ?? null;
+  const roles = useQuery({ ...myRolesQueryOptions(userId), enabled: session.isSuccess });
 
+  // A sign-in, sign-out or token refresh can change the answer; nothing else
+  // in the app listens for it, so this hook owns the invalidation.
   useEffect(() => {
-    let active = true;
-    supabase.auth.getUser().then(async ({ data }) => {
-      const next = data.user ? await fetchMyRoles(data.user.id) : EMPTY_ROLES;
-      if (!active) return;
-      setRoles(next);
-      setLoading(false);
+    const { data: sub } = supabase.auth.onAuthStateChange(() => {
+      void queryClient.invalidateQueries({ queryKey: ["auth-user-id"] });
+      void queryClient.invalidateQueries({ queryKey: ["my-roles"] });
     });
-    return () => {
-      active = false;
-    };
-  }, []);
+    return () => sub.subscription.unsubscribe();
+  }, [queryClient]);
 
-  return { roles, loading };
+  return {
+    roles: roles.data ?? EMPTY_ROLES,
+    loading: session.isLoading || roles.isLoading,
+  };
 }

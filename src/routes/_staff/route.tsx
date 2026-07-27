@@ -1,22 +1,25 @@
 /**
  * Staff/volunteer CMS gate.
  *
- * Entry requires a staff role (admin, editor or contributor). A member-only
- * session is sent to its own area instead — the two areas never share chrome
- * or navigation. `ssr: false` because the Supabase session lives in
- * localStorage, which the server cannot read.
+ * Entry requires a staff role (admin, editor or contributor). `editor` is an
+ * additive grant: a claimed member who holds it passes this gate *and* keeps
+ * the Member Area — the two are never mutually exclusive. `ssr: false` because
+ * the Supabase session lives in localStorage, which the server cannot read.
+ *
+ * Roles come from the shared `["my-roles", userId]` query, so entering the
+ * shell does not re-request what the components are about to read.
  */
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchMyRoles } from "@/lib/roles";
+import { myRolesQueryOptions } from "@/lib/roles";
 
 export const Route = createFileRoute("/_staff")({
   ssr: false,
-  beforeLoad: async () => {
+  beforeLoad: async ({ context }) => {
     const { data, error } = await supabase.auth.getUser();
     if (error || !data.user) throw redirect({ to: "/auth", search: { next: undefined } });
 
-    const roles = await fetchMyRoles(data.user.id);
+    const roles = await context.queryClient.ensureQueryData(myRolesQueryOptions(data.user.id));
     if (!roles.isStaff) {
       throw redirect({ to: roles.isMember ? "/my-profile" : "/no-access" });
     }

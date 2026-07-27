@@ -9,6 +9,8 @@ import {
   SlidersHorizontal,
   Users,
   PlugZap,
+  ShieldCheck,
+  UserCircle,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
@@ -17,17 +19,19 @@ import { LOCALE_LABELS, LOCALE_ORDER } from "@/i18n/config";
 import { useMyRoles } from "@/lib/roles";
 
 /**
- * Staff navigation. `editorOnly` items are hidden from contributors — the real
- * boundary is RLS plus the server-side role checks, this only avoids dead ends.
+ * Staff navigation. `editorOnly` items are hidden from contributors and
+ * `adminOnly` items from everyone but admins — the real boundary is RLS plus
+ * the server-side role checks, this only avoids dead ends.
  */
 const nav = [
-  { to: "/articles", key: "nav.articles", icon: FileText, editorOnly: false },
-  { to: "/articles/new", key: "nav.newArticle", icon: PencilLine, editorOnly: false },
-  { to: "/articles/categories", key: "nav.categories", icon: Tags, editorOnly: true },
-  { to: "/vocabularies", key: "nav.vocabularies", icon: ListTree, editorOnly: true },
-  { to: "/coach-finder", key: "nav.coachFinder", icon: SlidersHorizontal, editorOnly: true },
-  { to: "/members", key: "nav.members", icon: Users, editorOnly: true },
-  { to: "/integration", key: "nav.integration", icon: PlugZap, editorOnly: true },
+  { to: "/articles", key: "nav.articles", icon: FileText, editorOnly: false, adminOnly: false },
+  { to: "/articles/new", key: "nav.newArticle", icon: PencilLine, editorOnly: false, adminOnly: false },
+  { to: "/articles/categories", key: "nav.categories", icon: Tags, editorOnly: true, adminOnly: false },
+  { to: "/vocabularies", key: "nav.vocabularies", icon: ListTree, editorOnly: true, adminOnly: false },
+  { to: "/coach-finder", key: "nav.coachFinder", icon: SlidersHorizontal, editorOnly: true, adminOnly: false },
+  { to: "/members", key: "nav.members", icon: Users, editorOnly: true, adminOnly: false },
+  { to: "/integration", key: "nav.integration", icon: PlugZap, editorOnly: true, adminOnly: false },
+  { to: "/roles", key: "nav.roles", icon: ShieldCheck, editorOnly: true, adminOnly: true },
 ] as const;
 
 function Logo({ title }: { title: string }) {
@@ -58,7 +62,9 @@ export function Shell({ children }: { children: ReactNode }) {
   const [email, setEmail] = useState<string | null>(null);
   const { t, locale, setLocale } = useCms();
   const { roles } = useMyRoles();
-  const items = nav.filter((item) => !item.editorOnly || roles.isEditor);
+  const items = nav.filter(
+    (item) => (!item.editorOnly || roles.isEditor) && (!item.adminOnly || roles.isAdmin),
+  );
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setEmail(data.user?.email ?? null));
@@ -98,6 +104,19 @@ export function Shell({ children }: { children: ReactNode }) {
           </nav>
         </div>
         <div>
+          {/* A member who also holds `editor` works in two places: the CMS is an
+              addition to their Member Area, so keep the way back visible. */}
+          {roles.isMember ? (
+            <div className="border-t border-border px-3 py-3">
+              <Link
+                to="/my-profile"
+                className="flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-muted-foreground transition-colors hover:bg-secondary/60 hover:text-foreground"
+              >
+                <UserCircle className="h-4 w-4" />
+                <span>{t("nav.memberArea")}</span>
+              </Link>
+            </div>
+          ) : null}
           <div className="border-t border-border px-5 py-4">
             <div className="mb-2 text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
               {t("nav.language")}

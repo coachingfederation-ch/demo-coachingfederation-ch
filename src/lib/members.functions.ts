@@ -7,7 +7,7 @@ import { assertAdmin, assertStaff } from "./authz";
 export const listMembers = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    await assertStaff(context as never);
+    await assertStaff(context);
     const { listMembersForStaff } = await import("./member-admin.server");
     return await listMembersForStaff();
   });
@@ -16,7 +16,7 @@ export const listMembers = createServerFn({ method: "POST" })
 export const runSyncNow = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const userId = await assertAdmin(context as never);
+    const userId = await assertAdmin(context);
     const { runMemberSync } = await import("./member-sync.server");
     return await runMemberSync({ triggerSource: "manual", actorUserId: userId });
   });
@@ -25,7 +25,7 @@ export const runSyncNow = createServerFn({ method: "POST" })
 export const cleanupExpiredMembers = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const userId = await assertAdmin(context as never);
+    const userId = await assertAdmin(context);
     const { runLifecycleCleanup } = await import("./member-sync.server");
     return await runLifecycleCleanup(userId);
   });
@@ -35,7 +35,7 @@ export const executeCutover = createServerFn({ method: "POST" })
   .inputValidator((input) => z.object({ confirm: z.literal("CUTOVER") }).parse(input))
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const userId = await assertAdmin(context as never);
+    const userId = await assertAdmin(context);
     const { runCutover } = await import("./cutover.server");
     return await runCutover(userId);
   });
@@ -48,7 +48,7 @@ export const executeCutover = createServerFn({ method: "POST" })
 export const rehearseCutover = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const userId = await assertAdmin(context as never);
+    const userId = await assertAdmin(context);
     const { runCutover } = await import("./cutover.server");
     return await runCutover(userId, { dryRun: true });
   });
@@ -57,7 +57,7 @@ export const rehearseCutover = createServerFn({ method: "POST" })
 export const exportMembersCsv = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    await assertAdmin(context as never);
+    await assertAdmin(context);
     const { buildMembersCsv } = await import("./members-export.server");
     return await buildMembersCsv();
   });
@@ -67,7 +67,7 @@ export const getMemberDetail = createServerFn({ method: "POST" })
   .inputValidator((input) => z.object({ memberId: z.string().uuid() }).parse(input))
   .middleware([requireSupabaseAuth])
   .handler(async ({ context, data }) => {
-    await assertAdmin(context as never);
+    await assertAdmin(context);
     const { loadMemberDetail } = await import("./member-admin.server");
     return await loadMemberDetail(data.memberId);
   });
@@ -93,7 +93,7 @@ export const updateMemberDirectory = createServerFn({ method: "POST" })
   )
   .middleware([requireSupabaseAuth])
   .handler(async ({ context, data }) => {
-    const userId = await assertAdmin(context as never);
+    const userId = await assertAdmin(context);
     const { updateMemberDirectoryAdmin } = await import("./member-admin.server");
     return await updateMemberDirectoryAdmin(userId, data);
   });
@@ -151,7 +151,7 @@ export const issueMemberClaimLink = createServerFn({ method: "POST" })
   .inputValidator((input) => z.object({ memberId: z.string().uuid() }).parse(input))
   .middleware([requireSupabaseAuth])
   .handler(async ({ context, data }) => {
-    const userId = await assertAdmin(context as never);
+    const userId = await assertAdmin(context);
     const { getRequestUrl } = await import("@tanstack/react-start/server");
     const { issueClaimLinkForMember } = await import("./member-claim.server");
     return await issueClaimLinkForMember(userId, data.memberId, new URL(getRequestUrl()).origin);
@@ -163,7 +163,7 @@ export const issueMemberClaimLink = createServerFn({ method: "POST" })
 export const getMemberClaimStatuses = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    await assertAdmin(context as never);
+    await assertAdmin(context);
     const { loadClaimStatuses } = await import("./member-admin.server");
     return await loadClaimStatuses();
   });
@@ -178,7 +178,7 @@ export const bindMemberAccount = createServerFn({ method: "POST" })
   )
   .middleware([requireSupabaseAuth])
   .handler(async ({ context, data }) => {
-    const userId = await assertAdmin(context as never);
+    const userId = await assertAdmin(context);
     const { bindMemberToAuthUser } = await import("./member-admin.server");
     return await bindMemberToAuthUser(userId, data.memberId, data.email);
   });
@@ -187,7 +187,7 @@ export const unbindMemberAccount = createServerFn({ method: "POST" })
   .inputValidator((input) => z.object({ memberId: z.string().uuid() }).parse(input))
   .middleware([requireSupabaseAuth])
   .handler(async ({ context, data }) => {
-    const userId = await assertAdmin(context as never);
+    const userId = await assertAdmin(context);
     const { unbindMemberAuthUser } = await import("./member-admin.server");
     await unbindMemberAuthUser(userId, data.memberId);
     return { ok: true };
