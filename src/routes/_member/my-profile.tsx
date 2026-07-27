@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Shell } from "@/components/cms/Shell";
 import { MemberProfileEditor } from "@/components/cms/MemberProfileEditor";
 
-export const Route = createFileRoute("/_authenticated/member/")({
+export const Route = createFileRoute("/_member/my-profile")({
   head: () => ({
     meta: [
       { title: "My coach profile — ICF Switzerland" },
