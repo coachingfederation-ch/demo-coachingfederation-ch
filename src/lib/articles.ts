@@ -26,6 +26,39 @@ export interface AuthorRef {
   last_name: string | null;
 }
 
+export type ArticleStatus = "draft" | "scheduled" | "published" | "unpublished";
+export type ArticleLang = "en" | "fr" | "de" | "it";
+
+/** An article as the CMS editor holds it — every column the editor can touch. */
+export interface ArticleRow {
+  id: string;
+  language: ArticleLang;
+  title: string;
+  excerpt: string;
+  content: string;
+  status: ArticleStatus;
+  scheduled_at: string | null;
+  published_at: string | null;
+  first_published_at: string | null;
+  category: string | null;
+  category_id: string | null;
+  author_id: string;
+  content_updated_at: string | null;
+  featured_image_url: string | null;
+  image_credit_name: string | null;
+  image_credit_url: string | null;
+  image_source: string | null;
+  is_featured: boolean;
+  updated_at: string;
+}
+
+/** Author option in the CMS byline picker. */
+export interface ProfileRow {
+  id: string;
+  first_name: string | null;
+  last_name: string | null;
+}
+
 export interface TranslationRef {
   locale: string;
   title: string;

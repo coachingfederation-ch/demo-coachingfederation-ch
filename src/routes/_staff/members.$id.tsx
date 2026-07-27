@@ -18,6 +18,7 @@ import {
   isActiveMember,
   isDirectoryEligible,
   isDirectoryVisible,
+  publishBlockReason,
   type MemberVisibility,
 } from "@/lib/directory-eligibility";
 
@@ -107,8 +108,12 @@ function MemberDetailPage() {
   // no canton cannot be found by the directory's region filter.
   const publishBlocked = useMemo(() => {
     if (!facts) return null;
-    if (!isDirectoryEligible(facts)) return t("members.detail.blockedIneligible");
-    if (!selectedRegions.length) return t("members.detail.blockedNoRegion");
+    const reason = publishBlockReason({
+      eligible: isDirectoryEligible(facts),
+      regionCount: selectedRegions.length,
+    });
+    if (reason === "ineligible") return t("members.detail.blockedIneligible");
+    if (reason === "no_region") return t("members.detail.blockedNoRegion");
     return null;
   }, [facts, selectedRegions, t]);
 

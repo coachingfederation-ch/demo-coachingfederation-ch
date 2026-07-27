@@ -87,3 +87,26 @@ export function enforcedVisibility(member: MemberEligibilityFacts): MemberVisibi
   if (reason === "no_credential" || reason === "credential_expired") return "hidden_no_credential";
   return null;
 }
+
+/**
+ * Why a profile may not be published right now, or null when it may.
+ *
+ * Publication needs eligibility *and* at least one declared service area: a
+ * listing with no canton cannot be found by the directory's region filter, so
+ * publishing one would produce an invisible "published" profile.
+ *
+ * This is the one definition of that rule. The member editor, the staff member
+ * screen and the server-side write path all call it, so the three surfaces can
+ * never drift apart. The server path is still the boundary — the UIs use this
+ * to *explain* the block, not to enforce it.
+ */
+export type PublishBlockReason = "ineligible" | "no_region";
+
+export function publishBlockReason(input: {
+  eligible: boolean;
+  regionCount: number;
+}): PublishBlockReason | null {
+  if (!input.eligible) return "ineligible";
+  if (input.regionCount < 1) return "no_region";
+  return null;
+}

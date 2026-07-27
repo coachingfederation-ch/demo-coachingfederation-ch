@@ -15,7 +15,7 @@ export const Route = createFileRoute("/api/public/member-sync")({
           return new Response("Unauthorized", { status: 401 });
         }
 
-        const { loadIntegrationConfigAdmin } = await import("@/lib/member-email.server");
+        const { loadIntegrationConfigAdmin } = await import("@/lib/integration-config.server");
         const config = await loadIntegrationConfigAdmin();
         if (config.cutover_in_progress) {
           return Response.json({ skipped: "cutover_in_progress" }, { status: 202 });

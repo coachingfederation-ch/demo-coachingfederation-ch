@@ -11,7 +11,7 @@
  */
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { fetchActiveMemberFeed, type NormalizedMember } from "./icf-soap.server";
-import { loadIntegrationConfigAdmin } from "./member-email.server";
+import { loadIntegrationConfigAdmin } from "./integration-config.server";
 import {
   directoryEligibilityReason,
   enforcedVisibility,
