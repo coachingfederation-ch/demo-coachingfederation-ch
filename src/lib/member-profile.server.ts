@@ -113,14 +113,17 @@ export async function loadMyMemberProfile(userId: string): Promise<MyMemberProfi
   if (profile) {
     const results = await Promise.all(
       JOINS.map((join) =>
-        supabaseAdmin.from(join.table).select(join.column).eq("profile_id", profile.id),
+        (supabaseAdmin.from(join.table) as any).select(join.column).eq("profile_id", profile.id),
       ),
     );
     facets = Object.fromEntries(
       JOINS.map((join, i) => {
         const res = results[i]!;
         if (res.error) throw res.error;
-        return [join.key, (res.data ?? []).map((row: never) => (row as never)[join.column] as string)];
+        return [
+          join.key,
+          ((res.data ?? []) as Record<string, string>[]).map((row) => row[join.column] as string),
+        ];
       }),
     ) as typeof facets;
 
@@ -169,12 +172,13 @@ function cleanText(value: string | null | undefined, max: number): string | null
 }
 
 async function replaceFacet(profileId: string, table: string, column: string, ids: string[]) {
-  const { error } = await supabaseAdmin.from(table).delete().eq("profile_id", profileId);
+  const client = supabaseAdmin as any;
+  const { error } = await client.from(table).delete().eq("profile_id", profileId);
   if (error) throw error;
   if (!ids.length) return;
-  const { error: insertError } = await supabaseAdmin
+  const { error: insertError } = await client
     .from(table)
-    .insert(ids.map((id) => ({ profile_id: profileId, [column]: id })) as never);
+    .insert(ids.map((id) => ({ profile_id: profileId, [column]: id })));
   if (insertError) throw insertError;
 }
 
