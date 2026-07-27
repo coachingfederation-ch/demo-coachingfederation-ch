@@ -17,6 +17,7 @@ export const VOCAB_TABLES = [
   "cf_formats",
   "cf_languages",
   "cf_availability_labels",
+  "cf_client_types",
 ] as const;
 
 export type VocabTable = (typeof VOCAB_TABLES)[number];
@@ -42,6 +43,7 @@ export const VOCAB_DESCRIPTORS: { table: VocabTable; key: string }[] = [
   { table: "cf_formats", key: "formats" },
   { table: "cf_languages", key: "languages" },
   { table: "cf_availability_labels", key: "availability" },
+  { table: "cf_client_types", key: "clientTypes" },
 ];
 
 /** Locale-aware label with a graceful fallback to the English name. */
@@ -75,8 +77,16 @@ export async function fetchVocabulary(
 
 export type CoachFinderVocabularies = Record<VocabTable, VocabRow[]>;
 
-/** All six lists in one round trip, active rows only — for the public filters. */
+/** All lists in one round trip, active rows only — for the public filters. */
 export async function fetchActiveVocabularies(): Promise<CoachFinderVocabularies> {
+
+/**
+ * Years-of-experience bands. A short fixed list rather than a vocabulary
+ * table: it is a scale, not chapter-managed content, and it is labelled
+ * through i18n like the other fixed enums.
+ */
+export const EXPERIENCE_BANDS = ["0-2", "3-5", "6-10", "10+"] as const;
+export type ExperienceBand = (typeof EXPERIENCE_BANDS)[number];
   const results = await Promise.all(VOCAB_TABLES.map((t) => fetchVocabulary(t, { activeOnly: true })));
   return Object.fromEntries(
     VOCAB_TABLES.map((table, i) => [table, results[i]!]),
