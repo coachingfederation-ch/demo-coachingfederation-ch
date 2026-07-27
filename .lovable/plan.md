@@ -1,257 +1,62 @@
-## Member backend roadmap — rev. 5 (decisions locked)
+## Next step: finish Milestone B — Directory projection layer
 
-Supersedes rev. 4 (archived at `.lovable/plan-rev4.md`). All eight open questions from
-section 9 of the rev. 5 proposal are now decided and folded into scope below.
+Milestone B's database foundation is in place (verified): `public.coach_directory_public` exists with the four eligibility flags, the eligibility guard trigger is live, and 205 of 501 active TEST members are directory-eligible. Four pieces remain. The public site keeps the mock directory throughout (decision 1) — this ships the read model, not the swap.
 
----
+### 0. Locked rule: imported location is NOT service area
 
-### 0. Locked decisions
+Canton/region in this project means **where a member wants to work in person**, is **multi-select**, and is **member-declared**. It is not their address.
 
-| # | Decision |
-|---|---|
-| 1 | Directory content stays on the current mock until Milestone F. No imported-only thin listings, no staff-curated cohort. |
-| 2 | First LIVE import creates every profile as `draft`. Publication is member opt-in. |
-| 3 | Mentor/supervisor **accreditation** is staff-maintained locally. **Availability** stays a separate, member-editable field. Revisit only if the ICF feed proves it carries accreditation. |
-| 4 | Profile photo optional, initials fallback in the directory card. |
-| 5 | Grace period 60 days (already configured). Two notices: one on drop from the feed, one shortly before deletion/anonymisation. |
-| 6 | No email provider chosen. Keep the transport seam ready; decide before Milestone G. |
-| 7 | Filters only. No full-text search yet. |
-| 8 | `/find-a-mentor` and `/find-a-supervisor` are standalone entry URLs that preset the service filter on the one canonical directory — no duplicated implementation. |
+- Imported ICF address fields (`city`, `country`, and the `zip` / `state` values kept in `members.diagnostics`) stay **read-only reference data**. They are never written into `cf_regions` assignments, never inferred, never used as a default.
+- `member_profile_regions` is only ever populated by a member (Milestone E) or by staff acting on their behalf before claim opens.
+- New draft profiles therefore start with **no regions selected**.
+- Public directory region filtering matches only declared service-area regions; imported city/country never participates in filtering or matching.
 
----
+### 1. Profile auto-creation in the sync
 
-### Milestone A — TEST sync verification: COMPLETE (2026-07-27)
+Verified: `member_directory_profiles` currently holds 0 rows, so nothing is projected yet.
 
-**Connection.** Three defects in the SOAP client were found and fixed:
+- After each sync run, create a `draft` profile for every active member that has none (decision 2). Batched, idempotent, never touching existing rows.
+- **No vocabulary mapping from imported location.** New profiles get zero regions, zero languages, zero specialisations, zero formats. Credential stays where it already is, on `members.credential_slug`.
+- Mentor/supervisor accreditation stays untouched by import (decision 3).
+- The existing eligibility reconcile then runs as it does today, so ineligible members' new profiles never sit in a publishable state.
+- Consequence to accept openly: since `published` requires at least one region (completeness gate, section 4 of the plan), no auto-created profile can be published until a member or staff member declares a service area. That is intended under decision 1.
 
-1. `Authenticate` is served by `netFORUMXML.asmx`, not `Signon.asmx`.
-2. The session token is the `<Token>` in the response's `AuthorizationToken`
-   **SOAP header**, not `AuthenticateResult` in the body. The body value is
-   rejected with an `InvalidTokenException` reading "Locked".
-3. `ExecuteMethod`'s real signature is `(serviceName, methodName, parameters)`
-   where `parameters` is an `ArrayOfParameter` of `Name`/`Value` pairs — the
-   client was sending `objectName` and a bare string array. Authorised calls
-   must go to the `/secure/` endpoint.
+### 2. Public read grant on the view
 
-The base-URL secret is now normalised to the xweb directory (query string,
-`.asmx` filename and `/secure` are all stripped), so a differently-shaped LIVE
-URL needs no code change.
+Verified: the view currently has no `anon` grant, so the public path cannot read it yet.
 
-**Feed shape, confirmed against the live TEST endpoint.** 501 active
-`<Individual>` records, no duplicate `cst_recno`. Fields supplied:
-`cst_recno`, `Member_Status` (all `Active`), `Member_Type` (`Coach` 484 /
-`CIO` 17), `First_Name`, `Last_Name`, `Email`, `Phone`, `City`, `Zip`, `State`,
-`Country`, `Chapter_Start_Date`, `Membership_Join_Date`,
-`Membership_Expiration_Date`, `Flagship_Credential` (ACC 108 / PCC 105 /
-MCC 12), `Credential_Award_Date`, `Credential_Expire_Date`, optional
-`ACTC_Credential` + dates (8 members), `Reinstate/Rejoin`, `Auto_Renewal`.
+- Migration granting `SELECT` on `coach_directory_public` to `anon` and `authenticated` only — never on the base tables beyond the narrow column grants already in place.
+- Confirm the view exposes only declared `region_slugs`; imported city/country remain reference columns on the card, clearly distinct from service area, and are not filterable.
+- Re-confirm through an anonymous query that no email, phone, `cst_recno` or membership date is reachable, and that only `is_directory_visible` rows come back.
 
-Consequences folded into the normaliser:
+### 3. Public directory query function
 
-- Dates arrive as US `MM/DD/YYYY` and are now parsed explicitly.
-- `credential_slug` is upper-cased, because `cf_credentials` slugs are
-  `ACC | PCC | MCC`.
-- The feed carries **no organisation** and **no composed full name**; the name
-  is derived, organisation stays permanently null unless a later feed adds it.
-- The feed carries **no mentor or supervisor accreditation**. ACTC is a team-
-  coaching credential, not a mentor/supervisor one. **Decision 3 is confirmed:
-  those flags stay staff-maintained.**
-- Zip, State, credential dates, ACTC, chapter start and auto-renewal have no
-  column of their own and are preserved in `members.diagnostics`, so a future
-  column can be backfilled without re-querying ICF.
-- All 501 TEST emails are obfuscated by ICF as `zz…zz`, which the email gate
-  already refuses to send to — a useful second safety net during TEST.
+- New `src/lib/directory.functions.ts`: a public (unauthenticated) server function using the publishable-key server client, querying the view with filters for service, region, language, specialisation, format and credential, plus paging from `coach_finder_config.page_size`. Filters only, no full-text search (decision 7).
+- The region filter matches `region_slugs` (declared service areas) exclusively. A member with no declared region is unreachable by region filter by design.
+- Returns the safe projection shape the directory cards will later consume. Not yet wired into `/find-a-coach`.
 
-**Runs.** Three syncs executed. Run 1 created 501 members in ~8s; runs 2 and 3
-reported 0 created / 0 updated, so the pipeline is idempotent. Upserts are now
-chunked (200 per round trip) instead of one request per member, which is what
-makes a 500-row feed finish inside a serverless request budget. Snapshots are
-only written when a field actually changed, so a daily run no longer appends
-~500 identical audit rows; the duplicates from run 2 were removed.
+### 4. Admin member detail view
 
-**Cron.** `icf-member-sync-daily` (`15 3 * * *`) is active. The endpoint answers
-on the stable preview URL and returns 401 without the key. It still points at
-the preview host — repoint it at the production host as part of Milestone D.
+Gap 7 in the plan: there is currently no per-member screen.
 
-**Not done here, by design:** no directory profiles were created (Milestone B),
-mode remains `test`, emails and account claim remain off.
+- New route `/members/$id` in the CMS, admin-only, linked from the members list.
+- **Imported ICF panel (read-only reference):** name, email, credential, award/expiry dates, membership dates, activity state, last sync, plus city / state / zip / country labelled explicitly as imported address data, not service area.
+- **Service-area panel (editable, separate):** multi-select over `cf_regions`, empty by default, with a note that this is where the member offers in-person work. Staff may set it before member claim opens; it is the same field members will own in Milestone E.
+- Eligibility diagnostics: the four concepts shown separately (active member / has directory credential / eligible / visible) with the reason when not eligible.
+- Staff controls: mentor and supervision accreditation flags, and a visibility override that can set or clear `hidden_admin`. Publishing controls are disabled with an inline reason when the member is ineligible or has no declared service area — the database trigger remains the real boundary.
+- Every staff change audited into `member_sync_events`.
+- Localised strings for DE/FR/IT/EN.
 
----
+### Future Member Area (Milestone E) — recorded now
 
-### 1. Already built
+Service-area regions are a member-owned, multi-select field in the Member Area, prefilled with nothing and never derived from the imported address. The read-only ICF panel there shows the imported address as reference with the "contact ICF to correct this" note, visually separated from the service-area selector.
 
-- Full member schema: `members`, `member_directory_profiles`, four vocabulary join tables,
-  `member_sync_runs` / `member_sync_events` / `member_import_snapshots`,
-  `member_lifecycle_queue`, `member_archive_snapshots`, `member_email_log`,
-  `member_profile_links` (claim tokens), `integration_config`, seven `cf_*` vocabularies,
-  `coach_finder_config`.
-- Service flags already on `member_directory_profiles`: `coaching_available`,
-  `mentor_accredited`, `mentoring_available`, `supervision_accredited`,
-  `supervision_available`.
-- Visibility enum: `draft | published | hidden_inactive | hidden_admin`.
-- Sync engine with full-snapshot semantics, feed-drop and empty-feed valves, grace
-  deactivation, admin anonymisation clean-up.
-- netFORUM xWeb SOAP client; TEST and LIVE credentials stored, only the base URL differs.
-- One-time cutover routine with archive → purge → LIVE → first import, trigger-guarded.
-- Admin screens: `/members` (admin-only CSV export), `/integration`, `/vocabularies`,
-  `/coach-finder`.
-- Daily cron at 03:15 UTC against the authenticated `/api/public/member-sync` endpoint.
-- Email gate (`sendMemberEmail`): refuses TEST-shaped addresses, honours suppression,
-  logs every intent, no queue that could drain into LIVE.
-- Claim flow built and inert.
+### Verification before calling B done
 
-### 2. Verified gaps
+Run a sync against TEST; confirm ~501 draft profiles created, that every one has zero regions, and that a re-run creates none. Confirm the view returns 0 rows for anon (nothing published yet), that a manually completed and published eligible profile appears, and that an ineligible one is rejected by the trigger. Typecheck clean; admin detail view exercised in the browser.
 
-Resolved by Milestone A: gap 1 below is closed (501 members imported, mapping verified). Gaps 2-8 remain open.
+### Technical notes
 
-1. ~~SOAP field mapping is inferred~~ — verified against the real TEST response.
-2. Sync never creates `member_directory_profiles` rows. (Still open — Milestone B.)
-3. No public read path — every member table has a single `authenticated` SELECT policy.
-4. `/find-a-coach` still reads the hardcoded `src/lib/coaches.ts` array and has no
-   mentor/supervisor concept.
-5. No Member Area.
-6. Profile has only `website_url` + `linkedin_url`, not multiple links.
-7. No per-member admin detail view, so no way to set service flags or override visibility.
-8. `sendMemberEmail` has no transport; no lifecycle templates;
-   `member_lifecycle_queue.notified_at` is never written.
-
----
-
-### 3. Public directory read model — database view
-
-`public.coach_directory_public`, a plain view. Not a direct joined query, not materialized.
-
-- **Direct joined query** — rejected as the contract. The projection spans `members` +
-  `member_directory_profiles` + four join tables; "which columns are safe for anon" would
-  live in application code and be restated at every call site.
-- **Plain view** — chosen. One explicit safe column list (no email, phone, `cst_recno`,
-  membership dates) and one predicate (`visibility = 'published' AND activity_state =
-  'active'`). `anon` gets SELECT on the view only, never on base tables, so the safety rule
-  is enforced once at the database boundary. ~500 members with filters is well inside
-  normal query cost.
-- **Materialized view** — rejected for now. It adds a refresh obligation after every sync
-  and every member edit, and puts a staleness window on a member's own visibility toggle,
-  which is exactly the change a member expects to be immediate. Revisit only on measured
-  slowness.
-
-Filters run as `WHERE` clauses against the view inside a public server function using the
-publishable key. Per decision 7, no full-text search; the view is shaped so a search vector
-can be added later without changing the read contract.
-
-### 4. Visibility model
-
-Two independent axes: member intent (visibility) and lifecycle (activity state). The view
-requires `published` **and** `active`, so nobody can publish out of an inactive state.
-Precedence, first match wins:
-
-| State | Set by | Meaning | Public |
-|---|---|---|---|
-| `hidden_admin` | Staff | Administrative suppression. Sticky; sync and member edits never clear it. | No |
-| `hidden_inactive` | System | Dropped from the feed (grace) or anonymised. Set and cleared automatically. | No |
-| `draft` | Member (default) | Profile exists, member has not opted in. **Default on first LIVE import** (decision 2). | No |
-| `published` | Member | Opted in and complete. | Yes, while active |
-
-- Returning to the feed restores the member's prior intent rather than force-publishing.
-- Staff suppression is audited to `member_sync_events`.
-- Completeness gate for `published`: at least one service, one region, one language.
-  Photo is **not** required (decision 4).
-
-### 5. Coach / Mentor / Supervisor
-
-One directory, three lenses, driven by `coach_finder_config` so a lens can be switched off
-without a code change.
-
-- **Schema** — the five booleans already exist. Accreditation and availability stay
-  separate: accreditation is a credential-style fact, availability is current willingness.
-  Accreditation without availability shows as a badge but is excluded from "available now".
-- **Ownership (decision 3)** — accreditation flags are staff-only, set in the admin member
-  detail view; availability flags become member-editable in Milestone F. Import stays out
-  of accreditation unless the feed later proves it supplies it, at which point the field
-  flips to imported and the admin control becomes read-only.
-- **Projection** — the view exposes the five booleans plus a derived `services` array so
-  the frontend filters on one field.
-- **Filters** — a service selector using the configurable labels, rendered only for enabled
-  services, alongside region / language / specialisation / format / credential.
-- **Routes (decision 8)** — `/find-a-coach` is canonical. `/find-a-mentor` and
-  `/find-a-supervisor` are locale-aware routes that render the same page component with a
-  preset service filter and their own `head()` metadata and hero copy. No duplicated
-  directory implementation.
-
-### 6. Member Area scope (Milestone F)
-
-- **Read-only imported ICF fields**, labelled as ICF-owned with a "contact ICF to correct
-  this" note: name, credential, member type, join and expiry dates, email of record.
-  Mentor/supervisor accreditation appears here too, as staff-set and read-only.
-- **Editable local fields**: tagline, description, availability label, specialisations,
-  languages, regions, formats, and the coaching / mentoring / supervision availability
-  flags.
-- **Multiple links**: new `member_profile_link_items` table (label, url, sort order, capped
-  count, https-only). `website_url` and `linkedin_url` migrate into it. The existing
-  `member_profile_links` claim-token table is untouched.
-- **Profile image**: optional (decision 4). Private bucket, member-owned path, size and
-  type limits, signed URLs; only published profiles' images are publicly readable. Cards
-  and profile pages fall back to initials.
-- **Visibility controls**: member toggles `draft` ↔ `published` with the completeness gate
-  explained inline; `hidden_admin` and `hidden_inactive` render read-only with an
-  explanation.
-- **Public profile preview**: renders exactly the public view projection.
-
-### 7. Lifecycle emails
-
-All through `sendMemberEmail`, all suppressed until after cutover. Grace window 60 days
-(decision 5).
-
-1. **Inactive notice** — on drop from the feed: profile now hidden, deletion date stated,
-   renewal pointed at ICF Global.
-2. **Deletion reminder** — shortly before `scheduled_deletion_at`, stamped into
-   `member_lifecycle_queue.notified_at` so it can never double-send.
-3. **Reactivation notice** — on return to the feed: profile restored, states whether it is
-   publicly listed again.
-4. **Claim invitation** — Milestone G only, gated on `account_claim_enabled`.
-
-Work required: localised templates in DE/FR/IT/EN, a scheduled idempotent notice pass, an
-admin view over `member_email_log`, and a transport wired into the current `no_transport`
-branch. Per decision 6 the provider stays undecided; the seam is a single function so the
-choice is a late, low-risk swap.
-
-### 8. Milestone sequence
-
-**A — TEST sync verification. DONE.** Confirm the TEST endpoint and token, run one manual sync,
-inspect run/event/snapshot rows, correct the normaliser against the real response shape,
-confirm whether the feed carries mentor/supervisor accreditation (decision 3 revisit
-trigger), verify the cron reaches the endpoint, record the baseline count.
-*Gate: the real response shape decides the detail of B.*
-
-**B — Directory projection layer.** Auto-create `draft` profiles per active member, map
-imported values into vocabularies, build `coach_directory_public` with the safe column list
-and `anon` grant, add the public server function, add the admin member detail view with
-visibility override and staff-set accreditation flags. The public site keeps the mock
-(decision 1) — this milestone ships the read model, not the swap.
-
-**C — Cutover readiness rehearsal.** Repeat syncs for idempotency, exercise grace and
-anonymisation over the 60-day window, prove the feed-drop valve aborts, authenticate the
-LIVE URL, review archive and purge contents, confirm emails and claim stay off.
-*Gate: the cutover is irreversible.*
-
-**D — LIVE cutover.** Execute reset and first LIVE import, all profiles `draft`, verify
-counts, emails and claim stay off.
-
-**E — Member Area.** Links table migration, optional image bucket, editable local fields,
-read-only ICF panel, visibility controls, public preview, member-scoped RLS.
-
-**F — Directory goes live on real data.** Swap `/find-a-coach` to the projection, add the
-service filter and the `/find-a-mentor` + `/find-a-supervisor` entry routes, retire
-`src/lib/coaches.ts` only after parity. Sequenced after E because decision 1 ties real
-listings to members having opted in.
-
-**G — Lifecycle emails and account claim.** Choose the provider, wire transport, localised
-templates, scheduled notice pass, email log admin view, duplicate-email resolution, then
-open claim.
-
-Dependencies: A → B → C → D are strictly serial. E depends on D (real members to edit).
-F depends on E (decision 1 + 2 mean published profiles only exist once members opt in).
-G depends on D for the cutover gate and can run in parallel with E once the provider is
-chosen.
-
-Chapter still owes DE/FR/IT copy for the Phase 1 vocabularies and the member-facing email
-templates.
+- No new tables in this milestone; `cf_regions` and `member_profile_regions` are used as-is, just never auto-filled.
+- `src/lib/directory-eligibility.ts` stays the single source for explaining decisions in the UI; the database stays the enforcement boundary.
+- After this, Milestone C (cutover readiness rehearsal) is next; C → D remain strictly serial.
