@@ -1,19 +1,14 @@
 import { useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { CARD_SHADOW } from "@/components/site-chrome";
 import { useI18n } from "@/i18n";
+import { COACHES, initials, type Coach } from "@/lib/coaches";
 import {
-  CANTONS,
-  COACHES,
-  COACHING_FORMATS,
-  COACH_LANGUAGES,
-  CREDENTIAL_LEVELS,
-  SPECIALIZATION_KEYS,
-  initials,
-  type Coach,
-  type CoachLanguage,
-  type CoachingFormat,
-  type CredentialLevel,
-} from "@/lib/coaches";
+  fetchActiveVocabularies,
+  vocabLabel,
+  type CoachFinderVocabularies,
+  type VocabRow,
+} from "@/lib/vocabularies";
 
 function Chip({
   active,
