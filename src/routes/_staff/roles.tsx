@@ -26,12 +26,14 @@ export const Route = createFileRoute("/_staff/roles")({
 });
 
 type MemberRow = Awaited<ReturnType<typeof listRoleAdminData>>["members"][number];
+type InternalRow = Awaited<ReturnType<typeof listRoleAdminData>>["internal"][number];
 type AuditRow = Awaited<ReturnType<typeof listRoleAdminData>>["audit"][number];
 
 function RolesPage() {
   const { t } = useCms();
   const { roles, loading: rolesLoading } = useMyRoles();
   const [members, setMembers] = useState<MemberRow[]>([]);
+  const [internal, setInternal] = useState<InternalRow[]>([]);
   const [audit, setAudit] = useState<AuditRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -42,6 +44,7 @@ function RolesPage() {
     try {
       const data = await listRoleAdminData();
       setMembers(data.members);
+      setInternal(data.internal);
       setAudit(data.audit);
       setError(null);
     } catch {
