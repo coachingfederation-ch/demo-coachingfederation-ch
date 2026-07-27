@@ -279,11 +279,15 @@ function xmlParser(): XMLParser {
   });
 }
 
-/** Depth-first search for the first non-empty token-shaped value. */
+/**
+ * The session token is the `<Token>` inside the response's `AuthorizationToken`
+ * SOAP header, NOT `AuthenticateResult` in the body. Passing the body value to
+ * a secure call fails with an InvalidTokenException reading "Locked".
+ */
 function findToken(node: unknown): string | null {
   if (!node || typeof node !== "object") return null;
   for (const [key, value] of Object.entries(node as Record<string, unknown>)) {
-    if (/(token|authenticateresult|sessionid)/i.test(key) && value && typeof value !== "object") {
+    if (key.toLowerCase() === "token" && value && typeof value !== "object") {
       const s = String(value).trim();
       if (s && s.toLowerCase() !== "null") return s;
     }
@@ -294,8 +298,8 @@ function findToken(node: unknown): string | null {
 }
 
 /**
- * Step 1 — Authenticate against Signon.asmx and return the session token that
- * every subsequent Execute call must carry.
+ * Step 1 — Authenticate against the open xWeb endpoint and return the session
+ * token that every subsequent secure call must carry.
  */
 export async function authenticate(mode: IntegrationMode): Promise<string> {
   const { signonUrl, username, password } = soapCredentials(mode);
@@ -311,8 +315,11 @@ export async function authenticate(mode: IntegrationMode): Promise<string> {
 
 /**
  * Step 2 — Execute `ICF_Chapter_API.GetIndividualInfoHavingChapterRelationship`
- * with the chapter's cst_key. The response is treated as the authoritative full
- * active-member snapshot for the run.
+ * on the secure endpoint with the chapter's cst_key. The response is treated as
+ * the authoritative full active-member snapshot for the run.
+ *
+ * ExecuteMethod's WSDL signature is (serviceName, methodName, parameters) where
+ * parameters is an ArrayOfParameter of Name/Value pairs — not a string array.
  */
 export async function fetchActiveMemberFeed(mode: IntegrationMode): Promise<NormalizedMember[]> {
   const { executeUrl, cstKey } = soapCredentials(mode);
@@ -322,11 +329,13 @@ export async function fetchActiveMemberFeed(mode: IntegrationMode): Promise<Norm
     executeUrl,
     "ExecuteMethod",
     `<ExecuteMethod xmlns="${XWEB_NS}">
-      <objectName>${WEB_SERVICE_NAME}</objectName>
+      <serviceName>${WEB_SERVICE_NAME}</serviceName>
       <methodName>${WEB_METHOD}</methodName>
       <parameters>
-        <string>cst_key</string>
-        <string>${escapeXml(cstKey)}</string>
+        <Parameter>
+          <Name>cst_key</Name>
+          <Value>${escapeXml(cstKey)}</Value>
+        </Parameter>
       </parameters>
     </ExecuteMethod>`,
     `<AuthorizationToken xmlns="${XWEB_NS}"><Token>${escapeXml(token)}</Token></AuthorizationToken>`,
