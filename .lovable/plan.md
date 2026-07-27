@@ -1,62 +1,37 @@
-## Next step: finish Milestone B — Directory projection layer
+## Planning docs update — record the staff/member split
 
-Milestone B's database foundation is in place (verified): `public.coach_directory_public` exists with the four eligibility flags, the eligibility guard trigger is live, and 205 of 501 active TEST members are directory-eligible. Four pieces remain. The public site keeps the mock directory throughout (decision 1) — this ships the read model, not the swap.
+Two documentation changes only. No application code, schema, or route changes.
 
-### 0. Locked rule: imported location is NOT service area
+### 1. New file: `.lovable/plan-rev5.md`
 
-Canton/region in this project means **where a member wants to work in person**, is **multi-select**, and is **member-declared**. It is not their address.
+A new revision rather than an append, because rev. 4 describes the pre-split world as a coherent whole (single `/auth` CMS shell, staff-only sign-in) and rewriting it in place would make its cutover runbook harder to read against history. Rev. 5 supersedes rev. 4 on access control and routing only; everything else in rev. 4 (cutover runbook, email safety, claim gate) stands.
 
-- Imported ICF address fields (`city`, `country`, and the `zip` / `state` values kept in `members.diagnostics`) stay **read-only reference data**. They are never written into `cf_regions` assignments, never inferred, never used as a default.
-- `member_profile_regions` is only ever populated by a member (Milestone E) or by staff acting on their behalf before claim opens.
-- New draft profiles therefore start with **no regions selected**.
-- Public directory region filtering matches only declared service-area regions; imported city/country never participates in filtering or matching.
+Contents:
 
-### 1. Profile auto-creation in the sync
+**Access-control defect that triggered the split.** `has_role` and `is_editor` had `EXECUTE` revoked from `authenticated` during earlier security hardening. RLS policies on `members` and `member_directory_profiles` call those helpers as the caller, so every staff read of the Members screen failed with "permission denied for function is_editor". Grants restored; the helpers are `SECURITY DEFINER` and only reveal whether the caller holds a role, so this is not the vulnerability the revoke was aiming at.
 
-Verified: `member_directory_profiles` currently holds 0 rows, so nothing is projected yet.
+**Role model.** `app_role` now has five values: `admin`, `editor`, `contributor`, `member`, `user`. Definitions of each, plus `is_staff` (admin/editor/contributor) alongside `is_editor` (admin/editor). Contributor limits: own drafts only, no publish/schedule/unpublish, no Categories/Vocabularies/Members/Integration/Coach Finder — enforced in RLS, mirrored in the editor UI.
 
-- After each sync run, create a `draft` profile for every active member that has none (decision 2). Batched, idempotent, never touching existing rows.
-- **No vocabulary mapping from imported location.** New profiles get zero regions, zero languages, zero specialisations, zero formats. Credential stays where it already is, on `members.credential_slug`.
-- Mentor/supervisor accreditation stays untouched by import (decision 3).
-- The existing eligibility reconcile then runs as it does today, so ineligible members' new profiles never sit in a publishable state.
-- Consequence to accept openly: since `published` requires at least one region (completeness gate, section 4 of the plan), no auto-created profile can be published until a member or staff member declares a service area. That is intended under decision 1.
+**Two authenticated layouts.** `src/routes/_authenticated/` is gone, replaced by:
+- `_staff/` — Articles (+ new/edit/categories), Vocabularies, Coach Finder, Members (list + detail), Integration. Guarded to staff roles.
+- `_member/` — `/my-profile` only, rendered in `MemberShell` (logo, language switcher, sign out) with no path to any staff screen.
 
-### 2. Public read grant on the view
+**Routing rules.** `/auth` and `/auth/callback` resolve the destination from `user_roles`: staff → `/articles`, member-only → `/my-profile`, neither → `/no-access`. An account holding both grants lands in the CMS and reaches the Member Area at `/my-profile`.
 
-Verified: the view currently has no `anon` grant, so the public path cannot read it yet.
+**Binding rule (carried forward into Milestone D).** Email nominates a candidate; the boundary is the explicit `members.auth_user_id` link plus the granted `member` role. Admin bind grants the role and refuses ambiguous email matches; unbind revokes the role unless another member row is still linked. The claim flow must refuse ambiguous or already-linked addresses rather than assume email uniqueness.
 
-- Migration granting `SELECT` on `coach_directory_public` to `anon` and `authenticated` only — never on the base tables beyond the narrow column grants already in place.
-- Confirm the view exposes only declared `region_slugs`; imported city/country remain reference columns on the card, clearly distinct from service area, and are not filterable.
-- Re-confirm through an anonymous query that no email, phone, `cst_recno` or membership date is reachable, and that only `is_directory_visible` rows come back.
+**Impact on rev. 4.** Note explicitly that rev. 4 §4's "`/auth` keeps serving staff CMS sign-in only" is superseded — `/auth` is now the shared entry point with role-based dispatch — while the claim hard-disable, the trigger invariants, and the cutover runbook are unchanged.
 
-### 3. Public directory query function
+### 2. Reconcile `.lovable/plan.md` (Milestone B)
 
-- New `src/lib/directory.functions.ts`: a public (unauthenticated) server function using the publishable-key server client, querying the view with filters for service, region, language, specialisation, format and credential, plus paging from `coach_finder_config.page_size`. Filters only, no full-text search (decision 7).
-- The region filter matches `region_slugs` (declared service areas) exclusively. A member with no declared region is unreachable by region filter by design.
-- Returns the safe projection shape the directory cards will later consume. Not yet wired into `/find-a-coach`.
+Targeted edits so the doc matches reality:
 
-### 4. Admin member detail view
-
-Gap 7 in the plan: there is currently no per-member screen.
-
-- New route `/members/$id` in the CMS, admin-only, linked from the members list.
-- **Imported ICF panel (read-only reference):** name, email, credential, award/expiry dates, membership dates, activity state, last sync, plus city / state / zip / country labelled explicitly as imported address data, not service area.
-- **Service-area panel (editable, separate):** multi-select over `cf_regions`, empty by default, with a note that this is where the member offers in-person work. Staff may set it before member claim opens; it is the same field members will own in Milestone E.
-- Eligibility diagnostics: the four concepts shown separately (active member / has directory credential / eligible / visible) with the reason when not eligible.
-- Staff controls: mentor and supervision accreditation flags, and a visibility override that can set or clear `hidden_admin`. Publishing controls are disabled with an inline reason when the member is ineligible or has no declared service area — the database trigger remains the real boundary.
-- Every staff change audited into `member_sync_events`.
-- Localised strings for DE/FR/IT/EN.
-
-### Future Member Area (Milestone E) — recorded now
-
-Service-area regions are a member-owned, multi-select field in the Member Area, prefilled with nothing and never derived from the imported address. The read-only ICF panel there shows the imported address as reference with the "contact ICF to correct this" note, visually separated from the service-area selector.
-
-### Verification before calling B done
-
-Run a sync against TEST; confirm ~501 draft profiles created, that every one has zero regions, and that a re-run creates none. Confirm the view returns 0 rows for anon (nothing published yet), that a manually completed and published eligible profile appears, and that an ineligible one is rejected by the trigger. Typecheck clean; admin detail view exercised in the browser.
+- §4 heading and route reference: `/members/$id` now lives at `src/routes/_staff/members.$id.tsx`; describe it as a staff-CMS screen under the `_staff` layout, reachable by admin/editor and not by contributors or members.
+- §4 "linked from the members list": state that the link and the whole Members section render only for staff roles, via the role-filtered sidebar, not merely hidden nav.
+- "Future Member Area (Milestone E)" block: retitle to reflect that the Member Area shell and `/my-profile` already exist under `_member/`, so Milestone E is the member-owned service-area editing on top of an existing area rather than a new area.
+- Closing line: keep C → D strictly serial, and restate them as C = cutover readiness rehearsal, D = claim flow activation, with a pointer to rev. 5 for the role/binding preconditions D depends on.
+- Add a short "Status" note at the top recording that B's four pieces landed and what changed underneath them since B was written.
 
 ### Technical notes
 
-- No new tables in this milestone; `cf_regions` and `member_profile_regions` are used as-is, just never auto-filled.
-- `src/lib/directory-eligibility.ts` stays the single source for explaining decisions in the UI; the database stays the enforcement boundary.
-- After this, Milestone C (cutover readiness rehearsal) is next; C → D remain strictly serial.
+Both files live in `.lovable/` and are documentation only; nothing imports them.
