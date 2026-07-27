@@ -1,98 +1,58 @@
-## Your understanding — mostly right, with two corrections
+## Confirmation of current state (verified)
 
-Confirmed: the public directory + detail view are done, and the claim flow is built and verified end to end.
+- **Settings are admin-only today.** `/_staff/coach-finder` writes `coaching_enabled` / `mentoring_enabled` / `supervision_enabled` and their labels to `coach_finder_config`. `src/components/coaches/directory.tsx` never reads that table — it only reads the six vocabularies — so nothing on `/find-a-coach` reacts to the toggles.
+- **No data/model changes are needed.** The `coach_directory_public` view already exposes a `services` text array derived from `coaching_available` / `mentoring_available` / `supervision_available`, and `queryCoachDirectory` already accepts and applies a `services` filter (`overlaps`). `coach_finder_config` already has a public read policy for `anon`, and `fetchCoachFinderConfig()` already exists in `src/lib/vocabularies.ts`. This is purely missing UI wiring.
+- **Proposed connection:** the public page reads the same config row, derives the list of active modes, renders a switcher only when more than one is active, and passes the selected mode's slug as the `services` filter to the existing server function. Mode lives in the URL so it is shareable and back/forward works.
 
-Two corrections, both verified just now:
+## What to build
 
-1. **There is no email transport at all.** `sendMemberEmail` gates on suppression, then logs `no_transport` and returns "not sent". No email domain, no templates, no send call. So "send claim emails" is not a config flip — it is remaining build work.
-2. **The directory will be empty on launch day.** Imported members get a `draft` profile with zero service regions, and publishing requires the member to act (region + tagline). Today's TEST data shows it: 501 active members → 204 `draft`, 296 `hidden_no_credential`, **1 published**. After the LIVE import the public directory shows ~0 coaches until members claim and publish. This needs a decision before launch, not after.
+**1. Mode source (no hardcoded tabs)**
 
-Also unverified/likely missing: **no pg_cron job exists in any migration**, so the nightly sync is probably not actually scheduled.
+Add a small helper in `src/lib/vocabularies.ts`:
 
----
+```ts
+export type FinderMode = { slug: "coaching" | "mentoring" | "supervision"; label: string };
+export function activeFinderModes(config: CoachFinderConfig | null): FinderMode[]
+```
 
-## 1. Complete in code
+It maps enabled flags to `{ slug, label }` using the configured label strings, in the fixed order coaching → mentoring → supervision. The public page renders whatever this returns — adding/renaming a mode in settings is the only place tabs change.
 
-- Public directory (`/find-a-coach`): server-side pagination, DB-driven facets, signed image URLs; public coach detail at `/coach/$profileId` with SEO meta; DE/FR/IT/EN.
-- Member Area (`/my-profile`): imported ICF fields read-only, member-editable tagline/description/regions/languages/formats/specialisations/links, photo upload + crop, eligibility-gated publish.
-- Eligibility engine: active membership + valid ACC/PCC/MCC, enforced by trigger and by sync demotion into `hidden_inactive` / `hidden_no_credential` / `hidden_admin`.
-- SOAP sync with full-snapshot replacement, feed-drop safety valve, run/event audit tables; sync endpoint authenticated by `apikey`, skips while `cutover_in_progress`.
-- Claim flow: hashed one-time tokens, 7-day TTL, one open link per member (supersede verified), throttling, neutral responses, all state screens, auto sign-in to `/my-profile`, staff "Issue claim link", audit events.
-- Roles + two separate shells (`_staff`, `_member`); binding via explicit `auth_user_id` + role, never email equality.
-- Cutover machinery: archive snapshot, freeze, FK-ordered purge, role revocation, mode switch, validation — plus a non-mutating rehearsal on `/integration`.
-- Email safety rails: suppression gate, TEST-shaped-address block, `member_email_log`.
-- Auth trigger bug fixed (all sign-ups were failing).
+**2. Public switcher in `src/components/coaches/directory.tsx`**
 
-## 2. Remaining in product/UI (code work)
+- New `useQuery(["coach-finder-config"], fetchCoachFinderConfig)` alongside the existing vocabularies query, same 5-minute `staleTime`.
+- New `ModeTabs` sub-component: a segmented control rendered as `role="tablist"` with `role="tab"` / `aria-selected` buttons, styled with the site's pill + `CARD_SHADOW` language (rounded-full track, active pill in `bg-primary text-primary-foreground`, inactive `text-muted-foreground`) rather than the prototype's underline tabs, per the site style rule. Keyboard arrow-key navigation between tabs.
+- Rendered above the results column, spanning the grid, so it reads as a page-level control.
+- **Rendered only when `activeFinderModes(...).length > 1`.** Zero or one active mode renders nothing.
 
-| # | Item | Why |
-|---|---|---|
-| 2.1 | **Email transport** — set up sender domain, scaffold templates, wire the real send into `sendMemberEmail`'s final branch | Nothing can be emailed today |
-| 2.2 | **Claim invitation template** (DE/FR/IT/EN) + **reminder** template | Members need the link |
-| 2.3 | **Bulk claim invitation tool** on `/members`: select eligible cohort → mint links → send → progress/failure report, resumable, never re-sends to a completed member | Only one-at-a-time staff issue exists; ~500 members |
-| 2.4 | **Launch-day directory decision** (see §3.1) — if we auto-seed regions from imported city/country, that is a sync/backfill change plus a member-facing "check your listing" prompt | Otherwise the directory launches empty |
-| 2.5 | **Claim send status** column on the members list (invited / claimed / bounced / never) | Operators need to chase the tail |
-| 2.6 | **Lifecycle queue processor** — nothing reads `member_lifecycle_queue`; grace-period notice + deletion never runs | GDPR/retention commitment unfulfilled |
-| 2.7 | Copy pass: `/claim` closed-state text, invitation email copy, `/auth` member-vs-staff wording |
+**3. Wiring mode into search behavior**
 
-Non-blocking (can ship after launch): 2.5, 2.6, reminder emails.
+- Selected mode slug is added to the `filters` memo as `services: [mode]`, so the existing server-side `overlaps("services", …)` does the filtering. When exactly one mode is active it is still applied as a filter (so the result set is correct) even though no tabs are shown.
+- Changing mode resets `page` to 0 and clears the facet selections that are mode-specific (specialisations, credentials), matching the prototype's `setState({ tab, credentials: [], specialties: [] })`. Region/language/free-text persist.
+- `clearAll()` clears filters but keeps the current mode (mode is navigation, not a filter).
 
-## 3. Remaining in data / migration
+**4. URL / query state**
 
-- **3.1 Directory seeding decision.** Either (a) launch the directory empty and treat claiming as the fill mechanism, (b) auto-assign one region from imported city/country at import so eligible members are publishable immediately, or (c) staff pre-publish a curated set. This drives whether §2.4 is needed.
-- **3.2 No backfill of TEST content.** Per the runbook there is nothing member-authored to carry; the purge is total. The one published TEST profile (9875144) and its photo are destroyed by design.
-- **3.3 Rebinding.** Every TEST binding and `member` grant is revoked by the purge; the admin test account returns to staff-only and re-claims through the live flow like any member.
-- **3.4 Revoked/inactive members.** LIVE feed drives `activity_state`; inactive/expired-credential members import but stay hidden. Confirm with ICF that the LIVE feed marks lapsed members rather than omitting them — omission looks like a feed drop and will trip the safety valve.
-- **3.5 Freeze order.** Archive → freeze → purge → switch → first LIVE import (manual) → validate → unfreeze. Sync must not run during any of it; the endpoint already self-skips.
-- **3.6 Scheduled sync.** Verify or create the nightly pg_cron job against the **production** URL; it appears in no migration.
+- Add `validateSearch` with `zodValidator` + `fallback` to both `src/routes/find-a-coach.tsx` and `src/routes/$locale/find-a-coach.tsx`: `{ mode: fallback(z.string(), "").default("") }`.
+- The directory reads it via `useSearch({ strict: false })` and writes with `navigate({ search: prev => ({ ...prev, mode }) })`. An empty or unrecognised `?mode=` falls back to the first active mode, so an old link to a since-disabled mode degrades gracefully instead of showing an empty list.
 
-## 4. Manual configuration you must do
+**5. Copy reflected consistently**
 
-**Before launch day**
-1. Custom domain connected and primary (Lovable → Project Settings → Domains); publish first.
-2. Email sender domain set up (Lovable → Cloud → Emails); NS records added at your DNS provider; wait for verification (up to 72h) — **start this early, it is the long pole**.
-3. Supabase Site URL + allowed redirect URLs updated to the production domain (and the `www` variant) so Google sign-in and claim redirects don't bounce to preview.
-4. Google OAuth: production domain added to authorised origins/redirects.
-5. Confirm LIVE SOAP secrets are the real production credentials (four are stored; they have never been exercised against the LIVE endpoint).
-6. Auth policy: leaked-password protection on; email signups disabled or restricted so the claim flow is the only member entry path.
-7. Storage: `member-profile-images` stays **private** — the app mints signed URLs. Do not make it public.
-8. Monitoring: decide who watches sync-run failures and the email log; the `/integration` panel is the only surface today.
+New keys in the four `directory.json` files (EN/DE/FR/IT):
 
-**At cutover time only**
-9. Run the cutover from `/integration` (typed confirmation).
-10. Flip `mode = live` — one-way door, no revert.
-11. Later, deliberately: `emails_suppressed = false`, then `account_claim_enabled = true`.
+- `modes.aria` — accessible label for the tablist.
+- `results.manyMode` / `results.oneMode` — result count phrased with the mode label, e.g. "18 coaches" vs "3 mentors"; falls back to the existing generic strings when no mode is resolvable.
+- `results.emptyModeBody` — empty-state line that names the active mode ("No {mode} match your filters yet — try widening canton or specialisation.").
 
-## 5. Where each thing happens
+The tab labels themselves are **not** translated in JSON: they come from the admin-configured label fields, as requested.
 
-- **Lovable:** custom domain, publish, email domain setup, secrets, cron job creation, all app config surfaces.
-- **Supabase (via Cloud UI):** Site URL, redirect allow-list, Google provider, auth password policy, user administration.
-- **DNS provider:** A/TXT records for the domain, NS records for the email subdomain. Nothing else.
-- **Email provider:** none — managed by Lovable; no SMTP, no API key, no third-party account.
-- **Cutover-time only:** the cutover run, `mode=live`, `emails_suppressed=false`, `account_claim_enabled=true`, first manual LIVE import.
+## Technical notes
 
-## 6. Launch sequence
+- No migration, no view change, no new columns. The `services` array and its filter path already exist and are exercised by the server function's schema.
+- Mode ordering and label text are owned entirely by `coach_finder_config`; the component contains no mode literals beyond the three slug names the view emits.
+- Config fetch failure degrades to "no tabs, no services filter" — the directory keeps working exactly as today.
 
-**T-2 weeks:** email domain + DNS (verification is the long pole); custom domain; auth URLs; confirm LIVE credentials; build §2.1–2.4; run the cutover rehearsal and read every line.
+## Verification
 
-**T-2 days:** full rehearsal on production config; send a claim invitation to two internal addresses on real infrastructure; confirm delivery, link, password set, `/my-profile`.
-
-**Launch day, in order:**
-1. Announce the maintenance window; freeze CMS publishing.
-2. Archive + download the bundle. **Do not proceed without it.**
-3. Run cutover (freeze → purge → `mode=live`).
-4. First LIVE import, manually. If the feed-drop valve trips, stop.
-5. Validate: count in range, zero `zz` emails, zero bound accounts, spot-check 5 members against the ICF portal, vocabularies unchanged.
-6. Unfreeze; re-enable/create the nightly cron; stamp `cutover_completed_at`.
-7. Smoke test public: `/find-a-coach` loads, facets work, a detail page renders, all four locales, `/insights` unaffected.
-8. **Directory is live. Claim is still off. Stop here for at least a few hours.**
-9. When calm: `emails_suppressed = false` → send **one** invitation to a staff member → verify claim end to end on production → then `account_claim_enabled = true`.
-10. Send invitations in waves (~50 first), watch the email log and `member_account_claimed` events between waves.
-
-## 7. Rollback / safety
-
-- **Backed up first:** the archive snapshot bundle from step 2 — it is the only restore path, and steps 1–5 fail safe before the mode switch.
-- **Safely toggled off, in increasing severity:** `account_claim_enabled` → stops new claims, existing members keep access, public site untouched. `emails_suppressed = true` → stops all sends, intents still logged. Disable the cron → freezes member data at last good sync. `cutover_in_progress` → puts the directory in maintenance without touching data.
-- **Not reversible:** `mode = live` (trigger-blocked) and the purge (restore from archive only).
-- **Disabling claim without affecting the public site:** flip `account_claim_enabled` off — `/claim` returns its closed state, `/auth` hides the entry point, the directory and detail pages are entirely unaffected.
-- **If claims fail, check in this order:** `member_email_log` (was it even sent, suppressed, or blocked as test-shaped) → Cloud → Emails delivery events (bounce/suppression) → `member_sync_events` for `member_claim_link_issued_by_staff` / `member_account_claimed` → `member_profile_links` status and `attempts` → app logs for an auth error, which now surfaces properly instead of masquerading as "account already exists".
+- Toggle each mode in `/coach-finder` settings and confirm the public page shows 0, 2, or 3 tabs accordingly, with renamed labels appearing immediately after a reload.
+- Switch tabs and confirm the URL gains `?mode=mentoring`, the result count and empty-state copy name the mode, pagination resets, and a reload restores the same tab.
+- Confirm the single-mode case renders no tab strip but still filters results to that service.
