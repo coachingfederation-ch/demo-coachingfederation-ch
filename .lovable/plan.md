@@ -1,46 +1,46 @@
-# Accessibility audit — ICF Switzerland site
+Noted and locked in: **CSV export is admin-only** — the export server fn re-verifies `has_role(auth.uid(), 'admin')` server-side and returns 403 for editors; the button is hidden for non-admins. Editors keep read access to the admin members table (no bulk PII download); Clean up stays admin-only too. This replaces the `admin|editor` assumption in rev. 3 §8b and §11.
 
-Reviewed the site chrome, all public pages, the coach directory, the organisations deck/survey, insights, and the CMS editor against WCAG 2.2.
+Everything else in the approved rev. 3 architecture stands unchanged (full-snapshot sync with explicit null rule, `member_activity_state` split from diagnostics, four-state visibility, service facets, per-run import snapshots, admin Clean up action, admin members list).
 
-Good news first: every page has exactly one `<main>`, `<html lang>` is set per locale, headings run h1 → h2 → h3 without skips, decorative hand-drawn marks are `aria-hidden`, the mobile menu and compact language switcher expose `aria-expanded` / `Escape`, and the coach filter selects and search have real `<label htmlFor>`.
+## Phase 1 — CMS-managed vocabularies + Coach Finder config
 
-## Critical (blocks users) — 5
+Goal: get the controlled filter vocabularies into the database and under admin management, and repoint `/find-a-coach` at them. No member data, no sync, no auth changes yet. Directory rows stay mock; only the *filter options* become real.
 
-1. **No skip link** (2.4.1). Keyboard users traverse the full header on every page. `src/components/site-chrome.tsx`, plus an `id="main"` on each page's `<main>`.
-2. **Newsletter email fields have no label** — placeholder only (1.3.1, 3.3.2, 4.1.2). `src/pages/Home.tsx:373`, `src/pages/Insights.tsx:239`. Screen readers announce "edit text, blank".
-3. **Insights topic filter buttons** carry no `aria-pressed` and no `type="button"` (4.1.2) — selected topic is conveyed by colour only (1.4.1). `src/pages/Insights.tsx:148`.
-4. **Survey answer buttons and progress bar** — scale options lack `aria-pressed`, the progress bar is a bare div with no `role="progressbar"` / value attributes (1.3.1, 4.1.2). `src/components/organisations/CultureSurvey.tsx`.
-5. **Filtered result count is never announced** (4.1.3). Changing a coach filter silently swaps the grid. `src/components/coaches/directory.tsx`.
+### Migration
 
-## Warning (degrades experience) — 6
+Six vocabulary tables, all sharing the existing `categories` shape so one admin screen serves them all:
 
-6. **No visible focus indicator on custom controls** (2.4.7, 2.4.13). Pills, chips, nav links and inputs use `outline-none` with hover/`focus:border` only. Needs a token-based `focus-visible:ring-2 focus-visible:ring-ring` treatment across site-chrome, directory chips, insights topics, survey buttons, deck controls.
-7. **Tab patterns are not keyboard-complete** (2.1.1 / ARIA APG). `LearningTabs` (`src/components/coaches/sections.tsx`) and the deck dot `role="tablist"` (`DeckSection.tsx`) need roving `tabIndex` and Arrow/Home/End handling, or should drop the tab roles.
-8. **Language dropdown uses `role="menu"`/`menuitem` on plain links** (4.1.2) — role mismatch with no arrow-key/focus management. Simplest correct fix: drop the menu roles and render a labelled list of links, keeping the existing Escape/outside-click behaviour.
-9. **Contrast on the indigo hero panels** (1.4.3). `placeholder:text-white/60` and `text-white/75` need measuring against `--hero`; bump to `/70` and `/85` if they fall under 4.5:1.
-10. **Target size 24×24 minimum** (2.5.8, new in 2.2). Desktop language pills sit at exactly 24px and mobile chips at 32px with tight gaps — verify spacing so no target's exclusion zone overlaps; raise chips to `min-h-11` on touch widths.
-11. **`min-h-screen` instead of `min-h-dvh`** on every page wrapper — content clipped behind mobile browser chrome.
+`cf_regions`, `cf_specialisations`, `cf_credentials`, `cf_formats`, `cf_languages`, `cf_availability_labels`
 
-## Info (best practice) — 3
+Each: `id uuid pk`, `slug text unique`, `name text`, `name_de`, `name_fr`, `name_it`, `sort_order int`, `is_active bool default true`, `created_at`, `updated_at` + touch trigger.
 
-12. Image alt text duplicates the adjacent heading (article cards `alt={article.title}`, coach photos `alt={icf.fullName}`) — these are decorative in context and should use `alt=""`.
-13. Card grids (audiences, communities, events, coach results) are `<div>` collections; semantic `<ul>/<li>` gives screen readers item counts.
-14. Deck slide region uses `aria-live="polite"` on the whole slide — verbose on every navigation; a concise "Slide 3 of 12" status is better.
+Plus `coach_finder_config` — a singleton row (`id` with a one-row check) holding scalars: per-facet enablement and labels (`coaching`/`mentoring`/`supervision`), default sort, page size, and the tunables the later phases read (feed-drop threshold, snapshot retention months, CSV row cap).
 
-## Fix plan
+Per table, in order: CREATE TABLE → GRANTs (`SELECT` to `anon` + `authenticated`; `SELECT/INSERT/UPDATE/DELETE` to `authenticated`; `ALL` to `service_role`) → ENABLE RLS → policies:
+- public read: `SELECT` to `anon, authenticated` where `is_active` (admins/editors see inactive rows too)
+- writes: `has_role(admin)` or `has_role(editor)` via the existing inline `EXISTS` pattern already used by `categories`, matching the security memory's documented approach
 
-Work in this order, each step verified in the preview:
+Seed rows in the same migration: Swiss regions (the cantonal/linguistic groupings already implied by the directory, incl. Romandie and Ticino), the current specialisation keys from `src/lib/coaches.ts` (leadership, career, team, executive, transition, wellbeing, systemic, diversity), credentials ACC/PCC/MCC, formats in-person/online, languages DE/FR/IT/EN in that order, and availability labels (accepting / waitlist / not accepting). EN names are authored now; DE/FR/IT columns are seeded with the best available translation and flagged for chapter review.
 
-1. Skip link + `id="main"` on all page `<main>` elements, with a localized "Skip to content" string added to `common.json` for EN/DE/FR/IT.
-2. Labels for the two newsletter inputs (visually hidden `<label>`), plus `autoComplete="email"`.
-3. `aria-pressed` + `type="button"` on insights topics and survey scale options; `role="progressbar"` with `aria-valuenow/min/max` on both progress bars.
-4. `role="status" aria-live="polite"` wrapper around the coach directory result count.
-5. Shared focus-visible ring utility applied to every custom interactive class string (no visual change at rest).
-6. Roving tabindex + arrow-key handling for `LearningTabs` and deck dots.
-7. De-`role`-ify the language dropdown; keep it a labelled link list.
-8. Contrast bumps on hero white-opacity text; `min-h-dvh` swap; touch target sizing.
-9. `alt=""` on decorative card/portrait images; semantic lists for the main card grids.
+### Admin UI
 
-### Technical notes
+- New "Vocabularies" entry in the CMS sidebar (`src/components/cms/Shell.tsx`), following the existing Articles/Categories pattern.
+- One generic list/editor screen driven by a table descriptor, reused for all six vocabularies: add, rename, edit the three translations, reorder via `sort_order`, toggle `is_active` (soft-disable rather than delete, so existing references never break).
+- A small settings screen for the `coach_finder_config` singleton.
+- All strings go through the existing `cms.json` dictionaries for EN/DE/FR/IT.
+- Routes under `src/routes/_authenticated/`, reads/writes through the browser Supabase client with RLS doing the gating (consistent with how Categories works today).
 
-No routing, data, or publishing logic changes — all edits are presentation-layer. New copy strings go through the existing i18n dictionaries so DE/FR/IT stay in sync. Verification via Playwright at 375px and 1280px, keyboard-only tab traversal of the homepage, coach directory, and organisations survey, plus a contrast measurement of the hero text tokens.
+### Coach Finder wiring
+
+- `src/lib/coaches.ts` keeps its mock `COACHES` array for now, but the hardcoded `SPECIALIZATION_KEYS`, `CREDENTIAL_LEVELS`, `COACHING_FORMATS`, `COACH_LANGUAGES` and derived `CANTONS` constants stop being the source of the filter UI.
+- A public server fn loads active vocabulary rows; the `/find-a-coach` route loader prefetches it via the existing query pattern, and `src/components/coaches/directory.tsx` renders filter options from that data with locale-aware labels.
+- Mock coaches are mapped onto vocabulary slugs so filtering keeps working end to end; any mock value without a matching slug is dropped from the filters rather than silently shown.
+- No visual redesign — same controls, same layout, same accessibility work already in place (labels, `role="status"` result count, focus rings).
+
+### Verification
+
+Migration applies with GRANTs and RLS on all seven tables; linter clean. Admin can create/edit/reorder/deactivate a term in each vocabulary and see it appear or disappear in the public filters. `/find-a-coach` filters populate from the database in all four locales, filtering still narrows results, and a Playwright pass confirms no console errors and no regression at 375px and 1280px.
+
+### Out of scope for Phase 1
+
+`members` and profile tables, sync pipeline, claim flow, Member Area, lifecycle, admin members list and CSV export — those are Phases 2-7 as approved.
