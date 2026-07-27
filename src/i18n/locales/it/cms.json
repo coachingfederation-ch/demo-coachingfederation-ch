@@ -303,7 +303,11 @@
       "hidden_no_credential": "Nascosto – accreditamento non valido",
       "hidden_inactive": "Nascosto – iscrizione non attiva",
       "hidden_admin": "Nascosto – sospeso dallo staff"
-    }
+    },
+    "issueLink": "Genera link di attivazione",
+    "issueLinkHint": "Crea un link monouso per questo socio. Copialo ora: viene mostrato una sola volta.",
+    "linkIssued": "Link di attivazione monouso (copialo ora):",
+    "copy": "Copia"
   },
   "integration": {
     "title": "Stato dell’integrazione",
@@ -421,5 +425,53 @@
   "noAccess": {
     "title": "Nessun accesso",
     "body": "Il tuo account ha effettuato l'accesso, ma non ha ancora un'area di lavoro né un profilo socio di ICF Switzerland. Contatta la segreteria del chapter."
+  },
+  "claim": {
+    "title": "Accesso soci",
+    "subtitle": "Inserisci l'indirizzo e-mail registrato presso ICF Global: ti invieremo un link monouso per impostare la password.",
+    "emailLabel": "Indirizzo e-mail",
+    "submit": "Invia il link",
+    "loading": "Caricamento…",
+    "privacyNote": "Non confermiamo mai se un indirizzo è registrato.",
+    "sentTitle": "Controlla la tua casella",
+    "sentBody": "Se l'indirizzo appartiene a un socio attivo di ICF Switzerland, il link monouso è in arrivo. Scade tra sette giorni.",
+    "closedTitle": "L'accesso soci non è ancora aperto",
+    "closedBody": "L'area soci aprirà quando ICF Switzerland avrà completato il passaggio al sistema soci in produzione. I soci saranno informati direttamente.",
+    "toSignIn": "Hai già un account? Accedi",
+    "restart": "Richiedi un nuovo link",
+    "setPasswordTitle": "Imposta la password",
+    "setPasswordBody": "Stai configurando l'accesso per {email}.",
+    "passwordLabel": "Nuova password",
+    "confirmLabel": "Ripeti la password",
+    "passwordHint": "Almeno 10 caratteri.",
+    "finish": "Crea il mio account",
+    "signUpPrompt": "Prima volta qui? Configura il tuo accesso soci",
+    "state": {
+      "expired": {
+        "title": "Questo link è scaduto",
+        "body": "I link monouso sono validi sette giorni. Richiedine uno nuovo."
+      },
+      "consumed": {
+        "title": "Questo link è già stato usato",
+        "body": "Il tuo account esiste già. Accedi con la password impostata."
+      },
+      "unknown": {
+        "title": "Questo link non è valido",
+        "body": "Potrebbe essere stato sostituito da un link più recente. Richiedine uno nuovo."
+      },
+      "already_claimed": {
+        "title": "Questo record socio è già collegato",
+        "body": "Esiste già un account per questa adesione. Accedi oppure contatta la segreteria."
+      }
+    },
+    "error": {
+      "mismatch": "Le due password non coincidono.",
+      "weak_password": "Usa almeno 10 caratteri.",
+      "expired": "Questo link è scaduto.",
+      "consumed": "Questo link è già stato usato.",
+      "unknown": "Questo link non è valido.",
+      "already_claimed": "Esiste già un account per questa adesione.",
+      "account_exists": "Esiste già un account per questo indirizzo e-mail. Effettua l'accesso."
+    }
   }
 }

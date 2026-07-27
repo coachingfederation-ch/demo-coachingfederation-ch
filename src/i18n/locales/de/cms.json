@@ -303,7 +303,11 @@
       "hidden_no_credential": "Verborgen – keine gültige Akkreditierung",
       "hidden_inactive": "Verborgen – Mitgliedschaft inaktiv",
       "hidden_admin": "Verborgen – vom Team gesperrt"
-    }
+    },
+    "issueLink": "Claim-Link erstellen",
+    "issueLinkHint": "Erstellt einen einmaligen Link für dieses Mitglied. Jetzt kopieren – er wird nur einmal angezeigt.",
+    "linkIssued": "Einmaliger Claim-Link (jetzt kopieren):",
+    "copy": "Kopieren"
   },
   "integration": {
     "title": "Integrationsstatus",
@@ -421,5 +425,53 @@
   "noAccess": {
     "title": "Noch kein Zugriff",
     "body": "Ihr Konto ist angemeldet, hat aber noch keinen Arbeitsbereich und kein Mitgliederprofil von ICF Switzerland zugewiesen. Bitte wenden Sie sich an die Geschäftsstelle."
+  },
+  "claim": {
+    "title": "Mitglieder-Zugang",
+    "subtitle": "Geben Sie die E-Mail-Adresse ein, die bei ICF Global hinterlegt ist. Wir senden Ihnen einen einmaligen Link zum Setzen Ihres Passworts.",
+    "emailLabel": "E-Mail-Adresse",
+    "submit": "Link senden",
+    "loading": "Wird geladen…",
+    "privacyNote": "Wir bestätigen nie, ob eine Adresse registriert ist.",
+    "sentTitle": "Bitte prüfen Sie Ihr Postfach",
+    "sentBody": "Gehört diese Adresse zu einem aktiven Mitglied von ICF Switzerland, ist ein einmaliger Link unterwegs. Er ist sieben Tage gültig.",
+    "closedTitle": "Der Mitglieder-Zugang ist noch nicht offen",
+    "closedBody": "Der Mitgliederbereich öffnet, sobald ICF Switzerland auf das Live-Mitgliedersystem umgestellt hat. Mitglieder werden direkt informiert.",
+    "toSignIn": "Sie haben bereits ein Konto? Anmelden",
+    "restart": "Neuen Link anfordern",
+    "setPasswordTitle": "Passwort setzen",
+    "setPasswordBody": "Sie richten den Zugang für {email} ein.",
+    "passwordLabel": "Neues Passwort",
+    "confirmLabel": "Passwort wiederholen",
+    "passwordHint": "Mindestens 10 Zeichen.",
+    "finish": "Konto erstellen",
+    "signUpPrompt": "Zum ersten Mal hier? Mitglieder-Zugang einrichten",
+    "state": {
+      "expired": {
+        "title": "Dieser Link ist abgelaufen",
+        "body": "Einmalige Links sind sieben Tage gültig. Fordern Sie einen neuen an."
+      },
+      "consumed": {
+        "title": "Dieser Link wurde bereits verwendet",
+        "body": "Ihr Konto besteht bereits. Melden Sie sich mit Ihrem Passwort an."
+      },
+      "unknown": {
+        "title": "Dieser Link ist ungültig",
+        "body": "Möglicherweise wurde er durch einen neueren Link ersetzt. Fordern Sie einen neuen an."
+      },
+      "already_claimed": {
+        "title": "Dieser Mitgliedsdatensatz ist bereits verknüpft",
+        "body": "Für diese Mitgliedschaft besteht bereits ein Konto. Melden Sie sich an oder wenden Sie sich an die Geschäftsstelle."
+      }
+    },
+    "error": {
+      "mismatch": "Die beiden Passwörter stimmen nicht überein.",
+      "weak_password": "Bitte mindestens 10 Zeichen verwenden.",
+      "expired": "Dieser Link ist abgelaufen.",
+      "consumed": "Dieser Link wurde bereits verwendet.",
+      "unknown": "Dieser Link ist ungültig.",
+      "already_claimed": "Für diese Mitgliedschaft besteht bereits ein Konto.",
+      "account_exists": "Für diese E-Mail-Adresse besteht bereits ein Konto. Bitte melden Sie sich an."
+    }
   }
 }

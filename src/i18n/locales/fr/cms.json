@@ -303,7 +303,11 @@
       "hidden_no_credential": "Masqué – accréditation non valide",
       "hidden_inactive": "Masqué – adhésion inactive",
       "hidden_admin": "Masqué – suspendu par l’équipe"
-    }
+    },
+    "issueLink": "Générer un lien d'activation",
+    "issueLinkHint": "Crée un lien à usage unique pour ce membre. Copiez-le maintenant : il n'est affiché qu'une fois.",
+    "linkIssued": "Lien d'activation à usage unique (à copier) :",
+    "copy": "Copier"
   },
   "integration": {
     "title": "État de l’intégration",
@@ -421,5 +425,53 @@
   "noAccess": {
     "title": "Pas encore d'accès",
     "body": "Votre compte est connecté mais aucun espace de travail ni profil de membre ICF Switzerland ne lui est encore attribué. Merci de contacter le secrétariat du chapitre."
+  },
+  "claim": {
+    "title": "Accès membre",
+    "subtitle": "Indiquez l'adresse e-mail enregistrée auprès d'ICF Global. Nous vous enverrons un lien à usage unique pour définir votre mot de passe.",
+    "emailLabel": "Adresse e-mail",
+    "submit": "Envoyer mon lien",
+    "loading": "Chargement…",
+    "privacyNote": "Nous ne confirmons jamais si une adresse est enregistrée.",
+    "sentTitle": "Consultez votre boîte de réception",
+    "sentBody": "Si cette adresse correspond à un membre actif d'ICF Switzerland, un lien à usage unique est en route. Il expire dans sept jours.",
+    "closedTitle": "L'accès membre n'est pas encore ouvert",
+    "closedBody": "L'espace membres ouvrira lorsque ICF Switzerland aura terminé la transition vers le système de membres en production. Les membres seront informés directement.",
+    "toSignIn": "Vous avez déjà un compte ? Se connecter",
+    "restart": "Demander un nouveau lien",
+    "setPasswordTitle": "Définir votre mot de passe",
+    "setPasswordBody": "Vous configurez l'accès pour {email}.",
+    "passwordLabel": "Nouveau mot de passe",
+    "confirmLabel": "Répéter le mot de passe",
+    "passwordHint": "Au moins 10 caractères.",
+    "finish": "Créer mon compte",
+    "signUpPrompt": "Première visite ? Configurez votre accès membre",
+    "state": {
+      "expired": {
+        "title": "Ce lien a expiré",
+        "body": "Les liens à usage unique sont valables sept jours. Demandez-en un nouveau."
+      },
+      "consumed": {
+        "title": "Ce lien a déjà été utilisé",
+        "body": "Votre compte existe déjà. Connectez-vous avec le mot de passe défini."
+      },
+      "unknown": {
+        "title": "Ce lien n'est pas valide",
+        "body": "Il a peut-être été remplacé par un lien plus récent. Demandez-en un nouveau."
+      },
+      "already_claimed": {
+        "title": "Ce dossier membre est déjà lié",
+        "body": "Un compte existe déjà pour cette adhésion. Connectez-vous ou contactez le secrétariat."
+      }
+    },
+    "error": {
+      "mismatch": "Les deux mots de passe ne correspondent pas.",
+      "weak_password": "Veuillez utiliser au moins 10 caractères.",
+      "expired": "Ce lien a expiré.",
+      "consumed": "Ce lien a déjà été utilisé.",
+      "unknown": "Ce lien n'est pas valide.",
+      "already_claimed": "Un compte existe déjà pour cette adhésion.",
+      "account_exists": "Un compte existe déjà pour cette adresse e-mail. Veuillez vous connecter."
+    }
   }
 }

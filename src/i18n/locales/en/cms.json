@@ -303,7 +303,11 @@
       "hidden_no_credential": "Hidden — no valid credential",
       "hidden_inactive": "Hidden — membership inactive",
       "hidden_admin": "Hidden — suppressed by staff"
-    }
+    },
+    "issueLink": "Issue claim link",
+    "issueLinkHint": "Mints a one-time link for this member. Copy it now — it is shown only once.",
+    "linkIssued": "One-time claim link (copy now):",
+    "copy": "Copy"
   },
   "integration": {
     "title": "Integration status",
@@ -421,5 +425,53 @@
   "noAccess": {
     "title": "No access yet",
     "body": "Your account is signed in but has no ICF Switzerland workspace or member profile assigned yet. Please contact the chapter office."
+  },
+  "claim": {
+    "title": "Member access",
+    "subtitle": "Enter the email address ICF Global has on file for you and we'll send you a one-time link to set your password.",
+    "emailLabel": "Email address",
+    "submit": "Send my link",
+    "loading": "Loading…",
+    "privacyNote": "We never confirm whether an address is registered.",
+    "sentTitle": "Check your inbox",
+    "sentBody": "If that address belongs to an active ICF Switzerland member, a one-time link is on its way. It expires in seven days.",
+    "closedTitle": "Member access isn't open yet",
+    "closedBody": "The Member Area opens once ICF Switzerland completes the transition to the live membership system. Members will be notified directly.",
+    "toSignIn": "Already have an account? Sign in",
+    "restart": "Request a new link",
+    "setPasswordTitle": "Set your password",
+    "setPasswordBody": "You're setting up access for {email}.",
+    "passwordLabel": "New password",
+    "confirmLabel": "Repeat password",
+    "passwordHint": "At least 10 characters.",
+    "finish": "Create my account",
+    "signUpPrompt": "First time here? Set up your member access",
+    "state": {
+      "expired": {
+        "title": "This link has expired",
+        "body": "One-time links are valid for seven days. Request a new one and we'll send a fresh link."
+      },
+      "consumed": {
+        "title": "This link has already been used",
+        "body": "Your account already exists. Sign in with the password you set."
+      },
+      "unknown": {
+        "title": "This link isn't valid",
+        "body": "It may have been replaced by a newer link. Request a new one to continue."
+      },
+      "already_claimed": {
+        "title": "This member record is already linked",
+        "body": "An account already exists for this membership. Sign in instead, or contact the chapter office."
+      }
+    },
+    "error": {
+      "mismatch": "The two passwords don't match.",
+      "weak_password": "Please use at least 10 characters.",
+      "expired": "This link has expired.",
+      "consumed": "This link has already been used.",
+      "unknown": "This link isn't valid.",
+      "already_claimed": "An account already exists for this membership.",
+      "account_exists": "An account already exists for this email address. Please sign in instead."
+    }
   }
 }
