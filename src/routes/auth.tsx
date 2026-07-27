@@ -1,10 +1,12 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { useCms } from "@/i18n/cms";
 import { LOCALE_LABELS, LOCALE_ORDER } from "@/i18n/config";
 import { landingPathForSession } from "@/lib/roles";
+import { getMemberClaimStatus } from "@/lib/members.functions";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -25,6 +27,12 @@ function AuthPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  // The claim entry point stays hidden until the chapter opens the Member Area
+  // after the LIVE cutover — same gate the server functions enforce.
+  const claimStatus = useQuery({
+    queryKey: ["member-claim-status"],
+    queryFn: () => getMemberClaimStatus(),
+  });
 
   useEffect(() => {
     void supabase.auth.getSession().then(async ({ data }) => {
@@ -163,6 +171,13 @@ function AuthPage() {
             {mode === "signin" ? t("auth.createAccount") : t("auth.signIn")}
           </button>
         </p>
+        {claimStatus.data?.enabled ? (
+          <p className="mt-2 text-center text-xs">
+            <Link to="/claim" className="font-semibold text-primary hover:underline">
+              {t("claim.signUpPrompt")}
+            </Link>
+          </p>
+        ) : null}
         <p className="mt-6 text-center text-xs text-muted-foreground">
           <Link to="/" className="hover:underline">← Back to icf.ch</Link>
         </p>
