@@ -22,6 +22,8 @@ export type IcfGlobalProfile = {
   credentialSince: number;
   city: string;
   canton: string;
+  /** Slug into the CMS-managed `cf_regions` vocabulary. */
+  regionSlug: string;
   languages: CoachLanguage[];
   specializations: string[];
   formats: CoachingFormat[];
@@ -44,19 +46,6 @@ export type Coach = {
   local: LocalCoachProfile;
 };
 
-export const SPECIALIZATION_KEYS = [
-  "leadership",
-  "career",
-  "team",
-  "executive",
-  "transition",
-  "wellbeing",
-  "systemic",
-  "diversity",
-] as const;
-
-export type SpecializationKey = (typeof SPECIALIZATION_KEYS)[number];
-
 export const COACHES: Coach[] = [
   {
     id: "icf-ch-10421",
@@ -66,6 +55,7 @@ export const COACHES: Coach[] = [
       credentialSince: 2019,
       city: "Basel",
       canton: "BS",
+      regionSlug: "basel",
       languages: ["de", "en"],
       specializations: ["leadership", "team", "wellbeing"],
       formats: ["in-person", "online"],
@@ -87,6 +77,7 @@ export const COACHES: Coach[] = [
       credentialSince: 2023,
       city: "Genève",
       canton: "GE",
+      regionSlug: "romandie-geneva",
       languages: ["fr", "en"],
       specializations: ["career", "transition"],
       formats: ["in-person", "online"],
@@ -108,6 +99,7 @@ export const COACHES: Coach[] = [
       credentialSince: 2014,
       city: "Lugano",
       canton: "TI",
+      regionSlug: "ticino",
       languages: ["it", "en", "de"],
       specializations: ["executive", "systemic", "team"],
       formats: ["in-person", "online"],
@@ -130,6 +122,7 @@ export const COACHES: Coach[] = [
       credentialSince: 2020,
       city: "Zürich",
       canton: "ZH",
+      regionSlug: "zurich",
       languages: ["de", "en"],
       specializations: ["executive", "leadership", "transition"],
       formats: ["in-person", "online"],
@@ -150,6 +143,7 @@ export const COACHES: Coach[] = [
       credentialSince: 2018,
       city: "Lausanne",
       canton: "VD",
+      regionSlug: "romandie-vaud",
       languages: ["fr", "en", "de"],
       specializations: ["diversity", "wellbeing", "career"],
       formats: ["in-person", "online"],
@@ -171,6 +165,7 @@ export const COACHES: Coach[] = [
       credentialSince: 2024,
       city: "Bern",
       canton: "BE",
+      regionSlug: "bern",
       languages: ["de", "fr"],
       specializations: ["career", "wellbeing"],
       formats: ["in-person"],
@@ -191,6 +186,7 @@ export const COACHES: Coach[] = [
       credentialSince: 2013,
       city: "Online",
       canton: "ZG",
+      regionSlug: "online",
       languages: ["en", "de"],
       specializations: ["systemic", "team", "executive", "diversity"],
       formats: ["online"],
@@ -206,12 +202,6 @@ export const COACHES: Coach[] = [
     },
   },
 ];
-
-export const CREDENTIAL_LEVELS: CredentialLevel[] = ["ACC", "PCC", "MCC"];
-export const COACHING_FORMATS: CoachingFormat[] = ["in-person", "online"];
-
-export const CANTONS = Array.from(new Set(COACHES.map((c) => c.icf.canton))).sort();
-export const COACH_LANGUAGES: CoachLanguage[] = ["de", "fr", "it", "en"];
 
 export function initials(name: string) {
   return name
