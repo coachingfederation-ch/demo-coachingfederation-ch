@@ -1414,6 +1414,7 @@ export type Database = {
         Returns: boolean
       }
       is_editor: { Args: { _user_id: string }; Returns: boolean }
+      is_staff: { Args: { _user_id: string }; Returns: boolean }
       member_has_directory_credential: {
         Args: { _credential_expires_on: string; _credential_slug: string }
         Returns: boolean
