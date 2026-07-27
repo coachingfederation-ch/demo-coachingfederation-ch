@@ -13,6 +13,10 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import type { Database } from "@/integrations/supabase/types";
+import { resolveProfileLocale } from "./member-translations";
+import type { Locale } from "@/i18n/config";
+
+const localeSchema = z.enum(["en", "de", "fr", "it"]);
 
 const slugList = z.array(z.string().max(64)).max(32).optional();
 
@@ -24,6 +28,7 @@ const filterSchema = z.object({
   formats: slugList,
   credentials: slugList,
   page: z.number().int().min(0).max(500).optional(),
+  locale: localeSchema.optional(),
 });
 
 export type DirectoryFilters = z.infer<typeof filterSchema>;
@@ -32,6 +37,10 @@ export type DirectoryEntry =
   Database["public"]["Views"]["coach_directory_public"]["Row"] & {
     /** Short-lived signed URL, minted server-side only. Null when absent. */
     image_url?: string | null;
+    /** The language the visitor is actually reading this entry in. */
+    resolvedLocale?: string;
+    /** Locales with a published translation for this profile. */
+    translatedLocales?: string[];
   };
 
 export type CoachProfileLink = {
@@ -97,7 +106,15 @@ export const queryCoachDirectory = createServerFn({ method: "GET" })
         : null;
     }
 
-    return { entries, total: count ?? 0, page, pageSize };
+    // Display-only localization: filtering above always ran against the
+    // primary-language row and the slug facets.
+    const locale = (data.locale ?? "en") as Locale;
+    return {
+      entries: entries.map((entry) => resolveProfileLocale(entry, locale)),
+      total: count ?? 0,
+      page,
+      pageSize,
+    };
   });
 
 /**
@@ -108,7 +125,7 @@ export const queryCoachDirectory = createServerFn({ method: "GET" })
  */
 export const getPublicCoachProfile = createServerFn({ method: "GET" })
   .inputValidator((input: unknown) =>
-    z.object({ profileId: z.string().uuid() }).parse(input ?? {}),
+    z.object({ profileId: z.string().uuid(), locale: localeSchema.optional() }).parse(input ?? {}),
   )
   .handler(async ({ data }): Promise<PublicCoachProfile | null> => {
     const { publicSupabaseClient } = await import("./supabase-public.server");
@@ -138,5 +155,5 @@ export const getPublicCoachProfile = createServerFn({ method: "GET" })
       .order("sort_order", { ascending: true });
 
     const links = (linkRows ?? []).filter((l) => /^https:\/\//i.test(l.url)) as CoachProfileLink[];
-    return { ...entry, links };
+    return resolveProfileLocale({ ...entry, links }, (data.locale ?? "en") as Locale);
   });
