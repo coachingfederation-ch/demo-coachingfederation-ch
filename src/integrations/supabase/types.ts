@@ -630,6 +630,7 @@ export type Database = {
           booking_url: string | null
           coaching_available: boolean
           contact_email_public: boolean
+          content_updated_at: string
           created_at: string
           description: string | null
           experience_band: string | null
@@ -639,6 +640,7 @@ export type Database = {
           member_id: string
           mentor_accredited: boolean
           mentoring_available: boolean
+          primary_locale: string
           profile_image_path: string | null
           qualifications: string | null
           response_time_note: string | null
@@ -659,6 +661,7 @@ export type Database = {
           booking_url?: string | null
           coaching_available?: boolean
           contact_email_public?: boolean
+          content_updated_at?: string
           created_at?: string
           description?: string | null
           experience_band?: string | null
@@ -668,6 +671,7 @@ export type Database = {
           member_id: string
           mentor_accredited?: boolean
           mentoring_available?: boolean
+          primary_locale?: string
           profile_image_path?: string | null
           qualifications?: string | null
           response_time_note?: string | null
@@ -688,6 +692,7 @@ export type Database = {
           booking_url?: string | null
           coaching_available?: boolean
           contact_email_public?: boolean
+          content_updated_at?: string
           created_at?: string
           description?: string | null
           experience_band?: string | null
@@ -697,6 +702,7 @@ export type Database = {
           member_id?: string
           mentor_accredited?: boolean
           mentoring_available?: boolean
+          primary_locale?: string
           profile_image_path?: string | null
           qualifications?: string | null
           response_time_note?: string | null
@@ -1141,6 +1147,84 @@ export type Database = {
           },
         ]
       }
+      member_profile_translations: {
+        Row: {
+          approach: string | null
+          availability_note: string | null
+          created_at: string
+          description: string | null
+          fees_note: string | null
+          id: string
+          is_ready: boolean
+          locale: string
+          manually_edited: boolean
+          profile_id: string
+          qualifications: string | null
+          response_time_note: string | null
+          session_length_note: string | null
+          source_updated_at: string
+          tagline: string | null
+          testimonial_attribution: string | null
+          testimonial_quote: string | null
+          updated_at: string
+        }
+        Insert: {
+          approach?: string | null
+          availability_note?: string | null
+          created_at?: string
+          description?: string | null
+          fees_note?: string | null
+          id?: string
+          is_ready?: boolean
+          locale: string
+          manually_edited?: boolean
+          profile_id: string
+          qualifications?: string | null
+          response_time_note?: string | null
+          session_length_note?: string | null
+          source_updated_at?: string
+          tagline?: string | null
+          testimonial_attribution?: string | null
+          testimonial_quote?: string | null
+          updated_at?: string
+        }
+        Update: {
+          approach?: string | null
+          availability_note?: string | null
+          created_at?: string
+          description?: string | null
+          fees_note?: string | null
+          id?: string
+          is_ready?: boolean
+          locale?: string
+          manually_edited?: boolean
+          profile_id?: string
+          qualifications?: string | null
+          response_time_note?: string | null
+          session_length_note?: string | null
+          source_updated_at?: string
+          tagline?: string | null
+          testimonial_attribution?: string | null
+          testimonial_quote?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_profile_translations_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "coach_directory_public"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "member_profile_translations_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "member_directory_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       member_profile_websites: {
         Row: {
           created_at: string
@@ -1522,6 +1606,7 @@ export type Database = {
           mentor_accredited: boolean | null
           mentoring_available: boolean | null
           organisation: string | null
+          primary_locale: string | null
           profile_id: string | null
           profile_image_path: string | null
           qualifications: string | null
@@ -1535,6 +1620,7 @@ export type Database = {
           tagline: string | null
           testimonial_attribution: string | null
           testimonial_quote: string | null
+          translations: Json | null
           updated_at: string | null
           website_url: string | null
         }
