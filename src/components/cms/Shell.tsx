@@ -1,6 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { FileText, PencilLine, LogOut, Tags } from "lucide-react";
+import { FileText, PencilLine, LogOut, Tags, ListTree, SlidersHorizontal } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import { useCms } from "@/i18n/cms";
@@ -10,6 +10,8 @@ const nav = [
   { to: "/articles", key: "nav.articles", icon: FileText },
   { to: "/articles/new", key: "nav.newArticle", icon: PencilLine },
   { to: "/articles/categories", key: "nav.categories", icon: Tags },
+  { to: "/vocabularies", key: "nav.vocabularies", icon: ListTree },
+  { to: "/coach-finder", key: "nav.coachFinder", icon: SlidersHorizontal },
 ] as const;
 
 function Logo({ title }: { title: string }) {
