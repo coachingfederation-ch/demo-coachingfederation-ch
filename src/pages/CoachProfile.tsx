@@ -274,6 +274,12 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
       availabilityText ||
       experience,
   );
+  const hasSidebarCards = Boolean(
+    hasSidebarFacts || hasCta || profile.fees_note || regions.length || profile.links.length,
+  );
+  // Panels are numbered in render order, skipping whatever the coach left empty.
+  let panelIndex = 0;
+  const panel = () => ++panelIndex;
 
   return (
     <CoachProfileShell>
