@@ -25,6 +25,7 @@ import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
 import { Route as InsightsIdRouteImport } from './routes/insights.$id'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AuthenticatedVocabulariesRouteImport } from './routes/_authenticated/vocabularies'
+import { Route as AuthenticatedIntegrationRouteImport } from './routes/_authenticated/integration'
 import { Route as AuthenticatedCoachFinderRouteImport } from './routes/_authenticated/coach-finder'
 import { Route as AuthenticatedArticlesRouteImport } from './routes/_authenticated/articles'
 import { Route as LocaleInsightsRouteImport } from './routes/$locale/insights'
@@ -119,6 +120,12 @@ const AuthenticatedVocabulariesRoute =
   AuthenticatedVocabulariesRouteImport.update({
     id: '/vocabularies',
     path: '/vocabularies',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedIntegrationRoute =
+  AuthenticatedIntegrationRouteImport.update({
+    id: '/integration',
+    path: '/integration',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedCoachFinderRoute =
@@ -220,6 +227,7 @@ export interface FileRoutesByFullPath {
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
   '/articles': typeof AuthenticatedArticlesRouteWithChildren
   '/coach-finder': typeof AuthenticatedCoachFinderRoute
+  '/integration': typeof AuthenticatedIntegrationRoute
   '/vocabularies': typeof AuthenticatedVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/insights/$id': typeof InsightsIdRoute
@@ -248,6 +256,7 @@ export interface FileRoutesByTo {
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
   '/coach-finder': typeof AuthenticatedCoachFinderRoute
+  '/integration': typeof AuthenticatedIntegrationRoute
   '/vocabularies': typeof AuthenticatedVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/insights/$id': typeof InsightsIdRoute
@@ -282,6 +291,7 @@ export interface FileRoutesById {
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
   '/_authenticated/articles': typeof AuthenticatedArticlesRouteWithChildren
   '/_authenticated/coach-finder': typeof AuthenticatedCoachFinderRoute
+  '/_authenticated/integration': typeof AuthenticatedIntegrationRoute
   '/_authenticated/vocabularies': typeof AuthenticatedVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/insights/$id': typeof InsightsIdRoute
@@ -316,6 +326,7 @@ export interface FileRouteTypes {
     | '/$locale/insights'
     | '/articles'
     | '/coach-finder'
+    | '/integration'
     | '/vocabularies'
     | '/auth/callback'
     | '/insights/$id'
@@ -344,6 +355,7 @@ export interface FileRouteTypes {
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
     | '/coach-finder'
+    | '/integration'
     | '/vocabularies'
     | '/auth/callback'
     | '/insights/$id'
@@ -377,6 +389,7 @@ export interface FileRouteTypes {
     | '/$locale/insights'
     | '/_authenticated/articles'
     | '/_authenticated/coach-finder'
+    | '/_authenticated/integration'
     | '/_authenticated/vocabularies'
     | '/auth/callback'
     | '/insights/$id'
@@ -518,6 +531,13 @@ declare module '@tanstack/react-router' {
       path: '/vocabularies'
       fullPath: '/vocabularies'
       preLoaderRoute: typeof AuthenticatedVocabulariesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/integration': {
+      id: '/_authenticated/integration'
+      path: '/integration'
+      fullPath: '/integration'
+      preLoaderRoute: typeof AuthenticatedIntegrationRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/coach-finder': {
@@ -688,12 +708,14 @@ const AuthenticatedArticlesRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedArticlesRoute: typeof AuthenticatedArticlesRouteWithChildren
   AuthenticatedCoachFinderRoute: typeof AuthenticatedCoachFinderRoute
+  AuthenticatedIntegrationRoute: typeof AuthenticatedIntegrationRoute
   AuthenticatedVocabulariesRoute: typeof AuthenticatedVocabulariesRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedArticlesRoute: AuthenticatedArticlesRouteWithChildren,
   AuthenticatedCoachFinderRoute: AuthenticatedCoachFinderRoute,
+  AuthenticatedIntegrationRoute: AuthenticatedIntegrationRoute,
   AuthenticatedVocabulariesRoute: AuthenticatedVocabulariesRoute,
 }
 
