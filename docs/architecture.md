@@ -1,0 +1,127 @@
+# Architecture
+
+How the system is layered, and — more usefully — where each rule is actually
+enforced. When two layers seem to disagree, the database is the authority.
+
+## The four layers
+
+```text
+  browser                        edge worker                   postgres
+  ─────────────────────────      ─────────────────────────     ────────────────
+  routes + pages + components    server functions              tables
+  TanStack Query                 (*.functions.ts)              RLS policies
+  supabase browser client   ──►  server-only logic       ──►   views
+  (RLS as the signed-in user)    (*.server.ts)                 security-definer fns
+                                                               triggers
+```
+
+There is no separate backend service. Anything that needs a secret, the
+service role, or the ICF SOAP feed runs in a server function on the edge
+worker. Anything that only needs the signed-in user's own permissions may run
+in the browser directly against Supabase, because RLS is the boundary.
+
+## Enforcement lives in the database
+
+This is the single most important thing to understand before changing access
+behaviour. The UI hides things; the database refuses them. Every rule below is
+enforced in Postgres, and the TypeScript merely mirrors it for a better user
+experience:
+
+- **Roles.** Stored in `user_roles`, never on a profile row. Checked through
+  the security-definer functions `has_role`, `is_editor` and `is_staff`, which
+  RLS policies call. A user cannot grant themselves a role, because
+  `user_roles` has no insert or update policy at all — role changes are
+  service-role only.
+- **Article access.** Editors and admins manage everything; contributors can
+  read their own articles and may only insert, update or delete their **own
+  drafts**. Anonymous visitors see published articles only. This is why the
+  Insights CMS can safely operate through ordinary authenticated clients: a
+  contributor physically cannot publish.
+- **Directory eligibility.** A profile may only be `published` if its member is
+  active *and* holds a valid ACC/PCC/MCC credential. This is a trigger
+  (`tg_directory_profile_eligibility_guard`), not a check in application code,
+  so the sync engine, the member editor and staff tooling are all bound by it.
+- **Integration safety.** `tg_integration_config_guard` makes TEST mode
+  incapable of sending member email or opening account claiming, and makes the
+  TEST→LIVE transition a one-way door. Setting the wrong flag raises an
+  exception rather than quietly emailing 500 members.
+
+If you need to relax one of these, change the policy or trigger. Do not add a
+bypass in TypeScript.
+
+## Server boundaries
+
+Three ways to reach the server, chosen by who is calling:
+
+**1. Server functions (`src/lib/*.functions.ts`)** — the default. Typed RPC
+called from components via `useServerFn`, or from a loader. Protected ones
+carry `.middleware([requireSupabaseAuth])`, which puts an authenticated
+`supabase` client plus `userId` on `context`; queries through it run as the
+user with RLS applied.
+
+**2. Public server functions** — no middleware, therefore a public endpoint on
+the published site. Used for reads that anonymous visitors legitimately make
+(the coach directory, published Insights). These use a *publishable* client
+from `src/lib/supabase-public.server.ts`, never the admin client, so RLS still
+constrains them.
+
+**3. File routes under `src/routes/api/public/`** — raw HTTP for external
+callers. Only one exists: `member-sync.ts`, the endpoint the nightly cron job
+hits. This prefix bypasses site auth, so the handler verifies the caller
+itself.
+
+### The admin client
+
+`supabaseAdmin` bypasses RLS entirely. It is used only where there is no
+alternative — the ICF sync writing member rows, signing storage URLs for
+anonymous visitors, and role-gated staff mutations. Two rules:
+
+- Import it **inside** the handler (`await import(".../client.server")`), never
+  at the module scope of a `*.functions.ts` file, because module scope of those
+  files ships to the browser bundle.
+- Authorize the caller *before* reaching for it, and authorize through the
+  user's own client. Never use the admin client to decide whether someone is an
+  admin.
+
+## Data flow: a public coach search
+
+Worth tracing once, because it touches every layer and shows the view-first
+pattern:
+
+1. `src/routes/find-a-coach.tsx` renders `CoachDirectory`.
+2. The component reads filters from the URL (they are shareable state) and
+   calls `queryCoachDirectory`, a public server function.
+3. That function queries `coach_directory_public` — a view, not the base
+   tables. The view is the projection boundary: it exposes only safe columns
+   and only reveals a member's email when they explicitly opted in.
+4. Filtering, faceting and pagination happen in Postgres, not in JavaScript.
+5. Profile images live in a **private** bucket, so the function mints
+   short-lived signed URLs through `src/lib/storage.server.ts` before
+   returning. This is the one place the admin client appears on a public path,
+   and it is scoped to signing paths that the view already deemed public.
+
+## Internationalisation
+
+Locale is a path prefix, chosen for SEO: English is unprefixed, the other three
+live under `/$locale`. Each public page has both an unprefixed route and a
+`$locale` mirror; both render the same component from `src/pages`. Use
+`<LocaleLink>` rather than `<Link>` in shared UI so links keep the visitor in
+their language.
+
+Interface copy lives in JSON dictionaries under `src/i18n`. Article content is
+different: translations are rows in `article_translations`, keyed by locale,
+with a `manually_edited` flag so an AI-generated draft is never allowed to
+overwrite a human edit.
+
+## Conventions worth following
+
+- **Filename suffixes are load-bearing.** `*.server.ts` is blocked from client
+  bundles by filename; `*.functions.ts` is the only sanctioned bridge.
+- **Shared rules get one home.** Publish eligibility is
+  `publishBlockReason` in `directory-eligibility.ts`; bucket names and URL
+  lifetimes are in `storage.ts`. If you find yourself re-deriving one of these,
+  import it instead.
+- **URL as state.** Directory filters, mode tabs and pagination live in the
+  query string so results are linkable and the back button behaves.
+- **Never edit** `src/routeTree.gen.ts` or anything in
+  `src/integrations/supabase/` — both are generated.
