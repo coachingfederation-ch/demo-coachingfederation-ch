@@ -229,6 +229,11 @@ export async function runMemberSync(options: {
       deactivated += 1;
     }
 
+    const createdProfiles = await ensureDirectoryProfiles(runId);
+    if (createdProfiles) {
+      await logEvent(runId, "directory_profiles_created", `Created ${createdProfiles} draft directory profiles.`);
+    }
+
     await reconcileDirectoryVisibility(runId);
 
     return await finish({ status: "succeeded", feedCount: feed.length, created, updated, deactivated });
