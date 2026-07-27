@@ -102,7 +102,7 @@ mode remains `test`, emails and account claim remain off.
 
 ### 2. Verified gaps
 
-Resolved by Milestone A: gaps 1 and 2 below are closed (501 members imported, mapping verified). Gaps 3-8 remain open.
+Resolved by Milestone A: gap 1 below is closed (501 members imported, mapping verified). Gaps 2-8 remain open.
 
 1. ~~SOAP field mapping is inferred~~ — verified against the real TEST response.
 2. Sync never creates `member_directory_profiles` rows. (Still open — Milestone B.)
