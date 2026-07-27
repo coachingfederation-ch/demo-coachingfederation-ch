@@ -567,6 +567,130 @@ export function MemberProfileEditor() {
         />
       </Section>
 
+      <Section title={t("member.clientTypesTitle")} note={t("member.clientTypesNote")}>
+        <Chips
+          rows={vocab?.cf_client_types ?? []}
+          selected={facets.client_type_ids}
+          onToggle={toggle("client_type_ids")}
+          locale={locale}
+        />
+      </Section>
+
+      <Section title={t("member.practiceTitle")} note={t("member.practiceNote")}>
+        <TextArea
+          id="approach"
+          label={t("member.approach")}
+          note={t("member.approachNote")}
+          value={practice.approach}
+          onChange={(v) => setPractice((p) => ({ ...p, approach: v }))}
+          max={RICH_TEXT_MAX}
+          rows={6}
+        />
+        <TextArea
+          id="qualifications"
+          label={t("member.qualifications")}
+          note={t("member.qualificationsNote")}
+          value={practice.qualifications}
+          onChange={(v) => setPractice((p) => ({ ...p, qualifications: v }))}
+          max={RICH_TEXT_MAX}
+        />
+        <div className="mt-4">
+          <label className="block text-xs font-semibold text-muted-foreground" htmlFor="experience">
+            {t("member.experienceBand")}
+          </label>
+          <select
+            id="experience"
+            value={practice.experience_band}
+            onChange={(e) => setPractice((p) => ({ ...p, experience_band: e.target.value }))}
+            className="mt-1 rounded-lg border border-border bg-background px-3 py-2 text-sm"
+          >
+            <option value="">{t("member.availabilityNone")}</option>
+            {EXPERIENCE_BANDS.map((band) => (
+              <option key={band} value={band}>
+                {t(`member.experienceBands.${band}`)}
+              </option>
+            ))}
+          </select>
+        </div>
+        <Field
+          id="session-length"
+          label={t("member.sessionLength")}
+          value={practice.session_length_note}
+          onChange={(v) => setPractice((p) => ({ ...p, session_length_note: v }))}
+          max={NOTE_MAX}
+          placeholder={t("member.sessionLengthPlaceholder")}
+        />
+        <Field
+          id="availability-note"
+          label={t("member.availabilityNote")}
+          value={practice.availability_note}
+          onChange={(v) => setPractice((p) => ({ ...p, availability_note: v }))}
+          max={NOTE_MAX}
+          placeholder={t("member.availabilityNotePlaceholder")}
+        />
+        <TextArea
+          id="fees"
+          label={t("member.fees")}
+          note={t("member.feesNote")}
+          value={practice.fees_note}
+          onChange={(v) => setPractice((p) => ({ ...p, fees_note: v }))}
+          max={RICH_TEXT_MAX}
+          rows={4}
+        />
+      </Section>
+
+      <Section title={t("member.contactTitle")} note={t("member.contactNote")}>
+        <Field
+          id="booking-url"
+          label={t("member.bookingUrl")}
+          value={practice.booking_url}
+          onChange={(v) => setPractice((p) => ({ ...p, booking_url: v }))}
+          max={250}
+          placeholder="https://"
+        />
+        <Field
+          id="response-time"
+          label={t("member.responseTime")}
+          value={practice.response_time_note}
+          onChange={(v) => setPractice((p) => ({ ...p, response_time_note: v }))}
+          max={NOTE_MAX}
+          placeholder={t("member.responseTimePlaceholder")}
+        />
+        <label className="mt-4 flex items-start gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={practice.contact_email_public}
+            onChange={(e) => setPractice((p) => ({ ...p, contact_email_public: e.target.checked }))}
+            className="mt-1"
+          />
+          <span>
+            {t("member.showEmail")}
+            {member?.email ? (
+              <span className="block text-xs text-muted-foreground">{member.email}</span>
+            ) : null}
+          </span>
+        </label>
+      </Section>
+
+      <Section title={t("member.testimonialTitle")} note={t("member.testimonialNote")}>
+        <TextArea
+          id="testimonial"
+          label={t("member.testimonialQuote")}
+          value={practice.testimonial_quote}
+          onChange={(v) => setPractice((p) => ({ ...p, testimonial_quote: v }))}
+          max={QUOTE_MAX}
+          rows={4}
+        />
+        <Field
+          id="testimonial-attribution"
+          label={t("member.testimonialAttribution")}
+          value={practice.testimonial_attribution}
+          onChange={(v) => setPractice((p) => ({ ...p, testimonial_attribution: v }))}
+          max={NOTE_MAX}
+          placeholder={t("member.testimonialAttributionPlaceholder")}
+        />
+      </Section>
+
       <Section title={t("member.linksTitle")} note={t("member.linksNote")}>
         <div className="mt-3 space-y-2">
           {links.map((link, index) => (
