@@ -1,68 +1,57 @@
-# Cleanup & documentation pass
+## Goal
 
-Scope: consolidate genuinely duplicated logic, give the articles CMS the same server-function boundary every other domain already has, and write current-state docs. No redesign, no cosmetic churn, no behaviour change.
+Rework the public coach profile (`/coach/$profileId`, and the localised `/$locale/coach/$profileId`) into the "ICF journey detail" direction: bolder use of the ICF palette to separate sections, a visual flow for "How I work", and Fees / Service areas / Links relocated to the right column.
 
-## Part 1 — Assessment (already done, summarised)
+Presentation-only. No schema, no server-function, no query changes — the same `PublicCoachProfile` data is used.
 
-Healthy: `src/lib` domain modules, `directory-eligibility.ts` as the eligibility source of truth, member/coach/admin server-function boundaries, `CoachProfile.tsx` and `coaches/directory.tsx` as presentation-only.
+## Layout changes (`src/pages/CoachProfile.tsx`)
 
-Debt, in priority order:
-1. `src/routes/_staff/articles.$id.tsx` (602 lines) is the only domain with no server-function layer — direct Supabase reads, debounced autosave, status transitions, delete and image upload all inline in a route component.
-2. Three independent signed-URL implementations with three different TTLs (24h / 1h / 10 years) and bucket names as magic literals in three files.
-3. The publish gate ("directory-eligible + at least one region") is expressed three separate times: server, staff UI, member UI.
-4. The anon Supabase client construction (publishable-key `apikey` workaround) is copy-pasted across three `.functions.ts` files.
-5. `loadIntegrationConfigAdmin` — the config hub for sync, claim and cutover — lives in a file named `member-email.server.ts`.
-6. No root README, no `docs/`; architecture knowledge sits in five point-in-time `.lovable/plan-rev*.md` files.
+Left column (main), each block a rounded-2xl card on the lavender page background, with a numbered mono eyebrow (`01 / About`, `02 / How I work`, …) so sections read as distinct panels instead of hairline-separated text:
 
-## Part 2 — Refactor pass
+1. About
+2. How I work — flow (below)
+3. Specialisation + Who I work with, side by side on desktop, each with a coloured left border (teal / lavender) as the palette accent
+4. Credentials & training
+5. Testimonial (kept as a highlighted quote card, indigo-tinted)
 
-Each item is behaviour-preserving. Existing TTLs, route behaviour and the public data contract stay exactly as they are.
+Right column (sticky), stacked cards in this order:
 
-### 2.1 Storage helpers — `src/lib/storage.server.ts` (new) + `src/lib/storage.ts` (new)
-- Server module owns bucket names and TTL constants as named exports (`PROFILE_IMAGE_BUCKET`, `ARTICLE_IMAGE_BUCKET`, `PROFILE_IMAGE_TTL`, …) plus `signOne()` / `signMany()` wrappers.
-- `directory.functions.ts` `signProfileImages` becomes a thin call into it, keeping the 24h TTL.
-- The browser-side path in `MemberProfileEditor.tsx` keeps calling the browser client (moving it server-side would change upload behaviour) but imports the shared bucket constant from a small client-safe `storage.ts` instead of re-declaring `PHOTO_BUCKET`.
-- Article image signing moves behind the same helper once 2.4 lands.
+1. "Working with {name}" facts card + Book / Message CTAs + response-time note (existing)
+2. Fees — moved from left
+3. Service areas — moved from left, region chips
+4. Links — moved from left, arrow-affordance list
+5. "Profiles sourced from ICF Global" note (existing)
 
-### 2.2 Shared anon client — `src/lib/supabase-public.server.ts` (new)
-One `publicSupabaseClient()` factory with the `apikey`-header workaround and its explanatory comment. `directory.functions.ts`, `deck-download.functions.ts` and `organisation-survey.functions.ts` each drop their copy.
+Hero stays structurally as-is (indigo band, avatar, name, credential badge, tagline, meta, availability dot, CTAs) but gets a soft teal radial accent shape for boldness.
 
-### 2.3 Publish gate — one predicate
-Add `canPublishDirectoryProfile({ eligible, regionCount })` (plus a reason enum) to the existing `src/lib/directory-eligibility.ts`. All three call sites use it. Same truth table as today.
+## "How I work" as a flow
 
-### 2.4 Articles domain gets a server-function layer
-- New `src/lib/articles.server.ts` — load article + categories + author options, save/patch, status transition, delete, image upload/sign.
-- New `src/lib/articles.functions.ts` — `createServerFn` wrappers with `requireSupabaseAuth`, matching the `members.functions.ts` shape. Thin-wrapper rule respected (imports + exported server fns only).
-- `src/routes/_staff/articles.$id.tsx` keeps its editor UI, debounce timing and autosave semantics but calls the server functions instead of Supabase directly. Target: roughly 350 lines, with the editor form extracted to `src/components/cms/ArticleEditorForm.tsx` if the split is clean.
-- Explicitly out of scope: changing autosave cadence, status-machine rules, or the 10-year article image TTL.
+Replace the current numbered grid with a waypoint flow:
 
-### 2.5 Config module rename
-`loadIntegrationConfigAdmin` moves from `member-email.server.ts` to a new `src/lib/integration-config.server.ts`; the four importing modules update. `member-email.server.ts` keeps only the email gate.
+- Desktop: horizontal row of step nodes (numbered circles, alternating indigo / teal / lavender fills) with a connecting gradient line running behind them; heading-less steps show the paragraph text under each node.
+- Mobile / 5–6 steps: falls back to a vertical timeline with the connector on the left, so long text stays readable.
+- Keeps the existing parsing rule: paragraphs split on blank lines, max 6; fewer than 2 paragraphs still renders as plain prose (no half-built flow).
 
-### 2.6 Not doing (deliberately)
-- No split of `member-sync.server.ts` or `cutover.server.ts` — long but procedural by nature, well commented, and touching them before go-live is the wrong risk trade.
-- No restructuring of `coaches/directory.tsx` beyond hoisting the repeated `"not-accepting"` literal to a named constant.
-- No change to `translations.functions.ts` auth. Instead, its RLS-only boundary is verified against the actual policies and the result is written into `docs/architecture.md` — flagged as debt if the policies turn out weaker than the explicit-check pattern.
+## Graceful degradation
 
-## Part 3 & 4 — Documentation deliverables
+Every card is already conditional on its field being present. Rules kept:
 
-### `README.md` (root, new)
-What ICF Switzerland's site is; the four functional areas (public site, coach directory, member area, staff CMS + member backend); high-level architecture; stack (TanStack Start on Cloudflare Workers, Supabase, Tailwind v4); folder layout; where to start reading; env/config concepts including the TEST/LIVE `integration_config` switch; links into `docs/`; a status section separating shipped from gated/pending for go-live.
+- Empty Fees / Service areas / Links simply omit those sidebar cards.
+- If the whole sidebar would be empty apart from the ICF note, the main column widens rather than leaving a gap.
+- The 3rd row (Specialisation / Who I work with) collapses to a single full-width card when only one of the two has values.
 
-### `docs/` (new)
-- `docs/architecture.md` — layers and boundaries, the public-safe / member-only / staff-only trichotomy and exactly where each is enforced (RLS, the `coach_directory_public` view, `requireSupabaseAuth`, `assertAdmin`), Supabase surface (tables, the public view, security-definer functions, buckets, key policies), image-handling strategy and why the buckets are private.
-- `docs/code-map.md` — module-by-module ownership table: every `*.functions.ts`, `*.server.ts`, route group and key component, with its responsibility and auth boundary.
-- `docs/auth-and-claim-flow.md` — the role model, the `members.auth_user_id` binding rule (never email equality), the custom hashed-token claim state machine, and the flags that keep it switched off.
-- `docs/public-directory.md` — finder flow end to end: filters, mode tabs, pagination, eligibility/visibility states, the detail page, signed images.
-- `docs/operations-and-go-live.md` — sync job and cron, integration modes, cutover and rehearsal, email suppression, lifecycle/anonymisation, plus the outstanding go-live checklist distilled from `.lovable/plan.md`.
-- `docs/tech-debt.md` — known follow-ups, including the ones this pass deliberately skips.
+## Tokens and styling
 
-The `.lovable/plan-rev*.md` files stay as historical record; `docs/` becomes the living reference and the README points there.
+- No hardcoded hex. The prototype's indigo `#2E3192`, cyan `#00AEEF`, lavender `#E6E6FA` and cream map to the existing semantic tokens (`--hero`/`--primary`, `--accent`, `--secondary`/`--muted`, background). If the flow needs a distinct lavender step fill not covered today, one token is added in `src/styles.css` under the existing `@theme inline` block.
+- Reuses `CARD_SHADOW`, `eyebrow`, `btn-mono` conventions from `src/components/site-chrome.tsx`.
+
+## Copy / i18n
+
+No new user-facing strings expected — section titles reuse existing `directory.detail.*` keys. If the numbered eyebrows need a separate label, they are composed from the existing titles rather than new keys, so DE/FR/IT stay in sync automatically.
 
 ## Verification
 
-After the refactor: typecheck, then a Playwright pass over `/find-a-coach`, a coach detail page, `/my-profile` (photo upload + publish gate) and the staff article editor (load, autosave, status change, image upload) to confirm identical behaviour. Public directory JSON shape compared before/after.
-
-## Deliverables
-
-Refactored code as above; README; six docs files; a written summary of what changed and why; a tech-debt list.
+- Render the current live profile (Hartmuth Gieldanowski, 4 "How I work" paragraphs, no fees/links) at desktop and mobile widths and screenshot both.
+- Render a sparse profile to confirm no empty cards or orphan headings.
+- Contrast check on the teal-on-indigo and lavender-on-white step nodes.
+- Typecheck.
