@@ -554,7 +554,7 @@
   },
   "roles": {
     "title": "Rollen",
-    "intro": "Erteilen Sie einem Mitglied mit aktiviertem Konto Zugang zum Insights-CMS. Dieser Zugang kommt zur Mitgliedschaft hinzu: Mitgliederbereich und Verzeichnisprofil bleiben unverändert. Administratorinnen und Administratoren werden separat eingerichtet.",
+    "intro": "Zwei Arten von Konten können sich anmelden: interne Administratorinnen und Administratoren, die keinen ICF-Mitgliedsdatensatz benötigen, und beanspruchte Mitglieder, die mit einem importierten Mitgliedsdatensatz verknüpft sind. Der Editor-Zugriff wird hier zusätzlich zur bestehenden Mitgliedschaft erteilt – er verändert weder den Zugang zum Mitgliederbereich noch das Verzeichnisprofil. Administratoren werden separat eingerichtet.",
     "searchPlaceholder": "Nach Name oder E-Mail suchen",
     "colName": "Mitglied",
     "colEmail": "E-Mail",
@@ -572,6 +572,10 @@
     "auditTitle": "Letzte Änderungen",
     "auditIntro": "Jede Erteilung und jeder Entzug wird protokolliert, inklusive ausführender Person.",
     "auditEmpty": "Noch keine Rollenänderungen protokolliert.",
-    "auditBy": "von"
+    "auditBy": "von",
+    "internalTitle": "Interne Konten",
+    "internalIntro": "Berechtigte Konten ohne importierten ICF-Mitgliedsdatensatz. Sie werden ausserhalb der App eingerichtet und können hier nicht geändert werden; Editor-Zugriff setzt immer einen verknüpften Mitgliedsdatensatz voraus.",
+    "internalEmpty": "Keine internen Konten.",
+    "colRoles": "Rollen"
   }
 }
