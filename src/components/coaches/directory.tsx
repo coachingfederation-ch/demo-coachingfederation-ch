@@ -309,7 +309,10 @@ export function CoachDirectory() {
     // Facets are mode-specific; region/language/free text carry over.
     setCredentials([]);
     setSpecializations([]);
-    void navigate({ to: ".", search: (prev) => ({ ...(prev as object), mode: slug }) });
+    void navigate({
+      to: ".",
+      search: (prev: Record<string, unknown>) => ({ ...prev, mode: slug }),
+    });
   }
 
   const label = (row: VocabRow) => vocabLabel(row, locale);
