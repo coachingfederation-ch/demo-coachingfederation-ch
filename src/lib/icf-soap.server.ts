@@ -44,18 +44,29 @@ const EMPTY: Omit<NormalizedMember, "cst_recno"> = {
   membership_expiration_date: null,
 };
 
+/**
+ * ICF runs a netFORUM xWeb service: `Signon.asmx` issues a token, then
+ * `netFORUMXML.asmx` executes a named web method with that token in a SOAP
+ * header. Every value below is a server-only secret and is never logged.
+ */
 export function soapCredentials(mode: IntegrationMode) {
   const prefix = mode === "live" ? "ICF_SOAP_LIVE" : "ICF_SOAP_TEST";
-  const url = process.env[`${prefix}_URL`];
+  const baseUrl = (process.env[`${prefix}_BASE_URL`] ?? "").replace(/\/+$/, "");
   const username = process.env[`${prefix}_USERNAME`];
   const password = process.env[`${prefix}_PASSWORD`];
-  const chapterCode = process.env[`${prefix}_CHAPTER_CODE`] ?? "";
-  if (!url || !username || !password) {
+  const cstKey = process.env[`${prefix}_CST_KEY`];
+  if (!baseUrl || !username || !password || !cstKey) {
     throw new Error(
-      `Missing ICF SOAP credentials for ${mode} mode (${prefix}_URL / _USERNAME / _PASSWORD).`,
+      `Missing ICF API credentials for ${mode} mode (${prefix}_BASE_URL / _USERNAME / _PASSWORD / _CST_KEY).`,
     );
   }
-  return { url, username, password, chapterCode };
+  return {
+    signonUrl: `${baseUrl}/Signon.asmx`,
+    executeUrl: `${baseUrl}/netFORUMXML.asmx`,
+    username,
+    password,
+    cstKey,
+  };
 }
 
 function text(value: unknown): string | null {
