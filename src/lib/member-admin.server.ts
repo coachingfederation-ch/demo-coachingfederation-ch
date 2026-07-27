@@ -36,6 +36,7 @@ export type MemberDetail = {
     membership_join_date: string | null;
     membership_expiration_date: string | null;
     activity_state: string;
+    auth_user_id: string | null;
     scheduled_deletion_at: string | null;
     last_synced_at: string | null;
     /** Feed extras with no column of their own (zip, state, ACTC, …). */
@@ -55,7 +56,7 @@ export type MemberDetail = {
 };
 
 const MEMBER_COLUMNS =
-  "id, cst_recno, full_name, first_name, last_name, email, phone, city, country, organisation, credential_slug, credential_awarded_on, credential_expires_on, member_type, membership_join_date, membership_expiration_date, activity_state, scheduled_deletion_at, last_synced_at, diagnostics";
+  "id, auth_user_id, cst_recno, full_name, first_name, last_name, email, phone, city, country, organisation, credential_slug, credential_awarded_on, credential_expires_on, member_type, membership_join_date, membership_expiration_date, activity_state, scheduled_deletion_at, last_synced_at, diagnostics";
 
 export async function loadMemberDetail(memberId: string): Promise<MemberDetail> {
   const { data: member, error } = await supabaseAdmin
@@ -165,4 +166,68 @@ export async function updateMemberDirectoryAdmin(
   }
 
   return await loadMemberDetail(input.memberId);
+}
+
+/**
+ * Staff-support binding of an existing auth account to a member record.
+ *
+ * This is deliberately NOT the future account-claim flow: claim is
+ * email-verified, member-initiated and gated by `account_claim_enabled`.
+ * This path is manual, admin-only, audited, and exists so a single controlled
+ * test member can exercise the Member Area before claim opens.
+ */
+export async function bindMemberToAuthUser(
+  actorUserId: string,
+  memberId: string,
+  email: string,
+): Promise<{ authUserId: string; email: string }> {
+  const normalised = email.trim().toLowerCase();
+  const { data, error } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1000 });
+  if (error) throw error;
+  const user = data.users.find((u) => (u.email ?? "").toLowerCase() === normalised);
+  if (!user) throw new Error(`No account found for ${normalised}. The user must sign in once first.`);
+
+  // One account may only ever back one member (also a unique index).
+  const { data: existing, error: existingError } = await supabaseAdmin
+    .from("members")
+    .select("id")
+    .eq("auth_user_id", user.id)
+    .maybeSingle();
+  if (existingError) throw existingError;
+  if (existing && existing.id !== memberId) {
+    throw new Error("This account is already linked to another member record.");
+  }
+
+  const { error: updateError } = await supabaseAdmin
+    .from("members")
+    .update({ auth_user_id: user.id })
+    .eq("id", memberId);
+  if (updateError) throw updateError;
+
+  await supabaseAdmin.from("member_sync_events").insert({
+    member_id: memberId,
+    event_type: "member_account_bound_by_staff",
+    severity: "warning",
+    message: `Staff bound ${normalised} to this member record (support/testing path).`,
+    actor_user_id: actorUserId,
+    details: { email: normalised, auth_user_id: user.id },
+  });
+
+  return { authUserId: user.id, email: normalised };
+}
+
+export async function unbindMemberAuthUser(actorUserId: string, memberId: string): Promise<void> {
+  const { error } = await supabaseAdmin
+    .from("members")
+    .update({ auth_user_id: null })
+    .eq("id", memberId);
+  if (error) throw error;
+  await supabaseAdmin.from("member_sync_events").insert({
+    member_id: memberId,
+    event_type: "member_account_unbound_by_staff",
+    severity: "warning",
+    message: "Staff removed the account link from this member record.",
+    actor_user_id: actorUserId,
+    details: {},
+  });
 }
