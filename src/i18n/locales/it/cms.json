@@ -11,7 +11,10 @@
     "vocabularies": "Vocabolari",
     "coachFinder": "Coach Finder",
     "members": "Membri",
-    "integration": "Integrazione"
+    "integration": "Integrazione",
+    "roles": "Ruoli",
+    "memberArea": "Area soci",
+    "insightsCms": "CMS Insights"
   },
   "auth": {
     "signInSub": "Accedi per continuare",
@@ -548,5 +551,27 @@
       "testimonial_quote": "Testimonianza",
       "testimonial_attribution": "Autore della testimonianza"
     }
+  },
+  "roles": {
+    "title": "Ruoli",
+    "intro": "Concedi l'accesso al CMS Insights a un socio che ha attivato il proprio account. L'accesso si aggiunge all'adesione: non modifica né l'area soci né il profilo nella directory. Gli amministratori vengono configurati separatamente.",
+    "searchPlaceholder": "Cerca per nome o e-mail",
+    "colName": "Socio",
+    "colEmail": "E-mail",
+    "colAccess": "Accesso",
+    "grant": "Concedi editor",
+    "revoke": "Revoca editor",
+    "memberBadge": "Socio",
+    "editorBadge": "Editor",
+    "adminRow": "Amministratore",
+    "loading": "Caricamento soci…",
+    "empty": "Nessun account socio ancora attivato.",
+    "loadError": "Impossibile caricare i dati dei ruoli.",
+    "saveError": "Impossibile salvare la modifica.",
+    "adminOnly": "Solo gli amministratori possono gestire i ruoli.",
+    "auditTitle": "Modifiche recenti",
+    "auditIntro": "Ogni concessione e revoca viene registrata, con l'autore dell'azione.",
+    "auditEmpty": "Nessuna modifica dei ruoli registrata.",
+    "auditBy": "da"
   }
 }

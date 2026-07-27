@@ -15,12 +15,18 @@
  * This module is deliberately client-safe (no `.server.ts` suffix, no secrets)
  * because `*.functions.ts` module scope is bundled for the browser.
  */
-export type AppRole = "admin" | "editor" | "contributor" | "member" | "user";
+import { STAFF_ROLES } from "./role-model";
+import type { AppRole } from "./role-model";
 
-/** Roles that may reach the Insights CMS. */
-const STAFF_ROLES: AppRole[] = ["admin", "editor", "contributor"];
+export type { AppRole } from "./role-model";
 
-type AuthedContext = { supabase: any; userId: string };
+/**
+ * The shape `requireSupabaseAuth` puts on `context`. `supabase` stays loosely
+ * typed: the middleware's client is generated per project and pinning it here
+ * would force every call site back to a cast.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AuthedContext = { supabase: any; userId: string };
 
 async function rolesOf(context: AuthedContext): Promise<AppRole[]> {
   const { data, error } = await context.supabase
@@ -28,7 +34,7 @@ async function rolesOf(context: AuthedContext): Promise<AppRole[]> {
     .select("role")
     .eq("user_id", context.userId);
   if (error) throw new Error("Forbidden");
-  return (data ?? []).map((r: { role: AppRole }) => r.role);
+  return ((data ?? []) as { role: AppRole }[]).map((r) => r.role);
 }
 
 /** Throws unless the caller holds `role`. Returns the caller's user id. */

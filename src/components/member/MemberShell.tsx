@@ -1,18 +1,23 @@
 /**
  * Member Area chrome — deliberately minimal and self-contained.
  *
- * No CMS sidebar and no links into any staff screen: a member's only surface
- * is their own directory profile.
+ * No CMS sidebar: a member's surface is their own directory profile. The one
+ * exception is the Insights link shown when the account also holds the
+ * additive `editor` grant — that account genuinely works in both places, and
+ * without a way across it would have to sign out and back in to find the CMS.
  */
 import type { ReactNode } from "react";
-import { LogOut } from "lucide-react";
+import { LogOut, FileText } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import icfLogo from "@/assets/icf-switzerland-charter-chapter.png.asset.json";
 import { supabase } from "@/integrations/supabase/client";
 import { useCms } from "@/i18n/cms";
 import { LOCALE_LABELS, LOCALE_ORDER } from "@/i18n/config";
+import { useMyRoles } from "@/lib/roles";
 
 export function MemberShell({ children }: { children: ReactNode }) {
   const { t, locale, setLocale } = useCms();
+  const { roles } = useMyRoles();
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -26,6 +31,15 @@ export function MemberShell({ children }: { children: ReactNode }) {
           <img src={icfLogo.url} alt="ICF Switzerland Charter Chapter" className="h-12 w-auto" />
           <span className="text-sm font-semibold">{t("member.areaTitle")}</span>
           <div className="ml-auto flex items-center gap-3">
+            {roles.isEditor ? (
+              <Link
+                to="/articles"
+                className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold hover:bg-white/20"
+              >
+                <FileText className="h-3.5 w-3.5" />
+                {t("nav.insightsCms")}
+              </Link>
+            ) : null}
             <div className="flex flex-wrap gap-1.5">
               {LOCALE_ORDER.map((l) => (
                 <button

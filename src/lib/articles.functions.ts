@@ -10,13 +10,14 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { assertStaff as assertStaffRole } from "./authz";
+import type { AuthedContext } from "./authz";
 
 /**
- * Staff gate: admin, editor or contributor. The role is read from
- * `user_roles` through the caller's own RLS-scoped client (see `authz.ts`),
- * never from client-supplied input.
+ * Staff gate: admin, editor or contributor. Delegates to the shared guard and
+ * hands back the caller's RLS-scoped client, which is what the handlers below
+ * pass into the server-only logic.
  */
-async function assertStaff(context: { supabase: any; userId: string }) {
+async function assertStaff(context: AuthedContext) {
   await assertStaffRole(context);
   return context.supabase;
 }
@@ -46,7 +47,7 @@ export const getArticleEditorData = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => idSchema.parse(input))
   .handler(async ({ context, data }) => {
-    const client = await assertStaff(context as never);
+    const client = await assertStaff(context);
     const { loadArticleEditorData } = await import("./articles.server");
     return await loadArticleEditorData(client, data.id);
   });
@@ -55,7 +56,7 @@ export const saveArticle = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => contentSchema.parse(input))
   .handler(async ({ context, data }) => {
-    const client = await assertStaff(context as never);
+    const client = await assertStaff(context);
     const { saveArticleContent } = await import("./articles.server");
     const { id, ...patch } = data;
     return await saveArticleContent(client, id, patch);
@@ -65,7 +66,7 @@ export const changeArticleStatus = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => transitionSchema.parse(input))
   .handler(async ({ context, data }) => {
-    const client = await assertStaff(context as never);
+    const client = await assertStaff(context);
     const { transitionArticle } = await import("./articles.server");
     const { id, ...transition } = data;
     return await transitionArticle(client, id, transition as never);
@@ -75,7 +76,7 @@ export const setArticleFeaturedFlag = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => idSchema.extend({ featured: z.boolean() }).parse(input))
   .handler(async ({ context, data }) => {
-    const client = await assertStaff(context as never);
+    const client = await assertStaff(context);
     const { setArticleFeatured } = await import("./articles.server");
     return await setArticleFeatured(client, data.id, data.featured);
   });
@@ -84,7 +85,7 @@ export const removeArticle = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => idSchema.parse(input))
   .handler(async ({ context, data }) => {
-    const client = await assertStaff(context as never);
+    const client = await assertStaff(context);
     const { deleteArticle } = await import("./articles.server");
     return await deleteArticle(client, data.id);
   });

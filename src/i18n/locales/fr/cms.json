@@ -11,7 +11,10 @@
     "vocabularies": "Vocabulaires",
     "coachFinder": "Coach Finder",
     "members": "Membres",
-    "integration": "Intégration"
+    "integration": "Intégration",
+    "roles": "Rôles",
+    "memberArea": "Espace membre",
+    "insightsCms": "CMS Insights"
   },
   "auth": {
     "signInSub": "Connectez-vous pour continuer",
@@ -548,5 +551,27 @@
       "testimonial_quote": "Témoignage",
       "testimonial_attribution": "Auteur du témoignage"
     }
+  },
+  "roles": {
+    "title": "Rôles",
+    "intro": "Accordez l'accès au CMS Insights à un membre ayant activé son compte. Cet accès s'ajoute à l'adhésion : il ne modifie ni l'espace membre ni le profil de l'annuaire. Les administrateurs sont configurés séparément.",
+    "searchPlaceholder": "Rechercher par nom ou e-mail",
+    "colName": "Membre",
+    "colEmail": "E-mail",
+    "colAccess": "Accès",
+    "grant": "Accorder éditeur",
+    "revoke": "Retirer éditeur",
+    "memberBadge": "Membre",
+    "editorBadge": "Éditeur",
+    "adminRow": "Administrateur",
+    "loading": "Chargement des membres…",
+    "empty": "Aucun compte membre activé pour l'instant.",
+    "loadError": "Impossible de charger les données de rôles.",
+    "saveError": "Impossible d'enregistrer la modification.",
+    "adminOnly": "Seuls les administrateurs peuvent gérer les rôles.",
+    "auditTitle": "Modifications récentes",
+    "auditIntro": "Chaque attribution et retrait est enregistré, avec son auteur.",
+    "auditEmpty": "Aucune modification de rôle enregistrée.",
+    "auditBy": "par"
   }
 }

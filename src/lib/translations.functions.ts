@@ -25,7 +25,7 @@ export const translateArticle = createServerFn({ method: "POST" })
     // Paid AI call: gate on a CMS role, not merely on being signed in. Without
     // this, any authenticated account (e.g. a member) could run up AI spend by
     // translating arbitrary articles; the RLS write-back happens far too late.
-    await assertStaff(context as never);
+    await assertStaff(context);
 
     const { data: article, error } = await supabase
       .from("articles")

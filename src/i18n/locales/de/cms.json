@@ -11,7 +11,10 @@
     "vocabularies": "Vokabulare",
     "coachFinder": "Coach-Finder",
     "members": "Mitglieder",
-    "integration": "Integration"
+    "integration": "Integration",
+    "roles": "Rollen",
+    "memberArea": "Mitgliederbereich",
+    "insightsCms": "Insights-CMS"
   },
   "auth": {
     "signInSub": "Melden Sie sich an, um fortzufahren",
@@ -548,5 +551,27 @@
       "testimonial_quote": "Kundenstimme",
       "testimonial_attribution": "Quelle der Kundenstimme"
     }
+  },
+  "roles": {
+    "title": "Rollen",
+    "intro": "Erteilen Sie einem Mitglied mit aktiviertem Konto Zugang zum Insights-CMS. Dieser Zugang kommt zur Mitgliedschaft hinzu: Mitgliederbereich und Verzeichnisprofil bleiben unverändert. Administratorinnen und Administratoren werden separat eingerichtet.",
+    "searchPlaceholder": "Nach Name oder E-Mail suchen",
+    "colName": "Mitglied",
+    "colEmail": "E-Mail",
+    "colAccess": "Zugang",
+    "grant": "Editor erteilen",
+    "revoke": "Editor entziehen",
+    "memberBadge": "Mitglied",
+    "editorBadge": "Editor",
+    "adminRow": "Administrator",
+    "loading": "Mitglieder werden geladen…",
+    "empty": "Noch keine aktivierten Mitgliederkonten.",
+    "loadError": "Rollendaten konnten nicht geladen werden.",
+    "saveError": "Änderung konnte nicht gespeichert werden.",
+    "adminOnly": "Nur Administratoren können Rollen verwalten.",
+    "auditTitle": "Letzte Änderungen",
+    "auditIntro": "Jede Erteilung und jeder Entzug wird protokolliert, inklusive ausführender Person.",
+    "auditEmpty": "Noch keine Rollenänderungen protokolliert.",
+    "auditBy": "von"
   }
 }
