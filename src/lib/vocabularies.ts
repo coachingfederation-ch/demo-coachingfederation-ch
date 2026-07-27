@@ -79,6 +79,11 @@ export type CoachFinderVocabularies = Record<VocabTable, VocabRow[]>;
 
 /** All lists in one round trip, active rows only — for the public filters. */
 export async function fetchActiveVocabularies(): Promise<CoachFinderVocabularies> {
+  const results = await Promise.all(VOCAB_TABLES.map((t) => fetchVocabulary(t, { activeOnly: true })));
+  return Object.fromEntries(
+    VOCAB_TABLES.map((table, i) => [table, results[i]!]),
+  ) as CoachFinderVocabularies;
+}
 
 /**
  * Years-of-experience bands. A short fixed list rather than a vocabulary
@@ -87,11 +92,6 @@ export async function fetchActiveVocabularies(): Promise<CoachFinderVocabularies
  */
 export const EXPERIENCE_BANDS = ["0-2", "3-5", "6-10", "10+"] as const;
 export type ExperienceBand = (typeof EXPERIENCE_BANDS)[number];
-  const results = await Promise.all(VOCAB_TABLES.map((t) => fetchVocabulary(t, { activeOnly: true })));
-  return Object.fromEntries(
-    VOCAB_TABLES.map((table, i) => [table, results[i]!]),
-  ) as CoachFinderVocabularies;
-}
 
 export type CoachFinderConfig = {
   coaching_enabled: boolean;
