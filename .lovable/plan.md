@@ -1,11 +1,15 @@
+## Current state summary (as of Milestone C)
+
+See `plan-rev6.md` for the delivered Milestone C detail, `plan-rev5.md` for the role model and staff/member split, `plan-rev4.md` for the cutover runbook, and `plan-milestone-b.md` for the directory projection layer.
+
 ## 1. Are the three docs reconciled?
 
 Verified by reading all three in full. **Yes, they are consistent — with two small residues.**
 
 - `plan-rev5.md` explicitly supersedes rev. 4 only on access control/routing, lists what stays unchanged, and adds the binding rule and redirect table.
 - `plan.md` (Milestone B) is marked delivered and correctly places `/members/$id` under `_staff/`, notes the Member Area already exists, and points forward to C → D.
-- Residue A: rev. 4 §4's sentence "`/auth` keeps serving staff CMS sign-in only" is still present in rev. 4's own text; it's corrected only by rev. 5 §6. Fine if rev. 5 is always read alongside, worth an inline "superseded" marker otherwise.
-- Residue B: rev. 4 §6 step 4 still says the purge deletes auth users with no `user_roles` row. Rev. 5 §6 flags that TEST member bindings now *do* carry a role row — but the code (`src/lib/cutover.server.ts`) still implements only the orphan sweep, so the bound test member's `member` role would survive the cutover. Doc-level noted, code-level unfixed.
+- Residue A (now fixed, marked inline in rev. 4): rev. 4 §4's sentence "`/auth` keeps serving staff CMS sign-in only" is still present in rev. 4's own text; it's corrected only by rev. 5 §6. Fine if rev. 5 is always read alongside, worth an inline "superseded" marker otherwise.
+- Residue B (now fixed in code and doc): rev. 4 §6 step 4 still says the purge deletes auth users with no `user_roles` row. Rev. 5 §6 flags that TEST member bindings now *do* carry a role row — but the code (`src/lib/cutover.server.ts`) still implements only the orphan sweep, so the bound test member's `member` role would survive the cutover. Doc-level noted, code-level unfixed.
 
 ## 2. `integration_config` singleton
 
@@ -38,4 +42,4 @@ Let the bound member set their own `cf_regions` multi-select (and languages/spec
 **Step 5 — Milestone D: claim flow completion (still hard-disabled).**
 Build the missing second half — token consumption, set-password page, `member` role grant on completion, expiry/replay handling — behind the same `account_claim_enabled` gate, with no linked UI until the post-cutover human decision. Deliberately last: it depends on the binding rule, on LIVE data existing, and on emails being un-suppressed.
 
-Nothing is implemented yet; tell me which step to start with (or reorder) and I'll build it.
+**Status:** steps 1 and 2 are delivered (see `plan-rev6.md`). Steps 3-5 (Coach Finder swap, Milestone E member-owned service areas, Milestone D claim completion) remain open, in that order.
