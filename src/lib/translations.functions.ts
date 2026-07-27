@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { assertStaff } from "./authz";
 
 const LOCALE_NAMES: Record<string, string> = {
   de: "Swiss Standard German (no ß, use ss)",
@@ -20,6 +21,11 @@ export const translateArticle = createServerFn({ method: "POST" })
   .inputValidator((data) => inputSchema.parse(data))
   .handler(async ({ data, context }) => {
     const { supabase } = context;
+
+    // Paid AI call: gate on a CMS role, not merely on being signed in. Without
+    // this, any authenticated account (e.g. a member) could run up AI spend by
+    // translating arbitrary articles; the RLS write-back happens far too late.
+    await assertStaff(context as never);
 
     const { data: article, error } = await supabase
       .from("articles")
