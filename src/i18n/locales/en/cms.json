@@ -11,8 +11,7 @@
     "vocabularies": "Vocabularies",
     "coachFinder": "Coach Finder",
     "members": "Members",
-    "integration": "Integration",
-    "myProfile": "My coach profile"
+    "integration": "Integration"
   },
   "auth": {
     "signInSub": "Sign in to continue",
@@ -100,7 +99,8 @@
     "languageLocked": "Source language locked after first publication",
     "languageUnlocked": "Source language can be changed until first publication",
     "imageError": "Could not create a link for this image.",
-    "previewEmpty": "Nothing to preview yet — start writing."
+    "previewEmpty": "Nothing to preview yet — start writing.",
+    "contributorNote": "Drafts only — an editor publishes."
   },
   "translations": {
     "title": "Translations",
@@ -408,6 +408,11 @@
     "saving": "Saving…",
     "saved": "Saved.",
     "publish": "Publish profile",
-    "unpublish": "Unpublish"
+    "unpublish": "Unpublish",
+    "areaTitle": "Member Area"
+  },
+  "noAccess": {
+    "title": "No access yet",
+    "body": "Your account is signed in but has no ICF Switzerland workspace or member profile assigned yet. Please contact the chapter office."
   }
 }

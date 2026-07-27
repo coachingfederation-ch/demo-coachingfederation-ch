@@ -11,8 +11,7 @@
     "vocabularies": "Vocabulaires",
     "coachFinder": "Coach Finder",
     "members": "Membres",
-    "integration": "Intégration",
-    "myProfile": "Mon profil de coach"
+    "integration": "Intégration"
   },
   "auth": {
     "signInSub": "Connectez-vous pour continuer",
@@ -100,7 +99,8 @@
     "languageLocked": "Langue source verrouillée après la première publication",
     "languageUnlocked": "La langue source peut être modifiée jusqu'à la première publication",
     "imageError": "Impossible de créer un lien pour cette image.",
-    "previewEmpty": "Rien à prévisualiser pour l'instant — commencez à écrire."
+    "previewEmpty": "Rien à prévisualiser pour l'instant — commencez à écrire.",
+    "contributorNote": "Brouillons uniquement — la publication est faite par la rédaction."
   },
   "translations": {
     "title": "Traductions",
@@ -408,6 +408,11 @@
     "saving": "Enregistrement…",
     "saved": "Enregistré.",
     "publish": "Publier le profil",
-    "unpublish": "Dépublier"
+    "unpublish": "Dépublier",
+    "areaTitle": "Espace membre"
+  },
+  "noAccess": {
+    "title": "Pas encore d'accès",
+    "body": "Votre compte est connecté mais aucun espace de travail ni profil de membre ICF Switzerland ne lui est encore attribué. Merci de contacter le secrétariat du chapitre."
   }
 }
