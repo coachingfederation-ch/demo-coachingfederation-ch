@@ -9,6 +9,7 @@ import {
   SlidersHorizontal,
   Users,
   PlugZap,
+  UserCircle,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
@@ -23,6 +24,7 @@ const nav = [
   { to: "/coach-finder", key: "nav.coachFinder", icon: SlidersHorizontal },
   { to: "/members", key: "nav.members", icon: Users },
   { to: "/integration", key: "nav.integration", icon: PlugZap },
+  { to: "/member", key: "nav.myProfile", icon: UserCircle },
 ] as const;
 
 function Logo({ title }: { title: string }) {

@@ -35,6 +35,7 @@ import { Route as LocaleFindACoachRouteImport } from './routes/$locale/find-a-co
 import { Route as LocaleEventsRouteImport } from './routes/$locale/events'
 import { Route as LocaleAboutRouteImport } from './routes/$locale/about'
 import { Route as AuthenticatedMembersIndexRouteImport } from './routes/_authenticated/members.index'
+import { Route as AuthenticatedMemberIndexRouteImport } from './routes/_authenticated/member.index'
 import { Route as AuthenticatedArticlesIndexRouteImport } from './routes/_authenticated/articles.index'
 import { Route as LocaleInsightsIndexRouteImport } from './routes/$locale/insights.index'
 import { Route as ApiPublicMemberSyncRouteImport } from './routes/api/public/member-sync'
@@ -177,6 +178,12 @@ const AuthenticatedMembersIndexRoute =
     path: '/members/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedMemberIndexRoute =
+  AuthenticatedMemberIndexRouteImport.update({
+    id: '/member/',
+    path: '/member/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedArticlesIndexRoute =
   AuthenticatedArticlesIndexRouteImport.update({
     id: '/',
@@ -254,6 +261,7 @@ export interface FileRoutesByFullPath {
   '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
   '/$locale/insights/': typeof LocaleInsightsIndexRoute
   '/articles/': typeof AuthenticatedArticlesIndexRoute
+  '/member/': typeof AuthenticatedMemberIndexRoute
   '/members/': typeof AuthenticatedMembersIndexRoute
 }
 export interface FileRoutesByTo {
@@ -285,6 +293,7 @@ export interface FileRoutesByTo {
   '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
   '/$locale/insights': typeof LocaleInsightsIndexRoute
   '/articles': typeof AuthenticatedArticlesIndexRoute
+  '/member': typeof AuthenticatedMemberIndexRoute
   '/members': typeof AuthenticatedMembersIndexRoute
 }
 export interface FileRoutesById {
@@ -322,6 +331,7 @@ export interface FileRoutesById {
   '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
   '/$locale/insights/': typeof LocaleInsightsIndexRoute
   '/_authenticated/articles/': typeof AuthenticatedArticlesIndexRoute
+  '/_authenticated/member/': typeof AuthenticatedMemberIndexRoute
   '/_authenticated/members/': typeof AuthenticatedMembersIndexRoute
 }
 export interface FileRouteTypes {
@@ -359,6 +369,7 @@ export interface FileRouteTypes {
     | '/api/public/member-sync'
     | '/$locale/insights/'
     | '/articles/'
+    | '/member/'
     | '/members/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -390,6 +401,7 @@ export interface FileRouteTypes {
     | '/api/public/member-sync'
     | '/$locale/insights'
     | '/articles'
+    | '/member'
     | '/members'
   id:
     | '__root__'
@@ -426,6 +438,7 @@ export interface FileRouteTypes {
     | '/api/public/member-sync'
     | '/$locale/insights/'
     | '/_authenticated/articles/'
+    | '/_authenticated/member/'
     | '/_authenticated/members/'
   fileRoutesById: FileRoutesById
 }
@@ -628,6 +641,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMembersIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/member/': {
+      id: '/_authenticated/member/'
+      path: '/member'
+      fullPath: '/member/'
+      preLoaderRoute: typeof AuthenticatedMemberIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/articles/': {
       id: '/_authenticated/articles/'
       path: '/'
@@ -750,6 +770,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedIntegrationRoute: typeof AuthenticatedIntegrationRoute
   AuthenticatedVocabulariesRoute: typeof AuthenticatedVocabulariesRoute
   AuthenticatedMembersIdRoute: typeof AuthenticatedMembersIdRoute
+  AuthenticatedMemberIndexRoute: typeof AuthenticatedMemberIndexRoute
   AuthenticatedMembersIndexRoute: typeof AuthenticatedMembersIndexRoute
 }
 
@@ -759,6 +780,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedIntegrationRoute: AuthenticatedIntegrationRoute,
   AuthenticatedVocabulariesRoute: AuthenticatedVocabulariesRoute,
   AuthenticatedMembersIdRoute: AuthenticatedMembersIdRoute,
+  AuthenticatedMemberIndexRoute: AuthenticatedMemberIndexRoute,
   AuthenticatedMembersIndexRoute: AuthenticatedMembersIndexRoute,
 }
 
