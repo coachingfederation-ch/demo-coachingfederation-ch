@@ -1017,6 +1017,54 @@ export type Database = {
           },
         ]
       }
+      member_profile_websites: {
+        Row: {
+          created_at: string
+          id: string
+          label: string | null
+          link_type: string
+          profile_id: string
+          sort_order: number
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          label?: string | null
+          link_type?: string
+          profile_id: string
+          sort_order?: number
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          label?: string | null
+          link_type?: string
+          profile_id?: string
+          sort_order?: number
+          updated_at?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_profile_websites_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "coach_directory_public"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "member_profile_websites_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "member_directory_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       member_sync_events: {
         Row: {
           actor_user_id: string | null
@@ -1378,6 +1426,11 @@ export type Database = {
       }
       member_is_directory_eligible: {
         Args: { _member_id: string }
+        Returns: boolean
+      }
+      member_owns_profile: { Args: { _profile_id: string }; Returns: boolean }
+      member_owns_storage_folder: {
+        Args: { _folder: string }
         Returns: boolean
       }
     }

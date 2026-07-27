@@ -4,7 +4,12 @@ import { ArrowLeft, Check, X } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { useCms } from "@/i18n/cms";
 import { supabase } from "@/integrations/supabase/client";
-import { getMemberDetail, updateMemberDirectory } from "@/lib/members.functions";
+import {
+  bindMemberAccount,
+  getMemberDetail,
+  unbindMemberAccount,
+  updateMemberDirectory,
+} from "@/lib/members.functions";
 import { VOCAB_COLUMNS, vocabLabel, type VocabRow } from "@/lib/vocabularies";
 import {
   directoryEligibilityReason,
@@ -63,6 +68,9 @@ function MemberDetailPage() {
   const [supervision, setSupervision] = useState(false);
   const [status, setStatus] = useState<"idle" | "saving" | "saved">("idle");
   const [error, setError] = useState<string | null>(null);
+  const [bindEmail, setBindEmail] = useState("");
+  const [bindBusy, setBindBusy] = useState(false);
+  const [bindError, setBindError] = useState<string | null>(null);
 
   const applyDetail = (next: Detail) => {
     setDetail(next);
@@ -128,6 +136,23 @@ function MemberDetailPage() {
         .filter(Boolean)
         .join(", ")
     : "";
+
+  // Staff-support binding. Deliberately separate from the future member-initiated
+  // claim flow: manual, admin-only and audited, for controlled testing.
+  const runBinding = async (action: "bind" | "unbind") => {
+    setBindBusy(true);
+    setBindError(null);
+    try {
+      if (action === "bind") await bindMemberAccount({ data: { memberId: id, email: bindEmail } });
+      else await unbindMemberAccount({ data: { memberId: id } });
+      applyDetail(await getMemberDetail({ data: { memberId: id } }));
+      setBindEmail("");
+    } catch (err) {
+      setBindError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setBindBusy(false);
+    }
+  };
 
   return (
     <Shell>
@@ -281,6 +306,47 @@ function MemberDetailPage() {
                 </div>
               </>
             )}
+
+            <section className="mt-5 rounded-2xl border border-dashed border-border bg-card p-5">
+              <h2 className="text-sm font-semibold">{t("members.detail.bindTitle")}</h2>
+              <p className="mt-1 text-xs text-muted-foreground">{t("members.detail.bindNote")}</p>
+              <p className="mt-3 text-sm">
+                {t("members.detail.bindCurrent")}:{" "}
+                <strong>
+                  {detail.member.auth_user_id ? detail.member.auth_user_id : t("members.detail.bindNone")}
+                </strong>
+              </p>
+              {detail.member.auth_user_id ? (
+                <button
+                  type="button"
+                  disabled={bindBusy}
+                  onClick={() => void runBinding("unbind")}
+                  className="mt-3 rounded-full border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary disabled:opacity-50"
+                >
+                  {t("members.detail.unbind")}
+                </button>
+              ) : (
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  <input
+                    type="email"
+                    value={bindEmail}
+                    onChange={(e) => setBindEmail(e.target.value)}
+                    placeholder={t("members.detail.bindPlaceholder")}
+                    aria-label={t("members.detail.bindPlaceholder")}
+                    className="min-w-0 flex-1 rounded-lg border border-border bg-background px-3 py-1.5 text-sm"
+                  />
+                  <button
+                    type="button"
+                    disabled={bindBusy || !bindEmail}
+                    onClick={() => void runBinding("bind")}
+                    className="rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground disabled:opacity-50"
+                  >
+                    {t("members.detail.bind")}
+                  </button>
+                </div>
+              )}
+              {bindError ? <p className="mt-2 text-xs text-destructive">{bindError}</p> : null}
+            </section>
           </>
         )}
       </div>
