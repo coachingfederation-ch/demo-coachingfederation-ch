@@ -16,14 +16,23 @@ import { assertAdmin } from "./authz";
 
 const memberIdSchema = z.object({ memberId: z.string().uuid() });
 
-/** Claimed members with their current CMS grant, plus recent grant history. */
+/**
+ * Claimed members with their current CMS grant, the internal (non-member)
+ * privileged accounts, and recent grant history.
+ */
 export const listRoleAdminData = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertAdmin(context);
-    const { listClaimedMemberRoles, listRoleGrantAudit } = await import("./roles-admin.server");
-    const [members, audit] = await Promise.all([listClaimedMemberRoles(), listRoleGrantAudit()]);
-    return { members, audit };
+    const { listClaimedMemberRoles, listInternalStaffAccounts, listRoleGrantAudit } = await import(
+      "./roles-admin.server"
+    );
+    const [members, internal, audit] = await Promise.all([
+      listClaimedMemberRoles(),
+      listInternalStaffAccounts(),
+      listRoleGrantAudit(),
+    ]);
+    return { members, internal, audit };
   });
 
 /** Adds Insights CMS access to a claimed member. Membership is untouched. */

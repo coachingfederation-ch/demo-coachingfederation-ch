@@ -86,6 +86,13 @@ export async function listRoleGrantAudit(limit = 50): Promise<RoleGrantEntry[]> 
     if (row.actor_user_id) ids.add(row.actor_user_id as string);
   }
   const names = await namesByAuthUser([...ids]);
+  // Internal admins have no member/profile name; fall back to their email so
+  // the history never shows a raw UUID.
+  const unnamed = [...ids].filter((id) => !names.has(id));
+  if (unnamed.length) {
+    const emails = await emailsByAuthUser(unnamed);
+    for (const [id, email] of emails) names.set(id, email);
+  }
 
   return (data ?? []).map((row) => ({
     id: row.id as string,
