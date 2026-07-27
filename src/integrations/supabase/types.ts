@@ -220,6 +220,45 @@ export type Database = {
         }
         Relationships: []
       }
+      cf_client_types: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          name_de: string | null
+          name_fr: string | null
+          name_it: string | null
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       cf_credentials: {
         Row: {
           created_at: string
@@ -585,55 +624,88 @@ export type Database = {
       }
       member_directory_profiles: {
         Row: {
+          approach: string | null
+          availability_note: string | null
           availability_slug: string | null
+          booking_url: string | null
           coaching_available: boolean
+          contact_email_public: boolean
           created_at: string
           description: string | null
+          experience_band: string | null
+          fees_note: string | null
           id: string
           linkedin_url: string | null
           member_id: string
           mentor_accredited: boolean
           mentoring_available: boolean
           profile_image_path: string | null
+          qualifications: string | null
+          response_time_note: string | null
+          session_length_note: string | null
           supervision_accredited: boolean
           supervision_available: boolean
           tagline: string | null
+          testimonial_attribution: string | null
+          testimonial_quote: string | null
           updated_at: string
           visibility: Database["public"]["Enums"]["member_visibility"]
           website_url: string | null
         }
         Insert: {
+          approach?: string | null
+          availability_note?: string | null
           availability_slug?: string | null
+          booking_url?: string | null
           coaching_available?: boolean
+          contact_email_public?: boolean
           created_at?: string
           description?: string | null
+          experience_band?: string | null
+          fees_note?: string | null
           id?: string
           linkedin_url?: string | null
           member_id: string
           mentor_accredited?: boolean
           mentoring_available?: boolean
           profile_image_path?: string | null
+          qualifications?: string | null
+          response_time_note?: string | null
+          session_length_note?: string | null
           supervision_accredited?: boolean
           supervision_available?: boolean
           tagline?: string | null
+          testimonial_attribution?: string | null
+          testimonial_quote?: string | null
           updated_at?: string
           visibility?: Database["public"]["Enums"]["member_visibility"]
           website_url?: string | null
         }
         Update: {
+          approach?: string | null
+          availability_note?: string | null
           availability_slug?: string | null
+          booking_url?: string | null
           coaching_available?: boolean
+          contact_email_public?: boolean
           created_at?: string
           description?: string | null
+          experience_band?: string | null
+          fees_note?: string | null
           id?: string
           linkedin_url?: string | null
           member_id?: string
           mentor_accredited?: boolean
           mentoring_available?: boolean
           profile_image_path?: string | null
+          qualifications?: string | null
+          response_time_note?: string | null
+          session_length_note?: string | null
           supervision_accredited?: boolean
           supervision_available?: boolean
           tagline?: string | null
+          testimonial_attribution?: string | null
+          testimonial_quote?: string | null
           updated_at?: string
           visibility?: Database["public"]["Enums"]["member_visibility"]
           website_url?: string | null
@@ -805,6 +877,46 @@ export type Database = {
             columns: ["member_id"]
             isOneToOne: true
             referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_profile_client_types: {
+        Row: {
+          client_type_id: string
+          created_at: string
+          profile_id: string
+        }
+        Insert: {
+          client_type_id: string
+          created_at?: string
+          profile_id: string
+        }
+        Update: {
+          client_type_id?: string
+          created_at?: string
+          profile_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_profile_client_types_client_type_id_fkey"
+            columns: ["client_type_id"]
+            isOneToOne: false
+            referencedRelation: "cf_client_types"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_profile_client_types_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "coach_directory_public"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "member_profile_client_types_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "member_directory_profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -1384,13 +1496,20 @@ export type Database = {
     Views: {
       coach_directory_public: {
         Row: {
+          approach: string | null
+          availability_note: string | null
           availability_slug: string | null
+          booking_url: string | null
           city: string | null
+          client_type_slugs: string[] | null
           coaching_available: boolean | null
+          contact_email: string | null
           country: string | null
           credential_awarded_on: string | null
           credential_slug: string | null
           description: string | null
+          experience_band: string | null
+          fees_note: string | null
           format_slugs: string[] | null
           full_name: string | null
           has_directory_credential: boolean | null
@@ -1405,12 +1524,17 @@ export type Database = {
           organisation: string | null
           profile_id: string | null
           profile_image_path: string | null
+          qualifications: string | null
           region_slugs: string[] | null
+          response_time_note: string | null
           services: string[] | null
+          session_length_note: string | null
           specialisation_slugs: string[] | null
           supervision_accredited: boolean | null
           supervision_available: boolean | null
           tagline: string | null
+          testimonial_attribution: string | null
+          testimonial_quote: string | null
           updated_at: string | null
           website_url: string | null
         }

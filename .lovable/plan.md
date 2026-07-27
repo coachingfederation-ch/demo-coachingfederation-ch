@@ -1,58 +1,112 @@
-## Confirmation of current state (verified)
+## 1. Where we are today vs. the production profile
 
-- **Settings are admin-only today.** `/_staff/coach-finder` writes `coaching_enabled` / `mentoring_enabled` / `supervision_enabled` and their labels to `coach_finder_config`. `src/components/coaches/directory.tsx` never reads that table — it only reads the six vocabularies — so nothing on `/find-a-coach` reacts to the toggles.
-- **No data/model changes are needed.** The `coach_directory_public` view already exposes a `services` text array derived from `coaching_available` / `mentoring_available` / `supervision_available`, and `queryCoachDirectory` already accepts and applies a `services` filter (`overlaps`). `coach_finder_config` already has a public read policy for `anon`, and `fetchCoachFinderConfig()` already exists in `src/lib/vocabularies.ts`. This is purely missing UI wiring.
-- **Proposed connection:** the public page reads the same config row, derives the list of active modes, renders a switcher only when more than one is active, and passes the selected mode's slug as the `services` filter to the existing server function. Mode lives in the URL so it is shareable and back/forward works.
+I rendered three things: our current `/coach/:id` page, the attached mock, and the live production profile.
 
-## What to build
+| | Current portal profile | Production profile (coachingfederation.ch) | Attached mock |
+|---|---|---|---|
+| Header | Small card in a sidebar, square photo | Full-width tinted hero, round photo, name + role + website, two contact buttons | Hero band with initials/photo, name, credential, role, location, languages, availability, two CTAs |
+| Intro | Tagline line | Role line under the name | Role line + meta row |
+| About | Plain paragraph | "About Me" card with read-more | "About Marie", two paragraphs |
+| How the coaching works | — | — | "How I work" — three numbered steps |
+| Training / qualifications | — | "Training Qualifications & Experience" | "Credentials & training" list with years |
+| Specialisations / formats / languages / regions | Chip rows | Sidebar lists | Chips + sidebar facts |
+| Experience level | — | "My Experience": credential + years band | Credential + "since 2016" |
+| Client types | — | "Type Of Client": organisational / personal | — |
+| Availability / lead time | Accepting / waitlist dot | "Availability: typically two weeks" | Availability line |
+| Fees | — | "Fees" free text + "Average price" band | — |
+| Contact / booking | Website + LinkedIn links only | "Message Me", "Call Me", "Book a Meeting With Me", email | "Book an intro call", "Send a message", reply-time note |
+| Social proof | — | Reviews with star ratings | One pull quote |
+| Trust note | Small note at the bottom | — | Credential + Code of Ethics note in the sidebar |
 
-**1. Mode source (no hardcoded tabs)**
+Summary: our data model is already correct for *search* (facets), but thin for a *decision* page. The three real gaps are: no way to contact or book, no depth about the coach's practice (approach, training, experience, fees), and no social proof.
 
-Add a small helper in `src/lib/vocabularies.ts`:
+## 2. Recommended additional fields (all optional)
 
-```ts
-export type FinderMode = { slug: "coaching" | "mentoring" | "supervision"; label: string };
-export function activeFinderModes(config: CoachFinderConfig | null): FinderMode[]
+Deliberately small, member-owned, no free-form HTML:
+
+**Contact & conversion**
+- `booking_url` — "Book an intro call" (https only, same validation as existing links)
+- `contact_email_public` (boolean) — opt-in to show the ICF-held email as a mailto CTA; we never expose email without this flag
+- `response_time_note` — short text, e.g. "usually replies within 2 business days"
+
+**Practice depth**
+- `approach` — free text, "How I work" (rendered as paragraphs; the mock's 01/02/03 steps come from splitting on blank lines, no new structure needed)
+- `qualifications` — free text list, "Training & qualifications"
+- `experience_band` — enum-ish slug (`0-2`, `3-5`, `6-10`, `10+`), mirrors production's "My Experience"
+- `session_length_note` — short text, e.g. "60–90 min"
+- `fees_note` — free text, "Fees"
+- `availability_note` — short text, "typically two weeks"
+
+**Social proof**
+- `testimonial_quote` + `testimonial_attribution` — one optional pull quote. Not a reviews system: no ratings, no moderation queue, no user-generated submissions.
+
+**New facet (follows the existing vocabulary pattern)**
+- `cf_client_types` vocabulary + `member_profile_client_types` join — "Organisational / Personal / Team". This is the only addition that is also filterable, and it matches the production profile's "Type Of Client".
+
+Deliberately **not** adding: reviews/ratings, price ranges as numeric filters, multiple locations (regions already cover this), calendar integration, messaging inbox.
+
+## 3. Schema changes
+
+One migration:
+
+```text
+ALTER member_directory_profiles
+  ADD booking_url, contact_email_public, response_time_note,
+      approach, qualifications, experience_band,
+      session_length_note, fees_note, availability_note,
+      testimonial_quote, testimonial_attribution   -- all nullable
+
+CREATE cf_client_types            (same shape as cf_formats: slug, name, name_de/fr/it, sort_order, is_active)
+CREATE member_profile_client_types (profile_id, client_type_id)   + GRANTs + RLS mirroring member_profile_formats
+
+REPLACE VIEW coach_directory_public
+  -> add the new columns, plus client_type_slugs aggregate,
+     and expose email ONLY as: CASE WHEN contact_email_public THEN m.email END
 ```
 
-It maps enabled flags to `{ slug, label }` using the configured label strings, in the fixed order coaching → mentoring → supervision. The public page renders whatever this returns — adding/renaming a mode in settings is the only place tabs change.
+Everything stays nullable, so no existing profile changes behaviour and the directory listing query is untouched.
 
-**2. Public switcher in `src/components/coaches/directory.tsx`**
+## 4. Redesigned public profile page
 
-- New `useQuery(["coach-finder-config"], fetchCoachFinderConfig)` alongside the existing vocabularies query, same 5-minute `staleTime`.
-- New `ModeTabs` sub-component: a segmented control rendered as `role="tablist"` with `role="tab"` / `aria-selected` buttons, styled with the site's pill + `CARD_SHADOW` language (rounded-full track, active pill in `bg-primary text-primary-foreground`, inactive `text-muted-foreground`) rather than the prototype's underline tabs, per the site style rule. Keyboard arrow-key navigation between tabs.
-- Rendered above the results column, spanning the grid, so it reads as a page-level control.
-- **Rendered only when `activeFinderModes(...).length > 1`.** Zero or one active mode renders nothing.
+Composition follows the mock; palette, type and card/shadow treatments stay exactly as the current design system (Goal Tracker: lavender background, indigo hero, teal accent, Inter, `CARD_SHADOW`, `eyebrow`, `btn-mono`).
 
-**3. Wiring mode into search behavior**
+```text
+┌──────────────────────────────────────────────────────────┐
+│ indigo hero band                                          │
+│  ← Back to search                                         │
+│  ◯ photo   Marie Dubois  [ACC]                            │
+│            Executive & leadership coach                   │
+│            Genève · in person & online · FR · EN          │
+│            ● Accepting new clients      [Book] [Email]    │
+└──────────────────────────────────────────────────────────┘
+  ┌────────────────────────────┐  ┌────────────────────────┐
+  │ About                      │  │ WORK WITH …            │
+  │ How I work (01/02/03)      │  │ Format · Session ·     │
+  │ Specialisations  (chips)   │  │ Languages · Availability│
+  │ Client types     (chips)   │  │ Response time          │
+  │ Training & qualifications  │  │ [Book an intro call]   │
+  │ “pull quote” — attribution │  │ [Send a message]       │
+  │ Fees                       │  │ ── credential + Code   │
+  │ Service areas    (chips)   │  │    of Ethics note      │
+  └────────────────────────────┘  └────────────────────────┘
+```
 
-- Selected mode slug is added to the `filters` memo as `services: [mode]`, so the existing server-side `overlaps("services", …)` does the filtering. When exactly one mode is active it is still applied as a filter (so the result set is correct) even though no tabs are shown.
-- Changing mode resets `page` to 0 and clears the facet selections that are mode-specific (specialisations, credentials), matching the prototype's `setState({ tab, credentials: [], specialties: [] })`. Region/language/free-text persist.
-- `clearAll()` clears filters but keeps the current mode (mode is navigation, not a filter).
+Empty-state behaviour is the core requirement: every block is conditional. A profile with only name, credential and regions renders as a clean hero + a compact sidebar with no gaps or empty headings — the sidebar collapses to just the credential/ethics note, and the main column shows only what exists. I'll verify this by rendering a minimal profile and a fully-populated one side by side.
 
-**4. URL / query state**
+## 5. Member editing
 
-- Add `validateSearch` with `zodValidator` + `fallback` to both `src/routes/find-a-coach.tsx` and `src/routes/$locale/find-a-coach.tsx`: `{ mode: fallback(z.string(), "").default("") }`.
-- The directory reads it via `useSearch({ strict: false })` and writes with `navigate({ search: prev => ({ ...prev, mode }) })`. An empty or unrecognised `?mode=` falls back to the first active mode, so an old link to a since-disabled mode degrades gracefully instead of showing an empty list.
-
-**5. Copy reflected consistently**
-
-New keys in the four `directory.json` files (EN/DE/FR/IT):
-
-- `modes.aria` — accessible label for the tablist.
-- `results.manyMode` / `results.oneMode` — result count phrased with the mode label, e.g. "18 coaches" vs "3 mentors"; falls back to the existing generic strings when no mode is resolvable.
-- `results.emptyModeBody` — empty-state line that names the active mode ("No {mode} match your filters yet — try widening canton or specialisation.").
-
-The tab labels themselves are **not** translated in JSON: they come from the admin-configured label fields, as requested.
+`MemberProfileEditor` gains one new collapsible "Practice details" section (approach, qualifications, experience, session, fees, availability, response time), one "Contact & booking" section (booking URL, show-my-email toggle), one "Testimonial" section, and a client-types chip group alongside the existing facet groups. Same save path, same character limits and sanitising as `tagline`/`description`; `booking_url` reuses the https-only link rule.
 
 ## Technical notes
 
-- No migration, no view change, no new columns. The `services` array and its filter path already exist and are exercised by the server function's schema.
-- Mode ordering and label text are owned entirely by `coach_finder_config`; the component contains no mode literals beyond the three slug names the view emits.
-- Config fetch failure degrades to "no tabs, no services filter" — the directory keeps working exactly as today.
+- `PublicCoachProfile` in `src/lib/directory.functions.ts` extends with the new columns; `queryCoachDirectory` (listing) keeps its current projection so search is untouched.
+- Email is only ever selected through the `contact_email_public` CASE in the view — the public path can't leak it, and the "Send a message" CTA is a plain `mailto:` (no inbox, no spam surface beyond what the member opted into).
+- `experience_band` and client types are slugs, so they're translation-ready via the existing `vocabLabel` mechanism; member free text stays untranslated, as with tagline/description today.
+- New i18n keys added to `directory.json` and `cms.json` in EN/DE/FR/IT.
+- Verification: Playwright render of a fully-populated profile, a minimal profile, and mobile width; plus a search regression check on `/find-a-coach`.
 
-## Verification
+## Follow-ups (not in this change)
 
-- Toggle each mode in `/coach-finder` settings and confirm the public page shows 0, 2, or 3 tabs accordingly, with renamed labels appearing immediately after a reload.
-- Switch tabs and confirm the URL gains `?mode=mentoring`, the result count and empty-state copy name the mode, pagination resets, and a reload restores the same tab.
-- Confirm the single-mode case renders no tab strip but still filters results to that service.
+- Real reviews with moderation, if the chapter wants parity with production.
+- Structured "locations" if regions ever prove too coarse.
+- Profile completeness meter in the Member Area to nudge members to fill the new fields before launch.

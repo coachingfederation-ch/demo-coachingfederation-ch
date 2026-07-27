@@ -83,6 +83,22 @@
     "links": "Links",
     "notFoundTitle": "This coach profile is unavailable",
     "notFoundBody": "The profile may have been unpublished. Browse the directory to find another credentialed coach.",
-    "metaFallback": "{name} is an ICF-credentialed coach listed in the ICF Switzerland directory."
+    "metaFallback": "{name} is an ICF-credentialed coach listed in the ICF Switzerland directory.",
+    "approach": "How I work",
+    "clientTypes": "Who I work with",
+    "qualifications": "Credentials & training",
+    "fees": "Fees",
+    "session": "Session length",
+    "experience": "Experience",
+    "availability": "Availability",
+    "book": "Book a session",
+    "message": "Send a message",
+    "workWith": "Working with {name}",
+    "experienceBands": {
+      "0-2": "0–2 years",
+      "3-5": "3–5 years",
+      "6-10": "6–10 years",
+      "10+": "10+ years"
+    }
   }
 }

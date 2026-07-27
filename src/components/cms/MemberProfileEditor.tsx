@@ -11,6 +11,7 @@ import { useCms } from "@/i18n/cms";
 import {
   fetchActiveVocabularies,
   vocabLabel,
+  EXPERIENCE_BANDS,
   type CoachFinderVocabularies,
   type VocabRow,
 } from "@/lib/vocabularies";
@@ -21,9 +22,41 @@ const PHOTO_SIZE = 512;
 const DESCRIPTION_MAX = 3000;
 const TAGLINE_MAX = 160;
 const LINKS_MAX = 6;
+const RICH_TEXT_MAX = 2000;
+const NOTE_MAX = 120;
+const QUOTE_MAX = 400;
 
 type Profile = NonNullable<Awaited<ReturnType<typeof getMyMemberProfile>>>;
 type LinkDraft = { link_type: "website" | "linkedin" | "other"; label: string; url: string };
+
+/** The optional free-text practice fields, kept as one flat draft object. */
+type PracticeDraft = {
+  approach: string;
+  qualifications: string;
+  experience_band: string;
+  session_length_note: string;
+  fees_note: string;
+  availability_note: string;
+  response_time_note: string;
+  booking_url: string;
+  contact_email_public: boolean;
+  testimonial_quote: string;
+  testimonial_attribution: string;
+};
+
+const EMPTY_PRACTICE: PracticeDraft = {
+  approach: "",
+  qualifications: "",
+  experience_band: "",
+  session_length_note: "",
+  fees_note: "",
+  availability_note: "",
+  response_time_note: "",
+  booking_url: "",
+  contact_email_public: false,
+  testimonial_quote: "",
+  testimonial_attribution: "",
+};
 
 function initialsOf(name: string | null): string {
   const parts = (name ?? "").trim().split(/\s+/).filter(Boolean);
@@ -101,6 +134,77 @@ function Section({ title, note, children }: { title: string; note?: string; chil
   );
 }
 
+/** Labelled single-line field used by the practice/contact sections. */
+function Field({
+  id,
+  label,
+  value,
+  onChange,
+  max,
+  placeholder,
+  type = "text",
+}: {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  max: number;
+  placeholder?: string;
+  type?: string;
+}) {
+  return (
+    <div className="mt-4">
+      <label className="block text-xs font-semibold text-muted-foreground" htmlFor={id}>
+        {label}
+      </label>
+      <input
+        id={id}
+        type={type}
+        value={value}
+        maxLength={max}
+        placeholder={placeholder}
+        onChange={(e) => onChange(e.target.value)}
+        className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+      />
+    </div>
+  );
+}
+
+function TextArea({
+  id,
+  label,
+  note,
+  value,
+  onChange,
+  max,
+  rows = 5,
+}: {
+  id: string;
+  label: string;
+  note?: string;
+  value: string;
+  onChange: (value: string) => void;
+  max: number;
+  rows?: number;
+}) {
+  return (
+    <div className="mt-4">
+      <label className="block text-xs font-semibold text-muted-foreground" htmlFor={id}>
+        {label}
+      </label>
+      {note ? <p className="mt-1 text-xs text-muted-foreground">{note}</p> : null}
+      <textarea
+        id={id}
+        value={value}
+        rows={rows}
+        maxLength={max}
+        onChange={(e) => onChange(e.target.value)}
+        className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+      />
+    </div>
+  );
+}
+
 export function MemberProfileEditor() {
   const { t, locale } = useCms();
   const [data, setData] = useState<Profile | null | "unbound">(null);
@@ -114,7 +218,9 @@ export function MemberProfileEditor() {
     language_ids: [] as string[],
     format_ids: [] as string[],
     specialisation_ids: [] as string[],
+    client_type_ids: [] as string[],
   });
+  const [practice, setPractice] = useState<PracticeDraft>(EMPTY_PRACTICE);
   const [links, setLinks] = useState<LinkDraft[]>([]);
   const [imagePath, setImagePath] = useState<string | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -138,6 +244,20 @@ export function MemberProfileEditor() {
       language_ids: p?.language_ids ?? [],
       format_ids: p?.format_ids ?? [],
       specialisation_ids: p?.specialisation_ids ?? [],
+      client_type_ids: p?.client_type_ids ?? [],
+    });
+    setPractice({
+      approach: p?.approach ?? "",
+      qualifications: p?.qualifications ?? "",
+      experience_band: p?.experience_band ?? "",
+      session_length_note: p?.session_length_note ?? "",
+      fees_note: p?.fees_note ?? "",
+      availability_note: p?.availability_note ?? "",
+      response_time_note: p?.response_time_note ?? "",
+      booking_url: p?.booking_url ?? "",
+      contact_email_public: p?.contact_email_public ?? false,
+      testimonial_quote: p?.testimonial_quote ?? "",
+      testimonial_attribution: p?.testimonial_attribution ?? "",
     });
     setLinks(
       (p?.links ?? []).map((l) => ({ link_type: l.link_type, label: l.label ?? "", url: l.url })),
@@ -209,6 +329,17 @@ export function MemberProfileEditor() {
           supervision_available: services.supervision,
           profile_image_path: imagePath,
           ...facets,
+          approach: practice.approach || null,
+          qualifications: practice.qualifications || null,
+          experience_band: (practice.experience_band || null) as never,
+          session_length_note: practice.session_length_note || null,
+          fees_note: practice.fees_note || null,
+          availability_note: practice.availability_note || null,
+          response_time_note: practice.response_time_note || null,
+          booking_url: practice.booking_url.trim() || null,
+          contact_email_public: practice.contact_email_public,
+          testimonial_quote: practice.testimonial_quote || null,
+          testimonial_attribution: practice.testimonial_attribution || null,
           links: links
             .filter((l) => l.url.trim().startsWith("https://"))
             .map((l) => ({ link_type: l.link_type, label: l.label || null, url: l.url.trim() })),
@@ -433,6 +564,130 @@ export function MemberProfileEditor() {
           selected={facets.specialisation_ids}
           onToggle={toggle("specialisation_ids")}
           locale={locale}
+        />
+      </Section>
+
+      <Section title={t("member.clientTypesTitle")} note={t("member.clientTypesNote")}>
+        <Chips
+          rows={vocab?.cf_client_types ?? []}
+          selected={facets.client_type_ids}
+          onToggle={toggle("client_type_ids")}
+          locale={locale}
+        />
+      </Section>
+
+      <Section title={t("member.practiceTitle")} note={t("member.practiceNote")}>
+        <TextArea
+          id="approach"
+          label={t("member.approach")}
+          note={t("member.approachNote")}
+          value={practice.approach}
+          onChange={(v) => setPractice((p) => ({ ...p, approach: v }))}
+          max={RICH_TEXT_MAX}
+          rows={6}
+        />
+        <TextArea
+          id="qualifications"
+          label={t("member.qualifications")}
+          note={t("member.qualificationsNote")}
+          value={practice.qualifications}
+          onChange={(v) => setPractice((p) => ({ ...p, qualifications: v }))}
+          max={RICH_TEXT_MAX}
+        />
+        <div className="mt-4">
+          <label className="block text-xs font-semibold text-muted-foreground" htmlFor="experience">
+            {t("member.experienceBand")}
+          </label>
+          <select
+            id="experience"
+            value={practice.experience_band}
+            onChange={(e) => setPractice((p) => ({ ...p, experience_band: e.target.value }))}
+            className="mt-1 rounded-lg border border-border bg-background px-3 py-2 text-sm"
+          >
+            <option value="">{t("member.availabilityNone")}</option>
+            {EXPERIENCE_BANDS.map((band) => (
+              <option key={band} value={band}>
+                {t(`member.experienceBands.${band}`)}
+              </option>
+            ))}
+          </select>
+        </div>
+        <Field
+          id="session-length"
+          label={t("member.sessionLength")}
+          value={practice.session_length_note}
+          onChange={(v) => setPractice((p) => ({ ...p, session_length_note: v }))}
+          max={NOTE_MAX}
+          placeholder={t("member.sessionLengthPlaceholder")}
+        />
+        <Field
+          id="availability-note"
+          label={t("member.availabilityNote")}
+          value={practice.availability_note}
+          onChange={(v) => setPractice((p) => ({ ...p, availability_note: v }))}
+          max={NOTE_MAX}
+          placeholder={t("member.availabilityNotePlaceholder")}
+        />
+        <TextArea
+          id="fees"
+          label={t("member.fees")}
+          note={t("member.feesNote")}
+          value={practice.fees_note}
+          onChange={(v) => setPractice((p) => ({ ...p, fees_note: v }))}
+          max={RICH_TEXT_MAX}
+          rows={4}
+        />
+      </Section>
+
+      <Section title={t("member.contactTitle")} note={t("member.contactNote")}>
+        <Field
+          id="booking-url"
+          label={t("member.bookingUrl")}
+          value={practice.booking_url}
+          onChange={(v) => setPractice((p) => ({ ...p, booking_url: v }))}
+          max={250}
+          placeholder="https://"
+        />
+        <Field
+          id="response-time"
+          label={t("member.responseTime")}
+          value={practice.response_time_note}
+          onChange={(v) => setPractice((p) => ({ ...p, response_time_note: v }))}
+          max={NOTE_MAX}
+          placeholder={t("member.responseTimePlaceholder")}
+        />
+        <label className="mt-4 flex items-start gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={practice.contact_email_public}
+            onChange={(e) => setPractice((p) => ({ ...p, contact_email_public: e.target.checked }))}
+            className="mt-1"
+          />
+          <span>
+            {t("member.showEmail")}
+            {member?.email ? (
+              <span className="block text-xs text-muted-foreground">{member.email}</span>
+            ) : null}
+          </span>
+        </label>
+      </Section>
+
+      <Section title={t("member.testimonialTitle")} note={t("member.testimonialNote")}>
+        <TextArea
+          id="testimonial"
+          label={t("member.testimonialQuote")}
+          value={practice.testimonial_quote}
+          onChange={(v) => setPractice((p) => ({ ...p, testimonial_quote: v }))}
+          max={QUOTE_MAX}
+          rows={4}
+        />
+        <Field
+          id="testimonial-attribution"
+          label={t("member.testimonialAttribution")}
+          value={practice.testimonial_attribution}
+          onChange={(v) => setPractice((p) => ({ ...p, testimonial_attribution: v }))}
+          max={NOTE_MAX}
+          placeholder={t("member.testimonialAttributionPlaceholder")}
         />
       </Section>
 
