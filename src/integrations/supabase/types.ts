@@ -493,6 +493,658 @@ export type Database = {
         }
         Relationships: []
       }
+      integration_config: {
+        Row: {
+          account_claim_enabled: boolean
+          created_at: string
+          cutover_completed_at: string | null
+          cutover_completed_by: string | null
+          cutover_in_progress: boolean
+          email_redirect_to: string | null
+          emails_suppressed: boolean
+          feed_drop_threshold_pct: number
+          grace_period_days: number
+          id: boolean
+          last_failed_sync_at: string | null
+          last_successful_sync_at: string | null
+          last_sync_error: string | null
+          last_sync_run_id: string | null
+          mode: Database["public"]["Enums"]["integration_mode"]
+          soap_endpoint_key: string
+          updated_at: string
+        }
+        Insert: {
+          account_claim_enabled?: boolean
+          created_at?: string
+          cutover_completed_at?: string | null
+          cutover_completed_by?: string | null
+          cutover_in_progress?: boolean
+          email_redirect_to?: string | null
+          emails_suppressed?: boolean
+          feed_drop_threshold_pct?: number
+          grace_period_days?: number
+          id?: boolean
+          last_failed_sync_at?: string | null
+          last_successful_sync_at?: string | null
+          last_sync_error?: string | null
+          last_sync_run_id?: string | null
+          mode?: Database["public"]["Enums"]["integration_mode"]
+          soap_endpoint_key?: string
+          updated_at?: string
+        }
+        Update: {
+          account_claim_enabled?: boolean
+          created_at?: string
+          cutover_completed_at?: string | null
+          cutover_completed_by?: string | null
+          cutover_in_progress?: boolean
+          email_redirect_to?: string | null
+          emails_suppressed?: boolean
+          feed_drop_threshold_pct?: number
+          grace_period_days?: number
+          id?: boolean
+          last_failed_sync_at?: string | null
+          last_successful_sync_at?: string | null
+          last_sync_error?: string | null
+          last_sync_run_id?: string | null
+          mode?: Database["public"]["Enums"]["integration_mode"]
+          soap_endpoint_key?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      member_archive_snapshots: {
+        Row: {
+          created_at: string
+          id: string
+          label: string
+          payload: Json
+          reason: string
+          table_counts: Json
+          taken_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          label: string
+          payload: Json
+          reason?: string
+          table_counts?: Json
+          taken_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          label?: string
+          payload?: Json
+          reason?: string
+          table_counts?: Json
+          taken_by?: string | null
+        }
+        Relationships: []
+      }
+      member_directory_profiles: {
+        Row: {
+          availability_slug: string | null
+          coaching_available: boolean
+          created_at: string
+          description: string | null
+          id: string
+          linkedin_url: string | null
+          member_id: string
+          mentor_accredited: boolean
+          mentoring_available: boolean
+          profile_image_path: string | null
+          supervision_accredited: boolean
+          supervision_available: boolean
+          tagline: string | null
+          updated_at: string
+          visibility: Database["public"]["Enums"]["member_visibility"]
+          website_url: string | null
+        }
+        Insert: {
+          availability_slug?: string | null
+          coaching_available?: boolean
+          created_at?: string
+          description?: string | null
+          id?: string
+          linkedin_url?: string | null
+          member_id: string
+          mentor_accredited?: boolean
+          mentoring_available?: boolean
+          profile_image_path?: string | null
+          supervision_accredited?: boolean
+          supervision_available?: boolean
+          tagline?: string | null
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["member_visibility"]
+          website_url?: string | null
+        }
+        Update: {
+          availability_slug?: string | null
+          coaching_available?: boolean
+          created_at?: string
+          description?: string | null
+          id?: string
+          linkedin_url?: string | null
+          member_id?: string
+          mentor_accredited?: boolean
+          mentoring_available?: boolean
+          profile_image_path?: string | null
+          supervision_accredited?: boolean
+          supervision_available?: boolean
+          tagline?: string | null
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["member_visibility"]
+          website_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_directory_profiles_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: true
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_email_log: {
+        Row: {
+          actual_recipient: string | null
+          created_at: string
+          error_message: string | null
+          id: string
+          intended_recipient: string
+          member_id: string | null
+          mode: Database["public"]["Enums"]["integration_mode"]
+          status: string
+          template_key: string
+        }
+        Insert: {
+          actual_recipient?: string | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          intended_recipient: string
+          member_id?: string | null
+          mode: Database["public"]["Enums"]["integration_mode"]
+          status: string
+          template_key: string
+        }
+        Update: {
+          actual_recipient?: string | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          intended_recipient?: string
+          member_id?: string | null
+          mode?: Database["public"]["Enums"]["integration_mode"]
+          status?: string
+          template_key?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_email_log_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_import_snapshots: {
+        Row: {
+          changed_fields: string[]
+          created_at: string
+          cst_recno: string
+          id: string
+          member_id: string | null
+          normalized_payload: Json
+          sync_run_id: string
+        }
+        Insert: {
+          changed_fields?: string[]
+          created_at?: string
+          cst_recno: string
+          id?: string
+          member_id?: string | null
+          normalized_payload: Json
+          sync_run_id: string
+        }
+        Update: {
+          changed_fields?: string[]
+          created_at?: string
+          cst_recno?: string
+          id?: string
+          member_id?: string | null
+          normalized_payload?: Json
+          sync_run_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_import_snapshots_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_import_snapshots_sync_run_id_fkey"
+            columns: ["sync_run_id"]
+            isOneToOne: false
+            referencedRelation: "member_sync_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_lifecycle_queue: {
+        Row: {
+          created_at: string
+          entered_grace_at: string
+          id: string
+          member_id: string
+          notified_at: string | null
+          resolution: string | null
+          resolved_at: string | null
+          scheduled_deletion_at: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          entered_grace_at?: string
+          id?: string
+          member_id: string
+          notified_at?: string | null
+          resolution?: string | null
+          resolved_at?: string | null
+          scheduled_deletion_at: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          entered_grace_at?: string
+          id?: string
+          member_id?: string
+          notified_at?: string | null
+          resolution?: string | null
+          resolved_at?: string | null
+          scheduled_deletion_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_lifecycle_queue_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: true
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_profile_formats: {
+        Row: {
+          created_at: string
+          format_id: string
+          profile_id: string
+        }
+        Insert: {
+          created_at?: string
+          format_id: string
+          profile_id: string
+        }
+        Update: {
+          created_at?: string
+          format_id?: string
+          profile_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_profile_formats_format_id_fkey"
+            columns: ["format_id"]
+            isOneToOne: false
+            referencedRelation: "cf_formats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_profile_formats_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "member_directory_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_profile_languages: {
+        Row: {
+          created_at: string
+          language_id: string
+          profile_id: string
+        }
+        Insert: {
+          created_at?: string
+          language_id: string
+          profile_id: string
+        }
+        Update: {
+          created_at?: string
+          language_id?: string
+          profile_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_profile_languages_language_id_fkey"
+            columns: ["language_id"]
+            isOneToOne: false
+            referencedRelation: "cf_languages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_profile_languages_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "member_directory_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_profile_links: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          email: string
+          expires_at: string | null
+          id: string
+          member_id: string
+          requested_at: string
+          status: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          email: string
+          expires_at?: string | null
+          id?: string
+          member_id: string
+          requested_at?: string
+          status?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          email?: string
+          expires_at?: string | null
+          id?: string
+          member_id?: string
+          requested_at?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_profile_links_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_profile_regions: {
+        Row: {
+          created_at: string
+          profile_id: string
+          region_id: string
+        }
+        Insert: {
+          created_at?: string
+          profile_id: string
+          region_id: string
+        }
+        Update: {
+          created_at?: string
+          profile_id?: string
+          region_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_profile_regions_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "member_directory_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_profile_regions_region_id_fkey"
+            columns: ["region_id"]
+            isOneToOne: false
+            referencedRelation: "cf_regions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_profile_specialisations: {
+        Row: {
+          created_at: string
+          profile_id: string
+          specialisation_id: string
+        }
+        Insert: {
+          created_at?: string
+          profile_id: string
+          specialisation_id: string
+        }
+        Update: {
+          created_at?: string
+          profile_id?: string
+          specialisation_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_profile_specialisations_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "member_directory_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_profile_specialisations_specialisation_id_fkey"
+            columns: ["specialisation_id"]
+            isOneToOne: false
+            referencedRelation: "cf_specialisations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_sync_events: {
+        Row: {
+          actor_user_id: string | null
+          created_at: string
+          cst_recno: string | null
+          details: Json
+          event_type: string
+          id: string
+          member_id: string | null
+          message: string | null
+          severity: string
+          sync_run_id: string | null
+        }
+        Insert: {
+          actor_user_id?: string | null
+          created_at?: string
+          cst_recno?: string | null
+          details?: Json
+          event_type: string
+          id?: string
+          member_id?: string | null
+          message?: string | null
+          severity?: string
+          sync_run_id?: string | null
+        }
+        Update: {
+          actor_user_id?: string | null
+          created_at?: string
+          cst_recno?: string | null
+          details?: Json
+          event_type?: string
+          id?: string
+          member_id?: string | null
+          message?: string | null
+          severity?: string
+          sync_run_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_sync_events_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_sync_events_sync_run_id_fkey"
+            columns: ["sync_run_id"]
+            isOneToOne: false
+            referencedRelation: "member_sync_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_sync_runs: {
+        Row: {
+          created_at: string
+          created_count: number
+          deactivated_count: number
+          error_message: string | null
+          feed_member_count: number | null
+          finished_at: string | null
+          id: string
+          mode: Database["public"]["Enums"]["integration_mode"]
+          started_at: string
+          status: Database["public"]["Enums"]["sync_run_status"]
+          trigger_source: string
+          triggered_by: string | null
+          updated_count: number
+        }
+        Insert: {
+          created_at?: string
+          created_count?: number
+          deactivated_count?: number
+          error_message?: string | null
+          feed_member_count?: number | null
+          finished_at?: string | null
+          id?: string
+          mode: Database["public"]["Enums"]["integration_mode"]
+          started_at?: string
+          status?: Database["public"]["Enums"]["sync_run_status"]
+          trigger_source?: string
+          triggered_by?: string | null
+          updated_count?: number
+        }
+        Update: {
+          created_at?: string
+          created_count?: number
+          deactivated_count?: number
+          error_message?: string | null
+          feed_member_count?: number | null
+          finished_at?: string | null
+          id?: string
+          mode?: Database["public"]["Enums"]["integration_mode"]
+          started_at?: string
+          status?: Database["public"]["Enums"]["sync_run_status"]
+          trigger_source?: string
+          triggered_by?: string | null
+          updated_count?: number
+        }
+        Relationships: []
+      }
+      members: {
+        Row: {
+          activity_state: Database["public"]["Enums"]["member_activity_state"]
+          anonymized_at: string | null
+          auth_user_id: string | null
+          city: string | null
+          country: string | null
+          created_at: string
+          credential_slug: string | null
+          cst_recno: string
+          diagnostics: Json
+          email: string | null
+          first_name: string | null
+          full_name: string | null
+          id: string
+          inactive_since: string | null
+          last_name: string | null
+          last_sync_run_id: string | null
+          last_synced_at: string | null
+          member_type: string | null
+          membership_expiration_date: string | null
+          membership_join_date: string | null
+          organisation: string | null
+          phone: string | null
+          scheduled_deletion_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          activity_state?: Database["public"]["Enums"]["member_activity_state"]
+          anonymized_at?: string | null
+          auth_user_id?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          credential_slug?: string | null
+          cst_recno: string
+          diagnostics?: Json
+          email?: string | null
+          first_name?: string | null
+          full_name?: string | null
+          id?: string
+          inactive_since?: string | null
+          last_name?: string | null
+          last_sync_run_id?: string | null
+          last_synced_at?: string | null
+          member_type?: string | null
+          membership_expiration_date?: string | null
+          membership_join_date?: string | null
+          organisation?: string | null
+          phone?: string | null
+          scheduled_deletion_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          activity_state?: Database["public"]["Enums"]["member_activity_state"]
+          anonymized_at?: string | null
+          auth_user_id?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          credential_slug?: string | null
+          cst_recno?: string
+          diagnostics?: Json
+          email?: string | null
+          first_name?: string | null
+          full_name?: string | null
+          id?: string
+          inactive_since?: string | null
+          last_name?: string | null
+          last_sync_run_id?: string | null
+          last_synced_at?: string | null
+          member_type?: string | null
+          membership_expiration_date?: string | null
+          membership_join_date?: string | null
+          organisation?: string | null
+          phone?: string | null
+          scheduled_deletion_at?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "members_last_sync_run_id_fkey"
+            columns: ["last_sync_run_id"]
+            isOneToOne: false
+            referencedRelation: "member_sync_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organisation_survey_responses: {
         Row: {
           answers: Json
@@ -610,6 +1262,14 @@ export type Database = {
       app_role: "admin" | "editor" | "user"
       article_lang: "en" | "fr" | "de" | "it"
       article_status: "draft" | "scheduled" | "published" | "unpublished"
+      integration_mode: "test" | "live"
+      member_activity_state: "active" | "inactive" | "grace" | "anonymized"
+      member_visibility:
+        | "draft"
+        | "published"
+        | "hidden_inactive"
+        | "hidden_admin"
+      sync_run_status: "running" | "succeeded" | "failed" | "aborted"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -740,6 +1400,15 @@ export const Constants = {
       app_role: ["admin", "editor", "user"],
       article_lang: ["en", "fr", "de", "it"],
       article_status: ["draft", "scheduled", "published", "unpublished"],
+      integration_mode: ["test", "live"],
+      member_activity_state: ["active", "inactive", "grace", "anonymized"],
+      member_visibility: [
+        "draft",
+        "published",
+        "hidden_inactive",
+        "hidden_admin",
+      ],
+      sync_run_status: ["running", "succeeded", "failed", "aborted"],
     },
   },
 } as const
