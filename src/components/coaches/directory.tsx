@@ -8,13 +8,18 @@
  */
 import { useMemo, useState } from "react";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { CARD_SHADOW } from "@/components/site-chrome";
 import { LocaleLink, useI18n } from "@/i18n";
 import { queryCoachDirectory, type DirectoryEntry } from "@/lib/directory.functions";
 import {
+  activeFinderModes,
+  fetchCoachFinderConfig,
   fetchActiveVocabularies,
   vocabLabel,
+  type CoachFinderConfig,
   type CoachFinderVocabularies,
+  type FinderMode,
   type VocabRow,
 } from "@/lib/vocabularies";
 
