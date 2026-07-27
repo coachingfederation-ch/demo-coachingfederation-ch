@@ -10,8 +10,10 @@
 import { fallback } from "@tanstack/zod-adapter";
 import { z } from "zod";
 
+// Optional with no default: an absent mode must leave the URL untouched
+// (a default would make the router rewrite `/find-a-coach` to `?mode=`).
 export const finderSearchSchema = z.object({
-  mode: fallback(z.string(), "").default(""),
+  mode: fallback(z.string().optional(), undefined),
 });
 
 export type FinderSearch = z.infer<typeof finderSearchSchema>;
