@@ -2,8 +2,10 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { landingPathForSession } from "@/lib/roles";
+import { safeNext } from "@/lib/safe-next";
 
 export const Route = createFileRoute("/auth/callback")({
+  validateSearch: (search: Record<string, unknown>) => ({ next: safeNext(search.next) }),
   head: () => ({
     meta: [
       { title: "Signing in…" },
@@ -15,6 +17,7 @@ export const Route = createFileRoute("/auth/callback")({
 
 function AuthCallback() {
   const navigate = useNavigate();
+  const { next } = Route.useSearch();
 
   useEffect(() => {
     let cancelled = false;
@@ -22,6 +25,12 @@ function AuthCallback() {
     let timer: ReturnType<typeof setTimeout> | null = null;
     // Where a signed-in user lands is decided by their ROLES, never by email.
     const go = async (userId: string | null) => {
+      // A preserved return target (OAuth consent, invite links) wins over the
+      // usual role-based landing page.
+      if (userId && next) {
+        window.location.href = next;
+        return;
+      }
       const path = userId ? await landingPathForSession(userId) : "/auth";
       if (!cancelled) navigate({ to: path, replace: true });
     };
@@ -46,7 +55,7 @@ function AuthCallback() {
       if (timer) clearTimeout(timer);
       unsubscribe?.();
     };
-  }, [navigate]);
+  }, [navigate, next]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background text-sm text-muted-foreground">
