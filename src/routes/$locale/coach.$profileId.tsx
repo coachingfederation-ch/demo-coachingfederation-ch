@@ -6,7 +6,9 @@ import type { Locale } from "@/i18n/config";
 
 export const Route = createFileRoute("/$locale/coach/$profileId")({
   loader: async ({ params }) => {
-    const profile = await getPublicCoachProfile({ data: { profileId: params.profileId } });
+    const profile = await getPublicCoachProfile({
+      data: { profileId: params.profileId, locale: params.locale as Locale },
+    });
     if (!profile) throw notFound();
     return { profile };
   },

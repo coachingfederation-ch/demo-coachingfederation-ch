@@ -506,5 +506,46 @@
       "already_claimed": "An account already exists for this membership.",
       "account_exists": "An account already exists for this email address. Please sign in instead."
     }
+  },
+  "profileTranslations": {
+    "title": "Profile languages",
+    "hint": "Your profile is written in one main language. Add other languages only if you want to — nothing is translated automatically.",
+    "primaryLabel": "Main language",
+    "primaryHint": "Visitors see this language whenever no translation is published for theirs.",
+    "primaryLocked": "Remove all translations before changing the main language.",
+    "translate": "Translate with AI",
+    "refresh": "Re-translate",
+    "working": "Working…",
+    "open": "Edit",
+    "close": "Close",
+    "save": "Save translation",
+    "saved": "Translation saved.",
+    "publish": "Publish this language",
+    "unpublish": "Unpublish",
+    "remove": "Delete",
+    "confirmOverwrite": "This language has manual edits. Re-translating will overwrite them. Continue?",
+    "confirmRemove": "Delete this translation? Visitors will see your main language instead.",
+    "source": "Main language text",
+    "outdatedHint": "You changed your profile after this translation was made. Re-translate it or review and save it.",
+    "failed": "Translation failed. Please try again.",
+    "states": {
+      "missing": "Not created",
+      "auto_draft": "Auto-translated draft",
+      "edited_draft": "Edited draft",
+      "published": "Published",
+      "outdated": "Outdated"
+    },
+    "fields": {
+      "tagline": "Tagline",
+      "description": "About",
+      "approach": "How I work",
+      "qualifications": "Credentials & training",
+      "fees_note": "Fees",
+      "session_length_note": "Session length",
+      "availability_note": "Availability",
+      "response_time_note": "Response time",
+      "testimonial_quote": "Testimonial",
+      "testimonial_attribution": "Testimonial attribution"
+    }
   }
 }

@@ -30,5 +30,11 @@
   },
   "form": {
     "emailLabel": "Indirizzo e-mail"
+  },
+  "languageNames": {
+    "de": "tedesco",
+    "fr": "francese",
+    "it": "italiano",
+    "en": "inglese"
   }
 }

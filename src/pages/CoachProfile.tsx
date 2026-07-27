@@ -259,6 +259,10 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
   const clientTypes = (profile.client_type_slugs ?? []).map(clientTypeLabel);
 
   const bookingUrl = profile.booking_url;
+  // Display language: the profile falls back to its authoring language whenever
+  // the visitor's language has no published translation.
+  const resolvedLocale = profile.resolvedLocale ?? profile.primary_locale ?? "en";
+  const showFallbackNotice = resolvedLocale !== locale;
   const contactEmail = profile.contact_email;
   const hasCta = Boolean(bookingUrl || contactEmail);
   const experience = profile.experience_band
@@ -297,6 +301,15 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
           >
             ← {t("directory.detail.back")}
           </LocaleLink>
+
+          {showFallbackNotice && (
+            <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-hero-foreground/10 px-3 py-1.5 text-xs font-medium text-hero-foreground/90">
+              {t("directory.detail.languageFallback").replace(
+                "{language}",
+                t(`common.languageNames.${resolvedLocale}`),
+              )}
+            </p>
+          )}
 
           <div className="mt-8 grid grid-cols-[minmax(0,1fr)] items-start gap-8 sm:grid-cols-[auto_minmax(0,1fr)]">
             <CoachAvatar

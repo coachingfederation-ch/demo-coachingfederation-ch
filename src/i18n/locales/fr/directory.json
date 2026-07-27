@@ -99,6 +99,7 @@
       "3-5": "3–5 ans",
       "6-10": "6–10 ans",
       "10+": "10+ ans"
-    }
+    },
+    "languageFallback": "Affiché en {language} — ce coach n'a pas encore publié de version dans votre langue."
   }
 }

@@ -506,5 +506,46 @@
       "already_claimed": "Un compte existe déjà pour cette adhésion.",
       "account_exists": "Un compte existe déjà pour cette adresse e-mail. Veuillez vous connecter."
     }
+  },
+  "profileTranslations": {
+    "title": "Langues du profil",
+    "hint": "Votre profil est rédigé dans une langue principale. N'ajoutez d'autres langues que si vous le souhaitez — rien n'est traduit automatiquement.",
+    "primaryLabel": "Langue principale",
+    "primaryHint": "Les visiteurs voient cette langue tant qu'aucune traduction n'est publiée dans la leur.",
+    "primaryLocked": "Supprimez toutes les traductions avant de changer la langue principale.",
+    "translate": "Traduire avec l'IA",
+    "refresh": "Retraduire",
+    "working": "En cours…",
+    "open": "Modifier",
+    "close": "Fermer",
+    "save": "Enregistrer la traduction",
+    "saved": "Traduction enregistrée.",
+    "publish": "Publier cette langue",
+    "unpublish": "Dépublier",
+    "remove": "Supprimer",
+    "confirmOverwrite": "Cette langue contient des modifications manuelles. Une nouvelle traduction les écrasera. Continuer ?",
+    "confirmRemove": "Supprimer cette traduction ? Les visiteurs verront votre langue principale.",
+    "source": "Texte en langue principale",
+    "outdatedHint": "Vous avez modifié votre profil après cette traduction. Retraduisez-la ou relisez-la puis enregistrez.",
+    "failed": "Échec de la traduction. Veuillez réessayer.",
+    "states": {
+      "missing": "Non créée",
+      "auto_draft": "Brouillon traduit par IA",
+      "edited_draft": "Brouillon modifié",
+      "published": "Publiée",
+      "outdated": "Obsolète"
+    },
+    "fields": {
+      "tagline": "Accroche",
+      "description": "À propos",
+      "approach": "Ma façon de travailler",
+      "qualifications": "Titres et formation",
+      "fees_note": "Tarifs",
+      "session_length_note": "Durée des séances",
+      "availability_note": "Disponibilité",
+      "response_time_note": "Délai de réponse",
+      "testimonial_quote": "Témoignage",
+      "testimonial_attribution": "Auteur du témoignage"
+    }
   }
 }

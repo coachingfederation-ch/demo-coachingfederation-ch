@@ -16,6 +16,7 @@ import {
   type VocabRow,
 } from "@/lib/vocabularies";
 import { getMyMemberProfile, saveMyMemberProfile } from "@/lib/member-profile.functions";
+import { ProfileTranslationsPanel } from "@/components/member/ProfileTranslationsPanel";
 import { publishBlockReason } from "@/lib/directory-eligibility";
 import { PROFILE_IMAGE_BUCKET, PROFILE_IMAGE_PREVIEW_TTL_SECONDS } from "@/lib/storage";
 
@@ -755,6 +756,8 @@ export function MemberProfileEditor() {
           </button>
         ) : null}
       </Section>
+
+      <ProfileTranslationsPanel />
 
       <Section title={t("member.publicationTitle")} note={t("member.publicationNote")}>
         <p className="mt-2 text-sm">
