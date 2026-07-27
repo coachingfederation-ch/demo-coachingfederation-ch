@@ -160,6 +160,7 @@ export const issueMemberClaimLink = createServerFn({ method: "POST" })
  * Staff-support account binding (admin only). Separate from the future
  * member-initiated claim flow — this is testing/support tooling.
  */
+
 export const bindMemberAccount = createServerFn({ method: "POST" })
   .inputValidator((input) =>
     z.object({ memberId: z.string().uuid(), email: z.string().email().max(320) }).parse(input),
