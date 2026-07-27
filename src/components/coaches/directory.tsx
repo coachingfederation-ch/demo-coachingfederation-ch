@@ -622,7 +622,9 @@ export function CoachDirectory() {
                 {t("directory.results.emptyTitle")}
               </p>
               <p className="mt-2 text-sm text-muted-foreground">
-                {t("directory.results.emptyBody")}
+                {modeLabel
+                  ? t("directory.results.emptyModeBody").replace("{mode}", modeLabel)
+                  : t("directory.results.emptyBody")}
               </p>
             </div>
           )}
