@@ -3,8 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Download, Search } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { useCms } from "@/i18n/cms";
-import { supabase } from "@/integrations/supabase/client";
-import { exportMembersCsv, getMemberClaimStatuses } from "@/lib/members.functions";
+import { exportMembersCsv, getMemberClaimStatuses, listMembers } from "@/lib/members.functions";
 import { directoryEligibilityReason } from "@/lib/directory-eligibility";
 
 export const Route = createFileRoute("/_staff/members/")({
@@ -59,18 +58,12 @@ function MembersPage() {
   const [exporting, setExporting] = useState(false);
 
   useEffect(() => {
-    supabase
-      .from("members")
-      .select(
-        "id, cst_recno, full_name, email, city, credential_slug, credential_expires_on, activity_state, last_synced_at",
-      )
-      .order("last_name", { ascending: true })
-      .limit(2000)
-      .then(({ data, error: err }) => {
-        if (err) setError(err.message);
-        else setRows((data ?? []) as MemberRow[]);
-        setLoading(false);
-      });
+    // Contact details are not readable by the browser client (column grants),
+    // so the list is served by a staff-guarded server function.
+    listMembers()
+      .then((data) => setRows((data ?? []) as MemberRow[]))
+      .catch((err) => setError(err instanceof Error ? err.message : String(err)))
+      .finally(() => setLoading(false));
   }, []);
 
   // Claim readiness is admin-only data; non-admin staff simply see "—".

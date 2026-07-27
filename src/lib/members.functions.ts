@@ -1,7 +1,16 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { assertAdmin } from "./authz";
+import { assertAdmin, assertStaff } from "./authz";
+
+/** Staff members list, including contact details the public role cannot read. */
+export const listMembers = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertStaff(context as never);
+    const { listMembersForStaff } = await import("./member-admin.server");
+    return await listMembersForStaff();
+  });
 
 /** Manual sync run (admin). Uses whichever mode integration_config is in. */
 export const runSyncNow = createServerFn({ method: "POST" })
