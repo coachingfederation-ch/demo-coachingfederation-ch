@@ -25,6 +25,14 @@ not as something to work around.
 A cron job (`icf-member-sync-daily`, 03:15 UTC) calls
 `/api/public/member-sync`, which runs `member-sync.server.ts`:
 
+The endpoint authenticates the caller with a dedicated token in the
+`x-cron-token` header. The token lives in exactly two places: the
+`MEMBER_SYNC_CRON_TOKEN` server env var, and `private.app_config` (key
+`member_sync_cron_token`), which the cron job reads when it builds the request.
+It is deliberately **not** the Supabase publishable key — that key is shipped to
+every browser, so using it would let anyone on the internet trigger a full ICF
+re-sync. To rotate: update the `private.app_config` row and the env var together.
+
 1. Pull the member feed over SOAP from netFORUM xWeb.
 2. **Feed sanity check.** If the record count has dropped by more than
    `feed_drop_threshold_pct` against the previous successful run, abort without
