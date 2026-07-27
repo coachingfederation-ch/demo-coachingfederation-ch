@@ -24,6 +24,11 @@ import {
 export const DESCRIPTION_MAX = 3000;
 export const TAGLINE_MAX = 160;
 export const LINKS_MAX = 6;
+/** Longer free-text practice fields (approach, qualifications, fees). */
+export const RICH_TEXT_MAX = 2000;
+/** One-line notes (session length, availability, response time). */
+export const NOTE_MAX = 120;
+export const QUOTE_MAX = 400;
 
 export type MemberProfileLink = {
   id: string;
@@ -59,10 +64,22 @@ export type MyMemberProfile = {
     supervision_available: boolean;
     mentor_accredited: boolean;
     supervision_accredited: boolean;
+    booking_url: string | null;
+    contact_email_public: boolean;
+    response_time_note: string | null;
+    approach: string | null;
+    qualifications: string | null;
+    experience_band: string | null;
+    session_length_note: string | null;
+    fees_note: string | null;
+    availability_note: string | null;
+    testimonial_quote: string | null;
+    testimonial_attribution: string | null;
     region_ids: string[];
     language_ids: string[];
     format_ids: string[];
     specialisation_ids: string[];
+    client_type_ids: string[];
     links: MemberProfileLink[];
   } | null;
 };
@@ -71,13 +88,14 @@ const MEMBER_COLUMNS =
   "id, cst_recno, full_name, email, city, country, credential_slug, credential_expires_on, membership_expiration_date, activity_state";
 
 const PROFILE_COLUMNS =
-  "id, visibility, tagline, description, profile_image_path, availability_slug, coaching_available, mentoring_available, supervision_available, mentor_accredited, supervision_accredited";
+  "id, visibility, tagline, description, profile_image_path, availability_slug, coaching_available, mentoring_available, supervision_available, mentor_accredited, supervision_accredited, booking_url, contact_email_public, response_time_note, approach, qualifications, experience_band, session_length_note, fees_note, availability_note, testimonial_quote, testimonial_attribution";
 
 const JOINS = [
   { table: "member_profile_regions", column: "region_id", key: "region_ids" },
   { table: "member_profile_languages", column: "language_id", key: "language_ids" },
   { table: "member_profile_formats", column: "format_id", key: "format_ids" },
   { table: "member_profile_specialisations", column: "specialisation_id", key: "specialisation_ids" },
+  { table: "member_profile_client_types", column: "client_type_id", key: "client_type_ids" },
 ] as const;
 
 /** The member record bound to this auth account, or null when unbound. */
@@ -107,6 +125,7 @@ export async function loadMyMemberProfile(userId: string): Promise<MyMemberProfi
     language_ids: [],
     format_ids: [],
     specialisation_ids: [],
+    client_type_ids: [],
   };
   let links: MemberProfileLink[] = [];
 
