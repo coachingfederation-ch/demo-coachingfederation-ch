@@ -7,7 +7,9 @@
     "role": "Editor",
     "signedIn": "Signed in",
     "workspace": "Insights CMS",
-    "language": "Interface language"
+    "language": "Interface language",
+    "vocabularies": "Vocabularies",
+    "coachFinder": "Coach Finder"
   },
   "auth": {
     "signInSub": "Sign in to continue",
@@ -175,5 +177,54 @@
     "terms": "Photos provided by Unsplash. Attribution is added automatically.",
     "creditPrefix": "Photo by",
     "creditSuffix": "on Unsplash"
+  },
+  "vocab": {
+    "title": "Coach Finder vocabularies",
+    "subtitle": "Manage the filter lists used by the coach directory. Deactivate a term instead of deleting it if it may already be in use.",
+    "namePlaceholder": "New term (English)",
+    "add": "Add",
+    "empty": "No terms yet.",
+    "active": "Active",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "delete": "Delete term",
+    "confirmDelete": "Delete this term? Deactivating it is usually safer.",
+    "localeNames": "Translations",
+    "slug": "Code",
+    "tables": {
+      "regions": "Regions",
+      "specialisations": "Specialisations",
+      "credentials": "Credentials",
+      "formats": "Formats",
+      "languages": "Languages",
+      "availability": "Availability"
+    }
+  },
+  "finder": {
+    "title": "Coach Finder settings",
+    "subtitle": "Which finder modes are live, how results are shown, and technical limits used by the member sync.",
+    "loading": "Loading…",
+    "saved": "Saved",
+    "modes": "Finder modes",
+    "label": "Label",
+    "display": "Display",
+    "defaultSort": "Default sort",
+    "tunables": "Technical limits",
+    "facets": {
+      "coaching": "Coaching",
+      "mentoring": "Mentoring",
+      "supervision": "Supervision"
+    },
+    "sort": {
+      "name": "Name",
+      "credential": "Credential",
+      "recent": "Recently updated"
+    },
+    "numbers": {
+      "pageSize": "Results per page",
+      "feedDrop": "Member feed drop threshold (%)",
+      "retention": "Import history retention (months)",
+      "csvCap": "CSV export row limit"
+    }
   }
 }

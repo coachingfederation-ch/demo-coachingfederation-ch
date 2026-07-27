@@ -7,7 +7,9 @@
     "role": "Redaktor:in",
     "signedIn": "Angemeldet",
     "workspace": "Insights CMS",
-    "language": "Schnittstellensprache"
+    "language": "Schnittstellensprache",
+    "vocabularies": "Vokabulare",
+    "coachFinder": "Coach-Finder"
   },
   "auth": {
     "signInSub": "Melden Sie sich an, um fortzufahren",
@@ -175,5 +177,54 @@
     "terms": "Fotos bereitgestellt von Unsplash. Quellenangabe wird automatisch hinzugefügt.",
     "creditPrefix": "Foto von",
     "creditSuffix": "auf Unsplash"
+  },
+  "vocab": {
+    "title": "Coach-Finder-Vokabulare",
+    "subtitle": "Verwalte die Filterlisten des Coach-Verzeichnisses. Deaktiviere einen Begriff, statt ihn zu löschen, wenn er bereits verwendet wird.",
+    "namePlaceholder": "Neuer Begriff (Englisch)",
+    "add": "Hinzufügen",
+    "empty": "Noch keine Begriffe.",
+    "active": "Aktiv",
+    "moveUp": "Nach oben",
+    "moveDown": "Nach unten",
+    "delete": "Begriff löschen",
+    "confirmDelete": "Diesen Begriff löschen? Deaktivieren ist meist sicherer.",
+    "localeNames": "Übersetzungen",
+    "slug": "Code",
+    "tables": {
+      "regions": "Regionen",
+      "specialisations": "Spezialisierungen",
+      "credentials": "Zertifizierungen",
+      "formats": "Formate",
+      "languages": "Sprachen",
+      "availability": "Verfügbarkeit"
+    }
+  },
+  "finder": {
+    "title": "Coach-Finder-Einstellungen",
+    "subtitle": "Welche Suchmodi aktiv sind, wie Resultate erscheinen und technische Limiten für die Mitglieder-Synchronisation.",
+    "loading": "Wird geladen…",
+    "saved": "Gespeichert",
+    "modes": "Suchmodi",
+    "label": "Bezeichnung",
+    "display": "Darstellung",
+    "defaultSort": "Standardsortierung",
+    "tunables": "Technische Limiten",
+    "facets": {
+      "coaching": "Coaching",
+      "mentoring": "Mentoring",
+      "supervision": "Supervision"
+    },
+    "sort": {
+      "name": "Name",
+      "credential": "Zertifizierung",
+      "recent": "Zuletzt aktualisiert"
+    },
+    "numbers": {
+      "pageSize": "Resultate pro Seite",
+      "feedDrop": "Schwelle für Rückgang im Mitglieder-Feed (%)",
+      "retention": "Aufbewahrung des Importverlaufs (Monate)",
+      "csvCap": "Maximale Zeilen im CSV-Export"
+    }
   }
 }

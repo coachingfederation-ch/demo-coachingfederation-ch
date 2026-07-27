@@ -24,6 +24,8 @@ import { Route as InsightsIndexRouteImport } from './routes/insights.index'
 import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
 import { Route as InsightsIdRouteImport } from './routes/insights.$id'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
+import { Route as AuthenticatedVocabulariesRouteImport } from './routes/_authenticated/vocabularies'
+import { Route as AuthenticatedCoachFinderRouteImport } from './routes/_authenticated/coach-finder'
 import { Route as AuthenticatedArticlesRouteImport } from './routes/_authenticated/articles'
 import { Route as LocaleInsightsRouteImport } from './routes/$locale/insights'
 import { Route as LocaleForOrganisationsRouteImport } from './routes/$locale/for-organisations'
@@ -112,6 +114,18 @@ const AuthCallbackRoute = AuthCallbackRouteImport.update({
   path: '/callback',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthenticatedVocabulariesRoute =
+  AuthenticatedVocabulariesRouteImport.update({
+    id: '/vocabularies',
+    path: '/vocabularies',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCoachFinderRoute =
+  AuthenticatedCoachFinderRouteImport.update({
+    id: '/coach-finder',
+    path: '/coach-finder',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedArticlesRoute = AuthenticatedArticlesRouteImport.update({
   id: '/articles',
   path: '/articles',
@@ -199,6 +213,8 @@ export interface FileRoutesByFullPath {
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
   '/articles': typeof AuthenticatedArticlesRouteWithChildren
+  '/coach-finder': typeof AuthenticatedCoachFinderRoute
+  '/vocabularies': typeof AuthenticatedVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/insights/$id': typeof InsightsIdRoute
   '/$locale/': typeof LocaleIndexRoute
@@ -224,6 +240,8 @@ export interface FileRoutesByTo {
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
+  '/coach-finder': typeof AuthenticatedCoachFinderRoute
+  '/vocabularies': typeof AuthenticatedVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/insights/$id': typeof InsightsIdRoute
   '/$locale': typeof LocaleIndexRoute
@@ -255,6 +273,8 @@ export interface FileRoutesById {
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
   '/_authenticated/articles': typeof AuthenticatedArticlesRouteWithChildren
+  '/_authenticated/coach-finder': typeof AuthenticatedCoachFinderRoute
+  '/_authenticated/vocabularies': typeof AuthenticatedVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/insights/$id': typeof InsightsIdRoute
   '/$locale/': typeof LocaleIndexRoute
@@ -286,6 +306,8 @@ export interface FileRouteTypes {
     | '/$locale/for-organisations'
     | '/$locale/insights'
     | '/articles'
+    | '/coach-finder'
+    | '/vocabularies'
     | '/auth/callback'
     | '/insights/$id'
     | '/$locale/'
@@ -311,6 +333,8 @@ export interface FileRouteTypes {
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
+    | '/coach-finder'
+    | '/vocabularies'
     | '/auth/callback'
     | '/insights/$id'
     | '/$locale'
@@ -341,6 +365,8 @@ export interface FileRouteTypes {
     | '/$locale/for-organisations'
     | '/$locale/insights'
     | '/_authenticated/articles'
+    | '/_authenticated/coach-finder'
+    | '/_authenticated/vocabularies'
     | '/auth/callback'
     | '/insights/$id'
     | '/$locale/'
@@ -473,6 +499,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/auth/callback'
       preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof AuthRoute
+    }
+    '/_authenticated/vocabularies': {
+      id: '/_authenticated/vocabularies'
+      path: '/vocabularies'
+      fullPath: '/vocabularies'
+      preLoaderRoute: typeof AuthenticatedVocabulariesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/coach-finder': {
+      id: '/_authenticated/coach-finder'
+      path: '/coach-finder'
+      fullPath: '/coach-finder'
+      preLoaderRoute: typeof AuthenticatedCoachFinderRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/articles': {
       id: '/_authenticated/articles'
@@ -627,10 +667,14 @@ const AuthenticatedArticlesRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedArticlesRoute: typeof AuthenticatedArticlesRouteWithChildren
+  AuthenticatedCoachFinderRoute: typeof AuthenticatedCoachFinderRoute
+  AuthenticatedVocabulariesRoute: typeof AuthenticatedVocabulariesRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedArticlesRoute: AuthenticatedArticlesRouteWithChildren,
+  AuthenticatedCoachFinderRoute: AuthenticatedCoachFinderRoute,
+  AuthenticatedVocabulariesRoute: AuthenticatedVocabulariesRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

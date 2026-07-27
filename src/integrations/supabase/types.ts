@@ -181,6 +181,291 @@ export type Database = {
         }
         Relationships: []
       }
+      cf_availability_labels: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          name_de: string | null
+          name_fr: string | null
+          name_it: string | null
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      cf_credentials: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          name_de: string | null
+          name_fr: string | null
+          name_it: string | null
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      cf_formats: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          name_de: string | null
+          name_fr: string | null
+          name_it: string | null
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      cf_languages: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          name_de: string | null
+          name_fr: string | null
+          name_it: string | null
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      cf_regions: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          name_de: string | null
+          name_fr: string | null
+          name_it: string | null
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      cf_specialisations: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          name_de: string | null
+          name_fr: string | null
+          name_it: string | null
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      coach_finder_config: {
+        Row: {
+          coaching_enabled: boolean
+          coaching_label: string
+          created_at: string
+          csv_export_row_cap: number
+          default_sort: string
+          feed_drop_threshold_pct: number
+          id: boolean
+          mentoring_enabled: boolean
+          mentoring_label: string
+          page_size: number
+          snapshot_retention_months: number
+          supervision_enabled: boolean
+          supervision_label: string
+          updated_at: string
+        }
+        Insert: {
+          coaching_enabled?: boolean
+          coaching_label?: string
+          created_at?: string
+          csv_export_row_cap?: number
+          default_sort?: string
+          feed_drop_threshold_pct?: number
+          id?: boolean
+          mentoring_enabled?: boolean
+          mentoring_label?: string
+          page_size?: number
+          snapshot_retention_months?: number
+          supervision_enabled?: boolean
+          supervision_label?: string
+          updated_at?: string
+        }
+        Update: {
+          coaching_enabled?: boolean
+          coaching_label?: string
+          created_at?: string
+          csv_export_row_cap?: number
+          default_sort?: string
+          feed_drop_threshold_pct?: number
+          id?: boolean
+          mentoring_enabled?: boolean
+          mentoring_label?: string
+          page_size?: number
+          snapshot_retention_months?: number
+          supervision_enabled?: boolean
+          supervision_label?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       deck_download_leads: {
         Row: {
           consent: boolean

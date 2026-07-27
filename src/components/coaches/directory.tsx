@@ -1,19 +1,14 @@
 import { useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { CARD_SHADOW } from "@/components/site-chrome";
 import { useI18n } from "@/i18n";
+import { COACHES, initials, type Coach } from "@/lib/coaches";
 import {
-  CANTONS,
-  COACHES,
-  COACHING_FORMATS,
-  COACH_LANGUAGES,
-  CREDENTIAL_LEVELS,
-  SPECIALIZATION_KEYS,
-  initials,
-  type Coach,
-  type CoachLanguage,
-  type CoachingFormat,
-  type CredentialLevel,
-} from "@/lib/coaches";
+  fetchActiveVocabularies,
+  vocabLabel,
+  type CoachFinderVocabularies,
+  type VocabRow,
+} from "@/lib/vocabularies";
 
 function Chip({
   active,
@@ -128,23 +123,37 @@ export function CoachCard({ coach }: { coach: Coach }) {
 }
 
 export function CoachDirectory() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+  const { data: vocab } = useQuery<CoachFinderVocabularies>({
+    queryKey: ["coach-finder-vocabularies"],
+    queryFn: fetchActiveVocabularies,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const regions = vocab?.cf_regions ?? [];
+  const languages = vocab?.cf_languages ?? [];
+  const credentialTerms = vocab?.cf_credentials ?? [];
+  const specialisationTerms = vocab?.cf_specialisations ?? [];
+  const formatTerms = vocab?.cf_formats ?? [];
+
   const [query, setQuery] = useState("");
-  const [canton, setCanton] = useState("all");
-  const [language, setLanguage] = useState<"all" | CoachLanguage>("all");
-  const [credentials, setCredentials] = useState<CredentialLevel[]>([]);
+  const [region, setRegion] = useState("all");
+  const [language, setLanguage] = useState("all");
+  const [credentials, setCredentials] = useState<string[]>([]);
   const [specializations, setSpecializations] = useState<string[]>([]);
-  const [formats, setFormats] = useState<CoachingFormat[]>([]);
+  const [formats, setFormats] = useState<string[]>([]);
   const [acceptingOnly, setAcceptingOnly] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
 
-  function toggle<T>(list: T[], set: (v: T[]) => void, value: T) {
+  const label = (row: VocabRow) => vocabLabel(row, locale);
+
+  function toggle(list: string[], set: (v: string[]) => void, value: string) {
     set(list.includes(value) ? list.filter((v) => v !== value) : [...list, value]);
   }
 
   const dirty =
     query !== "" ||
-    canton !== "all" ||
+    region !== "all" ||
     language !== "all" ||
     credentials.length > 0 ||
     specializations.length > 0 ||
@@ -153,7 +162,7 @@ export function CoachDirectory() {
 
   function clearAll() {
     setQuery("");
-    setCanton("all");
+    setRegion("all");
     setLanguage("all");
     setCredentials([]);
     setSpecializations([]);
@@ -164,12 +173,12 @@ export function CoachDirectory() {
   const results = useMemo(
     () =>
       COACHES.filter(({ icf, local }) => {
-        if (canton !== "all" && icf.canton !== canton) return false;
-        if (language !== "all" && !icf.languages.includes(language)) return false;
+        if (region !== "all" && icf.regionSlug !== region) return false;
+        if (language !== "all" && !icf.languages.some((l) => l === language)) return false;
         if (credentials.length && !credentials.includes(icf.credential)) return false;
         if (specializations.length && !specializations.some((s) => icf.specializations.includes(s)))
           return false;
-        if (formats.length && !formats.some((f) => icf.formats.includes(f))) return false;
+        if (formats.length && !formats.some((f) => icf.formats.some((cf) => cf === f))) return false;
         if (acceptingOnly && !local.acceptingClients) return false;
         if (query) {
           const haystack = [
@@ -185,7 +194,7 @@ export function CoachDirectory() {
         }
         return true;
       }),
-    [query, canton, language, credentials, specializations, formats, acceptingOnly, t],
+    [query, region, language, credentials, specializations, formats, acceptingOnly, t],
   );
 
   const countLabel =
@@ -210,19 +219,19 @@ export function CoachDirectory() {
       </div>
 
       <div>
-        <label htmlFor="coach-canton" className="btn-mono mb-2 block">
-          {t("directory.filters.cantonLabel")}
+        <label htmlFor="coach-region" className="btn-mono mb-2 block">
+          {t("directory.filters.regionLabel")}
         </label>
         <select
-          id="coach-canton"
-          value={canton}
-          onChange={(e) => setCanton(e.target.value)}
+          id="coach-region"
+          value={region}
+          onChange={(e) => setRegion(e.target.value)}
           className={FIELD}
         >
-          <option value="all">{t("directory.filters.cantonAll")}</option>
-          {CANTONS.map((c) => (
-            <option key={c} value={c}>
-              {c}
+          <option value="all">{t("directory.filters.regionAll")}</option>
+          {regions.map((r) => (
+            <option key={r.id} value={r.slug}>
+              {label(r)}
             </option>
           ))}
         </select>
@@ -235,58 +244,68 @@ export function CoachDirectory() {
         <select
           id="coach-language"
           value={language}
-          onChange={(e) => setLanguage(e.target.value as "all" | CoachLanguage)}
+          onChange={(e) => setLanguage(e.target.value)}
           className={FIELD}
         >
           <option value="all">{t("directory.filters.languageAll")}</option>
-          {COACH_LANGUAGES.map((l) => (
-            <option key={l} value={l}>
-              {t(`directory.languages.${l}`)}
+          {languages.map((l) => (
+            <option key={l.id} value={l.slug}>
+              {label(l)}
             </option>
           ))}
         </select>
       </div>
 
-      <div>
-        <p className="btn-mono mb-2">{t("directory.filters.credentialLabel")}</p>
-        <div className="flex flex-wrap gap-2">
-          {CREDENTIAL_LEVELS.map((c) => (
-            <Chip
-              key={c}
-              active={credentials.includes(c)}
-              onClick={() => toggle(credentials, setCredentials, c)}
-            >
-              {c}
-            </Chip>
-          ))}
+      {credentialTerms.length > 0 && (
+        <div>
+          <p className="btn-mono mb-2">{t("directory.filters.credentialLabel")}</p>
+          <div className="flex flex-wrap gap-2">
+            {credentialTerms.map((c) => (
+              <Chip
+                key={c.id}
+                active={credentials.includes(c.slug)}
+                onClick={() => toggle(credentials, setCredentials, c.slug)}
+              >
+                {c.slug}
+              </Chip>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      <div>
-        <p className="btn-mono mb-2">{t("directory.filters.specializationLabel")}</p>
-        <div className="flex flex-wrap gap-2">
-          {SPECIALIZATION_KEYS.map((s) => (
-            <Chip
-              key={s}
-              active={specializations.includes(s)}
-              onClick={() => toggle(specializations, setSpecializations, s)}
-            >
-              {t(`directory.specializations.${s}`)}
-            </Chip>
-          ))}
+      {specialisationTerms.length > 0 && (
+        <div>
+          <p className="btn-mono mb-2">{t("directory.filters.specializationLabel")}</p>
+          <div className="flex flex-wrap gap-2">
+            {specialisationTerms.map((s) => (
+              <Chip
+                key={s.id}
+                active={specializations.includes(s.slug)}
+                onClick={() => toggle(specializations, setSpecializations, s.slug)}
+              >
+                {label(s)}
+              </Chip>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      <div>
-        <p className="btn-mono mb-2">{t("directory.filters.formatLabel")}</p>
-        <div className="flex flex-wrap gap-2">
-          {COACHING_FORMATS.map((f) => (
-            <Chip key={f} active={formats.includes(f)} onClick={() => toggle(formats, setFormats, f)}>
-              {t(`directory.formats.${f}`)}
-            </Chip>
-          ))}
+      {formatTerms.length > 0 && (
+        <div>
+          <p className="btn-mono mb-2">{t("directory.filters.formatLabel")}</p>
+          <div className="flex flex-wrap gap-2">
+            {formatTerms.map((f) => (
+              <Chip
+                key={f.id}
+                active={formats.includes(f.slug)}
+                onClick={() => toggle(formats, setFormats, f.slug)}
+              >
+                {label(f)}
+              </Chip>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       <label className="inline-flex cursor-pointer items-center gap-2.5 text-sm text-foreground">
         <input
