@@ -1429,6 +1429,10 @@ export type Database = {
         Returns: boolean
       }
       member_owns_profile: { Args: { _profile_id: string }; Returns: boolean }
+      member_owns_storage_folder: {
+        Args: { _folder: string }
+        Returns: boolean
+      }
     }
     Enums: {
       app_role: "admin" | "editor" | "user"
