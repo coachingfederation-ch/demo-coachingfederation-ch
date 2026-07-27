@@ -9,99 +9,51 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as LocaleRouteRouteImport } from './routes/$locale/route'
-import { Route as MemberRouteRouteImport } from './routes/_member/route'
-import { Route as StaffRouteRouteImport } from './routes/_staff/route'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as EventsRouteImport } from './routes/events'
-import { Route as FindACoachRouteImport } from './routes/find-a-coach'
-import { Route as ForCoachesRouteImport } from './routes/for-coaches'
-import { Route as ForOrganisationsRouteImport } from './routes/for-organisations'
-import { Route as InsightsRouteImport } from './routes/insights'
-import { Route as NoAccessRouteImport } from './routes/no-access'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
-import { Route as LocaleAboutRouteImport } from './routes/$locale/about'
-import { Route as LocaleEventsRouteImport } from './routes/$locale/events'
-import { Route as LocaleFindACoachRouteImport } from './routes/$locale/find-a-coach'
-import { Route as LocaleForCoachesRouteImport } from './routes/$locale/for-coaches'
-import { Route as LocaleForOrganisationsRouteImport } from './routes/$locale/for-organisations'
-import { Route as LocaleInsightsRouteImport } from './routes/$locale/insights'
-import { Route as MemberMyProfileRouteImport } from './routes/_member/my-profile'
-import { Route as StaffArticlesRouteImport } from './routes/_staff/articles'
-import { Route as StaffCoachFinderRouteImport } from './routes/_staff/coach-finder'
-import { Route as StaffIntegrationRouteImport } from './routes/_staff/integration'
-import { Route as StaffVocabulariesRouteImport } from './routes/_staff/vocabularies'
-import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
-import { Route as ClaimIndexRouteImport } from './routes/claim.index'
-import { Route as ClaimTokenRouteImport } from './routes/claim.$token'
-import { Route as CoachProfileIdRouteImport } from './routes/coach.$profileId'
+import { Route as NoAccessRouteImport } from './routes/no-access'
+import { Route as InsightsRouteImport } from './routes/insights'
+import { Route as ForOrganisationsRouteImport } from './routes/for-organisations'
+import { Route as ForCoachesRouteImport } from './routes/for-coaches'
+import { Route as FindACoachRouteImport } from './routes/find-a-coach'
+import { Route as EventsRouteImport } from './routes/events'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as StaffRouteRouteImport } from './routes/_staff/route'
+import { Route as MemberRouteRouteImport } from './routes/_member/route'
+import { Route as LocaleRouteRouteImport } from './routes/$locale/route'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as InsightsIndexRouteImport } from './routes/insights.index'
+import { Route as ClaimIndexRouteImport } from './routes/claim.index'
+import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
 import { Route as InsightsIdRouteImport } from './routes/insights.$id'
-import { Route as LocaleCoachProfileIdRouteImport } from './routes/$locale/coach.$profileId'
-import { Route as LocaleInsightsIndexRouteImport } from './routes/$locale/insights.index'
-import { Route as LocaleInsightsIdRouteImport } from './routes/$locale/insights.$id'
-import { Route as StaffArticlesIndexRouteImport } from './routes/_staff/articles.index'
-import { Route as StaffArticlesIdRouteImport } from './routes/_staff/articles.$id'
-import { Route as StaffArticlesCategoriesRouteImport } from './routes/_staff/articles.categories'
-import { Route as StaffArticlesNewRouteImport } from './routes/_staff/articles.new'
+import { Route as CoachProfileIdRouteImport } from './routes/coach.$profileId'
+import { Route as ClaimTokenRouteImport } from './routes/claim.$token'
+import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
+import { Route as StaffVocabulariesRouteImport } from './routes/_staff/vocabularies'
+import { Route as StaffIntegrationRouteImport } from './routes/_staff/integration'
+import { Route as StaffCoachFinderRouteImport } from './routes/_staff/coach-finder'
+import { Route as StaffArticlesRouteImport } from './routes/_staff/articles'
+import { Route as MemberMyProfileRouteImport } from './routes/_member/my-profile'
+import { Route as LocaleInsightsRouteImport } from './routes/$locale/insights'
+import { Route as LocaleForOrganisationsRouteImport } from './routes/$locale/for-organisations'
+import { Route as LocaleForCoachesRouteImport } from './routes/$locale/for-coaches'
+import { Route as LocaleFindACoachRouteImport } from './routes/$locale/find-a-coach'
+import { Route as LocaleEventsRouteImport } from './routes/$locale/events'
+import { Route as LocaleAboutRouteImport } from './routes/$locale/about'
 import { Route as StaffMembersIndexRouteImport } from './routes/_staff/members.index'
-import { Route as StaffMembersIdRouteImport } from './routes/_staff/members.$id'
+import { Route as StaffArticlesIndexRouteImport } from './routes/_staff/articles.index'
+import { Route as LocaleInsightsIndexRouteImport } from './routes/$locale/insights.index'
 import { Route as ApiPublicMemberSyncRouteImport } from './routes/api/public/member-sync'
+import { Route as StaffMembersIdRouteImport } from './routes/_staff/members.$id'
+import { Route as StaffArticlesNewRouteImport } from './routes/_staff/articles.new'
+import { Route as StaffArticlesCategoriesRouteImport } from './routes/_staff/articles.categories'
+import { Route as StaffArticlesIdRouteImport } from './routes/_staff/articles.$id'
+import { Route as LocaleInsightsIdRouteImport } from './routes/$locale/insights.$id'
+import { Route as LocaleCoachProfileIdRouteImport } from './routes/$locale/coach.$profileId'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LocaleRouteRoute = LocaleRouteRouteImport.update({
-  id: '/$locale',
-  path: '/$locale',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MemberRouteRoute = MemberRouteRouteImport.update({
-  id: '/_member',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StaffRouteRoute = StaffRouteRouteImport.update({
-  id: '/_staff',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EventsRoute = EventsRouteImport.update({
-  id: '/events',
-  path: '/events',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FindACoachRoute = FindACoachRouteImport.update({
-  id: '/find-a-coach',
-  path: '/find-a-coach',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ForCoachesRoute = ForCoachesRouteImport.update({
-  id: '/for-coaches',
-  path: '/for-coaches',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ForOrganisationsRoute = ForOrganisationsRouteImport.update({
-  id: '/for-organisations',
-  path: '/for-organisations',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const InsightsRoute = InsightsRouteImport.update({
-  id: '/insights',
-  path: '/insights',
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NoAccessRoute = NoAccessRouteImport.update({
@@ -109,89 +61,57 @@ const NoAccessRoute = NoAccessRouteImport.update({
   path: '/no-access',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LocaleIndexRoute = LocaleIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => LocaleRouteRoute,
-} as any)
-const LocaleAboutRoute = LocaleAboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => LocaleRouteRoute,
-} as any)
-const LocaleEventsRoute = LocaleEventsRouteImport.update({
-  id: '/events',
-  path: '/events',
-  getParentRoute: () => LocaleRouteRoute,
-} as any)
-const LocaleFindACoachRoute = LocaleFindACoachRouteImport.update({
-  id: '/find-a-coach',
-  path: '/find-a-coach',
-  getParentRoute: () => LocaleRouteRoute,
-} as any)
-const LocaleForCoachesRoute = LocaleForCoachesRouteImport.update({
-  id: '/for-coaches',
-  path: '/for-coaches',
-  getParentRoute: () => LocaleRouteRoute,
-} as any)
-const LocaleForOrganisationsRoute = LocaleForOrganisationsRouteImport.update({
-  id: '/for-organisations',
-  path: '/for-organisations',
-  getParentRoute: () => LocaleRouteRoute,
-} as any)
-const LocaleInsightsRoute = LocaleInsightsRouteImport.update({
+const InsightsRoute = InsightsRouteImport.update({
   id: '/insights',
   path: '/insights',
-  getParentRoute: () => LocaleRouteRoute,
-} as any)
-const MemberMyProfileRoute = MemberMyProfileRouteImport.update({
-  id: '/my-profile',
-  path: '/my-profile',
-  getParentRoute: () => MemberRouteRoute,
-} as any)
-const StaffArticlesRoute = StaffArticlesRouteImport.update({
-  id: '/articles',
-  path: '/articles',
-  getParentRoute: () => StaffRouteRoute,
-} as any)
-const StaffCoachFinderRoute = StaffCoachFinderRouteImport.update({
-  id: '/coach-finder',
-  path: '/coach-finder',
-  getParentRoute: () => StaffRouteRoute,
-} as any)
-const StaffIntegrationRoute = StaffIntegrationRouteImport.update({
-  id: '/integration',
-  path: '/integration',
-  getParentRoute: () => StaffRouteRoute,
-} as any)
-const StaffVocabulariesRoute = StaffVocabulariesRouteImport.update({
-  id: '/vocabularies',
-  path: '/vocabularies',
-  getParentRoute: () => StaffRouteRoute,
-} as any)
-const AuthCallbackRoute = AuthCallbackRouteImport.update({
-  id: '/callback',
-  path: '/callback',
-  getParentRoute: () => AuthRoute,
-} as any)
-const ClaimIndexRoute = ClaimIndexRouteImport.update({
-  id: '/claim/',
-  path: '/claim/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ClaimTokenRoute = ClaimTokenRouteImport.update({
-  id: '/claim/$token',
-  path: '/claim/$token',
+const ForOrganisationsRoute = ForOrganisationsRouteImport.update({
+  id: '/for-organisations',
+  path: '/for-organisations',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CoachProfileIdRoute = CoachProfileIdRouteImport.update({
-  id: '/coach/$profileId',
-  path: '/coach/$profileId',
+const ForCoachesRoute = ForCoachesRouteImport.update({
+  id: '/for-coaches',
+  path: '/for-coaches',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FindACoachRoute = FindACoachRouteImport.update({
+  id: '/find-a-coach',
+  path: '/find-a-coach',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StaffRouteRoute = StaffRouteRouteImport.update({
+  id: '/_staff',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MemberRouteRoute = MemberRouteRouteImport.update({
+  id: '/_member',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleRouteRoute = LocaleRouteRouteImport.update({
+  id: '/$locale',
+  path: '/$locale',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InsightsIndexRoute = InsightsIndexRouteImport.update({
@@ -199,34 +119,119 @@ const InsightsIndexRoute = InsightsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => InsightsRoute,
 } as any)
+const ClaimIndexRoute = ClaimIndexRouteImport.update({
+  id: '/claim/',
+  path: '/claim/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleIndexRoute = LocaleIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
 const InsightsIdRoute = InsightsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => InsightsRoute,
 } as any)
-const LocaleCoachProfileIdRoute = LocaleCoachProfileIdRouteImport.update({
+const CoachProfileIdRoute = CoachProfileIdRouteImport.update({
   id: '/coach/$profileId',
   path: '/coach/$profileId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClaimTokenRoute = ClaimTokenRouteImport.update({
+  id: '/claim/$token',
+  path: '/claim/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/callback',
+  path: '/callback',
+  getParentRoute: () => AuthRoute,
+} as any)
+const StaffVocabulariesRoute = StaffVocabulariesRouteImport.update({
+  id: '/vocabularies',
+  path: '/vocabularies',
+  getParentRoute: () => StaffRouteRoute,
+} as any)
+const StaffIntegrationRoute = StaffIntegrationRouteImport.update({
+  id: '/integration',
+  path: '/integration',
+  getParentRoute: () => StaffRouteRoute,
+} as any)
+const StaffCoachFinderRoute = StaffCoachFinderRouteImport.update({
+  id: '/coach-finder',
+  path: '/coach-finder',
+  getParentRoute: () => StaffRouteRoute,
+} as any)
+const StaffArticlesRoute = StaffArticlesRouteImport.update({
+  id: '/articles',
+  path: '/articles',
+  getParentRoute: () => StaffRouteRoute,
+} as any)
+const MemberMyProfileRoute = MemberMyProfileRouteImport.update({
+  id: '/my-profile',
+  path: '/my-profile',
+  getParentRoute: () => MemberRouteRoute,
+} as any)
+const LocaleInsightsRoute = LocaleInsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
-const LocaleInsightsIndexRoute = LocaleInsightsIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => LocaleInsightsRoute,
+const LocaleForOrganisationsRoute = LocaleForOrganisationsRouteImport.update({
+  id: '/for-organisations',
+  path: '/for-organisations',
+  getParentRoute: () => LocaleRouteRoute,
 } as any)
-const LocaleInsightsIdRoute = LocaleInsightsIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => LocaleInsightsRoute,
+const LocaleForCoachesRoute = LocaleForCoachesRouteImport.update({
+  id: '/for-coaches',
+  path: '/for-coaches',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleFindACoachRoute = LocaleFindACoachRouteImport.update({
+  id: '/find-a-coach',
+  path: '/find-a-coach',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleEventsRoute = LocaleEventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleAboutRoute = LocaleAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const StaffMembersIndexRoute = StaffMembersIndexRouteImport.update({
+  id: '/members/',
+  path: '/members/',
+  getParentRoute: () => StaffRouteRoute,
 } as any)
 const StaffArticlesIndexRoute = StaffArticlesIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => StaffArticlesRoute,
 } as any)
-const StaffArticlesIdRoute = StaffArticlesIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
+const LocaleInsightsIndexRoute = LocaleInsightsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LocaleInsightsRoute,
+} as any)
+const ApiPublicMemberSyncRoute = ApiPublicMemberSyncRouteImport.update({
+  id: '/api/public/member-sync',
+  path: '/api/public/member-sync',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StaffMembersIdRoute = StaffMembersIdRouteImport.update({
+  id: '/members/$id',
+  path: '/members/$id',
+  getParentRoute: () => StaffRouteRoute,
+} as any)
+const StaffArticlesNewRoute = StaffArticlesNewRouteImport.update({
+  id: '/new',
+  path: '/new',
   getParentRoute: () => StaffArticlesRoute,
 } as any)
 const StaffArticlesCategoriesRoute = StaffArticlesCategoriesRouteImport.update({
@@ -234,25 +239,20 @@ const StaffArticlesCategoriesRoute = StaffArticlesCategoriesRouteImport.update({
   path: '/categories',
   getParentRoute: () => StaffArticlesRoute,
 } as any)
-const StaffArticlesNewRoute = StaffArticlesNewRouteImport.update({
-  id: '/new',
-  path: '/new',
+const StaffArticlesIdRoute = StaffArticlesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
   getParentRoute: () => StaffArticlesRoute,
 } as any)
-const StaffMembersIndexRoute = StaffMembersIndexRouteImport.update({
-  id: '/members/',
-  path: '/members/',
-  getParentRoute: () => StaffRouteRoute,
+const LocaleInsightsIdRoute = LocaleInsightsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => LocaleInsightsRoute,
 } as any)
-const StaffMembersIdRoute = StaffMembersIdRouteImport.update({
-  id: '/members/$id',
-  path: '/members/$id',
-  getParentRoute: () => StaffRouteRoute,
-} as any)
-const ApiPublicMemberSyncRoute = ApiPublicMemberSyncRouteImport.update({
-  id: '/api/public/member-sync',
-  path: '/api/public/member-sync',
-  getParentRoute: () => rootRouteImport,
+const LocaleCoachProfileIdRoute = LocaleCoachProfileIdRouteImport.update({
+  id: '/coach/$profileId',
+  path: '/coach/$profileId',
+  getParentRoute: () => LocaleRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -523,81 +523,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/$locale': {
-      id: '/$locale'
-      path: '/$locale'
-      fullPath: '/$locale'
-      preLoaderRoute: typeof LocaleRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_member': {
-      id: '/_member'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof MemberRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_staff': {
-      id: '/_staff'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof StaffRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/events': {
-      id: '/events'
-      path: '/events'
-      fullPath: '/events'
-      preLoaderRoute: typeof EventsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/find-a-coach': {
-      id: '/find-a-coach'
-      path: '/find-a-coach'
-      fullPath: '/find-a-coach'
-      preLoaderRoute: typeof FindACoachRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/for-coaches': {
-      id: '/for-coaches'
-      path: '/for-coaches'
-      fullPath: '/for-coaches'
-      preLoaderRoute: typeof ForCoachesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/for-organisations': {
-      id: '/for-organisations'
-      path: '/for-organisations'
-      fullPath: '/for-organisations'
-      preLoaderRoute: typeof ForOrganisationsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/insights': {
-      id: '/insights'
-      path: '/insights'
-      fullPath: '/insights'
-      preLoaderRoute: typeof InsightsRouteImport
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/no-access': {
@@ -607,123 +537,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NoAccessRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/$locale/': {
-      id: '/$locale/'
-      path: '/'
-      fullPath: '/$locale/'
-      preLoaderRoute: typeof LocaleIndexRouteImport
-      parentRoute: typeof LocaleRouteRoute
-    }
-    '/$locale/about': {
-      id: '/$locale/about'
-      path: '/about'
-      fullPath: '/$locale/about'
-      preLoaderRoute: typeof LocaleAboutRouteImport
-      parentRoute: typeof LocaleRouteRoute
-    }
-    '/$locale/events': {
-      id: '/$locale/events'
-      path: '/events'
-      fullPath: '/$locale/events'
-      preLoaderRoute: typeof LocaleEventsRouteImport
-      parentRoute: typeof LocaleRouteRoute
-    }
-    '/$locale/find-a-coach': {
-      id: '/$locale/find-a-coach'
-      path: '/find-a-coach'
-      fullPath: '/$locale/find-a-coach'
-      preLoaderRoute: typeof LocaleFindACoachRouteImport
-      parentRoute: typeof LocaleRouteRoute
-    }
-    '/$locale/for-coaches': {
-      id: '/$locale/for-coaches'
-      path: '/for-coaches'
-      fullPath: '/$locale/for-coaches'
-      preLoaderRoute: typeof LocaleForCoachesRouteImport
-      parentRoute: typeof LocaleRouteRoute
-    }
-    '/$locale/for-organisations': {
-      id: '/$locale/for-organisations'
-      path: '/for-organisations'
-      fullPath: '/$locale/for-organisations'
-      preLoaderRoute: typeof LocaleForOrganisationsRouteImport
-      parentRoute: typeof LocaleRouteRoute
-    }
-    '/$locale/insights': {
-      id: '/$locale/insights'
+    '/insights': {
+      id: '/insights'
       path: '/insights'
-      fullPath: '/$locale/insights'
-      preLoaderRoute: typeof LocaleInsightsRouteImport
-      parentRoute: typeof LocaleRouteRoute
-    }
-    '/_member/my-profile': {
-      id: '/_member/my-profile'
-      path: '/my-profile'
-      fullPath: '/my-profile'
-      preLoaderRoute: typeof MemberMyProfileRouteImport
-      parentRoute: typeof MemberRouteRoute
-    }
-    '/_staff/articles': {
-      id: '/_staff/articles'
-      path: '/articles'
-      fullPath: '/articles'
-      preLoaderRoute: typeof StaffArticlesRouteImport
-      parentRoute: typeof StaffRouteRoute
-    }
-    '/_staff/coach-finder': {
-      id: '/_staff/coach-finder'
-      path: '/coach-finder'
-      fullPath: '/coach-finder'
-      preLoaderRoute: typeof StaffCoachFinderRouteImport
-      parentRoute: typeof StaffRouteRoute
-    }
-    '/_staff/integration': {
-      id: '/_staff/integration'
-      path: '/integration'
-      fullPath: '/integration'
-      preLoaderRoute: typeof StaffIntegrationRouteImport
-      parentRoute: typeof StaffRouteRoute
-    }
-    '/_staff/vocabularies': {
-      id: '/_staff/vocabularies'
-      path: '/vocabularies'
-      fullPath: '/vocabularies'
-      preLoaderRoute: typeof StaffVocabulariesRouteImport
-      parentRoute: typeof StaffRouteRoute
-    }
-    '/auth/callback': {
-      id: '/auth/callback'
-      path: '/callback'
-      fullPath: '/auth/callback'
-      preLoaderRoute: typeof AuthCallbackRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/claim/': {
-      id: '/claim/'
-      path: '/claim'
-      fullPath: '/claim/'
-      preLoaderRoute: typeof ClaimIndexRouteImport
+      fullPath: '/insights'
+      preLoaderRoute: typeof InsightsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/claim/$token': {
-      id: '/claim/$token'
-      path: '/claim/$token'
-      fullPath: '/claim/$token'
-      preLoaderRoute: typeof ClaimTokenRouteImport
+    '/for-organisations': {
+      id: '/for-organisations'
+      path: '/for-organisations'
+      fullPath: '/for-organisations'
+      preLoaderRoute: typeof ForOrganisationsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/coach/$profileId': {
-      id: '/coach/$profileId'
-      path: '/coach/$profileId'
-      fullPath: '/coach/$profileId'
-      preLoaderRoute: typeof CoachProfileIdRouteImport
+    '/for-coaches': {
+      id: '/for-coaches'
+      path: '/for-coaches'
+      fullPath: '/for-coaches'
+      preLoaderRoute: typeof ForCoachesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/find-a-coach': {
+      id: '/find-a-coach'
+      path: '/find-a-coach'
+      fullPath: '/find-a-coach'
+      preLoaderRoute: typeof FindACoachRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_staff': {
+      id: '/_staff'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof StaffRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_member': {
+      id: '/_member'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof MemberRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale': {
+      id: '/$locale'
+      path: '/$locale'
+      fullPath: '/$locale'
+      preLoaderRoute: typeof LocaleRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/insights/': {
@@ -733,6 +621,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InsightsIndexRouteImport
       parentRoute: typeof InsightsRoute
     }
+    '/claim/': {
+      id: '/claim/'
+      path: '/claim'
+      fullPath: '/claim/'
+      preLoaderRoute: typeof ClaimIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/': {
+      id: '/$locale/'
+      path: '/'
+      fullPath: '/$locale/'
+      preLoaderRoute: typeof LocaleIndexRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
     '/insights/$id': {
       id: '/insights/$id'
       path: '/$id'
@@ -740,26 +642,110 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InsightsIdRouteImport
       parentRoute: typeof InsightsRoute
     }
-    '/$locale/coach/$profileId': {
-      id: '/$locale/coach/$profileId'
+    '/coach/$profileId': {
+      id: '/coach/$profileId'
       path: '/coach/$profileId'
-      fullPath: '/$locale/coach/$profileId'
-      preLoaderRoute: typeof LocaleCoachProfileIdRouteImport
+      fullPath: '/coach/$profileId'
+      preLoaderRoute: typeof CoachProfileIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/claim/$token': {
+      id: '/claim/$token'
+      path: '/claim/$token'
+      fullPath: '/claim/$token'
+      preLoaderRoute: typeof ClaimTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_staff/vocabularies': {
+      id: '/_staff/vocabularies'
+      path: '/vocabularies'
+      fullPath: '/vocabularies'
+      preLoaderRoute: typeof StaffVocabulariesRouteImport
+      parentRoute: typeof StaffRouteRoute
+    }
+    '/_staff/integration': {
+      id: '/_staff/integration'
+      path: '/integration'
+      fullPath: '/integration'
+      preLoaderRoute: typeof StaffIntegrationRouteImport
+      parentRoute: typeof StaffRouteRoute
+    }
+    '/_staff/coach-finder': {
+      id: '/_staff/coach-finder'
+      path: '/coach-finder'
+      fullPath: '/coach-finder'
+      preLoaderRoute: typeof StaffCoachFinderRouteImport
+      parentRoute: typeof StaffRouteRoute
+    }
+    '/_staff/articles': {
+      id: '/_staff/articles'
+      path: '/articles'
+      fullPath: '/articles'
+      preLoaderRoute: typeof StaffArticlesRouteImport
+      parentRoute: typeof StaffRouteRoute
+    }
+    '/_member/my-profile': {
+      id: '/_member/my-profile'
+      path: '/my-profile'
+      fullPath: '/my-profile'
+      preLoaderRoute: typeof MemberMyProfileRouteImport
+      parentRoute: typeof MemberRouteRoute
+    }
+    '/$locale/insights': {
+      id: '/$locale/insights'
+      path: '/insights'
+      fullPath: '/$locale/insights'
+      preLoaderRoute: typeof LocaleInsightsRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
-    '/$locale/insights/': {
-      id: '/$locale/insights/'
-      path: '/'
-      fullPath: '/$locale/insights/'
-      preLoaderRoute: typeof LocaleInsightsIndexRouteImport
-      parentRoute: typeof LocaleInsightsRoute
+    '/$locale/for-organisations': {
+      id: '/$locale/for-organisations'
+      path: '/for-organisations'
+      fullPath: '/$locale/for-organisations'
+      preLoaderRoute: typeof LocaleForOrganisationsRouteImport
+      parentRoute: typeof LocaleRouteRoute
     }
-    '/$locale/insights/$id': {
-      id: '/$locale/insights/$id'
-      path: '/$id'
-      fullPath: '/$locale/insights/$id'
-      preLoaderRoute: typeof LocaleInsightsIdRouteImport
-      parentRoute: typeof LocaleInsightsRoute
+    '/$locale/for-coaches': {
+      id: '/$locale/for-coaches'
+      path: '/for-coaches'
+      fullPath: '/$locale/for-coaches'
+      preLoaderRoute: typeof LocaleForCoachesRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/find-a-coach': {
+      id: '/$locale/find-a-coach'
+      path: '/find-a-coach'
+      fullPath: '/$locale/find-a-coach'
+      preLoaderRoute: typeof LocaleFindACoachRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/events': {
+      id: '/$locale/events'
+      path: '/events'
+      fullPath: '/$locale/events'
+      preLoaderRoute: typeof LocaleEventsRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/about': {
+      id: '/$locale/about'
+      path: '/about'
+      fullPath: '/$locale/about'
+      preLoaderRoute: typeof LocaleAboutRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/_staff/members/': {
+      id: '/_staff/members/'
+      path: '/members'
+      fullPath: '/members/'
+      preLoaderRoute: typeof StaffMembersIndexRouteImport
+      parentRoute: typeof StaffRouteRoute
     }
     '/_staff/articles/': {
       id: '/_staff/articles/'
@@ -768,11 +754,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StaffArticlesIndexRouteImport
       parentRoute: typeof StaffArticlesRoute
     }
-    '/_staff/articles/$id': {
-      id: '/_staff/articles/$id'
-      path: '/$id'
-      fullPath: '/articles/$id'
-      preLoaderRoute: typeof StaffArticlesIdRouteImport
+    '/$locale/insights/': {
+      id: '/$locale/insights/'
+      path: '/'
+      fullPath: '/$locale/insights/'
+      preLoaderRoute: typeof LocaleInsightsIndexRouteImport
+      parentRoute: typeof LocaleInsightsRoute
+    }
+    '/api/public/member-sync': {
+      id: '/api/public/member-sync'
+      path: '/api/public/member-sync'
+      fullPath: '/api/public/member-sync'
+      preLoaderRoute: typeof ApiPublicMemberSyncRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_staff/members/$id': {
+      id: '/_staff/members/$id'
+      path: '/members/$id'
+      fullPath: '/members/$id'
+      preLoaderRoute: typeof StaffMembersIdRouteImport
+      parentRoute: typeof StaffRouteRoute
+    }
+    '/_staff/articles/new': {
+      id: '/_staff/articles/new'
+      path: '/new'
+      fullPath: '/articles/new'
+      preLoaderRoute: typeof StaffArticlesNewRouteImport
       parentRoute: typeof StaffArticlesRoute
     }
     '/_staff/articles/categories': {
@@ -782,33 +789,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StaffArticlesCategoriesRouteImport
       parentRoute: typeof StaffArticlesRoute
     }
-    '/_staff/articles/new': {
-      id: '/_staff/articles/new'
-      path: '/new'
-      fullPath: '/articles/new'
-      preLoaderRoute: typeof StaffArticlesNewRouteImport
+    '/_staff/articles/$id': {
+      id: '/_staff/articles/$id'
+      path: '/$id'
+      fullPath: '/articles/$id'
+      preLoaderRoute: typeof StaffArticlesIdRouteImport
       parentRoute: typeof StaffArticlesRoute
     }
-    '/_staff/members/': {
-      id: '/_staff/members/'
-      path: '/members'
-      fullPath: '/members/'
-      preLoaderRoute: typeof StaffMembersIndexRouteImport
-      parentRoute: typeof StaffRouteRoute
+    '/$locale/insights/$id': {
+      id: '/$locale/insights/$id'
+      path: '/$id'
+      fullPath: '/$locale/insights/$id'
+      preLoaderRoute: typeof LocaleInsightsIdRouteImport
+      parentRoute: typeof LocaleInsightsRoute
     }
-    '/_staff/members/$id': {
-      id: '/_staff/members/$id'
-      path: '/members/$id'
-      fullPath: '/members/$id'
-      preLoaderRoute: typeof StaffMembersIdRouteImport
-      parentRoute: typeof StaffRouteRoute
-    }
-    '/api/public/member-sync': {
-      id: '/api/public/member-sync'
-      path: '/api/public/member-sync'
-      fullPath: '/api/public/member-sync'
-      preLoaderRoute: typeof ApiPublicMemberSyncRouteImport
-      parentRoute: typeof rootRouteImport
+    '/$locale/coach/$profileId': {
+      id: '/$locale/coach/$profileId'
+      path: '/coach/$profileId'
+      fullPath: '/$locale/coach/$profileId'
+      preLoaderRoute: typeof LocaleCoachProfileIdRouteImport
+      parentRoute: typeof LocaleRouteRoute
     }
   }
 }
@@ -951,13 +951,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
