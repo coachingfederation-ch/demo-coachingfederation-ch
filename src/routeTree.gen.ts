@@ -23,9 +23,11 @@ import { Route as MemberRouteRouteImport } from './routes/_member/route'
 import { Route as LocaleRouteRouteImport } from './routes/$locale/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as InsightsIndexRouteImport } from './routes/insights.index'
+import { Route as ClaimIndexRouteImport } from './routes/claim.index'
 import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
 import { Route as InsightsIdRouteImport } from './routes/insights.$id'
 import { Route as CoachProfileIdRouteImport } from './routes/coach.$profileId'
+import { Route as ClaimTokenRouteImport } from './routes/claim.$token'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as StaffVocabulariesRouteImport } from './routes/_staff/vocabularies'
 import { Route as StaffIntegrationRouteImport } from './routes/_staff/integration'
@@ -117,6 +119,11 @@ const InsightsIndexRoute = InsightsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => InsightsRoute,
 } as any)
+const ClaimIndexRoute = ClaimIndexRouteImport.update({
+  id: '/claim/',
+  path: '/claim/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocaleIndexRoute = LocaleIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -130,6 +137,11 @@ const InsightsIdRoute = InsightsIdRouteImport.update({
 const CoachProfileIdRoute = CoachProfileIdRouteImport.update({
   id: '/coach/$profileId',
   path: '/coach/$profileId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClaimTokenRoute = ClaimTokenRouteImport.update({
+  id: '/claim/$token',
+  path: '/claim/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
@@ -267,9 +279,11 @@ export interface FileRoutesByFullPath {
   '/integration': typeof StaffIntegrationRoute
   '/vocabularies': typeof StaffVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/claim/$token': typeof ClaimTokenRoute
   '/coach/$profileId': typeof CoachProfileIdRoute
   '/insights/$id': typeof InsightsIdRoute
   '/$locale/': typeof LocaleIndexRoute
+  '/claim/': typeof ClaimIndexRoute
   '/insights/': typeof InsightsIndexRoute
   '/$locale/coach/$profileId': typeof LocaleCoachProfileIdRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
@@ -302,9 +316,11 @@ export interface FileRoutesByTo {
   '/integration': typeof StaffIntegrationRoute
   '/vocabularies': typeof StaffVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/claim/$token': typeof ClaimTokenRoute
   '/coach/$profileId': typeof CoachProfileIdRoute
   '/insights/$id': typeof InsightsIdRoute
   '/$locale': typeof LocaleIndexRoute
+  '/claim': typeof ClaimIndexRoute
   '/insights': typeof InsightsIndexRoute
   '/$locale/coach/$profileId': typeof LocaleCoachProfileIdRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
@@ -344,9 +360,11 @@ export interface FileRoutesById {
   '/_staff/integration': typeof StaffIntegrationRoute
   '/_staff/vocabularies': typeof StaffVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/claim/$token': typeof ClaimTokenRoute
   '/coach/$profileId': typeof CoachProfileIdRoute
   '/insights/$id': typeof InsightsIdRoute
   '/$locale/': typeof LocaleIndexRoute
+  '/claim/': typeof ClaimIndexRoute
   '/insights/': typeof InsightsIndexRoute
   '/$locale/coach/$profileId': typeof LocaleCoachProfileIdRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
@@ -385,9 +403,11 @@ export interface FileRouteTypes {
     | '/integration'
     | '/vocabularies'
     | '/auth/callback'
+    | '/claim/$token'
     | '/coach/$profileId'
     | '/insights/$id'
     | '/$locale/'
+    | '/claim/'
     | '/insights/'
     | '/$locale/coach/$profileId'
     | '/$locale/insights/$id'
@@ -420,9 +440,11 @@ export interface FileRouteTypes {
     | '/integration'
     | '/vocabularies'
     | '/auth/callback'
+    | '/claim/$token'
     | '/coach/$profileId'
     | '/insights/$id'
     | '/$locale'
+    | '/claim'
     | '/insights'
     | '/$locale/coach/$profileId'
     | '/$locale/insights/$id'
@@ -461,9 +483,11 @@ export interface FileRouteTypes {
     | '/_staff/integration'
     | '/_staff/vocabularies'
     | '/auth/callback'
+    | '/claim/$token'
     | '/coach/$profileId'
     | '/insights/$id'
     | '/$locale/'
+    | '/claim/'
     | '/insights/'
     | '/$locale/coach/$profileId'
     | '/$locale/insights/$id'
@@ -491,7 +515,9 @@ export interface RootRouteChildren {
   InsightsRoute: typeof InsightsRouteWithChildren
   NoAccessRoute: typeof NoAccessRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ClaimTokenRoute: typeof ClaimTokenRoute
   CoachProfileIdRoute: typeof CoachProfileIdRoute
+  ClaimIndexRoute: typeof ClaimIndexRoute
   ApiPublicMemberSyncRoute: typeof ApiPublicMemberSyncRoute
 }
 
@@ -595,6 +621,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InsightsIndexRouteImport
       parentRoute: typeof InsightsRoute
     }
+    '/claim/': {
+      id: '/claim/'
+      path: '/claim'
+      fullPath: '/claim/'
+      preLoaderRoute: typeof ClaimIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$locale/': {
       id: '/$locale/'
       path: '/'
@@ -614,6 +647,13 @@ declare module '@tanstack/react-router' {
       path: '/coach/$profileId'
       fullPath: '/coach/$profileId'
       preLoaderRoute: typeof CoachProfileIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/claim/$token': {
+      id: '/claim/$token'
+      path: '/claim/$token'
+      fullPath: '/claim/$token'
+      preLoaderRoute: typeof ClaimTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/callback': {
@@ -903,7 +943,9 @@ const rootRouteChildren: RootRouteChildren = {
   InsightsRoute: InsightsRouteWithChildren,
   NoAccessRoute: NoAccessRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ClaimTokenRoute: ClaimTokenRoute,
   CoachProfileIdRoute: CoachProfileIdRoute,
+  ClaimIndexRoute: ClaimIndexRoute,
   ApiPublicMemberSyncRoute: ApiPublicMemberSyncRoute,
 }
 export const routeTree = rootRouteImport

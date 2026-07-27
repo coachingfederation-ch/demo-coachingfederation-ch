@@ -106,8 +106,55 @@ export const updateMemberDirectory = createServerFn({ method: "POST" })
 export const requestMemberClaim = createServerFn({ method: "POST" })
   .inputValidator((input) => z.object({ email: z.string().email().max(320) }).parse(input))
   .handler(async ({ data }) => {
+    const { getRequestUrl } = await import("@tanstack/react-start/server");
     const { attemptMemberClaim } = await import("./member-claim.server");
-    return await attemptMemberClaim(data.email);
+    return await attemptMemberClaim(data.email, new URL(getRequestUrl()).origin);
+  });
+
+/** Read-only token state for the /claim/$token screen. Never returns the raw email. */
+export const getMemberClaimStatus = createServerFn({ method: "GET" }).handler(async () => {
+  const { loadIntegrationConfigAdmin } = await import("./member-email.server");
+  const config = await loadIntegrationConfigAdmin();
+  return {
+    enabled:
+      config.account_claim_enabled && config.mode === "live" && !config.cutover_in_progress,
+  };
+});
+
+export const checkMemberClaimToken = createServerFn({ method: "POST" })
+  .inputValidator((input) => z.object({ token: z.string().min(20).max(200) }).parse(input))
+  .handler(async ({ data }) => {
+    const { verifyClaimToken } = await import("./member-claim.server");
+    return await verifyClaimToken(data.token);
+  });
+
+/**
+ * Consumes a claim token: creates the account, binds the member record and
+ * grants the `member` role in one guarded path.
+ */
+export const completeMemberClaim = createServerFn({ method: "POST" })
+  .inputValidator((input) =>
+    z
+      .object({ token: z.string().min(20).max(200), password: z.string().min(10).max(200) })
+      .parse(input),
+  )
+  .handler(async ({ data }) => {
+    const { completeClaim } = await import("./member-claim.server");
+    return await completeClaim(data.token, data.password);
+  });
+
+/**
+ * Admin support tooling: mint a claim link and show it once. Exists because the
+ * member-facing email transport is still inert before the LIVE cutover.
+ */
+export const issueMemberClaimLink = createServerFn({ method: "POST" })
+  .inputValidator((input) => z.object({ memberId: z.string().uuid() }).parse(input))
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context, data }) => {
+    const userId = await assertAdmin(context as never);
+    const { getRequestUrl } = await import("@tanstack/react-start/server");
+    const { issueClaimLinkForMember } = await import("./member-claim.server");
+    return await issueClaimLinkForMember(userId, data.memberId, new URL(getRequestUrl()).origin);
   });
 /**
  * Staff-support account binding (admin only). Separate from the future
