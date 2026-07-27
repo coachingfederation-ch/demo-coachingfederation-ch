@@ -25,11 +25,17 @@
     "clear": "Réinitialiser les filtres",
     "toggle": "Filtres"
   },
+  "modes": {
+    "aria": "Mode de recherche"
+  },
   "results": {
     "one": "1 coach",
     "many": "{count} coachs",
+    "oneMode": "1 résultat en {mode}",
+    "manyMode": "{count} résultats en {mode}",
     "emptyTitle": "Aucun coach ne correspond à vos filtres",
     "emptyBody": "Essayez d'élargir votre recherche à d'autres cantons ou spécialisations.",
+    "emptyModeBody": "Aucun résultat en {mode} ne correspond à vos filtres — élargissez votre recherche à d'autres cantons ou spécialisations.",
     "loading": "Chargement des coachs…",
     "errorTitle": "L'annuaire est momentanément indisponible",
     "errorBody": "Merci de réessayer dans un instant.",

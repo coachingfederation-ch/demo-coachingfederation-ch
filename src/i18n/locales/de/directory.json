@@ -25,11 +25,17 @@
     "clear": "Filter zurücksetzen",
     "toggle": "Filter"
   },
+  "modes": {
+    "aria": "Suchmodus"
+  },
   "results": {
     "one": "1 Coach",
     "many": "{count} Coaches",
+    "oneMode": "1 Ergebnis in {mode}",
+    "manyMode": "{count} Ergebnisse in {mode}",
     "emptyTitle": "Keine Coaches entsprechen Ihren Filtern",
     "emptyBody": "Versuchen Sie, Ihre Auswahl nach Kanton oder Spezialisierung zu erweitern.",
+    "emptyModeBody": "Keine Ergebnisse in {mode} entsprechen Ihren Filtern — erweitern Sie Ihre Auswahl nach Kanton oder Spezialisierung.",
     "loading": "Coaches werden geladen…",
     "errorTitle": "Das Verzeichnis ist vorübergehend nicht verfügbar",
     "errorBody": "Bitte versuchen Sie es in einem Moment erneut.",
