@@ -1,6 +1,15 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { FileText, PencilLine, LogOut, Tags, ListTree, SlidersHorizontal } from "lucide-react";
+import {
+  FileText,
+  PencilLine,
+  LogOut,
+  Tags,
+  ListTree,
+  SlidersHorizontal,
+  Users,
+  PlugZap,
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import { useCms } from "@/i18n/cms";
@@ -12,6 +21,8 @@ const nav = [
   { to: "/articles/categories", key: "nav.categories", icon: Tags },
   { to: "/vocabularies", key: "nav.vocabularies", icon: ListTree },
   { to: "/coach-finder", key: "nav.coachFinder", icon: SlidersHorizontal },
+  { to: "/members", key: "nav.members", icon: Users },
+  { to: "/integration", key: "nav.integration", icon: PlugZap },
 ] as const;
 
 function Logo({ title }: { title: string }) {
