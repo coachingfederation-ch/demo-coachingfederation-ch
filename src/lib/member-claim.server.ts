@@ -5,6 +5,14 @@
  * refuses to set that flag unless the integration is in LIVE mode with a
  * recorded cutover. Even then, a TEST-shaped (`zz`-wrapped) address can never
  * become a claimable identity.
+ *
+ * Binding rule (deliberate, do not relax): a verified email address only ever
+ * *nominates* a candidate member record. The claim is refused whenever the
+ * address is not unambiguous — more than one member row, or a row already
+ * linked to an account. The durable boundary is the explicit
+ * `members.auth_user_id` link plus the granted `member` role, so an email that
+ * also belongs to a staff account can never silently inherit someone else's
+ * member profile.
  */
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { loadIntegrationConfigAdmin } from "./member-email.server";
