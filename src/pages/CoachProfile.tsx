@@ -306,7 +306,7 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
             <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-hero-foreground/10 px-3 py-1.5 text-xs font-medium text-hero-foreground/90">
               {t("directory.detail.languageFallback").replace(
                 "{language}",
-                t(`common.languages.${resolvedLocale}`),
+                t(`common.languageNames.${resolvedLocale}`),
               )}
             </p>
           )}
