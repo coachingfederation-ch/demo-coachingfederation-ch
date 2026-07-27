@@ -554,7 +554,7 @@
   },
   "roles": {
     "title": "Roles",
-    "intro": "Grant Insights CMS access to a claimed member. This is added on top of their membership: it never changes their member area access or their directory profile. Administrators are provisioned separately.",
+    "intro": "Two kinds of account can sign in: internal administrators, who need no ICF member record, and claimed members linked to an imported member record. Editor access is granted here on top of a claimed membership — it never changes member area access or the directory profile. Administrators are provisioned separately.",
     "searchPlaceholder": "Search by name or email",
     "colName": "Member",
     "colEmail": "Email",
@@ -572,6 +572,10 @@
     "auditTitle": "Recent changes",
     "auditIntro": "Every grant and revoke is recorded, including who made it.",
     "auditEmpty": "No role changes recorded yet.",
-    "auditBy": "by"
+    "auditBy": "by",
+    "internalTitle": "Internal accounts",
+    "internalIntro": "Privileged accounts with no imported ICF member record. These are provisioned outside the app and cannot be changed here; editor access always requires a claim-linked member record.",
+    "internalEmpty": "No internal accounts.",
+    "colRoles": "Roles"
   }
 }

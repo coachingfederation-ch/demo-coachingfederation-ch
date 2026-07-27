@@ -1,65 +1,55 @@
-## Audit: how roles work today (verified)
+## Goal
 
-**Source of truth:** `public.user_roles` (`user_id`, `role app_role`), enum `admin | editor | contributor | user | member`. Nothing role-like sits on `profiles` or `members`, and roles are not in JWT claims. That foundation is correct.
+Two valid ways to be signed in:
 
-**End-to-end flow**
+1. **Internal admin** — a plain account with the `admin` role and **no** imported member record.
+2. **Claimed member** — an account bound to an imported ICF member record via `members.auth_user_id`, optionally with the additive `editor` grant.
 
-```text
-sign-in (Supabase)
-   ├─ browser: fetchMyRoles() -> select role from user_roles where user_id = me
-   │     ├─ _staff/route.tsx  beforeLoad -> isStaff gate
-   │     ├─ _member/route.tsx beforeLoad -> isMember gate
-   │     ├─ useMyRoles() in cms/Shell.tsx, articles.$id.tsx -> nav + buttons
-   │     └─ landingPathForSession() -> /articles | /my-profile | /no-access
-   ├─ server fns: requireSupabaseAuth -> assertStaff/assertEditor/assertAdmin (src/lib/authz.ts)
-   ├─ MCP tools: OAuth bearer -> user-scoped client, no role checks (RLS only)
-   └─ RLS: 24 policies inline `EXISTS (SELECT 1 FROM user_roles ...)`
-           24 policies call `private.has_role / is_editor / is_staff`
-```
+Everything else stays as-is: `editor` remains member-only, `admin` stays a provisioning step done by migration, and the claim flow, `/my-profile` and Member Area access are untouched.
 
-**How roles change today:** `member` is granted/revoked in code via the admin client (`member-claim.server.ts` on claim, `member-admin.server.ts` on staff bind/unbind, `cutover.server.ts` on reset). `admin` and `editor` are only ever set by hand-written SQL — there is no UI and no server function.
+## What is already true (verified)
 
-**Findings**
+- `landingPath()` already sends an admin with no member record to `/articles`, and the `_staff` gate only checks staff roles — so **sign-in and CMS access already work** for an internal admin.
+- The database rule for granting `editor` (`admins grant editor`) already requires the target to hold `member`, matching the decision that editors stay member-only. No schema change needed.
 
-1. **Duplicated vocabulary.** `AppRole` / `STAFF_ROLES` declared twice (`src/lib/roles.ts`, `src/lib/authz.ts`) plus a third time as string literals in SQL. Three edits per change.
-2. **Two RLS dialects.** Half the policies inline a `user_roles` subquery hardcoding `IN ('admin','editor')`; half call `private.is_editor`. "Editor" can drift between them.
-3. **Guard drift.** `articles.functions.ts` re-wraps `assertStaff`; every call site passes `context as never`, so the guard is never type-checked.
-4. **No write policy on `user_roles`.** Only `users read own roles` (SELECT) exists — all writes are service-role, with no audit trail on grants.
-5. **Refetch storm.** `fetchMyRoles` runs per route guard *and* per `useMyRoles` mount, with no cache and no `onAuthStateChange` invalidation, so a freshly granted `editor` doesn't appear until a hard reload.
-6. **`contributor` and `user` are effectively dead** — `contributor` has RLS policies but no assignment path; `user` is never granted or checked.
+## What is actually missing
 
-## Recommendation, revised for the additive model
+The gaps are all in the **admin Roles screen and its supporting reads**, which assume every privileged account is a claimed member:
 
-**Roles are additive grants, never a state machine.** A claimed member who is granted `editor` is a member *and* an editor: `members.auth_user_id` is untouched, the `member` row in `user_roles` stays, `/my-profile` and the member portal keep working exactly as before. `editor` only adds Insights CMS access. Revoking `editor` deletes one row and changes nothing about membership.
+- `listClaimedMemberRoles()` reads only rows from `members` with an `auth_user_id`. An internal admin never appears, so an admin cannot see who else holds admin.
+- The audit log resolves names through `members` first, then `profiles`. An internal admin with no profile row shows as a bare UUID in the grant history.
+- The screen's copy explains only the member case, so an internal admin has no signal about why they are not listed.
 
-**Scope of the new Roles UI:** `editor` only, granted and revoked by an `admin`, and only on accounts that already hold `member` (i.e. a claimed member). `admin` stays out of the UI and keeps being provisioned by migration — self-service admin grants are how a single compromised admin session becomes permanent. `contributor` and `user` are not surfaced; their existing RLS policies stay in place, unused, and are documented as dormant rather than deleted.
+## Changes
 
-**No changes at all to:** the claim flow, `member-claim.server.ts`, `/my-profile`, `_member/route.tsx`, or member sync. Members continue to arrive by API import and self-claim.
+**1. Roles read model** (`src/lib/roles-admin.server.ts`)
 
-**Where roles live:** `user_roles` only. `members.auth_user_id` remains the identity link, never an authorization source. No custom JWT claims — this app revokes `member` at cutover/unbind, and a stale claim would be a live privilege leak.
+- Add `listInternalStaffAccounts()`: every account holding `admin` or `editor` in `user_roles` whose id is **not** present as `members.auth_user_id`. Resolve name from `profiles` and email from the auth admin API. Returns `{ authUserId, name, email, roles[] }`.
+- Extend `namesByAuthUser()` to fall back to the account's email when neither `members` nor `profiles` yields a name, so the audit log never renders a raw UUID.
 
-**Loading and caching:** one `useMyRoles` backed by TanStack Query (`["my-roles", userId]`, ~5 min stale time), invalidated from the root `onAuthStateChange`. Route guards read the same cache via `ensureQueryData`, so navigation costs zero extra requests and a new `editor` grant appears on next sign-in or refetch.
+**2. Roles RPC** (`src/lib/roles.functions.ts`)
 
-**Centralized checks:** a single `src/lib/roles/model.ts` exporting `AppRole`, `STAFF_ROLES`, `toRoleSet` and the predicates. `roles.ts` and `authz.ts` both import it. `AuthedContext` gets a real type so the `as never` casts disappear.
+- `listRoleAdminData` returns an extra `internal` array alongside `members` and `audit`. `grantEditor` / `revokeEditor` are unchanged — still member-only, still enforced by the database policy.
 
-**RLS vs app code:** RLS is the boundary, and only via `private.*` helpers after normalization. App-side guards (`assertEditor`, `beforeLoad`, nav filtering) are for early failure and UX, never the sole defence.
+**3. Roles screen** (`src/routes/_staff/roles.tsx`)
 
-## Dual-access UX (the one real consequence)
+- Add a second, read-only "Internal accounts" table below the members table: name, email, role badges, and a note that these accounts have no ICF member record and are provisioned outside the app.
+- Reword the intro so the two entry cases are explicit: internal admins vs. claim-linked members.
 
-An account holding both `member` and `editor` can reach two shells. Today `landingPathForSession` sends staff to `/articles` and the member shell is only reachable by typing the URL. With `editor` explicitly designed to sit on top of membership, that becomes the normal case:
+**4. Copy** (`src/i18n/locales/{en,de,fr,it}/cms.json`)
 
-- After sign-in, a member+editor lands on `/my-profile` (their primary identity) — the CMS is the added capability, not the default home.
-- The member shell gains an "Insights CMS" link when `isEditor`; the CMS shell gains a "My profile" link when `isMember`. Both gates keep redirecting only when the required role is genuinely absent.
+- New keys: `roles.internalTitle`, `roles.internalIntro`, `roles.internalEmpty`, `roles.colRoles`, plus the revised `roles.intro`. Localised for all four languages.
 
-## Implementation steps
+**5. Documentation** (`docs/auth-and-claim-flow.md`)
 
-1. **Migration A — normalize RLS.** Rewrite the 24 inline `EXISTS (... user_roles ...)` policies to call `private.is_editor / is_staff / has_role`. Semantic no-op, verified by re-reading `pg_policies`.
-2. **Migration B — govern `user_roles`.** Admin-only INSERT/DELETE policy via `private.has_role(auth.uid(),'admin')`, restricted so `admin` cannot be granted through the Data API (only `editor`), plus a `role_grants` audit table (`user_id`, `role`, `action`, `actor_user_id`, `created_at`) written by trigger.
-3. **Shared model module.** Add `src/lib/roles/model.ts`; re-export from `roles.ts` and `authz.ts`; delete the duplicate constants and the local `assertStaff` in `articles.functions.ts`; type `AuthedContext` and drop the casts.
-4. **Cached role loading.** `useMyRoles` on TanStack Query; `_staff/route.tsx` and `_member/route.tsx` `beforeLoad` use `ensureQueryData` on the same key; invalidate on `onAuthStateChange`.
-5. **Editor administration.** `src/lib/roles.functions.ts` with `listClaimedMembersWithRoles`, `grantEditor`, `revokeEditor` — all behind `assertAdmin`, all refusing any role other than `editor`, all refusing accounts without an existing `member` grant. Admin-only `/roles` page in the staff shell listing claimed members with an editor toggle and the audit trail.
-6. **Cross-shell links.** Update `landingPathForSession` to prefer `/my-profile` for member+editor, and add the reciprocal shell links described above.
-7. **MCP.** Add a shared `requireMcpRole` helper for future non-public tools; document that today's four read-only tools are intentionally RLS-only.
-8. **Docs.** Update `docs/auth-and-claim-flow.md` and `docs/architecture.md` with the additive-role rule, the "editor never touches membership" invariant, and the dormant status of `contributor`/`user`.
+- Add a short "Two kinds of account" section stating the rule: admins may exist without a member record; every other privileged role requires a claim-linked `members.auth_user_id`.
 
-Steps 1–2 are database-only and reversible; step 3 is mechanical; 4–6 are behavioural. No existing grant, session, or member binding is invalidated at any point.
+## Not doing
+
+- No new grantable roles in the UI, and no ability to mint admins from the app.
+- No relaxation of the member requirement for `editor`.
+- No change to the claim flow, sync pipeline, or Member Area.
+
+## Technical notes
+
+Listing accounts that are not members requires reading `auth.users`, which only the service role can do — this stays inside `roles-admin.server.ts` behind `assertAdmin`, matching how the existing member list already works. No migration is required.

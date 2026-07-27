@@ -554,7 +554,7 @@
   },
   "roles": {
     "title": "Rôles",
-    "intro": "Accordez l'accès au CMS Insights à un membre ayant activé son compte. Cet accès s'ajoute à l'adhésion : il ne modifie ni l'espace membre ni le profil de l'annuaire. Les administrateurs sont configurés séparément.",
+    "intro": "Deux types de comptes peuvent se connecter : les administrateurs internes, qui n'ont pas besoin d'un dossier de membre ICF, et les membres ayant revendiqué leur compte, liés à un dossier importé. L'accès éditeur s'ajoute ici à une adhésion existante : il ne modifie ni l'accès à l'espace membre ni le profil de l'annuaire. Les administrateurs sont créés séparément.",
     "searchPlaceholder": "Rechercher par nom ou e-mail",
     "colName": "Membre",
     "colEmail": "E-mail",
@@ -572,6 +572,10 @@
     "auditTitle": "Modifications récentes",
     "auditIntro": "Chaque attribution et retrait est enregistré, avec son auteur.",
     "auditEmpty": "Aucune modification de rôle enregistrée.",
-    "auditBy": "par"
+    "auditBy": "par",
+    "internalTitle": "Comptes internes",
+    "internalIntro": "Comptes privilégiés sans dossier de membre ICF importé. Ils sont créés en dehors de l'application et ne peuvent pas être modifiés ici ; l'accès éditeur exige toujours un dossier de membre lié.",
+    "internalEmpty": "Aucun compte interne.",
+    "colRoles": "Rôles"
   }
 }

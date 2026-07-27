@@ -32,6 +32,19 @@ export type RoleGrantEntry = {
   actorName: string | null;
 };
 
+/**
+ * An internal account: holds a privileged role but has no imported ICF member
+ * record. Admins are legitimately in this shape — chapter staff who administer
+ * the system are not necessarily ICF members. Every non-admin role still
+ * requires a claim-linked `members.auth_user_id`.
+ */
+export type InternalStaffAccount = {
+  authUserId: string;
+  name: string | null;
+  email: string | null;
+  roles: string[];
+};
+
 /** Every claimed member (an account exists), with their current CMS grant. */
 export async function listClaimedMemberRoles(): Promise<ClaimedMemberRole[]> {
   const { data: members, error } = await supabaseAdmin
@@ -73,6 +86,13 @@ export async function listRoleGrantAudit(limit = 50): Promise<RoleGrantEntry[]> 
     if (row.actor_user_id) ids.add(row.actor_user_id as string);
   }
   const names = await namesByAuthUser([...ids]);
+  // Internal admins have no member/profile name; fall back to their email so
+  // the history never shows a raw UUID.
+  const unnamed = [...ids].filter((id) => !names.has(id));
+  if (unnamed.length) {
+    const emails = await emailsByAuthUser(unnamed);
+    for (const [id, email] of emails) names.set(id, email);
+  }
 
   return (data ?? []).map((row) => ({
     id: row.id as string,
@@ -139,6 +159,61 @@ async function namesByAuthUser(userIds: string[]): Promise<Map<string, string>> 
     }
   }
   return map;
+}
+
+/**
+ * Internal admins have no member row and often no profile name either, so the
+ * audit log would otherwise render a bare UUID. Email is the last resort.
+ */
+async function emailsByAuthUser(userIds: string[]): Promise<Map<string, string>> {
+  const map = new Map<string, string>();
+  await Promise.all(
+    userIds.map(async (id) => {
+      const { data } = await supabaseAdmin.auth.admin.getUserById(id);
+      const email = data?.user?.email;
+      if (email) map.set(id, email);
+    }),
+  );
+  return map;
+}
+
+/**
+ * Accounts holding a privileged role that are NOT bound to an imported member
+ * record. Read-only in the UI: `admin` is provisioned by migration, and the
+ * database still refuses to grant `editor` to a non-member.
+ */
+export async function listInternalStaffAccounts(): Promise<InternalStaffAccount[]> {
+  const { data: roleRows, error } = await supabaseAdmin
+    .from("user_roles")
+    .select("user_id, role")
+    .in("role", ["admin", "editor", "contributor"]);
+  if (error) throw error;
+
+  const byUser = new Map<string, string[]>();
+  for (const row of roleRows ?? []) {
+    const key = row.user_id as string;
+    byUser.set(key, [...(byUser.get(key) ?? []), row.role as string]);
+  }
+  if (!byUser.size) return [];
+
+  const { data: bound } = await supabaseAdmin
+    .from("members")
+    .select("auth_user_id")
+    .in("auth_user_id", [...byUser.keys()]);
+  for (const row of bound ?? []) byUser.delete(row.auth_user_id as string);
+  if (!byUser.size) return [];
+
+  const ids = [...byUser.keys()];
+  const [names, emails] = await Promise.all([namesByAuthUser(ids), emailsByAuthUser(ids)]);
+
+  return ids
+    .map((id) => ({
+      authUserId: id,
+      name: names.get(id) ?? null,
+      email: emails.get(id) ?? null,
+      roles: (byUser.get(id) ?? []).sort(),
+    }))
+    .sort((a, b) => (a.name ?? a.email ?? "").localeCompare(b.name ?? b.email ?? ""));
 }
 
 function displayName(row: {

@@ -15,6 +15,23 @@ rather than being dropped into an empty shell.
 
 ## The role model
 
+### Two kinds of account
+
+Sign-in supports exactly two shapes, and the difference is deliberate:
+
+- **Internal administrator** — an ordinary auth account holding `admin`, with
+  **no** row in `members`. Chapter staff who administer the system are not
+  necessarily ICF members, so requiring an imported member record for them
+  would be wrong. `landingPath` sends them straight to the staff CMS.
+- **Claimed member** — an account bound to an imported member record through
+  `members.auth_user_id`, optionally carrying the additive `editor` grant.
+
+Every **non-admin** privileged role still requires that claim linkage: the
+`user_roles` insert policy grants `editor` only when the target account already
+holds `member`, so an internal account cannot be given CMS access without first
+being claimed. The admin Roles screen therefore lists internal accounts
+read-only, purely for visibility.
+
 Roles live in `public.user_roles` — one row per (user, role) — and never on a
 profile record. Storing a role on a user-editable row is a privilege-escalation
 bug waiting to happen, so `user_roles` has **no insert or update policy at

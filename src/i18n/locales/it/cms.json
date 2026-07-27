@@ -554,7 +554,7 @@
   },
   "roles": {
     "title": "Ruoli",
-    "intro": "Concedi l'accesso al CMS Insights a un socio che ha attivato il proprio account. L'accesso si aggiunge all'adesione: non modifica né l'area soci né il profilo nella directory. Gli amministratori vengono configurati separatamente.",
+    "intro": "Possono accedere due tipi di account: gli amministratori interni, che non necessitano di una scheda socio ICF, e i soci che hanno rivendicato l'account, collegati a una scheda importata. L'accesso editor viene concesso qui in aggiunta all'adesione esistente: non modifica né l'accesso all'area soci né il profilo della directory. Gli amministratori vengono creati separatamente.",
     "searchPlaceholder": "Cerca per nome o e-mail",
     "colName": "Socio",
     "colEmail": "E-mail",
@@ -572,6 +572,10 @@
     "auditTitle": "Modifiche recenti",
     "auditIntro": "Ogni concessione e revoca viene registrata, con l'autore dell'azione.",
     "auditEmpty": "Nessuna modifica dei ruoli registrata.",
-    "auditBy": "da"
+    "auditBy": "da",
+    "internalTitle": "Account interni",
+    "internalIntro": "Account con privilegi senza scheda socio ICF importata. Vengono creati al di fuori dell'app e non possono essere modificati qui; l'accesso editor richiede sempre una scheda socio collegata.",
+    "internalEmpty": "Nessun account interno.",
+    "colRoles": "Ruoli"
   }
 }
