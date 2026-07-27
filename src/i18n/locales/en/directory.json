@@ -35,7 +35,7 @@
     "manyMode": "{count} results in {mode}",
     "emptyTitle": "No coaches match your filters",
     "emptyBody": "Try widening your canton or specialisation.",
-    "emptyModeBody": "No {mode} results match your filters yet — try widening your canton or specialisation.",
+    "emptyModeBody": "No results in {mode} match your filters yet — try widening your canton or specialisation.",
     "loading": "Loading coaches…",
     "errorTitle": "The directory is temporarily unavailable",
     "errorBody": "Please try again in a moment.",
