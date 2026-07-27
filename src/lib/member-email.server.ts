@@ -65,7 +65,7 @@ export async function sendMemberEmail(email: MemberEmail): Promise<MemberEmailRe
   // switched off until after the LIVE cutover, at which point the email domain
   // is scaffolded and this branch gets the real send call. Until then an
   // unsuppressed send is recorded as `no_transport` rather than silently lost.
-  await log("no_transport", recipient);
+  await log(redirected ? "no_transport_redirected" : "no_transport", recipient);
   return { sent: false, reason: "failed" };
 }
 
