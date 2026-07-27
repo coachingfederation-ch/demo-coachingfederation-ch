@@ -357,81 +357,69 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
         </div>
       </div>
 
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-12 sm:px-8 sm:py-16 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+      <div
+        className={
+          "mx-auto grid max-w-6xl gap-8 px-5 py-12 sm:px-8 sm:py-16 lg:items-start " +
+          (hasSidebarCards ? "lg:grid-cols-[minmax(0,1fr)_340px]" : "lg:grid-cols-1")
+        }
+      >
         <div className="flex min-w-0 flex-col gap-6">
           {profile.description && (
-            <section>
-              <h2 className="btn-mono mb-3">{t("directory.detail.about")}</h2>
+            <Panel index={panel()} title={t("directory.detail.about")} edge="primary">
               <Prose text={profile.description} />
-            </section>
+            </Panel>
           )}
           {profile.approach && (
-            <Section title={t("directory.detail.approach")}>
+            <Panel index={panel()} title={t("directory.detail.approach")} edge="accent">
               <Steps text={profile.approach} />
-            </Section>
+            </Panel>
           )}
-          {specialisations.length > 0 && (
-            <Section title={t("directory.detail.specialisations")}>
-              <Chips labels={specialisations} />
-            </Section>
-          )}
-          {clientTypes.length > 0 && (
-            <Section title={t("directory.detail.clientTypes")}>
-              <Chips labels={clientTypes} />
-            </Section>
+          {(specialisations.length > 0 || clientTypes.length > 0) && (
+            <div
+              className={
+                "grid gap-6 " +
+                (specialisations.length > 0 && clientTypes.length > 0 ? "md:grid-cols-2" : "")
+              }
+            >
+              {specialisations.length > 0 && (
+                <Panel index={panel()} title={t("directory.detail.specialisations")} edge="accent">
+                  <Chips labels={specialisations} />
+                </Panel>
+              )}
+              {clientTypes.length > 0 && (
+                <Panel index={panel()} title={t("directory.detail.clientTypes")} edge="muted">
+                  <Chips labels={clientTypes} />
+                </Panel>
+              )}
+            </div>
           )}
           {profile.qualifications && (
-            <Section title={t("directory.detail.qualifications")}>
+            <Panel index={panel()} title={t("directory.detail.qualifications")} edge="primary">
               <Prose text={profile.qualifications} />
-            </Section>
+            </Panel>
           )}
           {profile.testimonial_quote && (
-            <section className="border-t border-border/70 pt-6">
-              <figure className={"rounded-2xl border border-border/70 bg-card p-6 " + CARD_SHADOW}>
-                <blockquote className="text-base font-semibold leading-relaxed text-foreground">
-                  “{profile.testimonial_quote}”
-                </blockquote>
-                {profile.testimonial_attribution && (
-                  <figcaption className="mt-3 text-xs font-semibold text-muted-foreground">
-                    {profile.testimonial_attribution}
-                  </figcaption>
-                )}
-              </figure>
-            </section>
-          )}
-          {profile.fees_note && (
-            <Section title={t("directory.detail.fees")}>
-              <Prose text={profile.fees_note} />
-            </Section>
-          )}
-          {regions.length > 0 && (
-            <Section title={t("directory.detail.regions")}>
-              <Chips labels={regions} />
-            </Section>
-          )}
-          {profile.links.length > 0 && (
-            <Section title={t("directory.detail.links")}>
-              <ul className="flex list-none flex-col gap-2 p-0">
-                {profile.links.map((link) => (
-                  <li key={link.id}>
-                    <a
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer nofollow"
-                      className="text-sm font-semibold text-primary hover:underline"
-                    >
-                      {link.label || link.url}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </Section>
+            <figure
+              className={
+                "rounded-2xl border border-border/60 bg-hero p-8 text-hero-foreground " +
+                CARD_SHADOW
+              }
+            >
+              <blockquote className="text-lg font-semibold leading-relaxed">
+                “{profile.testimonial_quote}”
+              </blockquote>
+              {profile.testimonial_attribution && (
+                <figcaption className="mt-4 text-xs font-semibold text-hero-foreground/70">
+                  {profile.testimonial_attribution}
+                </figcaption>
+              )}
+            </figure>
           )}
         </div>
 
-        <aside className="flex flex-col gap-4 lg:sticky lg:top-8">
+        <aside className="flex flex-col gap-6 lg:sticky lg:top-8">
           {(hasSidebarFacts || hasCta) && (
-            <div className={"rounded-2xl border border-border/70 bg-card p-6 " + CARD_SHADOW}>
+            <div className={"rounded-2xl border border-border/60 bg-card p-6 " + CARD_SHADOW}>
               <h2 className="eyebrow text-muted-foreground">
                 {t("directory.detail.workWith").replace("{name}", name.split(" ")[0] ?? name)}
               </h2>
@@ -460,7 +448,7 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
                       href={bookingUrl}
                       target="_blank"
                       rel="noopener noreferrer nofollow"
-                      className="inline-flex h-11 items-center justify-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground"
+                      className="inline-flex h-11 items-center justify-center rounded-full bg-accent px-5 text-sm font-semibold text-accent-foreground"
                     >
                       {t("directory.detail.book")}
                     </a>
@@ -468,7 +456,7 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
                   {contactEmail && (
                     <a
                       href={`mailto:${contactEmail}`}
-                      className="inline-flex h-11 items-center justify-center rounded-full border border-border px-5 text-sm font-semibold text-foreground hover:bg-secondary"
+                      className="inline-flex h-11 items-center justify-center rounded-full border-2 border-primary px-5 text-sm font-semibold text-primary hover:bg-secondary"
                     >
                       {t("directory.detail.message")}
                     </a>
@@ -479,6 +467,42 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
                 </div>
               )}
             </div>
+          )}
+
+          {/* Practical details live in the right rail: fees, where they work, links. */}
+          {profile.fees_note && (
+            <SideCard title={t("directory.detail.fees")} dot="accent">
+              <Prose text={profile.fees_note} />
+            </SideCard>
+          )}
+          {regions.length > 0 && (
+            <SideCard title={t("directory.detail.regions")} dot="primary">
+              <Chips labels={regions} />
+            </SideCard>
+          )}
+          {profile.links.length > 0 && (
+            <SideCard title={t("directory.detail.links")} dot="muted">
+              <ul className="flex list-none flex-col gap-3 p-0">
+                {profile.links.map((link) => (
+                  <li key={link.id}>
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer nofollow"
+                      className="group inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
+                    >
+                      <span>{link.label || link.url}</span>
+                      <span
+                        aria-hidden
+                        className="transition-transform group-hover:translate-x-0.5"
+                      >
+                        →
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </SideCard>
           )}
 
           <div className="rounded-2xl border border-border/70 bg-secondary/60 p-6">
