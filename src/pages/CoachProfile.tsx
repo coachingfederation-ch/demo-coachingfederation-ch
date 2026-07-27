@@ -259,6 +259,10 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
   const clientTypes = (profile.client_type_slugs ?? []).map(clientTypeLabel);
 
   const bookingUrl = profile.booking_url;
+  // Display language: the profile falls back to its authoring language whenever
+  // the visitor's language has no published translation.
+  const resolvedLocale = profile.resolvedLocale ?? profile.primary_locale ?? "en";
+  const showFallbackNotice = resolvedLocale !== locale;
   const contactEmail = profile.contact_email;
   const hasCta = Boolean(bookingUrl || contactEmail);
   const experience = profile.experience_band
