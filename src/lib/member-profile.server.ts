@@ -39,6 +39,29 @@ export type MemberProfileLink = {
   sort_order: number;
 };
 
+/**
+ * Facet join tables are addressed by a name known only at runtime, which the
+ * generated Supabase types can't resolve. This is the narrow slice of the
+ * query builder those calls actually use — enough to stay type-checked
+ * without falling back to `any`.
+ */
+type FacetError = { message: string } | null;
+type FacetTable = {
+  select: (columns: string) => {
+    eq: (
+      column: string,
+      value: string,
+    ) => PromiseLike<{ data: Record<string, string>[] | null; error: FacetError }>;
+  };
+  delete: () => {
+    eq: (column: string, value: string) => PromiseLike<{ error: FacetError }>;
+  };
+  insert: (rows: Record<string, string>[]) => PromiseLike<{ error: FacetError }>;
+};
+
+const facetTable = (table: string) =>
+  supabaseAdmin.from(table as never) as unknown as FacetTable;
+
 export type MyMemberProfile = {
   member: {
     id: string;
