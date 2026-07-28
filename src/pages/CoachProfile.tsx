@@ -245,6 +245,7 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
   const regionLabel = lookup(vocab?.cf_regions);
   const clientTypeLabel = lookup(vocab?.cf_client_types);
   const availabilityLabel = lookup(vocab?.cf_availability_labels);
+  const experienceLabel = lookup(vocab?.cf_experience_bands);
 
   const name = profile.full_name ?? "";
   const location = [profile.city, profile.country].filter(Boolean).join(" · ");
@@ -265,9 +266,7 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
   const showFallbackNotice = resolvedLocale !== locale;
   const contactEmail = profile.contact_email;
   const hasCta = Boolean(bookingUrl || contactEmail);
-  const experience = profile.experience_band
-    ? t(`directory.detail.experienceBands.${profile.experience_band}`)
-    : null;
+  const experience = profile.experience_band ? experienceLabel(profile.experience_band) : null;
   const availabilityText =
     profile.availability_note ||
     (profile.availability_slug ? availabilityLabel(profile.availability_slug) : null);
