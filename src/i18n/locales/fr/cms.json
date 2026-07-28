@@ -658,6 +658,31 @@
       "cancelled": "Annulée"
     },
     "reinstate": "Réactiver",
-    "cancelRsvp": "Annuler"
+    "cancelRsvp": "Annuler",
+    "imageHint": "Collez l'URL d'une image ou choisissez-en une sur Unsplash.",
+    "chooseUnsplash": "Choisir sur Unsplash",
+    "removeImage": "Retirer l'image",
+    "imageCredit": "Photo de",
+    "imageFallback": "Aucune image sélectionnée — l'événement affichera son motif dessiné à la main."
+  },
+  "eventTranslations": {
+    "title": "Traductions",
+    "hint": "Traduction automatique depuis la langue source, puis modifiable à la main.",
+    "notTranslated": "Non traduit",
+    "upToDate": "À jour",
+    "needsRefresh": "À rafraîchir",
+    "manual": "Modifié à la main",
+    "translate": "Traduire",
+    "refresh": "Rafraîchir",
+    "working": "Traduction en cours…",
+    "open": "Modifier",
+    "close": "Fermer",
+    "confirmOverwrite": "Vos modifications manuelles pour cette langue seront écrasées. Continuer ?",
+    "failed": "Échec de la traduction",
+    "titleField": "Titre",
+    "summaryField": "Résumé",
+    "descriptionField": "Description",
+    "saveTranslation": "Enregistrer la traduction",
+    "savedTranslation": "Enregistré"
   }
 }
