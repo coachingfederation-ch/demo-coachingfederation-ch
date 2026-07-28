@@ -259,6 +259,8 @@ function RolesPage() {
           </table>
         </div>
 
+        <QaTestAccountPanel onProvisioned={() => void load()} />
+
         <h2 className="mt-10 text-lg font-semibold tracking-tight">{t("roles.auditTitle")}</h2>
         <p className="mt-1 text-sm text-muted-foreground">{t("roles.auditIntro")}</p>
         <ul className="mt-3 space-y-2 text-sm">
