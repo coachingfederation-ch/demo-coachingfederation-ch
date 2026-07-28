@@ -658,6 +658,31 @@
       "cancelled": "Cancelled"
     },
     "reinstate": "Reinstate",
-    "cancelRsvp": "Cancel"
+    "cancelRsvp": "Cancel",
+    "imageHint": "Paste an image URL, or pick one from Unsplash.",
+    "chooseUnsplash": "Choose from Unsplash",
+    "removeImage": "Remove image",
+    "imageCredit": "Photo by",
+    "imageFallback": "No image selected — the event will show its hand-drawn mark."
+  },
+  "eventTranslations": {
+    "title": "Translations",
+    "hint": "Machine-translated from the source language, then editable by hand.",
+    "notTranslated": "Not translated",
+    "upToDate": "Up to date",
+    "needsRefresh": "Needs refresh",
+    "manual": "Hand-edited",
+    "translate": "Translate",
+    "refresh": "Refresh",
+    "working": "Translating…",
+    "open": "Edit",
+    "close": "Close",
+    "confirmOverwrite": "This will overwrite your manual edits for this language. Continue?",
+    "failed": "Translation failed",
+    "titleField": "Title",
+    "summaryField": "Summary",
+    "descriptionField": "Description",
+    "saveTranslation": "Save translation",
+    "savedTranslation": "Saved"
   }
 }
