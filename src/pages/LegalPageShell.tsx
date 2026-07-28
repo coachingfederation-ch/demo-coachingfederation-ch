@@ -10,13 +10,13 @@ interface LegalPageShellProps {
 export function DraftBanner() {
   const { t } = useI18n();
   return (
-    <div className="border-y border-warn/20 bg-warn-soft">
+    <aside aria-label="Draft notice" className="border-y border-warn/20 bg-warn-soft">
       <div className="mx-auto flex max-w-7xl items-start gap-3 px-5 py-4 sm:px-8">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
           fill="currentColor"
-          className="mt-0.5 h-5 w-5 shrink-0 text-warn"
+          className="mt-0.5 h-5 w-5 shrink-0 text-warn-foreground"
           aria-hidden="true"
         >
           <path
@@ -26,11 +26,11 @@ export function DraftBanner() {
           />
         </svg>
         <div>
-          <p className="text-sm font-semibold text-warn">{t("legal.draftBanner.title")}</p>
+          <p className="text-sm font-semibold text-warn-foreground">{t("legal.draftBanner.title")}</p>
           <p className="mt-1 text-sm leading-relaxed text-foreground/80">{t("legal.draftBanner.body")}</p>
         </div>
       </div>
-    </div>
+    </aside>
   );
 }
 
