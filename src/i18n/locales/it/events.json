@@ -11,101 +11,58 @@
     "lede": "Conferenze, webinar e incontri della community per coach e organizzazioni in tutta la Svizzera."
   },
   "featured": {
-    "eyebrow": "Evento in evidenza",
-    "date": "Gio 17 set 2026",
-    "city": "Zürich",
-    "title": "Coaching Perspectives Conference 2026",
-    "desc": "Una giornata intera di incontro tra coach, leader e ricercatori per esplorare il futuro del coaching professionale in Svizzera.",
-    "tags": [
-      "EN · DE",
-      "Conferenza",
-      "In presenza"
-    ]
+    "eyebrow": "Evento in evidenza"
   },
   "upcoming": {
     "eyebrow": "In arrivo",
     "title": "I prossimi appuntamenti.",
-    "items": [
-      {
-        "date": "Mar 6 ott 2026",
-        "city": "Online",
-        "title": "AI & Coaching: What Stays Human?",
-        "tags": [
-          "EN",
-          "Webinar"
-        ]
-      },
-      {
-        "date": "Gio 12 nov 2026",
-        "city": "Lausanne",
-        "title": "Soirée Coaching: Bâtir une culture de coaching",
-        "tags": [
-          "FR",
-          "Networking"
-        ]
-      },
-      {
-        "date": "Mer 25 nov 2026",
-        "city": "Lugano",
-        "title": "Coaching e leadership consapevole",
-        "tags": [
-          "IT",
-          "Community"
-        ]
-      },
-      {
-        "date": "Gio 10 dic 2026",
-        "city": "Online",
-        "title": "Mentor Coaching Circle",
-        "tags": [
-          "EN",
-          "Mentoring"
-        ]
-      },
-      {
-        "date": "Mer 20 gen 2027",
-        "city": "Zürich",
-        "title": "New Year Kickoff: Coaching in 2027",
-        "tags": [
-          "DE · EN",
-          "Networking"
-        ]
-      },
-      {
-        "date": "Gio 11 feb 2027",
-        "city": "Genève",
-        "title": "Team Coaching Masterclass",
-        "tags": [
-          "EN",
-          "Workshop"
-        ]
-      }
-    ]
+    "empty": "Al momento non ci sono eventi in programma. Torna presto a trovarci."
   },
   "past": {
     "eyebrow": "Eventi passati",
-    "recap": "Riepilogo →",
-    "items": [
-      {
-        "date": "Gio 6 mar 2025",
-        "city": "Zürich",
-        "title": "Coaching Perspectives Conference 2025"
-      },
-      {
-        "date": "Mer 19 feb 2025",
-        "city": "Online",
-        "title": "Ethics in Practice: A Coaching Dialogue"
-      },
-      {
-        "date": "Gio 30 gen 2025",
-        "city": "Lausanne",
-        "title": "Coaching et transformation culturelle"
-      }
-    ]
+    "recap": "Riepilogo →"
   },
   "cta": {
     "eyebrow": "Contribuisci",
     "title": "Hai un evento da proporre?",
     "propose": "Proponi un evento"
+  },
+  "tag": {
+    "inPerson": "In presenza",
+    "online": "Online",
+    "hybrid": "Ibrido",
+    "registration": "Iscrizione",
+    "full": "Al completo"
+  },
+  "detail": {
+    "backToEvents": "Tutti gli eventi",
+    "rsvpEyebrow": "Iscrizione",
+    "rsvp": "Iscriviti",
+    "saving": "Salvataggio…",
+    "fieldName": "Nome e cognome",
+    "fieldEmail": "E-mail",
+    "fieldNotes": "C'è qualcosa che dovremmo sapere? (facoltativo)",
+    "confirmed": "Iscrizione registrata. Il tuo posto è confermato.",
+    "youAreIn": "Sei iscritto a questo evento.",
+    "cancel": "Annulla la mia iscrizione",
+    "full": "Questo evento è al completo.",
+    "closed": "Le iscrizioni non sono aperte.",
+    "noRegistration": "Nessuna iscrizione necessaria — vieni pure.",
+    "pastEvent": "Questo evento si è già svolto.",
+    "membersOnly": "L'iscrizione è riservata ai membri autenticati.",
+    "signIn": "Accedi",
+    "seatsLeft": "{n} posti disponibili",
+    "joinLink": "Partecipa alla sessione online",
+    "privacy": "Usiamo i tuoi dati solo per organizzare questo evento.",
+    "error": {
+      "full": "L'evento è appena andato al completo.",
+      "closed": "Le iscrizioni sono chiuse.",
+      "duplicate": "Questo indirizzo e-mail è già iscritto.",
+      "error": "Qualcosa è andato storto. Riprova."
+    },
+    "notFoundTitle": "Evento non trovato",
+    "notFoundBody": "L'evento potrebbe essere stato ritirato o il link non è corretto.",
+    "errorTitle": "Impossibile caricare l'evento",
+    "errorBody": "Riprova tra un istante."
   }
 }
