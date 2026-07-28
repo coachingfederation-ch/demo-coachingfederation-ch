@@ -26,8 +26,12 @@ export function DraftBanner() {
           />
         </svg>
         <div>
-          <p className="text-sm font-semibold text-warn-foreground">{t("legal.draftBanner.title")}</p>
-          <p className="mt-1 text-sm leading-relaxed text-foreground/80">{t("legal.draftBanner.body")}</p>
+          <p className="text-sm font-semibold text-warn-foreground">
+            {t("legal.draftBanner.title")}
+          </p>
+          <p className="mt-1 text-sm leading-relaxed text-foreground/80">
+            {t("legal.draftBanner.body")}
+          </p>
         </div>
       </div>
     </aside>
@@ -45,9 +49,7 @@ export function LegalPageShell({ pageKey, children }: LegalPageShellProps) {
       />
       <DraftBanner />
       <main id="main" className="pb-24">
-        <article className="mx-auto max-w-3xl px-5 pt-16 sm:px-8">
-          {children}
-        </article>
+        <article className="mx-auto max-w-3xl px-5 pt-16 sm:px-8">{children}</article>
       </main>
       <SiteFooter />
     </div>

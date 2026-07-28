@@ -7,7 +7,12 @@ export const Route = createFileRoute("/$locale/privacy")({
   head: ({ params }) => {
     const locale = params.locale as Locale;
     return {
-      meta: localeMeta(locale, "/privacy", "legal.privacy.meta.title", "legal.privacy.meta.description"),
+      meta: localeMeta(
+        locale,
+        "/privacy",
+        "legal.privacy.meta.title",
+        "legal.privacy.meta.description",
+      ),
       links: localeLinkTags("/privacy", locale),
     };
   },

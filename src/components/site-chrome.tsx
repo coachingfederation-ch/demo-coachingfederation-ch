@@ -429,8 +429,6 @@ export function SiteFooter() {
           <LocaleLink to="/imprint" className="text-white/80 hover:text-white">
             {t("common.footer.imprint")}
           </LocaleLink>
-
-
         </nav>
       </div>
     </footer>

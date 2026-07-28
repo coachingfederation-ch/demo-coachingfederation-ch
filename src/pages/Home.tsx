@@ -66,7 +66,9 @@ function Audiences() {
           const children = (
             <>
               <p className="section-label">{a.eyebrow}</p>
-              <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground">{a.title}</h3>
+              <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground">
+                {a.title}
+              </h3>
               <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{a.desc}</p>
               <span className="mt-6 text-sm font-semibold text-primary">{a.cta} →</span>
             </>
@@ -85,7 +87,11 @@ function Audiences() {
             );
           }
           return (
-            <LocaleLink key={a.title + a.eyebrow} to={targets[i] ?? "/about"} className={cardClassName}>
+            <LocaleLink
+              key={a.title + a.eyebrow}
+              to={targets[i] ?? "/about"}
+              className={cardClassName}
+            >
               {children}
             </LocaleLink>
           );
