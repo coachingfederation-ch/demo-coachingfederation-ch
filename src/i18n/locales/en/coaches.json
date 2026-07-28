@@ -95,6 +95,7 @@
   "credentials": {
     "eyebrow": "Credentialing pathway",
     "title": "A recognised path from ACC to MCC.",
+    "cta": "Explore Credentialing",
     "items": [
       {
         "level": "ACC",

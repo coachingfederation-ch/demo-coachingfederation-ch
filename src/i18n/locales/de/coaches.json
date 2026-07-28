@@ -95,6 +95,7 @@
   "credentials": {
     "eyebrow": "Zertifizierungspfad",
     "title": "Ein anerkannter Weg vom ACC zum MCC.",
+    "cta": "Zertifizierung entdecken",
     "items": [
       {
         "level": "ACC",

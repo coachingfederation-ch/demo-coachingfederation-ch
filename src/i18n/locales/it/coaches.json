@@ -95,6 +95,7 @@
   "credentials": {
     "eyebrow": "Percorso di credenziale",
     "title": "Un percorso riconosciuto da ACC a MCC.",
+    "cta": "Esplora la certificazione",
     "items": [
       {
         "level": "ACC",
