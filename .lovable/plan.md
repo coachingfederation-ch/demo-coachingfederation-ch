@@ -1,68 +1,58 @@
-## Phase 1 — Events with free RSVP
+## Goal
 
-No Stripe, no tiers, no webhook route, no `payments_live_enabled`. Public event URLs are slug-based. One language per event; no translation table this phase.
+A dedicated pure-member QA account with a known email/password, bound to one imported member record, with zero staff roles — created through the supported auth-admin path, without touching the existing hybrid admin/member account.
 
-### 1. Database (two migrations)
+## What the current code makes necessary
 
-**Migration A — enum only.** `ALTER TYPE public.app_role ADD VALUE 'organizer'`. Postgres refuses to use a new enum value in the same transaction that adds it, so this must land on its own before any policy can reference it.
+Verified before planning:
 
-**Migration B — schema, guards, view.**
+- Exactly one member is claimed today: `9875144` (Hartmuth Gieldanowski), bound to auth user `706713f9…`. That is the hybrid account and stays untouched.
+- All 501 imported members carry TEST-scrambled emails (`zz…zz`); 500 are active and unclaimed.
+- The self-service claim flow is closed by design (`account_claim_enabled` requires LIVE + recorded cutover), and `completeClaim` creates the auth user with **the imported member's email** — so claiming would mint a `zz…zz` login. That is exactly what must be avoided.
 
-New enums: `event_status` (draft/published/cancelled), `event_location_mode` (in_person/online/hybrid), `event_registration_mode` (none/rsvp), `event_registration_status` (confirmed/cancelled).
+So the QA account cannot come from the existing token flow as-is. It needs the same *binding contract* (`members.auth_user_id` + a `member` role grant) established through the auth admin API with an operator-chosen email.
 
-`public.events`
-- `slug` (unique, the public key), `title`, `summary`, `description`, `language` (reuses `article_lang`)
-- `image_url`, `image_credit_name`, `image_credit_url` — mirrors `articles`
-- `starts_at`, `ends_at`, `timezone` (default `Europe/Zurich`), `location_mode`, `venue_name`, `city`, `online_url`
-- `status`, `published_at`, `is_featured`
-- `registration_mode`, `capacity` (null = unlimited), `registration_opens_at`, `registration_closes_at`, `guest_registration_allowed`
-- `organizer_id` — nullable. Null means chapter-owned: editors/admins manage it, no individual organizer does. That is what lets the seeded events exist without inventing an owner.
-- `created_at`, `updated_at`, `content_updated_at`
+## Plan
 
-`public.event_registrations`
-- `event_id` (cascade), `user_id` (null = guest), `email`, `full_name`, `status`, `notes`, timestamps
-- Partial unique indexes on `(event_id, lower(email))` and `(event_id, user_id)`, both `WHERE status <> 'cancelled'` — so a cancelled RSVP can be redone.
+### 1. Server: QA test-account provisioning (admin only)
 
-`public.events_public` — `security_invoker = on`, published rows only. Projects safe columns plus computed `registration_count`, `seats_remaining`, `is_full`, `registration_open`. It never exposes `organizer_id` or anything about registrants. Because anon has no read on `event_registrations`, the count comes from a security-definer `private.event_confirmed_count(event_id)`, the same device `coach_directory_public` uses for `private.directory_contact_email`.
+New helper `src/lib/qa-test-account.server.ts` and a server function in the existing `src/lib/roles.functions.ts`, guarded by `assertAdmin`, that:
 
-**Triggers — where the rules actually live**
-- `tg_events_touch_updated_at` — `updated_at` always; `content_updated_at` only when title/summary/description change (pattern of `tg_articles_content_updated_at`).
-- `tg_events_publish_guard` — refuses `published` without a title, slug and `starts_at`; stamps `published_at` on first publish.
-- `tg_event_registration_guard` — the whole RSVP policy, in one BEFORE INSERT/UPDATE trigger. It takes `SELECT … FOR UPDATE` on the event row first, so two concurrent RSVPs serialise and the last seat cannot be sold twice. It then raises unless: event is `published`, `registration_mode = 'rsvp'`, now is inside the registration window, the event is not cancelled, a guest row (`user_id IS NULL`) is allowed by `guest_registration_allowed`, and confirmed count is below `capacity`. Email is lower-cased here so the unique index is meaningful.
+1. Refuses unless the integration is in **TEST** mode (`integration_config.mode`). This makes it impossible to mint synthetic accounts against real LIVE member data.
+2. Rejects an email that is test-shaped (`isTestShapedEmail`) — the login identity must be a real address you control.
+3. Loads the chosen member: must exist, be `active`, and have `auth_user_id IS NULL`. Never overwrites an existing binding, so the hybrid account is structurally out of reach.
+4. Creates the auth user with `supabaseAdmin.auth.admin.createUser({ email, password, email_confirm: true })`. A collision returns a clear "account already exists" message instead of taking over an identity.
+5. Binds with `update members set auth_user_id = … where id = … and auth_user_id is null` (same conditional bind as `completeClaim`); on failure the just-created auth user is deleted, so no orphan.
+6. Grants **only** `member` in `user_roles`. Nothing else.
+7. Records a `member_sync_events` row (`member_qa_account_provisioned`, severity `warning`, actor = the admin) so the synthetic account is visible in the member history like the staff-issued claim link is.
 
-### 2. Security / authz
+The imported member's scrambled email is never read, changed, or exposed — the auth identity and the imported record stay separate, exactly as the claim flow already treats them.
 
-`events`: `SELECT` on published rows for anon + authenticated; organizers get full CRUD on rows where `organizer_id = auth.uid() AND private.has_role(auth.uid(),'organizer')`; editors/admins get everything via `private.is_editor(auth.uid())`. Grants: `SELECT` to anon/authenticated, write to authenticated, `ALL` to service_role.
+### 2. Roles screen: minimal additions (`/roles`)
 
-`event_registrations`: anon may **INSERT only**, and only rows with `user_id IS NULL`. Authenticated may insert their own row, and read/cancel rows where `user_id = auth.uid()`. Managers read and update all rows for their events through a new security-definer `private.event_is_managed_by(event_id, uid)` (organizer of that event, or editor/admin). **No anon SELECT at all**, so attendee lists cannot be enumerated.
+No new screen. Two small additions to the existing page:
 
-The `organizer` grant follows `editor` exactly: the `user_roles` insert policy admits it only when the target account already holds `member`, keeping the claim linkage requirement. `role_grants` audits it for free. `organizer` joins `STAFF_ROLES` in `src/lib/role-model.ts`, with `assertOrganizer` added to `src/lib/authz.ts`, and appears alongside editor on `/roles`.
+- **Link-state column** on the member table: the imported record's ICF number (`cst_recno`) and a shortened auth user id, so claim linkage is verifiable at a glance. The existing badges already convey Member / Editor / Organizer / Administrator; the "Internal accounts" table already covers internal-only.
+- **A collapsed "QA test member" panel**, admin-only and rendered **only while the integration is in TEST mode**: pick an unclaimed active member from a dropdown, enter email + password, submit. The result panel echoes the email and password once, in-session, for you to copy — nothing is persisted or emailed.
 
-### 3. Server functions
+Read model in `src/lib/roles-admin.server.ts` extends `ClaimedMemberRole` with `cstRecno`, and adds a `listClaimableMembers()` list (id, name, ICF number) for the dropdown. Strings added to `cms.json` for DE/FR/IT/EN.
 
-`src/lib/events.functions.ts` — public, `publicSupabaseClient()` against `events_public` only:
-- `listPublicEvents` (upcoming / past split, paging)
-- `getPublicEventBySlug`
-- `registerForEvent` — unauthenticated by design, Zod-validated. It derives `user_id` from the bearer token when one is present and never from request input; with no token it inserts a guest row through the anon client. Every rejection comes from the trigger, not from a TypeScript check.
-- `getMyRegistration` for the "already registered" state.
+### 3. Not changed
 
-`src/lib/events-admin.functions.ts` — `.middleware([requireSupabaseAuth])` plus `assertOrganizer`/`assertEditor`: `listManagedEvents`, `createEvent`, `updateEvent`, `publishEvent`, `cancelEvent`, `listEventRegistrations`. All go through `context.supabase`, so RLS is the real boundary and the guards are only fast failure.
+- No change to `member-claim.server.ts`, the claim gate, RLS, or role-grant policies.
+- No change to `handle_new_user`, `auth.callback.tsx`, or the `_member` / `_staff` layouts — the new account routes to `/my-profile` by the existing `landingPath` rules.
+- No database migration: `members.auth_user_id`, `user_roles` and `member_sync_events` already carry everything needed.
 
-### 4. Public site
+## Verification I will run
 
-- `src/pages/Events.tsx` reworked to read live data (featured / upcoming / past), keeping the current hand-drawn `Mark` visuals and card styling, using `image_url` when a row has one.
-- New `src/pages/EventDetail.tsx` — hero with date, city and mode, description, and an RSVP card with four states: **open** (name+email for guests, one-click for signed-in), **closed** (window shut or event cancelled), **full**, **already registered** (with cancel).
-- New routes `src/routes/events.$slug.tsx` and `src/routes/$locale/events.$slug.tsx`, loading via the public server function, with per-route `head()` and `Event` JSON-LD.
-- Published events added to `sitemap.xml`.
+1. Provision the QA account against a chosen active unclaimed member.
+2. Confirm in the database: exactly one member row bound to the new auth user, `user_roles` holds only `member`, and `9875144` → `706713f9…` is unchanged.
+3. Sign in headlessly as the QA user and confirm it lands on `/my-profile` and that `/roles` and `/articles` are refused.
+4. Open a published event detail page as that user and confirm the RSVP form is in signed-in-member shape (prefilled identity, not the guest path).
+5. Re-check `/roles` shows the QA account as Member-only with its link state.
 
-### 5. Staff CMS
+## Technical notes
 
-`src/routes/_staff/events.tsx` (layout), `events.index.tsx` (list with status and registration counts), `events.new.tsx`, `events.$id.tsx` (edit, publish, cancel, and a registrations table). Nav entry added to `src/components/cms/Shell.tsx`, visible to organizers, editors and admins.
-
-### 6. Content / i18n
-
-`events.json` in EN/DE/FR/IT is reduced to interface copy only — labels, RSVP states, form fields, confirmations, error messages. The events currently hard-coded in those files become seeded published rows in migration B (chapter-owned, `organizer_id` null), so `/events` is populated immediately.
-
-### Verification after build
-
-Real requests, not assumptions: anon read of `events_public` returns published rows with no organizer or attendee data; anon read of `event_registrations` is denied; RSVP succeeds once and the duplicate is refused; a guest RSVP to an event with `guest_registration_allowed = false` is refused by the trigger; a capacity-1 event refuses the second RSVP. Then a browser pass over `/events`, `/de/events`, an event detail page, and the staff Events screen.
+- The provisioning function lives beside the other admin RPCs and follows the same shape: `createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])` → `assertAdmin` → `await import()` of the `.server` helper inside the handler, so the service-role client never enters the client graph.
+- Password is validated at ≥ 10 characters, matching `completeClaim`.
+- The TEST-mode gate means this control disappears after the LIVE cutover; the real claim flow takes over then.

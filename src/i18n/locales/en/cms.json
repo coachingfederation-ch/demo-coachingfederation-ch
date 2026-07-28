@@ -581,7 +581,17 @@
     "grantEditor": "Grant editor",
     "revokeEditor": "Revoke editor",
     "grantOrganizer": "Grant organizer",
-    "revokeOrganizer": "Revoke organizer"
+    "revokeOrganizer": "Revoke organizer",
+    "colLink": "Link",
+    "qaTitle": "QA test member",
+    "qaIntro": "Creates a member-only test account bound to one unclaimed imported record, for manual testing. Only available while the integration is in TEST mode.",
+    "qaLiveDisabled": "Not available: the integration is in LIVE mode. Members claim their own account instead.",
+    "qaSelectMember": "Choose an unclaimed member…",
+    "qaEmailPlaceholder": "Test login email",
+    "qaPasswordPlaceholder": "Password (at least 10 characters)",
+    "qaCreate": "Create test account",
+    "qaCreated": "Test account created",
+    "qaCredentialsNote": "Shown once — copy it now. Nothing is stored or emailed."
   },
   "events": {
     "title": "Events",

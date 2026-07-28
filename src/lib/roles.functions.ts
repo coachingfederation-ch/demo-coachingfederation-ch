@@ -20,6 +20,11 @@ const grantSchema = z.object({
   memberId: z.string().uuid(),
   role: z.enum(MANAGED_ROLES),
 });
+const qaAccountSchema = z.object({
+  memberId: z.string().uuid(),
+  email: z.string().email(),
+  password: z.string().min(10),
+});
 
 /**
  * Claimed members with their current CMS grant, the internal (non-member)
@@ -38,6 +43,35 @@ export const listRoleAdminData = createServerFn({ method: "POST" })
       listRoleGrantAudit(),
     ]);
     return { members, internal, audit };
+  });
+
+/**
+ * QA support path: the claimable-member list and whether the TEST-mode gate is
+ * currently open. Separate from the main read model so the Roles screen only
+ * pays for it when the panel is opened.
+ */
+export const listQaProvisioningOptions = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertAdmin(context);
+    const { loadIntegrationConfigAdmin } = await import("./integration-config.server");
+    const config = await loadIntegrationConfigAdmin();
+    if (config.mode !== "test") return { testMode: false as const, candidates: [] };
+    const { listClaimableMembers } = await import("./qa-test-account.server");
+    return { testMode: true as const, candidates: await listClaimableMembers() };
+  });
+
+/**
+ * Creates a pure-member QA account and binds it to one unclaimed member.
+ * The password is echoed back once by the caller's UI and never stored.
+ */
+export const provisionQaTestAccount = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => qaAccountSchema.parse(input))
+  .handler(async ({ context, data }) => {
+    const actorUserId = await assertAdmin(context);
+    const { provisionQaTestMember } = await import("./qa-test-account.server");
+    return provisionQaTestMember(actorUserId, data.memberId, data.email, data.password);
   });
 
 /** Adds a managed staff grant to a claimed member. Membership is untouched. */

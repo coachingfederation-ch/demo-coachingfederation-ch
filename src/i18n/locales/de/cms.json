@@ -581,7 +581,17 @@
     "grantEditor": "Editor erteilen",
     "revokeEditor": "Editor entziehen",
     "grantOrganizer": "Organisator erteilen",
-    "revokeOrganizer": "Organisator entziehen"
+    "revokeOrganizer": "Organisator entziehen",
+    "colLink": "Verknüpfung",
+    "qaTitle": "QA-Testmitglied",
+    "qaIntro": "Erstellt ein reines Mitgliedskonto zum manuellen Testen, verknüpft mit einem noch nicht beanspruchten importierten Datensatz. Nur im TEST-Modus verfügbar.",
+    "qaLiveDisabled": "Nicht verfügbar: Die Integration läuft im LIVE-Modus. Mitglieder beanspruchen ihr Konto selbst.",
+    "qaSelectMember": "Nicht beanspruchtes Mitglied wählen…",
+    "qaEmailPlaceholder": "Test-Login-E-Mail",
+    "qaPasswordPlaceholder": "Passwort (mindestens 10 Zeichen)",
+    "qaCreate": "Testkonto erstellen",
+    "qaCreated": "Testkonto erstellt",
+    "qaCredentialsNote": "Wird nur einmal angezeigt — jetzt kopieren. Es wird nichts gespeichert oder versendet."
   },
   "events": {
     "title": "Anlässe",

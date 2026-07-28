@@ -13,7 +13,13 @@ import { CalendarDays, Search, ShieldCheck } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { useCms } from "@/i18n/cms";
 import { useMyRoles } from "@/lib/roles";
-import { grantMemberRole, listRoleAdminData, revokeMemberRole } from "@/lib/roles.functions";
+import {
+  grantMemberRole,
+  listQaProvisioningOptions,
+  listRoleAdminData,
+  provisionQaTestAccount,
+  revokeMemberRole,
+} from "@/lib/roles.functions";
 import type { ManagedRole } from "@/lib/role-model";
 
 export const Route = createFileRoute("/_staff/roles")({
@@ -120,6 +126,7 @@ function RolesPage() {
               <tr>
                 <th className="px-4 py-3 font-semibold">{t("roles.colName")}</th>
                 <th className="px-4 py-3 font-semibold">{t("roles.colEmail")}</th>
+                <th className="px-4 py-3 font-semibold">{t("roles.colLink")}</th>
                 <th className="px-4 py-3 font-semibold">{t("roles.colAccess")}</th>
                 <th className="px-4 py-3" />
               </tr>
@@ -127,13 +134,13 @@ function RolesPage() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={4} className="px-4 py-6 text-muted-foreground">
+                  <td colSpan={5} className="px-4 py-6 text-muted-foreground">
                     {t("roles.loading")}
                   </td>
                 </tr>
               ) : filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="px-4 py-6 text-muted-foreground">
+                  <td colSpan={5} className="px-4 py-6 text-muted-foreground">
                     {t("roles.empty")}
                   </td>
                 </tr>
@@ -142,6 +149,12 @@ function RolesPage() {
                   <tr key={m.memberId} className="border-t border-border">
                     <td className="px-4 py-3 font-medium">{m.name}</td>
                     <td className="px-4 py-3 text-muted-foreground">{m.email ?? "—"}</td>
+                    {/* Claim linkage, the thing QA actually needs to verify:
+                        which imported record, and which auth identity. */}
+                    <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
+                      <div>ICF {m.cstRecno}</div>
+                      <div title={m.authUserId}>{m.authUserId.slice(0, 8)}…</div>
+                    </td>
                     <td className="px-4 py-3">
                       <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-2.5 py-1 text-xs font-semibold">
                         {t("roles.memberBadge")}
@@ -246,6 +259,8 @@ function RolesPage() {
           </table>
         </div>
 
+        <QaTestAccountPanel onProvisioned={() => void load()} />
+
         <h2 className="mt-10 text-lg font-semibold tracking-tight">{t("roles.auditTitle")}</h2>
         <p className="mt-1 text-sm text-muted-foreground">{t("roles.auditIntro")}</p>
         <ul className="mt-3 space-y-2 text-sm">
@@ -269,5 +284,127 @@ function RolesPage() {
         </ul>
       </div>
     </Shell>
+  );
+}
+
+/**
+ * Admin-only QA support control, visible only while the integration is in TEST
+ * mode. It creates a pure-member account bound to one unclaimed imported
+ * record — the same binding contract as the claim flow, with a login address
+ * the operator controls. The password is shown once, in-session, and never
+ * stored or emailed.
+ */
+function QaTestAccountPanel({ onProvisioned }: { onProvisioned: () => void }) {
+  const { t } = useCms();
+  const [open, setOpen] = useState(false);
+  const [testMode, setTestMode] = useState<boolean | null>(null);
+  const [candidates, setCandidates] = useState<{ memberId: string; name: string; cstRecno: string }[]>(
+    [],
+  );
+  const [memberId, setMemberId] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<{ email: string; password: string; memberName: string } | null>(
+    null,
+  );
+
+  useEffect(() => {
+    if (!open || testMode !== null) return;
+    void (async () => {
+      try {
+        const data = await listQaProvisioningOptions();
+        setTestMode(data.testMode);
+        setCandidates(data.candidates);
+      } catch {
+        setTestMode(false);
+      }
+    })();
+  }, [open, testMode]);
+
+  const submit = async () => {
+    setBusy(true);
+    setError(null);
+    try {
+      const res = await provisionQaTestAccount({ data: { memberId, email, password } });
+      setResult({ email: res.email, password, memberName: res.memberName });
+      setMemberId("");
+      setEmail("");
+      setPassword("");
+      setCandidates((prev) => prev.filter((c) => c.memberId !== memberId));
+      onProvisioned();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : t("roles.saveError"));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="mt-10 rounded-2xl border border-border bg-card p-5">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="text-lg font-semibold tracking-tight hover:underline"
+      >
+        {t("roles.qaTitle")}
+      </button>
+      <p className="mt-1 max-w-2xl text-sm text-muted-foreground">{t("roles.qaIntro")}</p>
+
+      {open ? (
+        testMode === null ? (
+          <p className="mt-4 text-sm text-muted-foreground">{t("roles.loading")}</p>
+        ) : !testMode ? (
+          <p className="mt-4 text-sm text-muted-foreground">{t("roles.qaLiveDisabled")}</p>
+        ) : (
+          <div className="mt-4 space-y-3">
+            <select
+              value={memberId}
+              onChange={(e) => setMemberId(e.target.value)}
+              className="w-full max-w-md rounded-lg border border-border bg-card px-3 py-2 text-sm"
+            >
+              <option value="">{t("roles.qaSelectMember")}</option>
+              {candidates.map((c) => (
+                <option key={c.memberId} value={c.memberId}>
+                  {c.name} · ICF {c.cstRecno}
+                </option>
+              ))}
+            </select>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={t("roles.qaEmailPlaceholder")}
+              className="block w-full max-w-md rounded-lg border border-border bg-card px-3 py-2 text-sm"
+            />
+            <input
+              type="text"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder={t("roles.qaPasswordPlaceholder")}
+              className="block w-full max-w-md rounded-lg border border-border bg-card px-3 py-2 text-sm"
+            />
+            <button
+              onClick={() => void submit()}
+              disabled={busy || !memberId || !email || password.length < 10}
+              className="rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-50"
+            >
+              {t("roles.qaCreate")}
+            </button>
+
+            {error ? <p className="text-sm text-destructive">{error}</p> : null}
+            {result ? (
+              <div className="rounded-lg border border-border bg-secondary/50 px-4 py-3 text-sm">
+                <p className="font-semibold">{t("roles.qaCreated")}</p>
+                <p className="mt-1 text-muted-foreground">{result.memberName}</p>
+                <p className="mt-1 font-mono text-xs">{result.email}</p>
+                <p className="font-mono text-xs">{result.password}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{t("roles.qaCredentialsNote")}</p>
+              </div>
+            ) : null}
+          </div>
+        )
+      ) : null}
+    </div>
   );
 }
