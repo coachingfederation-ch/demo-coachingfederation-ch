@@ -1,14 +1,13 @@
 import { Mark, type MarkName } from "@/components/marks";
 import { CompactHero, SiteFooter, CARD_SHADOW } from "@/components/site-chrome";
-import { useI18n } from "@/i18n";
+import { LocaleLink, useI18n } from "@/i18n";
+import { eventPlace, formatEventDate, type PublicEvent } from "@/lib/events";
 
-const featuredVisual = {
-  bg: "bg-mark-cream",
-  fg: "text-mark-indigo",
-  mark: "arrow1" as MarkName,
-};
-
-const upcomingVisuals: { bg: string; fg: string; mark: MarkName }[] = [
+/**
+ * Events carry no artwork of their own in phase 1, so each card gets a stable
+ * hand-drawn mark derived from its slug — same event, same mark, every visit.
+ */
+const VISUALS: { bg: string; fg: string; mark: MarkName }[] = [
   { bg: "bg-mark-indigo", fg: "text-mark-yellow", mark: "asterisk3" },
   { bg: "bg-mark-yellow", fg: "text-mark-indigo", mark: "arrow2" },
   { bg: "bg-mark-blue", fg: "text-mark-cream", mark: "circular2" },
@@ -17,21 +16,35 @@ const upcomingVisuals: { bg: string; fg: string; mark: MarkName }[] = [
   { bg: "bg-mark-yellow", fg: "text-mark-indigo", mark: "asterisk1" },
 ];
 
-export default function EventsPage() {
-  const { t, tList } = useI18n();
-  const featured = {
-    date: t("events.featured.date"),
-    city: t("events.featured.city"),
-    title: t("events.featured.title"),
-    desc: t("events.featured.desc"),
-    tags: tList<string>("events.featured.tags"),
-    ...featuredVisual,
-  };
-  const upcomingItems = tList<{ date: string; city: string; title: string; tags: string[] }>(
-    "events.upcoming.items",
-  );
-  const upcoming = upcomingItems.map((e, i) => ({ ...e, ...upcomingVisuals[i] }));
-  const past = tList<{ date: string; city: string; title: string }>("events.past.items");
+function visualFor(key: string) {
+  let hash = 0;
+  for (let i = 0; i < key.length; i += 1) hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
+  return VISUALS[hash % VISUALS.length];
+}
+
+const LOCATION_TAG: Record<string, string> = {
+  in_person: "events.tag.inPerson",
+  online: "events.tag.online",
+  hybrid: "events.tag.hybrid",
+};
+
+export type EventsPageData = {
+  featured: PublicEvent | null;
+  upcoming: PublicEvent[];
+  past: PublicEvent[];
+};
+
+export default function EventsPage({ data }: { data: EventsPageData }) {
+  const { t, locale } = useI18n();
+  const { featured, upcoming, past } = data;
+
+  const tagsFor = (e: PublicEvent) => [
+    (e.language ?? "en").toUpperCase(),
+    t(LOCATION_TAG[e.location_mode ?? "in_person"]),
+    ...(e.registration_mode === "rsvp" ? [t("events.tag.registration")] : []),
+  ];
+  const dateLine = (e: PublicEvent) =>
+    `${formatEventDate(e.starts_at!, locale, e.timezone ?? "Europe/Zurich")} · ${eventPlace(e, t("events.tag.online"))}`;
 
   return (
     <div className="min-h-dvh bg-background text-foreground">
