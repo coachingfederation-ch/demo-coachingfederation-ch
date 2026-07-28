@@ -94,12 +94,6 @@
     "book": "Sitzung buchen",
     "message": "Nachricht senden",
     "workWith": "Zusammenarbeit mit {name}",
-    "experienceBands": {
-      "0-2": "0–2 Jahre",
-      "3-5": "3–5 Jahre",
-      "6-10": "6–10 Jahre",
-      "10+": "10+ Jahre"
-    },
     "languageFallback": "Angezeigt auf {language} — dieser Coach hat noch keine Version in Ihrer Sprache veröffentlicht."
   }
 }
