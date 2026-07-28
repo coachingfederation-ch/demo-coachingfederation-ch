@@ -7,7 +7,10 @@
  */
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { ImagePlus, X } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
+import { UnsplashPicker, type UnsplashPick } from "@/components/cms/UnsplashPicker";
+import { EventTranslationsPanel } from "@/components/cms/EventTranslationsPanel";
 import { useCms } from "@/i18n/cms";
 import {
   getManagedEvent,
@@ -73,6 +76,7 @@ function EventEditor() {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [pickerOpen, setPickerOpen] = useState(false);
 
   const load = async () => {
     const row = await getManagedEvent({ data: { id } });
@@ -118,6 +122,8 @@ function EventEditor() {
           city: event.city,
           online_url: event.online_url,
           image_url: event.image_url,
+          image_credit_name: event.image_credit_name,
+          image_credit_url: event.image_credit_url,
           capacity: event.capacity,
           registration_mode: event.registration_mode,
           registration_opens_at: event.registration_opens_at,
@@ -264,13 +270,62 @@ function EventEditor() {
               onChange={(e) => patch({ online_url: e.target.value })}
             />
           </Field>
-          <Field label={t("events.fieldImageUrl")}>
-            <input
-              className={inputClass}
-              value={event.image_url ?? ""}
-              onChange={(e) => patch({ image_url: e.target.value })}
-            />
-          </Field>
+          <div className="sm:col-span-2">
+            <Field label={t("events.fieldImageUrl")}>
+              <input
+                className={inputClass}
+                placeholder="https://…"
+                value={event.image_url ?? ""}
+                onChange={(e) =>
+                  // A hand-pasted URL drops any Unsplash credit that no longer applies.
+                  patch({
+                    image_url: e.target.value,
+                    image_credit_name: null,
+                    image_credit_url: null,
+                  })
+                }
+              />
+            </Field>
+            <p className="mt-1 text-xs text-muted-foreground">{t("events.imageHint")}</p>
+            <div className="mt-2 flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setPickerOpen(true)}
+                className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary"
+              >
+                <ImagePlus className="h-3.5 w-3.5" />
+                {t("events.chooseUnsplash")}
+              </button>
+              {event.image_url ? (
+                <button
+                  type="button"
+                  onClick={() =>
+                    patch({ image_url: null, image_credit_name: null, image_credit_url: null })
+                  }
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-secondary"
+                >
+                  <X className="h-3.5 w-3.5" />
+                  {t("events.removeImage")}
+                </button>
+              ) : null}
+            </div>
+            {event.image_url ? (
+              <div className="mt-3">
+                <img
+                  src={event.image_url}
+                  alt=""
+                  className="h-32 w-full max-w-xs rounded-xl border border-border object-cover"
+                />
+                {event.image_credit_name ? (
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {t("events.imageCredit")} {event.image_credit_name}
+                  </p>
+                ) : null}
+              </div>
+            ) : (
+              <p className="mt-3 text-xs text-muted-foreground">{t("events.imageFallback")}</p>
+            )}
+          </div>
           <Field label={t("events.fieldCapacity")}>
             <input
               type="number"
