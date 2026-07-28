@@ -150,10 +150,18 @@ function RolesPage() {
                           {t("roles.editorBadge")}
                         </span>
                       ) : null}
+                      {/* Hybrid accounts (member + admin) are listed here, not
+                          under "Internal accounts" — the badge makes that legible. */}
+                      {m.isAdmin ? (
+                        <span className="ml-1.5 inline-flex items-center gap-1.5 rounded-full bg-primary px-2.5 py-1 text-xs font-semibold text-primary-foreground">
+                          <ShieldCheck className="h-3.5 w-3.5" />
+                          {t("roles.adminBadge")}
+                        </span>
+                      ) : null}
                     </td>
                     <td className="px-4 py-3 text-right">
                       {m.isAdmin ? (
-                        <span className="text-xs text-muted-foreground">{t("roles.adminRow")}</span>
+                        <span className="text-xs text-muted-foreground">{t("roles.adminNote")}</span>
                       ) : (
                         <button
                           onClick={() => void toggle(m)}
