@@ -14,7 +14,7 @@ import { assertOrganizer } from "./authz";
 const LIST_COLUMNS =
   "id, slug, title, summary, language, status, starts_at, ends_at, timezone, location_mode, venue_name, city, capacity, is_featured, organizer_id, updated_at";
 
-const EDIT_COLUMNS = `${LIST_COLUMNS}, description, image_url, image_credit_name, image_credit_url, online_url, registration_mode, registration_opens_at, registration_closes_at, guest_registration_allowed, published_at`;
+const EDIT_COLUMNS = `${LIST_COLUMNS}, description, image_url, image_credit_name, image_credit_url, online_url, registration_mode, registration_opens_at, registration_closes_at, guest_registration_allowed, published_at, content_updated_at`;
 
 const eventInput = z.object({
   title: z.string().trim().min(3).max(200),
@@ -35,6 +35,10 @@ const eventInput = z.object({
   city: z.string().trim().max(120).nullable().optional(),
   online_url: z.string().trim().url().max(500).nullable().optional().or(z.literal("")),
   image_url: z.string().trim().url().max(1000).nullable().optional().or(z.literal("")),
+  // Unsplash attribution travels with the picked image; a hand-pasted URL
+  // simply leaves both blank.
+  image_credit_name: z.string().trim().max(200).nullable().optional().or(z.literal("")),
+  image_credit_url: z.string().trim().url().max(1000).nullable().optional().or(z.literal("")),
   capacity: z.number().int().positive().max(100000).nullable().optional(),
   registration_mode: z.enum(["none", "rsvp"]),
   registration_opens_at: z.string().min(1).nullable().optional(),
@@ -55,6 +59,8 @@ function normalize(input: z.infer<typeof eventInput>) {
     city: blankToNull(input.city),
     online_url: blankToNull(input.online_url),
     image_url: blankToNull(input.image_url),
+    image_credit_name: blankToNull(input.image_credit_name),
+    image_credit_url: blankToNull(input.image_credit_url),
     capacity: input.capacity ?? null,
     registration_opens_at: blankToNull(input.registration_opens_at),
     registration_closes_at: blankToNull(input.registration_closes_at),
