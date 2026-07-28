@@ -5,7 +5,7 @@ import { eventHead } from "@/lib/event-head";
 
 export const Route = createFileRoute("/events/$slug")({
   loader: async ({ params }) => {
-    const event = await getPublicEvent({ data: { slug: params.slug } });
+    const event = await getPublicEvent({ data: { slug: params.slug, locale: "en" } });
     if (!event) throw notFound();
     return { event };
   },

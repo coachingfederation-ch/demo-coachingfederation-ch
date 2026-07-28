@@ -6,7 +6,9 @@ import type { Locale } from "@/i18n/config";
 
 export const Route = createFileRoute("/$locale/events/$slug")({
   loader: async ({ params }) => {
-    const event = await getPublicEvent({ data: { slug: params.slug } });
+    const event = await getPublicEvent({
+      data: { slug: params.slug, locale: params.locale as Locale },
+    });
     if (!event) throw notFound();
     return { event };
   },

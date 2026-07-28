@@ -4,7 +4,7 @@ import { listPublicEvents } from "@/lib/events.functions";
 import { localeLinkTags, localeMeta } from "@/i18n";
 
 export const Route = createFileRoute("/events/")({
-  loader: () => listPublicEvents(),
+  loader: () => listPublicEvents({ data: { locale: "en" } }),
   head: () => ({
     meta: localeMeta("en", "/events", "events.meta.title", "events.meta.description"),
     links: localeLinkTags("/events", "en"),
