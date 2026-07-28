@@ -16,5 +16,9 @@ export const Route = createFileRoute("/events/$slug")({
   notFoundComponent: () => (
     <EventFallback titleKey="events.detail.notFoundTitle" bodyKey="events.detail.notFoundBody" />
   ),
-  component: () => <EventDetailPage event={Route.useLoaderData().event} />,
+  component: EventDetailRoute,
 });
+
+function EventDetailRoute() {
+  return <EventDetailPage event={Route.useLoaderData().event} />;
+}
