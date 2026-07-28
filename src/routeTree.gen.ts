@@ -41,10 +41,12 @@ import { Route as ClaimIndexRouteImport } from './routes/claim.index'
 import { Route as ClaimTokenRouteImport } from './routes/claim.$token'
 import { Route as CoachProfileIdRouteImport } from './routes/coach.$profileId'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
+import { Route as EventsSlugRouteImport } from './routes/events.$slug'
 import { Route as InsightsIndexRouteImport } from './routes/insights.index'
 import { Route as InsightsIdRouteImport } from './routes/insights.$id'
 import { Route as LocaleCoachProfileIdRouteImport } from './routes/$locale/coach.$profileId'
 import { Route as LocaleEventsIndexRouteImport } from './routes/$locale/events.index'
+import { Route as LocaleEventsSlugRouteImport } from './routes/$locale/events.$slug'
 import { Route as LocaleInsightsIndexRouteImport } from './routes/$locale/insights.index'
 import { Route as LocaleInsightsIdRouteImport } from './routes/$locale/insights.$id'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
@@ -217,6 +219,11 @@ const EventsIndexRoute = EventsIndexRouteImport.update({
   path: '/events/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EventsSlugRoute = EventsSlugRouteImport.update({
+  id: '/events/$slug',
+  path: '/events/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InsightsIndexRoute = InsightsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -235,6 +242,11 @@ const LocaleCoachProfileIdRoute = LocaleCoachProfileIdRouteImport.update({
 const LocaleEventsIndexRoute = LocaleEventsIndexRouteImport.update({
   id: '/events/',
   path: '/events/',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleEventsSlugRoute = LocaleEventsSlugRouteImport.update({
+  id: '/events/$slug',
+  path: '/events/$slug',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
 const LocaleInsightsIndexRoute = LocaleInsightsIndexRouteImport.update({
@@ -322,12 +334,14 @@ export interface FileRoutesByFullPath {
   '/auth/callback': typeof AuthCallbackRoute
   '/claim/$token': typeof ClaimTokenRoute
   '/coach/$profileId': typeof CoachProfileIdRoute
+  '/events/$slug': typeof EventsSlugRoute
   '/insights/$id': typeof InsightsIdRoute
   '/$locale/': typeof LocaleIndexRoute
   '/claim/': typeof ClaimIndexRoute
   '/events/': typeof EventsIndexRoute
   '/insights/': typeof InsightsIndexRoute
   '/$locale/coach/$profileId': typeof LocaleCoachProfileIdRoute
+  '/$locale/events/$slug': typeof LocaleEventsSlugRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -365,12 +379,14 @@ export interface FileRoutesByTo {
   '/auth/callback': typeof AuthCallbackRoute
   '/claim/$token': typeof ClaimTokenRoute
   '/coach/$profileId': typeof CoachProfileIdRoute
+  '/events/$slug': typeof EventsSlugRoute
   '/insights/$id': typeof InsightsIdRoute
   '/$locale': typeof LocaleIndexRoute
   '/claim': typeof ClaimIndexRoute
   '/events': typeof EventsIndexRoute
   '/insights': typeof InsightsIndexRoute
   '/$locale/coach/$profileId': typeof LocaleCoachProfileIdRoute
+  '/$locale/events/$slug': typeof LocaleEventsSlugRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -415,12 +431,14 @@ export interface FileRoutesById {
   '/auth/callback': typeof AuthCallbackRoute
   '/claim/$token': typeof ClaimTokenRoute
   '/coach/$profileId': typeof CoachProfileIdRoute
+  '/events/$slug': typeof EventsSlugRoute
   '/insights/$id': typeof InsightsIdRoute
   '/$locale/': typeof LocaleIndexRoute
   '/claim/': typeof ClaimIndexRoute
   '/events/': typeof EventsIndexRoute
   '/insights/': typeof InsightsIndexRoute
   '/$locale/coach/$profileId': typeof LocaleCoachProfileIdRoute
+  '/$locale/events/$slug': typeof LocaleEventsSlugRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -464,12 +482,14 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/claim/$token'
     | '/coach/$profileId'
+    | '/events/$slug'
     | '/insights/$id'
     | '/$locale/'
     | '/claim/'
     | '/events/'
     | '/insights/'
     | '/$locale/coach/$profileId'
+    | '/$locale/events/$slug'
     | '/$locale/insights/$id'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -507,12 +527,14 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/claim/$token'
     | '/coach/$profileId'
+    | '/events/$slug'
     | '/insights/$id'
     | '/$locale'
     | '/claim'
     | '/events'
     | '/insights'
     | '/$locale/coach/$profileId'
+    | '/$locale/events/$slug'
     | '/$locale/insights/$id'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -556,12 +578,14 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/claim/$token'
     | '/coach/$profileId'
+    | '/events/$slug'
     | '/insights/$id'
     | '/$locale/'
     | '/claim/'
     | '/events/'
     | '/insights/'
     | '/$locale/coach/$profileId'
+    | '/$locale/events/$slug'
     | '/$locale/insights/$id'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -594,6 +618,7 @@ export interface RootRouteChildren {
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ClaimTokenRoute: typeof ClaimTokenRoute
   CoachProfileIdRoute: typeof CoachProfileIdRoute
+  EventsSlugRoute: typeof EventsSlugRoute
   ClaimIndexRoute: typeof ClaimIndexRoute
   EventsIndexRoute: typeof EventsIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
@@ -827,6 +852,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/events/$slug': {
+      id: '/events/$slug'
+      path: '/events/$slug'
+      fullPath: '/events/$slug'
+      preLoaderRoute: typeof EventsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/insights/': {
       id: '/insights/'
       path: '/'
@@ -853,6 +885,13 @@ declare module '@tanstack/react-router' {
       path: '/events'
       fullPath: '/$locale/events/'
       preLoaderRoute: typeof LocaleEventsIndexRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/events/$slug': {
+      id: '/$locale/events/$slug'
+      path: '/events/$slug'
+      fullPath: '/$locale/events/$slug'
+      preLoaderRoute: typeof LocaleEventsSlugRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
     '/$locale/insights/': {
@@ -957,6 +996,7 @@ interface LocaleRouteRouteChildren {
   LocaleInsightsRoute: typeof LocaleInsightsRouteWithChildren
   LocaleIndexRoute: typeof LocaleIndexRoute
   LocaleCoachProfileIdRoute: typeof LocaleCoachProfileIdRoute
+  LocaleEventsSlugRoute: typeof LocaleEventsSlugRoute
   LocaleEventsIndexRoute: typeof LocaleEventsIndexRoute
 }
 
@@ -968,6 +1008,7 @@ const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleInsightsRoute: LocaleInsightsRouteWithChildren,
   LocaleIndexRoute: LocaleIndexRoute,
   LocaleCoachProfileIdRoute: LocaleCoachProfileIdRoute,
+  LocaleEventsSlugRoute: LocaleEventsSlugRoute,
   LocaleEventsIndexRoute: LocaleEventsIndexRoute,
 }
 
@@ -1072,6 +1113,7 @@ const rootRouteChildren: RootRouteChildren = {
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   ClaimTokenRoute: ClaimTokenRoute,
   CoachProfileIdRoute: CoachProfileIdRoute,
+  EventsSlugRoute: EventsSlugRoute,
   ClaimIndexRoute: ClaimIndexRoute,
   EventsIndexRoute: EventsIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
