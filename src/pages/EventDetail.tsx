@@ -35,7 +35,11 @@ export function EventFallback({ titleKey, bodyKey }: { titleKey: string; bodyKey
   const { t } = useI18n();
   return (
     <div className="min-h-dvh bg-background text-foreground">
-      <SiteHeaderBar compact />
+      <header className="bg-hero text-hero-foreground">
+        <div className="mx-auto max-w-7xl px-5 py-6 sm:px-8">
+          <SiteHeaderBar compact />
+        </div>
+      </header>
       <main id="main" className="mx-auto max-w-3xl px-8 py-24 text-center">
         <h1 className="text-3xl font-bold tracking-tight">{t(titleKey)}</h1>
         <p className="mt-4 text-base text-muted-foreground">{t(bodyKey)}</p>
@@ -103,10 +107,14 @@ export default function EventDetailPage({ event }: { event: PublicEvent }) {
 
   return (
     <div className="min-h-dvh bg-background text-foreground">
-      <SiteHeaderBar compact />
+      <header className="bg-hero text-hero-foreground">
+        <div className="mx-auto max-w-7xl px-5 py-6 sm:px-8">
+          <SiteHeaderBar compact />
+        </div>
+      </header>
       <main id="main">
         <section className="bg-hero text-hero-foreground">
-          <div className="mx-auto max-w-5xl px-8 py-16">
+          <div className="mx-auto max-w-5xl px-8 pb-16 pt-4">
             <LocaleLink to="/events" className="btn-mono !text-hero-foreground/70 hover:!text-hero-foreground">
               ← {t("events.detail.backToEvents")}
             </LocaleLink>
