@@ -518,6 +518,7 @@
     "primaryLabel": "Main language",
     "primaryHint": "Visitors see this language whenever no translation is published for theirs.",
     "primaryLocked": "Remove all translations before changing the main language.",
+    "emptySource": "Add some text to your profile in the main language before translating it.",
     "translate": "Translate with AI",
     "refresh": "Re-translate",
     "working": "Working…",

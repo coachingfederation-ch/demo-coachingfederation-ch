@@ -518,6 +518,7 @@
     "primaryLabel": "Langue principale",
     "primaryHint": "Les visiteurs voient cette langue tant qu'aucune traduction n'est publiée dans la leur.",
     "primaryLocked": "Supprimez toutes les traductions avant de changer la langue principale.",
+    "emptySource": "Ajoutez d'abord du texte dans la langue principale de votre profil avant de traduire.",
     "translate": "Traduire avec l'IA",
     "refresh": "Retraduire",
     "working": "En cours…",

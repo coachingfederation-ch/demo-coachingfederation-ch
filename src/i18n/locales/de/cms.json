@@ -518,6 +518,7 @@
     "primaryLabel": "Hauptsprache",
     "primaryHint": "Besucherinnen und Besucher sehen diese Sprache, solange für ihre Sprache keine Übersetzung veröffentlicht ist.",
     "primaryLocked": "Entfernen Sie alle Übersetzungen, bevor Sie die Hauptsprache ändern.",
+    "emptySource": "Ergänzen Sie zuerst Text in der Hauptsprache Ihres Profils, bevor Sie übersetzen.",
     "translate": "Mit KI übersetzen",
     "refresh": "Neu übersetzen",
     "working": "In Arbeit…",
