@@ -151,17 +151,11 @@
       },
       {
         "group": "Workplace research",
-        "items": [
-          "Global workplace engagement reports",
-          "Swiss labour market and skills reporting"
-        ]
+        "items": ["Global workplace engagement reports", "Swiss labour market and skills reporting"]
       },
       {
         "group": "ICF Switzerland",
-        "items": [
-          "Chapter member survey",
-          "Organisational briefing 2026"
-        ]
+        "items": ["Chapter member survey", "Organisational briefing 2026"]
       }
     ],
     "download": {

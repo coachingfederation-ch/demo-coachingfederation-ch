@@ -33,7 +33,9 @@ export function DeckDownload() {
       return;
     }
     try {
-      await record({ data: { locale: locale as "en", email: value, consent: Boolean(value), website } });
+      await record({
+        data: { locale: locale as "en", email: value, consent: Boolean(value), website },
+      });
     } catch {
       // Never block the download on tracking failure.
     }
@@ -51,7 +53,9 @@ export function DeckDownload() {
     <div className="mt-10 rounded-2xl border border-white/15 bg-white/5 p-6 md:p-8">
       {done ? (
         <div className="flex flex-col gap-2">
-          <p className="text-lg font-semibold tracking-tight">{t("organisations.deck.download.doneTitle")}</p>
+          <p className="text-lg font-semibold tracking-tight">
+            {t("organisations.deck.download.doneTitle")}
+          </p>
           <p className="text-sm text-white/85">{t("organisations.deck.download.doneBody")}</p>
           <a
             href={deck.url}

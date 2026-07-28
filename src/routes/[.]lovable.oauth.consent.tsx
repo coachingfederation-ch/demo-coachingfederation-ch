@@ -17,9 +17,15 @@ type AuthorizationDetails = {
 };
 
 type OAuthApi = {
-  getAuthorizationDetails: (id: string) => Promise<{ data: AuthorizationDetails | null; error: Error | null }>;
-  approveAuthorization: (id: string) => Promise<{ data: AuthorizationDetails | null; error: Error | null }>;
-  denyAuthorization: (id: string) => Promise<{ data: AuthorizationDetails | null; error: Error | null }>;
+  getAuthorizationDetails: (
+    id: string,
+  ) => Promise<{ data: AuthorizationDetails | null; error: Error | null }>;
+  approveAuthorization: (
+    id: string,
+  ) => Promise<{ data: AuthorizationDetails | null; error: Error | null }>;
+  denyAuthorization: (
+    id: string,
+  ) => Promise<{ data: AuthorizationDetails | null; error: Error | null }>;
 };
 
 // `auth.oauth` is still beta in supabase-js and not in the published types.
@@ -32,7 +38,9 @@ export const Route = createFileRoute("/.lovable/oauth/consent")({
   validateSearch: (search: Record<string, unknown>) => ({
     authorization_id: typeof search.authorization_id === "string" ? search.authorization_id : "",
   }),
-  head: () => ({ meta: [{ title: "Authorize access — ICF Switzerland" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({
+    meta: [{ title: "Authorize access — ICF Switzerland" }, { name: "robots", content: "noindex" }],
+  }),
   beforeLoad: async ({ search, location }) => {
     if (!search.authorization_id) throw new Error("Missing authorization_id");
     const { data } = await supabase.auth.getSession();

@@ -24,10 +24,7 @@ import {
 
 export const Route = createFileRoute("/_staff/members/$id")({
   head: () => ({
-    meta: [
-      { title: "Member — ICF Switzerland CMS" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Member — ICF Switzerland CMS" }, { name: "robots", content: "noindex" }],
   }),
   component: MemberDetailPage,
 });
@@ -180,7 +177,10 @@ function MemberDetailPage() {
   return (
     <Shell>
       <div className="mx-auto max-w-4xl px-10 py-10">
-        <Link to="/members" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+        <Link
+          to="/members"
+          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
+        >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
           {t("members.detail.back")}
         </Link>
@@ -190,43 +190,79 @@ function MemberDetailPage() {
           <p className="mt-6 text-sm text-muted-foreground">{t("members.loading")}</p>
         ) : (
           <>
-            <h1 className="mt-3 text-2xl font-bold tracking-tight">{detail.member.full_name ?? "—"}</h1>
+            <h1 className="mt-3 text-2xl font-bold tracking-tight">
+              {detail.member.full_name ?? "—"}
+            </h1>
 
             <section className="mt-6 rounded-2xl border border-border bg-card p-5">
               <h2 className="text-sm font-semibold">{t("members.detail.importedTitle")}</h2>
-              <p className="mt-1 text-xs text-muted-foreground">{t("members.detail.importedNote")}</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {t("members.detail.importedNote")}
+              </p>
               <dl className="mt-3 text-sm">
                 <Row label={t("members.detail.recno")} value={detail.member.cst_recno} />
                 <Row label={t("members.colEmail")} value={detail.member.email} />
                 <Row label={t("members.detail.phone")} value={detail.member.phone} />
                 <Row label={t("members.detail.address")} value={address} />
                 <Row label={t("members.colCredential")} value={detail.member.credential_slug} />
-                <Row label={t("members.detail.awarded")} value={detail.member.credential_awarded_on} />
-                <Row label={t("members.detail.credExpires")} value={detail.member.credential_expires_on} />
+                <Row
+                  label={t("members.detail.awarded")}
+                  value={detail.member.credential_awarded_on}
+                />
+                <Row
+                  label={t("members.detail.credExpires")}
+                  value={detail.member.credential_expires_on}
+                />
                 <Row label={t("members.detail.memberType")} value={detail.member.member_type} />
-                <Row label={t("members.detail.joined")} value={detail.member.membership_join_date} />
-                <Row label={t("members.detail.expires")} value={detail.member.membership_expiration_date} />
-                <Row label={t("members.colState")} value={t(`members.state.${detail.member.activity_state}`)} />
+                <Row
+                  label={t("members.detail.joined")}
+                  value={detail.member.membership_join_date}
+                />
+                <Row
+                  label={t("members.detail.expires")}
+                  value={detail.member.membership_expiration_date}
+                />
+                <Row
+                  label={t("members.colState")}
+                  value={t(`members.state.${detail.member.activity_state}`)}
+                />
                 <Row
                   label={t("members.colSynced")}
-                  value={detail.member.last_synced_at ? new Date(detail.member.last_synced_at).toLocaleString() : null}
+                  value={
+                    detail.member.last_synced_at
+                      ? new Date(detail.member.last_synced_at).toLocaleString()
+                      : null
+                  }
                 />
               </dl>
-              <p className="mt-3 text-xs text-muted-foreground">{t("members.detail.addressNote")}</p>
+              <p className="mt-3 text-xs text-muted-foreground">
+                {t("members.detail.addressNote")}
+              </p>
             </section>
 
             <section className="mt-5 rounded-2xl border border-border bg-card p-5">
               <h2 className="text-sm font-semibold">{t("members.detail.eligibilityTitle")}</h2>
               <div className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
-                <Flag label={t("members.detail.isActiveMember")} on={isActiveMember(detail.member)} />
-                <Flag label={t("members.detail.hasCredential")} on={hasDirectoryCredential(detail.member)} />
-                <Flag label={t("members.detail.isEligible")} on={isDirectoryEligible(detail.member)} />
+                <Flag
+                  label={t("members.detail.isActiveMember")}
+                  on={isActiveMember(detail.member)}
+                />
+                <Flag
+                  label={t("members.detail.hasCredential")}
+                  on={hasDirectoryCredential(detail.member)}
+                />
+                <Flag
+                  label={t("members.detail.isEligible")}
+                  on={isDirectoryEligible(detail.member)}
+                />
                 <Flag
                   label={t("members.detail.isVisible")}
                   on={isDirectoryVisible(detail.member, detail.profile?.visibility ?? null)}
                 />
               </div>
-              <p className="mt-3 text-xs text-muted-foreground">{t(`members.eligibility.${reason}`)}</p>
+              <p className="mt-3 text-xs text-muted-foreground">
+                {t(`members.eligibility.${reason}`)}
+              </p>
             </section>
 
             {!detail.profile ? (
@@ -237,7 +273,9 @@ function MemberDetailPage() {
               <>
                 <section className="mt-5 rounded-2xl border border-border bg-card p-5">
                   <h2 className="text-sm font-semibold">{t("members.detail.serviceAreaTitle")}</h2>
-                  <p className="mt-1 text-xs text-muted-foreground">{t("members.detail.serviceAreaNote")}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {t("members.detail.serviceAreaNote")}
+                  </p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {regions.map((region) => {
                       const on = selectedRegions.includes(region.id);
@@ -248,7 +286,9 @@ function MemberDetailPage() {
                           aria-pressed={on}
                           onClick={() =>
                             setSelectedRegions((prev) =>
-                              on ? prev.filter((value) => value !== region.id) : [...prev, region.id],
+                              on
+                                ? prev.filter((value) => value !== region.id)
+                                : [...prev, region.id],
                             )
                           }
                           className={
@@ -263,7 +303,9 @@ function MemberDetailPage() {
                     })}
                   </div>
                   {!selectedRegions.length ? (
-                    <p className="mt-2 text-xs text-muted-foreground">{t("members.detail.noRegions")}</p>
+                    <p className="mt-2 text-xs text-muted-foreground">
+                      {t("members.detail.noRegions")}
+                    </p>
                   ) : null}
                 </section>
 
@@ -271,7 +313,11 @@ function MemberDetailPage() {
                   <h2 className="text-sm font-semibold">{t("members.detail.flagsTitle")}</h2>
                   <div className="mt-3 space-y-2 text-sm">
                     <label className="flex items-center gap-2">
-                      <input type="checkbox" checked={mentor} onChange={(e) => setMentor(e.target.checked)} />
+                      <input
+                        type="checkbox"
+                        checked={mentor}
+                        onChange={(e) => setMentor(e.target.checked)}
+                      />
                       {t("members.detail.mentorAccredited")}
                     </label>
                     <label className="flex items-center gap-2">
@@ -309,9 +355,13 @@ function MemberDetailPage() {
                     })}
                   </div>
                   {!STAFF_VISIBILITY.includes(visibility) ? (
-                    <p className="mt-2 text-xs text-muted-foreground">{t(`members.visibility.${visibility}`)}</p>
+                    <p className="mt-2 text-xs text-muted-foreground">
+                      {t(`members.visibility.${visibility}`)}
+                    </p>
                   ) : null}
-                  {publishBlocked ? <p className="mt-2 text-xs text-destructive">{publishBlocked}</p> : null}
+                  {publishBlocked ? (
+                    <p className="mt-2 text-xs text-destructive">{publishBlocked}</p>
+                  ) : null}
                 </section>
 
                 <div className="mt-5 flex items-center gap-3">
@@ -324,7 +374,9 @@ function MemberDetailPage() {
                     {status === "saving" ? t("members.detail.saving") : t("members.detail.save")}
                   </button>
                   {status === "saved" ? (
-                    <span className="text-xs text-muted-foreground">{t("members.detail.saved")}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {t("members.detail.saved")}
+                    </span>
                   ) : null}
                 </div>
               </>
@@ -336,7 +388,9 @@ function MemberDetailPage() {
               <p className="mt-3 text-sm">
                 {t("members.detail.bindCurrent")}:{" "}
                 <strong>
-                  {detail.member.auth_user_id ? detail.member.auth_user_id : t("members.detail.bindNone")}
+                  {detail.member.auth_user_id
+                    ? detail.member.auth_user_id
+                    : t("members.detail.bindNone")}
                 </strong>
               </p>
               {detail.member.auth_user_id ? (

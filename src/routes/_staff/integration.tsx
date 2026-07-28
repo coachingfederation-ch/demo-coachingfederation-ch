@@ -43,9 +43,9 @@ function IntegrationPage() {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [confirmText, setConfirmText] = useState("");
-  const [rehearsal, setRehearsal] = useState<{ step: string; ok: boolean; detail: string }[] | null>(
-    null,
-  );
+  const [rehearsal, setRehearsal] = useState<
+    { step: string; ok: boolean; detail: string }[] | null
+  >(null);
 
   const reload = async () => {
     try {
@@ -122,7 +122,9 @@ function IntegrationPage() {
                 <div>
                   <dt className="text-xs text-muted-foreground">{t("integration.claim")}</dt>
                   <dd className="font-semibold">
-                    {config.account_claim_enabled ? t("integration.claimOpen") : t("integration.claimClosed")}
+                    {config.account_claim_enabled
+                      ? t("integration.claimOpen")
+                      : t("integration.claimClosed")}
                   </dd>
                 </div>
                 <div>
@@ -203,7 +205,9 @@ function IntegrationPage() {
                 </p>
               ) : (
                 <>
-                  <p className="mt-2 text-sm text-muted-foreground">{t("integration.cutoverBody")}</p>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {t("integration.cutoverBody")}
+                  </p>
                   <ol className="mt-3 list-decimal space-y-1 pl-5 text-xs text-muted-foreground">
                     {["1", "2", "3", "4", "5", "6", "7", "8"].map((n) => (
                       <li key={n}>{t(`integration.cutoverStep${n}`)}</li>
@@ -224,7 +228,9 @@ function IntegrationPage() {
                         void act("cutover", async () => {
                           const r = await executeCutover({ data: { confirm: "CUTOVER" } });
                           setConfirmText("");
-                          return r.steps.map((s) => `${s.ok ? "✓" : "✗"} ${s.step}: ${s.detail}`).join(" | ");
+                          return r.steps
+                            .map((s) => `${s.ok ? "✓" : "✗"} ${s.step}: ${s.detail}`)
+                            .join(" | ");
                         })
                       }
                     >
@@ -240,7 +246,9 @@ function IntegrationPage() {
                 <h2 className="flex items-center gap-2 text-sm font-bold">
                   <ClipboardCheck className="h-4 w-4 text-teal" /> {t("integration.rehearseTitle")}
                 </h2>
-                <p className="mt-2 text-sm text-muted-foreground">{t("integration.rehearseBody")}</p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {t("integration.rehearseBody")}
+                </p>
                 <button
                   className={BTN + " mt-4"}
                   disabled={busy !== null}
@@ -252,7 +260,9 @@ function IntegrationPage() {
                     })
                   }
                 >
-                  {busy === "rehearse" ? t("integration.rehearseRunning") : t("integration.rehearseRun")}
+                  {busy === "rehearse"
+                    ? t("integration.rehearseRunning")
+                    : t("integration.rehearseRun")}
                 </button>
                 {rehearsal && (
                   <div className="mt-4 overflow-x-auto">

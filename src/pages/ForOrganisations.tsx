@@ -18,7 +18,9 @@ const programmeVisuals: { bg: string; fg: string; mark: MarkName }[] = [
 
 export default function ForOrganisationsPage() {
   const { t, tList } = useI18n();
-  const outcomes = tList<{ stat: string; title: string; desc: string }>("organisations.outcomes.items");
+  const outcomes = tList<{ stat: string; title: string; desc: string }>(
+    "organisations.outcomes.items",
+  );
   const steps = tList<{ n: string; title: string; desc: string }>("organisations.steps.items");
   const programmes = tList<{ tag: string; title: string }>("organisations.programmes.items");
 
@@ -46,7 +48,10 @@ export default function ForOrganisationsPage() {
           </h2>
           <div className="mt-12 grid gap-4 md:grid-cols-3">
             {outcomes.map((o) => (
-              <div key={o.title} className={"rounded-2xl border border-border/70 bg-card p-8 " + CARD_SHADOW}>
+              <div
+                key={o.title}
+                className={"rounded-2xl border border-border/70 bg-card p-8 " + CARD_SHADOW}
+              >
                 <p className="text-4xl font-bold tracking-tight text-primary">{o.stat}</p>
                 <h3 className="mt-4 text-lg font-semibold tracking-tight">{o.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{o.desc}</p>
@@ -69,7 +74,9 @@ export default function ForOrganisationsPage() {
               {steps.map((s) => (
                 <div key={s.n}>
                   <div className="mb-5 flex items-center gap-3">
-                    <span className="grid h-10 w-10 place-items-center rounded-xl bg-accent/15 btn-mono font-bold">{s.n}</span>
+                    <span className="grid h-10 w-10 place-items-center rounded-xl bg-accent/15 btn-mono font-bold">
+                      {s.n}
+                    </span>
                     <h3 className="text-lg font-semibold tracking-tight">{s.title}</h3>
                   </div>
                   <p className="text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
@@ -90,13 +97,24 @@ export default function ForOrganisationsPage() {
             {programmes.map((p, i) => {
               const v = programmeVisuals[i];
               return (
-                <a key={p.tag} href="#" className={"group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 " + CARD_SHADOW}>
-                  <div className={"grid aspect-[4/3] w-full place-items-center " + v.bg + " " + v.fg}>
+                <a
+                  key={p.tag}
+                  href="#"
+                  className={
+                    "group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 " +
+                    CARD_SHADOW
+                  }
+                >
+                  <div
+                    className={"grid aspect-[4/3] w-full place-items-center " + v.bg + " " + v.fg}
+                  >
                     <Mark name={v.mark} className="h-1/2 w-1/2" />
                   </div>
                   <div className="p-6">
                     <p className="section-label">{p.tag}</p>
-                    <h3 className="mt-2 text-base font-semibold leading-snug tracking-tight">{p.title}</h3>
+                    <h3 className="mt-2 text-base font-semibold leading-snug tracking-tight">
+                      {p.title}
+                    </h3>
                   </div>
                 </a>
               );
@@ -115,8 +133,18 @@ export default function ForOrganisationsPage() {
               {t("organisations.getStarted.title")}
             </h2>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <a href="#assessment" className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90">{t("organisations.getStarted.cta1")}</a>
-              <a href="#" className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10">{t("organisations.getStarted.cta2")}</a>
+              <a
+                href="#assessment"
+                className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90"
+              >
+                {t("organisations.getStarted.cta1")}
+              </a>
+              <a
+                href="#"
+                className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10"
+              >
+                {t("organisations.getStarted.cta2")}
+              </a>
             </div>
           </div>
         </section>

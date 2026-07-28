@@ -21,7 +21,10 @@ export const Route = createFileRoute("/insights/$id")({
     <ArticleFallback titleKey="insights.detail.errorTitle" bodyKey="insights.detail.errorBody" />
   ),
   notFoundComponent: () => (
-    <ArticleFallback titleKey="insights.detail.notFoundTitle" bodyKey="insights.detail.notFoundBody" />
+    <ArticleFallback
+      titleKey="insights.detail.notFoundTitle"
+      bodyKey="insights.detail.notFoundBody"
+    />
   ),
   component: ArticleDetail,
 });

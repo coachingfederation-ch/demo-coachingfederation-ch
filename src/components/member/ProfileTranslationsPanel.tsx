@@ -146,7 +146,6 @@ export function ProfileTranslationsPanel() {
       )}
 
       <div className="mt-4 space-y-4 text-sm">
-
         <div>
           <label
             htmlFor="primary-locale"
@@ -159,7 +158,9 @@ export function ProfileTranslationsPanel() {
             value={data.primaryLocale}
             disabled={data.rows.length > 0 || busy !== null}
             onChange={(e) =>
-              void guard("primary", () => runPrimary({ data: { locale: e.target.value as Locale } }))
+              void guard("primary", () =>
+                runPrimary({ data: { locale: e.target.value as Locale } }),
+              )
             }
             className="mt-1.5 rounded-lg border border-border bg-card px-2 py-1.5 text-sm disabled:opacity-60"
           >
@@ -216,7 +217,9 @@ export function ProfileTranslationsPanel() {
                   <>
                     <button
                       type="button"
-                      onClick={() => (openLocale === locale ? setOpenLocale(null) : openEditor(locale))}
+                      onClick={() =>
+                        openLocale === locale ? setOpenLocale(null) : openEditor(locale)
+                      }
                       className="rounded-full border border-border px-3 py-1.5 text-xs font-medium hover:bg-secondary"
                     >
                       {openLocale === locale

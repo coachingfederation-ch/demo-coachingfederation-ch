@@ -145,7 +145,8 @@ function VocabulariesPage() {
             <div
               key={row.id}
               className={
-                "rounded-2xl border border-border bg-card p-4 " + (row.is_active ? "" : "opacity-60")
+                "rounded-2xl border border-border bg-card p-4 " +
+                (row.is_active ? "" : "opacity-60")
               }
             >
               <div className="flex items-center gap-3">
@@ -206,11 +207,15 @@ function VocabulariesPage() {
                           value={row[key] ?? ""}
                           onChange={(e) =>
                             setRows((prev) =>
-                              prev.map((r) => (r.id === row.id ? { ...r, [key]: e.target.value } : r)),
+                              prev.map((r) =>
+                                r.id === row.id ? { ...r, [key]: e.target.value } : r,
+                              ),
                             )
                           }
                           onBlur={(e) =>
-                            void patch(row.id, { [key]: e.target.value || null } as Partial<VocabRow>)
+                            void patch(row.id, {
+                              [key]: e.target.value || null,
+                            } as Partial<VocabRow>)
                           }
                           className="mt-1 w-full rounded-lg border border-border bg-card px-2 py-1.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring/20"
                         />

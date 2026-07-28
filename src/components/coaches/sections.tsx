@@ -72,8 +72,10 @@ export function LearningTabs() {
             // ARIA APG tabs: arrow / Home / End move selection between tabs.
             const last = tabs.length - 1;
             let next: number | null = null;
-            if (e.key === "ArrowRight" || e.key === "ArrowDown") next = active === last ? 0 : active + 1;
-            else if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = active === 0 ? last : active - 1;
+            if (e.key === "ArrowRight" || e.key === "ArrowDown")
+              next = active === last ? 0 : active + 1;
+            else if (e.key === "ArrowLeft" || e.key === "ArrowUp")
+              next = active === 0 ? last : active - 1;
             else if (e.key === "Home") next = 0;
             else if (e.key === "End") next = last;
             if (next === null) return;
@@ -108,7 +110,10 @@ export function LearningTabs() {
           id={`learning-panel-${active}`}
           aria-labelledby={`learning-tab-${active}`}
           tabIndex={0}
-          className={"mt-6 grid gap-8 rounded-2xl border border-border/70 bg-card p-8 md:grid-cols-[1fr_1.4fr] md:p-12 " + CARD_SHADOW}
+          className={
+            "mt-6 grid gap-8 rounded-2xl border border-border/70 bg-card p-8 md:grid-cols-[1fr_1.4fr] md:p-12 " +
+            CARD_SHADOW
+          }
         >
           <div className="grid aspect-[4/3] place-items-center rounded-2xl bg-mark-blue text-mark-cream">
             <Mark name={benefitMarks[active % benefitMarks.length]} className="h-1/2 w-1/2" />
@@ -125,14 +130,19 @@ export function LearningTabs() {
 
 export function CommunityGrid() {
   const { tList } = useI18n();
-  const items = tList<{ name: string; languages: string; status: string }>("coaches.chapters.items");
+  const items = tList<{ name: string; languages: string; status: string }>(
+    "coaches.chapters.items",
+  );
   if (items.length === 0) return null;
   return (
     <div className="mt-10 grid gap-3 sm:grid-cols-2">
       {items.map((c) => (
         <div
           key={c.name}
-          className={"flex items-center justify-between gap-4 rounded-2xl border border-border/70 bg-card px-5 py-4 " + CARD_SHADOW}
+          className={
+            "flex items-center justify-between gap-4 rounded-2xl border border-border/70 bg-card px-5 py-4 " +
+            CARD_SHADOW
+          }
         >
           <div>
             <p className="text-sm font-semibold tracking-tight">{c.name}</p>
@@ -165,7 +175,9 @@ export function MemberStories() {
       <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
         {t("coaches.stories.title")}
       </h2>
-      <figure className={"mt-10 rounded-2xl border border-border/70 bg-card p-8 md:p-12 " + CARD_SHADOW}>
+      <figure
+        className={"mt-10 rounded-2xl border border-border/70 bg-card p-8 md:p-12 " + CARD_SHADOW}
+      >
         <blockquote className="max-w-3xl text-xl font-semibold leading-snug tracking-tight md:text-2xl">
           “{story.quote}”
         </blockquote>

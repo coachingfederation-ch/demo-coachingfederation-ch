@@ -8,10 +8,10 @@ The database today has no member tables — only the Phase 1 `cf_*` vocabularies
 
 ### 1. Data classification
 
-| Class | Data | Cutover rule |
-|---|---|---|
-| **Preserve** | `cf_*` vocabularies, `coach_finder_config`, `categories`, `user_roles`, staff `profiles`, schema, RLS, grants, storage buckets, cron jobs, server routes | Untouched by cutover |
-| **Purge** | `members`, `member_directory_profiles`, member↔vocabulary joins, `member_import_snapshots`, `member_sync_runs`/`member_sync_events`, `member_lifecycle_queue`, `member_email_log`, `member_profile_links`, TEST-created `auth.users`, TEST profile images in storage | Archived once, then wiped before first LIVE import |
+| Class        | Data                                                                                                                                                                                                                                                                 | Cutover rule                                       |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| **Preserve** | `cf_*` vocabularies, `coach_finder_config`, `categories`, `user_roles`, staff `profiles`, schema, RLS, grants, storage buckets, cron jobs, server routes                                                                                                             | Untouched by cutover                               |
+| **Purge**    | `members`, `member_directory_profiles`, member↔vocabulary joins, `member_import_snapshots`, `member_sync_runs`/`member_sync_events`, `member_lifecycle_queue`, `member_email_log`, `member_profile_links`, TEST-created `auth.users`, TEST profile images in storage | Archived once, then wiped before first LIVE import |
 
 No third "migratable" class — there is nothing member-authored to carry.
 

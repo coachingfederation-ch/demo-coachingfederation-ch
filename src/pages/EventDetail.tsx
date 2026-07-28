@@ -43,7 +43,10 @@ export function EventFallback({ titleKey, bodyKey }: { titleKey: string; bodyKey
       <main id="main" className="mx-auto max-w-3xl px-8 py-24 text-center">
         <h1 className="text-3xl font-bold tracking-tight">{t(titleKey)}</h1>
         <p className="mt-4 text-base text-muted-foreground">{t(bodyKey)}</p>
-        <LocaleLink to="/events" className="mt-8 inline-flex h-10 items-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground">
+        <LocaleLink
+          to="/events"
+          className="mt-8 inline-flex h-10 items-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground"
+        >
           {t("events.detail.backToEvents")}
         </LocaleLink>
       </main>
@@ -79,7 +82,10 @@ export default function EventDetailPage({ event }: { event: PublicEvent }) {
   const [state, setState] = useState<RsvpState>({ kind: "idle" });
 
   const rsvpEnabled =
-    event.registration_mode === "rsvp" && Boolean(event.registration_open) && !past && !event.is_full;
+    event.registration_mode === "rsvp" &&
+    Boolean(event.registration_open) &&
+    !past &&
+    !event.is_full;
   const guestsBlocked = !signedIn && event.guest_registration_allowed === false;
 
   const submit = async (e: React.FormEvent) => {
@@ -117,14 +123,19 @@ export default function EventDetailPage({ event }: { event: PublicEvent }) {
       <main id="main">
         <section className="bg-hero text-hero-foreground">
           <div className="mx-auto max-w-5xl px-8 pb-16 pt-4">
-            <LocaleLink to="/events" className="btn-mono !text-hero-foreground/70 hover:!text-hero-foreground">
+            <LocaleLink
+              to="/events"
+              className="btn-mono !text-hero-foreground/70 hover:!text-hero-foreground"
+            >
               ← {t("events.detail.backToEvents")}
             </LocaleLink>
             <h1 className="mt-6 max-w-3xl text-4xl font-bold leading-tight tracking-tight md:text-5xl">
               {event.title}
             </h1>
             {event.summary ? (
-              <p className="mt-5 max-w-2xl text-lg leading-relaxed text-hero-foreground/85">{event.summary}</p>
+              <p className="mt-5 max-w-2xl text-lg leading-relaxed text-hero-foreground/85">
+                {event.summary}
+              </p>
             ) : null}
             <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm">
               <span className="inline-flex items-center gap-2">
@@ -169,16 +180,25 @@ export default function EventDetailPage({ event }: { event: PublicEvent }) {
             ) : null}
           </article>
 
-          <aside className={"h-fit rounded-2xl border border-border/70 bg-card p-6 lg:sticky lg:top-8 " + CARD_SHADOW}>
+          <aside
+            className={
+              "h-fit rounded-2xl border border-border/70 bg-card p-6 lg:sticky lg:top-8 " +
+              CARD_SHADOW
+            }
+          >
             <p className="eyebrow">{t("events.detail.rsvpEyebrow")}</p>
 
             {event.registration_mode !== "rsvp" ? (
-              <p className="mt-4 text-sm text-muted-foreground">{t("events.detail.noRegistration")}</p>
+              <p className="mt-4 text-sm text-muted-foreground">
+                {t("events.detail.noRegistration")}
+              </p>
             ) : past ? (
               <p className="mt-4 text-sm text-muted-foreground">{t("events.detail.pastEvent")}</p>
             ) : mine.data ? (
               <div className="mt-4">
-                <p className="text-sm font-semibold text-teal-foreground">{t("events.detail.youAreIn")}</p>
+                <p className="text-sm font-semibold text-teal-foreground">
+                  {t("events.detail.youAreIn")}
+                </p>
                 <button
                   onClick={() => void cancel()}
                   className="mt-4 rounded-full border border-border px-4 py-2 text-xs font-semibold hover:bg-secondary"
@@ -187,7 +207,9 @@ export default function EventDetailPage({ event }: { event: PublicEvent }) {
                 </button>
               </div>
             ) : state.kind === "done" ? (
-              <p className="mt-4 text-sm font-semibold text-teal-foreground">{t("events.detail.confirmed")}</p>
+              <p className="mt-4 text-sm font-semibold text-teal-foreground">
+                {t("events.detail.confirmed")}
+              </p>
             ) : event.is_full ? (
               <p className="mt-4 text-sm text-muted-foreground">{t("events.detail.full")}</p>
             ) : !event.registration_open ? (
@@ -195,7 +217,10 @@ export default function EventDetailPage({ event }: { event: PublicEvent }) {
             ) : guestsBlocked ? (
               <div className="mt-4">
                 <p className="text-sm text-muted-foreground">{t("events.detail.membersOnly")}</p>
-                <LocaleLink to="/auth" className="mt-4 inline-flex h-10 items-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground">
+                <LocaleLink
+                  to="/auth"
+                  className="mt-4 inline-flex h-10 items-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground"
+                >
                   {t("events.detail.signIn")}
                 </LocaleLink>
               </div>
@@ -240,9 +265,13 @@ export default function EventDetailPage({ event }: { event: PublicEvent }) {
                   {state.kind === "saving" ? t("events.detail.saving") : t("events.detail.rsvp")}
                 </button>
                 {state.kind === "error" ? (
-                  <p className="text-sm text-destructive">{t(`events.detail.error.${state.reason}`)}</p>
+                  <p className="text-sm text-destructive">
+                    {t(`events.detail.error.${state.reason}`)}
+                  </p>
                 ) : null}
-                <p className="text-[11px] leading-relaxed text-muted-foreground">{t("events.detail.privacy")}</p>
+                <p className="text-[11px] leading-relaxed text-muted-foreground">
+                  {t("events.detail.privacy")}
+                </p>
               </form>
             )}
           </aside>

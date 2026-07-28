@@ -6,9 +6,13 @@ import { useI18n } from "@/i18n";
 export default function AboutPage() {
   const { t, tList } = useI18n();
   const values = tList<{ title: string; desc: string }>("about.values");
-  const communities = tList<{ city: string; region: string; cadence: string; langs: string[]; lead: string }>(
-    "about.communities.items",
-  );
+  const communities = tList<{
+    city: string;
+    region: string;
+    cadence: string;
+    langs: string[];
+    lead: string;
+  }>("about.communities.items");
   const partners = tList<string>("about.research.partners");
   const research = tList<{ title: string; desc: string }>("about.research.items");
 
@@ -46,7 +50,9 @@ export default function AboutPage() {
               <div className="mt-10 space-y-6">
                 {values.map((v, i) => (
                   <div key={v.title} className="flex gap-5 border-t border-border/70 pt-6">
-                    <span className="btn-mono text-lg font-bold !text-teal-foreground">0{i + 1}</span>
+                    <span className="btn-mono text-lg font-bold !text-teal-foreground">
+                      0{i + 1}
+                    </span>
                     <div>
                       <h3 className="text-lg font-semibold tracking-tight">{v.title}</h3>
                       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{v.desc}</p>
@@ -66,13 +72,23 @@ export default function AboutPage() {
             </h2>
             <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               {communities.map((c) => (
-                <div key={c.city} className={"rounded-2xl border border-border/70 bg-card p-6 " + CARD_SHADOW}>
+                <div
+                  key={c.city}
+                  className={"rounded-2xl border border-border/70 bg-card p-6 " + CARD_SHADOW}
+                >
                   <h3 className="text-lg font-semibold tracking-tight">{c.city}</h3>
                   <p className="mt-2 text-sm text-muted-foreground">{c.region}</p>
-                  <p className="btn-mono mt-4 !text-muted-foreground">{c.cadence} · {c.lead}</p>
+                  <p className="btn-mono mt-4 !text-muted-foreground">
+                    {c.cadence} · {c.lead}
+                  </p>
                   <div className="mt-4 flex flex-wrap items-center gap-2">
                     {c.langs.map((l) => (
-                      <span key={l} className="inline-flex items-center rounded-full border border-border/70 bg-chip px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-chip-foreground">{l}</span>
+                      <span
+                        key={l}
+                        className="inline-flex items-center rounded-full border border-border/70 bg-chip px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-chip-foreground"
+                      >
+                        {l}
+                      </span>
                     ))}
                   </div>
                 </div>
@@ -88,14 +104,23 @@ export default function AboutPage() {
           </h2>
           <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-5">
             {partners.map((p) => (
-              <div key={p} className={"grid h-20 place-items-center rounded-2xl border border-border/70 bg-card text-sm font-semibold text-foreground/70 " + CARD_SHADOW}>
+              <div
+                key={p}
+                className={
+                  "grid h-20 place-items-center rounded-2xl border border-border/70 bg-card text-sm font-semibold text-foreground/70 " +
+                  CARD_SHADOW
+                }
+              >
                 {p}
               </div>
             ))}
           </div>
           <div className="mt-12 grid gap-4 md:grid-cols-2">
             {research.map((r) => (
-              <div key={r.title} className={"rounded-2xl border border-border/70 bg-card p-8 " + CARD_SHADOW}>
+              <div
+                key={r.title}
+                className={"rounded-2xl border border-border/70 bg-card p-8 " + CARD_SHADOW}
+              >
                 <h3 className="text-lg font-semibold tracking-tight">{r.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{r.desc}</p>
               </div>
@@ -127,8 +152,18 @@ export default function AboutPage() {
               {t("about.cta.title")}
             </h2>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <a href="#" className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90">{t("about.cta.join")}</a>
-              <a href="#" className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10">{t("about.cta.contact")}</a>
+              <a
+                href="#"
+                className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90"
+              >
+                {t("about.cta.join")}
+              </a>
+              <a
+                href="#"
+                className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10"
+              >
+                {t("about.cta.contact")}
+              </a>
             </div>
           </div>
         </section>

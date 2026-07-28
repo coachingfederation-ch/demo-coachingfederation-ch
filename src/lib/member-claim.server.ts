@@ -126,7 +126,8 @@ export async function attemptMemberClaim(email: string, baseUrl: string): Promis
 
   const member = matches[0];
   if (member.auth_user_id) return { status: "already_claimed" };
-  if (member.activity_state !== "active" || !member.last_synced_at) return { status: "not_eligible" };
+  if (member.activity_state !== "active" || !member.last_synced_at)
+    return { status: "not_eligible" };
 
   const token = await mintClaimToken(member.id, normalized);
 
@@ -235,8 +236,7 @@ export async function completeClaim(token: string, password: string): Promise<Co
     // advice the member could never act on.
     const message = createError?.message ?? "";
     const isCollision =
-      createError?.status === 422 ||
-      /already (been )?registered|already exists/i.test(message);
+      createError?.status === 422 || /already (been )?registered|already exists/i.test(message);
     if (isCollision) return { status: "account_exists" };
     throw new Error(`Account creation failed: ${message || "unknown auth error"}`);
   }
@@ -259,7 +259,11 @@ export async function completeClaim(token: string, password: string): Promise<Co
 
   await supabaseAdmin
     .from("member_profile_links")
-    .update({ status: "completed", consumed_at: new Date().toISOString(), completed_at: new Date().toISOString() })
+    .update({
+      status: "completed",
+      consumed_at: new Date().toISOString(),
+      completed_at: new Date().toISOString(),
+    })
     .eq("id", link.id);
 
   await supabaseAdmin.from("member_sync_events").insert({
@@ -292,7 +296,8 @@ export async function issueClaimLinkForMember(
   if (!member) throw new Error("Member not found.");
   if (member.auth_user_id) throw new Error("This member already has a linked account.");
   if (!member.email) throw new Error("This member record has no email address.");
-  if (member.activity_state !== "active") throw new Error("Only active members can claim an account.");
+  if (member.activity_state !== "active")
+    throw new Error("Only active members can claim an account.");
 
   const email = member.email.trim().toLowerCase();
   const token = await mintClaimToken(member.id, email);

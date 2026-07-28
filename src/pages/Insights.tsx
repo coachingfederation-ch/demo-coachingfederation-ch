@@ -60,7 +60,12 @@ function SkeletonGrid({ recentLabel }: { recentLabel: string }) {
   return (
     <>
       <section className="mx-auto max-w-7xl px-8 py-16">
-        <div className={"grid overflow-hidden rounded-2xl border border-border/70 bg-card md:grid-cols-2 " + CARD_SHADOW}>
+        <div
+          className={
+            "grid overflow-hidden rounded-2xl border border-border/70 bg-card md:grid-cols-2 " +
+            CARD_SHADOW
+          }
+        >
           <div className="aspect-[4/3] w-full animate-pulse bg-secondary md:aspect-auto" />
           <div className="flex flex-col justify-center gap-4 p-10">
             <div className="h-3 w-28 animate-pulse rounded-full bg-secondary" />
@@ -74,7 +79,13 @@ function SkeletonGrid({ recentLabel }: { recentLabel: string }) {
         <p className="eyebrow">{recentLabel}</p>
         <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className={"flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card " + CARD_SHADOW}>
+            <div
+              key={i}
+              className={
+                "flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card " +
+                CARD_SHADOW
+              }
+            >
               <div className="aspect-[16/10] w-full animate-pulse bg-secondary" />
               <div className="flex flex-1 flex-col gap-3 p-6">
                 <div className="h-3 w-20 animate-pulse rounded-full bg-secondary" />
@@ -100,9 +111,15 @@ function EmptyState({
 }) {
   return (
     <section className="mx-auto max-w-7xl px-8 py-16">
-      <div className={"rounded-2xl border border-border/70 bg-card px-8 py-20 text-center " + CARD_SHADOW}>
+      <div
+        className={
+          "rounded-2xl border border-border/70 bg-card px-8 py-20 text-center " + CARD_SHADOW
+        }
+      >
         <h2 className="text-xl font-bold tracking-tight">{title}</h2>
-        <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">{body}</p>
+        <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
+          {body}
+        </p>
         {children}
       </div>
     </section>
@@ -135,7 +152,8 @@ export default function InsightsPage() {
         eyebrow={t("insights.hero.eyebrow")}
         title={
           <>
-            {t("insights.hero.titleLead")} <span className="text-accent">{t("insights.hero.titleAccent")}</span>{" "}
+            {t("insights.hero.titleLead")}{" "}
+            <span className="text-accent">{t("insights.hero.titleAccent")}</span>{" "}
             {t("insights.hero.titleTail")}
           </>
         }
@@ -186,7 +204,10 @@ export default function InsightsPage() {
             <section className="mx-auto max-w-7xl px-8 py-16">
               <LocaleLink
                 to={`/insights/${featured.id}`}
-                className={"group grid overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 md:grid-cols-2 " + CARD_SHADOW}
+                className={
+                  "group grid overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 md:grid-cols-2 " +
+                  CARD_SHADOW
+                }
               >
                 <CardVisual article={featured} className="aspect-[4/3] md:aspect-auto md:h-full" />
                 <div className="flex flex-col justify-center p-10">
@@ -194,8 +215,12 @@ export default function InsightsPage() {
                     {t("insights.featured")}
                     {cardCategory(featured) ? ` · ${cardCategory(featured)}` : ""}
                   </p>
-                  <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight md:text-3xl">{featured.title}</h2>
-                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">{featured.excerpt}</p>
+                  <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight md:text-3xl">
+                    {featured.title}
+                  </h2>
+                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                    {featured.excerpt}
+                  </p>
                   <p className="btn-mono mt-6 !text-muted-foreground">
                     {formatArticleDate(featured.published_at)} ·{" "}
                     {authorName(featured.author) ?? t("insights.byline")}
@@ -214,14 +239,25 @@ export default function InsightsPage() {
                     <LocaleLink
                       key={p.id}
                       to={`/insights/${p.id}`}
-                      className={"group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 " + CARD_SHADOW}
+                      className={
+                        "group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 " +
+                        CARD_SHADOW
+                      }
                     >
                       <CardVisual article={p} className="aspect-[16/10]" />
                       <div className="flex flex-1 flex-col p-6">
-                        {cardCategory(p) ? <p className="section-label">{cardCategory(p)}</p> : null}
-                        <h3 className="mt-2 text-base font-semibold leading-snug tracking-tight">{p.title}</h3>
-                        <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{p.excerpt}</p>
-                        <p className="btn-mono mt-4 !text-muted-foreground">{formatArticleDate(p.published_at)}</p>
+                        {cardCategory(p) ? (
+                          <p className="section-label">{cardCategory(p)}</p>
+                        ) : null}
+                        <h3 className="mt-2 text-base font-semibold leading-snug tracking-tight">
+                          {p.title}
+                        </h3>
+                        <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
+                          {p.excerpt}
+                        </p>
+                        <p className="btn-mono mt-4 !text-muted-foreground">
+                          {formatArticleDate(p.published_at)}
+                        </p>
                       </div>
                     </LocaleLink>
                   ))}
@@ -237,12 +273,26 @@ export default function InsightsPage() {
             <h2 className="mx-auto mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
               {t("insights.newsletter.title")}
             </h2>
-            <form onSubmit={(e) => e.preventDefault()} className="mx-auto mt-8 flex max-w-md flex-col gap-2 sm:flex-row">
+            <form
+              onSubmit={(e) => e.preventDefault()}
+              className="mx-auto mt-8 flex max-w-md flex-col gap-2 sm:flex-row"
+            >
               <label htmlFor="insights-newsletter-email" className="sr-only">
                 {t("common.form.emailLabel")}
               </label>
-              <input id="insights-newsletter-email" name="email" autoComplete="email" type="email" required placeholder={t("insights.newsletter.placeholder")} className="h-10 w-full rounded-full border border-white/20 bg-white/10 px-4 text-sm text-white placeholder:text-white/70 outline-none focus:border-white/60" />
-              <button type="submit" className="h-10 rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90">
+              <input
+                id="insights-newsletter-email"
+                name="email"
+                autoComplete="email"
+                type="email"
+                required
+                placeholder={t("insights.newsletter.placeholder")}
+                className="h-10 w-full rounded-full border border-white/20 bg-white/10 px-4 text-sm text-white placeholder:text-white/70 outline-none focus:border-white/60"
+              />
+              <button
+                type="submit"
+                className="h-10 rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90"
+              >
                 {t("insights.newsletter.cta")}
               </button>
             </form>

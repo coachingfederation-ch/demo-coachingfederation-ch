@@ -22,16 +22,16 @@ predicate that also produces the message shown in the member and staff editors.
 
 ### Visibility states
 
-`member_visibility` distinguishes *why* a profile is hidden, which matters
+`member_visibility` distinguishes _why_ a profile is hidden, which matters
 because the recovery differs:
 
-| State | Meaning |
-|---|---|
-| `draft` | Created by sync, never published by the member. |
-| `published` | Live in the directory. |
-| `hidden_inactive` | Demoted by sync — membership lapsed. |
-| `hidden_no_credential` | Demoted by sync — credential expired or was dropped. |
-| `hidden_admin` | Hidden by staff. Deliberate, and not reversed by sync. |
+| State                  | Meaning                                                |
+| ---------------------- | ------------------------------------------------------ |
+| `draft`                | Created by sync, never published by the member.        |
+| `published`            | Live in the directory.                                 |
+| `hidden_inactive`      | Demoted by sync — membership lapsed.                   |
+| `hidden_no_credential` | Demoted by sync — credential expired or was dropped.   |
+| `hidden_admin`         | Hidden by staff. Deliberate, and not reversed by sync. |
 
 The sync engine demotes automatically when eligibility is lost. A member who
 renews becomes eligible again but is **not** silently republished — they
@@ -55,7 +55,7 @@ This means adding a field to the public profile is a two-step change: add the
 column, then add it to the view. Forgetting the second step is the usual reason
 a new field renders blank.
 
-`queryCoachDirectory` in `src/lib/directory.functions.ts` is a *public* server
+`queryCoachDirectory` in `src/lib/directory.functions.ts` is a _public_ server
 function — it uses the publishable client, so RLS and the view both still
 apply. Filtering, faceting and pagination are pushed into Postgres; the
 directory must stay responsive as the member base grows, so do not fetch and

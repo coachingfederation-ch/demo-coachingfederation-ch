@@ -96,7 +96,10 @@ export interface PublicArticle {
   excerpt: string;
   category: string | null;
   category_id: string | null;
-  category_ref?: Pick<CategoryRow, "id" | "slug" | "name" | "name_de" | "name_fr" | "name_it"> | null;
+  category_ref?: Pick<
+    CategoryRow,
+    "id" | "slug" | "name" | "name_de" | "name_fr" | "name_it"
+  > | null;
   featured_image_url: string | null;
   image_credit_name?: string | null;
   image_credit_url?: string | null;

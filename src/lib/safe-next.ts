@@ -6,6 +6,7 @@
  * open-redirect and is dropped.
  */
 export function safeNext(value: unknown): string | undefined {
-  if (typeof value !== "string" || !value.startsWith("/") || value.startsWith("//")) return undefined;
+  if (typeof value !== "string" || !value.startsWith("/") || value.startsWith("//"))
+    return undefined;
   return value;
 }

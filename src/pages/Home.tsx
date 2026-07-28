@@ -21,7 +21,9 @@ function HeroHeader() {
               <span className="text-accent">{t("home.hero.titleAccent")}</span>
               {t("home.hero.titlePost")}
             </h1>
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-white/85">{t("home.hero.subtitle")}</p>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-white/85">
+              {t("home.hero.subtitle")}
+            </p>
           </div>
           <div className="relative">
             <img
@@ -44,7 +46,9 @@ function HeroHeader() {
 
 function Audiences() {
   const { tList } = useI18n();
-  const audiences = tList<{ eyebrow: string; title: string; desc: string; cta: string }>("home.audiences");
+  const audiences = tList<{ eyebrow: string; title: string; desc: string; cta: string }>(
+    "home.audiences",
+  );
   const targets = ["/find-a-coach", "/for-organisations", "/for-coaches", "/about"];
   return (
     <section id="find-a-coach" className="mx-auto -mt-8 max-w-7xl px-8">
@@ -84,7 +88,9 @@ function WhyCredentialed() {
           <h2 className="text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
             {t("home.pillars.title")}
           </h2>
-          <p className="text-base leading-relaxed text-muted-foreground">{t("home.pillars.subtitle")}</p>
+          <p className="text-base leading-relaxed text-muted-foreground">
+            {t("home.pillars.subtitle")}
+          </p>
         </div>
         <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {pillars.map((p, i) => (
@@ -145,7 +151,9 @@ function CoachingInAction() {
             </div>
             <div className="p-6">
               <p className="section-label">{th.tag}</p>
-              <h3 className="mt-2 text-base font-semibold leading-snug tracking-tight text-foreground">{th.title}</h3>
+              <h3 className="mt-2 text-base font-semibold leading-snug tracking-tight text-foreground">
+                {th.title}
+              </h3>
             </div>
           </LocaleLink>
         ))}
@@ -164,7 +172,9 @@ function ForOrganisations() {
           <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
             {t("home.organisations.title")}
           </h2>
-          <p className="mt-5 max-w-lg text-base leading-relaxed text-white/85">{t("home.organisations.subtitle")}</p>
+          <p className="mt-5 max-w-lg text-base leading-relaxed text-white/85">
+            {t("home.organisations.subtitle")}
+          </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <LocaleLink
               to="/for-organisations"
@@ -203,10 +213,12 @@ const COMMUNITY_LANGS: string[][] = [
 
 function Communities() {
   const { t, tList } = useI18n();
-  const communities = tList<{ city: string; region: string }>("home.communities.items").map((item, i) => ({
-    ...item,
-    langs: COMMUNITY_LANGS[i],
-  }));
+  const communities = tList<{ city: string; region: string }>("home.communities.items").map(
+    (item, i) => ({
+      ...item,
+      langs: COMMUNITY_LANGS[i],
+    }),
+  );
   return (
     <section className="mx-auto max-w-7xl px-8 py-24 text-center">
       <p className="eyebrow">{t("home.communities.eyebrow")}</p>
@@ -254,9 +266,9 @@ const EVENT_STYLES: { bg: string; fg: string; mark: MarkName }[] = [
 
 function Events() {
   const { t, tList } = useI18n();
-  const events = tList<{ date: string; city: string; title: string; tags: string[] }>("home.events.items").map(
-    (item, i) => ({ ...item, ...EVENT_STYLES[i] }),
-  );
+  const events = tList<{ date: string; city: string; title: string; tags: string[] }>(
+    "home.events.items",
+  ).map((item, i) => ({ ...item, ...EVENT_STYLES[i] }));
   return (
     <section className="bg-muted py-24">
       <div className="mx-auto max-w-7xl px-8">
@@ -288,7 +300,9 @@ function Events() {
                 <p className="btn-mono !text-muted-foreground">
                   {e.date} · {e.city}
                 </p>
-                <h3 className="mt-3 text-lg font-semibold leading-snug tracking-tight text-foreground">{e.title}</h3>
+                <h3 className="mt-3 text-lg font-semibold leading-snug tracking-tight text-foreground">
+                  {e.title}
+                </h3>
                 <div className="mt-5 flex flex-wrap items-center gap-2">
                   {e.tags.map((tag) => (
                     <span
@@ -348,8 +362,12 @@ function Join() {
       <div className="mx-auto grid max-w-7xl gap-10 px-8 py-24 md:grid-cols-[1.2fr_1fr] md:items-center">
         <div>
           <p className="eyebrow !text-accent">{t("home.join.eyebrow")}</p>
-          <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">{t("home.join.title")}</h2>
-          <p className="mt-5 max-w-lg text-base leading-relaxed text-white/85">{t("home.join.subtitle")}</p>
+          <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+            {t("home.join.title")}
+          </h2>
+          <p className="mt-5 max-w-lg text-base leading-relaxed text-white/85">
+            {t("home.join.subtitle")}
+          </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <LocaleLink
               to="/for-coaches"
@@ -368,8 +386,13 @@ function Join() {
         </div>
         <div className="rounded-2xl border border-white/15 bg-white/5 p-6 backdrop-blur">
           <h3 className="text-xl font-semibold tracking-tight">{t("home.join.newsletterTitle")}</h3>
-          <p className="mt-2 text-sm leading-relaxed text-white/85">{t("home.join.newsletterSubtitle")}</p>
-          <form className="mt-5 flex flex-col gap-2 sm:flex-row" onSubmit={(e) => e.preventDefault()}>
+          <p className="mt-2 text-sm leading-relaxed text-white/85">
+            {t("home.join.newsletterSubtitle")}
+          </p>
+          <form
+            className="mt-5 flex flex-col gap-2 sm:flex-row"
+            onSubmit={(e) => e.preventDefault()}
+          >
             <label htmlFor="home-newsletter-email" className="sr-only">
               {t("common.form.emailLabel")}
             </label>
@@ -382,7 +405,10 @@ function Join() {
               placeholder={t("home.join.emailPlaceholder")}
               className="h-10 w-full rounded-full border border-white/20 bg-white/10 px-4 text-sm text-white placeholder:text-white/70 outline-none focus:border-white/60"
             />
-            <button type="submit" className="h-10 rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90">
+            <button
+              type="submit"
+              className="h-10 rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90"
+            >
               {t("home.join.subscribe")}
             </button>
           </form>

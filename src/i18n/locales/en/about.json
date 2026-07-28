@@ -16,18 +16,51 @@
     "imageAlt": "A real coaching conversation"
   },
   "values": [
-    { "title": "Think differently", "desc": "Coaching creates space to challenge assumptions and see new options." },
-    { "title": "Lead better", "desc": "Leaders who are coached listen deeper, decide faster and grow their people." },
-    { "title": "Unlock potential", "desc": "Individuals and teams reach for what matters most, with support and accountability." }
+    {
+      "title": "Think differently",
+      "desc": "Coaching creates space to challenge assumptions and see new options."
+    },
+    {
+      "title": "Lead better",
+      "desc": "Leaders who are coached listen deeper, decide faster and grow their people."
+    },
+    {
+      "title": "Unlock potential",
+      "desc": "Individuals and teams reach for what matters most, with support and accountability."
+    }
   ],
   "communities": {
     "eyebrow": "Communities",
     "title": "A coaching community across Switzerland.",
     "items": [
-      { "city": "Zürich", "region": "German-speaking Switzerland", "cadence": "Monthly", "langs": ["DE", "EN"], "lead": "Chapter lead: Zürich team" },
-      { "city": "Lausanne & Genève", "region": "Romandie", "cadence": "Monthly", "langs": ["FR", "EN"], "lead": "Chapter lead: Romandie team" },
-      { "city": "Lugano", "region": "Ticino", "cadence": "Quarterly", "langs": ["IT", "EN"], "lead": "Chapter lead: Ticino team" },
-      { "city": "Online", "region": "Events, mentoring & volunteering", "cadence": "Ongoing", "langs": ["DE", "FR", "IT", "EN"], "lead": "Open to all members" }
+      {
+        "city": "Zürich",
+        "region": "German-speaking Switzerland",
+        "cadence": "Monthly",
+        "langs": ["DE", "EN"],
+        "lead": "Chapter lead: Zürich team"
+      },
+      {
+        "city": "Lausanne & Genève",
+        "region": "Romandie",
+        "cadence": "Monthly",
+        "langs": ["FR", "EN"],
+        "lead": "Chapter lead: Romandie team"
+      },
+      {
+        "city": "Lugano",
+        "region": "Ticino",
+        "cadence": "Quarterly",
+        "langs": ["IT", "EN"],
+        "lead": "Chapter lead: Ticino team"
+      },
+      {
+        "city": "Online",
+        "region": "Events, mentoring & volunteering",
+        "cadence": "Ongoing",
+        "langs": ["DE", "FR", "IT", "EN"],
+        "lead": "Open to all members"
+      }
     ]
   },
   "research": {
@@ -35,8 +68,14 @@
     "title": "Connecting research, practice and leadership.",
     "partners": ["ETH Zürich", "HEC Lausanne", "USI Lugano", "SwissRe", "Nestlé"],
     "items": [
-      { "title": "The state of coaching in Switzerland 2026", "desc": "A joint study with Swiss universities on the growth and impact of professional coaching." },
-      { "title": "Coaching, AI and the future of work", "desc": "A partnership research programme exploring how AI is reshaping coaching practice." }
+      {
+        "title": "The state of coaching in Switzerland 2026",
+        "desc": "A joint study with Swiss universities on the growth and impact of professional coaching."
+      },
+      {
+        "title": "Coaching, AI and the future of work",
+        "desc": "A partnership research programme exploring how AI is reshaping coaching practice."
+      }
     ]
   },
   "mission": {

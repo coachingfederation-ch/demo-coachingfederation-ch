@@ -39,6 +39,28 @@ export type MemberProfileLink = {
   sort_order: number;
 };
 
+/**
+ * Facet join tables are addressed by a name known only at runtime, which the
+ * generated Supabase types can't resolve. This is the narrow slice of the
+ * query builder those calls actually use — enough to stay type-checked
+ * without falling back to `any`.
+ */
+type FacetError = { message: string } | null;
+type FacetTable = {
+  select: (columns: string) => {
+    eq: (
+      column: string,
+      value: string,
+    ) => PromiseLike<{ data: Record<string, string>[] | null; error: FacetError }>;
+  };
+  delete: () => {
+    eq: (column: string, value: string) => PromiseLike<{ error: FacetError }>;
+  };
+  insert: (rows: Record<string, string>[]) => PromiseLike<{ error: FacetError }>;
+};
+
+const facetTable = (table: string) => supabaseAdmin.from(table as never) as unknown as FacetTable;
+
 export type MyMemberProfile = {
   member: {
     id: string;
@@ -95,7 +117,11 @@ const JOINS = [
   { table: "member_profile_regions", column: "region_id", key: "region_ids" },
   { table: "member_profile_languages", column: "language_id", key: "language_ids" },
   { table: "member_profile_formats", column: "format_id", key: "format_ids" },
-  { table: "member_profile_specialisations", column: "specialisation_id", key: "specialisation_ids" },
+  {
+    table: "member_profile_specialisations",
+    column: "specialisation_id",
+    key: "specialisation_ids",
+  },
   { table: "member_profile_client_types", column: "client_type_id", key: "client_type_ids" },
 ] as const;
 
@@ -132,18 +158,13 @@ export async function loadMyMemberProfile(userId: string): Promise<MyMemberProfi
 
   if (profile) {
     const results = await Promise.all(
-      JOINS.map((join) =>
-        (supabaseAdmin.from(join.table) as any).select(join.column).eq("profile_id", profile.id),
-      ),
+      JOINS.map((join) => facetTable(join.table).select(join.column).eq("profile_id", profile.id)),
     );
     facets = Object.fromEntries(
       JOINS.map((join, i) => {
         const res = results[i]!;
         if (res.error) throw res.error;
-        return [
-          join.key,
-          ((res.data ?? []) as Record<string, string>[]).map((row) => row[join.column] as string),
-        ];
+        return [join.key, (res.data ?? []).map((row) => row[join.column] as string)];
       }),
     ) as typeof facets;
 
@@ -199,18 +220,20 @@ export type MyProfileUpdate = {
 /** Plain text only: strip control characters and hard-cap the length. */
 function cleanText(value: string | null | undefined, max: number): string | null {
   if (value == null) return null;
+  // Control characters are the point: this strips them out of pasted text.
+  // eslint-disable-next-line no-control-regex
   const cleaned = value.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "").trim();
   return cleaned ? cleaned.slice(0, max) : null;
 }
 
 async function replaceFacet(profileId: string, table: string, column: string, ids: string[]) {
-  const client = supabaseAdmin as any;
-  const { error } = await client.from(table).delete().eq("profile_id", profileId);
+  const client = facetTable(table);
+  const { error } = await client.delete().eq("profile_id", profileId);
   if (error) throw error;
   if (!ids.length) return;
-  const { error: insertError } = await client
-    .from(table)
-    .insert(ids.map((id) => ({ profile_id: profileId, [column]: id })));
+  const { error: insertError } = await client.insert(
+    ids.map((id) => ({ profile_id: profileId, [column]: id })),
+  );
   if (insertError) throw insertError;
 }
 
@@ -231,10 +254,13 @@ export async function updateMyMemberProfile(
 
   const patch: Record<string, unknown> = {};
   if (input.tagline !== undefined) patch.tagline = cleanText(input.tagline, TAGLINE_MAX);
-  if (input.description !== undefined) patch.description = cleanText(input.description, DESCRIPTION_MAX);
-  if (input.availability_slug !== undefined) patch.availability_slug = input.availability_slug || null;
+  if (input.description !== undefined)
+    patch.description = cleanText(input.description, DESCRIPTION_MAX);
+  if (input.availability_slug !== undefined)
+    patch.availability_slug = input.availability_slug || null;
   if (input.coaching_available !== undefined) patch.coaching_available = input.coaching_available;
-  if (input.mentoring_available !== undefined) patch.mentoring_available = input.mentoring_available;
+  if (input.mentoring_available !== undefined)
+    patch.mentoring_available = input.mentoring_available;
   if (input.supervision_available !== undefined) {
     patch.supervision_available = input.supervision_available;
   }
@@ -269,7 +295,8 @@ export async function updateMyMemberProfile(
   }
   if (input.booking_url !== undefined) {
     const url = (input.booking_url ?? "").trim();
-    if (url && !/^https:\/\/\S{3,250}$/i.test(url)) throw new Error("Booking link must start with https://.");
+    if (url && !/^https:\/\/\S{3,250}$/i.test(url))
+      throw new Error("Booking link must start with https://.");
     patch.booking_url = url || null;
   }
 

@@ -119,21 +119,21 @@ function LanguageSwitcher() {
         >
           {LOCALE_ORDER.map((l) => (
             <li key={l}>
-            <a
-              href={localizePath(path, l)}
-              hrefLang={l}
-              aria-current={l === locale ? "true" : undefined}
-              onClick={() => {
-                setStoredLocale(l);
-                setOpen(false);
-              }}
-              className={
-                "block min-h-11 px-4 py-3 text-[11px] font-semibold uppercase leading-5 tracking-wider hover:bg-muted hover:text-foreground " +
-                (l === locale ? "bg-muted text-foreground" : "text-foreground/80")
-              }
-            >
-              {LOCALE_LABELS[l]}
-            </a>
+              <a
+                href={localizePath(path, l)}
+                hrefLang={l}
+                aria-current={l === locale ? "true" : undefined}
+                onClick={() => {
+                  setStoredLocale(l);
+                  setOpen(false);
+                }}
+                className={
+                  "block min-h-11 px-4 py-3 text-[11px] font-semibold uppercase leading-5 tracking-wider hover:bg-muted hover:text-foreground " +
+                  (l === locale ? "bg-muted text-foreground" : "text-foreground/80")
+                }
+              >
+                {LOCALE_LABELS[l]}
+              </a>
             </li>
           ))}
         </ul>
@@ -195,7 +195,11 @@ function AccountControl() {
               {t("common.nav.insightsCms")}
             </Link>
           )}
-          <button type="button" onClick={() => void signOutHere()} className={MENU_ITEM + " w-full"}>
+          <button
+            type="button"
+            onClick={() => void signOutHere()}
+            className={MENU_ITEM + " w-full"}
+          >
             {t("common.nav.signOut")}
           </button>
         </div>
@@ -286,7 +290,11 @@ export function SiteNav() {
         onClick={() => setMenuOpen((v) => !v)}
         className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 lg:hidden"
       >
-        {menuOpen ? <X className="h-4 w-4" aria-hidden="true" /> : <Menu className="h-4 w-4" aria-hidden="true" />}
+        {menuOpen ? (
+          <X className="h-4 w-4" aria-hidden="true" />
+        ) : (
+          <Menu className="h-4 w-4" aria-hidden="true" />
+        )}
       </button>
       {menuOpen && (
         <nav
@@ -385,24 +393,40 @@ export function SiteFooter() {
   return (
     <footer className="bg-hero text-hero-foreground">
       <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-3 px-8 py-6 text-xs sm:flex-row sm:items-center">
-        <p className="text-white/80">© {new Date().getFullYear()} {t("common.footer.copyright")}</p>
+        <p className="text-white/80">
+          © {new Date().getFullYear()} {t("common.footer.copyright")}
+        </p>
         <nav aria-label={t("common.nav.footerLabel")} className="flex flex-wrap items-center gap-4">
-          <LocaleLink to="/find-a-coach" className="text-white/80 hover:text-white">{t("common.nav.findACoach")}</LocaleLink>
-          <LocaleLink to="/for-organisations" className="text-white/80 hover:text-white">{t("common.nav.forOrganisations")}</LocaleLink>
-          <LocaleLink to="/for-coaches" className="text-white/80 hover:text-white">{t("common.nav.forCoaches")}</LocaleLink>
-          <LocaleLink to="/insights" className="text-white/80 hover:text-white">{t("common.nav.insights")}</LocaleLink>
-          <LocaleLink to="/events" className="text-white/80 hover:text-white">{t("common.nav.events")}</LocaleLink>
-          <LocaleLink to="/about" className="text-white/80 hover:text-white">{t("common.nav.about")}</LocaleLink>
-          {[t("common.footer.privacy"), t("common.footer.ethics"), t("common.footer.imprint")].map((label) => (
-            <span
-              key={label}
-              aria-disabled="true"
-              title={t("common.footer.comingSoon")}
-              className="cursor-not-allowed text-white/60"
-            >
-              {label}
-            </span>
-          ))}
+          <LocaleLink to="/find-a-coach" className="text-white/80 hover:text-white">
+            {t("common.nav.findACoach")}
+          </LocaleLink>
+          <LocaleLink to="/for-organisations" className="text-white/80 hover:text-white">
+            {t("common.nav.forOrganisations")}
+          </LocaleLink>
+          <LocaleLink to="/for-coaches" className="text-white/80 hover:text-white">
+            {t("common.nav.forCoaches")}
+          </LocaleLink>
+          <LocaleLink to="/insights" className="text-white/80 hover:text-white">
+            {t("common.nav.insights")}
+          </LocaleLink>
+          <LocaleLink to="/events" className="text-white/80 hover:text-white">
+            {t("common.nav.events")}
+          </LocaleLink>
+          <LocaleLink to="/about" className="text-white/80 hover:text-white">
+            {t("common.nav.about")}
+          </LocaleLink>
+          {[t("common.footer.privacy"), t("common.footer.ethics"), t("common.footer.imprint")].map(
+            (label) => (
+              <span
+                key={label}
+                aria-disabled="true"
+                title={t("common.footer.comingSoon")}
+                className="cursor-not-allowed text-white/60"
+              >
+                {label}
+              </span>
+            ),
+          )}
         </nav>
       </div>
     </footer>

@@ -22,14 +22,24 @@ import {
   requestMemberClaim,
 } from "@/lib/members.functions";
 
-function Shell({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
+function Shell({
+  title,
+  subtitle,
+  children,
+}: {
+  title: string;
+  subtitle?: string;
+  children: React.ReactNode;
+}) {
   const { locale, setLocale } = useCms();
   return (
     <div className="flex min-h-dvh items-center justify-center bg-background px-4 py-12">
       <div className="w-full max-w-md rounded-2xl border border-border bg-card p-8 shadow-[var(--shadow-soft)]">
         <div className="mb-6 text-center">
           <h1 className="text-xl font-bold tracking-tight">{title}</h1>
-          {subtitle && <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{subtitle}</p>}
+          {subtitle && (
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{subtitle}</p>
+          )}
           <div className="mt-4 flex flex-wrap justify-center gap-1.5">
             {LOCALE_ORDER.map((l) => (
               <button
@@ -61,7 +71,10 @@ const buttonClass =
 
 export function ClaimRequestPage() {
   const { t } = useCms();
-  const status = useQuery({ queryKey: ["member-claim-status"], queryFn: () => getMemberClaimStatus() });
+  const status = useQuery({
+    queryKey: ["member-claim-status"],
+    queryFn: () => getMemberClaimStatus(),
+  });
   const request = useServerFn(requestMemberClaim);
   const [email, setEmail] = useState("");
   const [done, setDone] = useState(false);
@@ -72,13 +85,20 @@ export function ClaimRequestPage() {
   });
 
   if (status.isLoading) {
-    return <Shell title={t("claim.title")}><p className="text-center text-sm text-muted-foreground">{t("claim.loading")}</p></Shell>;
+    return (
+      <Shell title={t("claim.title")}>
+        <p className="text-center text-sm text-muted-foreground">{t("claim.loading")}</p>
+      </Shell>
+    );
   }
 
   if (!status.data?.enabled) {
     return (
       <Shell title={t("claim.closedTitle")} subtitle={t("claim.closedBody")}>
-        <a href="/auth" className="block text-center text-sm font-semibold text-primary hover:underline">
+        <a
+          href="/auth"
+          className="block text-center text-sm font-semibold text-primary hover:underline"
+        >
           {t("claim.toSignIn")}
         </a>
       </Shell>
@@ -88,7 +108,10 @@ export function ClaimRequestPage() {
   if (done) {
     return (
       <Shell title={t("claim.sentTitle")} subtitle={t("claim.sentBody")}>
-        <a href="/auth" className="block text-center text-sm font-semibold text-primary hover:underline">
+        <a
+          href="/auth"
+          className="block text-center text-sm font-semibold text-primary hover:underline"
+        >
           {t("claim.toSignIn")}
         </a>
       </Shell>
@@ -156,14 +179,21 @@ export function ClaimTokenPage({ token }: { token: string }) {
   useEffect(() => setError(null), [password, confirm]);
 
   if (state.isLoading) {
-    return <Shell title={t("claim.title")}><p className="text-center text-sm text-muted-foreground">{t("claim.loading")}</p></Shell>;
+    return (
+      <Shell title={t("claim.title")}>
+        <p className="text-center text-sm text-muted-foreground">{t("claim.loading")}</p>
+      </Shell>
+    );
   }
 
   const status = state.data?.status ?? "unknown";
   if (status !== "valid") {
     return (
       <Shell title={t(`claim.state.${status}.title`)} subtitle={t(`claim.state.${status}.body`)}>
-        <a href="/claim" className="block text-center text-sm font-semibold text-primary hover:underline">
+        <a
+          href="/claim"
+          className="block text-center text-sm font-semibold text-primary hover:underline"
+        >
           {t("claim.restart")}
         </a>
       </Shell>
@@ -176,7 +206,10 @@ export function ClaimTokenPage({ token }: { token: string }) {
   const canSubmit = password.length >= 10 && password === confirm && !submit.isPending;
 
   return (
-    <Shell title={t("claim.setPasswordTitle")} subtitle={t("claim.setPasswordBody").replace("{email}", maskedEmail)}>
+    <Shell
+      title={t("claim.setPasswordTitle")}
+      subtitle={t("claim.setPasswordBody").replace("{email}", maskedEmail)}
+    >
       <form
         className="space-y-3"
         onSubmit={(e) => {
@@ -184,7 +217,10 @@ export function ClaimTokenPage({ token }: { token: string }) {
           if (canSubmit) submit.mutate();
         }}
       >
-        <label className="block text-xs font-semibold text-muted-foreground" htmlFor="claim-password">
+        <label
+          className="block text-xs font-semibold text-muted-foreground"
+          htmlFor="claim-password"
+        >
           {t("claim.passwordLabel")}
         </label>
         <input
@@ -196,7 +232,10 @@ export function ClaimTokenPage({ token }: { token: string }) {
           onChange={(e) => setPassword(e.target.value)}
           className={inputClass}
         />
-        <label className="block text-xs font-semibold text-muted-foreground" htmlFor="claim-confirm">
+        <label
+          className="block text-xs font-semibold text-muted-foreground"
+          htmlFor="claim-confirm"
+        >
           {t("claim.confirmLabel")}
         </label>
         <input

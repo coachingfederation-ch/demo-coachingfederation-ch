@@ -273,10 +273,10 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
     (profile.availability_slug ? availabilityLabel(profile.availability_slug) : null);
   const hasSidebarFacts = Boolean(
     formats.length ||
-      profile.session_length_note ||
-      languages.length ||
-      availabilityText ||
-      experience,
+    profile.session_length_note ||
+    languages.length ||
+    availabilityText ||
+    experience,
   );
   const hasSidebarCards = Boolean(
     hasSidebarFacts || hasCta || profile.fees_note || regions.length || profile.links.length,
@@ -453,10 +453,7 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
                     label={t("directory.detail.formats")}
                     value={formats.length ? formats.join(" · ") : null}
                   />
-                  <Fact
-                    label={t("directory.detail.session")}
-                    value={profile.session_length_note}
-                  />
+                  <Fact label={t("directory.detail.session")} value={profile.session_length_note} />
                   <Fact
                     label={t("directory.detail.languages")}
                     value={languages.length ? languages.join(" · ") : null}

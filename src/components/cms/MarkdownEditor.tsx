@@ -26,10 +26,7 @@ function useDebounced(value: string, delay: number) {
 export function MarkdownPreview({ content, className }: { content: string; className?: string }) {
   const { t } = useCms();
   const body = useDebounced(content, 150);
-  const rendered = useMemo(
-    () => (body.trim() ? <Markdown>{body}</Markdown> : null),
-    [body],
-  );
+  const rendered = useMemo(() => (body.trim() ? <Markdown>{body}</Markdown> : null), [body]);
   return (
     <div className={className}>
       {rendered ?? (
@@ -121,7 +118,8 @@ export function MarkdownEditor({
           <MarkdownPreview
             content={value}
             className={
-              "p-5 " + (mode === "split" ? `${paneHeight} overflow-auto` : "mx-auto w-full max-w-2xl")
+              "p-5 " +
+              (mode === "split" ? `${paneHeight} overflow-auto` : "mx-auto w-full max-w-2xl")
             }
           />
         ) : null}

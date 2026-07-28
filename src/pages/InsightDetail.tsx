@@ -56,11 +56,16 @@ export default function InsightDetailPage({ article }: { article: DetailArticle 
   return (
     <DetailShell>
       <article className="mx-auto max-w-3xl px-8 pt-16 pb-24">
-        <LocaleLink to="/insights" className="btn-mono !text-muted-foreground hover:!text-foreground">
+        <LocaleLink
+          to="/insights"
+          className="btn-mono !text-muted-foreground hover:!text-foreground"
+        >
           {t("insights.detail.back")}
         </LocaleLink>
         {category ? <p className="section-label mt-6">{category}</p> : null}
-        <h1 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-5xl">{article.title}</h1>
+        <h1 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-5xl">
+          {article.title}
+        </h1>
         <p className="btn-mono mt-5 !text-muted-foreground">
           {formatArticleDate(article.published_at)} · {byline}
         </p>
@@ -76,7 +81,9 @@ export default function InsightDetailPage({ article }: { article: DetailArticle 
               className="aspect-[16/9] w-full object-cover"
             />
           ) : (
-            <div className={"grid aspect-[16/9] w-full place-items-center " + tile.bg + " " + tile.fg}>
+            <div
+              className={"grid aspect-[16/9] w-full place-items-center " + tile.bg + " " + tile.fg}
+            >
               <Mark name={tile.mark} className="h-1/2 w-1/2" />
             </div>
           )}

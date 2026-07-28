@@ -103,7 +103,10 @@ export async function runMemberSync(options: {
         last_sync_run_id: runId,
         ...(ok
           ? { last_successful_sync_at: new Date().toISOString(), last_sync_error: null }
-          : { last_failed_sync_at: new Date().toISOString(), last_sync_error: result.message ?? null }),
+          : {
+              last_failed_sync_at: new Date().toISOString(),
+              last_sync_error: result.message ?? null,
+            }),
       })
       .eq("id", true);
 
@@ -124,13 +127,27 @@ export async function runMemberSync(options: {
       if (dropPct > config.feed_drop_threshold_pct) {
         const message = `Aborted: feed returned ${feed.length} members, ${dropPct.toFixed(1)}% below the ${existingCount} on record (threshold ${config.feed_drop_threshold_pct}%).`;
         await logEvent(runId, "feed_drop_abort", message, { severity: "error" });
-        return await finish({ status: "aborted", feedCount: feed.length, created: 0, updated: 0, deactivated: 0, message });
+        return await finish({
+          status: "aborted",
+          feedCount: feed.length,
+          created: 0,
+          updated: 0,
+          deactivated: 0,
+          message,
+        });
       }
     }
     if (feed.length === 0) {
       const message = "Aborted: ICF feed returned no members.";
       await logEvent(runId, "empty_feed_abort", message, { severity: "error" });
-      return await finish({ status: "aborted", feedCount: 0, created: 0, updated: 0, deactivated: 0, message });
+      return await finish({
+        status: "aborted",
+        feedCount: 0,
+        created: 0,
+        updated: 0,
+        deactivated: 0,
+        message,
+      });
     }
 
     const { data: existingRows, error: existingError } = await supabaseAdmin
@@ -231,16 +248,33 @@ export async function runMemberSync(options: {
 
     const createdProfiles = await ensureDirectoryProfiles(runId);
     if (createdProfiles) {
-      await logEvent(runId, "directory_profiles_created", `Created ${createdProfiles} draft directory profiles.`);
+      await logEvent(
+        runId,
+        "directory_profiles_created",
+        `Created ${createdProfiles} draft directory profiles.`,
+      );
     }
 
     await reconcileDirectoryVisibility(runId);
 
-    return await finish({ status: "succeeded", feedCount: feed.length, created, updated, deactivated });
+    return await finish({
+      status: "succeeded",
+      feedCount: feed.length,
+      created,
+      updated,
+      deactivated,
+    });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     await logEvent(runId, "sync_failed", message, { severity: "error" });
-    return await finish({ status: "failed", feedCount: 0, created: 0, updated: 0, deactivated: 0, message });
+    return await finish({
+      status: "failed",
+      feedCount: 0,
+      created: 0,
+      updated: 0,
+      deactivated: 0,
+      message,
+    });
   }
 }
 
@@ -280,12 +314,17 @@ export async function runLifecycleCleanup(actorUserId: string): Promise<{ anonym
       .from("member_lifecycle_queue")
       .update({ resolved_at: nowIso, resolution: "anonymized" })
       .eq("member_id", row.id);
-    await logEvent(null, "member_anonymized", `Member ${row.cst_recno} anonymised by admin clean-up.`, {
-      member_id: row.id,
-      cst_recno: row.cst_recno,
-      actor_user_id: actorUserId,
-      severity: "warning",
-    });
+    await logEvent(
+      null,
+      "member_anonymized",
+      `Member ${row.cst_recno} anonymised by admin clean-up.`,
+      {
+        member_id: row.id,
+        cst_recno: row.cst_recno,
+        actor_user_id: actorUserId,
+        severity: "warning",
+      },
+    );
     anonymized += 1;
   }
   return { anonymized };

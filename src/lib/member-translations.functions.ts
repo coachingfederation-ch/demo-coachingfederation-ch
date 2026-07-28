@@ -57,9 +57,7 @@ export const saveMyProfileTranslationFn = createServerFn({ method: "POST" })
   });
 
 export const setMyProfileTranslationReady = createServerFn({ method: "POST" })
-  .inputValidator((input) =>
-    z.object({ locale: localeSchema, isReady: z.boolean() }).parse(input),
-  )
+  .inputValidator((input) => z.object({ locale: localeSchema, isReady: z.boolean() }).parse(input))
   .middleware([requireSupabaseAuth])
   .handler(async ({ context, data }) => {
     const { setMyTranslationReady } = await import("./member-translations.server");

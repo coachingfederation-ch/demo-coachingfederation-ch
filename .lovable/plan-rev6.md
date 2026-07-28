@@ -28,14 +28,14 @@ Rev. 4 §6 step 4 is amended in place to match.
 snapshot, then **stops before the first irreversible action** and reports what the real
 run would do:
 
-| Step | Rehearsal behaviour |
-|---|---|
-| `preflight` | Real check: TEST mode, no recorded cutover, LIVE credentials present |
-| `archive` | Real snapshot, labelled `cutover-rehearsal-*` with reason `cutover_rehearsal` |
-| `purge_preview` | Per-table row counts that would be deleted |
-| `binding_preview` | Bindings that would be released, `member` grants revoked, non-staff auth users deleted |
-| `switch_preview` | States the mode switch and first LIVE import that would follow |
-| `rehearsal_complete` | Confirms nothing was changed and the integration is still in TEST |
+| Step                 | Rehearsal behaviour                                                                    |
+| -------------------- | -------------------------------------------------------------------------------------- |
+| `preflight`          | Real check: TEST mode, no recorded cutover, LIVE credentials present                   |
+| `archive`            | Real snapshot, labelled `cutover-rehearsal-*` with reason `cutover_rehearsal`          |
+| `purge_preview`      | Per-table row counts that would be deleted                                             |
+| `binding_preview`    | Bindings that would be released, `member` grants revoked, non-staff auth users deleted |
+| `switch_preview`     | States the mode switch and first LIVE import that would follow                         |
+| `rehearsal_complete` | Confirms nothing was changed and the integration is still in TEST                      |
 
 Freeze, purge, mode switch and LIVE import never execute in rehearsal. The
 `integration_config` guard trigger is untouched and still the real boundary.

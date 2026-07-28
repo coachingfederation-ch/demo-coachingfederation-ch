@@ -26,12 +26,42 @@ import { useMyRoles } from "@/lib/roles";
  */
 const nav = [
   { to: "/articles", key: "nav.articles", icon: FileText, editorOnly: false, adminOnly: false },
-  { to: "/articles/new", key: "nav.newArticle", icon: PencilLine, editorOnly: false, adminOnly: false },
-  { to: "/articles/categories", key: "nav.categories", icon: Tags, editorOnly: true, adminOnly: false },
+  {
+    to: "/articles/new",
+    key: "nav.newArticle",
+    icon: PencilLine,
+    editorOnly: false,
+    adminOnly: false,
+  },
+  {
+    to: "/articles/categories",
+    key: "nav.categories",
+    icon: Tags,
+    editorOnly: true,
+    adminOnly: false,
+  },
   // Organizers see only this item; the shell itself is open to all staff roles.
-  { to: "/manage/events", key: "nav.events", icon: CalendarDays, editorOnly: false, adminOnly: false },
-  { to: "/vocabularies", key: "nav.vocabularies", icon: ListTree, editorOnly: true, adminOnly: false },
-  { to: "/coach-finder", key: "nav.coachFinder", icon: SlidersHorizontal, editorOnly: true, adminOnly: false },
+  {
+    to: "/manage/events",
+    key: "nav.events",
+    icon: CalendarDays,
+    editorOnly: false,
+    adminOnly: false,
+  },
+  {
+    to: "/vocabularies",
+    key: "nav.vocabularies",
+    icon: ListTree,
+    editorOnly: true,
+    adminOnly: false,
+  },
+  {
+    to: "/coach-finder",
+    key: "nav.coachFinder",
+    icon: SlidersHorizontal,
+    editorOnly: true,
+    adminOnly: false,
+  },
   { to: "/members", key: "nav.members", icon: Users, editorOnly: true, adminOnly: false },
   { to: "/integration", key: "nav.integration", icon: PlugZap, editorOnly: true, adminOnly: false },
   { to: "/roles", key: "nav.roles", icon: ShieldCheck, editorOnly: true, adminOnly: true },
@@ -87,7 +117,8 @@ export function Shell({ children }: { children: ReactNode }) {
           <Logo title={t("nav.workspace")} />
           <nav className="mt-2 flex flex-col gap-1 px-3">
             {items.map(({ to, key, icon: Icon }) => {
-              const active = to === "/articles" ? pathname === "/articles" : pathname.startsWith(to);
+              const active =
+                to === "/articles" ? pathname === "/articles" : pathname.startsWith(to);
               return (
                 <Link
                   key={to}
@@ -142,20 +173,20 @@ export function Shell({ children }: { children: ReactNode }) {
             </div>
           </div>
           <div className="flex items-center gap-3 border-t border-border px-5 py-4">
-          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-teal text-xs font-semibold text-white">
-            {initials}
-          </div>
-          <div className="min-w-0 flex-1">
-            <div className="truncate text-sm font-semibold">{email ?? t("nav.signedIn")}</div>
-            <div className="truncate text-xs text-muted-foreground">{t("nav.role")}</div>
-          </div>
-          <button
-            onClick={handleSignOut}
-            title={t("nav.signOut")}
-            className="rounded-md p-1.5 text-muted-foreground hover:bg-secondary hover:text-foreground"
-          >
-            <LogOut className="h-4 w-4" />
-          </button>
+            <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-teal text-xs font-semibold text-white">
+              {initials}
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="truncate text-sm font-semibold">{email ?? t("nav.signedIn")}</div>
+              <div className="truncate text-xs text-muted-foreground">{t("nav.role")}</div>
+            </div>
+            <button
+              onClick={handleSignOut}
+              title={t("nav.signOut")}
+              className="rounded-md p-1.5 text-muted-foreground hover:bg-secondary hover:text-foreground"
+            >
+              <LogOut className="h-4 w-4" />
+            </button>
           </div>
         </div>
       </aside>

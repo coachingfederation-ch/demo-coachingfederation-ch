@@ -7,10 +7,7 @@ import { safeNext } from "@/lib/safe-next";
 export const Route = createFileRoute("/auth/callback")({
   validateSearch: (search: Record<string, unknown>) => ({ next: safeNext(search.next) }),
   head: () => ({
-    meta: [
-      { title: "Signing in…" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Signing in…" }, { name: "robots", content: "noindex" }],
   }),
   component: AuthCallback,
 });

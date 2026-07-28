@@ -9,9 +9,17 @@ export const Route = createFileRoute("/_staff/articles/")({
   head: () => ({
     meta: [
       { title: "Articles — ICF Switzerland Insights CMS" },
-      { name: "description", content: "Editorial workspace for ICF Switzerland: draft, schedule and publish Insights articles." },
+      {
+        name: "description",
+        content:
+          "Editorial workspace for ICF Switzerland: draft, schedule and publish Insights articles.",
+      },
       { property: "og:title", content: "Articles — ICF Switzerland Insights CMS" },
-      { property: "og:description", content: "Editorial workspace for ICF Switzerland: draft, schedule and publish Insights articles." },
+      {
+        property: "og:description",
+        content:
+          "Editorial workspace for ICF Switzerland: draft, schedule and publish Insights articles.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex" },
@@ -37,9 +45,21 @@ type Filter = (typeof filters)[number];
 
 function StatusPill({ status, t }: { status: Status; t: (k: string) => string }) {
   const map: Record<Status, { bg: string; dot: string; label: string }> = {
-    draft: { bg: "bg-warn-soft text-[color:var(--warn)]", dot: "var(--warn)", label: t("status.draft") },
-    scheduled: { bg: "bg-teal-soft text-teal-foreground", dot: "var(--teal)", label: t("status.scheduled") },
-    published: { bg: "bg-teal-soft text-teal-foreground", dot: "var(--teal)", label: t("status.published") },
+    draft: {
+      bg: "bg-warn-soft text-[color:var(--warn)]",
+      dot: "var(--warn)",
+      label: t("status.draft"),
+    },
+    scheduled: {
+      bg: "bg-teal-soft text-teal-foreground",
+      dot: "var(--teal)",
+      label: t("status.scheduled"),
+    },
+    published: {
+      bg: "bg-teal-soft text-teal-foreground",
+      dot: "var(--teal)",
+      label: t("status.published"),
+    },
     unpublished: {
       bg: "bg-secondary text-muted-foreground",
       dot: "var(--muted-foreground)",
@@ -48,7 +68,9 @@ function StatusPill({ status, t }: { status: Status; t: (k: string) => string })
   };
   const s = map[status];
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${s.bg}`}>
+    <span
+      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${s.bg}`}
+    >
       <span className="h-1.5 w-1.5 rounded-full" style={{ background: s.dot }} />
       {s.label}
     </span>
@@ -112,7 +134,8 @@ function ArticlesPage() {
           <div>
             <h1 className="text-3xl font-bold tracking-tight">{t("list.title")}</h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              {counts.total} article{counts.total === 1 ? "" : "s"} · {counts.drafts} draft{counts.drafts === 1 ? "" : "s"} · {counts.scheduled} scheduled
+              {counts.total} article{counts.total === 1 ? "" : "s"} · {counts.drafts} draft
+              {counts.drafts === 1 ? "" : "s"} · {counts.scheduled} scheduled
             </p>
           </div>
           <Link
@@ -161,7 +184,9 @@ function ArticlesPage() {
             <div className="w-4" />
           </div>
           {rows === null ? (
-            <div className="px-6 py-10 text-center text-sm text-muted-foreground">{t("editor.loading")}</div>
+            <div className="px-6 py-10 text-center text-sm text-muted-foreground">
+              {t("editor.loading")}
+            </div>
           ) : filtered.length === 0 ? (
             <div className="px-6 py-10 text-center text-sm text-muted-foreground">
               {t("list.empty")}
@@ -174,7 +199,9 @@ function ArticlesPage() {
                 key={r.id}
                 className="group grid grid-cols-[minmax(0,2fr)_0.8fr_1fr_0.8fr_auto] items-center gap-4 border-b border-border/70 px-6 py-4 text-sm transition last:border-b-0 hover:bg-secondary/60"
               >
-                <div className="font-semibold text-foreground">{r.title || <span className="text-muted-foreground">Untitled</span>}</div>
+                <div className="font-semibold text-foreground">
+                  {r.title || <span className="text-muted-foreground">Untitled</span>}
+                </div>
                 <div className="flex flex-wrap items-center gap-1">
                   <LangChip code={r.language} />
                   {(r.translations ?? []).map((tr) => (
@@ -186,7 +213,9 @@ function ArticlesPage() {
                     </span>
                   ))}
                 </div>
-                <div><StatusPill status={r.status} t={t} /></div>
+                <div>
+                  <StatusPill status={r.status} t={t} />
+                </div>
                 <div className="text-muted-foreground">{timeAgo(r.updated_at)}</div>
                 <ChevronRight className="h-4 w-4 text-muted-foreground transition group-hover:translate-x-0.5 group-hover:text-foreground" />
               </Link>

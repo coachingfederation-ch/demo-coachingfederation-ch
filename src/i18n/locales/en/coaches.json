@@ -18,36 +18,99 @@
     "cta": "Join as a member",
     "ctaNote": "Membership is managed through the ICF Global member portal.",
     "items": [
-      { "title": "62+ events per year", "desc": "Networking, learning, ethics and peer coaching throughout the year." },
-      { "title": "A community in your region", "desc": "Zurich, Geneva, Lausanne, Basel, Bern, Ticino and Ost-Schweiz." },
-      { "title": "Events in four languages", "desc": "Join in English, French, German or Italian — whichever fits you best." },
-      { "title": "Professional development", "desc": "Webinars and masterclasses with CCEUs for your credential renewal." },
-      { "title": "Peer coaching", "desc": "Structured peer coaching cycles and Coaching Gym formats." },
-      { "title": "Member directory listing", "desc": "Visibility in Find a Coach for clients and organisations." },
-      { "title": "A voice in governance", "desc": "Town Halls, Board Coffee and open participation in chapter decisions." },
-      { "title": "Ethics support", "desc": "Guidance on ethical practice and the ICF credentialing process." },
-      { "title": "Access to ICF Global", "desc": "The Converge Summit and the full global resource library." }
+      {
+        "title": "62+ events per year",
+        "desc": "Networking, learning, ethics and peer coaching throughout the year."
+      },
+      {
+        "title": "A community in your region",
+        "desc": "Zurich, Geneva, Lausanne, Basel, Bern, Ticino and Ost-Schweiz."
+      },
+      {
+        "title": "Events in four languages",
+        "desc": "Join in English, French, German or Italian — whichever fits you best."
+      },
+      {
+        "title": "Professional development",
+        "desc": "Webinars and masterclasses with CCEUs for your credential renewal."
+      },
+      {
+        "title": "Peer coaching",
+        "desc": "Structured peer coaching cycles and Coaching Gym formats."
+      },
+      {
+        "title": "Member directory listing",
+        "desc": "Visibility in Find a Coach for clients and organisations."
+      },
+      {
+        "title": "A voice in governance",
+        "desc": "Town Halls, Board Coffee and open participation in chapter decisions."
+      },
+      {
+        "title": "Ethics support",
+        "desc": "Guidance on ethical practice and the ICF credentialing process."
+      },
+      {
+        "title": "Access to ICF Global",
+        "desc": "The Converge Summit and the full global resource library."
+      }
     ]
   },
   "learning": {
     "eyebrow": "Learning & development",
     "title": "Keep growing, all year round.",
     "tabs": [
-      { "label": "Professional dev.", "title": "Webinars and masterclasses", "desc": "Executive leadership, AI in coaching, neurodiversity and inclusion, team coaching and business development — practical sessions led by experienced practitioners." },
-      { "label": "Ethics", "title": "Ethics in practice", "desc": "Three in-person and two virtual ethics events in 2026. Reflect, discuss real dilemmas and earn CCEUs. Led by Natacha Andenmatten." },
-      { "label": "DEIB", "title": "Diversity, equity, inclusion and belonging", "desc": "Quarterly DEIB Open Houses, the Inclusive Coaching Inspiration Kit, neurodiversity webinars and member stories — resources for coaching across diverse contexts." },
-      { "label": "Peer coaching", "title": "Practise with peers", "desc": "Structured peer coaching cycles, Coaching Gyms and Open Space formats — multi-language and across all communities." },
-      { "label": "Credentials", "title": "Credentialing support", "desc": "ICF credentialing info sessions for ACC, PCC and MCC, step-by-step guides and two credentialing webinars per year." },
-      { "label": "AI in coaching", "title": "AI in coaching working group", "desc": "Led by Nicola Simionato. Exploring AI tools, the ethics of AI in practice and member education on responsible use." }
+      {
+        "label": "Professional dev.",
+        "title": "Webinars and masterclasses",
+        "desc": "Executive leadership, AI in coaching, neurodiversity and inclusion, team coaching and business development — practical sessions led by experienced practitioners."
+      },
+      {
+        "label": "Ethics",
+        "title": "Ethics in practice",
+        "desc": "Three in-person and two virtual ethics events in 2026. Reflect, discuss real dilemmas and earn CCEUs. Led by Natacha Andenmatten."
+      },
+      {
+        "label": "DEIB",
+        "title": "Diversity, equity, inclusion and belonging",
+        "desc": "Quarterly DEIB Open Houses, the Inclusive Coaching Inspiration Kit, neurodiversity webinars and member stories — resources for coaching across diverse contexts."
+      },
+      {
+        "label": "Peer coaching",
+        "title": "Practise with peers",
+        "desc": "Structured peer coaching cycles, Coaching Gyms and Open Space formats — multi-language and across all communities."
+      },
+      {
+        "label": "Credentials",
+        "title": "Credentialing support",
+        "desc": "ICF credentialing info sessions for ACC, PCC and MCC, step-by-step guides and two credentialing webinars per year."
+      },
+      {
+        "label": "AI in coaching",
+        "title": "AI in coaching working group",
+        "desc": "Led by Nicola Simionato. Exploring AI tools, the ethics of AI in practice and member education on responsible use."
+      }
     ]
   },
   "credentials": {
     "eyebrow": "Credentialing pathway",
     "title": "A recognised path from ACC to MCC.",
     "items": [
-      { "level": "ACC", "hours": "100+ hours", "desc": "Associate Certified Coach — the entry pathway for newly trained coaches." },
-      { "level": "PCC", "hours": "500+ hours", "desc": "Professional Certified Coach — the standard for established practitioners." },
-      { "level": "MCC", "hours": "2,500+ hours", "desc": "Master Certified Coach — the highest tier, for masterful practitioners." }
+      {
+        "level": "ACC",
+        "hours": "100+ hours",
+        "desc": "Associate Certified Coach — the entry pathway for newly trained coaches."
+      },
+      {
+        "level": "PCC",
+        "hours": "500+ hours",
+        "desc": "Professional Certified Coach — the standard for established practitioners."
+      },
+      {
+        "level": "MCC",
+        "hours": "2,500+ hours",
+        "desc": "Master Certified Coach — the highest tier, for masterful practitioners."
+      }
     ]
   },
   "deib": {
@@ -90,9 +153,27 @@
     "prev": "Previous story",
     "next": "Next story",
     "items": [
-      { "quote": "The peer coaching cycles pushed my practice further in one year than anything else I have done. And I found colleagues I now call friends.", "name": "Nadia Berger", "credential": "PCC", "community": "Basel community", "languages": "DE / EN" },
-      { "quote": "Coming from a corporate HR background, the credentialing sessions gave me a clear path to ACC — and the Geneva community made the journey far less lonely.", "name": "Marc Dubois", "credential": "ACC", "community": "Geneva community", "languages": "FR / EN" },
-      { "quote": "Being able to attend events in Italian in Ticino, then in English nationally, is exactly the kind of inclusion that keeps me engaged as a member.", "name": "Giulia Ferrari", "credential": "MCC", "community": "Svizzera Italiana", "languages": "IT / EN" }
+      {
+        "quote": "The peer coaching cycles pushed my practice further in one year than anything else I have done. And I found colleagues I now call friends.",
+        "name": "Nadia Berger",
+        "credential": "PCC",
+        "community": "Basel community",
+        "languages": "DE / EN"
+      },
+      {
+        "quote": "Coming from a corporate HR background, the credentialing sessions gave me a clear path to ACC — and the Geneva community made the journey far less lonely.",
+        "name": "Marc Dubois",
+        "credential": "ACC",
+        "community": "Geneva community",
+        "languages": "FR / EN"
+      },
+      {
+        "quote": "Being able to attend events in Italian in Ticino, then in English nationally, is exactly the kind of inclusion that keeps me engaged as a member.",
+        "name": "Giulia Ferrari",
+        "credential": "MCC",
+        "community": "Svizzera Italiana",
+        "languages": "IT / EN"
+      }
     ]
   },
   "join": {

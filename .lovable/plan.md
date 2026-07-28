@@ -1,39 +1,37 @@
-## Scope
+## Goal
 
-Only `src/components/site-chrome.tsx` (the shared public header used by every public page, including event detail) plus the four `common.json` locale files. No route, auth, or data-model changes.
+Clear the two follow-up risks from the merge review: repo-wide Prettier drift, and the handful of non-formatting lint errors that remain.
 
-## Change 1 — Single compact language control
+Confirmed current state (just measured):
+- `prettier --check src/**` reports style issues in **140 files** (none of them shadcn `src/components/ui` files — those are already clean).
+- `eslint .` reports **2319 problems**; 2297 are auto-fixable `prettier/prettier`. Remaining after formatting: **5 errors + 17 warnings**.
+  - `src/lib/articles.server.ts:17` — `no-explicit-any`
+  - `src/lib/member-profile.server.ts:136, 207` — `no-explicit-any`
+  - `src/lib/member-profile.server.ts:202` — `no-control-regex`
+  - `src/lib/member-translations.server.ts:39` — `no-control-regex`
+  - 17 `react-refresh/only-export-components` + `react-hooks/exhaustive-deps` warnings (non-blocking, left as-is)
 
-The header today renders two language UIs: a four-link inline row shown from `lg` up, and an already-built `CompactLanguageSwitcher` dropdown shown only below `lg`.
+## Step 1 — Formatting-only pass (isolated)
 
-- Delete the inline `DE / FR / IT / EN` row.
-- Promote `CompactLanguageSwitcher` to all breakpoints (drop its `lg:hidden`), keeping its existing behaviour: trigger shows the current code with a globe icon (add a chevron so it reads `EN ▾`), opens a menu listing DE · FR · IT · EN in the required order, current language marked and still selectable in the list rather than filtered out.
-- Language links keep using `localizePath(useCanonicalPath(), locale)` — so the current page is preserved and switching works identically from the homepage and event detail pages. No localization logic changes.
-- Accessibility stays as built: `aria-haspopup`/`aria-expanded`, Escape to close, outside-click close, ≥44px touch targets; add arrow-key/`aria-current` handling on the menu items.
+Run `bun run format` (`prettier --write .`) across the repo. This is a pure whitespace/quote/wrap diff — no behavioural change. `.prettierignore` already excludes `routeTree.gen.ts`, lockfiles, and build output, so generated files stay untouched.
 
-## Change 2 — Member Login / account control
+Verification: re-run `prettier --check .` (expect zero warnings) and `eslint .` (expect the 5 errors + 17 warnings above, and nothing else), then confirm the app still builds and the homepage renders.
 
-Add an `AccountControl` component in the same file, rendered next to the language control (desktop) and inside the mobile menu.
+This step is kept as its own change set so the noisy diff never mixes with logic changes.
 
-- Session state: a small `useQuery(["auth-user-id"])`-style read of `supabase.auth.getUser()` plus the existing `supabase.auth.onAuthStateChange` invalidation that `useMyRoles()` already owns — reuse `useMyRoles()` for both session presence and role flags so sign-in/sign-out update the header without a refresh.
-- Because the header renders during SSR, the control renders the logged-out state until the client session resolves (no hydration mismatch, no layout jump).
-- **Logged out:** pill button `Member login` → `LocaleLink`/link to the existing `/auth` route. No new auth surface.
-- **Logged in:** same pill becomes an account menu (same dropdown pattern as the language control) labelled `My account`, containing:
-  - `My profile` → `/my-profile`
-  - `Insights CMS` → `/articles`, only when `roles.isEditor` (mirrors `MemberShell`)
-  - `Sign out` → `supabase.auth.signOut()` then return to the current page.
-- Guests are never redirected; the guest RSVP path, claim rules, and nav items are untouched.
+## Step 2 — Resolve the 5 remaining errors properly
 
-## Layout
+Rather than leaving them as permanent noise, make each one intentional and self-documenting:
 
-Desktop: `[nav pills] [language ▾] [account] [Find a coach]`. To avoid crowding, `Find a coach` keeps its accent styling and the account control uses the same subtle `bg-white/10` pill as the language trigger.
+- **Three `any` in server mappers** (`articles.server.ts`, `member-profile.server.ts`): replace with the narrow row/record types already available from `src/integrations/supabase/types.ts`, or a local `Record<string, unknown>` plus explicit field reads if the Supabase generated type doesn't cover the joined shape. No runtime behaviour changes; the mapping logic stays identical.
+- **Two `no-control-regex` sanitizers** (`member-profile.server.ts:202`, `member-translations.server.ts:39`): these strip control characters on purpose, so the rule is wrong here. Add a scoped `// eslint-disable-next-line no-control-regex` with a one-line comment stating why the control characters are intentional.
 
-Mobile: hamburger menu gains a divider plus the account entry (login link, or profile/CMS/sign-out rows); the language control stays in the top bar where it already is.
+After this, `eslint .` should report **0 errors** and only the 17 pre-existing React fast-refresh / exhaustive-deps warnings.
 
-## Copy
+## Step 3 — Note the leftover warnings
 
-New `common.nav` keys — `memberLogin`, `myAccount`, `myProfile`, `signOut`, `accountMenu` (aria) — added to `en/de/fr/it common.json` in existing sentence case.
+Add a short entry to `docs/tech-debt.md` recording that the remaining 17 warnings are accepted (fast-refresh hints on files that export both components and constants; two intentional `useMemo` dep omissions), so a future developer doesn't re-litigate them.
 
-## Verification
+## Out of scope
 
-Playwright: homepage + an event detail page, logged out (Member login visible, four inline links gone) and signed in as the QA member (`qa.member@icfswitzerland-test.ch`) — account menu shows My profile/Sign out, sign-out flips the header back without reload; language switch from `/events/<slug>` lands on `/de/events/<slug>`; mobile viewport check.
+No feature changes, no component restructuring to satisfy `react-refresh`, no dependency updates.

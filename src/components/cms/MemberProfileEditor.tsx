@@ -88,7 +88,11 @@ async function toSquareJpeg(file: File): Promise<Blob> {
     PHOTO_SIZE,
   );
   return await new Promise((resolve, reject) =>
-    canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error("Encode failed"))), "image/jpeg", 0.85),
+    canvas.toBlob(
+      (blob) => (blob ? resolve(blob) : reject(new Error("Encode failed"))),
+      "image/jpeg",
+      0.85,
+    ),
   );
 }
 
@@ -127,7 +131,15 @@ function Chips({
   );
 }
 
-function Section({ title, note, children }: { title: string; note?: string; children: React.ReactNode }) {
+function Section({
+  title,
+  note,
+  children,
+}: {
+  title: string;
+  note?: string;
+  children: React.ReactNode;
+}) {
   return (
     <section className="mt-5 rounded-2xl border border-border bg-card p-5">
       <h2 className="text-sm font-semibold">{title}</h2>
@@ -215,7 +227,11 @@ export function MemberProfileEditor() {
   const [tagline, setTagline] = useState("");
   const [description, setDescription] = useState("");
   const [availability, setAvailability] = useState("");
-  const [services, setServices] = useState({ coaching: false, mentoring: false, supervision: false });
+  const [services, setServices] = useState({
+    coaching: false,
+    mentoring: false,
+    supervision: false,
+  });
   const [facets, setFacets] = useState({
     region_ids: [] as string[],
     language_ids: [] as string[],
@@ -469,7 +485,10 @@ export function MemberProfileEditor() {
           onChange={(e) => setTagline(e.target.value)}
           className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
         />
-        <label className="mt-4 block text-xs font-semibold text-muted-foreground" htmlFor="description">
+        <label
+          className="mt-4 block text-xs font-semibold text-muted-foreground"
+          htmlFor="description"
+        >
           {t("member.description")}
         </label>
         <textarea
@@ -504,7 +523,9 @@ export function MemberProfileEditor() {
             />
             {t("member.mentoringAvailable")}
             {!profile.mentor_accredited ? (
-              <span className="text-xs text-muted-foreground">({t("member.needsAccreditation")})</span>
+              <span className="text-xs text-muted-foreground">
+                ({t("member.needsAccreditation")})
+              </span>
             ) : null}
           </label>
           <label className="flex items-center gap-2">
@@ -516,11 +537,16 @@ export function MemberProfileEditor() {
             />
             {t("member.supervisionAvailable")}
             {!profile.supervision_accredited ? (
-              <span className="text-xs text-muted-foreground">({t("member.needsAccreditation")})</span>
+              <span className="text-xs text-muted-foreground">
+                ({t("member.needsAccreditation")})
+              </span>
             ) : null}
           </label>
         </div>
-        <label className="mt-4 block text-xs font-semibold text-muted-foreground" htmlFor="availability">
+        <label
+          className="mt-4 block text-xs font-semibold text-muted-foreground"
+          htmlFor="availability"
+        >
           {t("member.availability")}
         </label>
         <select
@@ -708,7 +734,9 @@ export function MemberProfileEditor() {
                 onChange={(e) =>
                   setLinks((prev) =>
                     prev.map((l, i) =>
-                      i === index ? { ...l, link_type: e.target.value as LinkDraft["link_type"] } : l,
+                      i === index
+                        ? { ...l, link_type: e.target.value as LinkDraft["link_type"] }
+                        : l,
                     ),
                   )
                 }
@@ -723,7 +751,9 @@ export function MemberProfileEditor() {
                 placeholder={t("member.linkLabel")}
                 value={link.label}
                 onChange={(e) =>
-                  setLinks((prev) => prev.map((l, i) => (i === index ? { ...l, label: e.target.value } : l)))
+                  setLinks((prev) =>
+                    prev.map((l, i) => (i === index ? { ...l, label: e.target.value } : l)),
+                  )
                 }
                 className="w-40 rounded-lg border border-border bg-background px-3 py-1.5 text-sm"
               />
@@ -732,7 +762,9 @@ export function MemberProfileEditor() {
                 placeholder="https://"
                 value={link.url}
                 onChange={(e) =>
-                  setLinks((prev) => prev.map((l, i) => (i === index ? { ...l, url: e.target.value } : l)))
+                  setLinks((prev) =>
+                    prev.map((l, i) => (i === index ? { ...l, url: e.target.value } : l)),
+                  )
                 }
                 className="min-w-0 flex-1 rounded-lg border border-border bg-background px-3 py-1.5 text-sm"
               />
@@ -749,7 +781,9 @@ export function MemberProfileEditor() {
         {links.length < LINKS_MAX ? (
           <button
             type="button"
-            onClick={() => setLinks((prev) => [...prev, { link_type: "website", label: "", url: "" }])}
+            onClick={() =>
+              setLinks((prev) => [...prev, { link_type: "website", label: "", url: "" }])
+            }
             className="mt-3 rounded-full border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary"
           >
             {t("member.linkAdd")}
@@ -761,7 +795,8 @@ export function MemberProfileEditor() {
 
       <Section title={t("member.publicationTitle")} note={t("member.publicationNote")}>
         <p className="mt-2 text-sm">
-          {t("member.currentState")}: <strong>{t(`members.visibility.${profile.visibility}`)}</strong>
+          {t("member.currentState")}:{" "}
+          <strong>{t(`members.visibility.${profile.visibility}`)}</strong>
         </p>
         {publishBlocked ? <p className="mt-2 text-xs text-destructive">{publishBlocked}</p> : null}
         <div className="mt-3 flex flex-wrap gap-2">

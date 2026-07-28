@@ -8,10 +8,7 @@ import { directoryEligibilityReason } from "@/lib/directory-eligibility";
 
 export const Route = createFileRoute("/_staff/members/")({
   head: () => ({
-    meta: [
-      { title: "Members — ICF Switzerland CMS" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Members — ICF Switzerland CMS" }, { name: "robots", content: "noindex" }],
   }),
   component: MembersPage,
 });
@@ -165,14 +162,18 @@ function MembersPage() {
                     <button
                       onClick={() =>
                         setSort((prev) =>
-                          prev.key === col.key ? { key: col.key, asc: !prev.asc } : { key: col.key, asc: true },
+                          prev.key === col.key
+                            ? { key: col.key, asc: !prev.asc }
+                            : { key: col.key, asc: true },
                         )
                       }
                       className="inline-flex items-center gap-1 hover:text-foreground"
                       aria-label={t(col.labelKey)}
                     >
                       {t(col.labelKey)}
-                      {sort.key === col.key ? <span aria-hidden>{sort.asc ? "▲" : "▼"}</span> : null}
+                      {sort.key === col.key ? (
+                        <span aria-hidden>{sort.asc ? "▲" : "▼"}</span>
+                      ) : null}
                     </button>
                   </th>
                 ))}

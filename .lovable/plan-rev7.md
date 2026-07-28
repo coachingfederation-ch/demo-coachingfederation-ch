@@ -30,7 +30,7 @@ endpoint did.
 
 ### Binding rule (unchanged from rev. 5)
 
-An email address only *nominates* a member record. The claim is refused when the
+An email address only _nominates_ a member record. The claim is refused when the
 address matches more than one member or a member that already has an account.
 The durable boundary is the explicit `members.auth_user_id` link plus the granted
 `member` role — never email equality.

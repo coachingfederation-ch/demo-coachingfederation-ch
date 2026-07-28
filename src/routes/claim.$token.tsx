@@ -5,7 +5,10 @@ export const Route = createFileRoute("/claim/$token")({
   head: () => ({
     meta: [
       { title: "Set your password — ICF Switzerland" },
-      { name: "description", content: "Set the password for your ICF Switzerland Member Area account." },
+      {
+        name: "description",
+        content: "Set the password for your ICF Switzerland Member Area account.",
+      },
       { name: "robots", content: "noindex" },
     ],
   }),
