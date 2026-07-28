@@ -87,6 +87,9 @@ export function ProfileTranslationsPanel() {
   const rowFor = (locale: string) => data.rows.find((r) => r.locale === locale);
   const stateFor = (locale: string) => translationState(rowFor(locale), data.contentUpdatedAt);
   const targets = LOCALE_ORDER.filter((l) => l !== data.primaryLocale);
+  // The server rejects a translation request when the source profile is empty;
+  // mirror that rule in the UI so the button is never a dead end.
+  const hasSourceText = TRANSLATABLE_FIELDS.some((f) => (data.source[f] ?? "").trim().length > 0);
 
   const guard = async (locale: string, run: () => Promise<unknown>) => {
     setError(null);
@@ -101,6 +104,10 @@ export function ProfileTranslationsPanel() {
   };
 
   const translate = async (locale: Locale) => {
+    if (!hasSourceText) {
+      setError(t("profileTranslations.emptySource"));
+      return;
+    }
     const row = rowFor(locale);
     // Re-running the machine over hand-written text is destructive, so it is
     // always an explicit decision.
@@ -188,7 +195,8 @@ export function ProfileTranslationsPanel() {
                 <button
                   type="button"
                   onClick={() => void translate(locale)}
-                  disabled={busy !== null}
+                  disabled={busy !== null || !hasSourceText}
+                  title={!hasSourceText ? t("profileTranslations.emptySource") : undefined}
                   className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground disabled:opacity-60"
                 >
                   {busy === locale ? <Loader2 className="h-3 w-3 animate-spin" /> : null}
