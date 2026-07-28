@@ -406,6 +406,26 @@ function EventEditor() {
           </span>
         </div>
 
+        <div className="mt-10 max-w-xl">
+          <EventTranslationsPanel
+            eventId={event.id}
+            sourceLanguage={event.language}
+            contentUpdatedAt={event.content_updated_at ?? null}
+          />
+        </div>
+
+        <UnsplashPicker
+          open={pickerOpen}
+          onOpenChange={setPickerOpen}
+          onPick={(pick: UnsplashPick) =>
+            patch({
+              image_url: pick.url,
+              image_credit_name: pick.creditName,
+              image_credit_url: pick.creditUrl,
+            })
+          }
+        />
+
         <h2 className="mt-12 text-lg font-semibold tracking-tight">{t("events.attendees")}</h2>
         <p className="mt-1 text-sm text-muted-foreground">
           {confirmed}
