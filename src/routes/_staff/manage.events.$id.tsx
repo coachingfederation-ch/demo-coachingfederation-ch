@@ -220,6 +220,13 @@ function EventEditor() {
               />
             </Field>
           </div>
+          <div className="sm:col-span-2">
+            <EventTranslationsPanel
+              eventId={event.id}
+              sourceLanguage={event.language}
+              contentUpdatedAt={event.content_updated_at ?? null}
+            />
+          </div>
           <Field label={t("events.fieldStarts")}>
             <input
               type="datetime-local"
@@ -404,14 +411,6 @@ function EventEditor() {
           <span className="text-xs text-muted-foreground">
             {t(`events.status.${event.status}`)}
           </span>
-        </div>
-
-        <div className="mt-10 max-w-xl">
-          <EventTranslationsPanel
-            eventId={event.id}
-            sourceLanguage={event.language}
-            contentUpdatedAt={event.content_updated_at ?? null}
-          />
         </div>
 
         <UnsplashPicker
