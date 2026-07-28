@@ -554,7 +554,7 @@
   },
   "roles": {
     "title": "Rôles",
-    "intro": "Deux types de comptes peuvent se connecter : les administrateurs internes, qui n'ont pas besoin d'un dossier de membre ICF, et les membres ayant revendiqué leur compte, liés à un dossier importé. L'accès éditeur s'ajoute ici à une adhésion existante : il ne modifie ni l'accès à l'espace membre ni le profil de l'annuaire. Les administrateurs sont créés séparément.",
+    "intro": "Deux types de comptes peuvent se connecter : les administrateurs internes, qui n'ont pas besoin d'un dossier de membre ICF, et les membres ayant revendiqué un compte lié à un dossier de membre importé. L'accès éditeur est accordé ici en plus d'une adhésion revendiquée — il ne modifie ni l'accès à l'espace membre ni le profil de l'annuaire. Un compte peut être à la fois membre et administrateur ; ces comptes figurent dans le tableau ci-dessous, et non sous les comptes internes.",
     "searchPlaceholder": "Rechercher par nom ou e-mail",
     "colName": "Membre",
     "colEmail": "E-mail",
@@ -563,7 +563,6 @@
     "revoke": "Retirer éditeur",
     "memberBadge": "Membre",
     "editorBadge": "Éditeur",
-    "adminRow": "Administrateur",
     "loading": "Chargement des membres…",
     "empty": "Aucun compte membre activé pour l'instant.",
     "loadError": "Impossible de charger les données de rôles.",
@@ -574,8 +573,10 @@
     "auditEmpty": "Aucune modification de rôle enregistrée.",
     "auditBy": "par",
     "internalTitle": "Comptes internes",
-    "internalIntro": "Comptes privilégiés sans dossier de membre ICF importé. Ils sont créés en dehors de l'application et ne peuvent pas être modifiés ici ; l'accès éditeur exige toujours un dossier de membre lié.",
+    "internalIntro": "Comptes privilégiés sans dossier de membre ICF importé. Les comptes à la fois membre et administrateur figurent ci-dessus. Ces comptes sont provisionnés en dehors de l'application et ne peuvent pas être modifiés ici ; l'accès éditeur exige toujours un dossier de membre lié.",
     "internalEmpty": "Aucun compte interne.",
-    "colRoles": "Rôles"
+    "colRoles": "Rôles",
+    "adminBadge": "Administrateur",
+    "adminNote": "Provisionné séparément"
   }
 }

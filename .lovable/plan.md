@@ -1,55 +1,24 @@
-## Goal
+## Decision
 
-Two valid ways to be signed in:
+"Internal accounts" stays strictly non-member: it is the list of privileged accounts that have **no** imported ICF member record. Your hybrid account correctly belongs only in the main table. The fix is to make that main row show its full role picture instead of a faint "Administrator" note.
 
-1. **Internal admin** — a plain account with the `admin` role and **no** imported member record.
-2. **Claimed member** — an account bound to an imported ICF member record via `members.auth_user_id`, optionally with the additive `editor` grant.
+## What changes
 
-Everything else stays as-is: `editor` remains member-only, `admin` stays a provisioning step done by migration, and the claim flow, `/my-profile` and Member Area access are untouched.
+Only the admin Roles screen (`/roles`) — presentation and one localisation key. No schema, RLS, or grant-logic changes.
 
-## What is already true (verified)
+**Main member table, "Access" column** — render one badge per held capability, in a fixed order:
+- `Member` (always, these rows are claim-linked members)
+- `Editor` — shown when the editor grant exists (unchanged)
+- `Administrator` — new badge, shown when the account also holds `admin`, styled like the editor badge but distinct (shield icon, stronger emphasis) so a hybrid row reads "Member · Editor · Administrator" at a glance
 
-- `landingPath()` already sends an admin with no member record to `/articles`, and the `_staff` gate only checks staff roles — so **sign-in and CMS access already work** for an internal admin.
-- The database rule for granting `editor` (`admins grant editor`) already requires the target to hold `member`, matching the decision that editors stay member-only. No schema change needed.
+**Right-hand action column** — drop the duplicated plain-text "Administrator" label. For admin rows, keep the grant/revoke control disabled with a short explanatory note ("Provisioned separately"), so the reason an admin row has no toggle is still visible without pretending to be a role badge.
 
-## What is actually missing
+**Intro copy** — one added sentence stating that an account can be both a member and an administrator, and that such accounts appear in the table above, not under "Internal accounts". This is the actual answer to the confusion.
 
-The gaps are all in the **admin Roles screen and its supporting reads**, which assume every privileged account is a claimed member:
+**"Internal accounts" intro** — tighten to say explicitly "accounts with no imported member record; accounts that are both a member and an administrator are listed above."
 
-- `listClaimedMemberRoles()` reads only rows from `members` with an `auth_user_id`. An internal admin never appears, so an admin cannot see who else holds admin.
-- The audit log resolves names through `members` first, then `profiles`. An internal admin with no profile row shows as a bare UUID in the grant history.
-- The screen's copy explains only the member case, so an internal admin has no signal about why they are not listed.
+## Technical details
 
-## Changes
-
-**1. Roles read model** (`src/lib/roles-admin.server.ts`)
-
-- Add `listInternalStaffAccounts()`: every account holding `admin` or `editor` in `user_roles` whose id is **not** present as `members.auth_user_id`. Resolve name from `profiles` and email from the auth admin API. Returns `{ authUserId, name, email, roles[] }`.
-- Extend `namesByAuthUser()` to fall back to the account's email when neither `members` nor `profiles` yields a name, so the audit log never renders a raw UUID.
-
-**2. Roles RPC** (`src/lib/roles.functions.ts`)
-
-- `listRoleAdminData` returns an extra `internal` array alongside `members` and `audit`. `grantEditor` / `revokeEditor` are unchanged — still member-only, still enforced by the database policy.
-
-**3. Roles screen** (`src/routes/_staff/roles.tsx`)
-
-- Add a second, read-only "Internal accounts" table below the members table: name, email, role badges, and a note that these accounts have no ICF member record and are provisioned outside the app.
-- Reword the intro so the two entry cases are explicit: internal admins vs. claim-linked members.
-
-**4. Copy** (`src/i18n/locales/{en,de,fr,it}/cms.json`)
-
-- New keys: `roles.internalTitle`, `roles.internalIntro`, `roles.internalEmpty`, `roles.colRoles`, plus the revised `roles.intro`. Localised for all four languages.
-
-**5. Documentation** (`docs/auth-and-claim-flow.md`)
-
-- Add a short "Two kinds of account" section stating the rule: admins may exist without a member record; every other privileged role requires a claim-linked `members.auth_user_id`.
-
-## Not doing
-
-- No new grantable roles in the UI, and no ability to mint admins from the app.
-- No relaxation of the member requirement for `editor`.
-- No change to the claim flow, sync pipeline, or Member Area.
-
-## Technical notes
-
-Listing accounts that are not members requires reading `auth.users`, which only the service role can do — this stays inside `roles-admin.server.ts` behind `assertAdmin`, matching how the existing member list already works. No migration is required.
+- `src/routes/_staff/roles.tsx`: use the existing `m.isAdmin` field already returned by `listClaimedMemberRoles` — no server or data-model change needed. Add the admin badge inside the Access cell, replace the `m.isAdmin ? <span>…` branch in the action cell with a disabled button plus caption.
+- `src/i18n/locales/{de,fr,it,en}/cms.json`: add `roles.adminBadge` and `roles.adminNote`; revise `roles.intro` and `roles.internalIntro`. All four locales updated in the same pass, sentence case per project copy rules.
+- No migration, no change to `roles-admin.server.ts`, `roles.functions.ts`, or `role-model.ts`.
