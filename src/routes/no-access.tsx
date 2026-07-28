@@ -5,7 +5,7 @@ import { useCms } from "@/i18n/cms";
 export const Route = createFileRoute("/no-access")({
   ssr: false,
   head: () => ({
-    meta: [{ title: "No access — ICF Switzerland" }, { name: "robots", content: "noindex" }],
+    meta: [{ title: "No access — The Switzerland Chapter of ICF" }, { name: "robots", content: "noindex" }],
   }),
   component: NoAccessPage,
 });

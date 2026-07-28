@@ -8,7 +8,7 @@ import { directoryEligibilityReason } from "@/lib/directory-eligibility";
 
 export const Route = createFileRoute("/_staff/members/")({
   head: () => ({
-    meta: [{ title: "Members — ICF Switzerland CMS" }, { name: "robots", content: "noindex" }],
+    meta: [{ title: "Members — The Switzerland Chapter of ICF CMS" }, { name: "robots", content: "noindex" }],
   }),
   component: MembersPage,
 });

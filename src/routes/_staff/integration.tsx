@@ -20,7 +20,7 @@ import {
 export const Route = createFileRoute("/_staff/integration")({
   head: () => ({
     meta: [
-      { title: "Integration status — ICF Switzerland CMS" },
+      { title: "Integration status — The Switzerland Chapter of ICF CMS" },
       { name: "robots", content: "noindex" },
     ],
   }),

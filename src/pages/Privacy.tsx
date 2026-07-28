@@ -74,7 +74,7 @@ export default function PrivacyPage() {
           </h2>
           <p className="text-foreground/80">
             This privacy policy describes how International Coach Federation (ICF) Switzerland
-            ("we", "ICF Switzerland", "the association") processes personal data on and in
+            ("we", "The Switzerland Chapter of ICF", "the association") processes personal data on and in
             connection with the website{" "}
             <a
               href="https://www.coachingfederation.ch"
@@ -405,7 +405,7 @@ export default function PrivacyPage() {
               b) Website platform and hosting — Lovable
             </h3>
             <p className="text-foreground/80">
-              The ICF Switzerland website is hosted and operated on the <strong>Lovable</strong>{" "}
+              The The Switzerland Chapter of ICF website is hosted and operated on the <strong>Lovable</strong>{" "}
               platform (Lovable Labs Incorporated, a US company). Lovable provides the web
               application hosting, development tools, and deployment infrastructure for
               coachingfederation.ch. The site is being migrated from a previous Cloudflare-based
@@ -451,7 +451,7 @@ export default function PrivacyPage() {
                 <strong>Hosting infrastructure:</strong> Lovable Cloud stores and processes all
                 Customer Data — including the website's database, authentication, file storage, and
                 application data — on Supabase infrastructure. Supabase is a sub-processor of
-                Lovable, accessed through Lovable Cloud. ICF Switzerland does not have a direct
+                Lovable, accessed through Lovable Cloud. The Switzerland Chapter of ICF does not have a direct
                 contractual relationship with Supabase. If Lovable's AI Gateway is used, data may
                 also be transmitted to third-party AI providers (OpenAI, Google Gemini, models via
                 OpenRouter).
@@ -538,7 +538,7 @@ export default function PrivacyPage() {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold tracking-tight">g) Internal access</h3>
             <ul className="list-disc space-y-1 pl-5 text-foreground/80">
-              <li>Members of the Board of ICF Switzerland</li>
+              <li>Members of the Board of The Switzerland Chapter of ICF</li>
               <li>
                 Authorised staff and volunteers with access to the CMS and member administration
                 tools

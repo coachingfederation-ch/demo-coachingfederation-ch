@@ -29,7 +29,7 @@ import { useCms } from "@/i18n/cms";
 export const Route = createFileRoute("/_staff/articles/$id")({
   head: () => ({
     meta: [
-      { title: "Editor — ICF Switzerland Insights CMS" },
+      { title: "Editor — The Switzerland Chapter of ICF Insights CMS" },
       { name: "robots", content: "noindex" },
     ],
   }),

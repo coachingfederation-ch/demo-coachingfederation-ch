@@ -1,10 +1,10 @@
 {
   "meta": {
-    "title": "ICF Switzerland | Association de coaching professionnel",
-    "description": "ICF Switzerland rassemble les coachs certifiés, les organisations et la communauté du coaching en Suisse allemande, romande et italienne."
+    "title": "The Switzerland Chapter of ICF | Association de coaching professionnel",
+    "description": "The Switzerland Chapter of ICF rassemble les coachs certifiés, les organisations et la communauté du coaching en Suisse allemande, romande et italienne."
   },
   "hero": {
-    "eyebrow": "ICF Switzerland · Charter Chapter",
+    "eyebrow": "The Switzerland Chapter of ICF",
     "titlePre": "Construire un avenir plus ",
     "titleAccent": "humain",
     "titlePost": " grâce au coaching professionnel.",
@@ -96,7 +96,7 @@
   "communities": {
     "eyebrow": "Communautés",
     "title": "Une communauté de coaching à travers la Suisse.",
-    "subtitle": "À travers les régions et les langues, ICF Switzerland rassemble les coachs pour apprendre, collaborer et contribuer à l'avenir de notre profession.",
+    "subtitle": "À travers les régions et les langues, The Switzerland Chapter of ICF rassemble les coachs pour apprendre, collaborer et contribuer à l'avenir de notre profession.",
     "items": [
       {
         "city": "Zürich",
@@ -148,9 +148,9 @@
     "partners": ["ETH Zürich", "HEC Lausanne", "USI Lugano", "SwissRe", "Nestlé"]
   },
   "join": {
-    "eyebrow": "Rejoindre ICF Switzerland",
+    "eyebrow": "Rejoindre The Switzerland Chapter of ICF",
     "title": "Un ancrage professionnel pour les coachs.",
-    "subtitle": "Que vous débutiez votre parcours de coach ou que vous ayez des décennies d'expérience, ICF Switzerland vous offre un cadre professionnel fondé sur l'excellence, l'éthique et le partage.",
+    "subtitle": "Que vous débutiez votre parcours de coach ou que vous ayez des décennies d'expérience, The Switzerland Chapter of ICF vous offre un cadre professionnel fondé sur l'excellence, l'éthique et le partage.",
     "becomeMember": "Devenir membre",
     "exploreCredentials": "Découvrir les certifications",
     "newsletterTitle": "Restez connecté·e.",

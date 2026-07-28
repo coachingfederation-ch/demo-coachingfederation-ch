@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Coach finden — ICF Switzerland",
+    "title": "Coach finden — The Switzerland Chapter of ICF",
     "description": "Durchsuchen Sie das Verzeichnis zertifizierter ICF-Coaches in der Schweiz nach Region, Sprache, Zertifizierung und Spezialisierung."
   },
   "hero": {
@@ -83,7 +83,7 @@
     "links": "Links",
     "notFoundTitle": "Dieses Coach-Profil ist nicht verfügbar",
     "notFoundBody": "Das Profil wurde möglicherweise depubliziert. Im Verzeichnis finden Sie weitere zertifizierte Coaches.",
-    "metaFallback": "{name} ist ein ICF-zertifizierter Coach im Verzeichnis von ICF Switzerland.",
+    "metaFallback": "{name} ist ein ICF-zertifizierter Coach im Verzeichnis von The Switzerland Chapter of ICF.",
     "approach": "So arbeite ich",
     "clientTypes": "Mit wem ich arbeite",
     "qualifications": "Zertifizierungen & Ausbildung",
