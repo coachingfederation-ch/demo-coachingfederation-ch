@@ -554,7 +554,7 @@
   },
   "roles": {
     "title": "Roles",
-    "intro": "Two kinds of account can sign in: internal administrators, who need no ICF member record, and claimed members linked to an imported member record. Editor access is granted here on top of a claimed membership — it never changes member area access or the directory profile. Administrators are provisioned separately.",
+    "intro": "Two kinds of account can sign in: internal administrators, who need no ICF member record, and claimed members linked to an imported member record. Editor access is granted here on top of a claimed membership — it never changes member area access or the directory profile. An account can be both a member and an administrator; those accounts are listed in the table below, not under internal accounts.",
     "searchPlaceholder": "Search by name or email",
     "colName": "Member",
     "colEmail": "Email",
@@ -563,7 +563,6 @@
     "revoke": "Revoke editor",
     "memberBadge": "Member",
     "editorBadge": "Editor",
-    "adminRow": "Administrator",
     "loading": "Loading members…",
     "empty": "No claimed member accounts yet.",
     "loadError": "Could not load role data.",
@@ -574,8 +573,10 @@
     "auditEmpty": "No role changes recorded yet.",
     "auditBy": "by",
     "internalTitle": "Internal accounts",
-    "internalIntro": "Privileged accounts with no imported ICF member record. These are provisioned outside the app and cannot be changed here; editor access always requires a claim-linked member record.",
+    "internalIntro": "Privileged accounts with no imported ICF member record. Accounts that are both a member and an administrator are listed above. These are provisioned outside the app and cannot be changed here; editor access always requires a claim-linked member record.",
     "internalEmpty": "No internal accounts.",
-    "colRoles": "Roles"
+    "colRoles": "Roles",
+    "adminBadge": "Administrator",
+    "adminNote": "Provisioned separately"
   }
 }
