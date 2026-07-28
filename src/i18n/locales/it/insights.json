@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Insights — ICF Switzerland",
+    "title": "Insights — The Switzerland Chapter of ICF",
     "description": "Idee, ricerche e storie dalla community di coaching svizzera su leadership, IA, diversità e futuro del lavoro."
   },
   "hero": {
@@ -22,7 +22,7 @@
   },
   "recent": "Articoli recenti",
   "featured": "In evidenza",
-  "byline": "Redazione ICF Switzerland",
+  "byline": "Redazione The Switzerland Chapter of ICF",
   "noneInTopic": "Nessun altro articolo su questo argomento al momento.",
   "error": {
     "title": "Gli Insights non sono disponibili",
@@ -48,7 +48,7 @@
     "notFoundBody": "Questo articolo potrebbe essere stato rimosso o spostato.",
     "errorTitle": "Impossibile caricare questo articolo",
     "errorBody": "Riprova tra qualche istante.",
-    "notFoundMetaTitle": "Articolo non trovato — ICF Switzerland",
-    "fallbackDescription": "Un articolo della raccolta di approfondimenti di ICF Switzerland."
+    "notFoundMetaTitle": "Articolo non trovato — The Switzerland Chapter of ICF",
+    "fallbackDescription": "Un articolo della raccolta di approfondimenti di The Switzerland Chapter of ICF."
   }
 }

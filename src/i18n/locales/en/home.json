@@ -1,10 +1,10 @@
 {
   "meta": {
-    "title": "ICF Switzerland | Professional Coaching Association",
-    "description": "ICF Switzerland connects credentialed coaches, organisations and the coaching community across German, French and Italian-speaking Switzerland."
+    "title": "The Switzerland Chapter of ICF | Professional Coaching Association",
+    "description": "The Switzerland Chapter of ICF connects credentialed coaches, organisations and the coaching community across German, French and Italian-speaking Switzerland."
   },
   "hero": {
-    "eyebrow": "ICF Switzerland · Charter Chapter",
+    "eyebrow": "The Switzerland Chapter of ICF",
     "titlePre": "Building a more ",
     "titleAccent": "human",
     "titlePost": " future through professional coaching.",
@@ -75,7 +75,7 @@
   "communities": {
     "eyebrow": "Communities",
     "title": "A coaching community across Switzerland.",
-    "subtitle": "Across regions and languages, ICF Switzerland brings coaches together to learn, collaborate and contribute to the future of our profession.",
+    "subtitle": "Across regions and languages, The Switzerland Chapter of ICF brings coaches together to learn, collaborate and contribute to the future of our profession.",
     "items": [
       { "city": "Zürich", "region": "German-speaking Switzerland" },
       { "city": "Lausanne & Genève", "region": "Romandie" },
@@ -115,9 +115,9 @@
     "partners": ["ETH Zürich", "HEC Lausanne", "USI Lugano", "SwissRe", "Nestlé"]
   },
   "join": {
-    "eyebrow": "Join ICF Switzerland",
+    "eyebrow": "Join The Switzerland Chapter of ICF",
     "title": "A professional home for coaches.",
-    "subtitle": "Whether you are beginning your coaching journey or have decades of experience, ICF Switzerland offers a professional home built on excellence, ethics and belonging.",
+    "subtitle": "Whether you are beginning your coaching journey or have decades of experience, The Switzerland Chapter of ICF offers a professional home built on excellence, ethics and belonging.",
     "becomeMember": "Become a member",
     "exploreCredentials": "Explore credentials",
     "newsletterTitle": "Stay connected.",

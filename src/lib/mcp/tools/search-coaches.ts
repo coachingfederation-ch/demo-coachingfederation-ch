@@ -9,7 +9,7 @@ export default defineTool({
   name: "search_coaches",
   title: "Search coaches",
   description:
-    "Search the published ICF Switzerland coach directory by free text, canton/region, language, credential (acc, pcc, mcc), specialisation or service (coaching, mentoring, supervision).",
+    "Search the published The Switzerland Chapter of ICF coach directory by free text, canton/region, language, credential (acc, pcc, mcc), specialisation or service (coaching, mentoring, supervision).",
   inputSchema: {
     query: z.string().max(120).optional().describe("Free text matched against name and tagline."),
     region: z.string().max(64).optional().describe("Service-area region slug, e.g. 'zurich'."),

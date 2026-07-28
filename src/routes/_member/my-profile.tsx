@@ -4,7 +4,7 @@ import { MemberProfileEditor } from "@/components/cms/MemberProfileEditor";
 
 export const Route = createFileRoute("/_member/my-profile")({
   head: () => ({
-    meta: [{ title: "My coach profile — ICF Switzerland" }, { name: "robots", content: "noindex" }],
+    meta: [{ title: "My coach profile — The Switzerland Chapter of ICF" }, { name: "robots", content: "noindex" }],
   }),
   component: MemberAreaPage,
 });

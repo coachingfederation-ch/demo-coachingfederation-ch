@@ -2,7 +2,7 @@
  * MCP server definition — the tool surface assistants (ChatGPT, Claude,
  * Cursor…) get when they connect to this app.
  *
- * Callers sign in as a real ICF Switzerland account over OAuth 2.1 and every
+ * Callers sign in as a real The Switzerland Chapter of ICF account over OAuth 2.1 and every
  * query runs under that user's RLS, so the MCP surface can never see more than
  * the same person would in the browser.
  *
@@ -21,10 +21,10 @@ const projectRef = import.meta.env.VITE_SUPABASE_PROJECT_ID ?? "project-ref-unse
 
 export default defineMcp({
   name: "icf-switzerland",
-  title: "ICF Switzerland",
+  title: "The Switzerland Chapter of ICF",
   version: "0.1.0",
   instructions:
-    "Tools for the ICF Switzerland Charter Chapter website. Use `search_coaches` to find credentialed coaches in the public directory and `get_coach_profile` for a full profile. Use `list_insights` and `get_insight` to read published Insights articles.",
+    "Tools for the The Switzerland Chapter of ICF website. Use `search_coaches` to find credentialed coaches in the public directory and `get_coach_profile` for a full profile. Use `list_insights` and `get_insight` to read published Insights articles.",
   auth: auth.oauth.issuer({
     issuer: `https://${projectRef}.supabase.co/auth/v1`,
     acceptedAudiences: "authenticated",

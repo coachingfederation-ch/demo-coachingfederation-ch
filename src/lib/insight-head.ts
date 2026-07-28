@@ -25,7 +25,7 @@ export function articleHead(
   const desc = a.excerpt || t("insights.detail.fallbackDescription");
   const url = `${SITE_URL}${localizePath(`/insights/${id}`, locale)}`;
   const meta: Array<Record<string, string>> = [
-    { title: `${a.title} — ICF Switzerland` },
+    { title: `${a.title} — The Switzerland Chapter of ICF` },
     { name: "description", content: desc },
     { property: "og:title", content: a.title },
     { property: "og:description", content: desc },

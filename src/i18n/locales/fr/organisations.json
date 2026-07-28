@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Pour les organisations — ICF Switzerland",
+    "title": "Pour les organisations — The Switzerland Chapter of ICF",
     "description": "Programmes de coaching pour développer les leaders, renforcer les équipes et instaurer une culture du coaching dans les organisations suisses."
   },
   "hero": {
@@ -8,7 +8,7 @@
     "titlePre": "Le coaching pour les organisations qui guident le ",
     "titleAccent": "changement",
     "titlePost": ".",
-    "lede": "Du coaching individuel de dirigeants aux cultures de coaching à l'échelle de l'entreprise, ICF Switzerland vous met en relation avec des coachs certifiés qui apportent un impact mesurable.",
+    "lede": "Du coaching individuel de dirigeants aux cultures de coaching à l'échelle de l'entreprise, The Switzerland Chapter of ICF vous met en relation avec des coachs certifiés qui apportent un impact mesurable.",
     "cta": "Contacter notre équipe",
     "cta2": "Évaluer votre culture de coaching"
   },
@@ -59,7 +59,7 @@
       },
       {
         "title": "Indépendant des prestataires",
-        "desc": "ICF Switzerland est une association de membres, pas un fournisseur de coaching. Nos conseils sont neutres."
+        "desc": "The Switzerland Chapter of ICF est une association de membres, pas un fournisseur de coaching. Nos conseils sont neutres."
       }
     ]
   },
@@ -75,7 +75,7 @@
         "kicker": "Le contexte",
         "title": "Le monde du travail évolue plus vite que le développement des leaders.",
         "body": "Restructurations, équipes hybrides, adoption de l'IA et encadrement intermédiaire réduit pèsent simultanément sur les mêmes leaders. Les cycles de formation traditionnels ne peuvent suivre le rythme du changement.",
-        "source": "ICF Switzerland, briefing organisationnel 2026"
+        "source": "The Switzerland Chapter of ICF, briefing organisationnel 2026"
       },
       {
         "kicker": "L'écart",
@@ -157,7 +157,7 @@
         ]
       },
       {
-        "group": "ICF Switzerland",
+        "group": "The Switzerland Chapter of ICF",
         "items": ["Sondage auprès des membres de l'association", "Briefing organisationnel 2026"]
       }
     ],
@@ -331,7 +331,7 @@
       "email": "E-mail professionnel",
       "organisation": "Organisation",
       "message": "Informations complémentaires",
-      "consent": "J'accepte que ICF Switzerland conserve ces informations et me contacte à ce sujet.",
+      "consent": "J'accepte que The Switzerland Chapter of ICF conserve ces informations et me contacte à ce sujet.",
       "consentRequired": "Veuillez confirmer votre consentement afin que nous puissions vous contacter.",
       "submit": "Envoyer mon résultat",
       "sending": "Envoi en cours…",
@@ -339,7 +339,7 @@
     },
     "thanks": {
       "title": "Merci — votre résultat nous a bien été transmis.",
-      "desc": "Un membre de l'équipe ICF Switzerland vous contactera sous peu. En attendant, n'hésitez pas à consulter notre annuaire de coachs ou nos prochains événements."
+      "desc": "Un membre de l'équipe The Switzerland Chapter of ICF vous contactera sous peu. En attendant, n'hésitez pas à consulter notre annuaire de coachs ou nos prochains événements."
     }
   },
   "events": {

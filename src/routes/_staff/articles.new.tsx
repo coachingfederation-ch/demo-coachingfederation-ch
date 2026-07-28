@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/_staff/articles/new")({
   head: () => ({
     meta: [
-      { title: "New article — ICF Switzerland Insights CMS" },
+      { title: "New article — The Switzerland Chapter of ICF Insights CMS" },
       { name: "robots", content: "noindex" },
     ],
   }),

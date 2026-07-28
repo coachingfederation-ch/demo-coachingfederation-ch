@@ -24,7 +24,7 @@ export function eventHead(
   const desc = e.summary || t("events.meta.description");
   const url = `${SITE_URL}${localizePath(`/events/${slug}`, locale)}`;
   const meta: Array<Record<string, string>> = [
-    { title: `${title} — ICF Switzerland` },
+    { title: `${title} — The Switzerland Chapter of ICF` },
     { name: "description", content: desc },
     { property: "og:title", content: title },
     { property: "og:description", content: desc },

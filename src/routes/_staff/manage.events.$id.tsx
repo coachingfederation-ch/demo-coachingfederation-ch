@@ -23,15 +23,15 @@ import {
 export const Route = createFileRoute("/_staff/manage/events/$id")({
   head: () => ({
     meta: [
-      { title: "Edit event — ICF Switzerland CMS" },
+      { title: "Edit event — The Switzerland Chapter of ICF CMS" },
       {
         name: "description",
-        content: "Edit an ICF Switzerland event, its registration settings and attendees.",
+        content: "Edit an The Switzerland Chapter of ICF event, its registration settings and attendees.",
       },
-      { property: "og:title", content: "Edit event — ICF Switzerland CMS" },
+      { property: "og:title", content: "Edit event — The Switzerland Chapter of ICF CMS" },
       {
         property: "og:description",
-        content: "Edit an ICF Switzerland event, its registration settings and attendees.",
+        content: "Edit an The Switzerland Chapter of ICF event, its registration settings and attendees.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

@@ -33,7 +33,7 @@
     "claimAccount": "Konto beanspruchen",
     "internalSignIn": "Interne Administrator-Anmeldung",
     "staffTitle": "Interne Anmeldung",
-    "staffSub": "Für Mitarbeitende und Administratoren von ICF Switzerland.",
+    "staffSub": "Für Mitarbeitende und Administratoren von The Switzerland Chapter of ICF.",
     "backToMemberSignIn": "← Zurück zur Mitglieder-Anmeldung"
   },
   "list": {
@@ -466,7 +466,7 @@
   },
   "noAccess": {
     "title": "Noch kein Zugriff",
-    "body": "Ihr Konto ist angemeldet, hat aber noch keinen Arbeitsbereich und kein Mitgliederprofil von ICF Switzerland zugewiesen. Bitte wenden Sie sich an die Geschäftsstelle."
+    "body": "Ihr Konto ist angemeldet, hat aber noch keinen Arbeitsbereich und kein Mitgliederprofil von The Switzerland Chapter of ICF zugewiesen. Bitte wenden Sie sich an die Geschäftsstelle."
   },
   "claim": {
     "title": "Mitglieder-Zugang",
@@ -476,9 +476,9 @@
     "loading": "Wird geladen…",
     "privacyNote": "Wir bestätigen nie, ob eine Adresse registriert ist.",
     "sentTitle": "Bitte prüfen Sie Ihr Postfach",
-    "sentBody": "Gehört diese Adresse zu einem aktiven Mitglied von ICF Switzerland, ist ein einmaliger Link unterwegs. Er ist sieben Tage gültig.",
+    "sentBody": "Gehört diese Adresse zu einem aktiven Mitglied von The Switzerland Chapter of ICF, ist ein einmaliger Link unterwegs. Er ist sieben Tage gültig.",
     "closedTitle": "Der Mitglieder-Zugang ist noch nicht offen",
-    "closedBody": "Der Mitgliederbereich öffnet, sobald ICF Switzerland auf das Live-Mitgliedersystem umgestellt hat. Mitglieder werden direkt informiert.",
+    "closedBody": "Der Mitgliederbereich öffnet, sobald The Switzerland Chapter of ICF auf das Live-Mitgliedersystem umgestellt hat. Mitglieder werden direkt informiert.",
     "toSignIn": "Sie haben bereits ein Konto? Anmelden",
     "restart": "Neuen Link anfordern",
     "setPasswordTitle": "Passwort setzen",

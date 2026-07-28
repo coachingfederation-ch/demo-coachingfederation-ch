@@ -136,7 +136,7 @@ export async function attemptMemberClaim(email: string, baseUrl: string): Promis
     memberId: member.id,
     to: normalized,
     templateKey: "member_claim",
-    subject: "Set your ICF Switzerland Member Area password",
+    subject: "Set your The Switzerland Chapter of ICF Member Area password",
     body: `<p>Follow this link to set your password: <a href="${claimUrl(baseUrl, token)}">${claimUrl(baseUrl, token)}</a></p>`,
   });
 

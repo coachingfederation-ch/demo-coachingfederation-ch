@@ -9,10 +9,10 @@ export const Route = createFileRoute("/auth")({
   validateSearch: (search: Record<string, unknown>) => ({ next: safeNext(search.next) }),
   head: () => ({
     meta: [
-      { title: "Member access — ICF Switzerland" },
+      { title: "Member access — The Switzerland Chapter of ICF" },
       {
         name: "description",
-        content: "Sign in to the ICF Switzerland Member Area.",
+        content: "Sign in to the The Switzerland Chapter of ICF Member Area.",
       },
       { name: "robots", content: "noindex" },
     ],

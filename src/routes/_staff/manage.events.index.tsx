@@ -8,15 +8,15 @@ import { createEvent, listManagedEvents } from "@/lib/events-admin.functions";
 export const Route = createFileRoute("/_staff/manage/events/")({
   head: () => ({
     meta: [
-      { title: "Events — ICF Switzerland CMS" },
+      { title: "Events — The Switzerland Chapter of ICF CMS" },
       {
         name: "description",
-        content: "Create, publish and manage ICF Switzerland events and RSVPs.",
+        content: "Create, publish and manage The Switzerland Chapter of ICF events and RSVPs.",
       },
-      { property: "og:title", content: "Events — ICF Switzerland CMS" },
+      { property: "og:title", content: "Events — The Switzerland Chapter of ICF CMS" },
       {
         property: "og:description",
-        content: "Create, publish and manage ICF Switzerland events and RSVPs.",
+        content: "Create, publish and manage The Switzerland Chapter of ICF events and RSVPs.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

@@ -1,9 +1,9 @@
-# ICF Switzerland — Charter Chapter website
+# The Switzerland Chapter of ICF website
 
 The public website and member platform of the Swiss Charter Chapter of the
 International Coaching Federation. It serves three audiences from one codebase:
 people looking for a credentialed coach, organisations exploring coaching
-programmes, and ICF Switzerland's own members and staff.
+programmes, and The Switzerland Chapter of ICF's own members and staff.
 
 ## What's in here
 

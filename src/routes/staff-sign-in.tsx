@@ -18,8 +18,8 @@ export const Route = createFileRoute("/staff-sign-in")({
   validateSearch: (search: Record<string, unknown>) => ({ next: safeNext(search.next) }),
   head: () => ({
     meta: [
-      { title: "Internal sign-in — ICF Switzerland" },
-      { name: "description", content: "Sign-in for ICF Switzerland staff and administrators." },
+      { title: "Internal sign-in — The Switzerland Chapter of ICF" },
+      { name: "description", content: "Sign-in for The Switzerland Chapter of ICF staff and administrators." },
       { name: "robots", content: "noindex" },
     ],
   }),

@@ -8,17 +8,17 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/_staff/articles/")({
   head: () => ({
     meta: [
-      { title: "Articles — ICF Switzerland Insights CMS" },
+      { title: "Articles — The Switzerland Chapter of ICF Insights CMS" },
       {
         name: "description",
         content:
-          "Editorial workspace for ICF Switzerland: draft, schedule and publish Insights articles.",
+          "Editorial workspace for The Switzerland Chapter of ICF: draft, schedule and publish Insights articles.",
       },
-      { property: "og:title", content: "Articles — ICF Switzerland Insights CMS" },
+      { property: "og:title", content: "Articles — The Switzerland Chapter of ICF Insights CMS" },
       {
         property: "og:description",
         content:
-          "Editorial workspace for ICF Switzerland: draft, schedule and publish Insights articles.",
+          "Editorial workspace for The Switzerland Chapter of ICF: draft, schedule and publish Insights articles.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "For Organisations — ICF Switzerland",
+    "title": "For Organisations — The Switzerland Chapter of ICF",
     "description": "Coaching programmes that develop leaders, strengthen teams and build coaching cultures across Swiss organisations."
   },
   "hero": {
@@ -8,7 +8,7 @@
     "titlePre": "Coaching for organisations that lead through ",
     "titleAccent": "change",
     "titlePost": ".",
-    "lede": "From executive one-to-ones to organisation-wide coaching cultures, ICF Switzerland connects you with credentialed coaches who deliver measurable impact.",
+    "lede": "From executive one-to-ones to organisation-wide coaching cultures, The Switzerland Chapter of ICF connects you with credentialed coaches who deliver measurable impact.",
     "cta": "Talk to our team",
     "cta2": "Take the culture assessment"
   },
@@ -59,7 +59,7 @@
       },
       {
         "title": "Independent of providers",
-        "desc": "ICF Switzerland is a member association, not a coaching vendor. Our guidance is provider-neutral."
+        "desc": "The Switzerland Chapter of ICF is a member association, not a coaching vendor. Our guidance is provider-neutral."
       }
     ]
   },
@@ -75,7 +75,7 @@
         "kicker": "The context",
         "title": "Work is being rewritten faster than leaders are being developed.",
         "body": "Restructuring, hybrid teams, AI adoption and thinner middle management are landing on the same leaders at once. Traditional training cycles cannot keep pace with the rate of change.",
-        "source": "ICF Switzerland, organisational briefing 2026"
+        "source": "The Switzerland Chapter of ICF, organisational briefing 2026"
       },
       {
         "kicker": "The gap",
@@ -154,7 +154,7 @@
         "items": ["Global workplace engagement reports", "Swiss labour market and skills reporting"]
       },
       {
-        "group": "ICF Switzerland",
+        "group": "The Switzerland Chapter of ICF",
         "items": ["Chapter member survey", "Organisational briefing 2026"]
       }
     ],
@@ -328,7 +328,7 @@
       "email": "Work email",
       "organisation": "Organisation",
       "message": "Anything we should know?",
-      "consent": "I agree that ICF Switzerland may store this submission and contact me about it.",
+      "consent": "I agree that The Switzerland Chapter of ICF may store this submission and contact me about it.",
       "consentRequired": "Please confirm consent so we can contact you.",
       "submit": "Send my result",
       "sending": "Sending…",
@@ -336,7 +336,7 @@
     },
     "thanks": {
       "title": "Thank you — your result is on its way to us.",
-      "desc": "A member of the ICF Switzerland organisational team will be in touch shortly. In the meantime, browse our coach directory or upcoming events."
+      "desc": "A member of the The Switzerland Chapter of ICF organisational team will be in touch shortly. In the meantime, browse our coach directory or upcoming events."
     }
   },
   "events": {

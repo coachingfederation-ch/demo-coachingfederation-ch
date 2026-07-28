@@ -84,9 +84,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "ICF Switzerland is the Swiss chapter of the International Coaching Federation. Find a credentialed coach, develop leaders, and join a coaching community across Zürich, Romandie and Ticino.",
+          "The Switzerland Chapter of ICF is the Swiss chapter of the International Coaching Federation. Find a credentialed coach, develop leaders, and join a coaching community across Zürich, Romandie and Ticino.",
       },
-      { name: "author", content: "ICF Switzerland Charter Chapter" },
+      { name: "author", content: "The Switzerland Chapter of ICF" },
       {
         property: "og:title",
         content: "The Swiss Chapter of ICF - The Global Coaching Association",
@@ -94,7 +94,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         property: "og:description",
         content:
-          "ICF Switzerland is the Swiss chapter of the International Coaching Federation. Find a credentialed coach, develop leaders, and join a coaching community across Zürich, Romandie and Ticino.",
+          "The Switzerland Chapter of ICF is the Swiss chapter of the International Coaching Federation. Find a credentialed coach, develop leaders, and join a coaching community across Zürich, Romandie and Ticino.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -105,7 +105,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "twitter:description",
         content:
-          "ICF Switzerland is the Swiss chapter of the International Coaching Federation. Find a credentialed coach, develop leaders, and join a coaching community across Zürich, Romandie and Ticino.",
+          "The Switzerland Chapter of ICF is the Swiss chapter of the International Coaching Federation. Find a credentialed coach, develop leaders, and join a coaching community across Zürich, Romandie and Ticino.",
       },
       {
         property: "og:image",

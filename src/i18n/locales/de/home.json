@@ -1,10 +1,10 @@
 {
   "meta": {
-    "title": "ICF Switzerland | Verband für professionelles Coaching",
-    "description": "ICF Switzerland verbindet zertifizierte Coaches, Organisationen und die Coaching-Community in der Deutschschweiz, der Romandie und im Tessin."
+    "title": "The Switzerland Chapter of ICF | Verband für professionelles Coaching",
+    "description": "The Switzerland Chapter of ICF verbindet zertifizierte Coaches, Organisationen und die Coaching-Community in der Deutschschweiz, der Romandie und im Tessin."
   },
   "hero": {
-    "eyebrow": "ICF Switzerland · Charter Chapter",
+    "eyebrow": "The Switzerland Chapter of ICF",
     "titlePre": "Für eine ",
     "titleAccent": "menschlichere",
     "titlePost": " Zukunft durch professionelles Coaching.",
@@ -96,7 +96,7 @@
   "communities": {
     "eyebrow": "Communities",
     "title": "Eine Coaching-Community in der ganzen Schweiz.",
-    "subtitle": "Über Regionen und Sprachgrenzen hinweg bringt ICF Switzerland Coaches zusammen, um zu lernen, zusammenzuarbeiten und die Zukunft unseres Berufsstands mitzugestalten.",
+    "subtitle": "Über Regionen und Sprachgrenzen hinweg bringt The Switzerland Chapter of ICF Coaches zusammen, um zu lernen, zusammenzuarbeiten und die Zukunft unseres Berufsstands mitzugestalten.",
     "items": [
       {
         "city": "Zürich",
@@ -148,9 +148,9 @@
     "partners": ["ETH Zürich", "HEC Lausanne", "USI Lugano", "SwissRe", "Nestlé"]
   },
   "join": {
-    "eyebrow": "Mitglied werden bei ICF Switzerland",
+    "eyebrow": "Mitglied werden bei The Switzerland Chapter of ICF",
     "title": "Ein professionelles Zuhause für Coaches.",
-    "subtitle": "Egal, ob Sie am Anfang Ihrer Coaching-Laufbahn stehen oder über jahrzehntelange Erfahrung verfügen: ICF Switzerland bietet Ihnen ein professionelles Zuhause, das auf Exzellenz, Ethik und Gemeinschaft basiert.",
+    "subtitle": "Egal, ob Sie am Anfang Ihrer Coaching-Laufbahn stehen oder über jahrzehntelange Erfahrung verfügen: The Switzerland Chapter of ICF bietet Ihnen ein professionelles Zuhause, das auf Exzellenz, Ethik und Gemeinschaft basiert.",
     "becomeMember": "Mitglied werden",
     "exploreCredentials": "Zertifizierungen entdecken",
     "newsletterTitle": "In Kontakt bleiben.",

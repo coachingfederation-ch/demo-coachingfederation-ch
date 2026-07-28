@@ -33,7 +33,7 @@
     "claimAccount": "Rivendica il tuo account",
     "internalSignIn": "Accesso amministratore interno",
     "staffTitle": "Accesso interno",
-    "staffSub": "Per lo staff e gli amministratori di ICF Switzerland.",
+    "staffSub": "Per lo staff e gli amministratori di The Switzerland Chapter of ICF.",
     "backToMemberSignIn": "← Torna all'accesso soci"
   },
   "list": {
@@ -466,7 +466,7 @@
   },
   "noAccess": {
     "title": "Nessun accesso",
-    "body": "Il tuo account ha effettuato l'accesso, ma non ha ancora un'area di lavoro né un profilo socio di ICF Switzerland. Contatta la segreteria del chapter."
+    "body": "Il tuo account ha effettuato l'accesso, ma non ha ancora un'area di lavoro né un profilo socio di The Switzerland Chapter of ICF. Contatta la segreteria del chapter."
   },
   "claim": {
     "title": "Accesso soci",
@@ -476,9 +476,9 @@
     "loading": "Caricamento…",
     "privacyNote": "Non confermiamo mai se un indirizzo è registrato.",
     "sentTitle": "Controlla la tua casella",
-    "sentBody": "Se l'indirizzo appartiene a un socio attivo di ICF Switzerland, il link monouso è in arrivo. Scade tra sette giorni.",
+    "sentBody": "Se l'indirizzo appartiene a un socio attivo di The Switzerland Chapter of ICF, il link monouso è in arrivo. Scade tra sette giorni.",
     "closedTitle": "L'accesso soci non è ancora aperto",
-    "closedBody": "L'area soci aprirà quando ICF Switzerland avrà completato il passaggio al sistema soci in produzione. I soci saranno informati direttamente.",
+    "closedBody": "L'area soci aprirà quando The Switzerland Chapter of ICF avrà completato il passaggio al sistema soci in produzione. I soci saranno informati direttamente.",
     "toSignIn": "Hai già un account? Accedi",
     "restart": "Richiedi un nuovo link",
     "setPasswordTitle": "Imposta la password",

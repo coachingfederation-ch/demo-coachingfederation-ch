@@ -13,13 +13,13 @@
     "server": {
       "name": "icf-switzerland",
       "version": "0.1.0",
-      "title": "ICF Switzerland"
+      "title": "The Switzerland Chapter of ICF"
     },
     "tools": [
       {
         "name": "search_coaches",
         "title": "Search coaches",
-        "description": "Search the published ICF Switzerland coach directory by free text, canton/region, language, credential (acc, pcc, mcc), specialisation or service (coaching, mentoring, supervision).",
+        "description": "Search the published The Switzerland Chapter of ICF coach directory by free text, canton/region, language, credential (acc, pcc, mcc), specialisation or service (coaching, mentoring, supervision).",
         "annotations": {
           "readOnlyHint": true,
           "idempotentHint": true,
@@ -102,7 +102,7 @@
       {
         "name": "list_insights",
         "title": "List insights articles",
-        "description": "List published ICF Switzerland Insights articles (title, excerpt, category, language, publication date), newest first.",
+        "description": "List published The Switzerland Chapter of ICF Insights articles (title, excerpt, category, language, publication date), newest first.",
         "annotations": {
           "readOnlyHint": true,
           "idempotentHint": true,

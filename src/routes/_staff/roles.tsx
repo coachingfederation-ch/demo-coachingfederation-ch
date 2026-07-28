@@ -24,7 +24,7 @@ import type { ManagedRole } from "@/lib/role-model";
 
 export const Route = createFileRoute("/_staff/roles")({
   head: () => ({
-    meta: [{ title: "Roles — ICF Switzerland CMS" }, { name: "robots", content: "noindex" }],
+    meta: [{ title: "Roles — The Switzerland Chapter of ICF CMS" }, { name: "robots", content: "noindex" }],
   }),
   component: RolesPage,
 });

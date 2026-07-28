@@ -15,7 +15,7 @@ import {
 export const Route = createFileRoute("/_staff/vocabularies")({
   head: () => ({
     meta: [
-      { title: "Coach Finder vocabularies — ICF Switzerland CMS" },
+      { title: "Coach Finder vocabularies — The Switzerland Chapter of ICF CMS" },
       { name: "robots", content: "noindex" },
     ],
   }),

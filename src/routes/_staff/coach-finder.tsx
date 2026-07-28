@@ -9,7 +9,7 @@ import { type CoachFinderConfig } from "@/lib/vocabularies";
 export const Route = createFileRoute("/_staff/coach-finder")({
   head: () => ({
     meta: [
-      { title: "Coach Finder settings — ICF Switzerland CMS" },
+      { title: "Coach Finder settings — The Switzerland Chapter of ICF CMS" },
       { name: "robots", content: "noindex" },
     ],
   }),

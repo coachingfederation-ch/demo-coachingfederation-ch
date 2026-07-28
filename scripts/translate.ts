@@ -39,10 +39,10 @@ async function translate(json: string, lang: string): Promise<string> {
         {
           role: "system",
           content:
-            "You translate website UI copy for ICF Switzerland, the Swiss chapter of the International Coaching Federation. " +
+            "You translate website UI copy for The Switzerland Chapter of ICF, the Swiss chapter of the International Coaching Federation. " +
             `Translate every JSON string value into ${LANG_NAMES[lang]}. ` +
             "Rules: keep the JSON structure and all keys identical; translate only values; " +
-            "keep the organisation name 'ICF Switzerland' and 'Charter Chapter' untranslated; " +
+            "keep the organisation name 'The Switzerland Chapter of ICF' and 'Charter Chapter' untranslated; " +
             "keep credential names ACC, PCC, MCC and language codes (DE, FR, IT, EN) unchanged; " +
             "keep Swiss place names (Zürich, Lausanne, Genève, Lugano, Romandie, Ticino) and partner names unchanged; " +
             "preserve arrows, punctuation, placeholders and leading/trailing symbols such as '→' or '←'; " +

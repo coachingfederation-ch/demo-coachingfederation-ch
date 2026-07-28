@@ -24,7 +24,7 @@ import {
 
 export const Route = createFileRoute("/_staff/members/$id")({
   head: () => ({
-    meta: [{ title: "Member — ICF Switzerland CMS" }, { name: "robots", content: "noindex" }],
+    meta: [{ title: "Member — The Switzerland Chapter of ICF CMS" }, { name: "robots", content: "noindex" }],
   }),
   component: MemberDetailPage,
 });

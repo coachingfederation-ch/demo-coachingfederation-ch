@@ -6,7 +6,7 @@ export default defineTool({
   name: "list_insights",
   title: "List insights articles",
   description:
-    "List published ICF Switzerland Insights articles (title, excerpt, category, language, publication date), newest first.",
+    "List published The Switzerland Chapter of ICF Insights articles (title, excerpt, category, language, publication date), newest first.",
   inputSchema: {
     language: z.enum(["en", "de", "fr", "it"]).optional().describe("Article language."),
     query: z.string().max(120).optional().describe("Free text matched against title and excerpt."),

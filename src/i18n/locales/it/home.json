@@ -1,10 +1,10 @@
 {
   "meta": {
-    "title": "ICF Switzerland | Associazione di coaching professionale",
-    "description": "ICF Switzerland unisce coach credenziati, organizzazioni e la comunità del coaching nella Svizzera tedesca, romanda e italiana."
+    "title": "The Switzerland Chapter of ICF | Associazione di coaching professionale",
+    "description": "The Switzerland Chapter of ICF unisce coach credenziati, organizzazioni e la comunità del coaching nella Svizzera tedesca, romanda e italiana."
   },
   "hero": {
-    "eyebrow": "ICF Switzerland · Charter Chapter",
+    "eyebrow": "The Switzerland Chapter of ICF",
     "titlePre": "Costruire un futuro più ",
     "titleAccent": "umano",
     "titlePost": " attraverso il coaching professionale.",
@@ -96,7 +96,7 @@
   "communities": {
     "eyebrow": "Comunità",
     "title": "Una comunità di coaching in tutta la Svizzera.",
-    "subtitle": "In tutte le regioni e lingue, ICF Switzerland unisce i coach per imparare, collaborare e contribuire al futuro della nostra professione.",
+    "subtitle": "In tutte le regioni e lingue, The Switzerland Chapter of ICF unisce i coach per imparare, collaborare e contribuire al futuro della nostra professione.",
     "items": [
       {
         "city": "Zürich",
@@ -148,9 +148,9 @@
     "partners": ["ETH Zürich", "HEC Lausanne", "USI Lugano", "SwissRe", "Nestlé"]
   },
   "join": {
-    "eyebrow": "Unisciti a ICF Switzerland",
+    "eyebrow": "Unisciti a The Switzerland Chapter of ICF",
     "title": "Una casa professionale per i coach.",
-    "subtitle": "Che tu sia all'inizio del tuo percorso di coaching o abbia decenni di esperienza, ICF Switzerland offre una casa professionale fondata su eccellenza, etica e senso di appartenenza.",
+    "subtitle": "Che tu sia all'inizio del tuo percorso di coaching o abbia decenni di esperienza, The Switzerland Chapter of ICF offre una casa professionale fondata su eccellenza, etica e senso di appartenenza.",
     "becomeMember": "Diventa membro",
     "exploreCredentials": "Scopri le credenziali",
     "newsletterTitle": "Rimani in contatto.",

@@ -33,7 +33,7 @@
     "claimAccount": "Claim your account",
     "internalSignIn": "Internal admin sign-in",
     "staffTitle": "Internal sign-in",
-    "staffSub": "For ICF Switzerland staff and administrators.",
+    "staffSub": "For The Switzerland Chapter of ICF staff and administrators.",
     "backToMemberSignIn": "← Back to member sign-in"
   },
   "list": {
@@ -466,7 +466,7 @@
   },
   "noAccess": {
     "title": "No access yet",
-    "body": "Your account is signed in but has no ICF Switzerland workspace or member profile assigned yet. Please contact the chapter office."
+    "body": "Your account is signed in but has no The Switzerland Chapter of ICF workspace or member profile assigned yet. Please contact the chapter office."
   },
   "claim": {
     "title": "Member access",
@@ -476,9 +476,9 @@
     "loading": "Loading…",
     "privacyNote": "We never confirm whether an address is registered.",
     "sentTitle": "Check your inbox",
-    "sentBody": "If that address belongs to an active ICF Switzerland member, a one-time link is on its way. It expires in seven days.",
+    "sentBody": "If that address belongs to an active The Switzerland Chapter of ICF member, a one-time link is on its way. It expires in seven days.",
     "closedTitle": "Member access isn't open yet",
-    "closedBody": "The Member Area opens once ICF Switzerland completes the transition to the live membership system. Members will be notified directly.",
+    "closedBody": "The Member Area opens once The Switzerland Chapter of ICF completes the transition to the live membership system. Members will be notified directly.",
     "toSignIn": "Already have an account? Sign in",
     "restart": "Request a new link",
     "setPasswordTitle": "Set your password",

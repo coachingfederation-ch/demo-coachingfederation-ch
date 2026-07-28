@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Find a Coach — ICF Switzerland",
+    "title": "Find a Coach — The Switzerland Chapter of ICF",
     "description": "Search the directory of ICF-credentialed coaches across Switzerland by region, language, credential level and specialisation."
   },
   "hero": {
@@ -83,7 +83,7 @@
     "links": "Links",
     "notFoundTitle": "This coach profile is unavailable",
     "notFoundBody": "The profile may have been unpublished. Browse the directory to find another credentialed coach.",
-    "metaFallback": "{name} is an ICF-credentialed coach listed in the ICF Switzerland directory.",
+    "metaFallback": "{name} is an ICF-credentialed coach listed in the The Switzerland Chapter of ICF directory.",
     "approach": "How I work",
     "clientTypes": "Who I work with",
     "qualifications": "Credentials & training",

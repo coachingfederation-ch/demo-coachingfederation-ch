@@ -4,10 +4,10 @@ import { ClaimTokenPage } from "@/pages/MemberClaim";
 export const Route = createFileRoute("/claim/$token")({
   head: () => ({
     meta: [
-      { title: "Set your password — ICF Switzerland" },
+      { title: "Set your password — The Switzerland Chapter of ICF" },
       {
         name: "description",
-        content: "Set the password for your ICF Switzerland Member Area account.",
+        content: "Set the password for your The Switzerland Chapter of ICF Member Area account.",
       },
       { name: "robots", content: "noindex" },
     ],

@@ -23,7 +23,7 @@ export function Logo({ variant = "hero" }: { variant?: "hero" | "compact" }) {
     <LocaleLink to="/" aria-label={t("common.nav.homeAria")} className="inline-flex">
       <img
         src={icfLogo.url}
-        alt="ICF Switzerland Charter Chapter"
+        alt="The Switzerland Chapter of ICF"
         className={variant === "hero" ? "h-16 w-auto sm:h-24" : "h-12 w-auto sm:h-16"}
       />
     </LocaleLink>
