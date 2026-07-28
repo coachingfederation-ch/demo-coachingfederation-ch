@@ -59,8 +59,7 @@ type FacetTable = {
   insert: (rows: Record<string, string>[]) => PromiseLike<{ error: FacetError }>;
 };
 
-const facetTable = (table: string) =>
-  supabaseAdmin.from(table as never) as unknown as FacetTable;
+const facetTable = (table: string) => supabaseAdmin.from(table as never) as unknown as FacetTable;
 
 export type MyMemberProfile = {
   member: {
@@ -232,8 +231,9 @@ async function replaceFacet(profileId: string, table: string, column: string, id
   const { error } = await client.delete().eq("profile_id", profileId);
   if (error) throw error;
   if (!ids.length) return;
-  const { error: insertError } = await client
-    .insert(ids.map((id) => ({ profile_id: profileId, [column]: id })));
+  const { error: insertError } = await client.insert(
+    ids.map((id) => ({ profile_id: profileId, [column]: id })),
+  );
   if (insertError) throw insertError;
 }
 
