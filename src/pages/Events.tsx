@@ -60,24 +60,38 @@ export default function EventsPage({ data }: { data: EventsPageData }) {
         lede={t("events.hero.lede")}
       />
       <main id="main">
-        <section className="mx-auto max-w-7xl px-8 py-16">
-          <p className="eyebrow">{t("events.featured.eyebrow")}</p>
-          <a href="#" className={"group mt-6 grid overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 md:grid-cols-2 " + CARD_SHADOW}>
-            <div className={"grid aspect-[4/3] w-full place-items-center md:aspect-auto " + featured.bg + " " + featured.fg}>
-              <Mark name={featured.mark} className="h-1/2 w-1/2" />
-            </div>
-            <div className="flex flex-col justify-center p-10">
-              <p className="btn-mono !text-muted-foreground">{featured.date} · {featured.city}</p>
-              <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight md:text-3xl">{featured.title}</h2>
-              <p className="mt-4 text-base leading-relaxed text-muted-foreground">{featured.desc}</p>
-              <div className="mt-6 flex flex-wrap items-center gap-2">
-                {featured.tags.map((tag) => (
-                  <span key={tag} className="inline-flex items-center rounded-full border border-border/70 bg-chip px-2.5 py-1 text-[11px] font-semibold text-chip-foreground">{tag}</span>
-                ))}
+        {featured ? (
+          <section className="mx-auto max-w-7xl px-8 py-16">
+            <p className="eyebrow">{t("events.featured.eyebrow")}</p>
+            <LocaleLink
+              to={`/events/${featured.slug}`}
+              className={"group mt-6 grid overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 md:grid-cols-2 " + CARD_SHADOW}
+            >
+              <div className={"grid aspect-[4/3] w-full place-items-center md:aspect-auto " + visualFor(featured.slug ?? "").bg + " " + visualFor(featured.slug ?? "").fg}>
+                {featured.image_url ? (
+                  <img src={featured.image_url} alt="" className="h-full w-full object-cover" loading="lazy" />
+                ) : (
+                  <Mark name={visualFor(featured.slug ?? "").mark} className="h-1/2 w-1/2" />
+                )}
               </div>
-            </div>
-          </a>
-        </section>
+              <div className="flex flex-col justify-center p-10">
+                <p className="btn-mono !text-muted-foreground">{dateLine(featured)}</p>
+                <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight md:text-3xl">{featured.title}</h2>
+                {featured.summary ? (
+                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">{featured.summary}</p>
+                ) : null}
+                <div className="mt-6 flex flex-wrap items-center gap-2">
+                  {tagsFor(featured).map((tag) => (
+                    <span key={tag} className="inline-flex items-center rounded-full border border-border/70 bg-chip px-2.5 py-1 text-[11px] font-semibold text-chip-foreground">{tag}</span>
+                  ))}
+                  {featured.is_full ? (
+                    <span className="inline-flex items-center rounded-full bg-warn-soft px-2.5 py-1 text-[11px] font-semibold text-[color:var(--warn)]">{t("events.tag.full")}</span>
+                  ) : null}
+                </div>
+              </div>
+            </LocaleLink>
+          </section>
+        ) : null}
 
         <section className="bg-muted py-24">
           <div className="mx-auto max-w-7xl px-8">
@@ -85,41 +99,59 @@ export default function EventsPage({ data }: { data: EventsPageData }) {
             <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
               {t("events.upcoming.title")}
             </h2>
-            <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {upcoming.map((e) => (
-                <a key={e.title} href="#" className={"group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 " + CARD_SHADOW}>
-                  <div className={"grid aspect-[16/10] w-full place-items-center " + e.bg + " " + e.fg}>
-                    <Mark name={e.mark} className="h-3/5 w-3/5" />
-                  </div>
-                  <div className="flex flex-1 flex-col p-6">
-                    <p className="btn-mono !text-muted-foreground">{e.date} · {e.city}</p>
-                    <h3 className="mt-3 text-lg font-semibold leading-snug tracking-tight">{e.title}</h3>
-                    <div className="mt-5 flex flex-wrap items-center gap-2">
-                      {e.tags.map((tag) => (
-                        <span key={tag} className="inline-flex items-center rounded-full border border-border/70 bg-chip px-2.5 py-1 text-[11px] font-semibold text-chip-foreground">{tag}</span>
-                      ))}
-                    </div>
-                  </div>
-                </a>
-              ))}
-            </div>
+            {upcoming.length === 0 && !featured ? (
+              <p className="mt-8 text-base text-muted-foreground">{t("events.upcoming.empty")}</p>
+            ) : (
+              <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {upcoming.map((e) => {
+                  const v = visualFor(e.slug ?? "");
+                  return (
+                    <LocaleLink key={e.id} to={`/events/${e.slug}`} className={"group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 " + CARD_SHADOW}>
+                      <div className={"grid aspect-[16/10] w-full place-items-center " + v.bg + " " + v.fg}>
+                        {e.image_url ? (
+                          <img src={e.image_url} alt="" className="h-full w-full object-cover" loading="lazy" />
+                        ) : (
+                          <Mark name={v.mark} className="h-3/5 w-3/5" />
+                        )}
+                      </div>
+                      <div className="flex flex-1 flex-col p-6">
+                        <p className="btn-mono !text-muted-foreground">{dateLine(e)}</p>
+                        <h3 className="mt-3 text-lg font-semibold leading-snug tracking-tight">{e.title}</h3>
+                        <div className="mt-5 flex flex-wrap items-center gap-2">
+                          {tagsFor(e).map((tag) => (
+                            <span key={tag} className="inline-flex items-center rounded-full border border-border/70 bg-chip px-2.5 py-1 text-[11px] font-semibold text-chip-foreground">{tag}</span>
+                          ))}
+                          {e.is_full ? (
+                            <span className="inline-flex items-center rounded-full bg-warn-soft px-2.5 py-1 text-[11px] font-semibold text-[color:var(--warn)]">{t("events.tag.full")}</span>
+                          ) : null}
+                        </div>
+                      </div>
+                    </LocaleLink>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-8 py-24">
-          <p className="eyebrow">{t("events.past.eyebrow")}</p>
-          <ul className="mt-8 divide-y divide-border/70 border-y border-border/70">
-            {past.map((e) => (
-              <li key={e.title} className="flex flex-col gap-1 py-5 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="btn-mono !text-muted-foreground">{e.date} · {e.city}</p>
-                  <p className="mt-1 text-base font-semibold tracking-tight">{e.title}</p>
-                </div>
-                <a href="#" className="text-sm font-semibold text-primary hover:underline">{t("events.past.recap")}</a>
-              </li>
-            ))}
-          </ul>
-        </section>
+        {past.length ? (
+          <section className="mx-auto max-w-7xl px-8 py-24">
+            <p className="eyebrow">{t("events.past.eyebrow")}</p>
+            <ul className="mt-8 divide-y divide-border/70 border-y border-border/70">
+              {past.map((e) => (
+                <li key={e.id} className="flex flex-col gap-1 py-5 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="btn-mono !text-muted-foreground">{dateLine(e)}</p>
+                    <p className="mt-1 text-base font-semibold tracking-tight">{e.title}</p>
+                  </div>
+                  <LocaleLink to={`/events/${e.slug}`} className="text-sm font-semibold text-primary hover:underline">
+                    {t("events.past.recap")}
+                  </LocaleLink>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
 
         <section className="bg-hero text-hero-foreground">
           <div className="mx-auto max-w-7xl px-8 py-20 text-center">
@@ -128,7 +160,9 @@ export default function EventsPage({ data }: { data: EventsPageData }) {
               {t("events.cta.title")}
             </h2>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <a href="#" className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90">{t("events.cta.propose")}</a>
+              <LocaleLink to="/about" className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90">
+                {t("events.cta.propose")}
+              </LocaleLink>
             </div>
           </div>
         </section>
