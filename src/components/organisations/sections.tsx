@@ -20,14 +20,7 @@ export function ProofBar() {
   );
 }
 
-const whyMarks: MarkName[] = [
-  "circular1",
-  "star",
-  "asterisk1",
-  "circular2",
-  "asterisk3",
-  "arrow1",
-];
+const whyMarks: MarkName[] = ["circular1", "star", "asterisk1", "circular2", "asterisk3", "arrow1"];
 
 export function Differentiators() {
   const { t, tList } = useI18n();
@@ -129,9 +122,7 @@ export function Initiatives() {
 
 export function EventsStrip() {
   const { t, tList } = useI18n();
-  const items = tList<{ date: string; title: string; desc: string }>(
-    "organisations.events.items",
-  );
+  const items = tList<{ date: string; title: string; desc: string }>("organisations.events.items");
   return (
     <section className="mx-auto max-w-7xl px-8 py-24">
       <div className="flex flex-wrap items-end justify-between gap-4">

@@ -56,7 +56,10 @@ export function formatEventTimeRange(
 }
 
 /** Where the event happens, as one line of visitor-facing text. */
-export function eventPlace(event: Pick<PublicEvent, "location_mode" | "venue_name" | "city">, onlineLabel: string) {
+export function eventPlace(
+  event: Pick<PublicEvent, "location_mode" | "venue_name" | "city">,
+  onlineLabel: string,
+) {
   if (event.location_mode === "online") return onlineLabel;
   const parts = [event.venue_name, event.city].filter(Boolean);
   const place = parts.join(", ");

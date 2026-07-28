@@ -9,12 +9,12 @@ programmes, and ICF Switzerland's own members and staff.
 
 Four functional areas, each with its own access boundary:
 
-| Area | Who | Where |
-|---|---|---|
-| **Public site** — home, for coaches, for organisations, events, about, Insights blog | Everyone | `src/routes/*.tsx`, `src/routes/$locale/*` |
-| **Coach directory** — "Find a coach", filters, public coach profiles | Everyone | `src/components/coaches/`, `src/lib/directory.functions.ts` |
-| **Member Area** — a member editing their own directory profile | Signed-in members | `src/routes/_member/`, `src/components/cms/MemberProfileEditor.tsx` |
-| **Staff tooling** — Insights CMS, member admin, ICF integration controls | Admins, editors, contributors | `src/routes/_staff/` |
+| Area                                                                                 | Who                           | Where                                                               |
+| ------------------------------------------------------------------------------------ | ----------------------------- | ------------------------------------------------------------------- |
+| **Public site** — home, for coaches, for organisations, events, about, Insights blog | Everyone                      | `src/routes/*.tsx`, `src/routes/$locale/*`                          |
+| **Coach directory** — "Find a coach", filters, public coach profiles                 | Everyone                      | `src/components/coaches/`, `src/lib/directory.functions.ts`         |
+| **Member Area** — a member editing their own directory profile                       | Signed-in members             | `src/routes/_member/`, `src/components/cms/MemberProfileEditor.tsx` |
+| **Staff tooling** — Insights CMS, member admin, ICF integration controls             | Admins, editors, contributors | `src/routes/_staff/`                                                |
 
 Everything is available in four languages (DE, FR, IT, EN) via path prefixes:
 `/find-a-coach` is English, `/de/find-a-coach` is German.

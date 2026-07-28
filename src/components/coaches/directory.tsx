@@ -283,8 +283,7 @@ export function CoachDirectory() {
   const modes = useMemo(() => activeFinderModes(finderConfig), [finderConfig]);
   // An unknown or absent ?mode= resolves to the first active mode, so links to
   // a since-disabled mode still show results instead of an empty list.
-  const mode =
-    modes.find((m) => m.slug === search.mode)?.slug ?? modes[0]?.slug ?? null;
+  const mode = modes.find((m) => m.slug === search.mode)?.slug ?? modes[0]?.slug ?? null;
   const modeLabel = modes.find((m) => m.slug === mode)?.label ?? null;
 
   const regions = vocab?.cf_regions ?? [];
@@ -320,7 +319,10 @@ export function CoachDirectory() {
     const map = new Map(rows.map((r) => [r.slug, vocabLabel(r, locale)]));
     return (slug) => map.get(slug) ?? slug;
   };
-  const specialisationLabel = useMemo(() => lookup(specialisationTerms), [specialisationTerms, locale]);
+  const specialisationLabel = useMemo(
+    () => lookup(specialisationTerms),
+    [specialisationTerms, locale],
+  );
   const formatLabel = useMemo(() => lookup(formatTerms), [formatTerms, locale]);
 
   function toggle(list: string[], set: (v: string[]) => void, value: string) {
@@ -564,7 +566,11 @@ export function CoachDirectory() {
         <div>
           <div className="mb-6 flex items-center justify-between gap-4">
             {/* 4.1.3: announce the new result count when filters change. */}
-            <p role="status" aria-live="polite" className="text-sm font-semibold text-muted-foreground">
+            <p
+              role="status"
+              aria-live="polite"
+              className="text-sm font-semibold text-muted-foreground"
+            >
               {isPending ? t("directory.results.loading") : countLabel}
             </p>
             {dirty && (
@@ -580,8 +586,12 @@ export function CoachDirectory() {
 
           {isError ? (
             <div className="rounded-2xl border border-border/70 bg-card px-8 py-16 text-center">
-              <p className="text-base font-bold text-foreground">{t("directory.results.errorTitle")}</p>
-              <p className="mt-2 text-sm text-muted-foreground">{t("directory.results.errorBody")}</p>
+              <p className="text-base font-bold text-foreground">
+                {t("directory.results.errorTitle")}
+              </p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                {t("directory.results.errorBody")}
+              </p>
             </div>
           ) : results.length ? (
             <>

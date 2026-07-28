@@ -128,7 +128,9 @@ export function MarkdownToolbar({
                   onClick={() => setShade(s)}
                   className={
                     "flex flex-1 items-center gap-2 rounded-xl border px-2.5 py-2 text-xs font-medium transition " +
-                    (shade === s ? "border-primary bg-secondary" : "border-border hover:bg-secondary/60")
+                    (shade === s
+                      ? "border-primary bg-secondary"
+                      : "border-border hover:bg-secondary/60")
                   }
                 >
                   <span className={`h-3 w-3 rounded-full ${SHADE_SWATCH[s]}`} />

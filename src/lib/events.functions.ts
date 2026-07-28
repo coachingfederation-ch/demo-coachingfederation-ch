@@ -75,8 +75,13 @@ type RsvpResult = { ok: true } | { ok: false; reason: "full" | "closed" | "dupli
 function rsvpFailure(error: { code?: string; message?: string }): RsvpResult {
   if (error.code === "23505") return { ok: false, reason: "duplicate" };
   const message = (error.message ?? "").toLowerCase();
-  if (message.includes("full") || message.includes("capacity")) return { ok: false, reason: "full" };
-  if (message.includes("closed") || message.includes("not open") || message.includes("registration"))
+  if (message.includes("full") || message.includes("capacity"))
+    return { ok: false, reason: "full" };
+  if (
+    message.includes("closed") ||
+    message.includes("not open") ||
+    message.includes("registration")
+  )
     return { ok: false, reason: "closed" };
   return { ok: false, reason: "error" };
 }

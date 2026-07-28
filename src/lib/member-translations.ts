@@ -63,12 +63,7 @@ export type ProfileTranslation = ProfileTranslationValues & {
  * `outdated` is orthogonal to the others but wins in the badge, because it is
  * the only state that asks the coach to do something.
  */
-export type TranslationState =
-  | "missing"
-  | "auto_draft"
-  | "edited_draft"
-  | "published"
-  | "outdated";
+export type TranslationState = "missing" | "auto_draft" | "edited_draft" | "published" | "outdated";
 
 export function translationState(
   row: ProfileTranslation | undefined,

@@ -20,7 +20,11 @@ export default defineTool({
     if (error) return errorResult(error.message);
     if (!data) return errorResult("No published profile with that id.");
     // Storage paths and raw translation blobs are internal plumbing.
-    const { profile_image_path: _img, translations: _tr, ...profile } = data as Record<string, unknown>;
+    const {
+      profile_image_path: _img,
+      translations: _tr,
+      ...profile
+    } = data as Record<string, unknown>;
     return { ...textResult(profile), structuredContent: { profile } };
   },
 });

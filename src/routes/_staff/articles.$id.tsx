@@ -49,9 +49,21 @@ const LANGS: { code: Lang; label: string }[] = [
 
 function StatusPill({ status, t }: { status: Status; t: (k: string) => string }) {
   const map: Record<Status, { cls: string; dot: string; label: string }> = {
-    draft: { cls: "bg-warn-soft text-[color:var(--warn)]", dot: "var(--warn)", label: t("status.draft") },
-    scheduled: { cls: "bg-teal-soft text-teal-foreground", dot: "var(--teal)", label: t("status.scheduled") },
-    published: { cls: "bg-teal-soft text-teal-foreground", dot: "var(--teal)", label: t("status.published") },
+    draft: {
+      cls: "bg-warn-soft text-[color:var(--warn)]",
+      dot: "var(--warn)",
+      label: t("status.draft"),
+    },
+    scheduled: {
+      cls: "bg-teal-soft text-teal-foreground",
+      dot: "var(--teal)",
+      label: t("status.scheduled"),
+    },
+    published: {
+      cls: "bg-teal-soft text-teal-foreground",
+      dot: "var(--teal)",
+      label: t("status.published"),
+    },
     unpublished: {
       cls: "bg-secondary text-muted-foreground",
       dot: "var(--muted-foreground)",
@@ -60,7 +72,9 @@ function StatusPill({ status, t }: { status: Status; t: (k: string) => string })
   };
   const s = map[status];
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${s.cls}`}>
+    <span
+      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${s.cls}`}
+    >
       <span className="h-1.5 w-1.5 rounded-full" style={{ background: s.dot }} />
       {s.label}
     </span>
@@ -285,7 +299,10 @@ function EditorPage() {
         <div className="mx-auto max-w-xl px-10 py-16 text-center">
           <h1 className="text-2xl font-bold">{t("editor.notFound")}</h1>
           <p className="mt-2 text-sm text-muted-foreground">{t("editor.notFoundBody")}</p>
-          <Link to="/articles" className="mt-6 inline-block text-sm font-semibold text-primary hover:underline">
+          <Link
+            to="/articles"
+            className="mt-6 inline-block text-sm font-semibold text-primary hover:underline"
+          >
             {t("editor.backToArticles")}
           </Link>
         </div>

@@ -181,7 +181,8 @@ export function normalizeMemberRow(row: Record<string, unknown>): NormalizedMemb
     // cf_credentials slugs are upper-case (ACC | PCC | MCC), so the feed value
     // is upper-cased rather than lower-cased to keep the join working.
     credential_slug:
-      text(pick(row, "Flagship_Credential", "credential", "CredentialLevel"))?.toUpperCase() ?? null,
+      text(pick(row, "Flagship_Credential", "credential", "CredentialLevel"))?.toUpperCase() ??
+      null,
     member_type: text(pick(row, "Member_Type", "cst_member_type", "MemberType")),
     membership_join_date: date(pick(row, "Membership_Join_Date", "JoinDate", "cst_join_date")),
     membership_expiration_date: date(
@@ -232,8 +233,9 @@ export function parseMemberFeed(xml: string): NormalizedMember[] {
 }
 
 function escapeXml(value: string): string {
-  return value.replace(/[<>&'"]/g, (c) =>
-    ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", "'": "&apos;", '"': "&quot;" })[c] as string,
+  return value.replace(
+    /[<>&'"]/g,
+    (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", "'": "&apos;", '"': "&quot;" })[c] as string,
   );
 }
 

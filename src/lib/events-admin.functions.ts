@@ -45,7 +45,7 @@ const eventInput = z.object({
 
 /** Empty strings from the form mean "unset", not "the empty string". */
 function normalize(input: z.infer<typeof eventInput>) {
-  const blankToNull = <T,>(v: T | "" | null | undefined) => (v === "" || v === undefined ? null : v);
+  const blankToNull = <T>(v: T | "" | null | undefined) => (v === "" || v === undefined ? null : v);
   return {
     ...input,
     summary: blankToNull(input.summary),
@@ -108,9 +108,7 @@ export const createEvent = createServerFn({ method: "POST" })
 
 export const updateEvent = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: unknown) =>
-    eventInput.extend({ id: z.string().uuid() }).parse(input),
-  )
+  .inputValidator((input: unknown) => eventInput.extend({ id: z.string().uuid() }).parse(input))
   .handler(async ({ context, data }) => {
     await assertOrganizer(context);
     const { id, ...rest } = data;

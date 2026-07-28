@@ -13,9 +13,7 @@ type Dict = Record<string, unknown>;
 
 const modules = import.meta.glob<{ default: Dict }>("./locales/*/*.json", { eager: true });
 
-const dictionaries: Record<string, Dict> = Object.fromEntries(
-  LOCALES.map((l) => [l, {} as Dict]),
-);
+const dictionaries: Record<string, Dict> = Object.fromEntries(LOCALES.map((l) => [l, {} as Dict]));
 
 for (const [path, mod] of Object.entries(modules)) {
   const match = path.match(/\.\/locales\/([^/]+)\/([^/]+)\.json$/);

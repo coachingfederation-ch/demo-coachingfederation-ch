@@ -37,42 +37,28 @@
         "city": "Zürich",
         "region": "Deutschschweiz",
         "cadence": "Monatlich",
-        "langs": [
-          "DE",
-          "EN"
-        ],
+        "langs": ["DE", "EN"],
         "lead": "Chapter Lead: Team Zürich"
       },
       {
         "city": "Lausanne & Genève",
         "region": "Romandie",
         "cadence": "Monatlich",
-        "langs": [
-          "FR",
-          "EN"
-        ],
+        "langs": ["FR", "EN"],
         "lead": "Chapter Lead: Team Romandie"
       },
       {
         "city": "Lugano",
         "region": "Ticino",
         "cadence": "Quartalsweise",
-        "langs": [
-          "IT",
-          "EN"
-        ],
+        "langs": ["IT", "EN"],
         "lead": "Chapter Lead: Team Ticino"
       },
       {
         "city": "Online",
         "region": "Events, Mentoring & Engagement",
         "cadence": "Fortlaufend",
-        "langs": [
-          "DE",
-          "FR",
-          "IT",
-          "EN"
-        ],
+        "langs": ["DE", "FR", "IT", "EN"],
         "lead": "Offen für alle Mitglieder"
       }
     ]
@@ -80,13 +66,7 @@
   "research": {
     "eyebrow": "Forschung & Partnerschaften",
     "title": "Forschung, Praxis und Führung verbinden.",
-    "partners": [
-      "ETH Zürich",
-      "HEC Lausanne",
-      "USI Lugano",
-      "SwissRe",
-      "Nestlé"
-    ],
+    "partners": ["ETH Zürich", "HEC Lausanne", "USI Lugano", "SwissRe", "Nestlé"],
     "items": [
       {
         "title": "Coaching in der Schweiz 2026",

@@ -164,7 +164,10 @@ export function CultureSurvey() {
                 aria-label={t("organisations.survey.eyebrow")}
                 className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-muted"
               >
-                <div className="h-full rounded-full bg-accent transition-all" style={{ width: `${progress}%` }} />
+                <div
+                  className="h-full rounded-full bg-accent transition-all"
+                  style={{ width: `${progress}%` }}
+                />
               </div>
               <p className="mt-8 section-label">
                 {t(`organisations.survey.dimensions.${question.dimension}`)}
@@ -246,7 +249,10 @@ export function CultureSurvey() {
                       aria-label={t(`organisations.survey.dimensions.${d}`)}
                       className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-muted"
                     >
-                      <div className="h-full rounded-full bg-accent" style={{ width: `${scores[d]}%` }} />
+                      <div
+                        className="h-full rounded-full bg-accent"
+                        style={{ width: `${scores[d]}%` }}
+                      />
                     </div>
                   </div>
                 ))}

@@ -5,14 +5,14 @@ never edit it.
 
 ## Naming
 
-| Pattern | Meaning |
-|---|---|
-| `about.tsx` | Static path `/about`. |
-| `coach.$profileId.tsx` | Dynamic segment → `/coach/:profileId`. |
-| `insights.index.tsx` | The index of `/insights`, alongside `insights.$id.tsx`. |
-| `_staff/`, `_member/` | Pathless layouts. They add a gate and a shell, not a URL segment. |
-| `$locale/` | Localized mirrors: `/de/about`, `/fr/about`, `/it/about`. |
-| `api/public/*` | Raw HTTP handlers for external callers. This prefix bypasses site auth — verify the caller inside the handler. |
+| Pattern                | Meaning                                                                                                        |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `about.tsx`            | Static path `/about`.                                                                                          |
+| `coach.$profileId.tsx` | Dynamic segment → `/coach/:profileId`.                                                                         |
+| `insights.index.tsx`   | The index of `/insights`, alongside `insights.$id.tsx`.                                                        |
+| `_staff/`, `_member/`  | Pathless layouts. They add a gate and a shell, not a URL segment.                                              |
+| `$locale/`             | Localized mirrors: `/de/about`, `/fr/about`, `/it/about`.                                                      |
+| `api/public/*`         | Raw HTTP handlers for external callers. This prefix bypasses site auth — verify the caller inside the handler. |
 
 Every parent route (including pathless ones) must render `<Outlet />`.
 

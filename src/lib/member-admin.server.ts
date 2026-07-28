@@ -134,7 +134,8 @@ export async function updateMemberDirectoryAdmin(
   if (!profile) throw new Error("This member has no directory profile yet. Run a sync first.");
 
   const patch: Record<string, unknown> = {};
-  if (input.visibility && input.visibility !== profile.visibility) patch.visibility = input.visibility;
+  if (input.visibility && input.visibility !== profile.visibility)
+    patch.visibility = input.visibility;
   if (
     input.mentor_accredited !== undefined &&
     input.mentor_accredited !== profile.mentor_accredited
@@ -166,9 +167,11 @@ export async function updateMemberDirectoryAdmin(
       .eq("profile_id", profile.id);
     if (deleteError) throw deleteError;
     if (input.region_ids.length) {
-      const { error: insertError } = await supabaseAdmin.from("member_profile_regions").insert(
-        input.region_ids.map((regionId) => ({ profile_id: profile.id, region_id: regionId })),
-      );
+      const { error: insertError } = await supabaseAdmin
+        .from("member_profile_regions")
+        .insert(
+          input.region_ids.map((regionId) => ({ profile_id: profile.id, region_id: regionId })),
+        );
       if (insertError) throw insertError;
     }
     patch.region_ids = input.region_ids;
@@ -205,7 +208,8 @@ export async function bindMemberToAuthUser(
   const { data, error } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1000 });
   if (error) throw error;
   const user = data.users.find((u) => (u.email ?? "").toLowerCase() === normalised);
-  if (!user) throw new Error(`No account found for ${normalised}. The user must sign in once first.`);
+  if (!user)
+    throw new Error(`No account found for ${normalised}. The user must sign in once first.`);
 
   // Email is only how staff *locate* the account. The binding itself — and
   // every later access decision — rests on this explicit auth_user_id link

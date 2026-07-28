@@ -164,14 +164,20 @@ export async function autoTranslateMyProfile(
   });
 
   if (response.status === 429) throw new Error("Rate limit reached — please try again shortly.");
-  if (response.status === 402) throw new Error("AI credits exhausted — please top up the workspace.");
+  if (response.status === 402)
+    throw new Error("AI credits exhausted — please top up the workspace.");
   if (!response.ok) throw new Error(`Translation service error (${response.status})`);
 
   const body = (await response.json()) as { choices?: { message?: { content?: string } }[] };
   const raw = body.choices?.[0]?.message?.content ?? "";
   let parsed: Record<string, unknown>;
   try {
-    parsed = JSON.parse(raw.replace(/^```(?:json)?/i, "").replace(/```$/, "").trim());
+    parsed = JSON.parse(
+      raw
+        .replace(/^```(?:json)?/i, "")
+        .replace(/```$/, "")
+        .trim(),
+    );
   } catch {
     throw new Error("Translation service returned an unexpected response.");
   }

@@ -68,7 +68,9 @@ function NewArticlePage() {
                   : "border-border bg-card hover:bg-secondary/40")
               }
             >
-              <div className="text-xs font-bold uppercase tracking-wider text-primary">{l.code}</div>
+              <div className="text-xs font-bold uppercase tracking-wider text-primary">
+                {l.code}
+              </div>
               <div className="mt-1 text-sm font-semibold">{l.label}</div>
             </button>
           ))}

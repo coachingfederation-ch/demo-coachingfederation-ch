@@ -95,7 +95,11 @@ const JOINS = [
   { table: "member_profile_regions", column: "region_id", key: "region_ids" },
   { table: "member_profile_languages", column: "language_id", key: "language_ids" },
   { table: "member_profile_formats", column: "format_id", key: "format_ids" },
-  { table: "member_profile_specialisations", column: "specialisation_id", key: "specialisation_ids" },
+  {
+    table: "member_profile_specialisations",
+    column: "specialisation_id",
+    key: "specialisation_ids",
+  },
   { table: "member_profile_client_types", column: "client_type_id", key: "client_type_ids" },
 ] as const;
 
@@ -231,10 +235,13 @@ export async function updateMyMemberProfile(
 
   const patch: Record<string, unknown> = {};
   if (input.tagline !== undefined) patch.tagline = cleanText(input.tagline, TAGLINE_MAX);
-  if (input.description !== undefined) patch.description = cleanText(input.description, DESCRIPTION_MAX);
-  if (input.availability_slug !== undefined) patch.availability_slug = input.availability_slug || null;
+  if (input.description !== undefined)
+    patch.description = cleanText(input.description, DESCRIPTION_MAX);
+  if (input.availability_slug !== undefined)
+    patch.availability_slug = input.availability_slug || null;
   if (input.coaching_available !== undefined) patch.coaching_available = input.coaching_available;
-  if (input.mentoring_available !== undefined) patch.mentoring_available = input.mentoring_available;
+  if (input.mentoring_available !== undefined)
+    patch.mentoring_available = input.mentoring_available;
   if (input.supervision_available !== undefined) {
     patch.supervision_available = input.supervision_available;
   }
@@ -269,7 +276,8 @@ export async function updateMyMemberProfile(
   }
   if (input.booking_url !== undefined) {
     const url = (input.booking_url ?? "").trim();
-    if (url && !/^https:\/\/\S{3,250}$/i.test(url)) throw new Error("Booking link must start with https://.");
+    if (url && !/^https:\/\/\S{3,250}$/i.test(url))
+      throw new Error("Booking link must start with https://.");
     patch.booking_url = url || null;
   }
 

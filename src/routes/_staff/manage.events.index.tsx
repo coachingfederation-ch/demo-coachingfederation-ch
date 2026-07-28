@@ -9,9 +9,15 @@ export const Route = createFileRoute("/_staff/manage/events/")({
   head: () => ({
     meta: [
       { title: "Events — ICF Switzerland CMS" },
-      { name: "description", content: "Create, publish and manage ICF Switzerland events and RSVPs." },
+      {
+        name: "description",
+        content: "Create, publish and manage ICF Switzerland events and RSVPs.",
+      },
       { property: "og:title", content: "Events — ICF Switzerland CMS" },
-      { property: "og:description", content: "Create, publish and manage ICF Switzerland events and RSVPs." },
+      {
+        property: "og:description",
+        content: "Create, publish and manage ICF Switzerland events and RSVPs.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex" },
@@ -129,7 +135,9 @@ function ManageEventsPage() {
                 rows.map((row) => (
                   <tr
                     key={row.id}
-                    onClick={() => void navigate({ to: "/manage/events/$id", params: { id: row.id } })}
+                    onClick={() =>
+                      void navigate({ to: "/manage/events/$id", params: { id: row.id } })
+                    }
                     className="cursor-pointer border-t border-border hover:bg-secondary/40"
                   >
                     <td className="px-4 py-3 font-medium">{row.title}</td>
@@ -144,10 +152,13 @@ function ManageEventsPage() {
                       </span>
                     </td>
                     <td className="px-4 py-3 text-muted-foreground">
-                      {[row.venue_name, row.city].filter(Boolean).join(", ") || t("events.onlineLabel")}
+                      {[row.venue_name, row.city].filter(Boolean).join(", ") ||
+                        t("events.onlineLabel")}
                     </td>
                     <td className="px-4 py-3">
-                      <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${STATUS_STYLE[row.status] ?? ""}`}>
+                      <span
+                        className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${STATUS_STYLE[row.status] ?? ""}`}
+                      >
                         {t(`events.status.${row.status}`)}
                       </span>
                     </td>

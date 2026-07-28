@@ -20,8 +20,7 @@ export function coachHead(
   const p = loaderData.profile;
   const name = p.full_name ?? t("directory.detail.notFoundTitle");
   const title = `${name} — ICF Switzerland`;
-  const description =
-    p.tagline || t("directory.detail.metaFallback").replace("{name}", name);
+  const description = p.tagline || t("directory.detail.metaFallback").replace("{name}", name);
   const url = `${SITE_URL}${localizePath(`/coach/${profileId}`, locale)}`;
   return {
     meta: [

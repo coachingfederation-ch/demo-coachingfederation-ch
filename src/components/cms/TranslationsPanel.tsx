@@ -55,7 +55,8 @@ export function TranslationsPanel({
   const stateFor = (locale: Locale): State => {
     const row = rows.find((r) => r.locale === locale);
     if (!row) return "missing";
-    if (contentUpdatedAt && new Date(row.source_updated_at) < new Date(contentUpdatedAt)) return "stale";
+    if (contentUpdatedAt && new Date(row.source_updated_at) < new Date(contentUpdatedAt))
+      return "stale";
     return "fresh";
   };
 
@@ -109,7 +110,11 @@ export function TranslationsPanel({
     const row = rows.find((r) => r.locale === locale);
     if (s === "missing")
       return { label: t("translations.notTranslated"), cls: "bg-secondary text-muted-foreground" };
-    if (s === "stale") return { label: t("translations.needsRefresh"), cls: "bg-warn-soft text-[color:var(--warn)]" };
+    if (s === "stale")
+      return {
+        label: t("translations.needsRefresh"),
+        cls: "bg-warn-soft text-[color:var(--warn)]",
+      };
     return {
       label: row?.manually_edited ? t("translations.manual") : t("translations.upToDate"),
       cls: "bg-teal-soft text-teal-foreground",
@@ -133,7 +138,9 @@ export function TranslationsPanel({
             <div key={locale} className="border-t border-border pt-3 first:border-0 first:pt-0">
               <div className="flex items-center justify-between gap-2">
                 <span className="font-semibold">{locale.toUpperCase()}</span>
-                <span className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${b.cls}`}>{b.label}</span>
+                <span className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${b.cls}`}>
+                  {b.label}
+                </span>
               </div>
               <div className="mt-2 flex items-center gap-2">
                 <button
@@ -150,7 +157,9 @@ export function TranslationsPanel({
                 </button>
                 {exists ? (
                   <button
-                    onClick={() => (openLocale === locale ? setOpenLocale(null) : openEditor(locale))}
+                    onClick={() =>
+                      openLocale === locale ? setOpenLocale(null) : openEditor(locale)
+                    }
                     className="rounded-full border border-border px-3 py-1.5 text-xs font-medium hover:bg-secondary"
                   >
                     {openLocale === locale ? t("translations.close") : t("translations.open")}
@@ -210,7 +219,9 @@ export function TranslationsPanel({
                       {t("translations.saveTranslation")}
                     </button>
                     {savedNote ? (
-                      <span className="text-xs text-muted-foreground">{t("translations.savedTranslation")}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {t("translations.savedTranslation")}
+                      </span>
                     ) : null}
                   </div>
                 </div>

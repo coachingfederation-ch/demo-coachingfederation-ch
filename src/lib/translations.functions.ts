@@ -34,7 +34,8 @@ export const translateArticle = createServerFn({ method: "POST" })
       .maybeSingle();
     if (error) throw new Error(error.message);
     if (!article) throw new Error("Article not found");
-    if (article.language === data.locale) throw new Error("Source language cannot be translated into itself");
+    if (article.language === data.locale)
+      throw new Error("Source language cannot be translated into itself");
 
     const apiKey = process.env.LOVABLE_API_KEY;
     if (!apiKey) throw new Error("Translation service is not configured");
@@ -61,7 +62,10 @@ export const translateArticle = createServerFn({ method: "POST" })
       body: JSON.stringify({
         model: "google/gemini-3-flash-preview",
         messages: [
-          { role: "system", content: "You are a professional Swiss editorial translator. You reply with JSON only." },
+          {
+            role: "system",
+            content: "You are a professional Swiss editorial translator. You reply with JSON only.",
+          },
           { role: "user", content: prompt },
         ],
         response_format: { type: "json_object" },
@@ -69,7 +73,8 @@ export const translateArticle = createServerFn({ method: "POST" })
     });
 
     if (response.status === 429) throw new Error("Rate limit reached — please try again shortly.");
-    if (response.status === 402) throw new Error("AI credits exhausted — please top up the workspace.");
+    if (response.status === 402)
+      throw new Error("AI credits exhausted — please top up the workspace.");
     if (!response.ok) throw new Error(`Translation service error (${response.status})`);
 
     const payload = (await response.json()) as {
@@ -78,7 +83,12 @@ export const translateArticle = createServerFn({ method: "POST" })
     const raw = payload.choices?.[0]?.message?.content ?? "";
     let parsed: { title?: string; excerpt?: string; content?: string };
     try {
-      parsed = JSON.parse(raw.replace(/^```(?:json)?/i, "").replace(/```$/, "").trim());
+      parsed = JSON.parse(
+        raw
+          .replace(/^```(?:json)?/i, "")
+          .replace(/```$/, "")
+          .trim(),
+      );
     } catch {
       throw new Error("Translation service returned an unexpected response");
     }

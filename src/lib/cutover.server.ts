@@ -122,7 +122,11 @@ export async function runCutover(
     record("archive", false, archiveError.message);
     return { ok: false, steps };
   }
-  record("archive", true, `Archived ${Object.values(counts).reduce((a, b) => a + b, 0)} rows (snapshot ${archive.id}).`);
+  record(
+    "archive",
+    true,
+    `Archived ${Object.values(counts).reduce((a, b) => a + b, 0)} rows (snapshot ${archive.id}).`,
+  );
 
   // Rehearsal stops here: everything below mutates state irreversibly.
   if (dryRun) {
@@ -146,7 +150,11 @@ export async function runCutover(
       true,
       "Would switch mode to LIVE with emails suppressed and account claim closed, then run the first LIVE import.",
     );
-    record("rehearsal_complete", true, "Rehearsal only — no data was deleted and the integration is still in TEST mode.");
+    record(
+      "rehearsal_complete",
+      true,
+      "Rehearsal only — no data was deleted and the integration is still in TEST mode.",
+    );
     return { ok: true, steps };
   }
 
@@ -192,13 +200,22 @@ export async function runCutover(
   // 5. Switch mode (emails + claim stay off)
   const { error: switchError } = await supabaseAdmin
     .from("integration_config")
-    .update({ mode: "live", soap_endpoint_key: "live", emails_suppressed: true, account_claim_enabled: false })
+    .update({
+      mode: "live",
+      soap_endpoint_key: "live",
+      emails_suppressed: true,
+      account_claim_enabled: false,
+    })
     .eq("id", true);
   if (switchError) {
     record("switch_mode", false, switchError.message);
     return { ok: false, steps };
   }
-  record("switch_mode", true, "Mode switched to LIVE. Emails still suppressed, claim still closed.");
+  record(
+    "switch_mode",
+    true,
+    "Mode switched to LIVE. Emails still suppressed, claim still closed.",
+  );
 
   // 6. First LIVE import
   const sync = await runMemberSync({ triggerSource: "cutover", actorUserId });
@@ -249,7 +266,11 @@ export async function runCutover(
     actor_user_id: actorUserId,
     details: { steps } as never,
   });
-  record("go_live", true, "Directory live. Emails and account claim remain disabled until explicitly opened.");
+  record(
+    "go_live",
+    true,
+    "Directory live. Emails and account claim remain disabled until explicitly opened.",
+  );
 
   return { ok: true, steps };
 }

@@ -11,7 +11,7 @@ from `src/pages`, so the duplication is shallow — but adding a public page
 means remembering to add both, and forgetting produces a page that 404s in
 three of four languages.
 
-*Ideal:* a single route factory, or an optional locale segment. Deferred
+_Ideal:_ a single route factory, or an optional locale segment. Deferred
 because the current shape is explicit and TanStack's generated route tree makes
 the mistake visible quickly.
 

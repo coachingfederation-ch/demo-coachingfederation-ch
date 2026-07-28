@@ -57,11 +57,7 @@ export type ArticleContentPatch = {
   image_source: string | null;
 };
 
-export async function saveArticleContent(
-  client: Client,
-  id: string,
-  patch: ArticleContentPatch,
-) {
+export async function saveArticleContent(client: Client, id: string, patch: ArticleContentPatch) {
   const { error } = await client.from("articles").update(patch).eq("id", id);
   if (error) throw error;
   return { ok: true as const };

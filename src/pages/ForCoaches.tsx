@@ -10,7 +10,9 @@ import { useI18n, LocaleLink } from "@/i18n";
 
 export default function ForCoachesPage() {
   const { t, tList } = useI18n();
-  const credentials = tList<{ level: string; hours: string; desc: string }>("coaches.credentials.items");
+  const credentials = tList<{ level: string; hours: string; desc: string }>(
+    "coaches.credentials.items",
+  );
   const deibItems = tList<string>("coaches.deib.items");
 
   return (
@@ -38,7 +40,10 @@ export default function ForCoachesPage() {
           </h2>
           <div className="mt-12 grid gap-4 md:grid-cols-3">
             {credentials.map((c) => (
-              <div key={c.level} className={"rounded-2xl border border-border/70 bg-card p-8 " + CARD_SHADOW}>
+              <div
+                key={c.level}
+                className={"rounded-2xl border border-border/70 bg-card p-8 " + CARD_SHADOW}
+              >
                 <p className="btn-mono !text-teal-foreground">{c.hours}</p>
                 <h3 className="mt-3 text-3xl font-bold tracking-tight text-primary">{c.level}</h3>
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{c.desc}</p>
@@ -68,7 +73,10 @@ export default function ForCoachesPage() {
                   </li>
                 ))}
               </ul>
-              <a href="#" className="mt-6 inline-flex text-sm font-semibold text-primary hover:underline">
+              <a
+                href="#"
+                className="mt-6 inline-flex text-sm font-semibold text-primary hover:underline"
+              >
                 {t("coaches.deib.cta")}
               </a>
             </div>
@@ -84,7 +92,10 @@ export default function ForCoachesPage() {
             {t("coaches.chapters.desc")}
           </p>
           <CommunityGrid />
-          <LocaleLink to="/about" className="mt-8 inline-flex text-sm font-semibold text-primary hover:underline">
+          <LocaleLink
+            to="/about"
+            className="mt-8 inline-flex text-sm font-semibold text-primary hover:underline"
+          >
             {t("coaches.chapters.cta")}
           </LocaleLink>
         </section>
@@ -121,8 +132,18 @@ export default function ForCoachesPage() {
               {t("coaches.join.title")}
             </h2>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <a href="#" className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90">{t("coaches.join.cta1")}</a>
-              <a href="#" className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10">{t("coaches.join.cta2")}</a>
+              <a
+                href="#"
+                className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90"
+              >
+                {t("coaches.join.cta1")}
+              </a>
+              <a
+                href="#"
+                className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10"
+              >
+                {t("coaches.join.cta2")}
+              </a>
             </div>
           </div>
         </section>
