@@ -13,7 +13,13 @@ import { CalendarDays, Search, ShieldCheck } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { useCms } from "@/i18n/cms";
 import { useMyRoles } from "@/lib/roles";
-import { grantMemberRole, listRoleAdminData, revokeMemberRole } from "@/lib/roles.functions";
+import {
+  grantMemberRole,
+  listQaProvisioningOptions,
+  listRoleAdminData,
+  provisionQaTestAccount,
+  revokeMemberRole,
+} from "@/lib/roles.functions";
 import type { ManagedRole } from "@/lib/role-model";
 
 export const Route = createFileRoute("/_staff/roles")({
@@ -120,6 +126,7 @@ function RolesPage() {
               <tr>
                 <th className="px-4 py-3 font-semibold">{t("roles.colName")}</th>
                 <th className="px-4 py-3 font-semibold">{t("roles.colEmail")}</th>
+                <th className="px-4 py-3 font-semibold">{t("roles.colLink")}</th>
                 <th className="px-4 py-3 font-semibold">{t("roles.colAccess")}</th>
                 <th className="px-4 py-3" />
               </tr>
@@ -127,13 +134,13 @@ function RolesPage() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={4} className="px-4 py-6 text-muted-foreground">
+                  <td colSpan={5} className="px-4 py-6 text-muted-foreground">
                     {t("roles.loading")}
                   </td>
                 </tr>
               ) : filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="px-4 py-6 text-muted-foreground">
+                  <td colSpan={5} className="px-4 py-6 text-muted-foreground">
                     {t("roles.empty")}
                   </td>
                 </tr>
@@ -142,6 +149,12 @@ function RolesPage() {
                   <tr key={m.memberId} className="border-t border-border">
                     <td className="px-4 py-3 font-medium">{m.name}</td>
                     <td className="px-4 py-3 text-muted-foreground">{m.email ?? "—"}</td>
+                    {/* Claim linkage, the thing QA actually needs to verify:
+                        which imported record, and which auth identity. */}
+                    <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
+                      <div>ICF {m.cstRecno}</div>
+                      <div title={m.authUserId}>{m.authUserId.slice(0, 8)}…</div>
+                    </td>
                     <td className="px-4 py-3">
                       <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-2.5 py-1 text-xs font-semibold">
                         {t("roles.memberBadge")}
