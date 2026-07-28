@@ -132,7 +132,7 @@ export const setEventStatus = createServerFn({ method: "POST" })
     z
       .object({
         id: z.string().uuid(),
-        status: z.enum(["draft", "published", "cancelled", "archived"]),
+        status: z.enum(["draft", "published", "cancelled"]),
       })
       .parse(input),
   )
