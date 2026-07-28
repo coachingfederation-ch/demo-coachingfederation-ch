@@ -139,6 +139,11 @@ export function ProfileTranslationsPanel() {
         {t("profileTranslations.title")}
       </h2>
       <p className="mt-1 text-xs text-muted-foreground">{t("profileTranslations.hint")}</p>
+      {!hasSourceText && (
+        <p className="mt-2 rounded-lg bg-warn-soft px-3 py-2 text-xs text-[color:var(--warn)]">
+          {t("profileTranslations.emptySource")}
+        </p>
+      )}
 
       <div className="mt-4 space-y-4 text-sm">
 
