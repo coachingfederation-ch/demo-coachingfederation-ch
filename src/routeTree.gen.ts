@@ -18,9 +18,11 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as FindACoachRouteImport } from './routes/find-a-coach'
 import { Route as ForCoachesRouteImport } from './routes/for-coaches'
 import { Route as ForOrganisationsRouteImport } from './routes/for-organisations'
+import { Route as ImprintRouteImport } from './routes/imprint'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as NoAccessRouteImport } from './routes/no-access'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as StaffSignInRouteImport } from './routes/staff-sign-in'
 import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
@@ -28,7 +30,9 @@ import { Route as LocaleAboutRouteImport } from './routes/$locale/about'
 import { Route as LocaleFindACoachRouteImport } from './routes/$locale/find-a-coach'
 import { Route as LocaleForCoachesRouteImport } from './routes/$locale/for-coaches'
 import { Route as LocaleForOrganisationsRouteImport } from './routes/$locale/for-organisations'
+import { Route as LocaleImprintRouteImport } from './routes/$locale/imprint'
 import { Route as LocaleInsightsRouteImport } from './routes/$locale/insights'
+import { Route as LocalePrivacyRouteImport } from './routes/$locale/privacy'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as MemberMyProfileRouteImport } from './routes/_member/my-profile'
@@ -105,6 +109,11 @@ const ForOrganisationsRoute = ForOrganisationsRouteImport.update({
   path: '/for-organisations',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ImprintRoute = ImprintRouteImport.update({
+  id: '/imprint',
+  path: '/imprint',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InsightsRoute = InsightsRouteImport.update({
   id: '/insights',
   path: '/insights',
@@ -118,6 +127,11 @@ const McpRoute = McpRouteImport.update({
 const NoAccessRoute = NoAccessRouteImport.update({
   id: '/no-access',
   path: '/no-access',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -155,9 +169,19 @@ const LocaleForOrganisationsRoute = LocaleForOrganisationsRouteImport.update({
   path: '/for-organisations',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
+const LocaleImprintRoute = LocaleImprintRouteImport.update({
+  id: '/imprint',
+  path: '/imprint',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
 const LocaleInsightsRoute = LocaleInsightsRouteImport.update({
   id: '/insights',
   path: '/insights',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocalePrivacyRoute = LocalePrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
 const Char91DotmcpChar93ListToolsRoute =
@@ -332,16 +356,20 @@ export interface FileRoutesByFullPath {
   '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
+  '/imprint': typeof ImprintRoute
   '/insights': typeof InsightsRouteWithChildren
   '/mcp': typeof McpRoute
   '/no-access': typeof NoAccessRoute
+  '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/staff-sign-in': typeof StaffSignInRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
+  '/$locale/imprint': typeof LocaleImprintRoute
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
+  '/$locale/privacy': typeof LocalePrivacyRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/my-profile': typeof MemberMyProfileRoute
@@ -383,14 +411,18 @@ export interface FileRoutesByTo {
   '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
+  '/imprint': typeof ImprintRoute
   '/mcp': typeof McpRoute
   '/no-access': typeof NoAccessRoute
+  '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/staff-sign-in': typeof StaffSignInRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
+  '/$locale/imprint': typeof LocaleImprintRoute
+  '/$locale/privacy': typeof LocalePrivacyRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/my-profile': typeof MemberMyProfileRoute
@@ -435,16 +467,20 @@ export interface FileRoutesById {
   '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
+  '/imprint': typeof ImprintRoute
   '/insights': typeof InsightsRouteWithChildren
   '/mcp': typeof McpRoute
   '/no-access': typeof NoAccessRoute
+  '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/staff-sign-in': typeof StaffSignInRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
+  '/$locale/imprint': typeof LocaleImprintRoute
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
+  '/$locale/privacy': typeof LocalePrivacyRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/_member/my-profile': typeof MemberMyProfileRoute
@@ -489,16 +525,20 @@ export interface FileRouteTypes {
     | '/find-a-coach'
     | '/for-coaches'
     | '/for-organisations'
+    | '/imprint'
     | '/insights'
     | '/mcp'
     | '/no-access'
+    | '/privacy'
     | '/sitemap.xml'
     | '/staff-sign-in'
     | '/$locale/about'
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
+    | '/$locale/imprint'
     | '/$locale/insights'
+    | '/$locale/privacy'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/my-profile'
@@ -540,14 +580,18 @@ export interface FileRouteTypes {
     | '/find-a-coach'
     | '/for-coaches'
     | '/for-organisations'
+    | '/imprint'
     | '/mcp'
     | '/no-access'
+    | '/privacy'
     | '/sitemap.xml'
     | '/staff-sign-in'
     | '/$locale/about'
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
+    | '/$locale/imprint'
+    | '/$locale/privacy'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/my-profile'
@@ -591,16 +635,20 @@ export interface FileRouteTypes {
     | '/find-a-coach'
     | '/for-coaches'
     | '/for-organisations'
+    | '/imprint'
     | '/insights'
     | '/mcp'
     | '/no-access'
+    | '/privacy'
     | '/sitemap.xml'
     | '/staff-sign-in'
     | '/$locale/about'
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
+    | '/$locale/imprint'
     | '/$locale/insights'
+    | '/$locale/privacy'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/_member/my-profile'
@@ -646,9 +694,11 @@ export interface RootRouteChildren {
   FindACoachRoute: typeof FindACoachRoute
   ForCoachesRoute: typeof ForCoachesRoute
   ForOrganisationsRoute: typeof ForOrganisationsRoute
+  ImprintRoute: typeof ImprintRoute
   InsightsRoute: typeof InsightsRouteWithChildren
   McpRoute: typeof McpRoute
   NoAccessRoute: typeof NoAccessRoute
+  PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StaffSignInRoute: typeof StaffSignInRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
@@ -728,6 +778,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ForOrganisationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/imprint': {
+      id: '/imprint'
+      path: '/imprint'
+      fullPath: '/imprint'
+      preLoaderRoute: typeof ImprintRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/insights': {
       id: '/insights'
       path: '/insights'
@@ -747,6 +804,13 @@ declare module '@tanstack/react-router' {
       path: '/no-access'
       fullPath: '/no-access'
       preLoaderRoute: typeof NoAccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -798,11 +862,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleForOrganisationsRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
+    '/$locale/imprint': {
+      id: '/$locale/imprint'
+      path: '/imprint'
+      fullPath: '/$locale/imprint'
+      preLoaderRoute: typeof LocaleImprintRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
     '/$locale/insights': {
       id: '/$locale/insights'
       path: '/insights'
       fullPath: '/$locale/insights'
       preLoaderRoute: typeof LocaleInsightsRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/privacy': {
+      id: '/$locale/privacy'
+      path: '/privacy'
+      fullPath: '/$locale/privacy'
+      preLoaderRoute: typeof LocalePrivacyRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
     '/.mcp/list-tools': {
@@ -1051,7 +1129,9 @@ interface LocaleRouteRouteChildren {
   LocaleFindACoachRoute: typeof LocaleFindACoachRoute
   LocaleForCoachesRoute: typeof LocaleForCoachesRoute
   LocaleForOrganisationsRoute: typeof LocaleForOrganisationsRoute
+  LocaleImprintRoute: typeof LocaleImprintRoute
   LocaleInsightsRoute: typeof LocaleInsightsRouteWithChildren
+  LocalePrivacyRoute: typeof LocalePrivacyRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
   LocaleCoachProfileIdRoute: typeof LocaleCoachProfileIdRoute
   LocaleEventsSlugRoute: typeof LocaleEventsSlugRoute
@@ -1063,7 +1143,9 @@ const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleFindACoachRoute: LocaleFindACoachRoute,
   LocaleForCoachesRoute: LocaleForCoachesRoute,
   LocaleForOrganisationsRoute: LocaleForOrganisationsRoute,
+  LocaleImprintRoute: LocaleImprintRoute,
   LocaleInsightsRoute: LocaleInsightsRouteWithChildren,
+  LocalePrivacyRoute: LocalePrivacyRoute,
   LocaleIndexRoute: LocaleIndexRoute,
   LocaleCoachProfileIdRoute: LocaleCoachProfileIdRoute,
   LocaleEventsSlugRoute: LocaleEventsSlugRoute,
@@ -1166,9 +1248,11 @@ const rootRouteChildren: RootRouteChildren = {
   FindACoachRoute: FindACoachRoute,
   ForCoachesRoute: ForCoachesRoute,
   ForOrganisationsRoute: ForOrganisationsRoute,
+  ImprintRoute: ImprintRoute,
   InsightsRoute: InsightsRouteWithChildren,
   McpRoute: McpRoute,
   NoAccessRoute: NoAccessRoute,
+  PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StaffSignInRoute: StaffSignInRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,

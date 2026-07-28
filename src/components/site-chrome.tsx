@@ -415,33 +415,20 @@ export function SiteFooter() {
           <LocaleLink to="/about" className="text-white/80 hover:text-white">
             {t("common.nav.about")}
           </LocaleLink>
-          {[
-            { label: t("common.footer.privacy"), href: null },
-            { label: t("common.footer.ethics"), href: "https://coachingfederation.org/credentialing/coaching-ethics/" },
-            { label: t("common.footer.imprint"), href: null },
-          ].map(({ label, href }) =>
-            href ? (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/80 hover:text-white"
-              >
-                {label}
-              </a>
-            ) : (
-              <span
-                key={label}
-                aria-disabled="true"
-                title={t("common.footer.comingSoon")}
-                className="cursor-not-allowed text-white/60"
-              >
-                {label}
-              </span>
-            ),
-          )}
-
+          <LocaleLink to="/privacy" className="text-white/80 hover:text-white">
+            {t("common.footer.privacy")}
+          </LocaleLink>
+          <a
+            href="https://coachingfederation.org/credentialing/coaching-ethics/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/80 hover:text-white"
+          >
+            {t("common.footer.ethics")}
+          </a>
+          <LocaleLink to="/imprint" className="text-white/80 hover:text-white">
+            {t("common.footer.imprint")}
+          </LocaleLink>
         </nav>
       </div>
     </footer>
