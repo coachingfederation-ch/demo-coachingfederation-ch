@@ -33,7 +33,7 @@
     "claimAccount": "Revendiquer votre compte",
     "internalSignIn": "Connexion administrateur interne",
     "staffTitle": "Connexion interne",
-    "staffSub": "Pour l'équipe et les administrateurs d'The Switzerland Chapter of ICF.",
+    "staffSub": "Pour l'équipe et les administrateurs de The Switzerland Chapter of ICF.",
     "backToMemberSignIn": "← Retour à la connexion membre"
   },
   "list": {
@@ -476,7 +476,7 @@
     "loading": "Chargement…",
     "privacyNote": "Nous ne confirmons jamais si une adresse est enregistrée.",
     "sentTitle": "Consultez votre boîte de réception",
-    "sentBody": "Si cette adresse correspond à un membre actif d'The Switzerland Chapter of ICF, un lien à usage unique est en route. Il expire dans sept jours.",
+    "sentBody": "Si cette adresse correspond à un membre actif de The Switzerland Chapter of ICF, un lien à usage unique est en route. Il expire dans sept jours.",
     "closedTitle": "L'accès membre n'est pas encore ouvert",
     "closedBody": "L'espace membres ouvrira lorsque The Switzerland Chapter of ICF aura terminé la transition vers le système de membres en production. Les membres seront informés directement.",
     "toSignIn": "Vous avez déjà un compte ? Se connecter",
