@@ -138,7 +138,7 @@ export const setEventStatus = createServerFn({ method: "POST" })
   )
   .handler(async ({ context, data }) => {
     await assertOrganizer(context);
-    const patch: Record<string, unknown> = { status: data.status };
+    const patch: { status: typeof data.status; published_at?: string } = { status: data.status };
     if (data.status === "published") {
       const { data: existing } = await context.supabase
         .from("events")
@@ -173,7 +173,7 @@ export const setRegistrationStatus = createServerFn({ method: "POST" })
     z
       .object({
         registrationId: z.string().uuid(),
-        status: z.enum(["confirmed", "waitlisted", "cancelled"]),
+        status: z.enum(["confirmed", "cancelled"]),
       })
       .parse(input),
   )
