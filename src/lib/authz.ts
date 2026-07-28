@@ -62,3 +62,15 @@ export async function assertEditor(context: AuthedContext): Promise<string> {
   if (!roles.includes("admin") && !roles.includes("editor")) throw new Error("Forbidden");
   return context.userId;
 }
+
+/**
+ * Throws unless the caller may manage events at all: an organizer (own events
+ * only, enforced by RLS) or an editor/admin (all events). This is a fast fail,
+ * not the boundary — the row-level rules decide *which* events.
+ */
+export async function assertOrganizer(context: AuthedContext): Promise<string> {
+  const roles = await rolesOf(context);
+  const allowed: AppRole[] = ["admin", "editor", "organizer"];
+  if (!roles.some((r) => allowed.includes(r))) throw new Error("Forbidden");
+  return context.userId;
+}

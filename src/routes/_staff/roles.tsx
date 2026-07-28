@@ -9,11 +9,12 @@
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { Search, ShieldCheck } from "lucide-react";
+import { CalendarDays, Search, ShieldCheck } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { useCms } from "@/i18n/cms";
 import { useMyRoles } from "@/lib/roles";
-import { grantEditor, listRoleAdminData, revokeEditor } from "@/lib/roles.functions";
+import { grantMemberRole, listRoleAdminData, revokeMemberRole } from "@/lib/roles.functions";
+import type { ManagedRole } from "@/lib/role-model";
 
 export const Route = createFileRoute("/_staff/roles")({
   head: () => ({
@@ -59,11 +60,12 @@ function RolesPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const toggle = async (row: MemberRow) => {
-    setPending(row.memberId);
+  const toggle = async (row: MemberRow, role: ManagedRole) => {
+    const held = role === "editor" ? row.isEditor : row.isOrganizer;
+    setPending(`${row.memberId}:${role}`);
     try {
-      if (row.isEditor) await revokeEditor({ data: { memberId: row.memberId } });
-      else await grantEditor({ data: { memberId: row.memberId } });
+      if (held) await revokeMemberRole({ data: { memberId: row.memberId, role } });
+      else await grantMemberRole({ data: { memberId: row.memberId, role } });
       await load();
     } catch {
       setError(t("roles.saveError"));
@@ -150,6 +152,12 @@ function RolesPage() {
                           {t("roles.editorBadge")}
                         </span>
                       ) : null}
+                      {m.isOrganizer ? (
+                        <span className="ml-1.5 inline-flex items-center gap-1.5 rounded-full bg-teal-soft px-2.5 py-1 text-xs font-semibold text-teal-foreground">
+                          <CalendarDays className="h-3.5 w-3.5" />
+                          {t("roles.organizerBadge")}
+                        </span>
+                      ) : null}
                       {/* Hybrid accounts (member + admin) are listed here, not
                           under "Internal accounts" — the badge makes that legible. */}
                       {m.isAdmin ? (
@@ -163,13 +171,22 @@ function RolesPage() {
                       {m.isAdmin ? (
                         <span className="text-xs text-muted-foreground">{t("roles.adminNote")}</span>
                       ) : (
-                        <button
-                          onClick={() => void toggle(m)}
-                          disabled={pending === m.memberId}
-                          className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary disabled:opacity-50"
-                        >
-                          {m.isEditor ? t("roles.revoke") : t("roles.grant")}
-                        </button>
+                        <div className="flex justify-end gap-1.5">
+                          <button
+                            onClick={() => void toggle(m, "editor")}
+                            disabled={pending === `${m.memberId}:editor`}
+                            className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary disabled:opacity-50"
+                          >
+                            {m.isEditor ? t("roles.revokeEditor") : t("roles.grantEditor")}
+                          </button>
+                          <button
+                            onClick={() => void toggle(m, "organizer")}
+                            disabled={pending === `${m.memberId}:organizer`}
+                            className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary disabled:opacity-50"
+                          >
+                            {m.isOrganizer ? t("roles.revokeOrganizer") : t("roles.grantOrganizer")}
+                          </button>
+                        </div>
                       )}
                     </td>
                   </tr>

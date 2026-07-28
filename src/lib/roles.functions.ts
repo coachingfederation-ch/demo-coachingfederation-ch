@@ -13,8 +13,13 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { assertAdmin } from "./authz";
+import { MANAGED_ROLES } from "./role-model";
 
 const memberIdSchema = z.object({ memberId: z.string().uuid() });
+const grantSchema = z.object({
+  memberId: z.string().uuid(),
+  role: z.enum(MANAGED_ROLES),
+});
 
 /**
  * Claimed members with their current CMS grant, the internal (non-member)
@@ -35,10 +40,10 @@ export const listRoleAdminData = createServerFn({ method: "POST" })
     return { members, internal, audit };
   });
 
-/** Adds Insights CMS access to a claimed member. Membership is untouched. */
-export const grantEditor = createServerFn({ method: "POST" })
+/** Adds a managed staff grant to a claimed member. Membership is untouched. */
+export const grantMemberRole = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: unknown) => memberIdSchema.parse(input))
+  .inputValidator((input: unknown) => grantSchema.parse(input))
   .handler(async ({ context, data }) => {
     await assertAdmin(context);
     const { authUserIdForMember } = await import("./roles-admin.server");
@@ -48,15 +53,15 @@ export const grantEditor = createServerFn({ method: "POST" })
     // so an already-granted row is a harmless unique-violation, not an update.
     const { error } = await context.supabase
       .from("user_roles")
-      .insert({ user_id: authUserId, role: "editor" });
-    if (error && error.code !== "23505") throw new Error("Could not grant editor access.");
+      .insert({ user_id: authUserId, role: data.role });
+    if (error && error.code !== "23505") throw new Error("Could not grant access.");
     return { ok: true };
   });
 
-/** Removes Insights CMS access. The member keeps their profile and portal. */
-export const revokeEditor = createServerFn({ method: "POST" })
+/** Removes a managed staff grant. The member keeps their profile and portal. */
+export const revokeMemberRole = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: unknown) => memberIdSchema.parse(input))
+  .inputValidator((input: unknown) => grantSchema.parse(input))
   .handler(async ({ context, data }) => {
     await assertAdmin(context);
     const { authUserIdForMember } = await import("./roles-admin.server");
@@ -66,7 +71,7 @@ export const revokeEditor = createServerFn({ method: "POST" })
       .from("user_roles")
       .delete()
       .eq("user_id", authUserId)
-      .eq("role", "editor");
-    if (error) throw new Error("Could not revoke editor access.");
+      .eq("role", data.role);
+    if (error) throw new Error("Could not revoke access.");
     return { ok: true };
   });

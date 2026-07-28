@@ -18,6 +18,7 @@ export type ClaimedMemberRole = {
   email: string | null;
   activityState: string;
   isEditor: boolean;
+  isOrganizer: boolean;
   isAdmin: boolean;
 };
 
@@ -66,6 +67,7 @@ export async function listClaimedMemberRoles(): Promise<ClaimedMemberRole[]> {
       email: (m.email as string | null) ?? null,
       activityState: m.activity_state as string,
       isEditor: roles.includes("editor"),
+      isOrganizer: roles.includes("organizer"),
       isAdmin: roles.includes("admin"),
     };
   });
@@ -186,7 +188,7 @@ export async function listInternalStaffAccounts(): Promise<InternalStaffAccount[
   const { data: roleRows, error } = await supabaseAdmin
     .from("user_roles")
     .select("user_id, role")
-    .in("role", ["admin", "editor", "contributor"]);
+    .in("role", ["admin", "editor", "contributor", "organizer"]);
   if (error) throw error;
 
   const byUser = new Map<string, string[]>();
