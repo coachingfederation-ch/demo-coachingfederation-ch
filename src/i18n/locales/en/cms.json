@@ -14,7 +14,8 @@
     "integration": "Integration",
     "roles": "Roles",
     "memberArea": "Member area",
-    "insightsCms": "Insights CMS"
+    "insightsCms": "Insights CMS",
+    "events": "Events"
   },
   "auth": {
     "signInSub": "Sign in to continue",
@@ -559,8 +560,6 @@
     "colName": "Member",
     "colEmail": "Email",
     "colAccess": "Access",
-    "grant": "Grant editor",
-    "revoke": "Revoke editor",
     "memberBadge": "Member",
     "editorBadge": "Editor",
     "loading": "Loading members…",
@@ -577,6 +576,77 @@
     "internalEmpty": "No internal accounts.",
     "colRoles": "Roles",
     "adminBadge": "Administrator",
-    "adminNote": "Provisioned separately"
+    "adminNote": "Provisioned separately",
+    "organizerBadge": "Organizer",
+    "grantEditor": "Grant editor",
+    "revokeEditor": "Revoke editor",
+    "grantOrganizer": "Grant organizer",
+    "revokeOrganizer": "Revoke organizer"
+  },
+  "events": {
+    "title": "Events",
+    "intro": "Create and publish chapter events, then keep an eye on who's coming. Organizers see their own events; editors and administrators see all of them.",
+    "new": "New event",
+    "untitled": "Untitled event",
+    "loading": "Loading events…",
+    "empty": "No events yet.",
+    "loadError": "Could not load events.",
+    "saveError": "Could not save this event.",
+    "saved": "Saved.",
+    "saving": "Saving…",
+    "save": "Save changes",
+    "colTitle": "Event",
+    "colWhen": "When",
+    "colWhere": "Where",
+    "colStatus": "Status",
+    "colName": "Name",
+    "colEmail": "Email",
+    "onlineLabel": "Online",
+    "status": {
+      "draft": "Draft",
+      "published": "Published",
+      "cancelled": "Cancelled",
+      "archived": "Archived"
+    },
+    "backToList": "All events",
+    "publish": "Publish",
+    "unpublish": "Move back to draft",
+    "cancelEvent": "Cancel event",
+    "fieldTitle": "Title",
+    "fieldSlug": "Web address (slug)",
+    "fieldLanguage": "Language",
+    "fieldFeatured": "Featured on the events page",
+    "fieldSummary": "Summary",
+    "fieldDescription": "Description",
+    "fieldStarts": "Starts",
+    "fieldEnds": "Ends",
+    "fieldLocationMode": "Format",
+    "fieldCity": "City",
+    "fieldVenue": "Venue",
+    "fieldOnlineUrl": "Online link",
+    "fieldImageUrl": "Image URL",
+    "fieldCapacity": "Capacity (leave empty for unlimited)",
+    "fieldRegistrationMode": "Registration",
+    "fieldGuests": "Allow registration without an account",
+    "fieldRegOpens": "Registration opens",
+    "fieldRegCloses": "Registration closes",
+    "mode": {
+      "inPerson": "In-person",
+      "online": "Online",
+      "hybrid": "Hybrid"
+    },
+    "regMode": {
+      "rsvp": "RSVP",
+      "none": "No registration"
+    },
+    "attendees": "Attendees",
+    "confirmedSuffix": "confirmed",
+    "noAttendees": "No registrations yet.",
+    "regStatus": {
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled"
+    },
+    "reinstate": "Reinstate",
+    "cancelRsvp": "Cancel"
   }
 }

@@ -14,7 +14,8 @@
     "integration": "Integrazione",
     "roles": "Ruoli",
     "memberArea": "Area soci",
-    "insightsCms": "CMS Insights"
+    "insightsCms": "CMS Insights",
+    "events": "Eventi"
   },
   "auth": {
     "signInSub": "Accedi per continuare",
@@ -559,8 +560,6 @@
     "colName": "Socio",
     "colEmail": "E-mail",
     "colAccess": "Accesso",
-    "grant": "Concedi editor",
-    "revoke": "Revoca editor",
     "memberBadge": "Socio",
     "editorBadge": "Editor",
     "loading": "Caricamento soci…",
@@ -577,6 +576,77 @@
     "internalEmpty": "Nessun account interno.",
     "colRoles": "Ruoli",
     "adminBadge": "Amministratore",
-    "adminNote": "Provisioning separato"
+    "adminNote": "Provisioning separato",
+    "organizerBadge": "Organizzatore",
+    "grantEditor": "Concedi editor",
+    "revokeEditor": "Revoca editor",
+    "grantOrganizer": "Concedi organizzatore",
+    "revokeOrganizer": "Revoca organizzatore"
+  },
+  "events": {
+    "title": "Eventi",
+    "intro": "Crea e pubblica gli eventi del chapter e tieni d'occhio le iscrizioni. Gli organizzatori vedono i propri eventi; editor e amministratori li vedono tutti.",
+    "new": "Nuovo evento",
+    "untitled": "Evento senza titolo",
+    "loading": "Caricamento eventi…",
+    "empty": "Nessun evento.",
+    "loadError": "Impossibile caricare gli eventi.",
+    "saveError": "Impossibile salvare l'evento.",
+    "saved": "Salvato.",
+    "saving": "Salvataggio…",
+    "save": "Salva modifiche",
+    "colTitle": "Evento",
+    "colWhen": "Quando",
+    "colWhere": "Dove",
+    "colStatus": "Stato",
+    "colName": "Nome",
+    "colEmail": "E-mail",
+    "onlineLabel": "Online",
+    "status": {
+      "draft": "Bozza",
+      "published": "Pubblicato",
+      "cancelled": "Annullato",
+      "archived": "Archiviato"
+    },
+    "backToList": "Tutti gli eventi",
+    "publish": "Pubblica",
+    "unpublish": "Riporta in bozza",
+    "cancelEvent": "Annulla evento",
+    "fieldTitle": "Titolo",
+    "fieldSlug": "Indirizzo web (slug)",
+    "fieldLanguage": "Lingua",
+    "fieldFeatured": "In evidenza nella pagina eventi",
+    "fieldSummary": "Sommario",
+    "fieldDescription": "Descrizione",
+    "fieldStarts": "Inizio",
+    "fieldEnds": "Fine",
+    "fieldLocationMode": "Formato",
+    "fieldCity": "Città",
+    "fieldVenue": "Sede",
+    "fieldOnlineUrl": "Link online",
+    "fieldImageUrl": "URL immagine",
+    "fieldCapacity": "Posti (vuoto = illimitati)",
+    "fieldRegistrationMode": "Iscrizione",
+    "fieldGuests": "Consenti l'iscrizione senza account",
+    "fieldRegOpens": "Apertura iscrizioni",
+    "fieldRegCloses": "Chiusura iscrizioni",
+    "mode": {
+      "inPerson": "In presenza",
+      "online": "Online",
+      "hybrid": "Ibrido"
+    },
+    "regMode": {
+      "rsvp": "Iscrizione",
+      "none": "Senza iscrizione"
+    },
+    "attendees": "Partecipanti",
+    "confirmedSuffix": "confermati",
+    "noAttendees": "Nessuna iscrizione.",
+    "regStatus": {
+      "confirmed": "Confermata",
+      "cancelled": "Annullata"
+    },
+    "reinstate": "Ripristina",
+    "cancelRsvp": "Annulla"
   }
 }
