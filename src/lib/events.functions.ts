@@ -12,6 +12,31 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { PUBLIC_EVENT_COLUMNS, type PublicEvent } from "./events";
 
 const slugSchema = z.object({ slug: z.string().min(1).max(120) });
+const localeSchema = z.enum(["en", "de", "fr", "it"]);
+
+type EventTranslation = {
+  event_id: string;
+  locale: string;
+  title: string;
+  summary: string | null;
+  description: string | null;
+};
+
+/**
+ * Overlays a translation onto the source row, field by field. A missing or
+ * blank translated field always falls back to the source text, so a partial
+ * translation degrades instead of blanking the page.
+ */
+function applyTranslation(event: PublicEvent, tr: EventTranslation | undefined) {
+  if (!tr) return { ...event, resolvedLocale: event.language ?? "en" };
+  return {
+    ...event,
+    title: tr.title || event.title,
+    summary: tr.summary ?? event.summary,
+    description: tr.description ?? event.description,
+    resolvedLocale: tr.locale,
+  };
+}
 
 const rsvpSchema = z.object({
   eventId: z.string().uuid(),
@@ -21,39 +46,65 @@ const rsvpSchema = z.object({
 });
 
 /** Upcoming and recent past events for the public listing. */
-export const listPublicEvents = createServerFn({ method: "GET" }).handler(async () => {
-  const { publicSupabaseClient } = await import("./supabase-public.server");
-  const supabase = publicSupabaseClient();
+export const listPublicEvents = createServerFn({ method: "GET" })
+  .inputValidator((input: unknown) =>
+    z
+      .object({ locale: localeSchema.optional() })
+      .optional()
+      .parse(input ?? {}),
+  )
+  .handler(async ({ data }) => {
+    const locale = data?.locale ?? "en";
+    const { publicSupabaseClient } = await import("./supabase-public.server");
+    const supabase = publicSupabaseClient();
 
-  const cutoff = new Date(Date.now() - 18 * 30 * 24 * 60 * 60 * 1000).toISOString();
-  const { data, error } = await supabase
-    .from("events_public")
-    .select(PUBLIC_EVENT_COLUMNS)
-    .gte("starts_at", cutoff)
-    .order("starts_at", { ascending: true });
-  if (error) throw new Error(error.message);
+    const cutoff = new Date(Date.now() - 18 * 30 * 24 * 60 * 60 * 1000).toISOString();
+    const { data: list, error } = await supabase
+      .from("events_public")
+      .select(PUBLIC_EVENT_COLUMNS)
+      .gte("starts_at", cutoff)
+      .order("starts_at", { ascending: true });
+    if (error) throw new Error(error.message);
 
-  const rows = (data ?? []) as PublicEvent[];
-  const now = Date.now();
-  const upcoming = rows.filter((e) => new Date(e.ends_at ?? e.starts_at!).getTime() >= now);
-  const past = rows
-    .filter((e) => new Date(e.ends_at ?? e.starts_at!).getTime() < now)
-    .reverse()
-    .slice(0, 6);
+    const source = (list ?? []) as PublicEvent[];
+    const ids = source.map((e) => e.id).filter((id): id is string => Boolean(id));
+    let byEvent = new Map<string, EventTranslation>();
+    if (ids.length > 0) {
+      const { data: translations } = await supabase
+        .from("event_translations")
+        .select("event_id, locale, title, summary, description")
+        .eq("locale", locale)
+        .in("event_id", ids);
+      byEvent = new Map(
+        ((translations ?? []) as EventTranslation[]).map((tr) => [tr.event_id, tr]),
+      );
+    }
 
-  // The chapter marks at most one event as featured; fall back to the next one
-  // up so the hero card is never empty.
-  const featured = upcoming.find((e) => e.is_featured) ?? upcoming[0] ?? null;
-  return {
-    featured,
-    upcoming: upcoming.filter((e) => e.id !== featured?.id),
-    past,
-  };
-});
+    const rows = source.map((e) =>
+      e.language === locale ? { ...e, resolvedLocale: locale } : applyTranslation(e, byEvent.get(e.id!)),
+    );
+    const now = Date.now();
+    const upcoming = rows.filter((e) => new Date(e.ends_at ?? e.starts_at!).getTime() >= now);
+    const past = rows
+      .filter((e) => new Date(e.ends_at ?? e.starts_at!).getTime() < now)
+      .reverse()
+      .slice(0, 6);
+
+    // The chapter marks at most one event as featured; fall back to the next one
+    // up so the hero card is never empty.
+    const featured = upcoming.find((e) => e.is_featured) ?? upcoming[0] ?? null;
+    return {
+      featured,
+      upcoming: upcoming.filter((e) => e.id !== featured?.id),
+      past,
+    };
+  });
 
 /** One published event by slug, or null. */
 export const getPublicEvent = createServerFn({ method: "GET" })
-  .inputValidator((input: unknown) => slugSchema.parse(input))
+  .inputValidator((input: unknown) =>
+    slugSchema.extend({ locale: localeSchema.optional() }).parse(input),
+  )
   .handler(async ({ data }) => {
     const { publicSupabaseClient } = await import("./supabase-public.server");
     const supabase = publicSupabaseClient();
@@ -63,7 +114,20 @@ export const getPublicEvent = createServerFn({ method: "GET" })
       .eq("slug", data.slug)
       .maybeSingle();
     if (error) throw new Error(error.message);
-    return (row as PublicEvent | null) ?? null;
+    const event = (row as PublicEvent | null) ?? null;
+    if (!event) return null;
+
+    const locale = data.locale ?? "en";
+    if (!event.id || event.language === locale) {
+      return { ...event, resolvedLocale: event.language ?? locale };
+    }
+    const { data: tr } = await supabase
+      .from("event_translations")
+      .select("event_id, locale, title, summary, description")
+      .eq("event_id", event.id)
+      .eq("locale", locale)
+      .maybeSingle();
+    return applyTranslation(event, (tr as EventTranslation | null) ?? undefined);
   });
 
 type RsvpResult = { ok: true } | { ok: false; reason: "full" | "closed" | "duplicate" | "error" };
