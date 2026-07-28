@@ -298,6 +298,45 @@ export type Database = {
         }
         Relationships: []
       }
+      cf_experience_bands: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          name_de: string | null
+          name_fr: string | null
+          name_it: string | null
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       cf_formats: {
         Row: {
           created_at: string
