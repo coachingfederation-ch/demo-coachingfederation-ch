@@ -124,9 +124,7 @@ export function EventTranslationsPanel({
         cls: "bg-warn-soft text-[color:var(--warn)]",
       };
     return {
-      label: row?.manually_edited
-        ? t("eventTranslations.manual")
-        : t("eventTranslations.upToDate"),
+      label: row?.manually_edited ? t("eventTranslations.manual") : t("eventTranslations.upToDate"),
       cls: "bg-teal-soft text-teal-foreground",
     };
   };

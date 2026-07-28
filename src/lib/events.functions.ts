@@ -81,7 +81,9 @@ export const listPublicEvents = createServerFn({ method: "GET" })
     }
 
     const rows = source.map((e) =>
-      e.language === locale ? { ...e, resolvedLocale: locale } : applyTranslation(e, byEvent.get(e.id!)),
+      e.language === locale
+        ? { ...e, resolvedLocale: locale }
+        : applyTranslation(e, byEvent.get(e.id!)),
     );
     const now = Date.now();
     const upcoming = rows.filter((e) => new Date(e.ends_at ?? e.starts_at!).getTime() >= now);
