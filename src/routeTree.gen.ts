@@ -22,6 +22,7 @@ import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as NoAccessRouteImport } from './routes/no-access'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as StaffSignInRouteImport } from './routes/staff-sign-in'
 import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
 import { Route as LocaleAboutRouteImport } from './routes/$locale/about'
 import { Route as LocaleFindACoachRouteImport } from './routes/$locale/find-a-coach'
@@ -122,6 +123,11 @@ const NoAccessRoute = NoAccessRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StaffSignInRoute = StaffSignInRouteImport.update({
+  id: '/staff-sign-in',
+  path: '/staff-sign-in',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleIndexRoute = LocaleIndexRouteImport.update({
@@ -330,6 +336,7 @@ export interface FileRoutesByFullPath {
   '/mcp': typeof McpRoute
   '/no-access': typeof NoAccessRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/staff-sign-in': typeof StaffSignInRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
@@ -379,6 +386,7 @@ export interface FileRoutesByTo {
   '/mcp': typeof McpRoute
   '/no-access': typeof NoAccessRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/staff-sign-in': typeof StaffSignInRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
@@ -431,6 +439,7 @@ export interface FileRoutesById {
   '/mcp': typeof McpRoute
   '/no-access': typeof NoAccessRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/staff-sign-in': typeof StaffSignInRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
@@ -484,6 +493,7 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/no-access'
     | '/sitemap.xml'
+    | '/staff-sign-in'
     | '/$locale/about'
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
@@ -533,6 +543,7 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/no-access'
     | '/sitemap.xml'
+    | '/staff-sign-in'
     | '/$locale/about'
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
@@ -584,6 +595,7 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/no-access'
     | '/sitemap.xml'
+    | '/staff-sign-in'
     | '/$locale/about'
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
@@ -638,6 +650,7 @@ export interface RootRouteChildren {
   McpRoute: typeof McpRoute
   NoAccessRoute: typeof NoAccessRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  StaffSignInRoute: typeof StaffSignInRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ClaimTokenRoute: typeof ClaimTokenRoute
@@ -741,6 +754,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/staff-sign-in': {
+      id: '/staff-sign-in'
+      path: '/staff-sign-in'
+      fullPath: '/staff-sign-in'
+      preLoaderRoute: typeof StaffSignInRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/': {
@@ -1150,6 +1170,7 @@ const rootRouteChildren: RootRouteChildren = {
   McpRoute: McpRoute,
   NoAccessRoute: NoAccessRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  StaffSignInRoute: StaffSignInRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
