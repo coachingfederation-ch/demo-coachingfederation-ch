@@ -50,7 +50,7 @@ to that run, then `member_import_snapshots` for the specific member's
 `changed_fields`.
 
 A manual run can be triggered from `/integration`, which is also where the
-rehearsal simulation lives — it reports what a cutover *would* do without
+rehearsal simulation lives — it reports what a cutover _would_ do without
 writing.
 
 ### Lifecycle and deletion
@@ -106,10 +106,10 @@ Do not reorder; each step depends on the previous one being verified.
 
 ## Troubleshooting
 
-| Symptom | Look at |
-|---|---|
-| A coach is missing from the directory | Their `member_directory_profiles.visibility`; if `hidden_*`, the reason is in the state name. Then check `credential_expires_on`, then that they have ≥1 region. |
-| Sync aborted | `member_sync_runs.error_message`. An abort is usually the feed drop guard doing its job — check the feed before overriding. |
-| Member can't publish | `publishBlockReason` gives the exact cause; the editor already displays it. |
-| Profile image not loading | Signed URL expired, or the path was never signed. Check `storage.server.ts` and the TTLs in `storage.ts`. |
-| Article visible in CMS but not publicly | Status is not `published`, or the locale has no `article_translations` row. |
+| Symptom                                 | Look at                                                                                                                                                          |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A coach is missing from the directory   | Their `member_directory_profiles.visibility`; if `hidden_*`, the reason is in the state name. Then check `credential_expires_on`, then that they have ≥1 region. |
+| Sync aborted                            | `member_sync_runs.error_message`. An abort is usually the feed drop guard doing its job — check the feed before overriding.                                      |
+| Member can't publish                    | `publishBlockReason` gives the exact cause; the editor already displays it.                                                                                      |
+| Profile image not loading               | Signed URL expired, or the path was never signed. Check `storage.server.ts` and the TTLs in `storage.ts`.                                                        |
+| Article visible in CMS but not publicly | Status is not `published`, or the locale has no `article_translations` row.                                                                                      |

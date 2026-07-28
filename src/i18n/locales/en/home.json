@@ -14,10 +14,30 @@
     "imgAlt": "Two professionals in a coaching conversation"
   },
   "audiences": [
-    { "eyebrow": "I'm looking for", "title": "A Coach", "desc": "Find a trusted ICF credentialed coach.", "cta": "Find a Coach" },
-    { "eyebrow": "I represent", "title": "An Organisation", "desc": "Discover how coaching develops leaders and organisations.", "cta": "For Organisations" },
-    { "eyebrow": "I am", "title": "A Coach", "desc": "Grow your practice through community, learning and professional standards.", "cta": "For Coaches" },
-    { "eyebrow": "I'm curious", "title": "About Coaching", "desc": "Learn what coaching is and why it matters.", "cta": "Discover Coaching" }
+    {
+      "eyebrow": "I'm looking for",
+      "title": "A Coach",
+      "desc": "Find a trusted ICF credentialed coach.",
+      "cta": "Find a Coach"
+    },
+    {
+      "eyebrow": "I represent",
+      "title": "An Organisation",
+      "desc": "Discover how coaching develops leaders and organisations.",
+      "cta": "For Organisations"
+    },
+    {
+      "eyebrow": "I am",
+      "title": "A Coach",
+      "desc": "Grow your practice through community, learning and professional standards.",
+      "cta": "For Coaches"
+    },
+    {
+      "eyebrow": "I'm curious",
+      "title": "About Coaching",
+      "desc": "Learn what coaching is and why it matters.",
+      "cta": "Discover Coaching"
+    }
   ],
   "pillars": {
     "eyebrow": "Why choose an ICF credentialed coach?",
@@ -35,7 +55,10 @@
     "title": "Building a more human future.",
     "cta": "Explore all insights →",
     "themes": [
-      { "tag": "Future of Work", "title": "How coaching prepares people for what work becomes next" },
+      {
+        "tag": "Future of Work",
+        "title": "How coaching prepares people for what work becomes next"
+      },
       { "tag": "Leadership", "title": "Better conversations create better leaders" },
       { "tag": "AI & Coaching", "title": "Why trusted human conversations matter more than ever" },
       { "tag": "Diversity & Inclusion", "title": "Coaching that welcomes every perspective" }
@@ -65,9 +88,24 @@
     "title": "Connect. Learn. Grow.",
     "viewAll": "View all events →",
     "items": [
-      { "date": "Thu 17 Sep 2026", "city": "Zürich", "title": "Coaching Perspectives Conference 2026", "tags": ["EN · DE", "Leadership"] },
-      { "date": "Tue 6 Oct 2026", "city": "Online", "title": "AI & Coaching: What Stays Human?", "tags": ["EN", "Webinar"] },
-      { "date": "Thu 12 Nov 2026", "city": "Lausanne", "title": "Soirée Coaching: Bâtir une culture de coaching", "tags": ["FR", "Networking"] }
+      {
+        "date": "Thu 17 Sep 2026",
+        "city": "Zürich",
+        "title": "Coaching Perspectives Conference 2026",
+        "tags": ["EN · DE", "Leadership"]
+      },
+      {
+        "date": "Tue 6 Oct 2026",
+        "city": "Online",
+        "title": "AI & Coaching: What Stays Human?",
+        "tags": ["EN", "Webinar"]
+      },
+      {
+        "date": "Thu 12 Nov 2026",
+        "city": "Lausanne",
+        "title": "Soirée Coaching: Bâtir une culture de coaching",
+        "tags": ["FR", "Networking"]
+      }
     ]
   },
   "research": {

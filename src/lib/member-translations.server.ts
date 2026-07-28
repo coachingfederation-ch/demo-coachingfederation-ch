@@ -36,6 +36,8 @@ export type MyProfileTranslations = {
 
 function cleanText(value: string | null | undefined, max: number): string | null {
   if (value == null) return null;
+  // Control characters are the point: this strips them out of pasted text.
+  // eslint-disable-next-line no-control-regex
   const cleaned = value.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "").trim();
   return cleaned ? cleaned.slice(0, max) : null;
 }
@@ -164,14 +166,20 @@ export async function autoTranslateMyProfile(
   });
 
   if (response.status === 429) throw new Error("Rate limit reached — please try again shortly.");
-  if (response.status === 402) throw new Error("AI credits exhausted — please top up the workspace.");
+  if (response.status === 402)
+    throw new Error("AI credits exhausted — please top up the workspace.");
   if (!response.ok) throw new Error(`Translation service error (${response.status})`);
 
   const body = (await response.json()) as { choices?: { message?: { content?: string } }[] };
   const raw = body.choices?.[0]?.message?.content ?? "";
   let parsed: Record<string, unknown>;
   try {
-    parsed = JSON.parse(raw.replace(/^```(?:json)?/i, "").replace(/```$/, "").trim());
+    parsed = JSON.parse(
+      raw
+        .replace(/^```(?:json)?/i, "")
+        .replace(/```$/, "")
+        .trim(),
+    );
   } catch {
     throw new Error("Translation service returned an unexpected response.");
   }

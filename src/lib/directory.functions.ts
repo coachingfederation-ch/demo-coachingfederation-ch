@@ -33,15 +33,14 @@ const filterSchema = z.object({
 
 export type DirectoryFilters = z.infer<typeof filterSchema>;
 
-export type DirectoryEntry =
-  Database["public"]["Views"]["coach_directory_public"]["Row"] & {
-    /** Short-lived signed URL, minted server-side only. Null when absent. */
-    image_url?: string | null;
-    /** The language the visitor is actually reading this entry in. */
-    resolvedLocale?: string;
-    /** Locales with a published translation for this profile. */
-    translatedLocales?: string[];
-  };
+export type DirectoryEntry = Database["public"]["Views"]["coach_directory_public"]["Row"] & {
+  /** Short-lived signed URL, minted server-side only. Null when absent. */
+  image_url?: string | null;
+  /** The language the visitor is actually reading this entry in. */
+  resolvedLocale?: string;
+  /** Locales with a published translation for this profile. */
+  translatedLocales?: string[];
+};
 
 export type CoachProfileLink = {
   id: string;
@@ -73,9 +72,7 @@ export const queryCoachDirectory = createServerFn({ method: "GET" })
     const pageSize = config?.page_size ?? 12;
     const page = data.page ?? 0;
 
-    let query = supabasePublic
-      .from("coach_directory_public")
-      .select("*", { count: "exact" });
+    let query = supabasePublic.from("coach_directory_public").select("*", { count: "exact" });
 
     // Every list filter is an OR within the facet and an AND across facets,
     // which is what the wireframe's checkbox groups imply.
@@ -87,10 +84,17 @@ export const queryCoachDirectory = createServerFn({ method: "GET" })
     }
     if (data.formats?.length) query = query.overlaps("format_slugs", data.formats);
     if (data.credentials?.length) {
-      query = query.in("credential_slug", data.credentials.map((c) => c.toUpperCase()));
+      query = query.in(
+        "credential_slug",
+        data.credentials.map((c) => c.toUpperCase()),
+      );
     }
 
-    const { data: rows, error, count } = await query
+    const {
+      data: rows,
+      error,
+      count,
+    } = await query
       .order("full_name", { ascending: true })
       .range(page * pageSize, page * pageSize + pageSize - 1);
     if (error) throw error;

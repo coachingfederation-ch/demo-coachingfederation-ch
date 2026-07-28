@@ -125,28 +125,19 @@
         "date": "Jeu 17 sep 2026",
         "city": "Zürich",
         "title": "Coaching Perspectives Conference 2026",
-        "tags": [
-          "EN · DE",
-          "Leadership"
-        ]
+        "tags": ["EN · DE", "Leadership"]
       },
       {
         "date": "Mar 6 oct 2026",
         "city": "En ligne",
         "title": "AI & Coaching: What Stays Human?",
-        "tags": [
-          "EN",
-          "Webinaire"
-        ]
+        "tags": ["EN", "Webinaire"]
       },
       {
         "date": "Jeu 12 nov 2026",
         "city": "Lausanne",
         "title": "Soirée Coaching: Bâtir une culture de coaching",
-        "tags": [
-          "FR",
-          "Networking"
-        ]
+        "tags": ["FR", "Networking"]
       }
     ]
   },
@@ -154,13 +145,7 @@
     "eyebrow": "Recherche & partenariats",
     "title": "Allier recherche, pratique et leadership.",
     "subtitle": "Nous collaborons avec des universités, des organismes professionnels, des chercheurs et des entreprises partenaires pour renforcer le coaching en Suisse.",
-    "partners": [
-      "ETH Zürich",
-      "HEC Lausanne",
-      "USI Lugano",
-      "SwissRe",
-      "Nestlé"
-    ]
+    "partners": ["ETH Zürich", "HEC Lausanne", "USI Lugano", "SwissRe", "Nestlé"]
   },
   "join": {
     "eyebrow": "Rejoindre ICF Switzerland",

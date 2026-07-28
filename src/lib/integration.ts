@@ -58,9 +58,7 @@ export async function fetchIntegrationConfig(): Promise<IntegrationConfig | null
   return (data as IntegrationConfig | null) ?? null;
 }
 
-export async function updateIntegrationConfig(
-  values: Partial<IntegrationConfig>,
-): Promise<void> {
+export async function updateIntegrationConfig(values: Partial<IntegrationConfig>): Promise<void> {
   const { error } = await supabase.from("integration_config").update(values).eq("id", true);
   if (error) throw error;
 }

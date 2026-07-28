@@ -7,7 +7,12 @@ export const Route = createFileRoute("/$locale/for-organisations")({
   head: ({ params }) => {
     const locale = params.locale as Locale;
     return {
-      meta: localeMeta(locale, "/for-organisations", "organisations.meta.title", "organisations.meta.description"),
+      meta: localeMeta(
+        locale,
+        "/for-organisations",
+        "organisations.meta.title",
+        "organisations.meta.description",
+      ),
       links: localeLinkTags("/for-organisations", locale),
     };
   },

@@ -116,8 +116,7 @@ export const getMemberClaimStatus = createServerFn({ method: "GET" }).handler(as
   const { loadIntegrationConfigAdmin } = await import("./integration-config.server");
   const config = await loadIntegrationConfigAdmin();
   return {
-    enabled:
-      config.account_claim_enabled && config.mode === "live" && !config.cutover_in_progress,
+    enabled: config.account_claim_enabled && config.mode === "live" && !config.cutover_in_progress,
   };
 });
 

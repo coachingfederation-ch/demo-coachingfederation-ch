@@ -37,13 +37,13 @@ profile record. Storing a role on a user-editable row is a privilege-escalation
 bug waiting to happen, so `user_roles` has **no insert or update policy at
 all**: roles can only be changed with the service role.
 
-| Role | Can do |
-|---|---|
-| `admin` | Everything, including the ICF integration and cutover controls. |
-| `editor` | Full Insights CMS: publish, schedule, edit anyone's article. |
-| `contributor` | Create and edit **their own drafts** only. Cannot publish. |
-| `member` | Edit and publish their own directory profile. |
-| `user` | Signed in with no privileges. |
+| Role          | Can do                                                          |
+| ------------- | --------------------------------------------------------------- |
+| `admin`       | Everything, including the ICF integration and cutover controls. |
+| `editor`      | Full Insights CMS: publish, schedule, edit anyone's article.    |
+| `contributor` | Create and edit **their own drafts** only. Cannot publish.      |
+| `member`      | Edit and publish their own directory profile.                   |
+| `user`        | Signed in with no privileges.                                   |
 
 RLS calls the security-definer helpers `has_role(uid, role)`, `is_editor(uid)`
 and `is_staff(uid)`. They are `security definer` so that policies can read
@@ -85,7 +85,7 @@ enforces the gate: `tg_integration_config_guard` raises an exception if
 recorded cutover.
 
 Tokens are custom rather than Supabase magic links, because claiming must bind
-a *specific* ICF member record, which the built-in flow has no concept of.
+a _specific_ ICF member record, which the built-in flow has no concept of.
 
 1. A token is generated for a member and delivered as a link. The row in
    `member_profile_links` stores only a **hash** of it — a database leak does
@@ -106,7 +106,7 @@ opening it to the public.
 
 No email is delivered. `member-email.server.ts` records every intended send in
 `member_email_log` — recipient, template, mode — and drops it. In TEST mode the
-database *forces* `emails_suppressed` to true, so it is not possible to
+database _forces_ `emails_suppressed` to true, so it is not possible to
 accidentally email real ICF members while rehearsing.
 
 Enabling delivery requires configuring an email domain and then wiring the

@@ -81,16 +81,42 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "The Swiss Chapter of ICF - The Global Coaching Association" },
-      { name: "description", content: "ICF Switzerland is the Swiss chapter of the International Coaching Federation. Find a credentialed coach, develop leaders, and join a coaching community across Zürich, Romandie and Ticino." },
+      {
+        name: "description",
+        content:
+          "ICF Switzerland is the Swiss chapter of the International Coaching Federation. Find a credentialed coach, develop leaders, and join a coaching community across Zürich, Romandie and Ticino.",
+      },
       { name: "author", content: "ICF Switzerland Charter Chapter" },
-      { property: "og:title", content: "The Swiss Chapter of ICF - The Global Coaching Association" },
-      { property: "og:description", content: "ICF Switzerland is the Swiss chapter of the International Coaching Federation. Find a credentialed coach, develop leaders, and join a coaching community across Zürich, Romandie and Ticino." },
+      {
+        property: "og:title",
+        content: "The Swiss Chapter of ICF - The Global Coaching Association",
+      },
+      {
+        property: "og:description",
+        content:
+          "ICF Switzerland is the Swiss chapter of the International Coaching Federation. Find a credentialed coach, develop leaders, and join a coaching community across Zürich, Romandie and Ticino.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "The Swiss Chapter of ICF - The Global Coaching Association" },
-      { name: "twitter:description", content: "ICF Switzerland is the Swiss chapter of the International Coaching Federation. Find a credentialed coach, develop leaders, and join a coaching community across Zürich, Romandie and Ticino." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9742a08a-f4da-45ed-a019-f4fbc25ec48e/id-preview-c16d0cde--9b53a55c-a944-4840-b29d-ad56f7d750f4.lovable.app-1784791324912.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9742a08a-f4da-45ed-a019-f4fbc25ec48e/id-preview-c16d0cde--9b53a55c-a944-4840-b29d-ad56f7d750f4.lovable.app-1784791324912.png" },
+      {
+        name: "twitter:title",
+        content: "The Swiss Chapter of ICF - The Global Coaching Association",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "ICF Switzerland is the Swiss chapter of the International Coaching Federation. Find a credentialed coach, develop leaders, and join a coaching community across Zürich, Romandie and Ticino.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9742a08a-f4da-45ed-a019-f4fbc25ec48e/id-preview-c16d0cde--9b53a55c-a944-4840-b29d-ad56f7d750f4.lovable.app-1784791324912.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9742a08a-f4da-45ed-a019-f4fbc25ec48e/id-preview-c16d0cde--9b53a55c-a944-4840-b29d-ad56f7d750f4.lovable.app-1784791324912.png",
+      },
     ],
     links: [
       {

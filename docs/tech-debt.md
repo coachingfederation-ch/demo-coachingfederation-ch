@@ -11,7 +11,7 @@ from `src/pages`, so the duplication is shallow — but adding a public page
 means remembering to add both, and forgetting produces a page that 404s in
 three of four languages.
 
-*Ideal:* a single route factory, or an optional locale segment. Deferred
+_Ideal:_ a single route factory, or an optional locale segment. Deferred
 because the current shape is explicit and TanStack's generated route tree makes
 the mistake visible quickly.
 
@@ -58,6 +58,24 @@ component; it now goes through `articles.functions.ts`. File uploads
 deliberately remain on the browser client, since pushing file bytes through the
 RPC boundary would be worse — storage RLS is the boundary there, and the
 policies are in place.
+
+## Accepted lint warnings
+
+`eslint .` is clean of errors and the repo is Prettier-formatted. Seventeen
+warnings remain and are deliberate:
+
+- `react-refresh/only-export-components` on shadcn `src/components/ui/*` files
+  and `src/i18n/index.tsx` — these export components alongside variants,
+  constants or hooks. Splitting them would fight the upstream shadcn shape for
+  a dev-only fast-refresh hint.
+- Two `react-hooks/exhaustive-deps` warnings on `useMemo` calls whose omitted
+  `lookup` dependency is a stable module-level map; adding it would only churn
+  the memo.
+
+Two `no-control-regex` sites (`member-profile.server.ts`,
+`member-translations.server.ts`) carry a scoped disable with a comment:
+stripping control characters from pasted text is the whole point of those
+sanitizers.
 
 ## Historical planning documents
 

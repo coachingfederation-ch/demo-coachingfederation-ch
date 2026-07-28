@@ -15,10 +15,16 @@ export const Route = createFileRoute("/$locale/coach/$profileId")({
   head: ({ loaderData, params }) =>
     coachHead(loaderData, params.locale as Locale, params.profileId),
   errorComponent: () => (
-    <CoachFallback titleKey="directory.detail.notFoundTitle" bodyKey="directory.detail.notFoundBody" />
+    <CoachFallback
+      titleKey="directory.detail.notFoundTitle"
+      bodyKey="directory.detail.notFoundBody"
+    />
   ),
   notFoundComponent: () => (
-    <CoachFallback titleKey="directory.detail.notFoundTitle" bodyKey="directory.detail.notFoundBody" />
+    <CoachFallback
+      titleKey="directory.detail.notFoundTitle"
+      bodyKey="directory.detail.notFoundBody"
+    />
   ),
   component: CoachDetail,
 });

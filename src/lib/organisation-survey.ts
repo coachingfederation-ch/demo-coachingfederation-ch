@@ -1,12 +1,6 @@
 /** Client-safe definitions for the coaching culture assessment. */
 
-export const PRESSURES = [
-  "retention",
-  "leadership",
-  "ai",
-  "inclusion",
-  "collaboration",
-] as const;
+export const PRESSURES = ["retention", "leadership", "ai", "inclusion", "collaboration"] as const;
 export type Pressure = (typeof PRESSURES)[number];
 
 export const DIMENSIONS = ["leadership", "capability", "access", "measurement"] as const;

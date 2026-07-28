@@ -42,7 +42,7 @@ experience:
   Insights CMS can safely operate through ordinary authenticated clients: a
   contributor physically cannot publish.
 - **Directory eligibility.** A profile may only be `published` if its member is
-  active *and* holds a valid ACC/PCC/MCC credential. This is a trigger
+  active _and_ holds a valid ACC/PCC/MCC credential. This is a trigger
   (`tg_directory_profile_eligibility_guard`), not a check in application code,
   so the sync engine, the member editor and staff tooling are all bound by it.
 - **Integration safety.** `tg_integration_config_guard` makes TEST mode
@@ -65,7 +65,7 @@ user with RLS applied.
 
 **2. Public server functions** — no middleware, therefore a public endpoint on
 the published site. Used for reads that anonymous visitors legitimately make
-(the coach directory, published Insights). These use a *publishable* client
+(the coach directory, published Insights). These use a _publishable_ client
 from `src/lib/supabase-public.server.ts`, never the admin client, so RLS still
 constrains them.
 
@@ -83,7 +83,7 @@ anonymous visitors, and role-gated staff mutations. Two rules:
 - Import it **inside** the handler (`await import(".../client.server")`), never
   at the module scope of a `*.functions.ts` file, because module scope of those
   files ships to the browser bundle.
-- Authorize the caller *before* reaching for it, and authorize through the
+- Authorize the caller _before_ reaching for it, and authorize through the
   user's own client. Never use the admin client to decide whether someone is an
   admin.
 
@@ -129,6 +129,7 @@ overwrite a human edit.
   query string so results are linkable and the back button behaves.
 - **Never edit** `src/routeTree.gen.ts` or anything in
   `src/integrations/supabase/` — both are generated.
+
 ## Agent integrations (MCP)
 
 The app exposes an MCP server at `/mcp` (`src/lib/mcp/`), so assistants such as

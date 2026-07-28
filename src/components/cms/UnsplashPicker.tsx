@@ -2,7 +2,11 @@ import { useState } from "react";
 import { Search, ImageOff } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { searchUnsplash, trackUnsplashDownload, type UnsplashPhoto } from "@/lib/unsplash.functions";
+import {
+  searchUnsplash,
+  trackUnsplashDownload,
+  type UnsplashPhoto,
+} from "@/lib/unsplash.functions";
 import { useCms } from "@/i18n/cms";
 
 export interface UnsplashPick {
@@ -39,7 +43,11 @@ export function UnsplashPicker({
     setLoading(false);
     setSearched(true);
     if (res.error) {
-      setError(res.error === "unsplash_not_configured" ? t("unsplash.notConfigured") : t("unsplash.failed"));
+      setError(
+        res.error === "unsplash_not_configured"
+          ? t("unsplash.notConfigured")
+          : t("unsplash.failed"),
+      );
       if (!append) setPhotos([]);
       return;
     }
@@ -99,9 +107,16 @@ export function UnsplashPicker({
                     onClick={() => choose(p)}
                     className="block w-full overflow-hidden rounded-xl border border-border transition hover:ring-2 hover:ring-primary/40"
                   >
-                    <img src={p.thumb} alt={p.alt} loading="lazy" className="h-28 w-full object-cover" />
+                    <img
+                      src={p.thumb}
+                      alt={p.alt}
+                      loading="lazy"
+                      className="h-28 w-full object-cover"
+                    />
                   </button>
-                  <figcaption className="truncate text-[11px] text-muted-foreground">{p.authorName}</figcaption>
+                  <figcaption className="truncate text-[11px] text-muted-foreground">
+                    {p.authorName}
+                  </figcaption>
                 </figure>
               ))}
             </div>

@@ -18,13 +18,13 @@ The failure was also a symptom of a structural problem: staff and members shared
 
 `app_role` now has five values:
 
-| Role | Area | Scope |
-|---|---|---|
-| `admin` | Staff CMS | Everything, including Integration, cutover, member binding, CSV export |
-| `editor` | Staff CMS | All articles and taxonomy; publish rights; Members read/manage; no cutover |
-| `contributor` | Staff CMS | **Own articles, drafts only.** No publish/schedule/unpublish. No Categories, Vocabularies, Members, Integration or Coach Finder config |
-| `member` | Member Area | Own directory profile only |
-| `user` | — | Legacy/no area; lands on `/no-access` |
+| Role          | Area        | Scope                                                                                                                                  |
+| ------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `admin`       | Staff CMS   | Everything, including Integration, cutover, member binding, CSV export                                                                 |
+| `editor`      | Staff CMS   | All articles and taxonomy; publish rights; Members read/manage; no cutover                                                             |
+| `contributor` | Staff CMS   | **Own articles, drafts only.** No publish/schedule/unpublish. No Categories, Vocabularies, Members, Integration or Coach Finder config |
+| `member`      | Member Area | Own directory profile only                                                                                                             |
+| `user`        | —           | Legacy/no area; lands on `/no-access`                                                                                                  |
 
 Helpers: `is_editor(uuid)` = admin ∪ editor (unchanged meaning), `is_staff(uuid)` = admin ∪ editor ∪ contributor (new). Roles continue to live only in `public.user_roles` — never on `profiles` or `members`.
 
@@ -52,11 +52,11 @@ Helpers: `is_editor(uuid)` = admin ∪ editor (unchanged meaning), `is_staff(uui
 
 Destination is resolved from `user_roles`, never from email, path history, or which button was pressed. `landingPathForSession(userId)` in `src/lib/roles.ts` is the single decision point, used by both `/auth` and `/auth/callback`:
 
-| Roles held | Lands on |
-|---|---|
-| any staff role (with or without `member`) | `/articles` |
-| `member` only | `/my-profile` |
-| neither | `/no-access` |
+| Roles held                                | Lands on      |
+| ----------------------------------------- | ------------- |
+| any staff role (with or without `member`) | `/articles`   |
+| `member` only                             | `/my-profile` |
+| neither                                   | `/no-access`  |
 
 Staff wins when an account holds both grants — the CMS is the working surface — and the Member Area stays directly reachable at `/my-profile`. An already-signed-in visitor to `/auth` is dispatched the same way rather than being pushed to `/articles` unconditionally.
 
@@ -78,7 +78,7 @@ Client-side role reads (`useMyRoles`) gate navigation and affordances only. The 
 ### 6. What this changes in rev. 4
 
 - **Superseded:** rev. 4 §4's "`/auth` keeps serving staff CMS sign-in only". `/auth` is now the shared entry point for both areas, with role-based dispatch.
-- **Unchanged:** the claim hard-disable and its trigger invariants (§4), email suppression and `member_email_log` (§5), the full cutover runbook (§6), operational visibility (§7), and the data classification (§1). The cutover's "delete every `auth.users` row with no `user_roles` entry" step still holds — with the caveat that a TEST member bound for testing now *does* carry a `user_roles` row, so the cutover must unbind and revoke the `member` role for TEST bindings explicitly rather than relying on the orphan sweep.
+- **Unchanged:** the claim hard-disable and its trigger invariants (§4), email suppression and `member_email_log` (§5), the full cutover runbook (§6), operational visibility (§7), and the data classification (§1). The cutover's "delete every `auth.users` row with no `user_roles` entry" step still holds — with the caveat that a TEST member bound for testing now _does_ carry a `user_roles` row, so the cutover must unbind and revoke the `member` role for TEST bindings explicitly rather than relying on the orphan sweep.
 
 ---
 

@@ -27,7 +27,10 @@ function CategoriesPage() {
   const [busy, setBusy] = useState(false);
 
   const load = async () => {
-    const { data } = await supabase.from("categories").select(COLUMNS).order("sort_order", { ascending: true });
+    const { data } = await supabase
+      .from("categories")
+      .select(COLUMNS)
+      .order("sort_order", { ascending: true });
     setRows((data ?? []) as CategoryRow[]);
     const { data: articles } = await supabase.from("articles").select("category_id");
     const map: Record<string, number> = {};
@@ -114,7 +117,11 @@ function CategoriesPage() {
               <div className="flex items-center gap-3">
                 <input
                   value={row.name}
-                  onChange={(e) => setRows((prev) => prev.map((r) => (r.id === row.id ? { ...r, name: e.target.value } : r)))}
+                  onChange={(e) =>
+                    setRows((prev) =>
+                      prev.map((r) => (r.id === row.id ? { ...r, name: e.target.value } : r)),
+                    )
+                  }
                   onBlur={(e) => void patch(row.id, { name: e.target.value })}
                   className="flex-1 rounded-lg border border-transparent bg-transparent px-2 py-1 text-sm font-semibold outline-none hover:border-border focus:border-border"
                 />
@@ -142,9 +149,17 @@ function CategoriesPage() {
                         <input
                           value={row[key] ?? ""}
                           onChange={(e) =>
-                            setRows((prev) => prev.map((r) => (r.id === row.id ? { ...r, [key]: e.target.value } : r)))
+                            setRows((prev) =>
+                              prev.map((r) =>
+                                r.id === row.id ? { ...r, [key]: e.target.value } : r,
+                              ),
+                            )
                           }
-                          onBlur={(e) => void patch(row.id, { [key]: e.target.value || null } as Partial<CategoryRow>)}
+                          onBlur={(e) =>
+                            void patch(row.id, {
+                              [key]: e.target.value || null,
+                            } as Partial<CategoryRow>)
+                          }
                           className="mt-1 w-full rounded-lg border border-border bg-card px-2 py-1.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring/20"
                         />
                       </label>

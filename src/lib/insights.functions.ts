@@ -20,7 +20,9 @@ export const getPublishedArticle = createServerFn({ method: "GET" })
     if (!row) return null;
 
     const { translations, ...article } = row as typeof row & {
-      translations?: { locale: string; title: string; excerpt: string; content: string | null }[] | null;
+      translations?:
+        | { locale: string; title: string; excerpt: string; content: string | null }[]
+        | null;
     };
     const available = [article.language, ...(translations ?? []).map((tr) => tr.locale)];
 

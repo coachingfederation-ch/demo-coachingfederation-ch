@@ -24,10 +24,7 @@ import type { ManagedRole } from "@/lib/role-model";
 
 export const Route = createFileRoute("/_staff/roles")({
   head: () => ({
-    meta: [
-      { title: "Roles — ICF Switzerland CMS" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Roles — ICF Switzerland CMS" }, { name: "robots", content: "noindex" }],
   }),
   component: RolesPage,
 });
@@ -182,7 +179,9 @@ function RolesPage() {
                     </td>
                     <td className="px-4 py-3 text-right">
                       {m.isAdmin ? (
-                        <span className="text-xs text-muted-foreground">{t("roles.adminNote")}</span>
+                        <span className="text-xs text-muted-foreground">
+                          {t("roles.adminNote")}
+                        </span>
                       ) : (
                         <div className="flex justify-end gap-1.5">
                           <button
@@ -298,17 +297,19 @@ function QaTestAccountPanel({ onProvisioned }: { onProvisioned: () => void }) {
   const { t } = useCms();
   const [open, setOpen] = useState(false);
   const [testMode, setTestMode] = useState<boolean | null>(null);
-  const [candidates, setCandidates] = useState<{ memberId: string; name: string; cstRecno: string }[]>(
-    [],
-  );
+  const [candidates, setCandidates] = useState<
+    { memberId: string; name: string; cstRecno: string }[]
+  >([]);
   const [memberId, setMemberId] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<{ email: string; password: string; memberName: string } | null>(
-    null,
-  );
+  const [result, setResult] = useState<{
+    email: string;
+    password: string;
+    memberName: string;
+  } | null>(null);
 
   useEffect(() => {
     if (!open || testMode !== null) return;

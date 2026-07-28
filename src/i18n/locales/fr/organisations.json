@@ -158,10 +158,7 @@
       },
       {
         "group": "ICF Switzerland",
-        "items": [
-          "Sondage auprès des membres de l'association",
-          "Briefing organisationnel 2026"
-        ]
+        "items": ["Sondage auprès des membres de l'association", "Briefing organisationnel 2026"]
       }
     ],
     "download": {
