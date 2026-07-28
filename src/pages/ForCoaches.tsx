@@ -50,6 +50,14 @@ export default function ForCoachesPage() {
               </div>
             ))}
           </div>
+          <a
+            href="https://coachingfederation.org/credentialing/icf-credentials-overview/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-8 inline-flex h-10 items-center rounded-full bg-primary px-5 text-sm font-semibold text-white transition hover:bg-primary/90"
+          >
+            {t("coaches.credentials.cta")}
+          </a>
         </section>
 
         <section className="bg-muted py-24">
