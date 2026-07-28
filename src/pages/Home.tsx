@@ -393,12 +393,14 @@ function Join() {
             {t("home.join.subtitle")}
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <LocaleLink
-              to="/for-coaches"
+            <a
+              href="https://coachingfederation.org/about/icf-membership/individual-membership/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90"
             >
               {t("home.join.becomeMember")}
-            </LocaleLink>
+            </a>
             <LocaleLink
               to="/for-coaches"
               hash="credentials"

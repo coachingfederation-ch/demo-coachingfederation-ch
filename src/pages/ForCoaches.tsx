@@ -133,7 +133,9 @@ export default function ForCoachesPage() {
             </h2>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <a
-                href="#"
+                href="https://coachingfederation.org/about/icf-membership/individual-membership/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90"
               >
                 {t("coaches.join.cta1")}
