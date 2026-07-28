@@ -94,12 +94,6 @@
     "book": "Book a session",
     "message": "Send a message",
     "workWith": "Working with {name}",
-    "experienceBands": {
-      "0-2": "0–2 years",
-      "3-5": "3–5 years",
-      "6-10": "6–10 years",
-      "10+": "10+ years"
-    },
     "languageFallback": "Shown in {language} — this coach has not published a version in your language yet."
   }
 }

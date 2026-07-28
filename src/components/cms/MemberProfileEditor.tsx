@@ -11,7 +11,6 @@ import { useCms } from "@/i18n/cms";
 import {
   fetchActiveVocabularies,
   vocabLabel,
-  EXPERIENCE_BANDS,
   type CoachFinderVocabularies,
   type VocabRow,
 } from "@/lib/vocabularies";
@@ -638,9 +637,9 @@ export function MemberProfileEditor() {
             className="mt-1 rounded-lg border border-border bg-background px-3 py-2 text-sm"
           >
             <option value="">{t("member.availabilityNone")}</option>
-            {EXPERIENCE_BANDS.map((band) => (
-              <option key={band} value={band}>
-                {t(`member.experienceBands.${band}`)}
+            {(vocab?.cf_experience_bands ?? []).map((band) => (
+              <option key={band.id} value={band.slug}>
+                {vocabLabel(band, locale)}
               </option>
             ))}
           </select>

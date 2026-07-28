@@ -27,7 +27,8 @@ const updateSchema = z.object({
   response_time_note: z.string().max(120).nullish(),
   approach: z.string().max(2000).nullish(),
   qualifications: z.string().max(2000).nullish(),
-  experience_band: z.enum(["0-2", "3-5", "6-10", "10+"]).nullish(),
+  // Slug of a row in `cf_experience_bands`; existence is checked server-side.
+  experience_band: z.string().max(60).nullish(),
   session_length_note: z.string().max(120).nullish(),
   fees_note: z.string().max(2000).nullish(),
   availability_note: z.string().max(120).nullish(),
