@@ -14,5 +14,9 @@ export const Route = createFileRoute("/$locale/events/")({
     };
   },
   errorComponent: () => <EventsPage data={{ featured: null, upcoming: [], past: [] }} />,
-  component: () => <EventsPage data={Route.useLoaderData()} />,
+  component: LocaleEventsRoute,
 });
+
+function LocaleEventsRoute() {
+  return <EventsPage data={Route.useLoaderData()} />;
+}
