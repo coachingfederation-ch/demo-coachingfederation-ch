@@ -91,7 +91,9 @@ export default function EventDetailPage({ event }: { event: PublicEvent }) {
       : await submitGuestRegistration({ data: payload });
     if (result.ok) {
       setState({ kind: "done" });
-      void mine.refetch();
+      // refetch() ignores `enabled`, so only call it for signed-in visitors —
+      // otherwise the protected server fn runs without a bearer token and 401s.
+      if (signedIn) void mine.refetch();
     } else {
       setState({ kind: "error", reason: result.reason });
     }
