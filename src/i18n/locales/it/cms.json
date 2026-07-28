@@ -581,7 +581,17 @@
     "grantEditor": "Concedi editor",
     "revokeEditor": "Revoca editor",
     "grantOrganizer": "Concedi organizzatore",
-    "revokeOrganizer": "Revoca organizzatore"
+    "revokeOrganizer": "Revoca organizzatore",
+    "colLink": "Collegamento",
+    "qaTitle": "Membro di test QA",
+    "qaIntro": "Crea un account di solo membro per i test manuali, collegato a un record importato non ancora rivendicato. Disponibile solo in modalità TEST.",
+    "qaLiveDisabled": "Non disponibile: l'integrazione è in modalità LIVE. I membri rivendicano da soli il proprio account.",
+    "qaSelectMember": "Scegli un membro non rivendicato…",
+    "qaEmailPlaceholder": "Email di accesso di test",
+    "qaPasswordPlaceholder": "Password (almeno 10 caratteri)",
+    "qaCreate": "Crea account di test",
+    "qaCreated": "Account di test creato",
+    "qaCredentialsNote": "Mostrato una sola volta — copialo ora. Nulla viene salvato o inviato."
   },
   "events": {
     "title": "Eventi",

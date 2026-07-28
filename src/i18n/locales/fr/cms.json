@@ -581,7 +581,17 @@
     "grantEditor": "Accorder éditeur",
     "revokeEditor": "Retirer éditeur",
     "grantOrganizer": "Accorder organisateur",
-    "revokeOrganizer": "Retirer organisateur"
+    "revokeOrganizer": "Retirer organisateur",
+    "colLink": "Liaison",
+    "qaTitle": "Membre de test QA",
+    "qaIntro": "Crée un compte purement membre pour les tests manuels, lié à un enregistrement importé non encore revendiqué. Disponible uniquement en mode TEST.",
+    "qaLiveDisabled": "Indisponible : l'intégration est en mode LIVE. Les membres revendiquent eux-mêmes leur compte.",
+    "qaSelectMember": "Choisir un membre non revendiqué…",
+    "qaEmailPlaceholder": "E-mail de connexion de test",
+    "qaPasswordPlaceholder": "Mot de passe (au moins 10 caractères)",
+    "qaCreate": "Créer le compte de test",
+    "qaCreated": "Compte de test créé",
+    "qaCredentialsNote": "Affiché une seule fois — copiez-le maintenant. Rien n'est enregistré ni envoyé."
   },
   "events": {
     "title": "Événements",
