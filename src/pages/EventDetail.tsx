@@ -55,15 +55,18 @@ export default function EventDetailPage({ event }: { event: PublicEvent }) {
 
   const session = useQuery({
     queryKey: ["auth-user-id"],
-    queryFn: async () => (await supabase.auth.getUser()).data.user?.id ?? null,
+    // The bearer attacher reads the *session*, so gate the protected call on the
+    // same source: a user with no access token would 500 the server function.
+    queryFn: async () => (await supabase.auth.getSession()).data.session?.access_token ?? null,
     staleTime: 5 * 60_000,
   });
   const signedIn = Boolean(session.data);
 
   const mine = useQuery({
-    queryKey: ["my-event-registration", event.id, session.data],
+    queryKey: ["my-event-registration", event.id],
     queryFn: () => getMyRegistration({ data: { eventId: event.id! } }),
-    enabled: signedIn,
+    enabled: signedIn && session.isFetched,
+    retry: false,
   });
 
   const [fullName, setFullName] = useState("");
