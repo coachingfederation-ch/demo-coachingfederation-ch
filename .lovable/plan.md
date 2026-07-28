@@ -1,58 +1,39 @@
-## Goal
+## Scope
 
-A dedicated pure-member QA account with a known email/password, bound to one imported member record, with zero staff roles — created through the supported auth-admin path, without touching the existing hybrid admin/member account.
+Only `src/components/site-chrome.tsx` (the shared public header used by every public page, including event detail) plus the four `common.json` locale files. No route, auth, or data-model changes.
 
-## What the current code makes necessary
+## Change 1 — Single compact language control
 
-Verified before planning:
+The header today renders two language UIs: a four-link inline row shown from `lg` up, and an already-built `CompactLanguageSwitcher` dropdown shown only below `lg`.
 
-- Exactly one member is claimed today: `9875144` (Hartmuth Gieldanowski), bound to auth user `706713f9…`. That is the hybrid account and stays untouched.
-- All 501 imported members carry TEST-scrambled emails (`zz…zz`); 500 are active and unclaimed.
-- The self-service claim flow is closed by design (`account_claim_enabled` requires LIVE + recorded cutover), and `completeClaim` creates the auth user with **the imported member's email** — so claiming would mint a `zz…zz` login. That is exactly what must be avoided.
+- Delete the inline `DE / FR / IT / EN` row.
+- Promote `CompactLanguageSwitcher` to all breakpoints (drop its `lg:hidden`), keeping its existing behaviour: trigger shows the current code with a globe icon (add a chevron so it reads `EN ▾`), opens a menu listing DE · FR · IT · EN in the required order, current language marked and still selectable in the list rather than filtered out.
+- Language links keep using `localizePath(useCanonicalPath(), locale)` — so the current page is preserved and switching works identically from the homepage and event detail pages. No localization logic changes.
+- Accessibility stays as built: `aria-haspopup`/`aria-expanded`, Escape to close, outside-click close, ≥44px touch targets; add arrow-key/`aria-current` handling on the menu items.
 
-So the QA account cannot come from the existing token flow as-is. It needs the same *binding contract* (`members.auth_user_id` + a `member` role grant) established through the auth admin API with an operator-chosen email.
+## Change 2 — Member Login / account control
 
-## Plan
+Add an `AccountControl` component in the same file, rendered next to the language control (desktop) and inside the mobile menu.
 
-### 1. Server: QA test-account provisioning (admin only)
+- Session state: a small `useQuery(["auth-user-id"])`-style read of `supabase.auth.getUser()` plus the existing `supabase.auth.onAuthStateChange` invalidation that `useMyRoles()` already owns — reuse `useMyRoles()` for both session presence and role flags so sign-in/sign-out update the header without a refresh.
+- Because the header renders during SSR, the control renders the logged-out state until the client session resolves (no hydration mismatch, no layout jump).
+- **Logged out:** pill button `Member login` → `LocaleLink`/link to the existing `/auth` route. No new auth surface.
+- **Logged in:** same pill becomes an account menu (same dropdown pattern as the language control) labelled `My account`, containing:
+  - `My profile` → `/my-profile`
+  - `Insights CMS` → `/articles`, only when `roles.isEditor` (mirrors `MemberShell`)
+  - `Sign out` → `supabase.auth.signOut()` then return to the current page.
+- Guests are never redirected; the guest RSVP path, claim rules, and nav items are untouched.
 
-New helper `src/lib/qa-test-account.server.ts` and a server function in the existing `src/lib/roles.functions.ts`, guarded by `assertAdmin`, that:
+## Layout
 
-1. Refuses unless the integration is in **TEST** mode (`integration_config.mode`). This makes it impossible to mint synthetic accounts against real LIVE member data.
-2. Rejects an email that is test-shaped (`isTestShapedEmail`) — the login identity must be a real address you control.
-3. Loads the chosen member: must exist, be `active`, and have `auth_user_id IS NULL`. Never overwrites an existing binding, so the hybrid account is structurally out of reach.
-4. Creates the auth user with `supabaseAdmin.auth.admin.createUser({ email, password, email_confirm: true })`. A collision returns a clear "account already exists" message instead of taking over an identity.
-5. Binds with `update members set auth_user_id = … where id = … and auth_user_id is null` (same conditional bind as `completeClaim`); on failure the just-created auth user is deleted, so no orphan.
-6. Grants **only** `member` in `user_roles`. Nothing else.
-7. Records a `member_sync_events` row (`member_qa_account_provisioned`, severity `warning`, actor = the admin) so the synthetic account is visible in the member history like the staff-issued claim link is.
+Desktop: `[nav pills] [language ▾] [account] [Find a coach]`. To avoid crowding, `Find a coach` keeps its accent styling and the account control uses the same subtle `bg-white/10` pill as the language trigger.
 
-The imported member's scrambled email is never read, changed, or exposed — the auth identity and the imported record stay separate, exactly as the claim flow already treats them.
+Mobile: hamburger menu gains a divider plus the account entry (login link, or profile/CMS/sign-out rows); the language control stays in the top bar where it already is.
 
-### 2. Roles screen: minimal additions (`/roles`)
+## Copy
 
-No new screen. Two small additions to the existing page:
+New `common.nav` keys — `memberLogin`, `myAccount`, `myProfile`, `signOut`, `accountMenu` (aria) — added to `en/de/fr/it common.json` in existing sentence case.
 
-- **Link-state column** on the member table: the imported record's ICF number (`cst_recno`) and a shortened auth user id, so claim linkage is verifiable at a glance. The existing badges already convey Member / Editor / Organizer / Administrator; the "Internal accounts" table already covers internal-only.
-- **A collapsed "QA test member" panel**, admin-only and rendered **only while the integration is in TEST mode**: pick an unclaimed active member from a dropdown, enter email + password, submit. The result panel echoes the email and password once, in-session, for you to copy — nothing is persisted or emailed.
+## Verification
 
-Read model in `src/lib/roles-admin.server.ts` extends `ClaimedMemberRole` with `cstRecno`, and adds a `listClaimableMembers()` list (id, name, ICF number) for the dropdown. Strings added to `cms.json` for DE/FR/IT/EN.
-
-### 3. Not changed
-
-- No change to `member-claim.server.ts`, the claim gate, RLS, or role-grant policies.
-- No change to `handle_new_user`, `auth.callback.tsx`, or the `_member` / `_staff` layouts — the new account routes to `/my-profile` by the existing `landingPath` rules.
-- No database migration: `members.auth_user_id`, `user_roles` and `member_sync_events` already carry everything needed.
-
-## Verification I will run
-
-1. Provision the QA account against a chosen active unclaimed member.
-2. Confirm in the database: exactly one member row bound to the new auth user, `user_roles` holds only `member`, and `9875144` → `706713f9…` is unchanged.
-3. Sign in headlessly as the QA user and confirm it lands on `/my-profile` and that `/roles` and `/articles` are refused.
-4. Open a published event detail page as that user and confirm the RSVP form is in signed-in-member shape (prefilled identity, not the guest path).
-5. Re-check `/roles` shows the QA account as Member-only with its link state.
-
-## Technical notes
-
-- The provisioning function lives beside the other admin RPCs and follows the same shape: `createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])` → `assertAdmin` → `await import()` of the `.server` helper inside the handler, so the service-role client never enters the client graph.
-- Password is validated at ≥ 10 characters, matching `completeClaim`.
-- The TEST-mode gate means this control disappears after the LIVE cutover; the real claim flow takes over then.
+Playwright: homepage + an event detail page, logged out (Member login visible, four inline links gone) and signed in as the QA member (`qa.member@icfswitzerland-test.ch`) — account menu shows My profile/Sign out, sign-out flips the header back without reload; language switch from `/events/<slug>` lands on `/de/events/<slug>`; mobile viewport check.

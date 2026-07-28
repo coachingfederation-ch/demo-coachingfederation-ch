@@ -14,7 +14,13 @@
     "menuOpen": "Menü öffnen",
     "menuClose": "Menü schliessen",
     "languageSwitch": "Sprache wechseln",
-    "skipToContent": "Zum Inhalt springen"
+    "skipToContent": "Zum Inhalt springen",
+    "memberLogin": "Mitglieder-Login",
+    "myAccount": "Mein Konto",
+    "myProfile": "Mein Profil",
+    "signOut": "Abmelden",
+    "insightsCms": "Insights CMS",
+    "accountMenu": "Kontomenü"
   },
   "footer": {
     "copyright": "ICF Switzerland — Charter Chapter",
