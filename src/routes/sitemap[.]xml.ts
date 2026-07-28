@@ -49,6 +49,24 @@ export const Route = createFileRoute("/sitemap.xml")({
           /* articles are optional in the sitemap */
         }
 
+        try {
+          const { publicSupabaseClient } = await import("@/lib/supabase-public.server");
+          const supabase = publicSupabaseClient();
+          const { data } = await supabase.from("events_public").select("slug, language");
+          for (const e of data ?? []) {
+            const locale = (LOCALES as readonly string[]).includes(e.language as string)
+              ? (e.language as (typeof LOCALES)[number])
+              : "en";
+            entries.push({
+              loc: `${SITE_URL}${localizePath(`/events/${e.slug}`, locale)}`,
+              changefreq: "weekly",
+              priority: "0.7",
+            });
+          }
+        } catch {
+          /* events are optional in the sitemap */
+        }
+
         const xml = [
           `<?xml version="1.0" encoding="UTF-8"?>`,
           `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
