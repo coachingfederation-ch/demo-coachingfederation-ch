@@ -49,25 +49,47 @@ function Audiences() {
   const audiences = tList<{ eyebrow: string; title: string; desc: string; cta: string }>(
     "home.audiences",
   );
-  const targets = ["/find-a-coach", "/for-organisations", "/for-coaches", "/about"];
+  const targets = [
+    "/find-a-coach",
+    "/for-organisations",
+    "/for-coaches",
+    "https://coachingfederation.org/become-a-coach/why-become-a-coach/",
+  ];
+  const isExternal = [false, false, false, true];
+  const cardClassName =
+    "group flex flex-col rounded-2xl border border-border/70 bg-card p-6 transition hover:-translate-y-0.5 hover:border-chip-active-border " +
+    CARD_SHADOW;
   return (
     <section id="find-a-coach" className="mx-auto -mt-8 max-w-7xl px-8">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {audiences.map((a, i) => (
-          <LocaleLink
-            key={a.title + a.eyebrow}
-            to={targets[i] ?? "/about"}
-            className={
-              "group flex flex-col rounded-2xl border border-border/70 bg-card p-6 transition hover:-translate-y-0.5 hover:border-chip-active-border " +
-              CARD_SHADOW
-            }
-          >
-            <p className="section-label">{a.eyebrow}</p>
-            <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground">{a.title}</h3>
-            <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{a.desc}</p>
-            <span className="mt-6 text-sm font-semibold text-primary">{a.cta} →</span>
-          </LocaleLink>
-        ))}
+        {audiences.map((a, i) => {
+          const children = (
+            <>
+              <p className="section-label">{a.eyebrow}</p>
+              <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground">{a.title}</h3>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{a.desc}</p>
+              <span className="mt-6 text-sm font-semibold text-primary">{a.cta} →</span>
+            </>
+          );
+          if (isExternal[i]) {
+            return (
+              <a
+                key={a.title + a.eyebrow}
+                href={targets[i]}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cardClassName}
+              >
+                {children}
+              </a>
+            );
+          }
+          return (
+            <LocaleLink key={a.title + a.eyebrow} to={targets[i] ?? "/about"} className={cardClassName}>
+              {children}
+            </LocaleLink>
+          );
+        })}
       </div>
     </section>
   );
