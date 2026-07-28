@@ -104,6 +104,19 @@ Do not reorder; each step depends on the previous one being verified.
 - Watch claim conversion; a low rate usually means invitations are landing in
   spam rather than that the flow is broken.
 
+### Migration hygiene
+
+- Do not reorder the migration history while the project is in TEST/cutover.
+- Replaying the 46 existing migrations in order is correct, but many files are
+  follow-up hardening passes on the same objects. If you need to understand the
+  final RLS shape, read the last few migrations rather than the whole chain.
+- Squashing the migration history into a single initial file is safe **only** for
+  fresh environments. The current database already contains 501 test members and
+  member-authored profiles, so any squash must be applied as metadata-only and
+  verified against a throwaway copy. After go-live, the migrations can be squashed
+  as a cleanup step; before go-live, keep them intact because they are the audit
+  trail for the cutover rehearsal.
+
 ## Troubleshooting
 
 | Symptom                                 | Look at                                                                                                                                                          |
