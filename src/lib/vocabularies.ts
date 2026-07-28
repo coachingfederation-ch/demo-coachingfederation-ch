@@ -18,6 +18,7 @@ export const VOCAB_TABLES = [
   "cf_languages",
   "cf_availability_labels",
   "cf_client_types",
+  "cf_experience_bands",
 ] as const;
 
 export type VocabTable = (typeof VOCAB_TABLES)[number];
@@ -44,6 +45,7 @@ export const VOCAB_DESCRIPTORS: { table: VocabTable; key: string }[] = [
   { table: "cf_languages", key: "languages" },
   { table: "cf_availability_labels", key: "availability" },
   { table: "cf_client_types", key: "clientTypes" },
+  { table: "cf_experience_bands", key: "experienceBands" },
 ];
 
 /** Locale-aware label with a graceful fallback to the English name. */
@@ -86,14 +88,6 @@ export async function fetchActiveVocabularies(): Promise<CoachFinderVocabularies
     VOCAB_TABLES.map((table, i) => [table, results[i]!]),
   ) as CoachFinderVocabularies;
 }
-
-/**
- * Years-of-experience bands. A short fixed list rather than a vocabulary
- * table: it is a scale, not chapter-managed content, and it is labelled
- * through i18n like the other fixed enums.
- */
-export const EXPERIENCE_BANDS = ["0-2", "3-5", "6-10", "10+"] as const;
-export type ExperienceBand = (typeof EXPERIENCE_BANDS)[number];
 
 /**
  * Coach Finder settings split into two shapes.
