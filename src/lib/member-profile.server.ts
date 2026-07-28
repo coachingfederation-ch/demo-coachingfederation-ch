@@ -281,7 +281,21 @@ export async function updateMyMemberProfile(
   if (input.response_time_note !== undefined) {
     patch.response_time_note = cleanText(input.response_time_note, NOTE_MAX);
   }
-  if (input.experience_band !== undefined) patch.experience_band = input.experience_band || null;
+  if (input.experience_band !== undefined) {
+    // Bands are chapter-managed vocabulary rows, so accept only an active slug.
+    const slug = (input.experience_band ?? "").trim();
+    if (slug) {
+      const { data: band, error: bandError } = await supabaseAdmin
+        .from("cf_experience_bands")
+        .select("slug")
+        .eq("slug", slug)
+        .eq("is_active", true)
+        .maybeSingle();
+      if (bandError) throw bandError;
+      if (!band) throw new Error("Unknown experience band.");
+    }
+    patch.experience_band = slug || null;
+  }
   if (input.testimonial_quote !== undefined) {
     patch.testimonial_quote = cleanText(input.testimonial_quote, QUOTE_MAX);
   }
