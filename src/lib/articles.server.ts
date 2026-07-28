@@ -11,11 +11,15 @@
  * of that (it keeps non-staff accounts from reaching the CMS surface at all);
  * RLS still decides what a given staff member may actually change.
  */
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "@/integrations/supabase/types";
 import type { ArticleRow, CategoryRow, ProfileRow } from "./articles";
 
-type Client = {
-  from: (table: string) => any;
-};
+/**
+ * Only `.from()` is ever used here, so the handlers can hand us either the
+ * RLS-scoped request client or any equivalent without widening the surface.
+ */
+type Client = Pick<SupabaseClient<Database>, "from">;
 
 /** Everything the editor screen needs for one article, in one round trip. */
 export async function loadArticleEditorData(client: Client, id: string) {
