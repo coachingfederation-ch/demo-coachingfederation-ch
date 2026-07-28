@@ -46,9 +46,7 @@ export function LegalPageShell({ pageKey, children }: LegalPageShellProps) {
       <DraftBanner />
       <main id="main" className="pb-24">
         <article className="mx-auto max-w-3xl px-5 pt-16 sm:px-8">
-          <div className="prose prose-lg max-w-none text-foreground">
-            {children}
-          </div>
+          {children}
         </article>
       </main>
       <SiteFooter />
