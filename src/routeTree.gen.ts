@@ -15,7 +15,6 @@ import { Route as MemberRouteRouteImport } from './routes/_member/route'
 import { Route as StaffRouteRouteImport } from './routes/_staff/route'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
-import { Route as EventsRouteImport } from './routes/events'
 import { Route as FindACoachRouteImport } from './routes/find-a-coach'
 import { Route as ForCoachesRouteImport } from './routes/for-coaches'
 import { Route as ForOrganisationsRouteImport } from './routes/for-organisations'
@@ -25,7 +24,6 @@ import { Route as NoAccessRouteImport } from './routes/no-access'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
 import { Route as LocaleAboutRouteImport } from './routes/$locale/about'
-import { Route as LocaleEventsRouteImport } from './routes/$locale/events'
 import { Route as LocaleFindACoachRouteImport } from './routes/$locale/find-a-coach'
 import { Route as LocaleForCoachesRouteImport } from './routes/$locale/for-coaches'
 import { Route as LocaleForOrganisationsRouteImport } from './routes/$locale/for-organisations'
@@ -42,9 +40,13 @@ import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as ClaimIndexRouteImport } from './routes/claim.index'
 import { Route as ClaimTokenRouteImport } from './routes/claim.$token'
 import { Route as CoachProfileIdRouteImport } from './routes/coach.$profileId'
+import { Route as EventsIndexRouteImport } from './routes/events.index'
+import { Route as EventsSlugRouteImport } from './routes/events.$slug'
 import { Route as InsightsIndexRouteImport } from './routes/insights.index'
 import { Route as InsightsIdRouteImport } from './routes/insights.$id'
 import { Route as LocaleCoachProfileIdRouteImport } from './routes/$locale/coach.$profileId'
+import { Route as LocaleEventsIndexRouteImport } from './routes/$locale/events.index'
+import { Route as LocaleEventsSlugRouteImport } from './routes/$locale/events.$slug'
 import { Route as LocaleInsightsIndexRouteImport } from './routes/$locale/insights.index'
 import { Route as LocaleInsightsIdRouteImport } from './routes/$locale/insights.$id'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
@@ -56,6 +58,8 @@ import { Route as StaffArticlesNewRouteImport } from './routes/_staff/articles.n
 import { Route as StaffMembersIndexRouteImport } from './routes/_staff/members.index'
 import { Route as StaffMembersIdRouteImport } from './routes/_staff/members.$id'
 import { Route as ApiPublicMemberSyncRouteImport } from './routes/api/public/member-sync'
+import { Route as StaffManageEventsIndexRouteImport } from './routes/_staff/manage.events.index'
+import { Route as StaffManageEventsIdRouteImport } from './routes/_staff/manage.events.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -83,11 +87,6 @@ const AboutRoute = AboutRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EventsRoute = EventsRouteImport.update({
-  id: '/events',
-  path: '/events',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FindACoachRoute = FindACoachRouteImport.update({
@@ -133,11 +132,6 @@ const LocaleIndexRoute = LocaleIndexRouteImport.update({
 const LocaleAboutRoute = LocaleAboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => LocaleRouteRoute,
-} as any)
-const LocaleEventsRoute = LocaleEventsRouteImport.update({
-  id: '/events',
-  path: '/events',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
 const LocaleFindACoachRoute = LocaleFindACoachRouteImport.update({
@@ -222,6 +216,16 @@ const CoachProfileIdRoute = CoachProfileIdRouteImport.update({
   path: '/coach/$profileId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EventsIndexRoute = EventsIndexRouteImport.update({
+  id: '/events/',
+  path: '/events/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsSlugRoute = EventsSlugRouteImport.update({
+  id: '/events/$slug',
+  path: '/events/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InsightsIndexRoute = InsightsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -235,6 +239,16 @@ const InsightsIdRoute = InsightsIdRouteImport.update({
 const LocaleCoachProfileIdRoute = LocaleCoachProfileIdRouteImport.update({
   id: '/coach/$profileId',
   path: '/coach/$profileId',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleEventsIndexRoute = LocaleEventsIndexRouteImport.update({
+  id: '/events/',
+  path: '/events/',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleEventsSlugRoute = LocaleEventsSlugRouteImport.update({
+  id: '/events/$slug',
+  path: '/events/$slug',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
 const LocaleInsightsIndexRoute = LocaleInsightsIndexRouteImport.update({
@@ -293,13 +307,22 @@ const ApiPublicMemberSyncRoute = ApiPublicMemberSyncRouteImport.update({
   path: '/api/public/member-sync',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StaffManageEventsIndexRoute = StaffManageEventsIndexRouteImport.update({
+  id: '/manage/events/',
+  path: '/manage/events/',
+  getParentRoute: () => StaffRouteRoute,
+} as any)
+const StaffManageEventsIdRoute = StaffManageEventsIdRouteImport.update({
+  id: '/manage/events/$id',
+  path: '/manage/events/$id',
+  getParentRoute: () => StaffRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$locale': typeof LocaleRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/auth': typeof AuthRouteWithChildren
-  '/events': typeof EventsRoute
   '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
@@ -308,7 +331,6 @@ export interface FileRoutesByFullPath {
   '/no-access': typeof NoAccessRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/$locale/about': typeof LocaleAboutRoute
-  '/$locale/events': typeof LocaleEventsRoute
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
@@ -324,11 +346,14 @@ export interface FileRoutesByFullPath {
   '/auth/callback': typeof AuthCallbackRoute
   '/claim/$token': typeof ClaimTokenRoute
   '/coach/$profileId': typeof CoachProfileIdRoute
+  '/events/$slug': typeof EventsSlugRoute
   '/insights/$id': typeof InsightsIdRoute
   '/$locale/': typeof LocaleIndexRoute
   '/claim/': typeof ClaimIndexRoute
+  '/events/': typeof EventsIndexRoute
   '/insights/': typeof InsightsIndexRoute
   '/$locale/coach/$profileId': typeof LocaleCoachProfileIdRoute
+  '/$locale/events/$slug': typeof LocaleEventsSlugRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -337,15 +362,17 @@ export interface FileRoutesByFullPath {
   '/articles/new': typeof StaffArticlesNewRoute
   '/members/$id': typeof StaffMembersIdRoute
   '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
+  '/$locale/events/': typeof LocaleEventsIndexRoute
   '/$locale/insights/': typeof LocaleInsightsIndexRoute
   '/articles/': typeof StaffArticlesIndexRoute
   '/members/': typeof StaffMembersIndexRoute
+  '/manage/events/$id': typeof StaffManageEventsIdRoute
+  '/manage/events/': typeof StaffManageEventsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRouteWithChildren
-  '/events': typeof EventsRoute
   '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
@@ -353,7 +380,6 @@ export interface FileRoutesByTo {
   '/no-access': typeof NoAccessRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/$locale/about': typeof LocaleAboutRoute
-  '/$locale/events': typeof LocaleEventsRoute
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
@@ -367,11 +393,14 @@ export interface FileRoutesByTo {
   '/auth/callback': typeof AuthCallbackRoute
   '/claim/$token': typeof ClaimTokenRoute
   '/coach/$profileId': typeof CoachProfileIdRoute
+  '/events/$slug': typeof EventsSlugRoute
   '/insights/$id': typeof InsightsIdRoute
   '/$locale': typeof LocaleIndexRoute
   '/claim': typeof ClaimIndexRoute
+  '/events': typeof EventsIndexRoute
   '/insights': typeof InsightsIndexRoute
   '/$locale/coach/$profileId': typeof LocaleCoachProfileIdRoute
+  '/$locale/events/$slug': typeof LocaleEventsSlugRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -380,9 +409,12 @@ export interface FileRoutesByTo {
   '/articles/new': typeof StaffArticlesNewRoute
   '/members/$id': typeof StaffMembersIdRoute
   '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
+  '/$locale/events': typeof LocaleEventsIndexRoute
   '/$locale/insights': typeof LocaleInsightsIndexRoute
   '/articles': typeof StaffArticlesIndexRoute
   '/members': typeof StaffMembersIndexRoute
+  '/manage/events/$id': typeof StaffManageEventsIdRoute
+  '/manage/events': typeof StaffManageEventsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -392,7 +424,6 @@ export interface FileRoutesById {
   '/_staff': typeof StaffRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/auth': typeof AuthRouteWithChildren
-  '/events': typeof EventsRoute
   '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
@@ -401,7 +432,6 @@ export interface FileRoutesById {
   '/no-access': typeof NoAccessRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/$locale/about': typeof LocaleAboutRoute
-  '/$locale/events': typeof LocaleEventsRoute
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
@@ -417,11 +447,14 @@ export interface FileRoutesById {
   '/auth/callback': typeof AuthCallbackRoute
   '/claim/$token': typeof ClaimTokenRoute
   '/coach/$profileId': typeof CoachProfileIdRoute
+  '/events/$slug': typeof EventsSlugRoute
   '/insights/$id': typeof InsightsIdRoute
   '/$locale/': typeof LocaleIndexRoute
   '/claim/': typeof ClaimIndexRoute
+  '/events/': typeof EventsIndexRoute
   '/insights/': typeof InsightsIndexRoute
   '/$locale/coach/$profileId': typeof LocaleCoachProfileIdRoute
+  '/$locale/events/$slug': typeof LocaleEventsSlugRoute
   '/$locale/insights/$id': typeof LocaleInsightsIdRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -430,9 +463,12 @@ export interface FileRoutesById {
   '/_staff/articles/new': typeof StaffArticlesNewRoute
   '/_staff/members/$id': typeof StaffMembersIdRoute
   '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
+  '/$locale/events/': typeof LocaleEventsIndexRoute
   '/$locale/insights/': typeof LocaleInsightsIndexRoute
   '/_staff/articles/': typeof StaffArticlesIndexRoute
   '/_staff/members/': typeof StaffMembersIndexRoute
+  '/_staff/manage/events/$id': typeof StaffManageEventsIdRoute
+  '/_staff/manage/events/': typeof StaffManageEventsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -441,7 +477,6 @@ export interface FileRouteTypes {
     | '/$locale'
     | '/about'
     | '/auth'
-    | '/events'
     | '/find-a-coach'
     | '/for-coaches'
     | '/for-organisations'
@@ -450,7 +485,6 @@ export interface FileRouteTypes {
     | '/no-access'
     | '/sitemap.xml'
     | '/$locale/about'
-    | '/$locale/events'
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
@@ -466,11 +500,14 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/claim/$token'
     | '/coach/$profileId'
+    | '/events/$slug'
     | '/insights/$id'
     | '/$locale/'
     | '/claim/'
+    | '/events/'
     | '/insights/'
     | '/$locale/coach/$profileId'
+    | '/$locale/events/$slug'
     | '/$locale/insights/$id'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -479,15 +516,17 @@ export interface FileRouteTypes {
     | '/articles/new'
     | '/members/$id'
     | '/api/public/member-sync'
+    | '/$locale/events/'
     | '/$locale/insights/'
     | '/articles/'
     | '/members/'
+    | '/manage/events/$id'
+    | '/manage/events/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/auth'
-    | '/events'
     | '/find-a-coach'
     | '/for-coaches'
     | '/for-organisations'
@@ -495,7 +534,6 @@ export interface FileRouteTypes {
     | '/no-access'
     | '/sitemap.xml'
     | '/$locale/about'
-    | '/$locale/events'
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
@@ -509,11 +547,14 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/claim/$token'
     | '/coach/$profileId'
+    | '/events/$slug'
     | '/insights/$id'
     | '/$locale'
     | '/claim'
+    | '/events'
     | '/insights'
     | '/$locale/coach/$profileId'
+    | '/$locale/events/$slug'
     | '/$locale/insights/$id'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -522,9 +563,12 @@ export interface FileRouteTypes {
     | '/articles/new'
     | '/members/$id'
     | '/api/public/member-sync'
+    | '/$locale/events'
     | '/$locale/insights'
     | '/articles'
     | '/members'
+    | '/manage/events/$id'
+    | '/manage/events'
   id:
     | '__root__'
     | '/'
@@ -533,7 +577,6 @@ export interface FileRouteTypes {
     | '/_staff'
     | '/about'
     | '/auth'
-    | '/events'
     | '/find-a-coach'
     | '/for-coaches'
     | '/for-organisations'
@@ -542,7 +585,6 @@ export interface FileRouteTypes {
     | '/no-access'
     | '/sitemap.xml'
     | '/$locale/about'
-    | '/$locale/events'
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
@@ -558,11 +600,14 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/claim/$token'
     | '/coach/$profileId'
+    | '/events/$slug'
     | '/insights/$id'
     | '/$locale/'
     | '/claim/'
+    | '/events/'
     | '/insights/'
     | '/$locale/coach/$profileId'
+    | '/$locale/events/$slug'
     | '/$locale/insights/$id'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -571,9 +616,12 @@ export interface FileRouteTypes {
     | '/_staff/articles/new'
     | '/_staff/members/$id'
     | '/api/public/member-sync'
+    | '/$locale/events/'
     | '/$locale/insights/'
     | '/_staff/articles/'
     | '/_staff/members/'
+    | '/_staff/manage/events/$id'
+    | '/_staff/manage/events/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -583,7 +631,6 @@ export interface RootRouteChildren {
   StaffRouteRoute: typeof StaffRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRouteWithChildren
-  EventsRoute: typeof EventsRoute
   FindACoachRoute: typeof FindACoachRoute
   ForCoachesRoute: typeof ForCoachesRoute
   ForOrganisationsRoute: typeof ForOrganisationsRoute
@@ -595,7 +642,9 @@ export interface RootRouteChildren {
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ClaimTokenRoute: typeof ClaimTokenRoute
   CoachProfileIdRoute: typeof CoachProfileIdRoute
+  EventsSlugRoute: typeof EventsSlugRoute
   ClaimIndexRoute: typeof ClaimIndexRoute
+  EventsIndexRoute: typeof EventsIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicMemberSyncRoute: typeof ApiPublicMemberSyncRoute
@@ -643,13 +692,6 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/events': {
-      id: '/events'
-      path: '/events'
-      fullPath: '/events'
-      preLoaderRoute: typeof EventsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/find-a-coach': {
@@ -713,13 +755,6 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/$locale/about'
       preLoaderRoute: typeof LocaleAboutRouteImport
-      parentRoute: typeof LocaleRouteRoute
-    }
-    '/$locale/events': {
-      id: '/$locale/events'
-      path: '/events'
-      fullPath: '/$locale/events'
-      preLoaderRoute: typeof LocaleEventsRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
     '/$locale/find-a-coach': {
@@ -834,6 +869,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CoachProfileIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/events/': {
+      id: '/events/'
+      path: '/events'
+      fullPath: '/events/'
+      preLoaderRoute: typeof EventsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events/$slug': {
+      id: '/events/$slug'
+      path: '/events/$slug'
+      fullPath: '/events/$slug'
+      preLoaderRoute: typeof EventsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/insights/': {
       id: '/insights/'
       path: '/'
@@ -853,6 +902,20 @@ declare module '@tanstack/react-router' {
       path: '/coach/$profileId'
       fullPath: '/$locale/coach/$profileId'
       preLoaderRoute: typeof LocaleCoachProfileIdRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/events/': {
+      id: '/$locale/events/'
+      path: '/events'
+      fullPath: '/$locale/events/'
+      preLoaderRoute: typeof LocaleEventsIndexRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/events/$slug': {
+      id: '/$locale/events/$slug'
+      path: '/events/$slug'
+      fullPath: '/$locale/events/$slug'
+      preLoaderRoute: typeof LocaleEventsSlugRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
     '/$locale/insights/': {
@@ -932,6 +995,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicMemberSyncRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_staff/manage/events/': {
+      id: '/_staff/manage/events/'
+      path: '/manage/events'
+      fullPath: '/manage/events/'
+      preLoaderRoute: typeof StaffManageEventsIndexRouteImport
+      parentRoute: typeof StaffRouteRoute
+    }
+    '/_staff/manage/events/$id': {
+      id: '/_staff/manage/events/$id'
+      path: '/manage/events/$id'
+      fullPath: '/manage/events/$id'
+      preLoaderRoute: typeof StaffManageEventsIdRouteImport
+      parentRoute: typeof StaffRouteRoute
+    }
   }
 }
 
@@ -951,24 +1028,26 @@ const LocaleInsightsRouteWithChildren = LocaleInsightsRoute._addFileChildren(
 
 interface LocaleRouteRouteChildren {
   LocaleAboutRoute: typeof LocaleAboutRoute
-  LocaleEventsRoute: typeof LocaleEventsRoute
   LocaleFindACoachRoute: typeof LocaleFindACoachRoute
   LocaleForCoachesRoute: typeof LocaleForCoachesRoute
   LocaleForOrganisationsRoute: typeof LocaleForOrganisationsRoute
   LocaleInsightsRoute: typeof LocaleInsightsRouteWithChildren
   LocaleIndexRoute: typeof LocaleIndexRoute
   LocaleCoachProfileIdRoute: typeof LocaleCoachProfileIdRoute
+  LocaleEventsSlugRoute: typeof LocaleEventsSlugRoute
+  LocaleEventsIndexRoute: typeof LocaleEventsIndexRoute
 }
 
 const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleAboutRoute: LocaleAboutRoute,
-  LocaleEventsRoute: LocaleEventsRoute,
   LocaleFindACoachRoute: LocaleFindACoachRoute,
   LocaleForCoachesRoute: LocaleForCoachesRoute,
   LocaleForOrganisationsRoute: LocaleForOrganisationsRoute,
   LocaleInsightsRoute: LocaleInsightsRouteWithChildren,
   LocaleIndexRoute: LocaleIndexRoute,
   LocaleCoachProfileIdRoute: LocaleCoachProfileIdRoute,
+  LocaleEventsSlugRoute: LocaleEventsSlugRoute,
+  LocaleEventsIndexRoute: LocaleEventsIndexRoute,
 }
 
 const LocaleRouteRouteWithChildren = LocaleRouteRoute._addFileChildren(
@@ -1013,6 +1092,8 @@ interface StaffRouteRouteChildren {
   StaffVocabulariesRoute: typeof StaffVocabulariesRoute
   StaffMembersIdRoute: typeof StaffMembersIdRoute
   StaffMembersIndexRoute: typeof StaffMembersIndexRoute
+  StaffManageEventsIdRoute: typeof StaffManageEventsIdRoute
+  StaffManageEventsIndexRoute: typeof StaffManageEventsIndexRoute
 }
 
 const StaffRouteRouteChildren: StaffRouteRouteChildren = {
@@ -1023,6 +1104,8 @@ const StaffRouteRouteChildren: StaffRouteRouteChildren = {
   StaffVocabulariesRoute: StaffVocabulariesRoute,
   StaffMembersIdRoute: StaffMembersIdRoute,
   StaffMembersIndexRoute: StaffMembersIndexRoute,
+  StaffManageEventsIdRoute: StaffManageEventsIdRoute,
+  StaffManageEventsIndexRoute: StaffManageEventsIndexRoute,
 }
 
 const StaffRouteRouteWithChildren = StaffRouteRoute._addFileChildren(
@@ -1060,7 +1143,6 @@ const rootRouteChildren: RootRouteChildren = {
   StaffRouteRoute: StaffRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AuthRoute: AuthRouteWithChildren,
-  EventsRoute: EventsRoute,
   FindACoachRoute: FindACoachRoute,
   ForCoachesRoute: ForCoachesRoute,
   ForOrganisationsRoute: ForOrganisationsRoute,
@@ -1073,7 +1155,9 @@ const rootRouteChildren: RootRouteChildren = {
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   ClaimTokenRoute: ClaimTokenRoute,
   CoachProfileIdRoute: CoachProfileIdRoute,
+  EventsSlugRoute: EventsSlugRoute,
   ClaimIndexRoute: ClaimIndexRoute,
+  EventsIndexRoute: EventsIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicMemberSyncRoute: ApiPublicMemberSyncRoute,

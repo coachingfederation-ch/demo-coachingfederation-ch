@@ -14,10 +14,12 @@ import { supabaseAdmin } from "@/integrations/supabase/client.server";
 export type ClaimedMemberRole = {
   memberId: string;
   authUserId: string;
+  cstRecno: string;
   name: string;
   email: string | null;
   activityState: string;
   isEditor: boolean;
+  isOrganizer: boolean;
   isAdmin: boolean;
 };
 
@@ -49,7 +51,7 @@ export type InternalStaffAccount = {
 export async function listClaimedMemberRoles(): Promise<ClaimedMemberRole[]> {
   const { data: members, error } = await supabaseAdmin
     .from("members")
-    .select("id, auth_user_id, full_name, first_name, last_name, email, activity_state")
+    .select("id, cst_recno, auth_user_id, full_name, first_name, last_name, email, activity_state")
     .not("auth_user_id", "is", null)
     .order("last_name", { ascending: true });
   if (error) throw error;
@@ -62,10 +64,12 @@ export async function listClaimedMemberRoles(): Promise<ClaimedMemberRole[]> {
     return {
       memberId: m.id as string,
       authUserId: m.auth_user_id as string,
+      cstRecno: m.cst_recno as string,
       name: displayName(m),
       email: (m.email as string | null) ?? null,
       activityState: m.activity_state as string,
       isEditor: roles.includes("editor"),
+      isOrganizer: roles.includes("organizer"),
       isAdmin: roles.includes("admin"),
     };
   });
@@ -186,7 +190,7 @@ export async function listInternalStaffAccounts(): Promise<InternalStaffAccount[
   const { data: roleRows, error } = await supabaseAdmin
     .from("user_roles")
     .select("user_id, role")
-    .in("role", ["admin", "editor", "contributor"]);
+    .in("role", ["admin", "editor", "contributor", "organizer"]);
   if (error) throw error;
 
   const byUser = new Map<string, string[]>();
