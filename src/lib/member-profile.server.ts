@@ -159,18 +159,13 @@ export async function loadMyMemberProfile(userId: string): Promise<MyMemberProfi
 
   if (profile) {
     const results = await Promise.all(
-      JOINS.map((join) =>
-        (supabaseAdmin.from(join.table) as any).select(join.column).eq("profile_id", profile.id),
-      ),
+      JOINS.map((join) => facetTable(join.table).select(join.column).eq("profile_id", profile.id)),
     );
     facets = Object.fromEntries(
       JOINS.map((join, i) => {
         const res = results[i]!;
         if (res.error) throw res.error;
-        return [
-          join.key,
-          ((res.data ?? []) as Record<string, string>[]).map((row) => row[join.column] as string),
-        ];
+        return [join.key, (res.data ?? []).map((row) => row[join.column] as string)];
       }),
     ) as typeof facets;
 
@@ -226,17 +221,18 @@ export type MyProfileUpdate = {
 /** Plain text only: strip control characters and hard-cap the length. */
 function cleanText(value: string | null | undefined, max: number): string | null {
   if (value == null) return null;
+  // Control characters are the point: this strips them out of pasted text.
+  // eslint-disable-next-line no-control-regex
   const cleaned = value.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "").trim();
   return cleaned ? cleaned.slice(0, max) : null;
 }
 
 async function replaceFacet(profileId: string, table: string, column: string, ids: string[]) {
-  const client = supabaseAdmin as any;
-  const { error } = await client.from(table).delete().eq("profile_id", profileId);
+  const client = facetTable(table);
+  const { error } = await client.delete().eq("profile_id", profileId);
   if (error) throw error;
   if (!ids.length) return;
   const { error: insertError } = await client
-    .from(table)
     .insert(ids.map((id) => ({ profile_id: profileId, [column]: id })));
   if (insertError) throw insertError;
 }
