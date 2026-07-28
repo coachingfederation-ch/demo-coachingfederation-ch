@@ -205,7 +205,8 @@
       "formats": "Formats",
       "languages": "Languages",
       "availability": "Availability",
-      "clientTypes": "Client Types"
+      "clientTypes": "Client Types",
+      "experienceBands": "Experience bands"
     }
   },
   "finder": {

@@ -205,7 +205,8 @@
       "formats": "Formate",
       "languages": "Sprachen",
       "availability": "Verfügbarkeit",
-      "clientTypes": "Kliententypen"
+      "clientTypes": "Kliententypen",
+      "experienceBands": "Erfahrungsstufen"
     }
   },
   "finder": {
