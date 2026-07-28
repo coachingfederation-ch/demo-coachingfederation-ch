@@ -19,19 +19,22 @@
   },
   "auth": {
     "signInSub": "Connectez-vous pour continuer",
-    "signUpSub": "Créez votre compte éditeur",
     "google": "Continuer avec Google",
     "or": "ou",
     "emailPlaceholder": "vous@exemple.com",
     "passwordPlaceholder": "Mot de passe",
     "signIn": "Se connecter",
-    "createAccount": "Créer un compte",
     "wait": "Veuillez patienter…",
-    "newHere": "Nouveau ici ? ",
-    "haveAccount": "Vous avez déjà un compte ? ",
     "backToSite": "← Retour au site web",
     "genericError": "Une erreur est survenue",
-    "googleError": "La connexion avec Google a échoué"
+    "googleError": "La connexion avec Google a échoué",
+    "memberTitle": "Accès membre",
+    "memberHelp": "Les membres sont importés dans le système. Lors de la première connexion, vous devez revendiquer votre compte avant de vous connecter.",
+    "claimAccount": "Revendiquer votre compte",
+    "internalSignIn": "Connexion administrateur interne",
+    "staffTitle": "Connexion interne",
+    "staffSub": "Pour l'équipe et les administrateurs d'ICF Switzerland.",
+    "backToMemberSignIn": "← Retour à la connexion membre"
   },
   "list": {
     "title": "Articles",

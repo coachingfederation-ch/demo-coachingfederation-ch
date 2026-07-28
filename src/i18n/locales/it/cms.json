@@ -19,19 +19,22 @@
   },
   "auth": {
     "signInSub": "Accedi per continuare",
-    "signUpSub": "Crea il tuo account editor",
     "google": "Continua con Google",
     "or": "o",
     "emailPlaceholder": "tuo@esempio.ch",
     "passwordPlaceholder": "Password",
     "signIn": "Accedi",
-    "createAccount": "Crea account",
     "wait": "Attendere prego…",
-    "newHere": "Prima volta qui? ",
-    "haveAccount": "Hai già un account? ",
     "backToSite": "← Torna al sito web",
     "genericError": "Si è verificato un errore",
-    "googleError": "Accesso con Google non riuscito"
+    "googleError": "Accesso con Google non riuscito",
+    "memberTitle": "Accesso soci",
+    "memberHelp": "I soci vengono importati nel sistema. Al primo accesso è necessario rivendicare il proprio account prima di accedere.",
+    "claimAccount": "Rivendica il tuo account",
+    "internalSignIn": "Accesso amministratore interno",
+    "staffTitle": "Accesso interno",
+    "staffSub": "Per lo staff e gli amministratori di ICF Switzerland.",
+    "backToMemberSignIn": "← Torna all'accesso soci"
   },
   "list": {
     "title": "Articoli",

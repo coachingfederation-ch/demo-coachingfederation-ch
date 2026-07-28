@@ -19,19 +19,22 @@
   },
   "auth": {
     "signInSub": "Sign in to continue",
-    "signUpSub": "Create your editor account",
     "google": "Continue with Google",
     "or": "or",
     "emailPlaceholder": "you@example.com",
     "passwordPlaceholder": "Password",
     "signIn": "Sign in",
-    "createAccount": "Create account",
     "wait": "Please wait…",
-    "newHere": "New here? ",
-    "haveAccount": "Already have an account? ",
     "backToSite": "← Back to the website",
     "genericError": "Something went wrong",
-    "googleError": "Google sign-in failed"
+    "googleError": "Google sign-in failed",
+    "memberTitle": "Member access",
+    "memberHelp": "Members are imported into the system. First-time users need to claim their account before signing in.",
+    "claimAccount": "Claim your account",
+    "internalSignIn": "Internal admin sign-in",
+    "staffTitle": "Internal sign-in",
+    "staffSub": "For ICF Switzerland staff and administrators.",
+    "backToMemberSignIn": "← Back to member sign-in"
   },
   "list": {
     "title": "Articles",

@@ -19,19 +19,22 @@
   },
   "auth": {
     "signInSub": "Melden Sie sich an, um fortzufahren",
-    "signUpSub": "Erstellen Sie Ihr Redaktionskonto",
     "google": "Weiter mit Google",
     "or": "oder",
     "emailPlaceholder": "sie@beispiel.ch",
     "passwordPlaceholder": "Passwort",
     "signIn": "Anmelden",
-    "createAccount": "Konto erstellen",
     "wait": "Bitte warten…",
-    "newHere": "Neu hier? ",
-    "haveAccount": "Bereits ein Konto? ",
     "backToSite": "← Zurück zur Website",
     "genericError": "Etwas ist schiefgelaufen",
-    "googleError": "Google-Anmeldung fehlgeschlagen"
+    "googleError": "Google-Anmeldung fehlgeschlagen",
+    "memberTitle": "Mitgliederzugang",
+    "memberHelp": "Mitglieder werden ins System importiert. Beim ersten Mal müssen Sie Ihr Konto beanspruchen, bevor Sie sich anmelden können.",
+    "claimAccount": "Konto beanspruchen",
+    "internalSignIn": "Interne Administrator-Anmeldung",
+    "staffTitle": "Interne Anmeldung",
+    "staffSub": "Für Mitarbeitende und Administratoren von ICF Switzerland.",
+    "backToMemberSignIn": "← Zurück zur Mitglieder-Anmeldung"
   },
   "list": {
     "title": "Artikel",
