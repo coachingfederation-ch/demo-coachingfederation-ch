@@ -36,6 +36,8 @@ export type MyProfileTranslations = {
 
 function cleanText(value: string | null | undefined, max: number): string | null {
   if (value == null) return null;
+  // Control characters are the point: this strips them out of pasted text.
+  // eslint-disable-next-line no-control-regex
   const cleaned = value.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "").trim();
   return cleaned ? cleaned.slice(0, max) : null;
 }
