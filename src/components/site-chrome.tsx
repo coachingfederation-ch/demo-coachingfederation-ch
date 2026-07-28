@@ -1,8 +1,12 @@
 import * as React from "react";
-import { Globe, Menu, X } from "lucide-react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
+import { ChevronDown, Globe, Menu, User, X } from "lucide-react";
 import icfLogo from "@/assets/icf-switzerland-charter-chapter.png.asset.json";
 import { LocaleLink, useCanonicalPath, useI18n } from "@/i18n";
 import { LOCALE_LABELS, LOCALE_ORDER, localizePath } from "@/i18n/config";
+import { supabase } from "@/integrations/supabase/client";
+import { myRolesQueryOptions, EMPTY_ROLES } from "@/lib/roles";
 
 const navItems = [
   { key: "home", to: "/" },
@@ -34,19 +38,42 @@ function setStoredLocale(l: string) {
   }
 }
 
-function CompactLanguageSwitcher() {
-  const { t, locale } = useI18n();
-  const path = useCanonicalPath();
-  const [open, setOpen] = React.useState(false);
-  const ref = React.useRef<HTMLDivElement>(null);
+/**
+ * Header-local session state. The header renders during SSR, so the signed-out
+ * shape is what hydrates; the client query then resolves the real state and the
+ * shared `onAuthStateChange` invalidation keeps it honest after sign-in/out.
+ */
+function useHeaderSession() {
+  const queryClient = useQueryClient();
+  const session = useQuery({
+    queryKey: ["auth-user-id"],
+    queryFn: async () => (await supabase.auth.getUser()).data.user?.id ?? null,
+    staleTime: 5 * 60_000,
+  });
+  const userId = session.data ?? null;
+  const roles = useQuery({ ...myRolesQueryOptions(userId), enabled: session.isSuccess });
 
+  React.useEffect(() => {
+    const { data: sub } = supabase.auth.onAuthStateChange(() => {
+      void queryClient.invalidateQueries({ queryKey: ["auth-user-id"] });
+      void queryClient.invalidateQueries({ queryKey: ["my-roles"] });
+    });
+    return () => sub.subscription.unsubscribe();
+  }, [queryClient]);
+
+  return { userId, roles: roles.data ?? EMPTY_ROLES };
+}
+
+/** Shared dropdown primitive: outside-click + Escape close. */
+function useDismissable(open: boolean, close: () => void) {
+  const ref = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
     if (!open) return;
     const onDown = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      if (ref.current && !ref.current.contains(e.target as Node)) close();
     };
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") close();
     };
     document.addEventListener("mousedown", onDown);
     document.addEventListener("keydown", onKey);
@@ -54,20 +81,33 @@ function CompactLanguageSwitcher() {
       document.removeEventListener("mousedown", onDown);
       document.removeEventListener("keydown", onKey);
     };
-  }, [open]);
+  }, [open, close]);
+  return ref;
+}
+
+const MENU_ITEM =
+  "block min-h-11 px-4 py-3 text-left text-[12px] font-semibold leading-5 text-foreground/80 hover:bg-muted hover:text-foreground";
+
+function LanguageSwitcher() {
+  const { t, locale } = useI18n();
+  const path = useCanonicalPath();
+  const [open, setOpen] = React.useState(false);
+  const close = React.useCallback(() => setOpen(false), []);
+  const ref = useDismissable(open, close);
 
   return (
-    <div ref={ref} className="relative lg:hidden">
+    <div ref={ref} className="relative">
       <button
         type="button"
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label={t("common.nav.languageSwitch")}
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex h-8 items-center gap-1 rounded-full bg-white px-2.5 text-[11px] font-semibold uppercase tracking-wider text-primary shadow-sm"
+        className="inline-flex h-8 items-center gap-1 rounded-full bg-white/10 px-2.5 text-[11px] font-semibold uppercase tracking-wider text-white transition hover:bg-white/20"
       >
         <Globe className="h-3.5 w-3.5" aria-hidden="true" />
         {LOCALE_LABELS[locale]}
+        <ChevronDown className="h-3 w-3" aria-hidden="true" />
       </button>
       {open && (
         <ul
@@ -77,22 +117,119 @@ function CompactLanguageSwitcher() {
             CARD_SHADOW
           }
         >
-          {LOCALE_ORDER.filter((l) => l !== locale).map((l) => (
+          {LOCALE_ORDER.map((l) => (
             <li key={l}>
             <a
               href={localizePath(path, l)}
               hrefLang={l}
+              aria-current={l === locale ? "true" : undefined}
               onClick={() => {
                 setStoredLocale(l);
                 setOpen(false);
               }}
-              className="block min-h-11 px-4 py-3 text-[11px] font-semibold uppercase leading-5 tracking-wider text-foreground/80 hover:bg-muted hover:text-foreground"
+              className={
+                "block min-h-11 px-4 py-3 text-[11px] font-semibold uppercase leading-5 tracking-wider hover:bg-muted hover:text-foreground " +
+                (l === locale ? "bg-muted text-foreground" : "text-foreground/80")
+              }
             >
               {LOCALE_LABELS[l]}
             </a>
             </li>
           ))}
         </ul>
+      )}
+    </div>
+  );
+}
+
+async function signOutHere() {
+  await supabase.auth.signOut();
+  window.location.reload();
+}
+
+/** Member login (signed out) / account menu (signed in). */
+function AccountControl() {
+  const { t } = useI18n();
+  const { userId, roles } = useHeaderSession();
+  const [open, setOpen] = React.useState(false);
+  const close = React.useCallback(() => setOpen(false), []);
+  const ref = useDismissable(open, close);
+
+  if (!userId) {
+    return (
+      <Link
+        to="/auth"
+        className="hidden h-8 items-center rounded-full bg-white/10 px-3.5 text-[11px] font-semibold uppercase tracking-wider text-white transition hover:bg-white/20 sm:inline-flex"
+      >
+        {t("common.nav.memberLogin")}
+      </Link>
+    );
+  }
+
+  return (
+    <div ref={ref} className="relative hidden sm:block">
+      <button
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-label={t("common.nav.accountMenu")}
+        onClick={() => setOpen((v) => !v)}
+        className="inline-flex h-8 items-center gap-1.5 rounded-full bg-white/10 px-3 text-[11px] font-semibold uppercase tracking-wider text-white transition hover:bg-white/20"
+      >
+        <User className="h-3.5 w-3.5" aria-hidden="true" />
+        {t("common.nav.myAccount")}
+        <ChevronDown className="h-3 w-3" aria-hidden="true" />
+      </button>
+      {open && (
+        <div
+          className={
+            "absolute right-0 z-50 mt-2 min-w-[11rem] overflow-hidden rounded-xl border border-border/70 bg-card py-1 " +
+            CARD_SHADOW
+          }
+        >
+          <Link to="/my-profile" onClick={close} className={MENU_ITEM}>
+            {t("common.nav.myProfile")}
+          </Link>
+          {roles.isEditor && (
+            <Link to="/articles" onClick={close} className={MENU_ITEM}>
+              {t("common.nav.insightsCms")}
+            </Link>
+          )}
+          <button type="button" onClick={() => void signOutHere()} className={MENU_ITEM + " w-full"}>
+            {t("common.nav.signOut")}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** Account entries inside the mobile menu sheet. */
+function MobileAccountLinks({ onNavigate }: { onNavigate: () => void }) {
+  const { t } = useI18n();
+  const { userId, roles } = useHeaderSession();
+  const item = "rounded-full px-4 py-2.5 text-left text-white/85 transition hover:text-white";
+
+  return (
+    <div className="mt-2 flex flex-col border-t border-white/15 pt-2">
+      {!userId ? (
+        <Link to="/auth" onClick={onNavigate} className={item}>
+          {t("common.nav.memberLogin")}
+        </Link>
+      ) : (
+        <>
+          <Link to="/my-profile" onClick={onNavigate} className={item}>
+            {t("common.nav.myProfile")}
+          </Link>
+          {roles.isEditor && (
+            <Link to="/articles" onClick={onNavigate} className={item}>
+              {t("common.nav.insightsCms")}
+            </Link>
+          )}
+          <button type="button" onClick={() => void signOutHere()} className={item}>
+            {t("common.nav.signOut")}
+          </button>
+        </>
       )}
     </div>
   );
@@ -133,27 +270,8 @@ export function SiteNav() {
           </LocaleLink>
         ))}
       </nav>
-      <div
-        role="group"
-        aria-label={t("common.nav.languageLabel")}
-        className="hidden items-center rounded-full bg-white/10 p-0.5 text-[11px] font-semibold lg:inline-flex"
-      >
-        {LOCALE_ORDER.map((l) => (
-          <a
-            key={l}
-            href={localizePath(path, l)}
-            hrefLang={l}
-            onClick={() => setStoredLocale(l)}
-            className={
-              "inline-flex h-6 items-center rounded-full px-2.5 uppercase tracking-wider " +
-              (l === locale ? "bg-white text-primary shadow-sm" : "text-white/80 hover:text-white")
-            }
-          >
-            {LOCALE_LABELS[l]}
-          </a>
-        ))}
-      </div>
-      <CompactLanguageSwitcher />
+      <LanguageSwitcher />
+      <AccountControl />
       <LocaleLink
         to="/find-a-coach"
         className="hidden h-8 items-center rounded-full bg-accent px-4 text-[11px] font-semibold uppercase tracking-wider text-accent-foreground transition hover:opacity-90 lg:inline-flex"
@@ -194,6 +312,7 @@ export function SiteNav() {
           >
             {t("common.nav.findACoach")}
           </LocaleLink>
+          <MobileAccountLinks onNavigate={() => setMenuOpen(false)} />
         </nav>
       )}
     </div>
