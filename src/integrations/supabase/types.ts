@@ -532,6 +532,150 @@ export type Database = {
         }
         Relationships: []
       }
+      event_registrations: {
+        Row: {
+          created_at: string
+          email: string
+          event_id: string
+          full_name: string
+          id: string
+          notes: string | null
+          status: Database["public"]["Enums"]["event_registration_status"]
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          event_id: string
+          full_name: string
+          id?: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["event_registration_status"]
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          event_id?: string
+          full_name?: string
+          id?: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["event_registration_status"]
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_registrations_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "event_registrations_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      events: {
+        Row: {
+          capacity: number | null
+          city: string | null
+          content_updated_at: string
+          created_at: string
+          description: string | null
+          ends_at: string | null
+          guest_registration_allowed: boolean
+          id: string
+          image_credit_name: string | null
+          image_credit_url: string | null
+          image_url: string | null
+          is_featured: boolean
+          language: Database["public"]["Enums"]["article_lang"]
+          location_mode: Database["public"]["Enums"]["event_location_mode"]
+          online_url: string | null
+          organizer_id: string | null
+          published_at: string | null
+          registration_closes_at: string | null
+          registration_mode: Database["public"]["Enums"]["event_registration_mode"]
+          registration_opens_at: string | null
+          slug: string
+          starts_at: string
+          status: Database["public"]["Enums"]["event_status"]
+          summary: string | null
+          timezone: string
+          title: string
+          updated_at: string
+          venue_name: string | null
+        }
+        Insert: {
+          capacity?: number | null
+          city?: string | null
+          content_updated_at?: string
+          created_at?: string
+          description?: string | null
+          ends_at?: string | null
+          guest_registration_allowed?: boolean
+          id?: string
+          image_credit_name?: string | null
+          image_credit_url?: string | null
+          image_url?: string | null
+          is_featured?: boolean
+          language?: Database["public"]["Enums"]["article_lang"]
+          location_mode?: Database["public"]["Enums"]["event_location_mode"]
+          online_url?: string | null
+          organizer_id?: string | null
+          published_at?: string | null
+          registration_closes_at?: string | null
+          registration_mode?: Database["public"]["Enums"]["event_registration_mode"]
+          registration_opens_at?: string | null
+          slug: string
+          starts_at: string
+          status?: Database["public"]["Enums"]["event_status"]
+          summary?: string | null
+          timezone?: string
+          title: string
+          updated_at?: string
+          venue_name?: string | null
+        }
+        Update: {
+          capacity?: number | null
+          city?: string | null
+          content_updated_at?: string
+          created_at?: string
+          description?: string | null
+          ends_at?: string | null
+          guest_registration_allowed?: boolean
+          id?: string
+          image_credit_name?: string | null
+          image_credit_url?: string | null
+          image_url?: string | null
+          is_featured?: boolean
+          language?: Database["public"]["Enums"]["article_lang"]
+          location_mode?: Database["public"]["Enums"]["event_location_mode"]
+          online_url?: string | null
+          organizer_id?: string | null
+          published_at?: string | null
+          registration_closes_at?: string | null
+          registration_mode?: Database["public"]["Enums"]["event_registration_mode"]
+          registration_opens_at?: string | null
+          slug?: string
+          starts_at?: string
+          status?: Database["public"]["Enums"]["event_status"]
+          summary?: string | null
+          timezone?: string
+          title?: string
+          updated_at?: string
+          venue_name?: string | null
+        }
+        Relationships: []
+      }
       integration_config: {
         Row: {
           account_claim_enabled: boolean
@@ -1653,6 +1797,111 @@ export type Database = {
         }
         Relationships: []
       }
+      events_public: {
+        Row: {
+          capacity: number | null
+          city: string | null
+          description: string | null
+          ends_at: string | null
+          guest_registration_allowed: boolean | null
+          id: string | null
+          image_credit_name: string | null
+          image_credit_url: string | null
+          image_url: string | null
+          is_featured: boolean | null
+          is_full: boolean | null
+          language: Database["public"]["Enums"]["article_lang"] | null
+          location_mode:
+            | Database["public"]["Enums"]["event_location_mode"]
+            | null
+          online_url: string | null
+          published_at: string | null
+          registration_closes_at: string | null
+          registration_count: number | null
+          registration_mode:
+            | Database["public"]["Enums"]["event_registration_mode"]
+            | null
+          registration_open: boolean | null
+          registration_opens_at: string | null
+          seats_remaining: number | null
+          slug: string | null
+          starts_at: string | null
+          summary: string | null
+          timezone: string | null
+          title: string | null
+          updated_at: string | null
+          venue_name: string | null
+        }
+        Insert: {
+          capacity?: number | null
+          city?: string | null
+          description?: string | null
+          ends_at?: string | null
+          guest_registration_allowed?: boolean | null
+          id?: string | null
+          image_credit_name?: string | null
+          image_credit_url?: string | null
+          image_url?: string | null
+          is_featured?: boolean | null
+          is_full?: never
+          language?: Database["public"]["Enums"]["article_lang"] | null
+          location_mode?:
+            | Database["public"]["Enums"]["event_location_mode"]
+            | null
+          online_url?: string | null
+          published_at?: string | null
+          registration_closes_at?: string | null
+          registration_count?: never
+          registration_mode?:
+            | Database["public"]["Enums"]["event_registration_mode"]
+            | null
+          registration_open?: never
+          registration_opens_at?: string | null
+          seats_remaining?: never
+          slug?: string | null
+          starts_at?: string | null
+          summary?: string | null
+          timezone?: string | null
+          title?: string | null
+          updated_at?: string | null
+          venue_name?: string | null
+        }
+        Update: {
+          capacity?: number | null
+          city?: string | null
+          description?: string | null
+          ends_at?: string | null
+          guest_registration_allowed?: boolean | null
+          id?: string | null
+          image_credit_name?: string | null
+          image_credit_url?: string | null
+          image_url?: string | null
+          is_featured?: boolean | null
+          is_full?: never
+          language?: Database["public"]["Enums"]["article_lang"] | null
+          location_mode?:
+            | Database["public"]["Enums"]["event_location_mode"]
+            | null
+          online_url?: string | null
+          published_at?: string | null
+          registration_closes_at?: string | null
+          registration_count?: never
+          registration_mode?:
+            | Database["public"]["Enums"]["event_registration_mode"]
+            | null
+          registration_open?: never
+          registration_opens_at?: string | null
+          seats_remaining?: never
+          slug?: string | null
+          starts_at?: string | null
+          summary?: string | null
+          timezone?: string | null
+          title?: string | null
+          updated_at?: string | null
+          venue_name?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       member_has_directory_credential: {
@@ -1671,9 +1920,19 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "editor" | "user" | "contributor" | "member"
+      app_role:
+        | "admin"
+        | "editor"
+        | "user"
+        | "contributor"
+        | "member"
+        | "organizer"
       article_lang: "en" | "fr" | "de" | "it"
       article_status: "draft" | "scheduled" | "published" | "unpublished"
+      event_location_mode: "in_person" | "online" | "hybrid"
+      event_registration_mode: "none" | "rsvp"
+      event_registration_status: "confirmed" | "cancelled"
+      event_status: "draft" | "published" | "cancelled"
       integration_mode: "test" | "live"
       member_activity_state: "active" | "inactive" | "grace" | "anonymized"
       member_visibility:
@@ -1810,9 +2069,20 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "editor", "user", "contributor", "member"],
+      app_role: [
+        "admin",
+        "editor",
+        "user",
+        "contributor",
+        "member",
+        "organizer",
+      ],
       article_lang: ["en", "fr", "de", "it"],
       article_status: ["draft", "scheduled", "published", "unpublished"],
+      event_location_mode: ["in_person", "online", "hybrid"],
+      event_registration_mode: ["none", "rsvp"],
+      event_registration_status: ["confirmed", "cancelled"],
+      event_status: ["draft", "published", "cancelled"],
       integration_mode: ["test", "live"],
       member_activity_state: ["active", "inactive", "grace", "anonymized"],
       member_visibility: [

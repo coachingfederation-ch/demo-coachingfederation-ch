@@ -13,12 +13,16 @@
  *
  * Client-safe: no imports, no secrets, no I/O.
  */
-export type AppRole = "admin" | "editor" | "contributor" | "member" | "user";
+export type AppRole = "admin" | "editor" | "contributor" | "organizer" | "member" | "user";
 
-/** Roles that may reach the Insights CMS. */
-export const STAFF_ROLES: AppRole[] = ["admin", "editor", "contributor"];
+/** Roles that may reach the staff CMS. */
+export const STAFF_ROLES: AppRole[] = ["admin", "editor", "contributor", "organizer"];
 
-/** The only role an admin may grant or revoke through the application. */
+/** The roles an admin may grant or revoke through the application. */
+export const MANAGED_ROLES = ["editor", "organizer"] as const;
+export type ManagedRole = (typeof MANAGED_ROLES)[number];
+
+/** @deprecated use MANAGED_ROLES. Kept so older call sites keep compiling. */
 export const MANAGED_ROLE = "editor" as const;
 
 export type RoleSet = {
@@ -26,6 +30,7 @@ export type RoleSet = {
   isAdmin: boolean;
   isEditor: boolean;
   isContributor: boolean;
+  isOrganizer: boolean;
   isStaff: boolean;
   isMember: boolean;
 };
@@ -35,6 +40,7 @@ export const EMPTY_ROLES: RoleSet = {
   isAdmin: false,
   isEditor: false,
   isContributor: false,
+  isOrganizer: false,
   isStaff: false,
   isMember: false,
 };
@@ -46,6 +52,8 @@ export function toRoleSet(roles: AppRole[]): RoleSet {
     isAdmin: has("admin"),
     isEditor: has("admin") || has("editor"),
     isContributor: has("contributor"),
+    // Editors and admins manage every event, so they are organizers too.
+    isOrganizer: has("admin") || has("editor") || has("organizer"),
     isStaff: STAFF_ROLES.some(has),
     isMember: has("member"),
   };

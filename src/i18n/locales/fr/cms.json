@@ -14,7 +14,8 @@
     "integration": "Intégration",
     "roles": "Rôles",
     "memberArea": "Espace membre",
-    "insightsCms": "CMS Insights"
+    "insightsCms": "CMS Insights",
+    "events": "Événements"
   },
   "auth": {
     "signInSub": "Connectez-vous pour continuer",
@@ -559,8 +560,6 @@
     "colName": "Membre",
     "colEmail": "E-mail",
     "colAccess": "Accès",
-    "grant": "Accorder éditeur",
-    "revoke": "Retirer éditeur",
     "memberBadge": "Membre",
     "editorBadge": "Éditeur",
     "loading": "Chargement des membres…",
@@ -577,6 +576,77 @@
     "internalEmpty": "Aucun compte interne.",
     "colRoles": "Rôles",
     "adminBadge": "Administrateur",
-    "adminNote": "Provisionné séparément"
+    "adminNote": "Provisionné séparément",
+    "organizerBadge": "Organisateur",
+    "grantEditor": "Accorder éditeur",
+    "revokeEditor": "Retirer éditeur",
+    "grantOrganizer": "Accorder organisateur",
+    "revokeOrganizer": "Retirer organisateur"
+  },
+  "events": {
+    "title": "Événements",
+    "intro": "Créez et publiez les événements du chapitre, puis suivez les inscriptions. Les organisateurs voient leurs propres événements ; les éditeurs et administrateurs les voient tous.",
+    "new": "Nouvel événement",
+    "untitled": "Événement sans titre",
+    "loading": "Chargement des événements…",
+    "empty": "Aucun événement pour l'instant.",
+    "loadError": "Impossible de charger les événements.",
+    "saveError": "Impossible d'enregistrer cet événement.",
+    "saved": "Enregistré.",
+    "saving": "Enregistrement…",
+    "save": "Enregistrer",
+    "colTitle": "Événement",
+    "colWhen": "Quand",
+    "colWhere": "Où",
+    "colStatus": "Statut",
+    "colName": "Nom",
+    "colEmail": "E-mail",
+    "onlineLabel": "En ligne",
+    "status": {
+      "draft": "Brouillon",
+      "published": "Publié",
+      "cancelled": "Annulé",
+      "archived": "Archivé"
+    },
+    "backToList": "Tous les événements",
+    "publish": "Publier",
+    "unpublish": "Remettre en brouillon",
+    "cancelEvent": "Annuler l'événement",
+    "fieldTitle": "Titre",
+    "fieldSlug": "Adresse web (slug)",
+    "fieldLanguage": "Langue",
+    "fieldFeatured": "Mettre en avant sur la page événements",
+    "fieldSummary": "Résumé",
+    "fieldDescription": "Description",
+    "fieldStarts": "Début",
+    "fieldEnds": "Fin",
+    "fieldLocationMode": "Format",
+    "fieldCity": "Ville",
+    "fieldVenue": "Lieu",
+    "fieldOnlineUrl": "Lien en ligne",
+    "fieldImageUrl": "URL de l'image",
+    "fieldCapacity": "Places (vide = illimité)",
+    "fieldRegistrationMode": "Inscription",
+    "fieldGuests": "Autoriser l'inscription sans compte",
+    "fieldRegOpens": "Ouverture des inscriptions",
+    "fieldRegCloses": "Clôture des inscriptions",
+    "mode": {
+      "inPerson": "En présentiel",
+      "online": "En ligne",
+      "hybrid": "Hybride"
+    },
+    "regMode": {
+      "rsvp": "Inscription",
+      "none": "Sans inscription"
+    },
+    "attendees": "Participants",
+    "confirmedSuffix": "confirmés",
+    "noAttendees": "Aucune inscription pour l'instant.",
+    "regStatus": {
+      "confirmed": "Confirmée",
+      "cancelled": "Annulée"
+    },
+    "reinstate": "Réactiver",
+    "cancelRsvp": "Annuler"
   }
 }

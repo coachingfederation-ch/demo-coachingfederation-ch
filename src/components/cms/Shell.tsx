@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import {
   FileText,
   PencilLine,
+  CalendarDays,
   LogOut,
   Tags,
   ListTree,
@@ -27,6 +28,8 @@ const nav = [
   { to: "/articles", key: "nav.articles", icon: FileText, editorOnly: false, adminOnly: false },
   { to: "/articles/new", key: "nav.newArticle", icon: PencilLine, editorOnly: false, adminOnly: false },
   { to: "/articles/categories", key: "nav.categories", icon: Tags, editorOnly: true, adminOnly: false },
+  // Organizers see only this item; the shell itself is open to all staff roles.
+  { to: "/manage/events", key: "nav.events", icon: CalendarDays, editorOnly: false, adminOnly: false },
   { to: "/vocabularies", key: "nav.vocabularies", icon: ListTree, editorOnly: true, adminOnly: false },
   { to: "/coach-finder", key: "nav.coachFinder", icon: SlidersHorizontal, editorOnly: true, adminOnly: false },
   { to: "/members", key: "nav.members", icon: Users, editorOnly: true, adminOnly: false },
