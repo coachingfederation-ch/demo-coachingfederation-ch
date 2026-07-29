@@ -11,9 +11,9 @@
  * weight we use, so the whole type system costs two same-origin requests.
  */
 @font-face {
-  font-family: "Nunito Sans";
-  src: url("/fonts/nunito-sans-variable.woff2") format("woff2");
-  font-weight: 400 700;
+  font-family: "Quicksand";
+  src: url("/fonts/quicksand-variable.woff2") format("woff2");
+  font-weight: 300 700;
   font-style: normal;
   font-display: swap;
 }
@@ -89,8 +89,8 @@
   --shadow-soft: 0 1px 2px oklch(0.18 0.06 275 / 6%), 0 8px 24px oklch(0.18 0.06 275 / 6%);
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   --font-body: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
-  --font-heading: "Nunito Sans", system-ui, -apple-system, sans-serif;
-  --font-display: "Nunito Sans", system-ui, -apple-system, sans-serif;
+  --font-heading: "Quicksand", system-ui, -apple-system, sans-serif;
+  --font-display: "Quicksand", system-ui, -apple-system, sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
@@ -219,7 +219,10 @@
   h5,
   h6 {
     font-family: var(--font-heading);
-    letter-spacing: -0.02em;
+    /* Quicksand is geometric and runs wide; tighten tracking so headlines
+       read as a compact block. 600 is the canonical headline weight. */
+    font-weight: 600;
+    letter-spacing: -0.05em;
   }
 
   /*
