@@ -550,7 +550,7 @@ export default function PrivacyPage() {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold tracking-tight">h) Other third-party services</h3>
             <p className="text-foreground/80">
-              Fonts are self-hosted (Nunito Sans for headlines, Plus Jakarta Sans for body text) —
+              Fonts are self-hosted (Quicksand for headlines, Plus Jakarta Sans for body text) —
               no external font requests are made.
             </p>
             <p className="text-foreground/80">
