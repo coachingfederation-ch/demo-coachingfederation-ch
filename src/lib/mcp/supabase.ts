@@ -22,3 +22,16 @@ export function textResult(value: unknown) {
 export function errorResult(message: string) {
   return { content: [{ type: "text" as const, text: message }], isError: true };
 }
+
+/**
+ * PostgREST parses `.or()` as filter syntax, so commas, parentheses, dots and
+ * quotes in free text would change the query's structure. Strip them and the
+ * LIKE wildcards, leaving a plain literal substring to match on.
+ */
+export function sanitiseSearchText(value: string): string {
+  return value
+    .replace(/[,.()"'\\%_*]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 120);
+}

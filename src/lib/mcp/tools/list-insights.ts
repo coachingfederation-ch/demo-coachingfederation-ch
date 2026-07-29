@@ -1,6 +1,6 @@
 import { defineTool } from "@lovable.dev/mcp-js";
 import { z } from "zod";
-import { errorResult, supabaseForUser, textResult } from "../supabase";
+import { errorResult, sanitiseSearchText, supabaseForUser, textResult } from "../supabase";
 
 export default defineTool({
   name: "list_insights",
@@ -21,10 +21,11 @@ export default defineTool({
       .eq("status", "published")
       .order("published_at", { ascending: false });
     if (input.language) q = q.eq("language", input.language);
-    if (input.query) q = q.or(`title.ilike.%${input.query}%,excerpt.ilike.%${input.query}%`);
+    const term = input.query ? sanitiseSearchText(input.query) : "";
+    if (term) q = q.or(`title.ilike.%${term}%,excerpt.ilike.%${term}%`);
 
     const { data, error } = await q.limit(input.limit ?? 10);
-    if (error) return errorResult(error.message);
+    if (error) return errorResult("Could not list insights articles.");
     return {
       ...textResult({ count: data?.length ?? 0, articles: data ?? [] }),
       structuredContent: { articles: data ?? [] },
