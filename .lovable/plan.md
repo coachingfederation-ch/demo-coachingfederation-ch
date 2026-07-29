@@ -1,37 +1,36 @@
-## Goal
-Replace the headline typeface Nunito Sans with Quicksand (self-hosted **variable** font, default weight 600) and tighter letter-spacing. Body typography (Plus Jakarta Sans) stays untouched. No layout changes.
+## Plan
 
-## Steps
+Replace the body content of `src/pages/Privacy.tsx` with the combined Imprint & Privacy Policy draft you provided, while keeping the existing "Privacy Policy" hero and leaving the separate `/imprint` route unchanged.
 
-1. **Fetch and convert the font**
-   - Download the Quicksand variable font (OFL, weight axis 300–700) from the Google Fonts release, convert to WOFF2, save as `public/fonts/quicksand-variable.woff2`.
-   - Add `Quicksand-OFL.txt` alongside it, matching the existing license-file convention.
+## Changes
 
-2. **Remove Nunito**
-   - Delete `public/fonts/nunito-sans-variable.woff2` and `public/fonts/NunitoSans-OFL.txt`.
-   - Remove the Nunito `@font-face` block from `src/styles.css`.
-   - Swap the Nunito preload `<link>` in `src/routes/__root.tsx` for the Quicksand one.
+1. **Rewrite `src/pages/Privacy.tsx` body content**
+   - Replace the current Privacy-only sections with the full combined draft: front-matter status block, Imprint (Page 1), and Privacy Policy (Page 2 through the Appendix).
+   - Keep the existing `LegalPageShell` wrapper with `pageKey="privacy"` so the header and footer remain unchanged.
 
-3. **Add Quicksand `@font-face`** in `src/styles.css`: `font-family: "Quicksand"`, `font-weight: 300 700`, `font-display: swap`, keeping the "no external font CDN" comment convention.
+2. **Apply project naming convention**
+   - Replace all occurrences of `International Coach Federation (ICF) Switzerland` and `ICF Switzerland` with `The Switzerland Chapter of ICF` throughout the page copy.
+   - Avoid duplicating "Chapter" when the text already contains it.
 
-4. **Theme mapping** in `@theme inline`:
-   - `--font-heading` and `--font-display` → `"Quicksand", system-ui, -apple-system, sans-serif`.
-   - Body/sans tokens unchanged.
+3. **Convert the draft Markdown to project JSX components**
+   - Use existing `h2`/`h3` headings and `text-foreground/80` paragraph/list styling.
+   - Reuse the existing `Table` helper for tables (purposes, recipients/transfer safeguards, retention, cookies).
+   - Convert `[!info]` callouts into styled info boxes (e.g., a muted card with an info icon) so they remain visually distinct but still read as draft review notes.
+   - Convert blockquotes (`>`) into styled callouts.
+   - Preserve all external links with `target="_blank" rel="noopener noreferrer"` and `text-primary` underline styling.
+   - Preserve `mailto:` links for `office@coachingfederation.ch`.
 
-5. **Heading defaults** — extend the existing base rule that already targets `h1–h6`:
-   - `font-family: var(--font-heading)` (already present)
-   - `font-weight: 600` as the default heading weight (headings that explicitly set `font-bold` keep 700 — real weights, not synthetic, since we ship the variable font)
-   - `letter-spacing: -0.05em`, replacing the current `-0.02em`
-   
-   Applying this in the one base rule keeps the change global, avoids touching component files, and covers hero text and section headings automatically.
+4. **Correct out-of-date references from the draft**
+   - Replace "Nunito for headlines" with "Quicksand for headlines" to match the current typography.
+   - Ensure the self-hosted font statement references Plus Jakarta Sans body text correctly.
 
-6. **Content note**: `src/pages/Privacy.tsx` names the self-hosted fonts in the data-protection text — update "Nunito Sans" to "Quicksand" so the statement stays accurate.
+5. **Do not touch**
+   - `src/pages/Imprint.tsx` and `/imprint` route.
+   - `LegalPageShell` or the `legal.json` i18n hero text.
+   - Route/head meta for `/privacy` (kept as existing "Privacy Policy").
 
 ## Verification
-- Preview screenshots of `/`, `/about`, `/find-a-coach`: headings render in Quicksand with tighter tracking; body copy still Plus Jakarta Sans.
-- Confirm computed `font-family` on an `h1` and a `p` in the live preview.
-- Confirm zero network requests to `fonts.googleapis.com` / `fonts.gstatic.com`.
-- Close-up check of smaller headings (h4/h5/h6) at -0.05em, and report back if they look cramped so you can decide on loosening.
 
-## Note
-The `eyebrow` / `section-label` utilities keep their existing wide positive tracking — they're small-caps labels, not headlines.
+- Run a typecheck/build to confirm the file compiles.
+- Verify the page renders correctly at `/privacy` in the preview, with headings, tables, lists, and info callouts displaying in the current lavender/indigo design system.
+- Confirm no broken links and that all external links open in a new window.

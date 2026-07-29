@@ -2,12 +2,12 @@
   "imprint": {
     "meta": {
       "title": "Imprint — The Switzerland Chapter of ICF",
-      "description": "Legal notice and provider information for the The Switzerland Chapter of ICF website."
+      "description": "Legal notice and provider information for the website of The Switzerland Chapter of ICF."
     },
     "hero": {
       "eyebrow": "Legal",
       "title": "Imprint",
-      "lede": "Legal notice, provider information, and liability statements for the The Switzerland Chapter of ICF website."
+      "lede": "Legal notice, provider information, and liability statements for the website of The Switzerland Chapter of ICF."
     }
   },
   "privacy": {
@@ -18,7 +18,7 @@
     "hero": {
       "eyebrow": "Privacy",
       "title": "Privacy Policy",
-      "lede": "Information about the processing of personal data on the The Switzerland Chapter of ICF website and your data protection rights."
+      "lede": "Information about the processing of personal data on the website of The Switzerland Chapter of ICF and your data protection rights."
     }
   },
   "draftBanner": {
