@@ -10,7 +10,10 @@ import { directoryEligibilityReason } from "@/lib/directory-eligibility";
 export const Route = createFileRoute("/_staff/members/")({
   beforeLoad: ({ context }) => requireStaffAccess(context.queryClient, ADMIN_ONLY),
   head: () => ({
-    meta: [{ title: "Members — The Switzerland Chapter of ICF CMS" }, { name: "robots", content: "noindex" }],
+    meta: [
+      { title: "Members — The Switzerland Chapter of ICF CMS" },
+      { name: "robots", content: "noindex" },
+    ],
   }),
   component: MembersPage,
 });

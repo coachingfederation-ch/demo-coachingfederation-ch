@@ -26,7 +26,10 @@ import {
 export const Route = createFileRoute("/_staff/members/$id")({
   beforeLoad: ({ context }) => requireStaffAccess(context.queryClient, ADMIN_ONLY),
   head: () => ({
-    meta: [{ title: "Member — The Switzerland Chapter of ICF CMS" }, { name: "robots", content: "noindex" }],
+    meta: [
+      { title: "Member — The Switzerland Chapter of ICF CMS" },
+      { name: "robots", content: "noindex" },
+    ],
   }),
   component: MemberDetailPage,
 });

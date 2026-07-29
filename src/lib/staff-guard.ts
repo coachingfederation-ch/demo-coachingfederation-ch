@@ -24,7 +24,9 @@ import type { AppRole, RoleSet } from "@/lib/role-model";
  * A guard never redirects to a route that same account would be denied on, so
  * this cannot loop.
  */
-function fallbackFor(roles: RoleSet): "/articles" | "/manage/events" | "/my-profile" | "/no-access" {
+function fallbackFor(
+  roles: RoleSet,
+): "/articles" | "/manage/events" | "/my-profile" | "/no-access" {
   if (hasExactRole(roles.roles, "editor")) return "/articles";
   if (hasExactRole(roles.roles, "organizer")) return "/manage/events";
   if (roles.isMember) return "/my-profile";
