@@ -89,8 +89,8 @@
   --shadow-soft: 0 1px 2px oklch(0.18 0.06 275 / 6%), 0 8px 24px oklch(0.18 0.06 275 / 6%);
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   --font-body: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
-  --font-heading: "Nunito Sans", system-ui, -apple-system, sans-serif;
-  --font-display: "Nunito Sans", system-ui, -apple-system, sans-serif;
+  --font-heading: "Quicksand", system-ui, -apple-system, sans-serif;
+  --font-display: "Quicksand", system-ui, -apple-system, sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
