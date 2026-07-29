@@ -141,10 +141,12 @@ export default function ForOrganisationsPage() {
                 {t("organisations.getStarted.cta1")}
               </a>
               <a
-                href="#"
+                href="https://coachingfederation.org/resources/resource-library/?_topic=coaching-in-organizations&_resource_type=case-studies"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10"
               >
-                {t("organisations.getStarted.cta2")}
+                Case studies
               </a>
             </div>
           </div>
