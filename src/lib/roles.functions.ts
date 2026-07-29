@@ -84,9 +84,12 @@ export const grantMemberRole = createServerFn({ method: "POST" })
 
     // Plain insert, not upsert: the grant path holds INSERT and DELETE only,
     // so an already-granted row is a harmless unique-violation, not an update.
+    // `.select()` makes PostgREST return the affected row, so a policy-blocked
+    // write cannot be mistaken for success.
     const { error } = await context.supabase
       .from("user_roles")
-      .insert({ user_id: authUserId, role: data.role });
+      .insert({ user_id: authUserId, role: data.role })
+      .select("id");
     if (error && error.code !== "23505") throw new Error("Could not grant access.");
     return { ok: true };
   });
@@ -100,11 +103,15 @@ export const revokeMemberRole = createServerFn({ method: "POST" })
     const { authUserIdForMember } = await import("./roles-admin.server");
     const authUserId = await authUserIdForMember(data.memberId);
 
-    const { error } = await context.supabase
+    // A DELETE blocked by RLS returns no error and zero rows, so the row count
+    // — not the error — is what proves the revoke actually happened.
+    const { data: deleted, error } = await context.supabase
       .from("user_roles")
       .delete()
       .eq("user_id", authUserId)
-      .eq("role", data.role);
+      .eq("role", data.role)
+      .select("id");
     if (error) throw new Error("Could not revoke access.");
+    if (!deleted || deleted.length === 0) throw new Error("Could not revoke access.");
     return { ok: true };
   });
