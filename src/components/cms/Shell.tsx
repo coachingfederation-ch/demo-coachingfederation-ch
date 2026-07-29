@@ -18,54 +18,32 @@ import { useEffect, useState } from "react";
 import { useCms } from "@/i18n/cms";
 import { LOCALE_LABELS, LOCALE_ORDER } from "@/i18n/config";
 import { useMyRoles } from "@/lib/roles";
+import type { AppRole } from "@/lib/role-model";
 
 /**
- * Staff navigation. `editorOnly` items are hidden from contributors and
- * `adminOnly` items from everyone but admins — the real boundary is RLS plus
- * the server-side role checks, this only avoids dead ends.
+ * Staff navigation. `allowedRoles` lists the NON-ADMIN roles that may see an
+ * item; admins bypass the list entirely. The roles are matched exactly — the
+ * inherited `isEditor` / `isOrganizer` helpers would wrongly show Events to an
+ * editor. The real boundary is RLS plus the server-side role checks; this only
+ * avoids dead ends.
  */
-const nav = [
-  { to: "/articles", key: "nav.articles", icon: FileText, editorOnly: false, adminOnly: false },
-  {
-    to: "/articles/new",
-    key: "nav.newArticle",
-    icon: PencilLine,
-    editorOnly: false,
-    adminOnly: false,
-  },
-  {
-    to: "/articles/categories",
-    key: "nav.categories",
-    icon: Tags,
-    editorOnly: true,
-    adminOnly: false,
-  },
+const nav: {
+  to: string;
+  key: string;
+  icon: typeof FileText;
+  allowedRoles: AppRole[];
+}[] = [
+  { to: "/articles", key: "nav.articles", icon: FileText, allowedRoles: ["editor"] },
+  { to: "/articles/new", key: "nav.newArticle", icon: PencilLine, allowedRoles: ["editor"] },
   // Organizers see only this item; the shell itself is open to all staff roles.
-  {
-    to: "/manage/events",
-    key: "nav.events",
-    icon: CalendarDays,
-    editorOnly: false,
-    adminOnly: false,
-  },
-  {
-    to: "/vocabularies",
-    key: "nav.vocabularies",
-    icon: ListTree,
-    editorOnly: true,
-    adminOnly: false,
-  },
-  {
-    to: "/coach-finder",
-    key: "nav.coachFinder",
-    icon: SlidersHorizontal,
-    editorOnly: true,
-    adminOnly: false,
-  },
-  { to: "/members", key: "nav.members", icon: Users, editorOnly: true, adminOnly: false },
-  { to: "/integration", key: "nav.integration", icon: PlugZap, editorOnly: true, adminOnly: false },
-  { to: "/roles", key: "nav.roles", icon: ShieldCheck, editorOnly: true, adminOnly: true },
-] as const;
+  { to: "/manage/events", key: "nav.events", icon: CalendarDays, allowedRoles: ["organizer"] },
+  { to: "/articles/categories", key: "nav.categories", icon: Tags, allowedRoles: [] },
+  { to: "/vocabularies", key: "nav.vocabularies", icon: ListTree, allowedRoles: [] },
+  { to: "/coach-finder", key: "nav.coachFinder", icon: SlidersHorizontal, allowedRoles: [] },
+  { to: "/members", key: "nav.members", icon: Users, allowedRoles: [] },
+  { to: "/integration", key: "nav.integration", icon: PlugZap, allowedRoles: [] },
+  { to: "/roles", key: "nav.roles", icon: ShieldCheck, allowedRoles: [] },
+];
 
 function Logo({ title }: { title: string }) {
   return (
@@ -96,7 +74,7 @@ export function Shell({ children }: { children: ReactNode }) {
   const { t, locale, setLocale } = useCms();
   const { roles } = useMyRoles();
   const items = nav.filter(
-    (item) => (!item.editorOnly || roles.isEditor) && (!item.adminOnly || roles.isAdmin),
+    (item) => roles.isAdmin || item.allowedRoles.some((r) => roles.roles.includes(r)),
   );
 
   useEffect(() => {
