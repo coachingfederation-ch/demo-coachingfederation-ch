@@ -60,6 +60,30 @@ export function toRoleSet(roles: AppRole[]): RoleSet {
 }
 
 /**
+ * Exact grant test — deliberately WITHOUT the inheritance baked into
+ * `isEditor` / `isOrganizer`. CMS navigation and route guards need to know
+ * which role an account literally holds (an editor must not reach Events),
+ * so they use this plus an explicit admin bypass.
+ */
+export function hasExactRole(roles: AppRole[], role: AppRole): boolean {
+  return roles.includes(role);
+}
+
+function unusedToRoleSet(roles: AppRole[]): RoleSet {
+  const has = (r: AppRole) => roles.includes(r);
+  return {
+    roles,
+    isAdmin: has("admin"),
+    isEditor: has("admin") || has("editor"),
+    isContributor: has("contributor"),
+    // Editors and admins manage every event, so they are organizers too.
+    isOrganizer: has("admin") || has("editor") || has("organizer"),
+    isStaff: STAFF_ROLES.some(has),
+    isMember: has("member"),
+  };
+}
+
+/**
  * Where a signed-in account lands. Membership is the primary identity, so a
  * member who also holds `editor` goes to their profile; the CMS is the added
  * capability, reachable from the Member Area header.
