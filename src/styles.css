@@ -219,7 +219,10 @@
   h5,
   h6 {
     font-family: var(--font-heading);
-    letter-spacing: -0.02em;
+    /* Quicksand is geometric and runs wide; tighten tracking so headlines
+       read as a compact block. 600 is the canonical headline weight. */
+    font-weight: 600;
+    letter-spacing: -0.05em;
   }
 
   /*
