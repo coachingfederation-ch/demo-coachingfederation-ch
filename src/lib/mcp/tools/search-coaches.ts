@@ -1,6 +1,6 @@
 import { defineTool } from "@lovable.dev/mcp-js";
 import { z } from "zod";
-import { errorResult, supabaseForUser, textResult } from "../supabase";
+import { errorResult, sanitiseSearchText, supabaseForUser, textResult } from "../supabase";
 
 const COLUMNS =
   "profile_id, member_id, full_name, tagline, city, country, credential_slug, services, region_slugs, language_slugs, specialisation_slugs, format_slugs, client_type_slugs, experience_band";
@@ -26,7 +26,8 @@ export default defineTool({
   handler: async (input, ctx) => {
     if (!ctx.isAuthenticated()) return errorResult("Not authenticated");
     let q = supabaseForUser(ctx).from("coach_directory_public").select(COLUMNS);
-    if (input.query) q = q.or(`full_name.ilike.%${input.query}%,tagline.ilike.%${input.query}%`);
+    const term = input.query ? sanitiseSearchText(input.query) : "";
+    if (term) q = q.or(`full_name.ilike.%${term}%,tagline.ilike.%${term}%`);
     if (input.region) q = q.contains("region_slugs", [input.region]);
     if (input.language) q = q.contains("language_slugs", [input.language]);
     if (input.specialisation) q = q.contains("specialisation_slugs", [input.specialisation]);
@@ -34,7 +35,7 @@ export default defineTool({
     if (input.credential) q = q.eq("credential_slug", input.credential.toLowerCase());
 
     const { data, error } = await q.limit(input.limit ?? 10);
-    if (error) return errorResult(error.message);
+    if (error) return errorResult("Could not search the coach directory.");
     return {
       ...textResult({ count: data?.length ?? 0, coaches: data ?? [] }),
       structuredContent: { coaches: data ?? [] },
