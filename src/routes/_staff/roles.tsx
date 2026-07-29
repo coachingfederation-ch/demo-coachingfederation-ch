@@ -4,8 +4,8 @@
  * The single thing manageable here is the additive `editor` grant on a claimed
  * member: it adds Insights CMS access and changes nothing about membership,
  * the directory profile or Member Area access. `admin` is provisioned by
- * migration and deliberately absent from this screen; `contributor` and `user`
- * are dormant and not surfaced.
+ * migration and deliberately absent from this screen; `user` is dormant and
+ * not surfaced.
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";

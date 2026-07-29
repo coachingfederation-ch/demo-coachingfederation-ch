@@ -190,7 +190,7 @@ export async function listInternalStaffAccounts(): Promise<InternalStaffAccount[
   const { data: roleRows, error } = await supabaseAdmin
     .from("user_roles")
     .select("user_id, role")
-    .in("role", ["admin", "editor", "contributor", "organizer"]);
+    .in("role", ["admin", "editor", "organizer"]);
   if (error) throw error;
 
   const byUser = new Map<string, string[]>();

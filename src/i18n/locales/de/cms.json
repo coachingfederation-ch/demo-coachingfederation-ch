@@ -106,8 +106,7 @@
     "languageLocked": "Quellsprache nach der ersten Veröffentlichung gesperrt",
     "languageUnlocked": "Quellsprache kann bis zur ersten Veröffentlichung geändert werden",
     "imageError": "Für dieses Bild konnte kein Link erstellt werden.",
-    "previewEmpty": "Noch keine Vorschau verfügbar — beginnen Sie zu schreiben.",
-    "contributorNote": "Nur Entwürfe — die Veröffentlichung erfolgt durch eine Redaktion."
+    "previewEmpty": "Noch keine Vorschau verfügbar — beginnen Sie zu schreiben."
   },
   "translations": {
     "title": "Übersetzungen",
