@@ -80,7 +80,12 @@ export function landingPath(
   if (roles.isMember) return "/my-profile";
   // An organizer-only staff account has no access to /articles — the route
   // guard would bounce them straight back out.
-  if (roles.isStaff && hasExactRole(roles.roles, "organizer") && !hasExactRole(roles.roles, "editor") && !roles.isAdmin)
+  if (
+    roles.isStaff &&
+    hasExactRole(roles.roles, "organizer") &&
+    !hasExactRole(roles.roles, "editor") &&
+    !roles.isAdmin
+  )
     return "/manage/events";
   if (roles.isStaff) return "/articles";
   return "/no-access";
