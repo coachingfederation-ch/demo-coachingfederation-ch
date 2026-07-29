@@ -8,15 +8,15 @@
  * granting or revoking `editor` never touches `members.auth_user_id`, the
  * `member` grant, or Member Area access.
  *
- * `contributor` and `user` are dormant: their RLS policies still exist and are
- * still enforced, but nothing grants them and no UI surfaces them.
+ * `user` is dormant: its RLS policies still exist and are still enforced, but
+ * nothing grants it and no UI surfaces it.
  *
  * Client-safe: no imports, no secrets, no I/O.
  */
-export type AppRole = "admin" | "editor" | "contributor" | "organizer" | "member" | "user";
+export type AppRole = "admin" | "editor" | "organizer" | "member" | "user";
 
 /** Roles that may reach the staff CMS. */
-export const STAFF_ROLES: AppRole[] = ["admin", "editor", "contributor", "organizer"];
+export const STAFF_ROLES: AppRole[] = ["admin", "editor", "organizer"];
 
 /** The roles an admin may grant or revoke through the application. */
 export const MANAGED_ROLES = ["editor", "organizer"] as const;
@@ -29,7 +29,6 @@ export type RoleSet = {
   roles: AppRole[];
   isAdmin: boolean;
   isEditor: boolean;
-  isContributor: boolean;
   isOrganizer: boolean;
   isStaff: boolean;
   isMember: boolean;
@@ -39,7 +38,6 @@ export const EMPTY_ROLES: RoleSet = {
   roles: [],
   isAdmin: false,
   isEditor: false,
-  isContributor: false,
   isOrganizer: false,
   isStaff: false,
   isMember: false,
@@ -51,7 +49,6 @@ export function toRoleSet(roles: AppRole[]): RoleSet {
     roles,
     isAdmin: has("admin"),
     isEditor: has("admin") || has("editor"),
-    isContributor: has("contributor"),
     // Editors and admins manage every event, so they are organizers too.
     isOrganizer: has("admin") || has("editor") || has("organizer"),
     isStaff: STAFF_ROLES.some(has),
