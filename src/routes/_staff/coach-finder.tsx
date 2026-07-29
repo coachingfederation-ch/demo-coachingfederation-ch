@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/cms/Shell";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,6 +8,7 @@ import { getCoachFinderConfigForStaff } from "@/lib/coach-finder-config.function
 import { type CoachFinderConfig } from "@/lib/vocabularies";
 
 export const Route = createFileRoute("/_staff/coach-finder")({
+  beforeLoad: ({ context }) => requireStaffAccess(context.queryClient, ADMIN_ONLY),
   head: () => ({
     meta: [
       { title: "Coach Finder settings — The Switzerland Chapter of ICF CMS" },

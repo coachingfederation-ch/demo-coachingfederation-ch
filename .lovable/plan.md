@@ -1,36 +1,68 @@
-## Plan
+## Goal
 
-Replace the body content of `src/pages/Privacy.tsx` with the combined Imprint & Privacy Policy draft you provided, while keeping the existing "Privacy Policy" hero and leaving the separate `/imprint` route unchanged.
+Each CMS role only sees, and can only reach, the functions it should. Admin keeps everything; editor gets Articles only; organizer gets Events only. UI/routing layer only — no RLS or server authz changes.
+
+## Access matrix (exact roles, admin bypass)
+
+| Function | Non-admin roles allowed |
+| --- | --- |
+| Articles, New Article, Article detail | editor |
+| Events (list + detail) | organizer |
+| Categories, Vocabularies, Coach Finder, Members, Integration, Roles | (none — admin only) |
+
+Contributor is not part of this matrix.
 
 ## Changes
 
-1. **Rewrite `src/pages/Privacy.tsx` body content**
-   - Replace the current Privacy-only sections with the full combined draft: front-matter status block, Imprint (Page 1), and Privacy Policy (Page 2 through the Appendix).
-   - Keep the existing `LegalPageShell` wrapper with `pageKey="privacy"` so the header and footer remain unchanged.
+**1. `src/lib/role-model.ts`** — add an exact-role helper:
 
-2. **Apply project naming convention**
-   - Replace all occurrences of `International Coach Federation (ICF) Switzerland` and `ICF Switzerland` with `The Switzerland Chapter of ICF` throughout the page copy.
-   - Avoid duplicating "Chapter" when the text already contains it.
+```ts
+export function hasExactRole(roles: AppRole[], role: AppRole): boolean {
+  return roles.includes(role);
+}
+```
 
-3. **Convert the draft Markdown to project JSX components**
-   - Use existing `h2`/`h3` headings and `text-foreground/80` paragraph/list styling.
-   - Reuse the existing `Table` helper for tables (purposes, recipients/transfer safeguards, retention, cookies).
-   - Convert `[!info]` callouts into styled info boxes (e.g., a muted card with an info icon) so they remain visually distinct but still read as draft review notes.
-   - Convert blockquotes (`>`) into styled callouts.
-   - Preserve all external links with `target="_blank" rel="noopener noreferrer"` and `text-primary` underline styling.
-   - Preserve `mailto:` links for `office@coachingfederation.ch`.
+The inherited `isEditor` / `isOrganizer` helpers stay untouched (other code depends on them) but are not used for nav or the new guards.
 
-4. **Correct out-of-date references from the draft**
-   - Replace "Nunito for headlines" with "Quicksand for headlines" to match the current typography.
-   - Ensure the self-hosted font statement references Plus Jakarta Sans body text correctly.
+**2. `src/components/cms/Shell.tsx`** — replace `editorOnly` / `adminOnly` with an `allowedRoles` array holding non-admin roles only, and one filter mechanism with an admin bypass:
 
-5. **Do not touch**
-   - `src/pages/Imprint.tsx` and `/imprint` route.
-   - `LegalPageShell` or the `legal.json` i18n hero text.
-   - Route/head meta for `/privacy` (kept as existing "Privacy Policy").
+```ts
+roles.isAdmin || item.allowedRoles.some((r) => roles.roles.includes(r))
+```
+
+Nav entries: Articles `["editor"]`, New Article `["editor"]`, Events `["organizer"]`, everything else `[]` (admin only).
+
+**3. Route guards** — shared client-side helper (`src/lib/staff-guard.ts`) mirroring the `_staff/route.tsx` pattern: read the session user, `ensureQueryData(myRolesQueryOptions(userId))`, allow if admin or if the role set contains the required exact role, otherwise redirect.
+
+Redirect priority for a denied route, evaluated in this order:
+
+1. admin — never denied (bypass, no redirect path needed)
+2. exact `editor` → `/articles`
+3. exact `organizer` → `/manage/events`
+4. `member` → `/my-profile`
+5. otherwise → `/no-access`
+
+An account holding both `editor` and `organizer` deterministically lands on `/articles` (editor precedes organizer in the order); this is documented in the helper's comment. Because a guard never redirects to a route the user is denied on, there is no redirect loop.
+
+Applied via `beforeLoad` to:
+
+- `articles.tsx`, `articles.index.tsx`, `articles.new.tsx`, `articles.$id.tsx` → admin or editor
+- `articles.categories.tsx` → admin
+- `manage.events.index.tsx`, `manage.events.$id.tsx` → admin or organizer
+- `vocabularies.tsx`, `coach-finder.tsx`, `members.index.tsx`, `members.$id.tsx`, `integration.tsx`, `roles.tsx` → admin
+
+`src/routes/_staff/articles.tsx` was verified to be a parent layout returning `<Outlet />`, so guarding it covers the whole `/articles/*` subtree in addition to the per-child guards. `roles.tsx` keeps its existing component-level admin check as defence in depth.
+
+**4. Contributor behaviour (explicit).** `_staff/route.tsx` is unchanged and still admits `contributor` as staff, but contributor is in no route's allowed list, so a contributor passes the shell gate and is then redirected by the first child guard to `/my-profile` (if also a member) or `/no-access`. The nav would render empty for them. Nothing currently grants `contributor`, so this is dormant behaviour; changing the staff gate is out of scope for this task.
+
+**5. Untouched:** `_staff/route.tsx`, `authz.ts`, all RLS policies and server functions.
 
 ## Verification
 
-- Run a typecheck/build to confirm the file compiles.
-- Verify the page renders correctly at `/privacy` in the preview, with headings, tables, lists, and info callouts displaying in the current lavender/indigo design system.
-- Confirm no broken links and that all external links open in a new window.
+- Typecheck clean.
+- Playwright against the running preview with editor, organizer and admin sessions: nav item lists, plus direct URL hits on `/manage/events` as editor and `/articles` as organizer redirect to the expected fallbacks.
+- Admin sees the full nav; a member holding an extra staff grant still sees the Member Area link.
+
+## Risk note
+
+Guards are client-side (`_staff` is `ssr: false`), so they are navigation hygiene, not a security boundary — the database policies remain the real enforcement and are unchanged.

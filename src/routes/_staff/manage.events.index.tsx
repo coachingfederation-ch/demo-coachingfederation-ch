@@ -1,4 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { requireStaffAccess, EVENT_ROLES } from "@/lib/staff-guard";
 import { useEffect, useState } from "react";
 import { CalendarDays, Plus } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
@@ -6,6 +7,7 @@ import { useCms } from "@/i18n/cms";
 import { createEvent, listManagedEvents } from "@/lib/events-admin.functions";
 
 export const Route = createFileRoute("/_staff/manage/events/")({
+  beforeLoad: ({ context }) => requireStaffAccess(context.queryClient, EVENT_ROLES),
   head: () => ({
     meta: [
       { title: "Events — The Switzerland Chapter of ICF CMS" },

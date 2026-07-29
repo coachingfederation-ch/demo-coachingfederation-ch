@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { requireStaffAccess, ARTICLE_ROLES } from "@/lib/staff-guard";
 import { useMyRoles } from "@/lib/roles";
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, Image as ImageIcon, Upload, X } from "lucide-react";
@@ -27,6 +28,7 @@ import {
 import { useCms } from "@/i18n/cms";
 
 export const Route = createFileRoute("/_staff/articles/$id")({
+  beforeLoad: ({ context }) => requireStaffAccess(context.queryClient, ARTICLE_ROLES),
   head: () => ({
     meta: [
       { title: "Editor — The Switzerland Chapter of ICF Insights CMS" },
