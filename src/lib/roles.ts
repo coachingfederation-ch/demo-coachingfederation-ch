@@ -36,7 +36,7 @@ export const myRolesQueryOptions = (userId: string | null) =>
 
 export async function landingPathForSession(
   userId: string,
-): Promise<"/articles" | "/my-profile" | "/no-access"> {
+): Promise<"/articles" | "/manage/events" | "/my-profile" | "/no-access"> {
   return landingPath(await fetchMyRoles(userId));
 }
 
