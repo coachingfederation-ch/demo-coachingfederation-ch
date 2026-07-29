@@ -106,8 +106,7 @@
     "languageLocked": "Langue source verrouillée après la première publication",
     "languageUnlocked": "La langue source peut être modifiée jusqu'à la première publication",
     "imageError": "Impossible de créer un lien pour cette image.",
-    "previewEmpty": "Rien à prévisualiser pour l'instant — commencez à écrire.",
-    "contributorNote": "Brouillons uniquement — la publication est faite par la rédaction."
+    "previewEmpty": "Rien à prévisualiser pour l'instant — commencez à écrire."
   },
   "translations": {
     "title": "Traductions",
