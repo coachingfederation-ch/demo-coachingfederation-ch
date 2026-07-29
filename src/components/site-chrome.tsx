@@ -159,6 +159,7 @@ function AccountControl() {
     return (
       <Link
         to="/auth"
+        search={{ next: undefined }}
         className="hidden h-8 items-center rounded-full bg-white/10 px-3.5 text-[11px] font-semibold uppercase tracking-wider text-white transition hover:bg-white/20 sm:inline-flex"
       >
         {t("common.nav.memberLogin")}
@@ -217,7 +218,7 @@ function MobileAccountLinks({ onNavigate }: { onNavigate: () => void }) {
   return (
     <div className="mt-2 flex flex-col border-t border-white/15 pt-2">
       {!userId ? (
-        <Link to="/auth" onClick={onNavigate} className={item}>
+        <Link to="/auth" search={{ next: undefined }} onClick={onNavigate} className={item}>
           {t("common.nav.memberLogin")}
         </Link>
       ) : (
