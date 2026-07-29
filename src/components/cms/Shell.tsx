@@ -27,23 +27,18 @@ import type { AppRole } from "@/lib/role-model";
  * editor. The real boundary is RLS plus the server-side role checks; this only
  * avoids dead ends.
  */
-const nav: {
-  to: string;
-  key: string;
-  icon: typeof FileText;
-  allowedRoles: AppRole[];
-}[] = [
+const nav = [
   { to: "/articles", key: "nav.articles", icon: FileText, allowedRoles: ["editor"] },
   { to: "/articles/new", key: "nav.newArticle", icon: PencilLine, allowedRoles: ["editor"] },
+  { to: "/articles/categories", key: "nav.categories", icon: Tags, allowedRoles: [] },
   // Organizers see only this item; the shell itself is open to all staff roles.
   { to: "/manage/events", key: "nav.events", icon: CalendarDays, allowedRoles: ["organizer"] },
-  { to: "/articles/categories", key: "nav.categories", icon: Tags, allowedRoles: [] },
   { to: "/vocabularies", key: "nav.vocabularies", icon: ListTree, allowedRoles: [] },
   { to: "/coach-finder", key: "nav.coachFinder", icon: SlidersHorizontal, allowedRoles: [] },
   { to: "/members", key: "nav.members", icon: Users, allowedRoles: [] },
   { to: "/integration", key: "nav.integration", icon: PlugZap, allowedRoles: [] },
   { to: "/roles", key: "nav.roles", icon: ShieldCheck, allowedRoles: [] },
-];
+] as const satisfies ReadonlyArray<{ allowedRoles: readonly AppRole[] }>;
 
 function Logo({ title }: { title: string }) {
   return (
