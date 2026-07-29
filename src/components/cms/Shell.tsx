@@ -38,7 +38,12 @@ const nav = [
   { to: "/members", key: "nav.members", icon: Users, allowedRoles: [] },
   { to: "/integration", key: "nav.integration", icon: PlugZap, allowedRoles: [] },
   { to: "/roles", key: "nav.roles", icon: ShieldCheck, allowedRoles: [] },
-] as const satisfies ReadonlyArray<{ allowedRoles: readonly AppRole[] }>;
+] as const satisfies ReadonlyArray<{
+  to: string;
+  key: string;
+  icon: typeof FileText;
+  allowedRoles: readonly AppRole[];
+}>;
 
 function Logo({ title }: { title: string }) {
   return (
