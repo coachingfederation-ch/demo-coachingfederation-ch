@@ -10,6 +10,13 @@ const errorMiddleware = createMiddleware().server(async ({ next }) => {
     if (error != null && typeof error === "object" && "statusCode" in error) {
       throw error;
     }
+    // Auth failures from `requireSupabaseAuth` are expected (signed-out or
+    // expired session hitting a protected serverFn). Rethrow so TanStack
+    // serializes them back to the caller's `.catch()`; wrapping them in the
+    // HTML error page makes the RPC response unparseable and blanks the app.
+    if (error instanceof Error && error.message.startsWith("Unauthorized")) {
+      throw error;
+    }
     console.error(error);
     return new Response(renderErrorPage(), {
       status: 500,
