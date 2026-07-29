@@ -343,9 +343,6 @@ function EditorPage() {
           <span className="text-xs text-muted-foreground">{saveLabel}</span>
         </div>
         <div className="flex items-center gap-2">
-          {!roles.isEditor ? (
-            <span className="text-xs text-muted-foreground">{t("editor.contributorNote")}</span>
-          ) : null}
           {roles.isEditor && (article.status === "published" || article.status === "scheduled") ? (
             <button
               onClick={unpublish}

@@ -19,7 +19,7 @@ import type { CoachFinderConfig } from "./vocabularies";
 export const getCoachFinderConfigForStaff = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }): Promise<CoachFinderConfig | null> => {
-    // Admin/editor only — contributors have no settings access.
+    // Admin/editor only — no other staff role has settings access.
     await assertEditor(context);
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");

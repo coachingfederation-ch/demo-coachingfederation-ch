@@ -3,8 +3,8 @@
  *
  * Thin wrappers: validation, the staff gate, and a dynamic import of the
  * server-only logic. Writes run as the caller through `context.supabase`, so
- * the `articles` RLS policies remain the boundary between contributor and
- * editor — see the header of `articles.server.ts`.
+ * the `articles` RLS policies remain the real write boundary — see the header
+ * of `articles.server.ts`.
  */
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
@@ -13,7 +13,7 @@ import { assertStaff as assertStaffRole } from "./authz";
 import type { AuthedContext } from "./authz";
 
 /**
- * Staff gate: admin, editor or contributor. Delegates to the shared guard and
+ * Staff gate: admin, editor or organizer. Delegates to the shared guard and
  * hands back the caller's RLS-scoped client, which is what the handlers below
  * pass into the server-only logic.
  */

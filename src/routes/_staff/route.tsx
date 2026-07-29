@@ -1,7 +1,7 @@
 /**
  * Staff/volunteer CMS gate.
  *
- * Entry requires a staff role (admin, editor or contributor). `editor` is an
+ * Entry requires a staff role (admin, editor or organizer). `editor` is an
  * additive grant: a claimed member who holds it passes this gate *and* keeps
  * the Member Area — the two are never mutually exclusive. `ssr: false` because
  * the Supabase session lives in localStorage, which the server cannot read.
