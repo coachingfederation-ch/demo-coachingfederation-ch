@@ -49,7 +49,7 @@ export async function assertAdmin(context: AuthedContext): Promise<string> {
   return assertRole(context, "admin");
 }
 
-/** Throws unless the caller is admin, editor or contributor. */
+/** Throws unless the caller is admin, editor or organizer. */
 export async function assertStaff(context: AuthedContext): Promise<string> {
   const roles = await rolesOf(context);
   if (!roles.some((r) => STAFF_ROLES.includes(r))) throw new Error("Forbidden");

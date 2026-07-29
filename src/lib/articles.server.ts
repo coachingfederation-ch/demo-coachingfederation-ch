@@ -4,8 +4,8 @@
  * Every function here runs as the *caller*, using the RLS-scoped client the
  * auth middleware puts on the request context — never the admin client. That
  * is deliberate: the `articles` / `article_translations` policies are the real
- * boundary between contributor and editor, and routing writes through the
- * service role would silently bypass them.
+ * write boundary, and routing writes through the service role would silently
+ * bypass them.
  *
  * The `is_staff` assertion in `articles.functions.ts` is a coarse gate on top
  * of that (it keeps non-staff accounts from reaching the CMS surface at all);

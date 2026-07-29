@@ -106,8 +106,7 @@
     "languageLocked": "Source language locked after first publication",
     "languageUnlocked": "Source language can be changed until first publication",
     "imageError": "Could not create a link for this image.",
-    "previewEmpty": "Nothing to preview yet — start writing.",
-    "contributorNote": "Drafts only — an editor publishes."
+    "previewEmpty": "Nothing to preview yet — start writing."
   },
   "translations": {
     "title": "Translations",
