@@ -8,6 +8,7 @@
  * are dormant and not surfaced.
  */
 import { createFileRoute } from "@tanstack/react-router";
+import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";
 import { useEffect, useMemo, useState } from "react";
 import { CalendarDays, Search, ShieldCheck } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
@@ -23,6 +24,7 @@ import {
 import type { ManagedRole } from "@/lib/role-model";
 
 export const Route = createFileRoute("/_staff/roles")({
+  beforeLoad: ({ context }) => requireStaffAccess(context.queryClient, ADMIN_ONLY),
   head: () => ({
     meta: [{ title: "Roles — The Switzerland Chapter of ICF CMS" }, { name: "robots", content: "noindex" }],
   }),

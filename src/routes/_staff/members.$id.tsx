@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
+import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";
 import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, Check, X } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
@@ -23,6 +24,7 @@ import {
 } from "@/lib/directory-eligibility";
 
 export const Route = createFileRoute("/_staff/members/$id")({
+  beforeLoad: ({ context }) => requireStaffAccess(context.queryClient, ADMIN_ONLY),
   head: () => ({
     meta: [{ title: "Member — The Switzerland Chapter of ICF CMS" }, { name: "robots", content: "noindex" }],
   }),

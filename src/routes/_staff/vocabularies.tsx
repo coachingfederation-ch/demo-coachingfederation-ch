@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";
 import { useEffect, useState } from "react";
 import { Plus, Trash2, ArrowDown, ArrowUp } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
@@ -13,6 +14,7 @@ import {
 } from "@/lib/vocabularies";
 
 export const Route = createFileRoute("/_staff/vocabularies")({
+  beforeLoad: ({ context }) => requireStaffAccess(context.queryClient, ADMIN_ONLY),
   head: () => ({
     meta: [
       { title: "Coach Finder vocabularies — The Switzerland Chapter of ICF CMS" },

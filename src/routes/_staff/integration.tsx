@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";
 import { useEffect, useState } from "react";
 import { AlertTriangle, CheckCircle2, ClipboardCheck, RefreshCw } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
@@ -18,6 +19,7 @@ import {
 } from "@/lib/members.functions";
 
 export const Route = createFileRoute("/_staff/integration")({
+  beforeLoad: ({ context }) => requireStaffAccess(context.queryClient, ADMIN_ONLY),
   head: () => ({
     meta: [
       { title: "Integration status — The Switzerland Chapter of ICF CMS" },

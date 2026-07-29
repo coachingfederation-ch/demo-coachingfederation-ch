@@ -1,10 +1,12 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { requireStaffAccess, ARTICLE_ROLES } from "@/lib/staff-guard";
 import { useState } from "react";
 import { Shell } from "@/components/cms/Shell";
 import { useCms } from "@/i18n/cms";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_staff/articles/new")({
+  beforeLoad: ({ context }) => requireStaffAccess(context.queryClient, ARTICLE_ROLES),
   head: () => ({
     meta: [
       { title: "New article — The Switzerland Chapter of ICF Insights CMS" },

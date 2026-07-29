@@ -6,6 +6,7 @@
  * right thing; a per-event timezone picker would be the complete fix.
  */
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { requireStaffAccess, EVENT_ROLES } from "@/lib/staff-guard";
 import { useEffect, useState } from "react";
 import { ImagePlus, X } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
@@ -21,6 +22,7 @@ import {
 } from "@/lib/events-admin.functions";
 
 export const Route = createFileRoute("/_staff/manage/events/$id")({
+  beforeLoad: ({ context }) => requireStaffAccess(context.queryClient, EVENT_ROLES),
   head: () => ({
     meta: [
       { title: "Edit event — The Switzerland Chapter of ICF CMS" },
