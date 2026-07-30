@@ -1,0 +1,2 @@
+REVOKE ALL ON FUNCTION public.tg_op_projects_single_featured_community() FROM PUBLIC, anon, authenticated;
+REVOKE ALL ON FUNCTION public.tg_op_projects_content_updated_at() FROM PUBLIC, anon, authenticated;
