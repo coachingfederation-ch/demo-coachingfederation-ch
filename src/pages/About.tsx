@@ -54,7 +54,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-8 py-24">
+        <section className="bg-white mx-auto max-w-7xl px-8 py-24">
           <div className="grid gap-14 md:grid-cols-2 md:items-center">
             <img
               src={conversationImg}
