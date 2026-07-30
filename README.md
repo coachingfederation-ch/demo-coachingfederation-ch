@@ -7,14 +7,15 @@ programmes, and The Switzerland Chapter of ICF's own members and staff.
 
 ## What's in here
 
-Four functional areas, each with its own access boundary:
+Five functional areas, each with its own access boundary:
 
-| Area                                                                                 | Who                           | Where                                                               |
-| ------------------------------------------------------------------------------------ | ----------------------------- | ------------------------------------------------------------------- |
-| **Public site** — home, for coaches, for organisations, events, about, Insights blog | Everyone                      | `src/routes/*.tsx`, `src/routes/$locale/*`                          |
-| **Coach directory** — "Find a coach", filters, public coach profiles                 | Everyone                      | `src/components/coaches/`, `src/lib/directory.functions.ts`         |
-| **Member Area** — a member editing their own directory profile                       | Signed-in members             | `src/routes/_member/`, `src/components/cms/MemberProfileEditor.tsx` |
-| **Staff tooling** — Insights CMS, member admin, ICF integration controls             | Admins, editors, contributors | `src/routes/_staff/`                                                |
+| Area                                                                                                | Who                         | Where                                                               |
+| --------------------------------------------------------------------------------------------------- | --------------------------- | ------------------------------------------------------------------- |
+| **Public site** — home, for coaches, for organisations, events, about, Insights blog                | Everyone                    | `src/routes/*.tsx`, `src/routes/$locale/*`                          |
+| **Coach directory** — "Find a coach", filters, public coach profiles                                | Everyone                    | `src/components/coaches/`, `src/lib/directory.functions.ts`         |
+| **Team & communities** — operational structure, the honeycomb team grid, local communities          | Everyone                    | `src/components/team/`, `src/components/communities/`               |
+| **Member Area** — a member editing their own directory profile                                      | Signed-in members           | `src/routes/_member/`, `src/components/cms/MemberProfileEditor.tsx` |
+| **Staff tooling** — Insights CMS, events, member admin, operational structure, integration controls | Admins, editors, organizers | `src/routes/_staff/`                                                |
 
 Everything is available in four languages (DE, FR, IT, EN) via path prefixes:
 `/find-a-coach` is English, `/de/find-a-coach` is German.
@@ -93,9 +94,14 @@ suppressed, and whether account claiming is open. See
   scheduling).
 - Coach directory backed by real ICF member data, with filters, mode tabs and
   public coach detail pages.
+- Events: staff management, published event pages and free RSVP registration,
+  translated per locale.
+- Operational structure: admin-managed projects, roles and member assignments,
+  surfaced as the public team honeycomb and the local communities pages.
 - Member Area: a bound member can edit and publish their own profile.
-- Staff tooling: member list and detail, vocabularies, Coach Finder settings,
-  integration/cutover controls.
+- Staff tooling: member list and detail, roles, vocabularies, Coach Finder
+  settings, integration/cutover controls.
+- An OAuth-protected MCP server at `/mcp` for assistant access to public data.
 - Nightly ICF sync (03:15 UTC) against the **TEST** feed.
 
 **Built but deliberately gated off**
@@ -117,6 +123,7 @@ cutover itself, the email domain, and the custom domain.
 - [`docs/code-map.md`](docs/code-map.md)
 - [`docs/auth-and-claim-flow.md`](docs/auth-and-claim-flow.md)
 - [`docs/public-directory.md`](docs/public-directory.md)
+- [`docs/events-team-communities.md`](docs/events-team-communities.md)
 - [`docs/operations-and-go-live.md`](docs/operations-and-go-live.md)
 - [`docs/tech-debt.md`](docs/tech-debt.md)
 

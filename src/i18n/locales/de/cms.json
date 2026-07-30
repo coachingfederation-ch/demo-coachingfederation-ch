@@ -727,6 +727,19 @@
     "confirmRevoke": "Das war die letzte Zuordnung. Editor-Rolle ebenfalls entziehen?",
     "grantFailed": "Zugeordnet, aber die Editor-Rolle konnte nicht erteilt werden.",
     "revokeFailed": "Editor-Rolle konnte nicht entzogen werden.",
-    "unclaimed": "Zugeordnet. Dieses Mitglied hat noch kein Konto beansprucht, daher wurde keine Editor-Rolle erteilt."
+    "unclaimed": "Zugeordnet. Dieses Mitglied hat noch kein Konto beansprucht, daher wurde keine Editor-Rolle erteilt.",
+    "community": {
+      "title": "Community-Inhalte",
+      "note": "Markieren Sie dieses Projekt als lokale Community, um es auf /communities zu veröffentlichen. Die Beschreibung unterstützt Markdown.",
+      "isCommunity": "Dieses Projekt ist eine lokale Community",
+      "featured": "Auf der Über-uns-Seite hervorheben",
+      "cadence": "Treffen-Rhythmus",
+      "contactEmail": "Kontakt-E-Mail",
+      "signupUrl": "Anmelde- oder Meetup-Link",
+      "description": "Beschreibung (Markdown)",
+      "languages": "Gesprochene Sprachen",
+      "translations": "Übersetzungen",
+      "translate": "Mit KI übersetzen"
+    }
   }
 }

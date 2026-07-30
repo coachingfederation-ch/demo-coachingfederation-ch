@@ -25,6 +25,7 @@ import {
   searchOpsMembers,
 } from "@/lib/ops-admin.functions";
 import { grantMemberRole, revokeMemberRole } from "@/lib/roles.functions";
+import { CommunityPanel, type CommunityFields } from "@/components/cms/CommunityPanel";
 
 export const Route = createFileRoute("/_staff/operational-structure")({
   beforeLoad: ({ context }) => requireStaffAccess(context.queryClient, ADMIN_ONLY),
@@ -48,6 +49,9 @@ type Localized = {
   is_active: boolean;
 };
 
+/** Projects carry the community fields too; roles never do. */
+type ProjectRow = Localized & CommunityFields;
+
 type Assignment = {
   id: string;
   member_id: string;
@@ -60,12 +64,17 @@ type MemberOption = { id: string; full_name: string | null; auth_user_id: string
 
 const LOCALE_COLS = ["name_de", "name_fr", "name_it"] as const;
 const COLUMNS = "id, slug, name, name_de, name_fr, name_it, sort_order, is_active";
+const PROJECT_COLUMNS =
+  COLUMNS +
+  ", is_community, is_featured_community, description, description_de, description_fr," +
+  " description_it, cadence_note, cadence_note_de, cadence_note_fr, cadence_note_it," +
+  " contact_email, signup_url, language_slugs";
 const INPUT =
   "rounded-lg border border-border bg-card px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-ring/20";
 
 function OperationalStructurePage() {
   const { t } = useCms();
-  const [projects, setProjects] = useState<Localized[]>([]);
+  const [projects, setProjects] = useState<ProjectRow[]>([]);
   const [roles, setRoles] = useState<Localized[]>([]);
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
@@ -80,10 +89,10 @@ function OperationalStructurePage() {
   const loadProjects = async () => {
     const { data, error: err } = await supabase
       .from("op_projects")
-      .select(COLUMNS)
+      .select(PROJECT_COLUMNS)
       .order("sort_order", { ascending: true });
     if (err) return setError(err.message);
-    const rows = (data ?? []) as Localized[];
+    const rows = (data ?? []) as unknown as ProjectRow[];
     setProjects(rows);
     setSelected((current) => current ?? rows[0]?.id ?? null);
   };
@@ -140,8 +149,11 @@ function OperationalStructurePage() {
     id: string,
     values: Partial<Localized>,
   ) => {
-    const setter = table === "op_projects" ? setProjects : setRoles;
-    setter((prev) => prev.map((r) => (r.id === id ? { ...r, ...values } : r)));
+    if (table === "op_projects") {
+      setProjects((prev) => prev.map((r) => (r.id === id ? { ...r, ...values } : r)));
+    } else {
+      setRoles((prev) => prev.map((r) => (r.id === id ? { ...r, ...values } : r)));
+    }
     const { error: err } = await supabase.from(table).update(values).eq("id", id);
     if (err) setError(err.message);
   };
@@ -365,11 +377,16 @@ function OperationalStructurePage() {
                 </div>
               </section>
 
+              <CommunityPanel project={project} onSaved={loadProjects} />
+
               <section className="rounded-2xl border border-border bg-card p-5">
                 <h2 className="text-sm font-bold">{t("ops.roles")}</h2>
                 <div className="mt-3 space-y-3">
                   {roles.map((role, index) => (
-                    <div key={role.id} className="grid gap-2 border-t border-border pt-3 sm:grid-cols-2">
+                    <div
+                      key={role.id}
+                      className="grid gap-2 border-t border-border pt-3 sm:grid-cols-2"
+                    >
                       <div className="flex items-center gap-1 sm:col-span-2">
                         <input
                           aria-label={t("ops.nameEn")}
@@ -418,11 +435,15 @@ function OperationalStructurePage() {
                           value={role[col] ?? ""}
                           onChange={(e) =>
                             setRoles((prev) =>
-                              prev.map((r) => (r.id === role.id ? { ...r, [col]: e.target.value } : r)),
+                              prev.map((r) =>
+                                r.id === role.id ? { ...r, [col]: e.target.value } : r,
+                              ),
                             )
                           }
                           onBlur={(e) =>
-                            void patch("op_project_roles", role.id, { [col]: e.target.value || null })
+                            void patch("op_project_roles", role.id, {
+                              [col]: e.target.value || null,
+                            })
                           }
                           className={INPUT}
                         />
