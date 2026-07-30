@@ -16,6 +16,7 @@ import {
 } from "@/lib/vocabularies";
 import { getMyMemberProfile, saveMyMemberProfile } from "@/lib/member-profile.functions";
 import { ProfileTranslationsPanel } from "@/components/member/ProfileTranslationsPanel";
+import { useMyRoles } from "@/lib/roles";
 import { publishBlockReason } from "@/lib/directory-eligibility";
 import { PROFILE_IMAGE_BUCKET, PROFILE_IMAGE_PREVIEW_TTL_SECONDS } from "@/lib/storage";
 
@@ -224,6 +225,10 @@ function TextArea({
 
 export function MemberProfileEditor() {
   const { t, locale } = useCms();
+  // The team bio only makes sense for members who are part of the operational
+  // structure, and that is exactly what the `editor` grant marks.
+  const { roles } = useMyRoles();
+  const isTeamMember = roles.isAdmin || roles.roles.includes("editor");
   const [data, setData] = useState<Profile | null | "unbound">(null);
   const [vocab, setVocab] = useState<CoachFinderVocabularies | null>(null);
   const [tagline, setTagline] = useState("");
