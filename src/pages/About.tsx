@@ -5,7 +5,6 @@ import { useI18n } from "@/i18n";
 
 export default function AboutPage() {
   const { t, tList } = useI18n();
-  const values = tList<{ title: string; desc: string }>("about.values");
   const communities = tList<{
     city: string;
     region: string;
