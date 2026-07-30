@@ -1,6 +1,7 @@
 import conversationImg from "@/assets/real-conversation.jpg";
 import { Mark } from "@/components/marks";
 import { CompactHero, SiteFooter, CARD_SHADOW } from "@/components/site-chrome";
+import { TeamPreview } from "@/components/team/TeamPreview";
 import { useI18n } from "@/i18n";
 
 export default function AboutPage() {
