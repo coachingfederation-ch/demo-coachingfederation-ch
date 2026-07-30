@@ -74,7 +74,7 @@ function HexTile({ member, onOpen }: { member: TeamMember; onOpen: () => void })
             {member.initials}
           </span>
         )}
-        <span className="absolute inset-0 flex flex-col justify-end bg-primary/85 px-3 pb-6 pt-4 text-center opacity-0 transition group-hover:opacity-100 group-focus-visible:opacity-100">
+        <span className="absolute inset-0 flex flex-col justify-center bg-primary/85 px-3 py-4 text-center opacity-0 transition group-hover:opacity-100 group-focus-visible:opacity-100">
           <span className="text-[13px] font-bold leading-tight text-primary-foreground">
             {member.name}
           </span>
