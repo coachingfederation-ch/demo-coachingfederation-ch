@@ -1,104 +1,94 @@
-# Operational structure & public team page
+## Goal
 
-Four deliverables: an admin CMS screen for projects/roles/assignments, a translatable "Team role description" on the member profile, a public `/team` page with a honeycomb grid, and a preview section on About.
+Turn the operational-structure projects that are communities into a public, translatable communities section: an overview page, a per-community detail page with a hexagon + ring of member photos, and an About-page preview. No new data source — communities are `op_projects` rows flagged as such.
 
-## 1. Data model (new tables)
+## Phase 1 — Data model (one migration)
 
-- `op_projects` — slug, name + `name_de/fr/it`, `sort_order`, `is_active`. Same shape as the existing `cf_*` vocabularies so it can reuse the vocabulary editing patterns.
-- `op_project_roles` — `project_id`, slug, name + `name_de/fr/it`, `sort_order`, `is_active`. Roles are defined per project.
-- `op_assignments` — `member_id`, `project_id`, `role_id`, `sort_order`. Unique on (member, project, role).
-- `member_directory_profiles.team_bio` (text, max 2000 enforced in the server function) plus `team_bio` added to `member_profile_translations` — the same translation table and AI panel the coach fields already use.
+Extend `public.op_projects`:
 
-Access rules: projects/roles/assignments are admin-managed (write restricted to admin); public read comes through a **new view `public.team_directory_public**` granted to `anon`, exposing only member name, `profile_image_path`, `team_bio`, primary locale, project/role slugs + localized names, sort order, LinkedIn URL, contact email only when `contact_email_public` is true, and `profile_id` only when the member's coach profile is actually published and eligible (otherwise null, so the modal hides that link).
+- `is_community boolean not null default false`
+- `is_featured_community boolean not null default false` (enforced single-winner by a trigger, same pattern as `tg_articles_single_featured`)
+- `description text` + `description_de/fr/it text` (markdown source)
+- `cadence_note text` + `cadence_note_de/fr/it text`
+- `contact_email text`, `signup_url text`
+- `language_slugs text[] not null default '{}'` — references `cf_languages.slug`, rendered as DE/FR/IT/EN chips
 
-Seeding: the ~22 default projects from the reference site are inserted as normal rows — fully editable and deactivatable afterwards.
+Update `public.team_projects_public` (the existing anon-readable view) to expose the new columns, still filtered to `is_active`. Keep the view as the only public read surface; no new grants on `op_projects`.
 
-## 2. CMS: Operational structure (admin only)
+Seed the existing seven `community-*` rows with `is_community = true` and pick one as featured (admin can change it later).
 
-New route `src/routes/_staff/operational-structure.tsx`, nav item in `Shell.tsx` with `allowedRoles: []` (admin-only, same as Vocabularies/Roles).
+## Phase 2 — CMS (operational structure page)
 
-- Project list with add / rename (4 locales) / reorder / activate-deactivate.
-- Selected project shows its roles (same controls) and its assignments.
-- Assign a member: searchable picker over claimed/imported members; pick a role; reorder assignments.
-- On assign: if the member's account lacks `editor`, grant it via the existing `grantMemberRole` path (reusing `editor`, no new role).
-- On removing a member's **last** assignment: a confirm dialog asking whether to also revoke `editor`. Never auto-revoke.
-- Server functions in `src/lib/operational-structure.functions.ts` + `.server.ts`, each guarded by `assertAdmin`, mirroring `roles.functions.ts`.
+In `src/routes/_staff/operational-structure.tsx`, project details gain:
 
-## 3. Member profile: Team role description
+- "This project is a local community" checkbox → reveals the community fields
+- "Featured community" checkbox (shown only for communities)
+- Description via the existing `MarkdownEditor` with a locale tab strip (EN/DE/FR/IT), matching how event/article translations are edited
+- Cadence note (4 locales), contact email, sign-up URL, language chips picked from `cf_languages`
 
-In `MemberProfileEditor`, a "Team role description" textarea (max 2000) rendered **only when the signed-in member holds `editor**`. Added to the update schema in `member-profile.functions.ts` and to `TRANSLATABLE_FIELDS`, so it appears automatically in the existing `ProfileTranslationsPanel` with AI translation, ready/outdated states and all.
+Writes keep going through the caller's RLS-scoped browser client — the existing "admins manage op_*" policies remain the boundary.
 
-## 4. Public team page
+## Phase 3 — Public read path
 
-Routes `src/routes/team.tsx` (en) and `src/routes/$locale/team.tsx`, page in `src/pages/Team.tsx`, following the existing `find-a-coach` pattern (`CompactHero` + `SiteFooter`, `head()` with localized meta and hreflang links).
+New `src/lib/communities.ts` (client-safe shapes) and `src/lib/communities.functions.ts`:
 
-- Data via a public server fn reading the new view; photos signed with the existing `signProfileImages`, initials fallback.
-- Filter pills: "All" + one per active project, localized, driven by a `?project=` search param.
-- Honeycomb grid: hexagon tiles via CSS `clip-path`, offset rows, column count stepping down at breakpoints (e.g. 7 → 5 → 3 → 2). Reflows on filter change with a light transition.
-- Hover/focus overlay: name + role title. Tap on touch opens the modal directly.
-- Modal (existing dialog primitive): circular photo, name, project · role, localized `team_bio`, email icon only if opted in, LinkedIn icon if present, "View coach profile" link only when a published profile exists, close button, focus trap and Esc.
-- One tile per member; primary (first-ordered) assignment on the tile, all pairs listed in the modal; a member matches any of their projects when filtering.
+- `listCommunities({ locale })` — from `team_projects_public` where `is_community`, resolving name/description/cadence to the locale with English fallback, plus a member count per community.
+- `getCommunity({ slug, locale })` — the community row plus its members, reusing the existing `team_directory_public` read and assignment shape so photo signing, initials fallback, translated bios and coach-profile links behave exactly as on the team page. Returns `notFound()` for an unknown or non-community slug.
 
-## 5. About page preview
+Member/photo logic is factored out of `team.functions.ts` into a shared helper rather than duplicated.
 
-A section on `src/pages/About.tsx` showing a handful of team tiles (same tile component, small honeycomb) plus a "More" link to `/team`, with copy in all four locale files.
+## Phase 4 — Pages and routes
 
-## Technical notes
+- `src/pages/Communities.tsx` and `src/pages/CommunityDetail.tsx`
+- Routes: `src/routes/communities.index.tsx`, `src/routes/communities.$slug.tsx`, plus `$locale` twins, each with its own `head()` (title, description, og:*) and `localeLinkTags` hreflang, following `team.tsx`
+- Overview: `CompactHero` + translatable intro + a visual card grid (one card per community: hexagon avatar cluster preview, name, cadence, language chips, member count, arrow CTA)
+- Detail: markdown description, contact/sign-up CTAs, then the **hexagon ring**:
+  - central hexagon (community name, reusing the team page's `HEX_CLIP`)
+  - members positioned on a circle around it as ~50px circular photos with initials fallback
+  - hover/focus zooms the photo and reveals name + role title
+  - click opens the **team page modal**, which is extracted from `TeamGrid.tsx` into `src/components/team/MemberModal.tsx` and imported by both
+  - accessibility: each photo is a real `<button>` in DOM order, keyboard-focusable with the same zoom-on-focus state, `aria-label` with name + role; below a breakpoint (and on touch) the ring degrades to the existing honeycomb/list layout so nothing depends on hover
+- Sitemap: add `/communities` and every community slug to `sitemap.xml`
+- Header/footer navigation: add "Communities" where "Team" already appears
 
-- All new UI strings go into `src/i18n/locales/{en,de,fr,it}/team.json` (+ `cms.json` keys for the admin screen).
-- No new role: `editor` is reused exactly as specified.
-- Public exposure is limited to the columns listed above; the view is the boundary, base member tables are never read from public paths.
+## Phase 5 — About page + translations
 
----
+- Replace the hard-coded `about.communities` section in `src/pages/About.tsx` with a `CommunitiesPreview` component showing the admin-picked featured community (name, short description excerpt, cadence, language chips, avatar ring) and a "See all communities" CTA to `/communities`.
+- Remove the now-dead `about.communities.items` data from all four `about.json` files.
+- New `communities.json` namespace in `en/de/fr/it` (hero, intro, labels, empty/loading states, modal reuse) — UI strings hand-written per locale, consistent with existing namespaces; community content itself is CMS-managed.
 
-# PR note
+## PR note
 
-**Summary** — Adds an admin-managed operational structure (projects, roles, member assignments), a translatable team bio on member profiles, a public honeycomb team page at `/team` in four locales, and a team preview on About.
+**Summary** — Adds a public local-communities section (overview, detail with hexagon member ring, About preview) driven entirely by the existing operational structure; communities are `op_projects` flagged `is_community` with translatable markdown content managed in the admin CMS.
 
 **Changes**
 
-- UI: new `/team` page + honeycomb grid, tile and modal components; About preview section; new admin CMS screen and nav item; team bio field in the member profile editor.
-- Backend: `operational-structure.functions.ts` / `.server.ts` (admin-guarded CRUD, reorder, assign/unassign with `editor` grant), public team read function.
-- i18n: new `team.json` per locale, extra `cms.json` keys.
+- UI: new Communities overview and detail pages, `CommunitiesPreview` on About (replacing the static section), extracted shared `MemberModal`, nav + sitemap entries.
+- CMS: community fields in the operational structure project editor with 4-locale markdown description.
+- i18n: new `communities` namespace ×4 locales; pruned `about.communities.items`.
 
-**Backend / Schema changes**
+**Backend / schema changes** — One migration on `public.op_projects` (community flag, featured flag, markdown description ×4, cadence ×4, contact email, sign-up URL, language slugs) plus a single-featured trigger and an updated `team_projects_public` view. No new tables, no new grants, no RLS relaxation — the public surface stays the anon-readable views. Seed update flags the existing `community-*` rows.
 
-- New tables `op_projects`, `op_project_roles`, `op_assignments` with grants, RLS (admin write, no direct anon read) and updated_at triggers.
-- New column `member_directory_profiles.team_bio` and `member_profile_translations.team_bio`.
-- New public view `team_directory_public` granted SELECT to `anon`, projecting only public-safe columns.
-- Seed insert of the default project list.
+**Testing & verification** — Anonymous load of `/communities` and each `/communities/$slug` in all four locales; keyboard tab-through and screen-reader labels on the member ring; mobile fallback layout; admin editing of community fields and featured toggle; verify a non-admin cannot write `op_projects`; confirm the team page and About page still render.
 
-**Testing & verification**
+**Risks & rollback** — Additive columns only; reverting the code leaves the migration harmless. Main blast radius is the `team_projects_public` view (also used by the team page) and the `MemberModal` extraction, both covered by the verification pass.
 
-- Admin: create/rename/reorder/deactivate projects and roles; assign and unassign members; confirm `editor` is granted on first assignment and that removal prompts rather than auto-revoking.
-- Member with `editor`: team bio visible and saveable; translations panel handles the new field; member without `editor` does not see it.
-- Public: `/team` and `/de|fr|it/team` render, filters narrow the grid, modal shows only opted-in email, coach-profile link hidden when no published profile.
-- Responsive honeycomb at mobile/tablet/desktop; keyboard access to tiles and modal.
+**Follow-ups / known debt** — No geolocation-based "closest community" (admin-picked featured instead); community content has no AI-translation panel in this phase (manual per-locale editing), which can be added later reusing the events/profiles translation workflow.
 
-**Risks & rollback**
+&nbsp;
 
-- Blast radius is mostly additive; the one shared touch point is `member_directory_profiles` / `member_profile_translations` (new nullable column, safe to leave if code is reverted). Reverting the code leaves the new tables and view unused but harmless.
+# Approval note
 
-**Follow-ups / known debt**
+Approved with two additions before implementation:
 
-- Team members inherit full Article/New Article access via `editor` — accepted for now; a narrower `team` capability would be the ideal fix later.
-- Admin-side bulk reordering is per-item arrows (matching the vocabulary screen), not drag-and-drop.
+### Hexagon/community fallback rules
 
-# Approval Notes
+Please implement the member-ring behavior as:
 
-Approved with a few additions/validations before implementation.
+- **0 or 1 assigned members**: show only the central community hexagon, no member ring
+- **2-12 assigned members:** show all assigned members around the hexagon
+  - **More than 12 assigned members:** show the first 12 members alphabetically, plus an "and more" indicator/link so the layout stays clean
+- **Automatic translation in this build**  
+Please include automatic translation support for the community CMS fields in this feature build, not as a follow-up. The community description, cadence note, and any other community-managed content should support the same AI-assisted translation workflow used elsewhere in the project.
 
-The plan looks solid overall: the split into operational structure management, member profile team bio, public team page, and About preview makes sense. Reusing the existing `editor` role is accepted for this implementation.
-
-Please add/confirm the following before starting:
-
-1. **Admin-only nav behavior**  
-The new CMS nav item uses `allowedRoles: []`. Please confirm this is actually admin-only with the current Shell filter. If an empty array would hide it from everyone, use the existing admin-only pattern instead, e.g. `allowedRoles: ["admin"]` or an explicit admin bypass.
-2. **Team page visibility vs. Coach Finder visibility**  
-Please validate that operational-structure members appear on the public team page even if their Coach Finder profile is not published/eligible. The Coach Finder link should be hidden unless the profile is published/eligible, but the team tile itself should depend on operational assignment, not Coach Finder publication.
-3. **Project/role translation pattern**  
-Please verify whether the existing `cf_*` vocabulary tables use inline locale columns (`name`, `name_de`, `name_fr`, `name_it`) or a separate translation-table pattern. Match the existing vocabulary pattern, and confirm automatic translation support for project and role names, not just manual locale fields.
-4. **Honeycomb visual/accessibility QA**  
-Please explicitly verify the honeycomb grid on desktop, tablet, and mobile: no awkward clipped faces, row offsets remain clean, focus states are visible and not clipped, keyboard navigation works, and the modal remains accessible with focus trap + Esc close.
-
-With those additions/validations, I approve the plan.
+With those additions, I approve the plan.

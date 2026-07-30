@@ -727,6 +727,19 @@
     "confirmRevoke": "Era l'ultima assegnazione. Revocare anche il ruolo di editor?",
     "grantFailed": "Assegnato, ma non è stato possibile concedere il ruolo di editor.",
     "revokeFailed": "Impossibile revocare il ruolo di editor.",
-    "unclaimed": "Assegnato. Questo membro non ha ancora attivato un account, quindi non è stato concesso alcun ruolo di editor."
+    "unclaimed": "Assegnato. Questo membro non ha ancora attivato un account, quindi non è stato concesso alcun ruolo di editor.",
+    "community": {
+      "title": "Contenuti della comunità",
+      "note": "Contrassegna questo progetto come comunità locale per pubblicarlo su /communities. La descrizione supporta il Markdown.",
+      "isCommunity": "Questo progetto è una comunità locale",
+      "featured": "Metti in evidenza nella pagina Chi siamo",
+      "cadence": "Frequenza degli incontri",
+      "contactEmail": "E-mail di contatto",
+      "signupUrl": "Link di iscrizione o meetup",
+      "description": "Descrizione (Markdown)",
+      "languages": "Lingue parlate",
+      "translations": "Traduzioni",
+      "translate": "Traduci con l'IA"
+    }
   }
 }

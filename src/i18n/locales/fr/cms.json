@@ -727,6 +727,19 @@
     "confirmRevoke": "C'était sa dernière affectation. Retirer aussi le rôle d'éditeur ?",
     "grantFailed": "Affecté, mais le rôle d'éditeur n'a pas pu être accordé.",
     "revokeFailed": "Impossible de retirer le rôle d'éditeur.",
-    "unclaimed": "Affecté. Ce membre n'a pas encore activé son compte, aucun rôle d'éditeur n'a été accordé."
+    "unclaimed": "Affecté. Ce membre n'a pas encore activé son compte, aucun rôle d'éditeur n'a été accordé.",
+    "community": {
+      "title": "Contenu de la communauté",
+      "note": "Marquez ce projet comme communauté locale pour le publier sur /communities. La description accepte le Markdown.",
+      "isCommunity": "Ce projet est une communauté locale",
+      "featured": "Mettre en avant sur la page À propos",
+      "cadence": "Rythme des rencontres",
+      "contactEmail": "E-mail de contact",
+      "signupUrl": "Lien d'inscription ou de meetup",
+      "description": "Description (Markdown)",
+      "languages": "Langues parlées",
+      "translations": "Traductions",
+      "translate": "Traduire avec l'IA"
+    }
   }
 }

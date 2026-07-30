@@ -1943,37 +1943,79 @@ export type Database = {
       }
       op_projects: {
         Row: {
+          cadence_note: string | null
+          cadence_note_de: string | null
+          cadence_note_fr: string | null
+          cadence_note_it: string | null
+          contact_email: string | null
+          content_updated_at: string
           created_at: string
+          description: string | null
+          description_de: string | null
+          description_fr: string | null
+          description_it: string | null
           id: string
           is_active: boolean
+          is_community: boolean
+          is_featured_community: boolean
+          language_slugs: string[]
           name: string
           name_de: string | null
           name_fr: string | null
           name_it: string | null
+          signup_url: string | null
           slug: string
           sort_order: number
           updated_at: string
         }
         Insert: {
+          cadence_note?: string | null
+          cadence_note_de?: string | null
+          cadence_note_fr?: string | null
+          cadence_note_it?: string | null
+          contact_email?: string | null
+          content_updated_at?: string
           created_at?: string
+          description?: string | null
+          description_de?: string | null
+          description_fr?: string | null
+          description_it?: string | null
           id?: string
           is_active?: boolean
+          is_community?: boolean
+          is_featured_community?: boolean
+          language_slugs?: string[]
           name: string
           name_de?: string | null
           name_fr?: string | null
           name_it?: string | null
+          signup_url?: string | null
           slug: string
           sort_order?: number
           updated_at?: string
         }
         Update: {
+          cadence_note?: string | null
+          cadence_note_de?: string | null
+          cadence_note_fr?: string | null
+          cadence_note_it?: string | null
+          contact_email?: string | null
+          content_updated_at?: string
           created_at?: string
+          description?: string | null
+          description_de?: string | null
+          description_fr?: string | null
+          description_it?: string | null
           id?: string
           is_active?: boolean
+          is_community?: boolean
+          is_featured_community?: boolean
+          language_slugs?: string[]
           name?: string
           name_de?: string | null
           name_fr?: string | null
           name_it?: string | null
+          signup_url?: string | null
           slug?: string
           sort_order?: number
           updated_at?: string
@@ -2280,29 +2322,68 @@ export type Database = {
       }
       team_projects_public: {
         Row: {
+          cadence_note: string | null
+          cadence_note_de: string | null
+          cadence_note_fr: string | null
+          cadence_note_it: string | null
+          contact_email: string | null
+          description: string | null
+          description_de: string | null
+          description_fr: string | null
+          description_it: string | null
           id: string | null
+          is_community: boolean | null
+          is_featured_community: boolean | null
+          language_slugs: string[] | null
           name: string | null
           name_de: string | null
           name_fr: string | null
           name_it: string | null
+          signup_url: string | null
           slug: string | null
           sort_order: number | null
         }
         Insert: {
+          cadence_note?: string | null
+          cadence_note_de?: string | null
+          cadence_note_fr?: string | null
+          cadence_note_it?: string | null
+          contact_email?: string | null
+          description?: string | null
+          description_de?: string | null
+          description_fr?: string | null
+          description_it?: string | null
           id?: string | null
+          is_community?: boolean | null
+          is_featured_community?: boolean | null
+          language_slugs?: string[] | null
           name?: string | null
           name_de?: string | null
           name_fr?: string | null
           name_it?: string | null
+          signup_url?: string | null
           slug?: string | null
           sort_order?: number | null
         }
         Update: {
+          cadence_note?: string | null
+          cadence_note_de?: string | null
+          cadence_note_fr?: string | null
+          cadence_note_it?: string | null
+          contact_email?: string | null
+          description?: string | null
+          description_de?: string | null
+          description_fr?: string | null
+          description_it?: string | null
           id?: string | null
+          is_community?: boolean | null
+          is_featured_community?: boolean | null
+          language_slugs?: string[] | null
           name?: string | null
           name_de?: string | null
           name_fr?: string | null
           name_it?: string | null
+          signup_url?: string | null
           slug?: string | null
           sort_order?: number | null
         }

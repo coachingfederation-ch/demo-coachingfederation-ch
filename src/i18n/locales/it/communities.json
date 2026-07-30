@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "title": "Comunità locali — The Switzerland Chapter of ICF",
+    "description": "Comunità di coaching in tutta la Svizzera: incontri locali regolari per apprendimento tra pari, supervisione e scambio, animati dai volontari del chapter.",
+    "detailTitle": "Comunità locale — The Switzerland Chapter of ICF",
+    "detailDescription": "Scopri i volontari di questa comunità locale di coaching e quando e dove si riunisce il gruppo."
+  },
+  "hero": {
+    "eyebrow": "Comunità locali",
+    "titlePre": "Il coaching vicino a ",
+    "titleAccent": "dove sei",
+    "lede": "Da Basilea a Lugano, le nostre comunità locali riuniscono coach per imparare, riflettere e crescere — di persona e online."
+  },
+  "intro": "Le comunità locali sono il cuore del chapter. Ognuna è guidata da coach volontari che organizzano incontri regolari: coaching tra pari, circoli di supervisione, ospiti e scambi informali. Tutti sono benvenuti: con una credenziale, in formazione o semplicemente curiosi della professione.",
+  "loading": "Caricamento delle comunità…",
+  "empty": "Non è ancora pubblicata alcuna comunità. Torna presto.",
+  "notFound": "Non abbiamo trovato questa comunità. Potrebbe essere stata rinominata o archiviata.",
+  "list": {
+    "members": "{count} volontari",
+    "open": "Vedi la comunità"
+  },
+  "detail": {
+    "eyebrow": "Comunità locale",
+    "lede": "Un gruppo locale di coach che si incontra regolarmente durante l'anno.",
+    "back": "Tutte le comunità",
+    "join": "Partecipa a un incontro",
+    "contact": "Contatta la comunità",
+    "peopleHeading": "Volontari di questa comunità",
+    "noMembers": "Per questa comunità non sono ancora indicati volontari.",
+    "noDescription": "Una descrizione di questa comunità sarà disponibile a breve.",
+    "andMore": "e altri {count} volontari"
+  },
+  "preview": {
+    "eyebrow": "Comunità locali",
+    "title": "Il coaching accade sul territorio",
+    "body": "Le nostre comunità regionali si incontrano tutto l'anno in tutta la Svizzera — coaching tra pari, supervisione e conversazioni con coach vicino a te.",
+    "featuredLabel": "In evidenza: {name}",
+    "cta": "Vedi tutte le comunità",
+    "ctaFeatured": "Visita questa comunità"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "title": "Communautés locales — The Switzerland Chapter of ICF",
+    "description": "Des communautés de coaching dans toute la Suisse : des rencontres locales régulières pour l'apprentissage entre pairs, la supervision et l'échange, animées par les bénévoles du chapter.",
+    "detailTitle": "Communauté locale — The Switzerland Chapter of ICF",
+    "detailDescription": "Découvrez les bénévoles de cette communauté locale de coaching et quand et où le groupe se réunit."
+  },
+  "hero": {
+    "eyebrow": "Communautés locales",
+    "titlePre": "Le coaching près de ",
+    "titleAccent": "chez vous",
+    "lede": "De Bâle à Lugano, nos communautés locales réunissent des coaches pour apprendre, réfléchir et progresser — sur place et en ligne."
+  },
+  "intro": "Les communautés locales sont le cœur du chapter. Chacune est animée par des coaches bénévoles qui organisent des rencontres régulières : coaching entre pairs, cercles de supervision, intervenants invités et échanges informels. Tout le monde est bienvenu, que vous soyez accrédité·e, en formation ou simplement curieux·se de la profession.",
+  "loading": "Chargement des communautés…",
+  "empty": "Aucune communauté n'est encore publiée. Revenez bientôt.",
+  "notFound": "Nous n'avons pas trouvé cette communauté. Elle a peut-être été renommée ou archivée.",
+  "list": {
+    "members": "{count} bénévoles",
+    "open": "Voir la communauté"
+  },
+  "detail": {
+    "eyebrow": "Communauté locale",
+    "lede": "Un groupe local de coaches qui se réunit régulièrement tout au long de l'année.",
+    "back": "Toutes les communautés",
+    "join": "Participer à une rencontre",
+    "contact": "Contacter la communauté",
+    "peopleHeading": "Bénévoles de cette communauté",
+    "noMembers": "Aucun bénévole n'est encore répertorié pour cette communauté.",
+    "noDescription": "Une description de cette communauté arrive bientôt.",
+    "andMore": "et {count} autres bénévoles"
+  },
+  "preview": {
+    "eyebrow": "Communautés locales",
+    "title": "Le coaching se vit localement",
+    "body": "Nos communautés régionales se réunissent toute l'année dans toute la Suisse — coaching entre pairs, supervision et échanges avec des coaches proches de vous.",
+    "featuredLabel": "À la une : {name}",
+    "cta": "Voir toutes les communautés",
+    "ctaFeatured": "Visiter cette communauté"
+  }
+}
