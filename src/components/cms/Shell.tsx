@@ -11,6 +11,7 @@ import {
   Users,
   PlugZap,
   ShieldCheck,
+  Network,
   UserCircle,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
