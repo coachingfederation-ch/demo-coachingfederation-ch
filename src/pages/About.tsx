@@ -36,14 +36,14 @@ export default function AboutPage() {
               <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
                 {t("about.mission.title")}
               </h2>
-              <p className="mt-5 max-w-xl text-base leading-relaxed text-white/85">
+              <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
                 {t("about.mission.body")}
               </p>
               <a
                 href="https://coachingfederation-ch-okr.lovable.app"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-8 inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90"
+                className="mt-8 inline-flex h-10 items-center rounded-full bg-primary px-5 text-sm font-semibold text-white transition hover:bg-primary/90"
               >
                 Find out more
               </a>
