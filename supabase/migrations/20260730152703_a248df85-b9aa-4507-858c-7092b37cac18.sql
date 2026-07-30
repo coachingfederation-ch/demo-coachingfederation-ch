@@ -1,0 +1,1 @@
+ALTER VIEW public.team_projects_public SET (security_invoker = on);

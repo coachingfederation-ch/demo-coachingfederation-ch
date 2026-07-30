@@ -971,13 +971,6 @@ export type Database = {
             referencedRelation: "members"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "member_directory_profiles_member_id_fkey"
-            columns: ["member_id"]
-            isOneToOne: true
-            referencedRelation: "team_directory_public"
-            referencedColumns: ["member_id"]
-          },
         ]
       }
       member_email_log: {
@@ -1029,13 +1022,6 @@ export type Database = {
             referencedRelation: "members"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "member_email_log_member_id_fkey"
-            columns: ["member_id"]
-            isOneToOne: false
-            referencedRelation: "team_directory_public"
-            referencedColumns: ["member_id"]
-          },
         ]
       }
       member_import_snapshots: {
@@ -1080,13 +1066,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "members"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "member_import_snapshots_member_id_fkey"
-            columns: ["member_id"]
-            isOneToOne: false
-            referencedRelation: "team_directory_public"
-            referencedColumns: ["member_id"]
           },
           {
             foreignKeyName: "member_import_snapshots_sync_run_id_fkey"
@@ -1146,13 +1125,6 @@ export type Database = {
             referencedRelation: "members"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "member_lifecycle_queue_member_id_fkey"
-            columns: ["member_id"]
-            isOneToOne: true
-            referencedRelation: "team_directory_public"
-            referencedColumns: ["member_id"]
-          },
         ]
       }
       member_profile_client_types: {
@@ -1192,13 +1164,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "member_directory_profiles"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "member_profile_client_types_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "team_directory_public"
-            referencedColumns: ["profile_id"]
           },
         ]
       }
@@ -1240,13 +1205,6 @@ export type Database = {
             referencedRelation: "member_directory_profiles"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "member_profile_formats_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "team_directory_public"
-            referencedColumns: ["profile_id"]
-          },
         ]
       }
       member_profile_languages: {
@@ -1286,13 +1244,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "member_directory_profiles"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "member_profile_languages_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "team_directory_public"
-            referencedColumns: ["profile_id"]
           },
         ]
       }
@@ -1354,13 +1305,6 @@ export type Database = {
             referencedRelation: "members"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "member_profile_links_member_id_fkey"
-            columns: ["member_id"]
-            isOneToOne: false
-            referencedRelation: "team_directory_public"
-            referencedColumns: ["member_id"]
-          },
         ]
       }
       member_profile_regions: {
@@ -1393,13 +1337,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "member_directory_profiles"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "member_profile_regions_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "team_directory_public"
-            referencedColumns: ["profile_id"]
           },
           {
             foreignKeyName: "member_profile_regions_region_id_fkey"
@@ -1440,13 +1377,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "member_directory_profiles"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "member_profile_specialisations_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "team_directory_public"
-            referencedColumns: ["profile_id"]
           },
           {
             foreignKeyName: "member_profile_specialisations_specialisation_id_fkey"
@@ -1536,13 +1466,6 @@ export type Database = {
             referencedRelation: "member_directory_profiles"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "member_profile_translations_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "team_directory_public"
-            referencedColumns: ["profile_id"]
-          },
         ]
       }
       member_profile_websites: {
@@ -1590,13 +1513,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "member_directory_profiles"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "member_profile_websites_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "team_directory_public"
-            referencedColumns: ["profile_id"]
           },
         ]
       }
@@ -1651,13 +1567,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "members"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "member_sync_events_member_id_fkey"
-            columns: ["member_id"]
-            isOneToOne: false
-            referencedRelation: "team_directory_public"
-            referencedColumns: ["member_id"]
           },
           {
             foreignKeyName: "member_sync_events_sync_run_id_fkey"
@@ -1853,13 +1762,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "members"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "op_assignments_member_id_fkey"
-            columns: ["member_id"]
-            isOneToOne: false
-            referencedRelation: "team_directory_public"
-            referencedColumns: ["member_id"]
           },
           {
             foreignKeyName: "op_assignments_project_id_fkey"
