@@ -175,8 +175,7 @@ function MemberModal({ member, onClose }: { member: TeamMember; onClose: () => v
           ) : null}
           {member.coachProfileId ? (
             <LocaleLink
-              to="/coach/$profileId"
-              params={{ profileId: member.coachProfileId }}
+              to={`/coach/${member.coachProfileId}`}
               className="inline-flex h-10 items-center gap-2 rounded-full bg-primary px-4 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
             >
               {t("team.modal.coachProfile")} <ArrowUpRight className="h-4 w-4" />
