@@ -1,4 +1,3 @@
-import conversationImg from "@/assets/real-conversation.jpg";
 import { Mark } from "@/components/marks";
 import { CompactHero, SiteFooter, CARD_SHADOW } from "@/components/site-chrome";
 import { TeamPreview } from "@/components/team/TeamPreview";
@@ -6,7 +5,6 @@ import { useI18n } from "@/i18n";
 
 export default function AboutPage() {
   const { t, tList } = useI18n();
-  const values = tList<{ title: string; desc: string }>("about.values");
   const communities = tList<{
     city: string;
     region: string;
@@ -55,40 +53,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="bg-white mx-auto max-w-7xl px-8 py-24">
-          <div className="grid gap-14 md:grid-cols-2 md:items-center">
-            <img
-              src={conversationImg}
-              alt={t("about.why.imageAlt")}
-              width={1400}
-              height={1400}
-              loading="lazy"
-              className="aspect-square w-full rounded-2xl object-cover"
-            />
-            <div>
-              <p className="eyebrow">{t("about.why.eyebrow")}</p>
-              <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
-                {t("about.why.title")}
-              </h2>
-              <p className="mt-5 text-base leading-relaxed text-muted-foreground">
-                {t("about.why.body")}
-              </p>
-              <div className="mt-10 space-y-6">
-                {values.map((v, i) => (
-                  <div key={v.title} className="flex gap-5 border-t border-border/70 pt-6">
-                    <span className="btn-mono text-lg font-bold !text-teal-foreground">
-                      0{i + 1}
-                    </span>
-                    <div>
-                      <h3 className="text-lg font-semibold tracking-tight">{v.title}</h3>
-                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{v.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
+        <TeamPreview />
 
         <section id="communities" className="bg-muted py-24 scroll-mt-24">
           <div className="mx-auto max-w-7xl px-8">
@@ -123,7 +88,6 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <TeamPreview />
 
         <section className="mx-auto max-w-7xl px-8 py-24">
           <p className="eyebrow">{t("about.research.eyebrow")}</p>
