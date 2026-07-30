@@ -44,6 +44,12 @@ base tables. The view is the projection boundary: it filters to eligible,
 published profiles and exposes only safe columns. A coach's email appears only
 when `contact_email_public` is true.
 
+A coach's email is additionally protected below the view: `anon` and
+`authenticated` have **column-level** grants on `public.members` that exclude
+`email` and `phone`, so no browser query can read them even by going around the
+view. `private.directory_contact_email` is the only path that returns an
+address, and only when the coach set `contact_email_public`.
+
 The view is `security_invoker = on`: it does not run with its creator's
 privileges, so the RLS policies on the base tables are evaluated as the actual
 caller. Anonymous and signed-in visitors both have published-row read policies
