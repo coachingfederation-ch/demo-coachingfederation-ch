@@ -82,7 +82,7 @@ itself.
 Where a public read needs data that RLS would otherwise hide (the team page
 shows members whose coach profile is not published), the projection goes in a
 `SECURITY DEFINER` function in the `private` schema, and the public view over it
-stays `security_invoker = on`. Definer *views* are flagged by the database
+stays `security_invoker = on`. Definer _views_ are flagged by the database
 linter and hide which privileges are actually in play; a narrow definer function
 with an explicit column list does the same job visibly. See
 `private.team_directory_rows()`.

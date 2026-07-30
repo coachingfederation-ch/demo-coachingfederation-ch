@@ -9,12 +9,12 @@ programmes, and The Switzerland Chapter of ICF's own members and staff.
 
 Five functional areas, each with its own access boundary:
 
-| Area                                                                                                | Who                        | Where                                                               |
-| ----------------------------------------------------------------------------------------------------- | -------------------------- | --------------------------------------------------------------------- |
-| **Public site** — home, for coaches, for organisations, events, about, Insights blog                | Everyone                   | `src/routes/*.tsx`, `src/routes/$locale/*`                          |
-| **Coach directory** — "Find a coach", filters, public coach profiles                                | Everyone                   | `src/components/coaches/`, `src/lib/directory.functions.ts`         |
-| **Team & communities** — operational structure, the honeycomb team grid, local communities          | Everyone                   | `src/components/team/`, `src/components/communities/`               |
-| **Member Area** — a member editing their own directory profile                                      | Signed-in members          | `src/routes/_member/`, `src/components/cms/MemberProfileEditor.tsx` |
+| Area                                                                                                | Who                         | Where                                                               |
+| --------------------------------------------------------------------------------------------------- | --------------------------- | ------------------------------------------------------------------- |
+| **Public site** — home, for coaches, for organisations, events, about, Insights blog                | Everyone                    | `src/routes/*.tsx`, `src/routes/$locale/*`                          |
+| **Coach directory** — "Find a coach", filters, public coach profiles                                | Everyone                    | `src/components/coaches/`, `src/lib/directory.functions.ts`         |
+| **Team & communities** — operational structure, the honeycomb team grid, local communities          | Everyone                    | `src/components/team/`, `src/components/communities/`               |
+| **Member Area** — a member editing their own directory profile                                      | Signed-in members           | `src/routes/_member/`, `src/components/cms/MemberProfileEditor.tsx` |
 | **Staff tooling** — Insights CMS, events, member admin, operational structure, integration controls | Admins, editors, organizers | `src/routes/_staff/`                                                |
 
 Everything is available in four languages (DE, FR, IT, EN) via path prefixes:

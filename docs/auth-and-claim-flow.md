@@ -38,7 +38,7 @@ bug waiting to happen, so `user_roles` has **no insert or update policy at
 all**: roles can only be changed with the service role.
 
 | Role        | Can do                                                                       |
-| ----------- | ------------------------------------------------------------------------------ |
+| ----------- | ---------------------------------------------------------------------------- |
 | `admin`     | Everything, including roles, operational structure, integration and cutover. |
 | `editor`    | Full Insights CMS: publish, schedule, edit anyone's article. Manages events. |
 | `organizer` | Events only. Lands on `/manage/events`; has no access to `/articles`.        |
