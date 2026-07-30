@@ -14,6 +14,7 @@ import { LOCALE_ORDER, type Locale } from "@/i18n/config";
 import {
   FIELD_MAX,
   LONG_FIELDS,
+  TEAM_FIELDS,
   TRANSLATABLE_FIELDS,
   translationState,
   type ProfileTranslation,
@@ -46,8 +47,14 @@ const BADGE: Record<TranslationState, string> = {
   outdated: "bg-warn-soft text-[color:var(--warn)]",
 };
 
-export function ProfileTranslationsPanel() {
+export function ProfileTranslationsPanel({
+  /** Team fields are irrelevant — and hidden — for members outside the operational structure. */
+  showTeamFields = false,
+}: { showTeamFields?: boolean } = {}) {
   const { t } = useCms();
+  const fields = showTeamFields
+    ? TRANSLATABLE_FIELDS
+    : TRANSLATABLE_FIELDS.filter((f) => !TEAM_FIELDS.includes(f));
   const load = useServerFn(getMyProfileTranslations);
   const runTranslate = useServerFn(translateMyProfile);
   const runSave = useServerFn(saveMyProfileTranslationFn);
@@ -89,7 +96,7 @@ export function ProfileTranslationsPanel() {
   const targets = LOCALE_ORDER.filter((l) => l !== data.primaryLocale);
   // The server rejects a translation request when the source profile is empty;
   // mirror that rule in the UI so the button is never a dead end.
-  const hasSourceText = TRANSLATABLE_FIELDS.some((f) => (data.source[f] ?? "").trim().length > 0);
+  const hasSourceText = fields.some((f) => (data.source[f] ?? "").trim().length > 0);
 
   const guard = async (locale: string, run: () => Promise<unknown>) => {
     setError(null);
@@ -258,7 +265,7 @@ export function ProfileTranslationsPanel() {
 
               {openLocale === locale && draft && (
                 <div className="mt-4 space-y-3">
-                  {TRANSLATABLE_FIELDS.map((field) => (
+                  {fields.map((field) => (
                     <FieldEditor
                       key={field}
                       field={field}
