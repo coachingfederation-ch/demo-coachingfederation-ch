@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "title": "Local communities — The Switzerland Chapter of ICF",
+    "description": "Coaching communities across Switzerland: regular local gatherings for peer learning, supervision and connection, run by volunteers of the chapter.",
+    "detailTitle": "Local community — The Switzerland Chapter of ICF",
+    "detailDescription": "Meet the volunteers behind this local coaching community and find out when and where the group meets."
+  },
+  "hero": {
+    "eyebrow": "Local communities",
+    "titlePre": "Coaching close to ",
+    "titleAccent": "where you are",
+    "lede": "From Basel to Lugano, our local communities bring coaches together to learn, reflect and grow — in person and online."
+  },
+  "intro": "Local communities are the heart of the chapter. Each one is run by volunteer coaches who host regular gatherings — peer coaching, supervision circles, guest speakers and informal exchange. Everyone is welcome, whether you are credentialed, training, or simply curious about the profession.",
+  "loading": "Loading communities…",
+  "empty": "No communities are published yet. Please check back soon.",
+  "notFound": "We could not find this community. It may have been renamed or archived.",
+  "list": {
+    "members": "{count} volunteers",
+    "open": "View community"
+  },
+  "detail": {
+    "eyebrow": "Local community",
+    "lede": "A local group of coaches meeting regularly across the year.",
+    "back": "All communities",
+    "join": "Join a gathering",
+    "contact": "Contact the community",
+    "peopleHeading": "Volunteers in this community",
+    "noMembers": "No volunteers are listed for this community yet.",
+    "noDescription": "A description for this community is coming soon.",
+    "andMore": "and {count} more volunteers"
+  },
+  "preview": {
+    "eyebrow": "Local communities",
+    "title": "Coaching happens locally",
+    "body": "Our regional communities meet across Switzerland throughout the year — peer coaching, supervision and conversation with coaches nearby.",
+    "featuredLabel": "Featured: {name}",
+    "cta": "See all communities",
+    "ctaFeatured": "Visit this community"
+  }
+}
