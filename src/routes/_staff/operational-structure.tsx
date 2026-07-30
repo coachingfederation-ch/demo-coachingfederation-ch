@@ -25,6 +25,7 @@ import {
   searchOpsMembers,
 } from "@/lib/ops-admin.functions";
 import { grantMemberRole, revokeMemberRole } from "@/lib/roles.functions";
+import { CommunityPanel, type CommunityFields } from "@/components/cms/CommunityPanel";
 
 export const Route = createFileRoute("/_staff/operational-structure")({
   beforeLoad: ({ context }) => requireStaffAccess(context.queryClient, ADMIN_ONLY),
@@ -48,6 +49,9 @@ type Localized = {
   is_active: boolean;
 };
 
+/** Projects carry the community fields too; roles never do. */
+type ProjectRow = Localized & CommunityFields;
+
 type Assignment = {
   id: string;
   member_id: string;
@@ -60,12 +64,17 @@ type MemberOption = { id: string; full_name: string | null; auth_user_id: string
 
 const LOCALE_COLS = ["name_de", "name_fr", "name_it"] as const;
 const COLUMNS = "id, slug, name, name_de, name_fr, name_it, sort_order, is_active";
+const PROJECT_COLUMNS =
+  COLUMNS +
+  ", is_community, is_featured_community, description, description_de, description_fr," +
+  " description_it, cadence_note, cadence_note_de, cadence_note_fr, cadence_note_it," +
+  " contact_email, signup_url, language_slugs";
 const INPUT =
   "rounded-lg border border-border bg-card px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-ring/20";
 
 function OperationalStructurePage() {
   const { t } = useCms();
-  const [projects, setProjects] = useState<Localized[]>([]);
+  const [projects, setProjects] = useState<ProjectRow[]>([]);
   const [roles, setRoles] = useState<Localized[]>([]);
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
@@ -80,10 +89,10 @@ function OperationalStructurePage() {
   const loadProjects = async () => {
     const { data, error: err } = await supabase
       .from("op_projects")
-      .select(COLUMNS)
+      .select(PROJECT_COLUMNS)
       .order("sort_order", { ascending: true });
     if (err) return setError(err.message);
-    const rows = (data ?? []) as Localized[];
+    const rows = (data ?? []) as ProjectRow[];
     setProjects(rows);
     setSelected((current) => current ?? rows[0]?.id ?? null);
   };
@@ -364,6 +373,8 @@ function OperationalStructurePage() {
                   </button>
                 </div>
               </section>
+
+              <CommunityPanel project={project} onSaved={loadProjects} />
 
               <section className="rounded-2xl border border-border bg-card p-5">
                 <h2 className="text-sm font-bold">{t("ops.roles")}</h2>
