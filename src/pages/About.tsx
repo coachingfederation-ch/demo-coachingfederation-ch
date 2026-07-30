@@ -29,6 +29,31 @@ export default function AboutPage() {
         lede={t("about.hero.lede")}
       />
       <main id="main">
+        <section className="bg-primary text-white">
+          <div className="mx-auto grid max-w-7xl gap-10 px-8 py-24 md:grid-cols-[1.2fr_1fr] md:items-center">
+            <div>
+              <p className="eyebrow !text-accent">{t("about.mission.eyebrow")}</p>
+              <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+                {t("about.mission.title")}
+              </h2>
+              <p className="mt-5 max-w-xl text-base leading-relaxed text-white/85">
+                {t("about.mission.body")}
+              </p>
+              <a
+                href="https://coachingfederation-ch-okr.lovable.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-8 inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90"
+              >
+                Find out more
+              </a>
+            </div>
+            <div className="grid aspect-[4/3] place-items-center rounded-2xl bg-white/5">
+              <Mark name="circular2" className="h-1/2 w-1/2 text-mark-cream" />
+            </div>
+          </div>
+        </section>
+
         <section className="mx-auto max-w-7xl px-8 py-24">
           <div className="grid gap-14 md:grid-cols-2 md:items-center">
             <img
@@ -128,22 +153,6 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="bg-primary text-white">
-          <div className="mx-auto grid max-w-7xl gap-10 px-8 py-24 md:grid-cols-[1.2fr_1fr] md:items-center">
-            <div>
-              <p className="eyebrow !text-accent">{t("about.mission.eyebrow")}</p>
-              <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
-                {t("about.mission.title")}
-              </h2>
-              <p className="mt-5 max-w-xl text-base leading-relaxed text-white/85">
-                {t("about.mission.body")}
-              </p>
-            </div>
-            <div className="grid aspect-[4/3] place-items-center rounded-2xl bg-white/5">
-              <Mark name="circular2" className="h-1/2 w-1/2 text-mark-cream" />
-            </div>
-          </div>
-        </section>
 
         <section className="bg-hero text-hero-foreground">
           <div className="mx-auto max-w-7xl px-8 py-20 text-center">
