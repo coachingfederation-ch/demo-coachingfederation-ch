@@ -66,7 +66,7 @@ export function CommunityPanel({
 
   const save = async (values: Partial<CommunityFields>) => {
     setRow((prev) => ({ ...prev, ...values }));
-    const { error: err } = await supabase.from("op_projects").update(values).eq("id", project.id);
+    const { error: err } = await supabase.from("op_projects").update(values as never).eq("id", project.id);
     if (err) return setError(err.message);
     setError(null);
     await onSaved();

@@ -109,7 +109,7 @@ export const translateCommunity = createServerFn({ method: "POST" })
 
     const { error: updateError } = await supabase
       .from("op_projects")
-      .update(update)
+      .update(update as never)
       .eq("id", data.projectId);
     if (updateError) throw new Error(updateError.message);
 

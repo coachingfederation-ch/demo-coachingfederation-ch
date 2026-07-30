@@ -92,7 +92,7 @@ function OperationalStructurePage() {
       .select(PROJECT_COLUMNS)
       .order("sort_order", { ascending: true });
     if (err) return setError(err.message);
-    const rows = (data ?? []) as ProjectRow[];
+    const rows = (data ?? []) as unknown as ProjectRow[];
     setProjects(rows);
     setSelected((current) => current ?? rows[0]?.id ?? null);
   };
@@ -149,8 +149,11 @@ function OperationalStructurePage() {
     id: string,
     values: Partial<Localized>,
   ) => {
-    const setter = table === "op_projects" ? setProjects : setRoles;
-    setter((prev) => prev.map((r) => (r.id === id ? { ...r, ...values } : r)));
+    if (table === "op_projects") {
+      setProjects((prev) => prev.map((r) => (r.id === id ? { ...r, ...values } : r)));
+    } else {
+      setRoles((prev) => prev.map((r) => (r.id === id ? { ...r, ...values } : r)));
+    }
     const { error: err } = await supabase.from(table).update(values).eq("id", id);
     if (err) setError(err.message);
   };
