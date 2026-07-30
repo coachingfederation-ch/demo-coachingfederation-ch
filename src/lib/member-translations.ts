@@ -42,6 +42,7 @@ export const FIELD_MAX: Record<TranslatableField, number> = {
   response_time_note: 120,
   testimonial_quote: 400,
   testimonial_attribution: 120,
+  team_bio: 2000,
 };
 
 /** Fields that get a multi-line control in the editor. */
