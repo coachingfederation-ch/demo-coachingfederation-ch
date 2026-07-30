@@ -36,11 +36,14 @@ experience:
   own client (`src/lib/authz.ts`). A user cannot grant themselves a role,
   because `user_roles` has no insert or update policy at all — role changes
   are service-role only.
-- **Article access.** Editors and admins manage everything; contributors can
-  read their own articles and may only insert, update or delete their **own
-  drafts**. Anonymous visitors see published articles only. This is why the
-  Insights CMS can safely operate through ordinary authenticated clients: a
-  contributor physically cannot publish.
+- **Article and event access.** Editors and admins manage every article;
+  organizers manage events only. Anonymous visitors see published rows only.
+  This is why the CMS can safely operate through ordinary authenticated
+  clients: an organizer physically cannot touch an article.
+- **Public PII.** `anon` and `authenticated` hold column-level grants on
+  `public.members`, not table-level SELECT, so member email and phone cannot be
+  read from the browser at all. Contact email is exposed only by
+  `private.directory_contact_email`, which honours the coach's opt-in.
 - **Directory eligibility.** A profile may only be `published` if its member is
   active _and_ holds a valid ACC/PCC/MCC credential. This is a trigger
   (`tg_directory_profile_eligibility_guard`), not a check in application code,
@@ -73,6 +76,16 @@ constrains them.
 callers. Only one exists: `member-sync.ts`, the endpoint the nightly cron job
 hits. This prefix bypasses site auth, so the handler verifies the caller
 itself.
+
+### Security-definer functions instead of definer views
+
+Where a public read needs data that RLS would otherwise hide (the team page
+shows members whose coach profile is not published), the projection goes in a
+`SECURITY DEFINER` function in the `private` schema, and the public view over it
+stays `security_invoker = on`. Definer *views* are flagged by the database
+linter and hide which privileges are actually in play; a narrow definer function
+with an explicit column list does the same job visibly. See
+`private.team_directory_rows()`.
 
 ### The admin client
 
