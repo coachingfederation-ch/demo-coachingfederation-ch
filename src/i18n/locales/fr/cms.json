@@ -15,7 +15,8 @@
     "roles": "Rôles",
     "memberArea": "Espace membre",
     "insightsCms": "CMS Insights",
-    "events": "Événements"
+    "events": "Événements",
+    "opsStructure": "Structure opérationnelle"
   },
   "auth": {
     "signInSub": "Connectez-vous pour continuer",
@@ -461,7 +462,10 @@
     "testimonialNote": "Facultatif. N'utilisez qu'une citation que vous êtes autorisé à publier.",
     "testimonialQuote": "Citation",
     "testimonialAttribution": "Attribution",
-    "testimonialAttributionPlaceholder": "p. ex. Responsable d'équipe, services financiers suisses"
+    "testimonialAttributionPlaceholder": "p. ex. Responsable d'équipe, services financiers suisses",
+    "teamBioTitle": "Description du rôle dans l'équipe",
+    "teamBioNote": "Affichée dans la fenêtre de la page équipe publique.",
+    "teamBio": "Description du rôle dans l'équipe"
   },
   "noAccess": {
     "title": "Pas encore d'accès",
@@ -554,7 +558,8 @@
       "availability_note": "Disponibilité",
       "response_time_note": "Délai de réponse",
       "testimonial_quote": "Témoignage",
-      "testimonial_attribution": "Auteur du témoignage"
+      "testimonial_attribution": "Auteur du témoignage",
+      "team_bio": "Description du rôle dans l'équipe"
     }
   },
   "roles": {
@@ -687,5 +692,41 @@
     "descriptionField": "Description",
     "saveTranslation": "Enregistrer la traduction",
     "savedTranslation": "Enregistré"
+  },
+  "ops": {
+    "title": "Structure opérationnelle",
+    "subtitle": "Projets, rôles et affectations des membres derrière la page équipe publique.",
+    "projects": "Projets",
+    "projectDetails": "Détails du projet",
+    "addProject": "Ajouter un projet",
+    "projectPlaceholder": "Nom du nouveau projet (anglais)",
+    "deleteProject": "Supprimer le projet",
+    "roles": "Rôles",
+    "addRole": "Ajouter un rôle",
+    "rolePlaceholder": "Nom du nouveau rôle (anglais)",
+    "assignments": "Affectations",
+    "assignmentsNote": "Affecter un membre lui accorde aussi le rôle d'éditeur.",
+    "noAssignments": "Aucun membre affecté.",
+    "memberSearch": "Rechercher des membres…",
+    "member": "Membre",
+    "selectMember": "Choisir un membre",
+    "role": "Rôle",
+    "selectRole": "Choisir un rôle",
+    "assign": "Affecter",
+    "remove": "Retirer",
+    "delete": "Supprimer",
+    "moveUp": "Monter",
+    "moveDown": "Descendre",
+    "active": "Actif",
+    "nameEn": "Nom (anglais)",
+    "name_de": "Allemand",
+    "name_fr": "Français",
+    "name_it": "Italien",
+    "selectProject": "Choisissez un projet à modifier.",
+    "confirmDelete": "Supprimer cette entrée ?",
+    "confirmRevoke": "C'était sa dernière affectation. Retirer aussi le rôle d'éditeur ?",
+    "grantFailed": "Affecté, mais le rôle d'éditeur n'a pas pu être accordé.",
+    "revokeFailed": "Impossible de retirer le rôle d'éditeur.",
+    "unclaimed": "Affecté. Ce membre n'a pas encore activé son compte, aucun rôle d'éditeur n'a été accordé."
   }
 }

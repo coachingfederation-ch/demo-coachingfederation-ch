@@ -34,6 +34,9 @@ const updateSchema = z.object({
   availability_note: z.string().max(120).nullish(),
   testimonial_quote: z.string().max(400).nullish(),
   testimonial_attribution: z.string().max(120).nullish(),
+  // Volunteer bio for the public team page; shown only to members who hold
+  // the `editor` grant, i.e. who are part of the operational structure.
+  team_bio: z.string().max(2000).nullish(),
   region_ids: z.array(z.string().uuid()).max(40).optional(),
   language_ids: z.array(z.string().uuid()).max(40).optional(),
   format_ids: z.array(z.string().uuid()).max(40).optional(),

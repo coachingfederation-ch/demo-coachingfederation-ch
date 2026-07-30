@@ -25,6 +25,7 @@ import { Route as NoAccessRouteImport } from './routes/no-access'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as StaffSignInRouteImport } from './routes/staff-sign-in'
+import { Route as TeamRouteImport } from './routes/team'
 import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
 import { Route as LocaleAboutRouteImport } from './routes/$locale/about'
 import { Route as LocaleFindACoachRouteImport } from './routes/$locale/find-a-coach'
@@ -33,12 +34,14 @@ import { Route as LocaleForOrganisationsRouteImport } from './routes/$locale/for
 import { Route as LocaleImprintRouteImport } from './routes/$locale/imprint'
 import { Route as LocaleInsightsRouteImport } from './routes/$locale/insights'
 import { Route as LocalePrivacyRouteImport } from './routes/$locale/privacy'
+import { Route as LocaleTeamRouteImport } from './routes/$locale/team'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as MemberMyProfileRouteImport } from './routes/_member/my-profile'
 import { Route as StaffArticlesRouteImport } from './routes/_staff/articles'
 import { Route as StaffCoachFinderRouteImport } from './routes/_staff/coach-finder'
 import { Route as StaffIntegrationRouteImport } from './routes/_staff/integration'
+import { Route as StaffOperationalStructureRouteImport } from './routes/_staff/operational-structure'
 import { Route as StaffRolesRouteImport } from './routes/_staff/roles'
 import { Route as StaffVocabulariesRouteImport } from './routes/_staff/vocabularies'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
@@ -144,6 +147,11 @@ const StaffSignInRoute = StaffSignInRouteImport.update({
   path: '/staff-sign-in',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TeamRoute = TeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocaleIndexRoute = LocaleIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -184,6 +192,11 @@ const LocalePrivacyRoute = LocalePrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
+const LocaleTeamRoute = LocaleTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
 const Char91DotmcpChar93ListToolsRoute =
   Char91DotmcpChar93ListToolsRouteImport.update({
     id: '/.mcp/list-tools',
@@ -216,6 +229,12 @@ const StaffIntegrationRoute = StaffIntegrationRouteImport.update({
   path: '/integration',
   getParentRoute: () => StaffRouteRoute,
 } as any)
+const StaffOperationalStructureRoute =
+  StaffOperationalStructureRouteImport.update({
+    id: '/operational-structure',
+    path: '/operational-structure',
+    getParentRoute: () => StaffRouteRoute,
+  } as any)
 const StaffRolesRoute = StaffRolesRouteImport.update({
   id: '/roles',
   path: '/roles',
@@ -363,6 +382,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/staff-sign-in': typeof StaffSignInRoute
+  '/team': typeof TeamRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
@@ -370,12 +390,14 @@ export interface FileRoutesByFullPath {
   '/$locale/imprint': typeof LocaleImprintRoute
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
   '/$locale/privacy': typeof LocalePrivacyRoute
+  '/$locale/team': typeof LocaleTeamRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/my-profile': typeof MemberMyProfileRoute
   '/articles': typeof StaffArticlesRouteWithChildren
   '/coach-finder': typeof StaffCoachFinderRoute
   '/integration': typeof StaffIntegrationRoute
+  '/operational-structure': typeof StaffOperationalStructureRoute
   '/roles': typeof StaffRolesRoute
   '/vocabularies': typeof StaffVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
@@ -417,17 +439,20 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/staff-sign-in': typeof StaffSignInRoute
+  '/team': typeof TeamRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
   '/$locale/imprint': typeof LocaleImprintRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
+  '/$locale/team': typeof LocaleTeamRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/my-profile': typeof MemberMyProfileRoute
   '/coach-finder': typeof StaffCoachFinderRoute
   '/integration': typeof StaffIntegrationRoute
+  '/operational-structure': typeof StaffOperationalStructureRoute
   '/roles': typeof StaffRolesRoute
   '/vocabularies': typeof StaffVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
@@ -474,6 +499,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/staff-sign-in': typeof StaffSignInRoute
+  '/team': typeof TeamRoute
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
@@ -481,12 +507,14 @@ export interface FileRoutesById {
   '/$locale/imprint': typeof LocaleImprintRoute
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
   '/$locale/privacy': typeof LocalePrivacyRoute
+  '/$locale/team': typeof LocaleTeamRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/_member/my-profile': typeof MemberMyProfileRoute
   '/_staff/articles': typeof StaffArticlesRouteWithChildren
   '/_staff/coach-finder': typeof StaffCoachFinderRoute
   '/_staff/integration': typeof StaffIntegrationRoute
+  '/_staff/operational-structure': typeof StaffOperationalStructureRoute
   '/_staff/roles': typeof StaffRolesRoute
   '/_staff/vocabularies': typeof StaffVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
@@ -532,6 +560,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/sitemap.xml'
     | '/staff-sign-in'
+    | '/team'
     | '/$locale/about'
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
@@ -539,12 +568,14 @@ export interface FileRouteTypes {
     | '/$locale/imprint'
     | '/$locale/insights'
     | '/$locale/privacy'
+    | '/$locale/team'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/my-profile'
     | '/articles'
     | '/coach-finder'
     | '/integration'
+    | '/operational-structure'
     | '/roles'
     | '/vocabularies'
     | '/auth/callback'
@@ -586,17 +617,20 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/sitemap.xml'
     | '/staff-sign-in'
+    | '/team'
     | '/$locale/about'
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
     | '/$locale/imprint'
     | '/$locale/privacy'
+    | '/$locale/team'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/my-profile'
     | '/coach-finder'
     | '/integration'
+    | '/operational-structure'
     | '/roles'
     | '/vocabularies'
     | '/auth/callback'
@@ -642,6 +676,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/sitemap.xml'
     | '/staff-sign-in'
+    | '/team'
     | '/$locale/about'
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
@@ -649,12 +684,14 @@ export interface FileRouteTypes {
     | '/$locale/imprint'
     | '/$locale/insights'
     | '/$locale/privacy'
+    | '/$locale/team'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/_member/my-profile'
     | '/_staff/articles'
     | '/_staff/coach-finder'
     | '/_staff/integration'
+    | '/_staff/operational-structure'
     | '/_staff/roles'
     | '/_staff/vocabularies'
     | '/auth/callback'
@@ -701,6 +738,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StaffSignInRoute: typeof StaffSignInRoute
+  TeamRoute: typeof TeamRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ClaimTokenRoute: typeof ClaimTokenRoute
@@ -827,6 +865,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StaffSignInRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/team': {
+      id: '/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof TeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$locale/': {
       id: '/$locale/'
       path: '/'
@@ -883,6 +928,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocalePrivacyRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
+    '/$locale/team': {
+      id: '/$locale/team'
+      path: '/team'
+      fullPath: '/$locale/team'
+      preLoaderRoute: typeof LocaleTeamRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
     '/.mcp/list-tools': {
       id: '/.mcp/list-tools'
       path: '/.mcp/list-tools'
@@ -923,6 +975,13 @@ declare module '@tanstack/react-router' {
       path: '/integration'
       fullPath: '/integration'
       preLoaderRoute: typeof StaffIntegrationRouteImport
+      parentRoute: typeof StaffRouteRoute
+    }
+    '/_staff/operational-structure': {
+      id: '/_staff/operational-structure'
+      path: '/operational-structure'
+      fullPath: '/operational-structure'
+      preLoaderRoute: typeof StaffOperationalStructureRouteImport
       parentRoute: typeof StaffRouteRoute
     }
     '/_staff/roles': {
@@ -1132,6 +1191,7 @@ interface LocaleRouteRouteChildren {
   LocaleImprintRoute: typeof LocaleImprintRoute
   LocaleInsightsRoute: typeof LocaleInsightsRouteWithChildren
   LocalePrivacyRoute: typeof LocalePrivacyRoute
+  LocaleTeamRoute: typeof LocaleTeamRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
   LocaleCoachProfileIdRoute: typeof LocaleCoachProfileIdRoute
   LocaleEventsSlugRoute: typeof LocaleEventsSlugRoute
@@ -1146,6 +1206,7 @@ const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleImprintRoute: LocaleImprintRoute,
   LocaleInsightsRoute: LocaleInsightsRouteWithChildren,
   LocalePrivacyRoute: LocalePrivacyRoute,
+  LocaleTeamRoute: LocaleTeamRoute,
   LocaleIndexRoute: LocaleIndexRoute,
   LocaleCoachProfileIdRoute: LocaleCoachProfileIdRoute,
   LocaleEventsSlugRoute: LocaleEventsSlugRoute,
@@ -1190,6 +1251,7 @@ interface StaffRouteRouteChildren {
   StaffArticlesRoute: typeof StaffArticlesRouteWithChildren
   StaffCoachFinderRoute: typeof StaffCoachFinderRoute
   StaffIntegrationRoute: typeof StaffIntegrationRoute
+  StaffOperationalStructureRoute: typeof StaffOperationalStructureRoute
   StaffRolesRoute: typeof StaffRolesRoute
   StaffVocabulariesRoute: typeof StaffVocabulariesRoute
   StaffMembersIdRoute: typeof StaffMembersIdRoute
@@ -1202,6 +1264,7 @@ const StaffRouteRouteChildren: StaffRouteRouteChildren = {
   StaffArticlesRoute: StaffArticlesRouteWithChildren,
   StaffCoachFinderRoute: StaffCoachFinderRoute,
   StaffIntegrationRoute: StaffIntegrationRoute,
+  StaffOperationalStructureRoute: StaffOperationalStructureRoute,
   StaffRolesRoute: StaffRolesRoute,
   StaffVocabulariesRoute: StaffVocabulariesRoute,
   StaffMembersIdRoute: StaffMembersIdRoute,
@@ -1255,6 +1318,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StaffSignInRoute: StaffSignInRoute,
+  TeamRoute: TeamRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,

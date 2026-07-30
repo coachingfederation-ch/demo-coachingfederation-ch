@@ -15,7 +15,8 @@
     "roles": "Roles",
     "memberArea": "Member area",
     "insightsCms": "Insights CMS",
-    "events": "Events"
+    "events": "Events",
+    "opsStructure": "Operational structure"
   },
   "auth": {
     "signInSub": "Sign in to continue",
@@ -461,7 +462,10 @@
     "testimonialNote": "Optional. Use only a quote you have permission to publish.",
     "testimonialQuote": "Quote",
     "testimonialAttribution": "Attribution",
-    "testimonialAttributionPlaceholder": "e.g. Team lead, Swiss financial services"
+    "testimonialAttributionPlaceholder": "e.g. Team lead, Swiss financial services",
+    "teamBioTitle": "Team role description",
+    "teamBioNote": "Shown in the popup on the public team page.",
+    "teamBio": "Team role description"
   },
   "noAccess": {
     "title": "No access yet",
@@ -554,7 +558,8 @@
       "availability_note": "Availability",
       "response_time_note": "Response time",
       "testimonial_quote": "Testimonial",
-      "testimonial_attribution": "Testimonial attribution"
+      "testimonial_attribution": "Testimonial attribution",
+      "team_bio": "Team role description"
     }
   },
   "roles": {
@@ -687,5 +692,41 @@
     "descriptionField": "Description",
     "saveTranslation": "Save translation",
     "savedTranslation": "Saved"
+  },
+  "ops": {
+    "title": "Operational structure",
+    "subtitle": "Projects, roles and member assignments behind the public team page.",
+    "projects": "Projects",
+    "projectDetails": "Project details",
+    "addProject": "Add project",
+    "projectPlaceholder": "New project name (English)",
+    "deleteProject": "Delete project",
+    "roles": "Roles",
+    "addRole": "Add role",
+    "rolePlaceholder": "New role name (English)",
+    "assignments": "Assignments",
+    "assignmentsNote": "Assigning a member also grants them the editor role.",
+    "noAssignments": "No members assigned yet.",
+    "memberSearch": "Search members…",
+    "member": "Member",
+    "selectMember": "Select a member",
+    "role": "Role",
+    "selectRole": "Select a role",
+    "assign": "Assign",
+    "remove": "Remove",
+    "delete": "Delete",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "active": "Active",
+    "nameEn": "Name (English)",
+    "name_de": "German",
+    "name_fr": "French",
+    "name_it": "Italian",
+    "selectProject": "Select a project to edit.",
+    "confirmDelete": "Delete this entry?",
+    "confirmRevoke": "This was their last assignment. Also revoke the editor role?",
+    "grantFailed": "Assigned, but the editor role could not be granted.",
+    "revokeFailed": "Could not revoke the editor role.",
+    "unclaimed": "Assigned. This member has not claimed an account yet, so no editor role was granted."
   }
 }
