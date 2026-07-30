@@ -40,7 +40,9 @@ export function BenefitGrid() {
       </div>
       <div className="mt-10 flex flex-wrap items-center gap-4">
         <a
-          href="#"
+          href="https://coachingfederation.org/about/icf-membership/individual-membership/"
+          target="_blank"
+          rel="noopener noreferrer"
           className="inline-flex h-10 items-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground transition hover:opacity-90"
         >
           {t("coaches.benefits.cta")}
