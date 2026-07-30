@@ -66,7 +66,10 @@ export function CommunityPanel({
 
   const save = async (values: Partial<CommunityFields>) => {
     setRow((prev) => ({ ...prev, ...values }));
-    const { error: err } = await supabase.from("op_projects").update(values as never).eq("id", project.id);
+    const { error: err } = await supabase
+      .from("op_projects")
+      .update(values as never)
+      .eq("id", project.id);
     if (err) return setError(err.message);
     setError(null);
     await onSaved();
@@ -74,9 +77,7 @@ export function CommunityPanel({
 
   const toggleLanguage = (slug: string) => {
     const current = row.language_slugs ?? [];
-    const next = current.includes(slug)
-      ? current.filter((s) => s !== slug)
-      : [...current, slug];
+    const next = current.includes(slug) ? current.filter((s) => s !== slug) : [...current, slug];
     void save({ language_slugs: next });
   };
 

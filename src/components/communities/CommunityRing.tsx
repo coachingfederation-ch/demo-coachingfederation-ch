@@ -80,37 +80,42 @@ export function CommunityRing({
     <>
       {/* Ring layout — pointer devices and roomy viewports. */}
       <div className="hidden sm:block">
-        <div className="relative mx-auto aspect-square w-full max-w-[30rem]">
-          <div className="absolute left-1/2 top-1/2 h-[46%] w-[52%] -translate-x-1/2 -translate-y-1/2">
-            {hexagon}
-          </div>
-          {ring.map((member, index) => {
-            const { x, y } = ringPosition(index, ring.length);
-            return (
-              <button
-                key={member.memberId}
-                type="button"
-                onClick={() => setOpenId(member.memberId)}
-                aria-label={label(member)}
-                className="group absolute h-[50px] w-[50px] -translate-x-1/2 -translate-y-1/2 rounded-full outline-none transition-transform duration-200 hover:z-20 hover:scale-[1.7] focus-visible:z-20 focus-visible:scale-[1.7] focus-visible:ring-4 focus-visible:ring-ring/40"
-                style={{ left: `${50 + x * 42}%`, top: `${50 + y * 42}%` }}
-              >
-                <span className="block h-full w-full overflow-hidden rounded-full ring-2 ring-background">
-                  <Avatar member={member} />
-                </span>
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute left-1/2 top-full z-30 mt-2 w-40 -translate-x-1/2 rounded-lg bg-foreground px-2 py-1.5 text-center text-[10px] font-semibold leading-tight text-background opacity-0 transition group-hover:opacity-100 group-focus-visible:opacity-100"
+        {/* No ring to draw: don't reserve a whole square of empty space. */}
+        {ring.length === 0 ? (
+          <div className="mx-auto h-48 w-56">{hexagon}</div>
+        ) : (
+          <div className="relative mx-auto aspect-square w-full max-w-[30rem]">
+            <div className="absolute left-1/2 top-1/2 h-[46%] w-[52%] -translate-x-1/2 -translate-y-1/2">
+              {hexagon}
+            </div>
+            {ring.map((member, index) => {
+              const { x, y } = ringPosition(index, ring.length);
+              return (
+                <button
+                  key={member.memberId}
+                  type="button"
+                  onClick={() => setOpenId(member.memberId)}
+                  aria-label={label(member)}
+                  className="group absolute h-[50px] w-[50px] -translate-x-1/2 -translate-y-1/2 rounded-full outline-none transition-transform duration-200 hover:z-20 hover:scale-[1.7] focus-visible:z-20 focus-visible:scale-[1.7] focus-visible:ring-4 focus-visible:ring-ring/40"
+                  style={{ left: `${50 + x * 42}%`, top: `${50 + y * 42}%` }}
                 >
-                  {member.name}
-                  {roleFor(member, slug) ? (
-                    <span className="block font-normal opacity-80">{roleFor(member, slug)}</span>
-                  ) : null}
-                </span>
-              </button>
-            );
-          })}
-        </div>
+                  <span className="block h-full w-full overflow-hidden rounded-full ring-2 ring-background">
+                    <Avatar member={member} />
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute left-1/2 top-full z-30 mt-2 w-40 -translate-x-1/2 rounded-lg bg-foreground px-2 py-1.5 text-center text-[10px] font-semibold leading-tight text-background opacity-0 transition group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    {member.name}
+                    {roleFor(member, slug) ? (
+                      <span className="block font-normal opacity-80">{roleFor(member, slug)}</span>
+                    ) : null}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Touch / small-screen fallback: a plain, tappable avatar list. */}

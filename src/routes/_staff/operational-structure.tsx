@@ -383,7 +383,10 @@ function OperationalStructurePage() {
                 <h2 className="text-sm font-bold">{t("ops.roles")}</h2>
                 <div className="mt-3 space-y-3">
                   {roles.map((role, index) => (
-                    <div key={role.id} className="grid gap-2 border-t border-border pt-3 sm:grid-cols-2">
+                    <div
+                      key={role.id}
+                      className="grid gap-2 border-t border-border pt-3 sm:grid-cols-2"
+                    >
                       <div className="flex items-center gap-1 sm:col-span-2">
                         <input
                           aria-label={t("ops.nameEn")}
@@ -432,11 +435,15 @@ function OperationalStructurePage() {
                           value={role[col] ?? ""}
                           onChange={(e) =>
                             setRoles((prev) =>
-                              prev.map((r) => (r.id === role.id ? { ...r, [col]: e.target.value } : r)),
+                              prev.map((r) =>
+                                r.id === role.id ? { ...r, [col]: e.target.value } : r,
+                              ),
                             )
                           }
                           onBlur={(e) =>
-                            void patch("op_project_roles", role.id, { [col]: e.target.value || null })
+                            void patch("op_project_roles", role.id, {
+                              [col]: e.target.value || null,
+                            })
                           }
                           className={INPUT}
                         />
