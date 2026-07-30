@@ -69,7 +69,7 @@ export function CommunityRing({
 
   const hexagon = (
     <span
-      className="grid place-items-center bg-primary text-center text-primary-foreground"
+      className="grid h-full w-full place-items-center bg-primary text-center text-primary-foreground"
       style={{ clipPath: HEX_CLIP }}
     >
       <span className="px-4 text-sm font-bold leading-tight sm:text-base">{name}</span>
