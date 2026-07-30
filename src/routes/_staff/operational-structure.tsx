@@ -19,6 +19,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { useCms } from "@/i18n/cms";
 import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";
 import { slugifyVocab } from "@/lib/vocabularies";
+import {
+  countOpsAssignments,
+  listOpsAssignments,
+  searchOpsMembers,
+} from "@/lib/ops-admin.functions";
+import { grantMemberRole, revokeMemberRole } from "@/lib/roles.functions";
 
 export const Route = createFileRoute("/_staff/operational-structure")({
   beforeLoad: ({ context }) => requireStaffAccess(context.queryClient, ADMIN_ONLY),
@@ -83,22 +89,22 @@ function OperationalStructurePage() {
   };
 
   const loadDetail = async (projectId: string) => {
-    const [roleRes, assignRes] = await Promise.all([
+    // Assignments carry member names, and the browser role holds no grants on
+    // `public.members` — that read has to happen server-side.
+    const [roleRes, assignRows] = await Promise.all([
       supabase
         .from("op_project_roles")
         .select(COLUMNS)
         .eq("project_id", projectId)
         .order("sort_order", { ascending: true }),
-      supabase
-        .from("op_assignments")
-        .select("id, member_id, role_id, sort_order, member:members(full_name, email, auth_user_id)")
-        .eq("project_id", projectId)
-        .order("sort_order", { ascending: true }),
+      listOpsAssignments({ data: { projectId } }).catch((err: unknown) => {
+        setError(err instanceof Error ? err.message : String(err));
+        return [] as Assignment[];
+      }),
     ]);
     if (roleRes.error) return setError(roleRes.error.message);
-    if (assignRes.error) return setError(assignRes.error.message);
     setRoles((roleRes.data ?? []) as Localized[]);
-    setAssignments((assignRes.data ?? []) as unknown as Assignment[]);
+    setAssignments(assignRows as Assignment[]);
   };
 
   useEffect(() => {
@@ -118,13 +124,12 @@ function OperationalStructurePage() {
     }
     const timer = setTimeout(() => {
       void (async () => {
-        const { data } = await supabase
-          .from("members")
-          .select("id, full_name, auth_user_id")
-          .ilike("full_name", `%${term.replace(/[%_,()]/g, "")}%`)
-          .order("full_name", { ascending: true })
-          .limit(20);
-        setMembers((data ?? []) as MemberOption[]);
+        try {
+          const data = await searchOpsMembers({ data: { term } });
+          setMembers(data as MemberOption[]);
+        } catch {
+          setMembers([]);
+        }
       })();
     }, 250);
     return () => clearTimeout(timer);
@@ -212,11 +217,11 @@ function OperationalStructurePage() {
     // Reuse the existing `editor` grant; a member who has not claimed their
     // account yet simply gets it the moment they are granted one.
     if (member?.auth_user_id) {
-      const { error: roleErr } = await supabase
-        .from("user_roles")
-        .insert({ user_id: member.auth_user_id, role: "editor" })
-        .select("id");
-      if (roleErr && roleErr.code !== "23505") setError(t("ops.grantFailed"));
+      try {
+        await grantMemberRole({ data: { memberId: pickedMember, role: "editor" } });
+      } catch {
+        setError(t("ops.grantFailed"));
+      }
     } else {
       setError(t("ops.unclaimed"));
     }
@@ -230,18 +235,13 @@ function OperationalStructurePage() {
     const { error: err } = await supabase.from("op_assignments").delete().eq("id", row.id);
     if (err) return setError(err.message);
 
-    const { count } = await supabase
-      .from("op_assignments")
-      .select("id", { count: "exact", head: true })
-      .eq("member_id", row.member_id);
+    const count = await countOpsAssignments({ data: { memberId: row.member_id } }).catch(() => 1);
     if (!count && row.member?.auth_user_id && window.confirm(t("ops.confirmRevoke"))) {
-      const { error: revokeErr } = await supabase
-        .from("user_roles")
-        .delete()
-        .eq("user_id", row.member.auth_user_id)
-        .eq("role", "editor")
-        .select("id");
-      if (revokeErr) setError(t("ops.revokeFailed"));
+      try {
+        await revokeMemberRole({ data: { memberId: row.member_id, role: "editor" } });
+      } catch {
+        setError(t("ops.revokeFailed"));
+      }
     }
     await loadDetail(selected);
   };
