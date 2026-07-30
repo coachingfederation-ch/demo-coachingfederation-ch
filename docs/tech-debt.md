@@ -17,11 +17,11 @@ the mistake visible quickly.
 
 ## Large components
 
-`MemberProfileEditor.tsx` (~800 lines) and `articles.$id.tsx` (~600) are the
-two remaining oversized files. Both are genuinely form-heavy rather than
-tangled, and their data access now sits behind server functions, which was the
-part that actually mattered. Splitting them into per-section subcomponents is
-the obvious next step and is low risk.
+`MemberProfileEditor.tsx`, `articles.$id.tsx`, `manage.events.$id.tsx` and
+`operational-structure.tsx` are the oversized files. All are genuinely
+form-heavy rather than tangled, and their data access sits behind server
+functions, which was the part that actually mattered. Splitting them into
+per-section subcomponents is the obvious next step and is low risk.
 
 ## Test coverage
 
@@ -33,11 +33,24 @@ automation. The highest-value first tests, in order:
 2. `publishBlockReason` — a pure function guarding a security-relevant rule.
 3. The claim token state machine — expiry, reuse, attempt limits.
 
-## The view must be updated by hand
+## Public projections must be updated by hand
 
 Adding a field to a coach profile requires changing both the table and
-`coach_directory_public`. There is nothing that catches the omission; the field
-just renders blank publicly. Keep the two changes in the same migration.
+`coach_directory_public`; the team page additionally needs
+`private.team_directory_rows()`. Nothing catches the omission — the field just
+renders blank publicly. Keep the changes in the same migration.
+
+Related: because `anon`/`authenticated` hold column-level grants on
+`public.members`, a new column is **not** publicly readable until it is granted
+explicitly. That is the intended default; grant only what a public page needs.
+
+## Translation surfaces are copy-adjacent
+
+Articles, events, coach profiles and communities each have their own
+translation table, panel and AI translate function. The shape is deliberately
+repeated rather than abstracted, but a fifth translatable entity would justify
+extracting the shared panel and the `manually_edited` / `is_ready` state
+machine.
 
 ## Email transport is a stub
 

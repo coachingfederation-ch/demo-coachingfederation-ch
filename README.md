@@ -94,9 +94,14 @@ suppressed, and whether account claiming is open. See
   scheduling).
 - Coach directory backed by real ICF member data, with filters, mode tabs and
   public coach detail pages.
+- Events: staff management, published event pages and free RSVP registration,
+  translated per locale.
+- Operational structure: admin-managed projects, roles and member assignments,
+  surfaced as the public team honeycomb and the local communities pages.
 - Member Area: a bound member can edit and publish their own profile.
-- Staff tooling: member list and detail, vocabularies, Coach Finder settings,
-  integration/cutover controls.
+- Staff tooling: member list and detail, roles, vocabularies, Coach Finder
+  settings, integration/cutover controls.
+- An OAuth-protected MCP server at `/mcp` for assistant access to public data.
 - Nightly ICF sync (03:15 UTC) against the **TEST** feed.
 
 **Built but deliberately gated off**
@@ -118,6 +123,7 @@ cutover itself, the email domain, and the custom domain.
 - [`docs/code-map.md`](docs/code-map.md)
 - [`docs/auth-and-claim-flow.md`](docs/auth-and-claim-flow.md)
 - [`docs/public-directory.md`](docs/public-directory.md)
+- [`docs/events-team-communities.md`](docs/events-team-communities.md)
 - [`docs/operations-and-go-live.md`](docs/operations-and-go-live.md)
 - [`docs/tech-debt.md`](docs/tech-debt.md)
 
