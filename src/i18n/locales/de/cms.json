@@ -15,7 +15,8 @@
     "roles": "Rollen",
     "memberArea": "Mitgliederbereich",
     "insightsCms": "Insights-CMS",
-    "events": "Anlässe"
+    "events": "Anlässe",
+    "opsStructure": "Organisationsstruktur"
   },
   "auth": {
     "signInSub": "Melden Sie sich an, um fortzufahren",
@@ -461,7 +462,10 @@
     "testimonialNote": "Optional. Nur Zitate verwenden, für die eine Freigabe vorliegt.",
     "testimonialQuote": "Zitat",
     "testimonialAttribution": "Zuordnung",
-    "testimonialAttributionPlaceholder": "z. B. Teamleitung, Schweizer Finanzdienstleister"
+    "testimonialAttributionPlaceholder": "z. B. Teamleitung, Schweizer Finanzdienstleister",
+    "teamBioTitle": "Beschreibung der Teamrolle",
+    "teamBioNote": "Wird im Popup der öffentlichen Teamseite angezeigt.",
+    "teamBio": "Beschreibung der Teamrolle"
   },
   "noAccess": {
     "title": "Noch kein Zugriff",
@@ -554,7 +558,8 @@
       "availability_note": "Verfügbarkeit",
       "response_time_note": "Antwortzeit",
       "testimonial_quote": "Kundenstimme",
-      "testimonial_attribution": "Quelle der Kundenstimme"
+      "testimonial_attribution": "Quelle der Kundenstimme",
+      "team_bio": "Beschreibung der Teamrolle"
     }
   },
   "roles": {
@@ -687,5 +692,41 @@
     "descriptionField": "Beschreibung",
     "saveTranslation": "Übersetzung speichern",
     "savedTranslation": "Gespeichert"
+  },
+  "ops": {
+    "title": "Organisationsstruktur",
+    "subtitle": "Projekte, Rollen und Mitgliederzuordnungen hinter der öffentlichen Teamseite.",
+    "projects": "Projekte",
+    "projectDetails": "Projektdetails",
+    "addProject": "Projekt hinzufügen",
+    "projectPlaceholder": "Neuer Projektname (Englisch)",
+    "deleteProject": "Projekt löschen",
+    "roles": "Rollen",
+    "addRole": "Rolle hinzufügen",
+    "rolePlaceholder": "Neuer Rollenname (Englisch)",
+    "assignments": "Zuordnungen",
+    "assignmentsNote": "Eine Zuordnung erteilt dem Mitglied zusätzlich die Editor-Rolle.",
+    "noAssignments": "Noch keine Mitglieder zugeordnet.",
+    "memberSearch": "Mitglieder suchen…",
+    "member": "Mitglied",
+    "selectMember": "Mitglied wählen",
+    "role": "Rolle",
+    "selectRole": "Rolle wählen",
+    "assign": "Zuordnen",
+    "remove": "Entfernen",
+    "delete": "Löschen",
+    "moveUp": "Nach oben",
+    "moveDown": "Nach unten",
+    "active": "Aktiv",
+    "nameEn": "Name (Englisch)",
+    "name_de": "Deutsch",
+    "name_fr": "Französisch",
+    "name_it": "Italienisch",
+    "selectProject": "Projekt zum Bearbeiten wählen.",
+    "confirmDelete": "Diesen Eintrag löschen?",
+    "confirmRevoke": "Das war die letzte Zuordnung. Editor-Rolle ebenfalls entziehen?",
+    "grantFailed": "Zugeordnet, aber die Editor-Rolle konnte nicht erteilt werden.",
+    "revokeFailed": "Editor-Rolle konnte nicht entzogen werden.",
+    "unclaimed": "Zugeordnet. Dieses Mitglied hat noch kein Konto beansprucht, daher wurde keine Editor-Rolle erteilt."
   }
 }

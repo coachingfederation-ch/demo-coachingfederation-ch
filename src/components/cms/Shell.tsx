@@ -37,6 +37,7 @@ const nav = [
   { to: "/coach-finder", key: "nav.coachFinder", icon: SlidersHorizontal, allowedRoles: [] },
   { to: "/members", key: "nav.members", icon: Users, allowedRoles: [] },
   { to: "/integration", key: "nav.integration", icon: PlugZap, allowedRoles: [] },
+  { to: "/operational-structure", key: "nav.opsStructure", icon: Network, allowedRoles: [] },
   { to: "/roles", key: "nav.roles", icon: ShieldCheck, allowedRoles: [] },
 ] as const satisfies ReadonlyArray<{
   to: string;
