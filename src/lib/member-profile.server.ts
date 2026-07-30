@@ -98,6 +98,8 @@ export type MyMemberProfile = {
     availability_note: string | null;
     testimonial_quote: string | null;
     testimonial_attribution: string | null;
+    /** Volunteer bio for the public team page (operational structure). */
+    team_bio: string | null;
     region_ids: string[];
     language_ids: string[];
     format_ids: string[];
@@ -111,7 +113,7 @@ const MEMBER_COLUMNS =
   "id, cst_recno, full_name, email, city, country, credential_slug, credential_expires_on, membership_expiration_date, activity_state";
 
 const PROFILE_COLUMNS =
-  "id, visibility, tagline, description, profile_image_path, availability_slug, coaching_available, mentoring_available, supervision_available, mentor_accredited, supervision_accredited, booking_url, contact_email_public, response_time_note, approach, qualifications, experience_band, session_length_note, fees_note, availability_note, testimonial_quote, testimonial_attribution";
+  "id, visibility, tagline, description, profile_image_path, availability_slug, coaching_available, mentoring_available, supervision_available, mentor_accredited, supervision_accredited, booking_url, contact_email_public, response_time_note, approach, qualifications, experience_band, session_length_note, fees_note, availability_note, testimonial_quote, testimonial_attribution, team_bio";
 
 const JOINS = [
   { table: "member_profile_regions", column: "region_id", key: "region_ids" },
@@ -209,6 +211,7 @@ export type MyProfileUpdate = {
   availability_note?: string | null;
   testimonial_quote?: string | null;
   testimonial_attribution?: string | null;
+  team_bio?: string | null;
   region_ids?: string[];
   language_ids?: string[];
   format_ids?: string[];
@@ -302,6 +305,9 @@ export async function updateMyMemberProfile(
   if (input.testimonial_attribution !== undefined) {
     patch.testimonial_attribution = cleanText(input.testimonial_attribution, NOTE_MAX);
   }
+  // Volunteer bio: only surfaced on the public team page, and only for members
+  // who actually hold an operational-structure assignment.
+  if (input.team_bio !== undefined) patch.team_bio = cleanText(input.team_bio, RICH_TEXT_MAX);
   if (input.contact_email_public !== undefined) {
     // Opt-in only: the public view reveals the ICF-held email solely when
     // this flag is true, so it is the member's own consent switch.
