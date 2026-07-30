@@ -48,8 +48,8 @@ export default function AboutPage() {
                 Find out more
               </a>
             </div>
-            <div className="grid aspect-[4/3] place-items-center rounded-2xl bg-white/5">
-              <Mark name="circular2" className="h-1/2 w-1/2 text-mark-cream" />
+            <div className="grid aspect-[4/3] place-items-center rounded-2xl bg-muted">
+              <Mark name="star" className="h-1/2 w-1/2 text-mark-indigo" />
             </div>
           </div>
         </section>
