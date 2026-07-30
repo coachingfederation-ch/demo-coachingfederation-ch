@@ -41,6 +41,7 @@ import { Route as MemberMyProfileRouteImport } from './routes/_member/my-profile
 import { Route as StaffArticlesRouteImport } from './routes/_staff/articles'
 import { Route as StaffCoachFinderRouteImport } from './routes/_staff/coach-finder'
 import { Route as StaffIntegrationRouteImport } from './routes/_staff/integration'
+import { Route as StaffOperationalStructureRouteImport } from './routes/_staff/operational-structure'
 import { Route as StaffRolesRouteImport } from './routes/_staff/roles'
 import { Route as StaffVocabulariesRouteImport } from './routes/_staff/vocabularies'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
@@ -228,6 +229,12 @@ const StaffIntegrationRoute = StaffIntegrationRouteImport.update({
   path: '/integration',
   getParentRoute: () => StaffRouteRoute,
 } as any)
+const StaffOperationalStructureRoute =
+  StaffOperationalStructureRouteImport.update({
+    id: '/operational-structure',
+    path: '/operational-structure',
+    getParentRoute: () => StaffRouteRoute,
+  } as any)
 const StaffRolesRoute = StaffRolesRouteImport.update({
   id: '/roles',
   path: '/roles',
@@ -390,6 +397,7 @@ export interface FileRoutesByFullPath {
   '/articles': typeof StaffArticlesRouteWithChildren
   '/coach-finder': typeof StaffCoachFinderRoute
   '/integration': typeof StaffIntegrationRoute
+  '/operational-structure': typeof StaffOperationalStructureRoute
   '/roles': typeof StaffRolesRoute
   '/vocabularies': typeof StaffVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
@@ -444,6 +452,7 @@ export interface FileRoutesByTo {
   '/my-profile': typeof MemberMyProfileRoute
   '/coach-finder': typeof StaffCoachFinderRoute
   '/integration': typeof StaffIntegrationRoute
+  '/operational-structure': typeof StaffOperationalStructureRoute
   '/roles': typeof StaffRolesRoute
   '/vocabularies': typeof StaffVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
@@ -505,6 +514,7 @@ export interface FileRoutesById {
   '/_staff/articles': typeof StaffArticlesRouteWithChildren
   '/_staff/coach-finder': typeof StaffCoachFinderRoute
   '/_staff/integration': typeof StaffIntegrationRoute
+  '/_staff/operational-structure': typeof StaffOperationalStructureRoute
   '/_staff/roles': typeof StaffRolesRoute
   '/_staff/vocabularies': typeof StaffVocabulariesRoute
   '/auth/callback': typeof AuthCallbackRoute
@@ -565,6 +575,7 @@ export interface FileRouteTypes {
     | '/articles'
     | '/coach-finder'
     | '/integration'
+    | '/operational-structure'
     | '/roles'
     | '/vocabularies'
     | '/auth/callback'
@@ -619,6 +630,7 @@ export interface FileRouteTypes {
     | '/my-profile'
     | '/coach-finder'
     | '/integration'
+    | '/operational-structure'
     | '/roles'
     | '/vocabularies'
     | '/auth/callback'
@@ -679,6 +691,7 @@ export interface FileRouteTypes {
     | '/_staff/articles'
     | '/_staff/coach-finder'
     | '/_staff/integration'
+    | '/_staff/operational-structure'
     | '/_staff/roles'
     | '/_staff/vocabularies'
     | '/auth/callback'
@@ -964,6 +977,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StaffIntegrationRouteImport
       parentRoute: typeof StaffRouteRoute
     }
+    '/_staff/operational-structure': {
+      id: '/_staff/operational-structure'
+      path: '/operational-structure'
+      fullPath: '/operational-structure'
+      preLoaderRoute: typeof StaffOperationalStructureRouteImport
+      parentRoute: typeof StaffRouteRoute
+    }
     '/_staff/roles': {
       id: '/_staff/roles'
       path: '/roles'
@@ -1231,6 +1251,7 @@ interface StaffRouteRouteChildren {
   StaffArticlesRoute: typeof StaffArticlesRouteWithChildren
   StaffCoachFinderRoute: typeof StaffCoachFinderRoute
   StaffIntegrationRoute: typeof StaffIntegrationRoute
+  StaffOperationalStructureRoute: typeof StaffOperationalStructureRoute
   StaffRolesRoute: typeof StaffRolesRoute
   StaffVocabulariesRoute: typeof StaffVocabulariesRoute
   StaffMembersIdRoute: typeof StaffMembersIdRoute
@@ -1243,6 +1264,7 @@ const StaffRouteRouteChildren: StaffRouteRouteChildren = {
   StaffArticlesRoute: StaffArticlesRouteWithChildren,
   StaffCoachFinderRoute: StaffCoachFinderRoute,
   StaffIntegrationRoute: StaffIntegrationRoute,
+  StaffOperationalStructureRoute: StaffOperationalStructureRoute,
   StaffRolesRoute: StaffRolesRoute,
   StaffVocabulariesRoute: StaffVocabulariesRoute,
   StaffMembersIdRoute: StaffMembersIdRoute,
