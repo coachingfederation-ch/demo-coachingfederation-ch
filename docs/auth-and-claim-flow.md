@@ -5,8 +5,8 @@
 There is no shared "dashboard". A signed-in user lands in exactly one of two
 places, and the two areas have no shared navigation:
 
-- **Staff CMS** (`/articles`, `/members`, `/integration`, …) for admins,
-  editors and contributors.
+- **Staff CMS** (`/articles`, `/manage/events`, `/members`, `/integration`, …)
+  for admins, editors and organizers.
 - **Member Area** (`/my-profile`) for members.
 
 `src/routes/auth.callback.tsx` performs this routing after sign-in by reading
@@ -37,13 +37,18 @@ profile record. Storing a role on a user-editable row is a privilege-escalation
 bug waiting to happen, so `user_roles` has **no insert or update policy at
 all**: roles can only be changed with the service role.
 
-| Role          | Can do                                                          |
-| ------------- | --------------------------------------------------------------- |
-| `admin`       | Everything, including the ICF integration and cutover controls. |
-| `editor`      | Full Insights CMS: publish, schedule, edit anyone's article.    |
-| `contributor` | Create and edit **their own drafts** only. Cannot publish.      |
-| `member`      | Edit and publish their own directory profile.                   |
-| `user`        | Signed in with no privileges.                                   |
+| Role        | Can do                                                                       |
+| ----------- | ---------------------------------------------------------------------------- |
+| `admin`     | Everything, including roles, operational structure, integration and cutover. |
+| `editor`    | Full Insights CMS: publish, schedule, edit anyone's article. Manages events. |
+| `organizer` | Events only. Lands on `/manage/events`; has no access to `/articles`.        |
+| `member`    | Edit and publish their own directory profile.                                |
+| `user`      | Signed in with no privileges.                                                |
+
+Roles are additive: a member who is assigned to an operational project is
+granted `editor` automatically, and keeps the Member Area alongside the CMS.
+`src/lib/role-model.ts` is the single source for role names, staff membership
+and the post-login `landingPath`.
 
 RLS calls the security-definer helpers `has_role(uid, role)`, `is_editor(uid)`
 and `is_staff(uid)`. They are `security definer` so that policies can read
@@ -61,10 +66,10 @@ functions gate themselves with `assertStaff` / `assertAdmin` / `assertEditor`
 from `src/lib/authz.ts`, which read `user_roles` through the caller's own
 RLS-scoped client.
 
-The contributor boundary is enforced by policy, not by the UI: the article
-policies restrict contributor insert/update/delete to rows where
-`author_id = auth.uid() AND status = 'draft'`. Hiding the publish button is a
-courtesy; removing it would not grant the permission.
+Role boundaries are enforced by policy, not by the UI. Hiding a button is a
+courtesy; the article, event and member policies are what actually refuse the
+write. The former `contributor` role has been removed entirely — from the enum,
+the policies and the TypeScript — so do not reintroduce it in new code.
 
 ## Members are bound by ID, never by email
 
