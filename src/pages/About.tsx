@@ -1,17 +1,11 @@
 import { Mark } from "@/components/marks";
 import { CompactHero, SiteFooter, CARD_SHADOW } from "@/components/site-chrome";
 import { TeamPreview } from "@/components/team/TeamPreview";
+import { CommunitiesPreview } from "@/components/communities/CommunitiesPreview";
 import { useI18n } from "@/i18n";
 
 export default function AboutPage() {
   const { t, tList } = useI18n();
-  const communities = tList<{
-    city: string;
-    region: string;
-    cadence: string;
-    langs: string[];
-    lead: string;
-  }>("about.communities.items");
   const partners = tList<string>("about.research.partners");
   const research = tList<{ title: string; desc: string }>("about.research.items");
 
@@ -55,39 +49,7 @@ export default function AboutPage() {
 
         <TeamPreview />
 
-        <section id="communities" className="bg-muted py-24 scroll-mt-24">
-          <div className="mx-auto max-w-7xl px-8">
-            <p className="eyebrow">{t("about.communities.eyebrow")}</p>
-            <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
-              {t("about.communities.title")}
-            </h2>
-            <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              {communities.map((c) => (
-                <div
-                  key={c.city}
-                  className={"rounded-2xl border border-border/70 bg-card p-6 " + CARD_SHADOW}
-                >
-                  <h3 className="text-lg font-semibold tracking-tight">{c.city}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{c.region}</p>
-                  <p className="btn-mono mt-4 !text-muted-foreground">
-                    {c.cadence} · {c.lead}
-                  </p>
-                  <div className="mt-4 flex flex-wrap items-center gap-2">
-                    {c.langs.map((l) => (
-                      <span
-                        key={l}
-                        className="inline-flex items-center rounded-full border border-border/70 bg-chip px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-chip-foreground"
-                      >
-                        {l}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
+        <CommunitiesPreview />
 
         <section className="mx-auto max-w-7xl px-8 py-24">
           <p className="eyebrow">{t("about.research.eyebrow")}</p>
