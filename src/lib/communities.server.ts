@@ -80,6 +80,7 @@ export async function buildCommunityDetail(
   ]);
   const project = projects.find((p) => p.slug === slug && p.is_community);
   if (!project) return null;
+  const mine = membersOf(members, slug);
 
   return {
     slug: project.slug,
@@ -90,7 +91,7 @@ export async function buildCommunityDetail(
     signupUrl: project.signup_url,
     languages: (project.language_slugs ?? []).map((s) => languages.get(s) ?? s),
     isFeatured: project.is_featured_community,
-    memberCount: 0,
-    members: membersOf(members, slug),
-  } satisfies CommunityDetail & { memberCount: number };
+    memberCount: mine.length,
+    members: mine,
+  } satisfies CommunityDetail;
 }
