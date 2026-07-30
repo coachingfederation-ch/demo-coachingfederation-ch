@@ -727,6 +727,19 @@
     "confirmRevoke": "This was their last assignment. Also revoke the editor role?",
     "grantFailed": "Assigned, but the editor role could not be granted.",
     "revokeFailed": "Could not revoke the editor role.",
-    "unclaimed": "Assigned. This member has not claimed an account yet, so no editor role was granted."
+    "unclaimed": "Assigned. This member has not claimed an account yet, so no editor role was granted.",
+    "community": {
+      "title": "Community content",
+      "note": "Flag this project as a local community to publish it on /communities. Description supports Markdown.",
+      "isCommunity": "This project is a local community",
+      "featured": "Feature on the About page",
+      "cadence": "Meeting cadence",
+      "contactEmail": "Contact email",
+      "signupUrl": "Sign-up or meetup link",
+      "description": "Description (Markdown)",
+      "languages": "Languages spoken",
+      "translations": "Translations",
+      "translate": "Translate with AI"
+    }
   }
 }
