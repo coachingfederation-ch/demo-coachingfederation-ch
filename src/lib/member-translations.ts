@@ -20,9 +20,15 @@ export const TRANSLATABLE_FIELDS = [
   "response_time_note",
   "testimonial_quote",
   "testimonial_attribution",
+  // Volunteer bio for the public team page. Only members who hold `editor`
+  // (i.e. are part of the operational structure) ever see or fill this in.
+  "team_bio",
 ] as const;
 
 export type TranslatableField = (typeof TRANSLATABLE_FIELDS)[number];
+
+/** Fields that belong to the operational-structure (team) surface, not the coach profile. */
+export const TEAM_FIELDS: TranslatableField[] = ["team_bio"];
 
 /** Per-field character caps, mirroring the source-profile limits. */
 export const FIELD_MAX: Record<TranslatableField, number> = {
@@ -45,6 +51,7 @@ export const LONG_FIELDS: TranslatableField[] = [
   "qualifications",
   "fees_note",
   "testimonial_quote",
+  "team_bio",
 ];
 
 export type ProfileTranslationValues = Partial<Record<TranslatableField, string | null>>;
