@@ -1,0 +1,548 @@
+/**
+ * Admin — operational structure.
+ *
+ * Owns the three lists behind the public team page: projects (the filter
+ * pills), the roles inside each project, and who is assigned to what. Writes
+ * go through the caller's own RLS-scoped client; the "admins manage …"
+ * policies on `op_*` are the real boundary.
+ *
+ * Assignment side effect: being part of the operational structure grants the
+ * existing `editor` role (no new role was introduced). Removing the last
+ * assignment never auto-revokes it — `editor` may also have been granted for
+ * editorial work — so the admin is asked.
+ */
+import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
+import { Shell } from "@/components/cms/Shell";
+import { supabase } from "@/integrations/supabase/client";
+import { useCms } from "@/i18n/cms";
+import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";
+import { slugifyVocab } from "@/lib/vocabularies";
+import {
+  countOpsAssignments,
+  listOpsAssignments,
+  searchOpsMembers,
+} from "@/lib/ops-admin.functions";
+import { grantMemberRole, revokeMemberRole } from "@/lib/roles.functions";
+
+export const Route = createFileRoute("/_staff/operational-structure")({
+  beforeLoad: ({ context }) => requireStaffAccess(context.queryClient, ADMIN_ONLY),
+  head: () => ({
+    meta: [
+      { title: "Operational structure — The Switzerland Chapter of ICF CMS" },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
+  component: OperationalStructurePage,
+});
+
+type Localized = {
+  id: string;
+  slug: string;
+  name: string;
+  name_de: string | null;
+  name_fr: string | null;
+  name_it: string | null;
+  sort_order: number;
+  is_active: boolean;
+};
+
+type Assignment = {
+  id: string;
+  member_id: string;
+  role_id: string;
+  sort_order: number;
+  member: { full_name: string | null; email: string | null; auth_user_id: string | null } | null;
+};
+
+type MemberOption = { id: string; full_name: string | null; auth_user_id: string | null };
+
+const LOCALE_COLS = ["name_de", "name_fr", "name_it"] as const;
+const COLUMNS = "id, slug, name, name_de, name_fr, name_it, sort_order, is_active";
+const INPUT =
+  "rounded-lg border border-border bg-card px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-ring/20";
+
+function OperationalStructurePage() {
+  const { t } = useCms();
+  const [projects, setProjects] = useState<Localized[]>([]);
+  const [roles, setRoles] = useState<Localized[]>([]);
+  const [assignments, setAssignments] = useState<Assignment[]>([]);
+  const [selected, setSelected] = useState<string | null>(null);
+  const [members, setMembers] = useState<MemberOption[]>([]);
+  const [search, setSearch] = useState("");
+  const [newProject, setNewProject] = useState("");
+  const [newRole, setNewRole] = useState("");
+  const [pickedMember, setPickedMember] = useState("");
+  const [pickedRole, setPickedRole] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  const loadProjects = async () => {
+    const { data, error: err } = await supabase
+      .from("op_projects")
+      .select(COLUMNS)
+      .order("sort_order", { ascending: true });
+    if (err) return setError(err.message);
+    const rows = (data ?? []) as Localized[];
+    setProjects(rows);
+    setSelected((current) => current ?? rows[0]?.id ?? null);
+  };
+
+  const loadDetail = async (projectId: string) => {
+    // Assignments carry member names, and the browser role holds no grants on
+    // `public.members` — that read has to happen server-side.
+    const [roleRes, assignRows] = await Promise.all([
+      supabase
+        .from("op_project_roles")
+        .select(COLUMNS)
+        .eq("project_id", projectId)
+        .order("sort_order", { ascending: true }),
+      listOpsAssignments({ data: { projectId } }).catch((err: unknown) => {
+        setError(err instanceof Error ? err.message : String(err));
+        return [] as Assignment[];
+      }),
+    ]);
+    if (roleRes.error) return setError(roleRes.error.message);
+    setRoles((roleRes.data ?? []) as Localized[]);
+    setAssignments(assignRows as Assignment[]);
+  };
+
+  useEffect(() => {
+    void loadProjects();
+  }, []);
+
+  useEffect(() => {
+    if (selected) void loadDetail(selected);
+  }, [selected]);
+
+  // Member picker: a name search, capped — the chapter has hundreds of members.
+  useEffect(() => {
+    const term = search.trim();
+    if (term.length < 2) {
+      setMembers([]);
+      return;
+    }
+    const timer = setTimeout(() => {
+      void (async () => {
+        try {
+          const data = await searchOpsMembers({ data: { term } });
+          setMembers(data as MemberOption[]);
+        } catch {
+          setMembers([]);
+        }
+      })();
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  const patch = async (
+    table: "op_projects" | "op_project_roles",
+    id: string,
+    values: Partial<Localized>,
+  ) => {
+    const setter = table === "op_projects" ? setProjects : setRoles;
+    setter((prev) => prev.map((r) => (r.id === id ? { ...r, ...values } : r)));
+    const { error: err } = await supabase.from(table).update(values).eq("id", id);
+    if (err) setError(err.message);
+  };
+
+  const move = async (
+    table: "op_projects" | "op_project_roles",
+    rows: Localized[],
+    index: number,
+    direction: -1 | 1,
+  ) => {
+    const a = rows[index];
+    const b = rows[index + direction];
+    if (!a || !b) return;
+    await Promise.all([
+      supabase.from(table).update({ sort_order: b.sort_order }).eq("id", a.id),
+      supabase.from(table).update({ sort_order: a.sort_order }).eq("id", b.id),
+    ]);
+    if (table === "op_projects") await loadProjects();
+    else if (selected) await loadDetail(selected);
+  };
+
+  const addProject = async () => {
+    const name = newProject.trim();
+    if (!name) return;
+    const { error: err } = await supabase.from("op_projects").insert({
+      name,
+      slug: slugifyVocab(name) || `project-${Date.now()}`,
+      sort_order: (projects.at(-1)?.sort_order ?? 0) + 10,
+    });
+    if (err) return setError(err.message);
+    setNewProject("");
+    await loadProjects();
+  };
+
+  const addRole = async () => {
+    const name = newRole.trim();
+    if (!name || !selected) return;
+    const { error: err } = await supabase.from("op_project_roles").insert({
+      project_id: selected,
+      name,
+      slug: slugifyVocab(name) || `role-${Date.now()}`,
+      sort_order: (roles.at(-1)?.sort_order ?? 0) + 10,
+    });
+    if (err) return setError(err.message);
+    setNewRole("");
+    await loadDetail(selected);
+  };
+
+  const removeRow = async (table: "op_projects" | "op_project_roles", id: string) => {
+    if (!window.confirm(t("ops.confirmDelete"))) return;
+    const { error: err } = await supabase.from(table).delete().eq("id", id);
+    if (err) return setError(err.message);
+    if (table === "op_projects") {
+      setSelected(null);
+      await loadProjects();
+    } else if (selected) {
+      await loadDetail(selected);
+    }
+  };
+
+  const assign = async () => {
+    if (!selected || !pickedMember || !pickedRole) return;
+    setError(null);
+    const member = members.find((m) => m.id === pickedMember);
+    const { error: err } = await supabase.from("op_assignments").insert({
+      member_id: pickedMember,
+      project_id: selected,
+      role_id: pickedRole,
+      sort_order: (assignments.at(-1)?.sort_order ?? 0) + 10,
+    });
+    if (err) return setError(err.message);
+
+    // Reuse the existing `editor` grant; a member who has not claimed their
+    // account yet simply gets it the moment they are granted one.
+    if (member?.auth_user_id) {
+      try {
+        await grantMemberRole({ data: { memberId: pickedMember, role: "editor" } });
+      } catch {
+        setError(t("ops.grantFailed"));
+      }
+    } else {
+      setError(t("ops.unclaimed"));
+    }
+    setPickedMember("");
+    setSearch("");
+    await loadDetail(selected);
+  };
+
+  const unassign = async (row: Assignment) => {
+    if (!selected) return;
+    const { error: err } = await supabase.from("op_assignments").delete().eq("id", row.id);
+    if (err) return setError(err.message);
+
+    const count = await countOpsAssignments({ data: { memberId: row.member_id } }).catch(() => 1);
+    if (!count && row.member?.auth_user_id && window.confirm(t("ops.confirmRevoke"))) {
+      try {
+        await revokeMemberRole({ data: { memberId: row.member_id, role: "editor" } });
+      } catch {
+        setError(t("ops.revokeFailed"));
+      }
+    }
+    await loadDetail(selected);
+  };
+
+  const project = projects.find((p) => p.id === selected) ?? null;
+
+  return (
+    <Shell>
+      <div className="mx-auto max-w-5xl px-10 py-10">
+        <h1 className="text-2xl font-bold tracking-tight">{t("ops.title")}</h1>
+        <p className="mt-1 text-sm text-muted-foreground">{t("ops.subtitle")}</p>
+        {error ? <p className="mt-3 text-xs text-destructive">{error}</p> : null}
+
+        <div className="mt-6 flex gap-2">
+          <input
+            value={newProject}
+            onChange={(e) => setNewProject(e.target.value)}
+            placeholder={t("ops.projectPlaceholder")}
+            className={INPUT + " w-72"}
+          />
+          <button
+            onClick={() => void addProject()}
+            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"
+          >
+            <Plus className="h-4 w-4" />
+            {t("ops.addProject")}
+          </button>
+        </div>
+
+        <div className="mt-6 grid gap-6 lg:grid-cols-[260px_1fr]">
+          <nav className="space-y-1" aria-label={t("ops.projects")}>
+            {projects.map((p, index) => (
+              <div key={p.id} className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => setSelected(p.id)}
+                  className={
+                    "flex-1 truncate rounded-lg px-3 py-2 text-left text-sm " +
+                    (p.id === selected
+                      ? "bg-secondary font-semibold text-primary"
+                      : "text-muted-foreground hover:bg-secondary/60") +
+                    (p.is_active ? "" : " opacity-50")
+                  }
+                >
+                  {p.name}
+                </button>
+                <button
+                  onClick={() => void move("op_projects", projects, index, -1)}
+                  disabled={index === 0}
+                  aria-label={t("ops.moveUp")}
+                  className="rounded p-1 text-muted-foreground hover:bg-secondary disabled:opacity-30"
+                >
+                  <ArrowUp className="h-3.5 w-3.5" />
+                </button>
+                <button
+                  onClick={() => void move("op_projects", projects, index, 1)}
+                  disabled={index === projects.length - 1}
+                  aria-label={t("ops.moveDown")}
+                  className="rounded p-1 text-muted-foreground hover:bg-secondary disabled:opacity-30"
+                >
+                  <ArrowDown className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            ))}
+          </nav>
+
+          {project ? (
+            <div className="space-y-6">
+              <section className="rounded-2xl border border-border bg-card p-5">
+                <h2 className="text-sm font-bold">{t("ops.projectDetails")}</h2>
+                <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                  <input
+                    aria-label={t("ops.nameEn")}
+                    value={project.name}
+                    onChange={(e) =>
+                      setProjects((prev) =>
+                        prev.map((r) => (r.id === project.id ? { ...r, name: e.target.value } : r)),
+                      )
+                    }
+                    onBlur={(e) => void patch("op_projects", project.id, { name: e.target.value })}
+                    className={INPUT}
+                  />
+                  {LOCALE_COLS.map((col) => (
+                    <input
+                      key={col}
+                      aria-label={t(`ops.${col}`)}
+                      placeholder={t(`ops.${col}`)}
+                      value={project[col] ?? ""}
+                      onChange={(e) =>
+                        setProjects((prev) =>
+                          prev.map((r) =>
+                            r.id === project.id ? { ...r, [col]: e.target.value } : r,
+                          ),
+                        )
+                      }
+                      onBlur={(e) =>
+                        void patch("op_projects", project.id, { [col]: e.target.value || null })
+                      }
+                      className={INPUT}
+                    />
+                  ))}
+                </div>
+                <div className="mt-3 flex items-center gap-4">
+                  <label className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+                    <input
+                      type="checkbox"
+                      checked={project.is_active}
+                      onChange={(e) =>
+                        void patch("op_projects", project.id, { is_active: e.target.checked })
+                      }
+                      className="h-4 w-4 accent-[var(--color-primary)]"
+                    />
+                    {t("ops.active")}
+                  </label>
+                  <button
+                    onClick={() => void removeRow("op_projects", project.id)}
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-destructive"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" /> {t("ops.deleteProject")}
+                  </button>
+                </div>
+              </section>
+
+              <section className="rounded-2xl border border-border bg-card p-5">
+                <h2 className="text-sm font-bold">{t("ops.roles")}</h2>
+                <div className="mt-3 space-y-3">
+                  {roles.map((role, index) => (
+                    <div key={role.id} className="grid gap-2 border-t border-border pt-3 sm:grid-cols-2">
+                      <div className="flex items-center gap-1 sm:col-span-2">
+                        <input
+                          aria-label={t("ops.nameEn")}
+                          value={role.name}
+                          onChange={(e) =>
+                            setRoles((prev) =>
+                              prev.map((r) =>
+                                r.id === role.id ? { ...r, name: e.target.value } : r,
+                              ),
+                            )
+                          }
+                          onBlur={(e) =>
+                            void patch("op_project_roles", role.id, { name: e.target.value })
+                          }
+                          className={INPUT + " flex-1 font-semibold"}
+                        />
+                        <button
+                          onClick={() => void move("op_project_roles", roles, index, -1)}
+                          disabled={index === 0}
+                          aria-label={t("ops.moveUp")}
+                          className="rounded p-1 text-muted-foreground hover:bg-secondary disabled:opacity-30"
+                        >
+                          <ArrowUp className="h-3.5 w-3.5" />
+                        </button>
+                        <button
+                          onClick={() => void move("op_project_roles", roles, index, 1)}
+                          disabled={index === roles.length - 1}
+                          aria-label={t("ops.moveDown")}
+                          className="rounded p-1 text-muted-foreground hover:bg-secondary disabled:opacity-30"
+                        >
+                          <ArrowDown className="h-3.5 w-3.5" />
+                        </button>
+                        <button
+                          onClick={() => void removeRow("op_project_roles", role.id)}
+                          aria-label={t("ops.delete")}
+                          className="rounded p-1 text-muted-foreground hover:text-destructive"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                      {LOCALE_COLS.map((col) => (
+                        <input
+                          key={col}
+                          aria-label={t(`ops.${col}`)}
+                          placeholder={t(`ops.${col}`)}
+                          value={role[col] ?? ""}
+                          onChange={(e) =>
+                            setRoles((prev) =>
+                              prev.map((r) => (r.id === role.id ? { ...r, [col]: e.target.value } : r)),
+                            )
+                          }
+                          onBlur={(e) =>
+                            void patch("op_project_roles", role.id, { [col]: e.target.value || null })
+                          }
+                          className={INPUT}
+                        />
+                      ))}
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 flex gap-2">
+                  <input
+                    value={newRole}
+                    onChange={(e) => setNewRole(e.target.value)}
+                    placeholder={t("ops.rolePlaceholder")}
+                    className={INPUT + " w-60"}
+                  />
+                  <button
+                    onClick={() => void addRole()}
+                    className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary"
+                  >
+                    {t("ops.addRole")}
+                  </button>
+                </div>
+              </section>
+
+              <section className="rounded-2xl border border-border bg-card p-5">
+                <h2 className="text-sm font-bold">{t("ops.assignments")}</h2>
+                <p className="mt-1 text-xs text-muted-foreground">{t("ops.assignmentsNote")}</p>
+
+                <ul className="mt-3 divide-y divide-border">
+                  {assignments.map((row, index) => (
+                    <li key={row.id} className="flex items-center gap-2 py-2">
+                      <span className="min-w-0 flex-1 truncate text-sm">
+                        {row.member?.full_name ?? row.member_id}
+                        <span className="ml-2 text-xs text-muted-foreground">
+                          {roles.find((r) => r.id === row.role_id)?.name ?? ""}
+                        </span>
+                      </span>
+                      <button
+                        onClick={async () => {
+                          const b = assignments[index - 1];
+                          if (!b) return;
+                          await Promise.all([
+                            supabase
+                              .from("op_assignments")
+                              .update({ sort_order: b.sort_order })
+                              .eq("id", row.id),
+                            supabase
+                              .from("op_assignments")
+                              .update({ sort_order: row.sort_order })
+                              .eq("id", b.id),
+                          ]);
+                          await loadDetail(selected!);
+                        }}
+                        disabled={index === 0}
+                        aria-label={t("ops.moveUp")}
+                        className="rounded p-1 text-muted-foreground hover:bg-secondary disabled:opacity-30"
+                      >
+                        <ArrowUp className="h-3.5 w-3.5" />
+                      </button>
+                      <button
+                        onClick={() => void unassign(row)}
+                        aria-label={t("ops.remove")}
+                        className="rounded p-1 text-muted-foreground hover:text-destructive"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </button>
+                    </li>
+                  ))}
+                  {assignments.length === 0 ? (
+                    <li className="py-2 text-sm text-muted-foreground">{t("ops.noAssignments")}</li>
+                  ) : null}
+                </ul>
+
+                <div className="mt-4 flex flex-wrap items-center gap-2">
+                  <input
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder={t("ops.memberSearch")}
+                    className={INPUT + " w-56"}
+                  />
+                  <select
+                    aria-label={t("ops.member")}
+                    value={pickedMember}
+                    onChange={(e) => setPickedMember(e.target.value)}
+                    className={INPUT + " w-56"}
+                  >
+                    <option value="">{t("ops.selectMember")}</option>
+                    {members.map((m) => (
+                      <option key={m.id} value={m.id}>
+                        {m.full_name ?? m.id}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    aria-label={t("ops.role")}
+                    value={pickedRole}
+                    onChange={(e) => setPickedRole(e.target.value)}
+                    className={INPUT + " w-44"}
+                  >
+                    <option value="">{t("ops.selectRole")}</option>
+                    {roles.map((r) => (
+                      <option key={r.id} value={r.id}>
+                        {r.name}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    onClick={() => void assign()}
+                    disabled={!pickedMember || !pickedRole}
+                    className="rounded-full bg-primary px-4 py-1.5 text-xs font-semibold text-primary-foreground disabled:opacity-50"
+                  >
+                    {t("ops.assign")}
+                  </button>
+                </div>
+              </section>
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground">{t("ops.selectProject")}</p>
+          )}
+        </div>
+      </div>
+    </Shell>
+  );
+}

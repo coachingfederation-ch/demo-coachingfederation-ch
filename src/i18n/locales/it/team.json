@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "title": "Il nostro team — The Switzerland Chapter of ICF",
+    "description": "Conosci i volontari di The Switzerland Chapter of ICF: il comitato, le comunità regionali e i team di progetto che portano avanti il chapter."
+  },
+  "hero": {
+    "eyebrow": "Struttura operativa",
+    "titlePre": "Le persone dietro ",
+    "titleAccent": "il chapter",
+    "lede": "Tutto ciò che fa The Switzerland Chapter of ICF è sostenuto da volontari — coach che dedicano il proprio tempo alla professione e alla comunità."
+  },
+  "intro": "Il nostro lavoro è organizzato in progetti: il comitato, le comunità regionali e i team tematici. Filtra per progetto per vedere chi contribuisce dove e apri una tessera per saperne di più.",
+  "filters": { "all": "Tutti", "label": "Filtra il team per progetto" },
+  "loading": "Caricamento del team…",
+  "empty": "Nessun membro in questo progetto per ora.",
+  "modal": {
+    "close": "Chiudi",
+    "email": "E-mail",
+    "linkedin": "LinkedIn",
+    "coachProfile": "Profilo coach"
+  },
+  "preview": {
+    "eyebrow": "Il nostro team",
+    "title": "Volontari che fanno crescere il chapter",
+    "body": "Membri del comitato, responsabili di comunità e team di progetto in tutta la Svizzera — tutti coach in attività che donano il proprio tempo.",
+    "cta": "Scopri il team"
+  }
+}

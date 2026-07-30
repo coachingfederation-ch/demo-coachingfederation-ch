@@ -885,6 +885,7 @@ export type Database = {
           supervision_accredited: boolean
           supervision_available: boolean
           tagline: string | null
+          team_bio: string | null
           testimonial_attribution: string | null
           testimonial_quote: string | null
           updated_at: string
@@ -916,6 +917,7 @@ export type Database = {
           supervision_accredited?: boolean
           supervision_available?: boolean
           tagline?: string | null
+          team_bio?: string | null
           testimonial_attribution?: string | null
           testimonial_quote?: string | null
           updated_at?: string
@@ -947,6 +949,7 @@ export type Database = {
           supervision_accredited?: boolean
           supervision_available?: boolean
           tagline?: string | null
+          team_bio?: string | null
           testimonial_attribution?: string | null
           testimonial_quote?: string | null
           updated_at?: string
@@ -967,6 +970,13 @@ export type Database = {
             isOneToOne: true
             referencedRelation: "members"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_directory_profiles_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: true
+            referencedRelation: "team_directory_public"
+            referencedColumns: ["member_id"]
           },
         ]
       }
@@ -1019,6 +1029,13 @@ export type Database = {
             referencedRelation: "members"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "member_email_log_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "team_directory_public"
+            referencedColumns: ["member_id"]
+          },
         ]
       }
       member_import_snapshots: {
@@ -1063,6 +1080,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "members"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_import_snapshots_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "team_directory_public"
+            referencedColumns: ["member_id"]
           },
           {
             foreignKeyName: "member_import_snapshots_sync_run_id_fkey"
@@ -1122,6 +1146,13 @@ export type Database = {
             referencedRelation: "members"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "member_lifecycle_queue_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: true
+            referencedRelation: "team_directory_public"
+            referencedColumns: ["member_id"]
+          },
         ]
       }
       member_profile_client_types: {
@@ -1161,6 +1192,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "member_directory_profiles"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_profile_client_types_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "team_directory_public"
+            referencedColumns: ["profile_id"]
           },
         ]
       }
@@ -1202,6 +1240,13 @@ export type Database = {
             referencedRelation: "member_directory_profiles"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "member_profile_formats_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "team_directory_public"
+            referencedColumns: ["profile_id"]
+          },
         ]
       }
       member_profile_languages: {
@@ -1241,6 +1286,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "member_directory_profiles"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_profile_languages_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "team_directory_public"
+            referencedColumns: ["profile_id"]
           },
         ]
       }
@@ -1302,6 +1354,13 @@ export type Database = {
             referencedRelation: "members"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "member_profile_links_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "team_directory_public"
+            referencedColumns: ["member_id"]
+          },
         ]
       }
       member_profile_regions: {
@@ -1334,6 +1393,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "member_directory_profiles"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_profile_regions_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "team_directory_public"
+            referencedColumns: ["profile_id"]
           },
           {
             foreignKeyName: "member_profile_regions_region_id_fkey"
@@ -1376,6 +1442,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "member_profile_specialisations_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "team_directory_public"
+            referencedColumns: ["profile_id"]
+          },
+          {
             foreignKeyName: "member_profile_specialisations_specialisation_id_fkey"
             columns: ["specialisation_id"]
             isOneToOne: false
@@ -1401,6 +1474,7 @@ export type Database = {
           session_length_note: string | null
           source_updated_at: string
           tagline: string | null
+          team_bio: string | null
           testimonial_attribution: string | null
           testimonial_quote: string | null
           updated_at: string
@@ -1421,6 +1495,7 @@ export type Database = {
           session_length_note?: string | null
           source_updated_at?: string
           tagline?: string | null
+          team_bio?: string | null
           testimonial_attribution?: string | null
           testimonial_quote?: string | null
           updated_at?: string
@@ -1441,6 +1516,7 @@ export type Database = {
           session_length_note?: string | null
           source_updated_at?: string
           tagline?: string | null
+          team_bio?: string | null
           testimonial_attribution?: string | null
           testimonial_quote?: string | null
           updated_at?: string
@@ -1459,6 +1535,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "member_directory_profiles"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_profile_translations_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "team_directory_public"
+            referencedColumns: ["profile_id"]
           },
         ]
       }
@@ -1507,6 +1590,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "member_directory_profiles"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_profile_websites_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "team_directory_public"
+            referencedColumns: ["profile_id"]
           },
         ]
       }
@@ -1561,6 +1651,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "members"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_sync_events_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "team_directory_public"
+            referencedColumns: ["member_id"]
           },
           {
             foreignKeyName: "member_sync_events_sync_run_id_fkey"
@@ -1713,6 +1810,175 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      op_assignments: {
+        Row: {
+          created_at: string
+          id: string
+          member_id: string
+          project_id: string
+          role_id: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          member_id: string
+          project_id: string
+          role_id: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          member_id?: string
+          project_id?: string
+          role_id?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "op_assignments_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "coach_directory_public"
+            referencedColumns: ["member_id"]
+          },
+          {
+            foreignKeyName: "op_assignments_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "op_assignments_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "team_directory_public"
+            referencedColumns: ["member_id"]
+          },
+          {
+            foreignKeyName: "op_assignments_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "op_projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "op_assignments_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "team_projects_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "op_assignments_role_id_fkey"
+            columns: ["role_id"]
+            isOneToOne: false
+            referencedRelation: "op_project_roles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      op_project_roles: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          name_de: string | null
+          name_fr: string | null
+          name_it: string | null
+          project_id: string
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          project_id: string
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          project_id?: string
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "op_project_roles_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "op_projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "op_project_roles_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "team_projects_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      op_projects: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          name_de: string | null
+          name_fr: string | null
+          name_it: string | null
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
       }
       organisation_survey_responses: {
         Row: {
@@ -1992,6 +2258,53 @@ export type Database = {
           title?: string | null
           updated_at?: string | null
           venue_name?: string | null
+        }
+        Relationships: []
+      }
+      team_directory_public: {
+        Row: {
+          assignments: Json | null
+          contact_email: string | null
+          full_name: string | null
+          linkedin_url: string | null
+          member_id: string | null
+          primary_locale: string | null
+          primary_sort_order: number | null
+          profile_id: string | null
+          profile_image_path: string | null
+          public_coach_profile_id: string | null
+          team_bio: string | null
+          translations: Json | null
+        }
+        Relationships: []
+      }
+      team_projects_public: {
+        Row: {
+          id: string | null
+          name: string | null
+          name_de: string | null
+          name_fr: string | null
+          name_it: string | null
+          slug: string | null
+          sort_order: number | null
+        }
+        Insert: {
+          id?: string | null
+          name?: string | null
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug?: string | null
+          sort_order?: number | null
+        }
+        Update: {
+          id?: string | null
+          name?: string | null
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug?: string | null
+          sort_order?: number | null
         }
         Relationships: []
       }

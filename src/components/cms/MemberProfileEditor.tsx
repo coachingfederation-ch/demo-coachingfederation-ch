@@ -16,6 +16,7 @@ import {
 } from "@/lib/vocabularies";
 import { getMyMemberProfile, saveMyMemberProfile } from "@/lib/member-profile.functions";
 import { ProfileTranslationsPanel } from "@/components/member/ProfileTranslationsPanel";
+import { useMyRoles } from "@/lib/roles";
 import { publishBlockReason } from "@/lib/directory-eligibility";
 import { PROFILE_IMAGE_BUCKET, PROFILE_IMAGE_PREVIEW_TTL_SECONDS } from "@/lib/storage";
 
@@ -44,6 +45,8 @@ type PracticeDraft = {
   contact_email_public: boolean;
   testimonial_quote: string;
   testimonial_attribution: string;
+  /** Volunteer bio for the public team page — only for operational-structure members. */
+  team_bio: string;
 };
 
 const EMPTY_PRACTICE: PracticeDraft = {
@@ -58,6 +61,7 @@ const EMPTY_PRACTICE: PracticeDraft = {
   contact_email_public: false,
   testimonial_quote: "",
   testimonial_attribution: "",
+  team_bio: "",
 };
 
 function initialsOf(name: string | null): string {
@@ -221,6 +225,10 @@ function TextArea({
 
 export function MemberProfileEditor() {
   const { t, locale } = useCms();
+  // The team bio only makes sense for members who are part of the operational
+  // structure, and that is exactly what the `editor` grant marks.
+  const { roles } = useMyRoles();
+  const isTeamMember = roles.isAdmin || roles.roles.includes("editor");
   const [data, setData] = useState<Profile | null | "unbound">(null);
   const [vocab, setVocab] = useState<CoachFinderVocabularies | null>(null);
   const [tagline, setTagline] = useState("");
@@ -276,6 +284,7 @@ export function MemberProfileEditor() {
       contact_email_public: p?.contact_email_public ?? false,
       testimonial_quote: p?.testimonial_quote ?? "",
       testimonial_attribution: p?.testimonial_attribution ?? "",
+      team_bio: p?.team_bio ?? "",
     });
     setLinks(
       (p?.links ?? []).map((l) => ({ link_type: l.link_type, label: l.label ?? "", url: l.url })),
@@ -362,6 +371,7 @@ export function MemberProfileEditor() {
           contact_email_public: practice.contact_email_public,
           testimonial_quote: practice.testimonial_quote || null,
           testimonial_attribution: practice.testimonial_attribution || null,
+          ...(isTeamMember ? { team_bio: practice.team_bio || null } : {}),
           links: links
             .filter((l) => l.url.trim().startsWith("https://"))
             .map((l) => ({ link_type: l.link_type, label: l.label || null, url: l.url.trim() })),
@@ -790,7 +800,20 @@ export function MemberProfileEditor() {
         ) : null}
       </Section>
 
-      <ProfileTranslationsPanel />
+      {isTeamMember ? (
+        <Section title={t("member.teamBioTitle")} note={t("member.teamBioNote")}>
+          <TextArea
+            id="team-bio"
+            label={t("member.teamBio")}
+            value={practice.team_bio}
+            onChange={(v) => setPractice((p) => ({ ...p, team_bio: v }))}
+            max={RICH_TEXT_MAX}
+            rows={7}
+          />
+        </Section>
+      ) : null}
+
+      <ProfileTranslationsPanel showTeamFields={isTeamMember} />
 
       <Section title={t("member.publicationTitle")} note={t("member.publicationNote")}>
         <p className="mt-2 text-sm">

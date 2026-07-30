@@ -15,7 +15,8 @@
     "roles": "Ruoli",
     "memberArea": "Area soci",
     "insightsCms": "CMS Insights",
-    "events": "Eventi"
+    "events": "Eventi",
+    "opsStructure": "Struttura operativa"
   },
   "auth": {
     "signInSub": "Accedi per continuare",
@@ -461,7 +462,10 @@
     "testimonialNote": "Facoltativo. Usa solo citazioni che sei autorizzato a pubblicare.",
     "testimonialQuote": "Citazione",
     "testimonialAttribution": "Attribuzione",
-    "testimonialAttributionPlaceholder": "es. Team lead, servizi finanziari svizzeri"
+    "testimonialAttributionPlaceholder": "es. Team lead, servizi finanziari svizzeri",
+    "teamBioTitle": "Descrizione del ruolo nel team",
+    "teamBioNote": "Mostrata nel popup della pagina pubblica del team.",
+    "teamBio": "Descrizione del ruolo nel team"
   },
   "noAccess": {
     "title": "Nessun accesso",
@@ -554,7 +558,8 @@
       "availability_note": "Disponibilità",
       "response_time_note": "Tempo di risposta",
       "testimonial_quote": "Testimonianza",
-      "testimonial_attribution": "Autore della testimonianza"
+      "testimonial_attribution": "Autore della testimonianza",
+      "team_bio": "Descrizione del ruolo nel team"
     }
   },
   "roles": {
@@ -687,5 +692,41 @@
     "descriptionField": "Descrizione",
     "saveTranslation": "Salva traduzione",
     "savedTranslation": "Salvato"
+  },
+  "ops": {
+    "title": "Struttura operativa",
+    "subtitle": "Progetti, ruoli e assegnazioni dei membri dietro la pagina pubblica del team.",
+    "projects": "Progetti",
+    "projectDetails": "Dettagli del progetto",
+    "addProject": "Aggiungi progetto",
+    "projectPlaceholder": "Nome del nuovo progetto (inglese)",
+    "deleteProject": "Elimina progetto",
+    "roles": "Ruoli",
+    "addRole": "Aggiungi ruolo",
+    "rolePlaceholder": "Nome del nuovo ruolo (inglese)",
+    "assignments": "Assegnazioni",
+    "assignmentsNote": "Assegnare un membro gli concede anche il ruolo di editor.",
+    "noAssignments": "Nessun membro assegnato.",
+    "memberSearch": "Cerca membri…",
+    "member": "Membro",
+    "selectMember": "Seleziona un membro",
+    "role": "Ruolo",
+    "selectRole": "Seleziona un ruolo",
+    "assign": "Assegna",
+    "remove": "Rimuovi",
+    "delete": "Elimina",
+    "moveUp": "Sposta su",
+    "moveDown": "Sposta giù",
+    "active": "Attivo",
+    "nameEn": "Nome (inglese)",
+    "name_de": "Tedesco",
+    "name_fr": "Francese",
+    "name_it": "Italiano",
+    "selectProject": "Seleziona un progetto da modificare.",
+    "confirmDelete": "Eliminare questa voce?",
+    "confirmRevoke": "Era l'ultima assegnazione. Revocare anche il ruolo di editor?",
+    "grantFailed": "Assegnato, ma non è stato possibile concedere il ruolo di editor.",
+    "revokeFailed": "Impossibile revocare il ruolo di editor.",
+    "unclaimed": "Assegnato. Questo membro non ha ancora attivato un account, quindi non è stato concesso alcun ruolo di editor."
   }
 }
