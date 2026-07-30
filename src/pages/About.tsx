@@ -29,7 +29,7 @@ export default function AboutPage() {
         lede={t("about.hero.lede")}
       />
       <main id="main">
-        <section className="bg-primary text-white">
+        <section className="bg-white text-foreground">
           <div className="mx-auto grid max-w-7xl gap-10 px-8 py-24 md:grid-cols-[1.2fr_1fr] md:items-center">
             <div>
               <p className="eyebrow !text-accent">{t("about.mission.eyebrow")}</p>
