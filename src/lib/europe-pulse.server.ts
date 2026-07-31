@@ -347,6 +347,7 @@ export async function runEuropePulse(options: {
   let ok = 0;
   let failed = 0;
   const stillFailing: ChapterRow[] = [];
+  let pool: PoolItem[] = [];
 
   console.log(
     `[europe-pulse] run=${runId} week=${week} chapters=${chapters.length} trigger=${options.triggerSource}`,
@@ -409,7 +410,7 @@ export async function runEuropePulse(options: {
       });
       failed = stillFailing.length;
       console.log(
-        `[europe-pulse] scanned ${Math.min(i + BATCH_SIZE, chapters.length)}/${chapters.length} ok=${ok} failed=${failed} pooled=${pool.length}`,
+        `[europe-pulse] scanned ${Math.min(i + BATCH_SIZE, chapters.length)}/${chapters.length} ok=${ok} failed=${failed}`,
       );
     }
 
@@ -426,7 +427,7 @@ export async function runEuropePulse(options: {
       failed = stillFailing.length;
     }
 
-    const pool = await poolForWeek(week);
+    pool = await poolForWeek(week);
     const curated = await curate(pool, cap, maxPerChapter);
     console.log(
       `[europe-pulse] curated items=${curated.length} from pool=${pool.length} mode=${publishMode}`,
