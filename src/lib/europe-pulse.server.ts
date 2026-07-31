@@ -229,7 +229,12 @@ async function extractItems(chapter: ChapterRow, markdown: string): Promise<Extr
       "conferences and chapter news. Ignore navigation, membership boilerplate, cookie notices " +
       "and evergreen marketing copy. Translate every title and description into concise English. " +
       'Reply as {"items":[{"title","description","url","type","event_date"}]} with at most 5 items. ' +
-      '"type" is one of event, news, webinar, workshop, conference. "event_date" is YYYY-MM-DD or null. ' +
+      '"type" is one of event, news, webinar, workshop, conference. "event_date" is YYYY-MM-DD. ' +
+      `Today is ${todayIso()}. Every item MUST carry a date that is today or later: work it out ` +
+      "from the content (an explicit date, the last day of a date range, a registration or " +
+      "application deadline, a year in the title). Skip anything that already happened, any recap " +
+      "or report of a past activity, and anything whose date you cannot determine — return those " +
+      "as no item at all rather than guessing or using null. " +
       '"url" is the most specific link you saw for the item, or the page URL. ' +
       "Descriptions are at most 220 characters. Reply with JSON only, and an empty array if nothing qualifies.",
     `Chapter: ${chapter.chapter} (${chapter.country})\nPage URL: ${chapter.base_url}\n\n${markdown}`,
@@ -240,13 +245,16 @@ async function extractItems(chapter: ChapterRow, markdown: string): Promise<Extr
       const item = raw as Record<string, unknown>;
       const title = String(item.title ?? "").trim();
       if (!title) return null;
+      // Undated or past items never enter the pool.
+      const eventDate = asDate(item.event_date);
+      if (!isStillRelevant(eventDate)) return null;
       const description = String(item.description ?? "").trim();
       return {
         title: title.slice(0, 200),
         description: description ? description.slice(0, 300) : null,
         url: absoluteUrl(item.url, chapter.base_url) ?? chapter.base_url,
         type: asType(item.type),
-        event_date: asDate(item.event_date),
+        event_date: eventDate,
       } satisfies ExtractedItem;
     })
     .filter((i): i is ExtractedItem => i !== null);
