@@ -347,13 +347,17 @@ async function poolForWeek(week: string): Promise<PoolItem[]> {
 
   const seen = new Set<string>();
   const pool: PoolItem[] = [];
+  let dropped = 0;
   for (const raw of raws ?? []) {
     const key = (raw.chapter_id as string | null) ?? (raw.chapter as string);
     if (seen.has(key)) continue; // rows are newest-first, so keep the first
     seen.add(key);
     for (const item of (raw.extracted_items ?? []) as ExtractedItem[]) {
       // Rows stored by an earlier run of the same week can have aged out.
-      if (!isStillRelevant(item.event_date ?? null)) continue;
+      if (!isStillRelevant(item.event_date ?? null)) {
+        dropped += 1;
+        continue;
+      }
       pool.push({
         ...item,
         chapter: raw.chapter as string,
@@ -362,6 +366,7 @@ async function poolForWeek(week: string): Promise<PoolItem[]> {
       });
     }
   }
+  console.log(`[europe-pulse] pool=${pool.length} dropped_past_or_undated=${dropped}`);
   return pool;
 }
 
