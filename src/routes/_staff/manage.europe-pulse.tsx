@@ -252,11 +252,58 @@ function EuropePulseAdmin() {
           </div>
         </section>
 
+        {failures.length ? (
+          <section className="mt-8 rounded-xl border border-destructive/30 bg-destructive/5 p-5">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <h2 className="flex items-center gap-2 text-sm font-semibold">
+                  <AlertTriangle className="h-4 w-4 text-destructive" />
+                  {failures.length} chapters failed in the last run
+                </h2>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Retrying re-scans only these chapters and rebuilds this week&apos;s feed.
+                </p>
+              </div>
+              <button
+                onClick={retryNow}
+                disabled={retrying || busy}
+                className="inline-flex h-9 items-center gap-2 rounded-full bg-secondary px-4 text-xs font-semibold transition hover:bg-secondary/80 disabled:opacity-60"
+              >
+                {retrying ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  <RefreshCw className="h-3.5 w-3.5" />
+                )}
+                {retrying ? "Retrying…" : "Retry failed chapters"}
+              </button>
+            </div>
+            <ul className="mt-4 flex flex-col gap-2">
+              {failures.map((failure) => (
+                <li key={failure.chapter} className="rounded-lg bg-card px-4 py-2.5">
+                  <p className="text-sm font-medium">
+                    {failure.chapter}
+                    <span className="ml-2 rounded-full bg-secondary px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      {(failure.failure_kind ?? "other").replace("_", " ")}
+                    </span>
+                  </p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">
+                    {FAILURE_HINTS[failure.failure_kind ?? "other"] ?? FAILURE_HINTS.other}
+                  </p>
+                  {failure.error_message ? (
+                    <p className="mt-1 truncate text-[11px] text-muted-foreground/80">
+                      {failure.error_message}
+                    </p>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+
         <section className="mt-8">
           <h2 className="text-sm font-semibold">
             Curated items{pending ? ` — ${pending} awaiting approval` : ""}
           </h2>
-
           {!items.length ? (
             <p className="mt-3 text-sm text-muted-foreground">
               Nothing curated yet. Run a scan to build this week&apos;s feed.
