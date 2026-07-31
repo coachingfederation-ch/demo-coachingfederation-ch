@@ -87,7 +87,8 @@ export default function EuropePulsePage() {
         }
         lede={t("europe-pulse.hero.lede")}
       />
-      <main id="main" className="mx-auto max-w-7xl px-8 py-16">
+      <main id="main" className="bg-card py-16">
+        <div className="mx-auto max-w-7xl px-8">
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
           {weekLabel ? (
             <span className="inline-flex items-center gap-2">
@@ -152,6 +153,7 @@ export default function EuropePulsePage() {
         <p className="mt-12 max-w-3xl text-xs leading-relaxed text-muted-foreground">
           {t("europe-pulse.disclaimer")}
         </p>
+        </div>
       </main>
       <SiteFooter />
     </div>
