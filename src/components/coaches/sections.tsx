@@ -29,7 +29,7 @@ export function BenefitGrid() {
         {items.map((item, i) => (
           <div
             key={item.title}
-            className={"rounded-2xl border border-border/70 bg-card p-7 " + CARD_SHADOW}
+            className={"rounded-2xl border border-border bg-card p-7 " + CARD_SHADOW}
           >
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent/15 text-primary">
               <Mark name={benefitMarks[i % benefitMarks.length]} className="h-6 w-6" />
@@ -50,6 +50,7 @@ export function BenefitGrid() {
         </a>
         <p className="text-xs text-muted-foreground">{t("coaches.benefits.ctaNote")}</p>
       </div>
+      </div>
     </section>
   );
 }
@@ -61,7 +62,7 @@ export function LearningTabs() {
   if (tabs.length === 0) return null;
   const current = tabs[Math.min(active, tabs.length - 1)];
   return (
-    <section className="bg-muted py-24">
+    <section className="bg-background py-24">
       <div className="mx-auto max-w-7xl px-8">
         <p className="eyebrow">{t("coaches.learning.eyebrow")}</p>
         <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
@@ -173,13 +174,14 @@ export function MemberStories() {
   if (items.length === 0) return null;
   const story = items[index % items.length];
   return (
-    <section className="mx-auto max-w-7xl px-8 py-24">
+    <section className="bg-card py-24">
+      <div className="mx-auto max-w-7xl px-8">
       <p className="eyebrow">{t("coaches.stories.eyebrow")}</p>
       <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
         {t("coaches.stories.title")}
       </h2>
       <figure
-        className={"mt-10 rounded-2xl border border-border/70 bg-card p-8 md:p-12 " + CARD_SHADOW}
+        className={"mt-10 rounded-2xl border border-border bg-card p-8 md:p-12 " + CARD_SHADOW}
       >
         <blockquote className="max-w-3xl text-xl font-semibold leading-snug tracking-tight md:text-2xl">
           “{story.quote}”
