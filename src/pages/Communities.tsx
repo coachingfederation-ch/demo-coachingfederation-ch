@@ -109,11 +109,13 @@ export default function CommunitiesPage() {
         lede={t("communities.hero.lede")}
       />
       <main id="main">
-        <section className="mx-auto max-w-6xl px-6 py-16 sm:px-8">
-          <p className="mx-auto max-w-2xl text-center text-base leading-relaxed text-muted-foreground">
+        <section className="bg-background py-16">
+          <p className="mx-auto max-w-2xl px-6 text-center text-base leading-relaxed text-muted-foreground sm:px-8">
             {t("communities.intro")}
           </p>
-          <div className="mt-12">
+        </section>
+        <section className="bg-card py-16">
+          <div className="mx-auto max-w-6xl px-6 sm:px-8">
             {isPending ? (
               <p className="text-center text-sm text-muted-foreground">
                 {t("communities.loading")}
