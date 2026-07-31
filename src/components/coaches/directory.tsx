@@ -642,6 +642,7 @@ export function CoachDirectory() {
           )}
         </div>
       </div>
+      </div>
     </section>
   );
 }
