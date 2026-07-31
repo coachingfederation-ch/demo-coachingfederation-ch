@@ -13,6 +13,7 @@ const navItems = [
   { key: "forOrganisations", to: "/for-organisations" },
   { key: "forCoaches", to: "/for-coaches" },
   { key: "insights", to: "/insights" },
+  { key: "europePulse", to: "/europe-pulse" },
   { key: "events", to: "/events" },
   { key: "about", to: "/about" },
 ] as const;

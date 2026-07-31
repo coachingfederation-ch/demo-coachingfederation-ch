@@ -8,7 +8,7 @@
     "titlePre": "Finden Sie einen ",
     "titleAccent": "zertifizierten",
     "titlePost": " Coach.",
-    "lede": "Jeder aufgeführte Coach verfügt über eine aktive ICF-Zertifizierung und verpflichtet sich zu den ethischen Richtlinien der ICF."
+    "lede": "Jeder aufgeführte Coach verfügt über eine aktive ICF-Zertifizierung und verpflichtet sich zum ICF-Ethikkodex."
   },
   "filters": {
     "title": "Filter",
@@ -34,8 +34,8 @@
     "oneMode": "1 Ergebnis in {mode}",
     "manyMode": "{count} Ergebnisse in {mode}",
     "emptyTitle": "Keine Coaches entsprechen Ihren Filtern",
-    "emptyBody": "Versuchen Sie, Ihre Auswahl nach Kanton oder Spezialisierung zu erweitern.",
-    "emptyModeBody": "Keine Ergebnisse in {mode} entsprechen Ihren Filtern — erweitern Sie Ihre Auswahl nach Kanton oder Spezialisierung.",
+    "emptyBody": "Versuchen Sie, den Kanton oder die Spezialisierung auszuweiten.",
+    "emptyModeBody": "Keine Ergebnisse in {mode} entsprechen Ihren Filtern — versuchen Sie, den Kanton oder die Spezialisierung auszuweiten.",
     "loading": "Coaches werden geladen…",
     "errorTitle": "Das Verzeichnis ist vorübergehend nicht verfügbar",
     "errorBody": "Bitte versuchen Sie es in einem Moment erneut.",
@@ -70,22 +70,22 @@
     "diversity": "Diversity & Inklusion"
   },
   "note": {
-    "title": "Profile stammen von ICF Global",
-    "body": "Die Coach-Daten werden von ICF Global verwaltet. Mitglieder können ihr Profil auf diesem Portal mit zusätzlichen Inhalten ergänzen."
+    "title": "Profile von ICF Global",
+    "body": "Coach-Einträge werden von ICF Global verwaltet. Mitglieder können ihr Profil auf diesem Portal mit zusätzlichen Inhalten ergänzen."
   },
   "detail": {
     "back": "Zurück zur Suche",
-    "about": "Über",
+    "about": "Über mich",
     "specialisations": "Spezialisierung",
     "formats": "Format",
     "languages": "Sprachen",
-    "regions": "Einsatzgebiete",
+    "regions": "Tätigkeitsgebiete",
     "links": "Links",
     "notFoundTitle": "Dieses Coach-Profil ist nicht verfügbar",
-    "notFoundBody": "Das Profil wurde möglicherweise depubliziert. Im Verzeichnis finden Sie weitere zertifizierte Coaches.",
+    "notFoundBody": "Das Profil wurde möglicherweise offline genommen. Durchsuchen Sie das Verzeichnis, um einen anderen zertifizierten Coach zu finden.",
     "metaFallback": "{name} ist ein ICF-zertifizierter Coach im Verzeichnis von The Switzerland Chapter of ICF.",
-    "approach": "So arbeite ich",
-    "clientTypes": "Mit wem ich arbeite",
+    "approach": "Meine Arbeitsweise",
+    "clientTypes": "Für wen ich arbeite",
     "qualifications": "Zertifizierungen & Ausbildung",
     "fees": "Honorar",
     "session": "Sitzungsdauer",

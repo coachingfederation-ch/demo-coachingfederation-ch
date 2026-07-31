@@ -16,7 +16,8 @@
     "memberArea": "Member area",
     "insightsCms": "Insights CMS",
     "events": "Events",
-    "opsStructure": "Operational structure"
+    "opsStructure": "Operational structure",
+    "europePulse": "Europe Pulse"
   },
   "auth": {
     "signInSub": "Sign in to continue",
