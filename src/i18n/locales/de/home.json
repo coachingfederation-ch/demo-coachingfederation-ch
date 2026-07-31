@@ -1,13 +1,13 @@
 {
   "meta": {
-    "title": "The Switzerland Chapter of ICF | Verband für professionelles Coaching",
-    "description": "The Switzerland Chapter of ICF verbindet zertifizierte Coaches, Organisationen und die Coaching-Community in der Deutschschweiz, der Romandie und im Tessin."
+    "title": "The Switzerland Chapter of ICF | Coaching-Verband",
+    "description": "The Switzerland Chapter of ICF verbindet zertifizierte Coaches, Organisationen und die Coaching-Community in der Deutschschweiz, Romandie und im Ticino."
   },
   "hero": {
     "eyebrow": "The Switzerland Chapter of ICF",
-    "titlePre": "Für eine ",
+    "titlePre": "Eine ",
     "titleAccent": "menschlichere",
-    "titlePost": " Zukunft durch professionelles Coaching.",
+    "titlePost": " Zukunft gestalten durch professionelles Coaching.",
     "subtitle": "Professionelles Coaching hilft Einzelpersonen, Führungskräften und Organisationen, Komplexität mit mehr Klarheit, Vertrauen und Zielgerichtetheit zu meistern.",
     "findCoach": "Coach finden →",
     "forOrganisations": "Für Organisationen",
@@ -17,13 +17,13 @@
     {
       "eyebrow": "Ich suche",
       "title": "Einen Coach",
-      "desc": "Finden Sie einen qualifizierten Coach mit ICF-Zertifizierung.",
+      "desc": "Finden Sie einen vertrauenswürdigen, ICF-zertifizierten Coach.",
       "cta": "Coach finden"
     },
     {
       "eyebrow": "Ich vertrete",
       "title": "Eine Organisation",
-      "desc": "Erfahren Sie, wie Coaching Führungskräfte und Organisationen weiterentwickelt.",
+      "desc": "Entdecken Sie, wie Coaching Führungskräfte und Organisationen weiterentwickelt.",
       "cta": "Für Organisationen"
     },
     {
@@ -35,18 +35,18 @@
     {
       "eyebrow": "Ich möchte mehr erfahren",
       "title": "Über Coaching",
-      "desc": "Lernen Sie, was Coaching ist und warum es etwas bewirkt.",
+      "desc": "Erfahren Sie, was Coaching ist und warum es wichtig ist.",
       "cta": "Coaching entdecken"
     }
   ],
   "pillars": {
-    "eyebrow": "Warum einen Coach mit ICF-Zertifizierung wählen?",
+    "eyebrow": "Warum einen ICF-zertifizierten Coach wählen?",
     "title": "Die Wahl eines Coaches ist eine wichtige Entscheidung.",
-    "subtitle": "Coaches mit ICF-Zertifizierung verpflichten sich zu international anerkannten Standards, Ethik und kontinuierlicher beruflicher Weiterentwicklung.",
+    "subtitle": "ICF-zertifizierte Coaches verpflichten sich zu international anerkannten Standards, Ethik und kontinuierlicher beruflicher Weiterentwicklung.",
     "items": [
       {
         "title": "Ethik",
-        "desc": "An den ICF-Ethikcode in jeder Mandatsführung gebunden."
+        "desc": "In jedem Mandat an den ICF-Ethikkodex gebunden."
       },
       {
         "title": "Zertifizierungen",
@@ -57,8 +57,8 @@
         "desc": "Dokumentierte Coaching-Stunden hinter jeder Zertifizierung."
       },
       {
-        "title": "Weiterbildung",
-        "desc": "Kontinuierliche Fortbildung für die Aufrechterhaltung der Zertifizierung."
+        "title": "Weiterentwicklung",
+        "desc": "Laufende berufliche Weiterentwicklung für den Erhalt der Zertifizierung."
       }
     ]
   },
@@ -73,7 +73,7 @@
       },
       {
         "tag": "Führung",
-        "title": "Bessere Gespräche bringen bessere Führungskräfte hervor"
+        "title": "Bessere Gespräche schaffen bessere Führungskräfte"
       },
       {
         "tag": "KI & Coaching",
@@ -96,7 +96,7 @@
   "communities": {
     "eyebrow": "Communities",
     "title": "Eine Coaching-Community in der ganzen Schweiz.",
-    "subtitle": "Über Regionen und Sprachgrenzen hinweg bringt The Switzerland Chapter of ICF Coaches zusammen, um zu lernen, zusammenzuarbeiten und die Zukunft unseres Berufsstands mitzugestalten.",
+    "subtitle": "Über Regionen und Sprachen hinweg bringt The Switzerland Chapter of ICF Coaches zusammen, um zu lernen, zusammenzuarbeiten und die Zukunft unseres Berufsstands mitzugestalten.",
     "items": [
       {
         "city": "Zürich",
@@ -122,39 +122,54 @@
     "viewAll": "Alle Events anzeigen →",
     "items": [
       {
-        "date": "Do., 17. Sep. 2026",
+        "date": "Do, 17. Sep. 2026",
         "city": "Zürich",
         "title": "Coaching Perspectives Conference 2026",
-        "tags": ["EN · DE", "Führung"]
+        "tags": [
+          "EN · DE",
+          "Führung"
+        ]
       },
       {
-        "date": "Di., 6. Okt. 2026",
+        "date": "Di, 6. Okt. 2026",
         "city": "Online",
-        "title": "AI & Coaching: What Stays Human?",
-        "tags": ["EN", "Webinar"]
+        "title": "KI & Coaching: Was bleibt menschlich?",
+        "tags": [
+          "EN",
+          "Webinar"
+        ]
       },
       {
-        "date": "Do., 12. Nov. 2026",
+        "date": "Do, 12. Nov. 2026",
         "city": "Lausanne",
         "title": "Soirée Coaching: Bâtir une culture de coaching",
-        "tags": ["FR", "Networking"]
+        "tags": [
+          "FR",
+          "Networking"
+        ]
       }
     ]
   },
   "research": {
     "eyebrow": "Forschung & Partnerschaften",
     "title": "Forschung, Praxis und Führung verbinden.",
-    "subtitle": "Wir arbeiten mit Hochschulen, Berufsverbänden, der Forschung und Unternehmenspartnern zusammen, um Coaching in der Schweiz zu stärken.",
-    "partners": ["ETH Zürich", "HEC Lausanne", "USI Lugano", "SwissRe", "Nestlé"]
+    "subtitle": "Wir arbeiten mit Universitäten, Berufsverbänden, Forschenden und Unternehmenspartnern zusammen, um Coaching in der ganzen Schweiz zu stärken.",
+    "partners": [
+      "ETH Zürich",
+      "HEC Lausanne",
+      "USI Lugano",
+      "SwissRe",
+      "Nestlé"
+    ]
   },
   "join": {
-    "eyebrow": "Mitglied werden bei The Switzerland Chapter of ICF",
+    "eyebrow": "Werden Sie Teil von The Switzerland Chapter of ICF",
     "title": "Ein professionelles Zuhause für Coaches.",
-    "subtitle": "Egal, ob Sie am Anfang Ihrer Coaching-Laufbahn stehen oder über jahrzehntelange Erfahrung verfügen: The Switzerland Chapter of ICF bietet Ihnen ein professionelles Zuhause, das auf Exzellenz, Ethik und Gemeinschaft basiert.",
+    "subtitle": "Egal, ob Sie am Anfang Ihrer Coaching-Laufbahn stehen oder über jahrzehntelange Erfahrung verfügen: The Switzerland Chapter of ICF bietet ein professionelles Zuhause, das auf Exzellenz, Ethik und Gemeinschaft basiert.",
     "becomeMember": "Mitglied werden",
     "exploreCredentials": "Zertifizierungen entdecken",
     "newsletterTitle": "In Kontakt bleiben.",
-    "newsletterSubtitle": "Ideen, Forschung und Events, die die Zukunft des Coachings prägen — direkt in Ihrer Inbox.",
+    "newsletterSubtitle": "Impulse, Forschung und Events, die die Zukunft des Coachings prägen — direkt in Ihrem Posteingang.",
     "emailPlaceholder": "Ihre E-Mail-Adresse",
     "subscribe": "Abonnieren"
   }

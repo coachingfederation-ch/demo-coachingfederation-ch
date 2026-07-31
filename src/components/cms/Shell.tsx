@@ -12,6 +12,7 @@ import {
   PlugZap,
   ShieldCheck,
   Network,
+  Globe2,
   UserCircle,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -39,6 +40,7 @@ const nav = [
   { to: "/members", key: "nav.members", icon: Users, allowedRoles: [] },
   { to: "/integration", key: "nav.integration", icon: PlugZap, allowedRoles: [] },
   { to: "/operational-structure", key: "nav.opsStructure", icon: Network, allowedRoles: [] },
+  { to: "/manage/europe-pulse", key: "nav.europePulse", icon: Globe2, allowedRoles: [] },
   { to: "/roles", key: "nav.roles", icon: ShieldCheck, allowedRoles: [] },
 ] as const satisfies ReadonlyArray<{
   to: string;

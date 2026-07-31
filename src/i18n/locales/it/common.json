@@ -4,18 +4,19 @@
     "forOrganisations": "Per le organizzazioni",
     "forCoaches": "Per i coach",
     "insights": "Approfondimenti",
+    "europePulse": "Europe Pulse",
     "events": "Eventi",
     "about": "Chi siamo",
     "findACoach": "Trova un coach",
     "primaryLabel": "Principale",
     "footerLabel": "Piè di pagina",
     "languageLabel": "Lingua",
-    "homeAria": "The Switzerland Chapter of ICF Home",
-    "menuOpen": "Apri il menu",
-    "menuClose": "Chiudi il menu",
+    "homeAria": "Home di The Switzerland Chapter of ICF",
+    "menuOpen": "Apri menu",
+    "menuClose": "Chiudi menu",
     "languageSwitch": "Cambia lingua",
-    "skipToContent": "Vai al contenuto",
-    "memberLogin": "Accesso membri",
+    "skipToContent": "Vai al contenuto principale",
+    "memberLogin": "Login membri",
     "myAccount": "Il mio account",
     "myProfile": "Il mio profilo",
     "signOut": "Esci",
@@ -26,7 +27,7 @@
     "copyright": "The Switzerland Chapter of ICF",
     "privacy": "Protezione dei dati",
     "ethics": "Codice etico",
-    "imprint": "Colofone",
+    "imprint": "Impressum",
     "comingSoon": "Prossimamente"
   },
   "languageNotice": {
@@ -38,9 +39,9 @@
     "emailLabel": "Indirizzo e-mail"
   },
   "languageNames": {
-    "de": "tedesco",
-    "fr": "francese",
-    "it": "italiano",
-    "en": "inglese"
+    "de": "Tedesco",
+    "fr": "Francese",
+    "it": "Italiano",
+    "en": "Inglese"
   }
 }

@@ -4,6 +4,7 @@
     "forOrganisations": "Für Organisationen",
     "forCoaches": "Für Coaches",
     "insights": "Insights",
+    "europePulse": "Europe Pulse",
     "events": "Events",
     "about": "Über uns",
     "findACoach": "Coach finden",
@@ -20,14 +21,14 @@
     "myProfile": "Mein Profil",
     "signOut": "Abmelden",
     "insightsCms": "Insights CMS",
-    "accountMenu": "Kontomenü"
+    "accountMenu": "Konto-Menü"
   },
   "footer": {
     "copyright": "The Switzerland Chapter of ICF",
     "privacy": "Datenschutz",
-    "ethics": "Ethikcode",
+    "ethics": "Ethik-Code",
     "imprint": "Impressum",
-    "comingSoon": "Demnächst verfügbar"
+    "comingSoon": "Demnächst"
   },
   "languageNotice": {
     "text": "Diese Seite ist auch in Ihrer bevorzugten Sprache verfügbar.",

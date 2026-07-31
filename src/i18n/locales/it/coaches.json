@@ -1,34 +1,34 @@
 {
   "meta": {
     "title": "Per i coach — The Switzerland Chapter of ICF",
-    "description": "Iscrizione, percorsi di credenziale, formazione e community per i coach professionisti in Svizzera."
+    "description": "Affiliazione, percorsi di credenziale, formazione e community per coach professionisti in Svizzera."
   },
   "hero": {
     "eyebrow": "Per i coach",
     "titlePre": "La tua casa professionale in ",
     "titleAccent": "Svizzera",
     "titlePost": ".",
-    "lede": "Che tu abbia appena ottenuto la credenziale o sia un MCC di grande esperienza, troverai una community accogliente per coach di ogni background, lingua e metodologia.",
+    "lede": "Dai nuovi diplomati agli MCC esperti: una community accogliente per coach di ogni background, lingua e metodologia.",
     "cta": "Diventa membro"
   },
   "benefits": {
-    "eyebrow": "Perché associarsi",
-    "title": "I vantaggi di essere membro.",
-    "lede": "Un'unica iscrizione, un intero anno di formazione, networking e visibilità professionale in tutte le regioni svizzere.",
-    "cta": "Iscriviti come membro ->",
-    "ctaNote": "L'iscrizione è gestita tramite il portale membri di ICF Global.",
+    "eyebrow": "Perché iscriversi",
+    "title": "I vantaggi dell'affiliazione.",
+    "lede": "Un'unica iscrizione, un intero anno di formazione, relazioni e visibilità professionale in tutte le regioni svizzere.",
+    "cta": "Diventa membro ->",
+    "ctaNote": "L'iscrizione è gestita tramite il portale globale dei membri ICF.",
     "items": [
       {
-        "title": "Oltre 62 eventi all'anno",
+        "title": "62+ eventi all'anno",
         "desc": "Networking, formazione, etica e peer coaching durante tutto l'anno."
       },
       {
         "title": "Una community nella tua regione",
-        "desc": "Zürich, Genève, Lausanne, Basel, Bern, Ticino e Ost-Schweiz."
+        "desc": "Zurich, Geneva, Lausanne, Basel, Bern, Ticino e Ost-Schweiz."
       },
       {
         "title": "Eventi in quattro lingue",
-        "desc": "Partecipa in EN, FR, DE o IT — nella lingua che ti è più comoda."
+        "desc": "Partecipa in English, French, German o Italian — nella lingua che preferisci."
       },
       {
         "title": "Sviluppo professionale",
@@ -39,11 +39,11 @@
         "desc": "Cicli strutturati di peer coaching e format Coaching Gym."
       },
       {
-        "title": "Visibilità nella directory dei membri",
-        "desc": "Presenza nel registro Trova un Coach per clienti e organizzazioni."
+        "title": "Profilo nell'elenco dei membri",
+        "desc": "Visibilità in Trova un Coach per clienti e organizzazioni."
       },
       {
-        "title": "Voce nella governance",
+        "title": "Voce in capitolo nella governance",
         "desc": "Town Hall, Board Coffee e partecipazione aperta alle decisioni del chapter."
       },
       {
@@ -52,12 +52,12 @@
       },
       {
         "title": "Accesso a ICF Global",
-        "desc": "Il summit Converge e l'intera libreria di risorse globali."
+        "desc": "Il Converge Summit e l'intera libreria di risorse globali."
       }
     ]
   },
   "learning": {
-    "eyebrow": "Formazione & sviluppo",
+    "eyebrow": "Apprendimento e sviluppo",
     "title": "Continua a crescere, tutto l'anno.",
     "tabs": [
       {
@@ -68,7 +68,7 @@
       {
         "label": "Etica",
         "title": "L'etica nella pratica",
-        "desc": "Tre eventi in presenza e due virtuali sull'etica nel 2026. Rifletti, discuti dilemmi reali e ottieni CCEU. A cura di Natacha Andenmatten."
+        "desc": "Tre eventi sull'etica in presenza e due virtuali nel 2026. Rifletti, discuti dilemmi reali e ottieni CCEU. A cura di Natacha Andenmatten."
       },
       {
         "label": "DEIB",
@@ -78,7 +78,7 @@
       {
         "label": "Peer coaching",
         "title": "Esercitati con i colleghi",
-        "desc": "Cicli strutturati di peer coaching, Coaching Gym e format Open Space — multilingue e in tutte le community."
+        "desc": "Cicli di peer coaching strutturati, Coaching Gym e format Open Space — multilingue e in tutte le community."
       },
       {
         "label": "Credenziali",
@@ -95,12 +95,12 @@
   "credentials": {
     "eyebrow": "Percorso di credenziale",
     "title": "Un percorso riconosciuto da ACC a MCC.",
-    "cta": "Esplora la certificazione",
+    "cta": "Esplora le credenziali",
     "items": [
       {
         "level": "ACC",
         "hours": "100+ ore",
-        "desc": "Associate Certified Coach — il percorso d'ingresso per i coach neo-formati."
+        "desc": "Associate Certified Coach — il percorso d'ingresso per i coach neoformati."
       },
       {
         "level": "PCC",
@@ -109,58 +109,58 @@
       },
       {
         "level": "MCC",
-        "hours": "2.500+ ore",
-        "desc": "Master Certified Coach — il livello più alto, per coach di straordinaria maestria."
+        "hours": "2,500+ ore",
+        "desc": "Master Certified Coach — il livello più alto, per coach di grande esperienza."
       }
     ]
   },
   "deib": {
-    "eyebrow": "DEIB nella tua pratica",
-    "title": "Coaching attraverso le diversità.",
-    "desc": "Le nostre risorse DEIB ti aiutano ad allenare e affiancare persone tra culture, lingue e identità diverse — con competenza e cura. Accedi al nostro Inclusive Coaching Inspiration Kit, partecipa a una DEIB Open House o a una sessione di apprendimento sulla neurodiversità.",
+    "eyebrow": "La DEIB nella tua pratica",
+    "title": "Fare coaching valorizzando le diversità.",
+    "desc": "Le nostre risorse DEIB ti aiutano a fare coaching tra culture, lingue e identità diverse, con competenza e cura. Accedi al nostro Inclusive Coaching Inspiration Kit, partecipa a un DEIB Open House o a una sessione dedicata alla neurodiversità.",
     "cta": "Esplora le risorse DEIB →",
     "items": [
       "Eventi trimestrali DEIB Open House con casi reali",
       "Inclusive Coaching Inspiration Kit per tutti i membri",
       "Webinar su neurodiversità e inclusione",
-      "Checklist di accessibilità degli eventi per gli organizzatori"
+      "Checklist per l'accessibilità degli eventi dedicata agli organizzatori"
     ]
   },
   "chapters": {
-    "eyebrow": "Community del chapter",
+    "eyebrow": "Community locali",
     "title": "Trova la tua community regionale.",
-    "desc": "Da Zürich alla Romandie al Ticino, le community del nostro chapter si incontrano regolarmente per imparare, esercitarsi e supportarsi a vicenda.",
+    "desc": "Da Zürich alla Romandie fino al Ticino, le nostre community si incontrano regolarmente per imparare, esercitarsi e supportarsi a vicenda.",
     "cta": "Esplora le community →",
     "items": [
       {
-        "name": "Zürich",
+        "name": "Zurich",
         "languages": "EN / DE",
-        "status": "Attivo"
+        "status": "Attiva"
       },
       {
-        "name": "Genève",
+        "name": "Geneva",
         "languages": "EN / FR",
-        "status": "Attivo"
+        "status": "Attiva"
       },
       {
         "name": "Lausanne",
         "languages": "FR / EN",
-        "status": "Attivo"
+        "status": "Attiva"
       },
       {
         "name": "Basel",
         "languages": "DE / EN",
-        "status": "Attivo"
+        "status": "Attiva"
       },
       {
         "name": "Bern",
         "languages": "DE / EN / FR",
-        "status": "Lanciato nel 2026"
+        "status": "Lanciata nel 2026"
       },
       {
         "name": "Svizzera Italiana",
         "languages": "IT / EN",
-        "status": "Attivo"
+        "status": "Attiva"
       },
       {
         "name": "Ost-Schweiz",
@@ -175,33 +175,33 @@
     ]
   },
   "volunteer": {
-    "eyebrow": "Volontariato e leadership",
+    "eyebrow": "Diventa volontario e guida",
     "title": "Plasma il futuro del coaching in Svizzera.",
-    "desc": "Guida una community, unisciti a un team di progetto, organizza eventi o contribuisci a DEIB, etica e comunicazione. I ruoli di leadership sono aperti in tutte le regioni e lingue.",
-    "cta": "Collabora con noi"
+    "desc": "Guida una community, unisciti a un team di progetto, organizza eventi o contribuisci a DEIB, etica e comunicazione. Ruoli di leadership disponibili in tutte le regioni e lingue.",
+    "cta": "Mettiti in gioco"
   },
   "stories": {
     "eyebrow": "Storie dei membri",
     "title": "Coach che hanno trovato la propria community.",
     "prev": "Storia precedente",
-    "next": "Storia successiva",
+    "next": "Prossima storia",
     "items": [
       {
-        "quote": "I cicli di peer coaching hanno fatto fare un salto di qualità alla mia pratica professionale in un anno più di qualsiasi altra cosa. E ho trovato colleghi che oggi chiamo amici.",
+        "quote": "I cicli di peer coaching hanno fatto fare un salto di qualità alla mia pratica in un anno come nient'altro prima. E ho trovato colleghi che oggi chiamo amici.",
         "name": "Nadia Berger",
         "credential": "PCC",
         "community": "Community di Basel",
         "languages": "DE / EN"
       },
       {
-        "quote": "Provenendo dall'HR aziendale, le sessioni sulle credenziali mi hanno fornito un percorso chiaro verso l'ACC — e la community di Genève ha reso il viaggio molto meno solitario.",
+        "quote": "Provenendo dalle risorse umane aziendali, le sessioni sulle credenziali mi hanno fornito un percorso chiaro verso l'ACC — e la community di Geneva ha reso il viaggio molto meno solitario.",
         "name": "Marc Dubois",
         "credential": "ACC",
-        "community": "Community di Genève",
+        "community": "Community di Geneva",
         "languages": "FR / EN"
       },
       {
-        "quote": "Poter partecipare agli eventi in italiano in Ticino e poi in inglese a livello nazionale è esattamente quel tipo di inclusione che mi motiva a rimanere membro.",
+        "quote": "Poter partecipare agli eventi in italiano in Ticino, e poi a livello nazionale in inglese, è esattamente il tipo di inclusione che mi motiva a rimanere attiva come membro.",
         "name": "Giulia Ferrari",
         "credential": "MCC",
         "community": "Svizzera Italiana",

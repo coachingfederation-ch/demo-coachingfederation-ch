@@ -1,41 +1,41 @@
 {
   "meta": {
     "title": "Für Coaches — The Switzerland Chapter of ICF",
-    "description": "Mitgliedschaft, Zertifizierungspfade, Weiterbildung und Community für professionelle Coaches in der Schweiz."
+    "description": "Mitgliedschaft, Zertifizierungswege, Weiterbildung und Community für professionelle Coaches in der Schweiz."
   },
   "hero": {
     "eyebrow": "Für Coaches",
     "titlePre": "Ihr berufliches Zuhause in der ",
     "titleAccent": "Schweiz",
     "titlePost": ".",
-    "lede": "Ob frisch zertifiziert oder erfahrener MCC – eine herzliche Community für Coaches aller Hintergründe, Sprachen und Methodiken.",
+    "lede": "Ob frisch zertifiziert oder erfahrener MCC — eine herzliche Community für Coaches aller Hintergründe, Sprachen und Methodiken.",
     "cta": "Mitglied werden"
   },
   "benefits": {
     "eyebrow": "Warum beitreten",
     "title": "Vorteile der Mitgliedschaft.",
     "lede": "Eine Mitgliedschaft, ein ganzes Jahr voller Lernen, Vernetzung und beruflicher Sichtbarkeit in allen Schweizer Regionen.",
-    "cta": "Als Mitglied beitreten ->",
-    "ctaNote": "Die Mitgliedschaft wird über das Mitgliederportal von ICF Global verwaltet.",
+    "cta": "Mitglied werden ->",
+    "ctaNote": "Die Mitgliedschaft wird über das ICF Global Mitgliederportal verwaltet.",
     "items": [
       {
-        "title": "62+ Events pro Jahr",
-        "desc": "Networking, Lernen, Ethik und Peer-Coaching das ganze Jahr über."
+        "title": "62+ Veranstaltungen pro Jahr",
+        "desc": "Netzwerken, Weiterbildung, Ethik und Peer Coaching das ganze Jahr über."
       },
       {
         "title": "Eine Community in Ihrer Region",
         "desc": "Zürich, Genève, Lausanne, Basel, Bern, Ticino und Ost-Schweiz."
       },
       {
-        "title": "Events in vier Sprachen",
-        "desc": "Nehmen Sie auf Englisch, Französisch, Deutsch oder Italienisch teil – was am besten zu Ihnen passt."
+        "title": "Veranstaltungen in vier Sprachen",
+        "desc": "Nehmen Sie auf Deutsch, Französisch, Englisch oder Italienisch teil — ganz wie es Ihnen am besten passt."
       },
       {
-        "title": "Berufliche Weiterbildung",
-        "desc": "Webinare und Masterclasses mit CCEUs für Ihre Re-Zertifizierung."
+        "title": "Berufliche Weiterentwicklung",
+        "desc": "Webinare und Masterclasses mit CCEUs für Ihre Zertifizierungserneuerung."
       },
       {
-        "title": "Peer-Coaching",
+        "title": "Peer Coaching",
         "desc": "Strukturierte Peer-Coaching-Zyklen und Coaching-Gym-Formate."
       },
       {
@@ -43,16 +43,16 @@
         "desc": "Sichtbarkeit in «Find a Coach» für Kunden und Organisationen."
       },
       {
-        "title": "Eine Stimme bei Entscheidungen",
+        "title": "Eine Stimme in der Führung",
         "desc": "Town Halls, Board Coffee und offene Mitgestaltung bei Chapter-Entscheidungen."
       },
       {
         "title": "Ethik-Unterstützung",
-        "desc": "Orientierung für ethische Praxis und den ICF-Zertifizierungsprozess."
+        "desc": "Orientierung zu ethischer Praxis und zum ICF-Zertifizierungsprozess."
       },
       {
         "title": "Zugang zu ICF Global",
-        "desc": "Der Converge Summit und die gesamte globale Ressourcen-Bibliothek."
+        "desc": "Der Converge Summit und die vollständige globale Ressourcen-Bibliothek."
       }
     ]
   },
@@ -61,24 +61,24 @@
     "title": "Kontinuierlich wachsen, das ganze Jahr über.",
     "tabs": [
       {
-        "label": "Berufliche Weiterb.",
+        "label": "Berufliche Entw.",
         "title": "Webinare und Masterclasses",
-        "desc": "Executive Leadership, KI im Coaching, Neurodiversität und Inklusion, Team-Coaching und Business Development – praxisnahe Sessions von erfahrenen Coaches."
+        "desc": "Executive Leadership, KI im Coaching, Neurodiversität und Inklusion, Team-Coaching und Business Development — praxisnahe Sessions unter der Leitung erfahrener Coaches."
       },
       {
         "label": "Ethik",
         "title": "Ethik in der Praxis",
-        "desc": "Drei Präsenz- und zwei virtuelle Ethik-Events im Jahr 2026. Reflektieren Sie reale Dilemmata, tauschen Sie sich aus und sammeln Sie CCEUs. Geleitet von Natacha Andenmatten."
+        "desc": "Drei Präsenz- und zwei virtuelle Ethik-Veranstaltungen im Jahr 2026. Reflektieren Sie, diskutieren Sie reale Dilemmata und sammeln Sie CCEUs. Geleitet von Natacha Andenmatten."
       },
       {
         "label": "DEIB",
-        "title": "Diversity, Equity, Inclusion and Belonging",
-        "desc": "Quartalsweise DEIB Open Houses, das Inclusive Coaching Inspiration Kit, Webinare zu Neurodiversität und Erfolgsgeschichten von Mitgliedern – Ressourcen für Coaching in vielfältigen Kontexten."
+        "title": "Vielfalt, Chancengleichheit, Inklusion und Zugehörigkeit",
+        "desc": "Quartalsweise DEIB Open Houses, das Inclusive Coaching Inspiration Kit, Neurodiversitäts-Webinare und Mitgliedergeschichten — Ressourcen für das Coaching in vielfältigen Kontexten."
       },
       {
-        "label": "Peer-Coaching",
+        "label": "Peer Coaching",
         "title": "Mit Peers üben",
-        "desc": "Strukturierte Peer-Coaching-Zyklen, Coaching Gyms und Open Space Formate – mehrsprachig und über alle Communitys hinweg."
+        "desc": "Strukturierte Peer-Coaching-Zyklen, Coaching Gyms und Open-Space-Formate — mehrsprachig und über alle Communities hinweg."
       },
       {
         "label": "Zertifizierungen",
@@ -88,57 +88,57 @@
       {
         "label": "KI im Coaching",
         "title": "Arbeitsgruppe KI im Coaching",
-        "desc": "Geleitet von Nicola Simionato. Erkundung von KI-Tools, Ethik von KI in der Praxis und Weiterbildung für Mitglieder zur verantwortungsvollen Nutzung."
+        "desc": "Geleitet von Nicola Simionato. Erforschung von KI-Tools, Ethik von KI in der Praxis und Weiterbildung der Mitglieder für eine verantwortungsvolle Nutzung."
       }
     ]
   },
   "credentials": {
-    "eyebrow": "Zertifizierungspfad",
+    "eyebrow": "Zertifizierungsweg",
     "title": "Ein anerkannter Weg vom ACC zum MCC.",
-    "cta": "Zertifizierung entdecken",
+    "cta": "Zertifizierungen erkunden",
     "items": [
       {
         "level": "ACC",
         "hours": "100+ Stunden",
-        "desc": "Associate Certified Coach – der Einstiegspfad für neu ausgebildete Coaches."
+        "desc": "Associate Certified Coach — der Einstiegsweg für neu ausgebildete Coaches."
       },
       {
         "level": "PCC",
         "hours": "500+ Stunden",
-        "desc": "Professional Certified Coach – der Standard für etablierte Coaches."
+        "desc": "Professional Certified Coach — der Standard für etablierte Coaches."
       },
       {
         "level": "MCC",
         "hours": "2'500+ Stunden",
-        "desc": "Master Certified Coach – die höchste Stufe für meisterhafte Coaches."
+        "desc": "Master Certified Coach — die höchste Stufe für meisterhafte Coaches."
       }
     ]
   },
   "deib": {
     "eyebrow": "DEIB in Ihrer Praxis",
     "title": "Coaching über Unterschiede hinweg.",
-    "desc": "Unsere DEIB-Ressourcen helfen Ihnen, über Kulturen, Sprachen und Identitäten hinweg zu coachen – mit Kompetenz und Sorgfalt. Nutzen Sie unser Inclusive Coaching Inspiration Kit, nehmen Sie an einem DEIB Open House teil oder besuchen Sie eine Lernsession zu Neurodiversität.",
-    "cta": "DEIB-Ressourcen entdecken →",
+    "desc": "Unsere DEIB-Ressourcen helfen Ihnen, über Kulturen, Sprachen und Identitäten hinweg zu coachen — mit Kompetenz und Sorgfalt. Nutzen Sie unser Inclusive Coaching Inspiration Kit, besuchen Sie ein DEIB Open House oder nehmen Sie an einer Lerneinheit zu Neurodiversität teil.",
+    "cta": "DEIB-Ressourcen erkunden →",
     "items": [
-      "Quartalsweise DEIB Open House Events mit echten Fallbeispielen",
+      "Quartalsweise DEIB Open House Events mit realen Fällen",
       "Inclusive Coaching Inspiration Kit für alle Mitglieder",
       "Webinare zu Neurodiversität und Inklusion",
-      "Barrierefreiheits-Checkliste für Event-Organisierende"
+      "Checkliste zur Barrierefreiheit von Events für Veranstalter"
     ]
   },
   "chapters": {
-    "eyebrow": "Chapter-Communitys",
+    "eyebrow": "Chapter-Communities",
     "title": "Finden Sie Ihre regionale Community.",
-    "desc": "Von Zürich über die Romandie bis ins Ticino: Unsere Chapter-Communitys treffen sich regelmässig zum Lernen, Üben und gegenseitigen Unterstützen.",
-    "cta": "Communitys entdecken →",
+    "desc": "Von Zürich über die Romandie bis ins Ticino treffen sich unsere Chapter-Communities regelmässig, um zu lernen, zu üben und sich gegenseitig zu unterstützen.",
+    "cta": "Communities erkunden →",
     "items": [
       {
-        "name": "Zürich",
+        "name": "Zurich",
         "languages": "EN / DE",
         "status": "Aktiv"
       },
       {
-        "name": "Genève",
+        "name": "Geneva",
         "languages": "EN / FR",
         "status": "Aktiv"
       },
@@ -175,33 +175,33 @@
     ]
   },
   "volunteer": {
-    "eyebrow": "Mitwirken & Führen",
+    "eyebrow": "Ehrenamt & Führung",
     "title": "Gestalten Sie die Zukunft des Coachings in der Schweiz.",
-    "desc": "Leiten Sie eine Community, werden Sie Teil eines Projektteams, veranstalten Sie Events oder engagieren Sie sich in den Bereichen DEIB, Ethik und Kommunikation. Führungsrollen stehen in allen Regionen und Sprachen offen.",
+    "desc": "Leiten Sie eine Community, werden Sie Teil eines Projektteams, veranstalten Sie Events oder bringen Sie sich in den Bereichen DEIB, Ethik und Kommunikation ein. Führungsrollen stehen in allen Regionen und Sprachen offen.",
     "cta": "Mitmachen"
   },
   "stories": {
-    "eyebrow": "Erfolgsgeschichten von Mitgliedern",
+    "eyebrow": "Mitgliedergeschichten",
     "title": "Coaches, die ihre Community gefunden haben.",
     "prev": "Vorherige Geschichte",
     "next": "Nächste Geschichte",
     "items": [
       {
-        "quote": "Die Peer-Coaching-Zyklen haben meine Praxis in einem Jahr weiter gebracht als alles andere zuvor. Und ich habe Kolleginnen und Kollegen gefunden, die ich heute Freunde nenne.",
+        "quote": "Die Peer-Coaching-Zyklen haben meine Praxis in einem Jahr weitergebracht als alles andere zuvor. Und ich habe Kolleginnen und Kollegen gefunden, die ich heute meine Freunde nenne.",
         "name": "Nadia Berger",
         "credential": "PCC",
-        "community": "Community Basel",
+        "community": "Basel Community",
         "languages": "DE / EN"
       },
       {
-        "quote": "Aus dem Corporate HR kommend, haben mir die Zertifizierungssessions einen klaren Weg zum ACC aufgezeigt – und die Community Genève hat die Reise viel weniger einsam gemacht.",
+        "quote": "Da ich aus dem Corporate-HR-Bereich komme, haben mir die Zertifizierungssessions einen klaren Weg zum ACC aufgezeigt — und die Community in Geneva hat die Reise viel weniger einsam gemacht.",
         "name": "Marc Dubois",
         "credential": "ACC",
-        "community": "Community Genève",
+        "community": "Geneva Community",
         "languages": "FR / EN"
       },
       {
-        "quote": "Die Möglichkeit, an Events auf Italienisch im Ticino und anschliessend auf Englisch auf nationaler Ebene teilzunehmen, ist genau die Art von Inklusion, die mich als Mitglied begeistert.",
+        "quote": "An Events auf Italienisch im Ticino und anschliessend auf Englisch auf nationaler Ebene teilzunehmen, ist genau die Art von Inklusion, die mich als Mitglied engagiert hält.",
         "name": "Giulia Ferrari",
         "credential": "MCC",
         "community": "Svizzera Italiana",
@@ -210,9 +210,9 @@
     ]
   },
   "join": {
-    "eyebrow": "Dabei sein",
+    "eyebrow": "Werden Sie Mitglied",
     "title": "Bereit, Mitglied bei The Switzerland Chapter of ICF zu werden?",
     "cta1": "Mitglied werden",
-    "cta2": "Zertifizierungen entdecken"
+    "cta2": "Zertifizierungen erkunden"
   }
 }

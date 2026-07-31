@@ -15,6 +15,7 @@ import { Route as MemberRouteRouteImport } from './routes/_member/route'
 import { Route as StaffRouteRouteImport } from './routes/_staff/route'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as EuropePulseRouteImport } from './routes/europe-pulse'
 import { Route as FindACoachRouteImport } from './routes/find-a-coach'
 import { Route as ForCoachesRouteImport } from './routes/for-coaches'
 import { Route as ForOrganisationsRouteImport } from './routes/for-organisations'
@@ -28,6 +29,7 @@ import { Route as StaffSignInRouteImport } from './routes/staff-sign-in'
 import { Route as TeamRouteImport } from './routes/team'
 import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
 import { Route as LocaleAboutRouteImport } from './routes/$locale/about'
+import { Route as LocaleEuropePulseRouteImport } from './routes/$locale/europe-pulse'
 import { Route as LocaleFindACoachRouteImport } from './routes/$locale/find-a-coach'
 import { Route as LocaleForCoachesRouteImport } from './routes/$locale/for-coaches'
 import { Route as LocaleForOrganisationsRouteImport } from './routes/$locale/for-organisations'
@@ -67,8 +69,10 @@ import { Route as StaffArticlesIndexRouteImport } from './routes/_staff/articles
 import { Route as StaffArticlesIdRouteImport } from './routes/_staff/articles.$id'
 import { Route as StaffArticlesCategoriesRouteImport } from './routes/_staff/articles.categories'
 import { Route as StaffArticlesNewRouteImport } from './routes/_staff/articles.new'
+import { Route as StaffManageEuropePulseRouteImport } from './routes/_staff/manage.europe-pulse'
 import { Route as StaffMembersIndexRouteImport } from './routes/_staff/members.index'
 import { Route as StaffMembersIdRouteImport } from './routes/_staff/members.$id'
+import { Route as ApiPublicEuropePulseScanRouteImport } from './routes/api/public/europe-pulse-scan'
 import { Route as ApiPublicMemberSyncRouteImport } from './routes/api/public/member-sync'
 import { Route as StaffManageEventsIndexRouteImport } from './routes/_staff/manage.events.index'
 import { Route as StaffManageEventsIdRouteImport } from './routes/_staff/manage.events.$id'
@@ -99,6 +103,11 @@ const AboutRoute = AboutRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EuropePulseRoute = EuropePulseRouteImport.update({
+  id: '/europe-pulse',
+  path: '/europe-pulse',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FindACoachRoute = FindACoachRouteImport.update({
@@ -164,6 +173,11 @@ const LocaleIndexRoute = LocaleIndexRouteImport.update({
 const LocaleAboutRoute = LocaleAboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleEuropePulseRoute = LocaleEuropePulseRouteImport.update({
+  id: '/europe-pulse',
+  path: '/europe-pulse',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
 const LocaleFindACoachRoute = LocaleFindACoachRouteImport.update({
@@ -365,6 +379,11 @@ const StaffArticlesNewRoute = StaffArticlesNewRouteImport.update({
   path: '/new',
   getParentRoute: () => StaffArticlesRoute,
 } as any)
+const StaffManageEuropePulseRoute = StaffManageEuropePulseRouteImport.update({
+  id: '/manage/europe-pulse',
+  path: '/manage/europe-pulse',
+  getParentRoute: () => StaffRouteRoute,
+} as any)
 const StaffMembersIndexRoute = StaffMembersIndexRouteImport.update({
   id: '/members/',
   path: '/members/',
@@ -375,6 +394,12 @@ const StaffMembersIdRoute = StaffMembersIdRouteImport.update({
   path: '/members/$id',
   getParentRoute: () => StaffRouteRoute,
 } as any)
+const ApiPublicEuropePulseScanRoute =
+  ApiPublicEuropePulseScanRouteImport.update({
+    id: '/api/public/europe-pulse-scan',
+    path: '/api/public/europe-pulse-scan',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicMemberSyncRoute = ApiPublicMemberSyncRouteImport.update({
   id: '/api/public/member-sync',
   path: '/api/public/member-sync',
@@ -396,6 +421,7 @@ export interface FileRoutesByFullPath {
   '/$locale': typeof LocaleRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/auth': typeof AuthRouteWithChildren
+  '/europe-pulse': typeof EuropePulseRoute
   '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
@@ -408,6 +434,7 @@ export interface FileRoutesByFullPath {
   '/staff-sign-in': typeof StaffSignInRoute
   '/team': typeof TeamRoute
   '/$locale/about': typeof LocaleAboutRoute
+  '/$locale/europe-pulse': typeof LocaleEuropePulseRoute
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
@@ -444,7 +471,9 @@ export interface FileRoutesByFullPath {
   '/articles/$id': typeof StaffArticlesIdRoute
   '/articles/categories': typeof StaffArticlesCategoriesRoute
   '/articles/new': typeof StaffArticlesNewRoute
+  '/manage/europe-pulse': typeof StaffManageEuropePulseRoute
   '/members/$id': typeof StaffMembersIdRoute
+  '/api/public/europe-pulse-scan': typeof ApiPublicEuropePulseScanRoute
   '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
   '/$locale/communities/': typeof LocaleCommunitiesIndexRoute
   '/$locale/events/': typeof LocaleEventsIndexRoute
@@ -458,6 +487,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRouteWithChildren
+  '/europe-pulse': typeof EuropePulseRoute
   '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
@@ -469,6 +499,7 @@ export interface FileRoutesByTo {
   '/staff-sign-in': typeof StaffSignInRoute
   '/team': typeof TeamRoute
   '/$locale/about': typeof LocaleAboutRoute
+  '/$locale/europe-pulse': typeof LocaleEuropePulseRoute
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
@@ -503,7 +534,9 @@ export interface FileRoutesByTo {
   '/articles/$id': typeof StaffArticlesIdRoute
   '/articles/categories': typeof StaffArticlesCategoriesRoute
   '/articles/new': typeof StaffArticlesNewRoute
+  '/manage/europe-pulse': typeof StaffManageEuropePulseRoute
   '/members/$id': typeof StaffMembersIdRoute
+  '/api/public/europe-pulse-scan': typeof ApiPublicEuropePulseScanRoute
   '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
   '/$locale/communities': typeof LocaleCommunitiesIndexRoute
   '/$locale/events': typeof LocaleEventsIndexRoute
@@ -521,6 +554,7 @@ export interface FileRoutesById {
   '/_staff': typeof StaffRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/auth': typeof AuthRouteWithChildren
+  '/europe-pulse': typeof EuropePulseRoute
   '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
@@ -533,6 +567,7 @@ export interface FileRoutesById {
   '/staff-sign-in': typeof StaffSignInRoute
   '/team': typeof TeamRoute
   '/$locale/about': typeof LocaleAboutRoute
+  '/$locale/europe-pulse': typeof LocaleEuropePulseRoute
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
@@ -569,7 +604,9 @@ export interface FileRoutesById {
   '/_staff/articles/$id': typeof StaffArticlesIdRoute
   '/_staff/articles/categories': typeof StaffArticlesCategoriesRoute
   '/_staff/articles/new': typeof StaffArticlesNewRoute
+  '/_staff/manage/europe-pulse': typeof StaffManageEuropePulseRoute
   '/_staff/members/$id': typeof StaffMembersIdRoute
+  '/api/public/europe-pulse-scan': typeof ApiPublicEuropePulseScanRoute
   '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
   '/$locale/communities/': typeof LocaleCommunitiesIndexRoute
   '/$locale/events/': typeof LocaleEventsIndexRoute
@@ -586,6 +623,7 @@ export interface FileRouteTypes {
     | '/$locale'
     | '/about'
     | '/auth'
+    | '/europe-pulse'
     | '/find-a-coach'
     | '/for-coaches'
     | '/for-organisations'
@@ -598,6 +636,7 @@ export interface FileRouteTypes {
     | '/staff-sign-in'
     | '/team'
     | '/$locale/about'
+    | '/$locale/europe-pulse'
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
@@ -634,7 +673,9 @@ export interface FileRouteTypes {
     | '/articles/$id'
     | '/articles/categories'
     | '/articles/new'
+    | '/manage/europe-pulse'
     | '/members/$id'
+    | '/api/public/europe-pulse-scan'
     | '/api/public/member-sync'
     | '/$locale/communities/'
     | '/$locale/events/'
@@ -648,6 +689,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/auth'
+    | '/europe-pulse'
     | '/find-a-coach'
     | '/for-coaches'
     | '/for-organisations'
@@ -659,6 +701,7 @@ export interface FileRouteTypes {
     | '/staff-sign-in'
     | '/team'
     | '/$locale/about'
+    | '/$locale/europe-pulse'
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
@@ -693,7 +736,9 @@ export interface FileRouteTypes {
     | '/articles/$id'
     | '/articles/categories'
     | '/articles/new'
+    | '/manage/europe-pulse'
     | '/members/$id'
+    | '/api/public/europe-pulse-scan'
     | '/api/public/member-sync'
     | '/$locale/communities'
     | '/$locale/events'
@@ -710,6 +755,7 @@ export interface FileRouteTypes {
     | '/_staff'
     | '/about'
     | '/auth'
+    | '/europe-pulse'
     | '/find-a-coach'
     | '/for-coaches'
     | '/for-organisations'
@@ -722,6 +768,7 @@ export interface FileRouteTypes {
     | '/staff-sign-in'
     | '/team'
     | '/$locale/about'
+    | '/$locale/europe-pulse'
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
@@ -758,7 +805,9 @@ export interface FileRouteTypes {
     | '/_staff/articles/$id'
     | '/_staff/articles/categories'
     | '/_staff/articles/new'
+    | '/_staff/manage/europe-pulse'
     | '/_staff/members/$id'
+    | '/api/public/europe-pulse-scan'
     | '/api/public/member-sync'
     | '/$locale/communities/'
     | '/$locale/events/'
@@ -776,6 +825,7 @@ export interface RootRouteChildren {
   StaffRouteRoute: typeof StaffRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRouteWithChildren
+  EuropePulseRoute: typeof EuropePulseRoute
   FindACoachRoute: typeof FindACoachRoute
   ForCoachesRoute: typeof ForCoachesRoute
   ForOrganisationsRoute: typeof ForOrganisationsRoute
@@ -798,6 +848,7 @@ export interface RootRouteChildren {
   EventsIndexRoute: typeof EventsIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
+  ApiPublicEuropePulseScanRoute: typeof ApiPublicEuropePulseScanRoute
   ApiPublicMemberSyncRoute: typeof ApiPublicMemberSyncRoute
 }
 
@@ -843,6 +894,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/europe-pulse': {
+      id: '/europe-pulse'
+      path: '/europe-pulse'
+      fullPath: '/europe-pulse'
+      preLoaderRoute: typeof EuropePulseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/find-a-coach': {
@@ -934,6 +992,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/$locale/about'
       preLoaderRoute: typeof LocaleAboutRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/europe-pulse': {
+      id: '/$locale/europe-pulse'
+      path: '/europe-pulse'
+      fullPath: '/$locale/europe-pulse'
+      preLoaderRoute: typeof LocaleEuropePulseRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
     '/$locale/find-a-coach': {
@@ -1209,6 +1274,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StaffArticlesNewRouteImport
       parentRoute: typeof StaffArticlesRoute
     }
+    '/_staff/manage/europe-pulse': {
+      id: '/_staff/manage/europe-pulse'
+      path: '/manage/europe-pulse'
+      fullPath: '/manage/europe-pulse'
+      preLoaderRoute: typeof StaffManageEuropePulseRouteImport
+      parentRoute: typeof StaffRouteRoute
+    }
     '/_staff/members/': {
       id: '/_staff/members/'
       path: '/members'
@@ -1222,6 +1294,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/members/$id'
       preLoaderRoute: typeof StaffMembersIdRouteImport
       parentRoute: typeof StaffRouteRoute
+    }
+    '/api/public/europe-pulse-scan': {
+      id: '/api/public/europe-pulse-scan'
+      path: '/api/public/europe-pulse-scan'
+      fullPath: '/api/public/europe-pulse-scan'
+      preLoaderRoute: typeof ApiPublicEuropePulseScanRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/public/member-sync': {
       id: '/api/public/member-sync'
@@ -1263,6 +1342,7 @@ const LocaleInsightsRouteWithChildren = LocaleInsightsRoute._addFileChildren(
 
 interface LocaleRouteRouteChildren {
   LocaleAboutRoute: typeof LocaleAboutRoute
+  LocaleEuropePulseRoute: typeof LocaleEuropePulseRoute
   LocaleFindACoachRoute: typeof LocaleFindACoachRoute
   LocaleForCoachesRoute: typeof LocaleForCoachesRoute
   LocaleForOrganisationsRoute: typeof LocaleForOrganisationsRoute
@@ -1280,6 +1360,7 @@ interface LocaleRouteRouteChildren {
 
 const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleAboutRoute: LocaleAboutRoute,
+  LocaleEuropePulseRoute: LocaleEuropePulseRoute,
   LocaleFindACoachRoute: LocaleFindACoachRoute,
   LocaleForCoachesRoute: LocaleForCoachesRoute,
   LocaleForOrganisationsRoute: LocaleForOrganisationsRoute,
@@ -1336,6 +1417,7 @@ interface StaffRouteRouteChildren {
   StaffOperationalStructureRoute: typeof StaffOperationalStructureRoute
   StaffRolesRoute: typeof StaffRolesRoute
   StaffVocabulariesRoute: typeof StaffVocabulariesRoute
+  StaffManageEuropePulseRoute: typeof StaffManageEuropePulseRoute
   StaffMembersIdRoute: typeof StaffMembersIdRoute
   StaffMembersIndexRoute: typeof StaffMembersIndexRoute
   StaffManageEventsIdRoute: typeof StaffManageEventsIdRoute
@@ -1349,6 +1431,7 @@ const StaffRouteRouteChildren: StaffRouteRouteChildren = {
   StaffOperationalStructureRoute: StaffOperationalStructureRoute,
   StaffRolesRoute: StaffRolesRoute,
   StaffVocabulariesRoute: StaffVocabulariesRoute,
+  StaffManageEuropePulseRoute: StaffManageEuropePulseRoute,
   StaffMembersIdRoute: StaffMembersIdRoute,
   StaffMembersIndexRoute: StaffMembersIndexRoute,
   StaffManageEventsIdRoute: StaffManageEventsIdRoute,
@@ -1390,6 +1473,7 @@ const rootRouteChildren: RootRouteChildren = {
   StaffRouteRoute: StaffRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AuthRoute: AuthRouteWithChildren,
+  EuropePulseRoute: EuropePulseRoute,
   FindACoachRoute: FindACoachRoute,
   ForCoachesRoute: ForCoachesRoute,
   ForOrganisationsRoute: ForOrganisationsRoute,
@@ -1413,6 +1497,7 @@ const rootRouteChildren: RootRouteChildren = {
   EventsIndexRoute: EventsIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
+  ApiPublicEuropePulseScanRoute: ApiPublicEuropePulseScanRoute,
   ApiPublicMemberSyncRoute: ApiPublicMemberSyncRoute,
 }
 export const routeTree = rootRouteImport

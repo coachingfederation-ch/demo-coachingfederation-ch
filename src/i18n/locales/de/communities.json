@@ -1,41 +1,41 @@
 {
   "meta": {
-    "title": "Lokale Communities — The Switzerland Chapter of ICF",
-    "description": "Coaching-Communities in der ganzen Schweiz: regelmässige lokale Treffen für Peer-Learning, Supervision und Austausch, getragen von Freiwilligen des Chapters.",
+    "title": "Lokale Communitys — The Switzerland Chapter of ICF",
+    "description": "Coaching-Communitys in der Schweiz: Regelmässige lokale Treffen für Peer Learning, Supervision und Vernetzung, organisiert von Volunteers des Chapters.",
     "detailTitle": "Lokale Community — The Switzerland Chapter of ICF",
-    "detailDescription": "Lernen Sie die Freiwilligen hinter dieser lokalen Coaching-Community kennen und erfahren Sie, wann und wo sich die Gruppe trifft."
+    "detailDescription": "Lernen Sie die Volunteers dieser lokalen Coaching-Community kennen und erfahren Sie, wann und wo sich die Gruppe trifft."
   },
   "hero": {
-    "eyebrow": "Lokale Communities",
-    "titlePre": "Coaching in Ihrer ",
-    "titleAccent": "Nähe",
-    "lede": "Von Basel bis Lugano bringen unsere lokalen Communities Coaches zusammen, um zu lernen, zu reflektieren und zu wachsen — vor Ort und online."
+    "eyebrow": "Lokale Communitys",
+    "titlePre": "Coaching ganz in ",
+    "titleAccent": "Ihrer Nähe",
+    "lede": "Von Basel bis Lugano bringen unsere lokalen Communitys Coaches zusammen, um zu lernen, zu reflektieren und zu wachsen — vor Ort und online."
   },
-  "intro": "Die lokalen Communities sind das Herz des Chapters. Jede wird von freiwilligen Coaches geführt, die regelmässige Treffen gestalten — Peer-Coaching, Supervisionsrunden, Gastreferate und informellen Austausch. Willkommen sind alle: mit Credential, in Ausbildung oder einfach interessiert am Beruf.",
-  "loading": "Communities werden geladen…",
-  "empty": "Es sind noch keine Communities veröffentlicht. Schauen Sie bald wieder vorbei.",
-  "notFound": "Diese Community konnten wir nicht finden. Möglicherweise wurde sie umbenannt oder archiviert.",
+  "intro": "Lokale Communitys sind das Herzstück des Chapters. Jede wird von ehrenamtlichen Coaches geleitet, die regelmässige Treffen veranstalten — Peer-Coaching, Supervisionskreise, Gastreferate und informellen Austausch. Alle sind herzlich willkommen, ob zertifiziert, in Ausbildung oder einfach neugierig auf den Beruf.",
+  "loading": "Communitys werden geladen…",
+  "empty": "Es wurden noch keine Communitys verlinkt. Bitte schauen Sie bald wieder vorbei.",
+  "notFound": "Wir konnten diese Community nicht finden. Sie wurde möglicherweise umbenannt oder archiviert.",
   "list": {
-    "members": "{count} Freiwillige",
-    "open": "Community ansehen"
+    "members": "{count} Volunteers",
+    "open": "Community anzeigen"
   },
   "detail": {
     "eyebrow": "Lokale Community",
-    "lede": "Eine lokale Gruppe von Coaches, die sich über das Jahr regelmässig trifft.",
-    "back": "Alle Communities",
+    "lede": "Eine lokale Gruppe von Coaches, die sich das ganze Jahr über regelmässig trifft.",
+    "back": "Alle Communitys",
     "join": "An einem Treffen teilnehmen",
     "contact": "Community kontaktieren",
-    "peopleHeading": "Freiwillige in dieser Community",
-    "noMembers": "Für diese Community sind noch keine Freiwilligen erfasst.",
-    "noDescription": "Eine Beschreibung dieser Community folgt in Kürze.",
-    "andMore": "und {count} weitere Freiwillige"
+    "peopleHeading": "Volunteers in dieser Community",
+    "noMembers": "Für diese Community sind noch keine Volunteers aufgeführt.",
+    "noDescription": "Eine Beschreibung für diese Community folgt in Kürze.",
+    "andMore": "und {count} weitere Volunteers"
   },
   "preview": {
-    "eyebrow": "Lokale Communities",
-    "title": "Coaching passiert vor Ort",
-    "body": "Unsere regionalen Communities treffen sich das ganze Jahr über in der ganzen Schweiz — Peer-Coaching, Supervision und Gespräche mit Coaches in Ihrer Nähe.",
+    "eyebrow": "Lokale Communitys",
+    "title": "Coaching findet lokal statt",
+    "body": "Unsere regionalen Communitys treffen sich das ganze Jahr über in der ganzen Schweiz — Peer-Coaching, Supervision und Austausch mit Coaches in Ihrer Nähe.",
     "featuredLabel": "Im Fokus: {name}",
-    "cta": "Alle Communities ansehen",
-    "ctaFeatured": "Diese Community besuchen"
+    "cta": "Alle Communitys ansehen",
+    "ctaFeatured": "Community besuchen"
   }
 }
