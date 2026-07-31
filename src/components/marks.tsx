@@ -1,10 +1,58 @@
-import c1 from "@/assets/marks/CircularMark01.svg?raw";
-import c2 from "@/assets/marks/CircularMark02.svg?raw";
-import a1 from "@/assets/marks/Arrow01.svg?raw";
-import a2 from "@/assets/marks/Arrow02.svg?raw";
-import s1 from "@/assets/marks/Star01.svg?raw";
-import as1 from "@/assets/marks/Asterisk01.svg?raw";
-import as3 from "@/assets/marks/Asterisk03.svg?raw";
+import { useEffect, useState } from "react";
+
+/*
+ * Official ICF brush-stroke library (30 marks, supplied by ICF HQ).
+ *
+ * Each file is hand-traced artwork with thousands of path points, so a single
+ * mark is 120-500 KB of raw SVG. Inlining all of them eagerly would add
+ * megabytes to the main bundle, so the glob below is intentionally *lazy*:
+ * Vite emits one chunk per mark and we fetch it only when that mark is first
+ * rendered. Marks are purely decorative (aria-hidden), so the one-frame gap
+ * before a chunk resolves has no accessibility or layout cost.
+ */
+const sources = import.meta.glob<string>("./../assets/marks/*.svg", {
+  query: "?raw",
+  import: "default",
+});
+
+const FILES = {
+  arrow1: "Arrow01",
+  arrow2: "Arrow02",
+  arrow3: "Arrow03",
+  asterisk1: "Asterisk01",
+  asterisk2: "Asterisk02",
+  asterisk3: "Asterisk03",
+  asterisk4: "Asterisk04",
+  circular1: "CircularMark01",
+  circular2: "CircularMark02",
+  circular3: "CircularMark03",
+  line1: "Line01",
+  line2: "Line02",
+  line3: "Line03",
+  line4: "Line04",
+  /** `star` is the legacy alias for Star01, kept so existing call sites work. */
+  star: "Star01",
+  star1: "Star01",
+  star2: "Star02",
+  star3: "Star03",
+  highlight1: "TextHighlighMark01",
+  highlight2: "TextHighlighMark02",
+  highlight3: "TextHighlighMark03",
+  stroke1: "ThinnerStrokeMark01",
+  stroke2: "ThinnerStrokeMark02",
+  stroke3: "ThinnerStrokeMark03",
+  stroke4: "ThinnerStrokeMark04",
+  other1: "Other01",
+  other2: "Other02",
+  other3: "Other03",
+  other4: "Other04",
+  other5: "Other05",
+  other6: "Other06",
+} as const;
+
+export type MarkName = keyof typeof FILES;
+
+export const MARK_NAMES = Object.keys(FILES) as MarkName[];
 
 // Strip the inlined <style> fill so we can recolor via currentColor.
 const normalize = (svg: string) =>
@@ -15,24 +63,46 @@ const normalize = (svg: string) =>
     .replace(/class="cls-1"/g, 'fill="currentColor"')
     .replace(/<svg /, '<svg width="100%" height="100%" preserveAspectRatio="xMidYMid meet" ');
 
-const marks = {
-  circular1: normalize(c1),
-  circular2: normalize(c2),
-  arrow1: normalize(a1),
-  arrow2: normalize(a2),
-  star: normalize(s1),
-  asterisk1: normalize(as1),
-  asterisk3: normalize(as3),
-} as const;
+const cache = new Map<MarkName, string>();
 
-export type MarkName = keyof typeof marks;
+function load(name: MarkName): Promise<string> | string | undefined {
+  const cached = cache.get(name);
+  if (cached) return cached;
+  const loader = Object.entries(sources).find(([path]) =>
+    path.endsWith(`/${FILES[name]}.svg`),
+  )?.[1];
+  if (!loader) return undefined;
+  return loader().then((raw) => {
+    const svg = normalize(raw);
+    cache.set(name, svg);
+    return svg;
+  });
+}
 
 export function Mark({ name, className }: { name: MarkName; className?: string }) {
+  const [svg, setSvg] = useState<string | undefined>(() => cache.get(name));
+
+  useEffect(() => {
+    let active = true;
+    const result = load(name);
+    if (typeof result === "string") {
+      setSvg(result);
+    } else {
+      setSvg(undefined);
+      void result?.then((loaded) => {
+        if (active) setSvg(loaded);
+      });
+    }
+    return () => {
+      active = false;
+    };
+  }, [name]);
+
   return (
     <span
       aria-hidden
       className={"inline-flex items-center justify-center " + (className ?? "")}
-      dangerouslySetInnerHTML={{ __html: marks[name] }}
+      dangerouslySetInnerHTML={svg ? { __html: svg } : undefined}
     />
   );
 }

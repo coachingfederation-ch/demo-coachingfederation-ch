@@ -59,7 +59,7 @@ function CommunityCard({ community }: { community: CommunitySummary }) {
       ) : null}
       {community.cadence ? (
         <p className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-foreground">
-          <MapPin className="h-3.5 w-3.5 text-accent" /> {community.cadence}
+          <MapPin className="h-3.5 w-3.5 text-primary" /> {community.cadence}
         </p>
       ) : null}
       {community.languages.length ? (

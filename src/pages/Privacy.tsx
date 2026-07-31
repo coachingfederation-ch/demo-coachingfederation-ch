@@ -27,7 +27,12 @@ function MailLink({ address }: { address: string }) {
 
 function Table({ headers, rows }: { headers: string[]; rows: React.ReactNode[][] }) {
   return (
-    <div className="overflow-x-auto rounded-2xl border border-border/70 bg-card">
+    <div
+      className="overflow-x-auto rounded-2xl border border-border/70 bg-card"
+      tabIndex={0}
+      role="region"
+      aria-label={headers.join(", ")}
+    >
       <table className="min-w-full text-left text-sm">
         <thead className="bg-muted">
           <tr>

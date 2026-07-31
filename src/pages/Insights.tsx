@@ -300,7 +300,7 @@ export default function InsightsPage() {
         <section className="bg-hero text-hero-foreground">
           <div className="mx-auto max-w-7xl px-8 py-20 text-center">
             <p className="eyebrow !text-accent">{t("insights.newsletter.eyebrow")}</p>
-            <h2 className="mx-auto mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+            <h2 className="mx-auto mt-3 max-w-2xl display-lg">
               {t("insights.newsletter.title")}
             </h2>
             <form

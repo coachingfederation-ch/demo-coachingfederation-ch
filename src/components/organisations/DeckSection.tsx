@@ -50,7 +50,7 @@ export function DeckSection() {
     <section className="bg-background py-24">
       <div className="mx-auto max-w-7xl px-8">
         <p className="eyebrow">{t("organisations.deck.eyebrow")}</p>
-        <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+        <h2 className="mt-3 max-w-2xl display-lg">
           {t("organisations.deck.title")}
         </h2>
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
@@ -115,7 +115,7 @@ export function DeckSection() {
                       name="circular2"
                       className="pointer-events-none absolute left-1/2 top-1/2 h-[130%] w-[130%] -translate-x-1/2 -translate-y-1/2 text-accent/15"
                     />
-                    <span className="relative block text-[5.5rem] font-bold leading-[0.85] tracking-tighter text-accent md:text-[9rem]">
+                    <span className="relative block text-[5.5rem] font-bold leading-[0.85] tracking-tighter text-primary md:text-[9rem]">
                       {slide.stat}
                     </span>
                   </div>
@@ -131,7 +131,7 @@ export function DeckSection() {
                       key={b}
                       className="flex flex-col gap-3 rounded-2xl border border-border/70 bg-background p-5 text-base font-medium leading-snug md:p-6"
                     >
-                      <span className="btn-mono text-2xl font-bold leading-none text-accent md:text-3xl">
+                      <span className="btn-mono text-2xl font-bold leading-none text-primary md:text-3xl">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                       <span>{b}</span>
