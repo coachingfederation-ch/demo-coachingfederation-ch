@@ -19,7 +19,7 @@ export function BenefitGrid() {
     <section className="bg-card py-24">
       <div className="mx-auto max-w-7xl px-8">
       <p className="eyebrow">{t("coaches.benefits.eyebrow")}</p>
-      <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+      <h2 className="mt-3 max-w-2xl display-lg">
         {t("coaches.benefits.title")}
       </h2>
       <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
@@ -65,7 +65,7 @@ export function LearningTabs() {
     <section className="bg-background py-24">
       <div className="mx-auto max-w-7xl px-8">
         <p className="eyebrow">{t("coaches.learning.eyebrow")}</p>
-        <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+        <h2 className="mt-3 max-w-2xl display-lg">
           {t("coaches.learning.title")}
         </h2>
         <div
@@ -177,7 +177,7 @@ export function MemberStories() {
     <section className="bg-card py-24">
       <div className="mx-auto max-w-7xl px-8">
       <p className="eyebrow">{t("coaches.stories.eyebrow")}</p>
-      <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+      <h2 className="mt-3 max-w-2xl display-lg">
         {t("coaches.stories.title")}
       </h2>
       <figure

@@ -44,7 +44,7 @@ export default function ForOrganisationsPage() {
 
         <section className="mx-auto max-w-7xl px-8 py-24">
           <p className="eyebrow">{t("organisations.outcomes.eyebrow")}</p>
-          <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+          <h2 className="mt-3 max-w-2xl display-lg">
             {t("organisations.outcomes.title")}
           </h2>
           <div className="mt-12 grid gap-4 md:grid-cols-3">
@@ -69,7 +69,7 @@ export default function ForOrganisationsPage() {
         <section className="bg-card py-24">
           <div className="mx-auto max-w-7xl px-8">
             <p className="eyebrow">{t("organisations.steps.eyebrow")}</p>
-            <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+            <h2 className="mt-3 max-w-2xl display-lg">
               {t("organisations.steps.title")}
             </h2>
             <div className="mt-14 grid gap-8 md:grid-cols-3">
@@ -94,7 +94,7 @@ export default function ForOrganisationsPage() {
         <section className="bg-card py-24">
           <div className="mx-auto max-w-7xl px-8">
             <p className="eyebrow">{t("organisations.programmes.eyebrow")}</p>
-            <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+            <h2 className="mt-3 max-w-2xl display-lg">
               {t("organisations.programmes.title")}
             </h2>
             <div className="mt-12 grid gap-4 md:grid-cols-3">
@@ -134,7 +134,7 @@ export default function ForOrganisationsPage() {
         <section className="bg-hero text-hero-foreground">
           <div className="mx-auto max-w-7xl px-8 py-20 text-center">
             <p className="eyebrow !text-accent">{t("organisations.getStarted.eyebrow")}</p>
-            <h2 className="mx-auto mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+            <h2 className="mx-auto mt-3 max-w-2xl display-lg">
               {t("organisations.getStarted.title")}
             </h2>
             <div className="mt-8 flex flex-wrap justify-center gap-3">

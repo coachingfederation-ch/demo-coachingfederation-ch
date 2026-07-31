@@ -36,7 +36,7 @@ export default function ForCoachesPage() {
         <section id="credentials" className="scroll-mt-24 bg-card py-24">
           <div className="mx-auto max-w-7xl px-8">
           <p className="eyebrow">{t("coaches.credentials.eyebrow")}</p>
-          <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+          <h2 className="mt-3 max-w-2xl display-lg">
             {t("coaches.credentials.title")}
           </h2>
           <div className="mt-12 grid gap-4 md:grid-cols-3">
@@ -69,7 +69,7 @@ export default function ForCoachesPage() {
             </div>
             <div>
               <p className="eyebrow">{t("coaches.deib.eyebrow")}</p>
-              <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+              <h2 className="mt-3 display-lg">
                 {t("coaches.deib.title")}
               </h2>
               <p className="mt-5 text-base leading-relaxed text-muted-foreground">
@@ -96,7 +96,7 @@ export default function ForCoachesPage() {
         <section className="bg-card py-24">
           <div className="mx-auto max-w-7xl px-8">
           <p className="eyebrow">{t("coaches.chapters.eyebrow")}</p>
-          <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+          <h2 className="mt-3 max-w-2xl display-lg">
             {t("coaches.chapters.title")}
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
@@ -116,7 +116,7 @@ export default function ForCoachesPage() {
           <div className="mx-auto grid max-w-7xl gap-10 px-8 md:grid-cols-[1.4fr_1fr] md:items-center">
             <div>
               <p className="eyebrow">{t("coaches.volunteer.eyebrow")}</p>
-              <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+              <h2 className="mt-3 display-lg">
                 {t("coaches.volunteer.title")}
               </h2>
               <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
@@ -140,7 +140,7 @@ export default function ForCoachesPage() {
         <section className="bg-hero text-hero-foreground">
           <div className="mx-auto max-w-7xl px-8 py-20 text-center">
             <p className="eyebrow !text-accent">{t("coaches.join.eyebrow")}</p>
-            <h2 className="mx-auto mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+            <h2 className="mx-auto mt-3 max-w-2xl display-lg">
               {t("coaches.join.title")}
             </h2>
             <div className="mt-8 flex flex-wrap justify-center gap-3">

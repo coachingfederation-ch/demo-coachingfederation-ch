@@ -124,7 +124,7 @@ export default function EventsPage({ data }: { data: EventsPageData }) {
         <section className="bg-card py-24">
           <div className="mx-auto max-w-7xl px-8">
             <p className="eyebrow">{t("events.upcoming.eyebrow")}</p>
-            <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+            <h2 className="mt-3 max-w-2xl display-lg">
               {t("events.upcoming.title")}
             </h2>
             {upcoming.length === 0 && !featured ? (
@@ -217,7 +217,7 @@ export default function EventsPage({ data }: { data: EventsPageData }) {
         <section className="bg-hero text-hero-foreground">
           <div className="mx-auto max-w-7xl px-8 py-20 text-center">
             <p className="eyebrow !text-accent">{t("events.cta.eyebrow")}</p>
-            <h2 className="mx-auto mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+            <h2 className="mx-auto mt-3 max-w-2xl display-lg">
               {t("events.cta.title")}
             </h2>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
