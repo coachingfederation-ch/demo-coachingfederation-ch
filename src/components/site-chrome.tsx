@@ -103,7 +103,7 @@ function LanguageSwitcher() {
         aria-expanded={open}
         aria-label={t("common.nav.languageSwitch")}
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex h-8 items-center gap-1 rounded-full bg-white/10 px-2.5 text-[11px] font-semibold uppercase tracking-wider text-white transition hover:bg-white/20"
+        className="inline-flex h-10 items-center gap-1.5 rounded-full border border-white/25 px-3 text-[11px] font-semibold uppercase tracking-wider text-white transition hover:border-white/60 hover:bg-white/10"
       >
         <Globe className="h-3.5 w-3.5" aria-hidden="true" />
         {LOCALE_LABELS[locale]}
@@ -160,7 +160,7 @@ function AccountControl() {
       <Link
         to="/auth"
         search={{ next: undefined }}
-        className="hidden h-8 items-center rounded-full bg-white/10 px-3.5 text-[11px] font-semibold uppercase tracking-wider text-white transition hover:bg-white/20 sm:inline-flex"
+        className="hidden h-10 items-center rounded-full border border-white/25 px-4 text-[11px] font-semibold uppercase tracking-wider text-white transition hover:border-white/60 hover:bg-white/10 sm:inline-flex"
       >
         {t("common.nav.memberLogin")}
       </Link>
@@ -175,7 +175,7 @@ function AccountControl() {
         aria-expanded={open}
         aria-label={t("common.nav.accountMenu")}
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex h-8 items-center gap-1.5 rounded-full bg-white/10 px-3 text-[11px] font-semibold uppercase tracking-wider text-white transition hover:bg-white/20"
+        className="inline-flex h-10 items-center gap-1.5 rounded-full border border-white/25 px-3.5 text-[11px] font-semibold uppercase tracking-wider text-white transition hover:border-white/60 hover:bg-white/10"
       >
         <User className="h-3.5 w-3.5" aria-hidden="true" />
         {t("common.nav.myAccount")}
@@ -262,14 +262,14 @@ export function SiteNav() {
     <div className="flex shrink-0 items-center gap-2 sm:gap-3">
       <nav
         aria-label={t("common.nav.primaryLabel")}
-        className="hidden items-center rounded-full bg-white/10 p-1 text-[11px] font-semibold lg:inline-flex"
+        className="hidden items-center gap-1 text-[12px] font-semibold lg:inline-flex"
       >
         {navItems.map((i) => (
           <LocaleLink
             key={i.to}
             to={i.to}
             activeOptions={{ exact: true }}
-            className="inline-flex h-7 items-center rounded-full px-3 text-white/80 transition hover:text-white data-[status=active]:bg-white data-[status=active]:text-primary data-[status=active]:shadow-sm"
+            className="relative inline-flex h-10 items-center px-3 text-white/75 transition after:absolute after:inset-x-3 after:bottom-1.5 after:h-0.5 after:rounded-full after:bg-accent after:opacity-0 after:transition hover:text-white data-[status=active]:text-white data-[status=active]:after:opacity-100"
           >
             {t(`common.nav.${i.key}`)}
           </LocaleLink>
@@ -279,7 +279,7 @@ export function SiteNav() {
       <AccountControl />
       <LocaleLink
         to="/find-a-coach"
-        className="hidden h-8 items-center rounded-full bg-accent px-4 text-[11px] font-semibold uppercase tracking-wider text-accent-foreground transition hover:opacity-90 lg:inline-flex"
+        className="hidden h-10 items-center rounded-full bg-accent px-5 text-[11px] font-semibold uppercase tracking-wider text-accent-foreground transition hover:brightness-105 lg:inline-flex"
       >
         {t("common.nav.findACoach")}
       </LocaleLink>
@@ -289,19 +289,19 @@ export function SiteNav() {
         aria-controls="site-mobile-nav"
         aria-label={menuOpen ? t("common.nav.menuClose") : t("common.nav.menuOpen")}
         onClick={() => setMenuOpen((v) => !v)}
-        className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 lg:hidden"
+        className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/25 text-white transition hover:bg-white/10 lg:hidden"
       >
         {menuOpen ? (
-          <X className="h-4 w-4" aria-hidden="true" />
+          <X className="h-5 w-5" aria-hidden="true" />
         ) : (
-          <Menu className="h-4 w-4" aria-hidden="true" />
+          <Menu className="h-5 w-5" aria-hidden="true" />
         )}
       </button>
       {menuOpen && (
         <nav
           id="site-mobile-nav"
           aria-label={t("common.nav.primaryLabel")}
-          className="absolute inset-x-0 top-full z-40 mt-3 flex flex-col rounded-2xl bg-hero p-2 text-[13px] font-semibold shadow-xl ring-1 ring-white/15 lg:hidden"
+          className="absolute inset-x-0 top-full z-40 mt-3 flex flex-col rounded-2xl bg-hero p-2 text-[13px] font-semibold shadow-lg ring-1 ring-white/20 lg:hidden"
         >
           {navItems.map((i) => (
             <LocaleLink
@@ -309,7 +309,7 @@ export function SiteNav() {
               to={i.to}
               activeOptions={{ exact: true }}
               onClick={() => setMenuOpen(false)}
-              className="rounded-full px-4 py-2.5 text-white/85 transition hover:text-white data-[status=active]:bg-white data-[status=active]:text-primary"
+              className="rounded-full px-4 py-3 text-white/85 transition hover:bg-white/10 hover:text-white data-[status=active]:bg-white/15 data-[status=active]:text-white"
             >
               {t(`common.nav.${i.key}`)}
             </LocaleLink>
@@ -317,7 +317,7 @@ export function SiteNav() {
           <LocaleLink
             to="/find-a-coach"
             onClick={() => setMenuOpen(false)}
-            className="mt-2 inline-flex h-9 items-center justify-center rounded-full bg-accent px-4 text-[11px] font-semibold uppercase tracking-wider text-accent-foreground"
+            className="mt-2 inline-flex h-11 items-center justify-center rounded-full bg-accent px-5 text-[11px] font-semibold uppercase tracking-wider text-accent-foreground"
           >
             {t("common.nav.findACoach")}
           </LocaleLink>
