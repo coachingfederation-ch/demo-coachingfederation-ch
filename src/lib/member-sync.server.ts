@@ -82,6 +82,11 @@ export async function runMemberSync(options: {
   if (runError) throw runError;
   const runId = runRow.id as string;
 
+  const startedAt = Date.now();
+  console.log(
+    `[member-sync] run=${runId} mode=${config.mode} trigger=${options.triggerSource} start`,
+  );
+
   const finish = async (result: Omit<SyncResult, "runId">) => {
     await supabaseAdmin
       .from("member_sync_runs")
@@ -109,6 +114,13 @@ export async function runMemberSync(options: {
             }),
       })
       .eq("id", true);
+
+    const line =
+      `[member-sync] run=${runId} ${result.status} feed=${result.feedCount} ` +
+      `created=${result.created} updated=${result.updated} deactivated=${result.deactivated} ` +
+      `ms=${Date.now() - startedAt}`;
+    if (ok) console.log(line);
+    else console.error(`${line} message=${JSON.stringify(result.message ?? "")}`);
 
     return { runId, ...result };
   };
