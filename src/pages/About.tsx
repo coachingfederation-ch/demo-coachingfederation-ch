@@ -25,7 +25,7 @@ export default function AboutPage() {
         <section className="bg-card text-foreground">
           <div className="mx-auto grid max-w-7xl gap-10 px-8 py-24 md:grid-cols-[1.2fr_1fr] md:items-center">
             <div>
-              <p className="eyebrow !text-accent">{t("about.mission.eyebrow")}</p>
+              <p className="eyebrow">{t("about.mission.eyebrow")}</p>
               <h2 className="mt-3 display-lg">
                 {t("about.mission.title")}
               </h2>

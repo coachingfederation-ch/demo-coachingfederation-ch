@@ -48,7 +48,7 @@ export default function CommunityDetailPage({ slug }: { slug: string }) {
 
                 {data.cadence ? (
                   <p className="mt-6 inline-flex items-center gap-2 rounded-full bg-secondary px-4 py-2 text-sm font-semibold">
-                    <CalendarClock className="h-4 w-4 text-accent" /> {data.cadence}
+                    <CalendarClock className="h-4 w-4 text-primary" /> {data.cadence}
                   </p>
                 ) : null}
 
