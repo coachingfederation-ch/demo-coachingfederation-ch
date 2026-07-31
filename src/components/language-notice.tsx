@@ -39,9 +39,12 @@ export function LanguageNotice() {
   if (!preferred) return null;
 
   // Account pages (member area, CMS, auth, claim) exist in English only, so a
-  // localized target would 404. Ask the router instead of maintaining a list.
+  // localized target would 404. Ask the router instead of maintaining a list:
+  // an unmatched path stops at the `/$locale` layout, which still counts as a
+  // "found" route, so the target only counts when it resolves to a leaf.
   const target = localizePath(path, preferred);
-  if (!router.getMatchedRoutes(target).foundRoute) return null;
+  const found = router.getMatchedRoutes(target).foundRoute;
+  if (!found || (found.children?.length ?? 0) > 0) return null;
 
   return (
     <div className="fixed bottom-4 left-1/2 z-50 w-[min(92vw,32rem)] -translate-x-1/2 rounded-2xl border border-border/70 bg-card px-5 py-4 shadow-lg">
