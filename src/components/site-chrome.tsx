@@ -397,38 +397,38 @@ export function SiteFooter() {
         </p>
         <nav
           aria-label={t("common.nav.footerLabel")}
-          className="flex flex-wrap items-center gap-x-5 gap-y-1"
+          className="flex flex-wrap items-center gap-x-5 gap-y-2"
         >
-          <LocaleLink to="/find-a-coach" className="text-white/80 hover:text-white">
+          <LocaleLink to="/find-a-coach" className="inline-flex min-h-6 items-center text-white/80 hover:text-white">
             {t("common.nav.findACoach")}
           </LocaleLink>
-          <LocaleLink to="/for-organisations" className="text-white/80 hover:text-white">
+          <LocaleLink to="/for-organisations" className="inline-flex min-h-6 items-center text-white/80 hover:text-white">
             {t("common.nav.forOrganisations")}
           </LocaleLink>
-          <LocaleLink to="/for-coaches" className="text-white/80 hover:text-white">
+          <LocaleLink to="/for-coaches" className="inline-flex min-h-6 items-center text-white/80 hover:text-white">
             {t("common.nav.forCoaches")}
           </LocaleLink>
-          <LocaleLink to="/insights" className="text-white/80 hover:text-white">
+          <LocaleLink to="/insights" className="inline-flex min-h-6 items-center text-white/80 hover:text-white">
             {t("common.nav.insights")}
           </LocaleLink>
-          <LocaleLink to="/events" className="text-white/80 hover:text-white">
+          <LocaleLink to="/events" className="inline-flex min-h-6 items-center text-white/80 hover:text-white">
             {t("common.nav.events")}
           </LocaleLink>
-          <LocaleLink to="/about" className="text-white/80 hover:text-white">
+          <LocaleLink to="/about" className="inline-flex min-h-6 items-center text-white/80 hover:text-white">
             {t("common.nav.about")}
           </LocaleLink>
-          <LocaleLink to="/privacy" className="text-white/80 hover:text-white">
+          <LocaleLink to="/privacy" className="inline-flex min-h-6 items-center text-white/80 hover:text-white">
             {t("common.footer.privacy")}
           </LocaleLink>
           <a
             href="https://coachingfederation.org/credentialing/coaching-ethics/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-white/80 hover:text-white"
+            className="inline-flex min-h-6 items-center text-white/80 hover:text-white"
           >
             {t("common.footer.ethics")}
           </a>
-          <LocaleLink to="/imprint" className="text-white/80 hover:text-white">
+          <LocaleLink to="/imprint" className="inline-flex min-h-6 items-center text-white/80 hover:text-white">
             {t("common.footer.imprint")}
           </LocaleLink>
         </nav>

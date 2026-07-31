@@ -51,7 +51,7 @@ function PulseCard({ item }: { item: PulseItem }) {
       <div className="mt-5 flex items-center justify-between gap-3 text-xs text-muted-foreground">
         {date ? (
           <span className="inline-flex items-center gap-1.5">
-            <CalendarDays className="h-3.5 w-3.5 text-accent" /> {date}
+            <CalendarDays className="h-3.5 w-3.5 text-primary" /> {date}
           </span>
         ) : (
           <span>{item.country}</span>
@@ -92,13 +92,13 @@ export default function EuropePulsePage() {
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
           {weekLabel ? (
             <span className="inline-flex items-center gap-2">
-              <CalendarDays className="h-4 w-4 text-accent" />
+              <CalendarDays className="h-4 w-4 text-primary" />
               {t("europe-pulse.meta.week").replace("{date}", weekLabel)}
             </span>
           ) : null}
           {items.length ? (
             <span className="inline-flex items-center gap-2">
-              <Globe2 className="h-4 w-4 text-accent" />
+              <Globe2 className="h-4 w-4 text-primary" />
               {t("europe-pulse.meta.summary")
                 .replace("{items}", String(items.length))
                 .replace("{countries}", String(countries))}
