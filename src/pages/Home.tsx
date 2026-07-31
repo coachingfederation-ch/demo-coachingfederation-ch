@@ -13,17 +13,31 @@ function HeroHeader() {
           <SiteHeaderBar />
         </div>
 
-        <div className="grid gap-12 md:grid-cols-2 md:items-center">
+        <div className="grid gap-12 md:grid-cols-[1.05fr_1fr] md:items-center md:gap-16">
           <div className="max-w-2xl">
             <p className="eyebrow !text-accent">{t("home.hero.eyebrow")}</p>
-            <h1 className="mt-3 text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl">
+            <h1 className="display-xl mt-4">
               {t("home.hero.titlePre")}
               <span className="text-accent">{t("home.hero.titleAccent")}</span>
               {t("home.hero.titlePost")}
             </h1>
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-white/85">
+            <p className="mt-6 max-w-xl text-[17px] leading-[1.65] text-white/85">
               {t("home.hero.subtitle")}
             </p>
+            <div className="mt-9 flex flex-wrap items-center gap-4">
+              <LocaleLink
+                to="/find-a-coach"
+                className="inline-flex h-12 items-center rounded-full bg-accent px-6 text-sm font-semibold text-accent-foreground transition hover:brightness-105"
+              >
+                {t("common.nav.findACoach")} →
+              </LocaleLink>
+              <LocaleLink
+                to="/for-organisations"
+                className="inline-flex h-12 items-center text-sm font-semibold text-white/85 underline-offset-4 transition hover:text-white hover:underline"
+              >
+                {t("common.nav.forOrganisations")}
+              </LocaleLink>
+            </div>
           </div>
           <div className="relative">
             <img
@@ -31,11 +45,11 @@ function HeroHeader() {
               alt={t("home.hero.imgAlt")}
               width={1600}
               height={1200}
-              className="aspect-[5/4] w-full rounded-2xl object-cover"
+              className="aspect-[5/4] w-full rounded-[2rem] object-cover"
             />
             <Mark
               name="asterisk1"
-              className="pointer-events-none absolute -right-8 -top-10 h-40 w-40 text-mark-yellow"
+              className="pointer-events-none absolute -right-4 -top-7 h-24 w-24 text-mark-yellow sm:-right-6 sm:-top-9 sm:h-28 sm:w-28"
             />
           </div>
         </div>
