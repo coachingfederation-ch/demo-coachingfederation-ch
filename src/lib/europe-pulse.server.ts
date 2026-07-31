@@ -288,6 +288,9 @@ async function curate(
     const item = raw as Record<string, unknown>;
     const source = pool[Number(item.index)];
     if (!source) continue;
+    // Belt and braces: the model can only pick from an already-filtered pool,
+    // but never let an undated or past item through to the feed.
+    if (!isStillRelevant(source.event_date)) continue;
     const used = perChapter.get(source.chapter) ?? 0;
     if (used >= maxPerChapter) continue;
     if (chosen.length >= cap) break;
