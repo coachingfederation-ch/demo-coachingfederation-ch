@@ -26,7 +26,7 @@ export default function AboutPage() {
           <div className="mx-auto grid max-w-7xl gap-10 px-8 py-24 md:grid-cols-[1.2fr_1fr] md:items-center">
             <div>
               <p className="eyebrow !text-accent">{t("about.mission.eyebrow")}</p>
-              <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+              <h2 className="mt-3 display-lg">
                 {t("about.mission.title")}
               </h2>
               <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
@@ -54,7 +54,7 @@ export default function AboutPage() {
         <section className="bg-background py-24">
           <div className="mx-auto max-w-7xl px-8">
           <p className="eyebrow">{t("about.research.eyebrow")}</p>
-          <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+          <h2 className="mt-3 max-w-2xl display-lg">
             {t("about.research.title")}
           </h2>
           <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-5">
@@ -87,7 +87,7 @@ export default function AboutPage() {
         <section className="bg-hero text-hero-foreground">
           <div className="mx-auto max-w-7xl px-8 py-20 text-center">
             <p className="eyebrow !text-accent">{t("about.cta.eyebrow")}</p>
-            <h2 className="mx-auto mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+            <h2 className="mx-auto mt-3 max-w-2xl display-lg">
               {t("about.cta.title")}
             </h2>
             <div className="mt-8 flex flex-wrap justify-center gap-3">

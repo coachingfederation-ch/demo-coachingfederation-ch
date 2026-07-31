@@ -13,17 +13,31 @@ function HeroHeader() {
           <SiteHeaderBar />
         </div>
 
-        <div className="grid gap-12 md:grid-cols-2 md:items-center">
+        <div className="grid gap-12 md:grid-cols-[1.05fr_1fr] md:items-center md:gap-16">
           <div className="max-w-2xl">
             <p className="eyebrow !text-accent">{t("home.hero.eyebrow")}</p>
-            <h1 className="mt-3 text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl">
+            <h1 className="display-xl mt-4">
               {t("home.hero.titlePre")}
               <span className="text-accent">{t("home.hero.titleAccent")}</span>
               {t("home.hero.titlePost")}
             </h1>
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-white/85">
+            <p className="mt-6 max-w-xl text-[17px] leading-[1.65] text-white/85">
               {t("home.hero.subtitle")}
             </p>
+            <div className="mt-9 flex flex-wrap items-center gap-4">
+              <LocaleLink
+                to="/find-a-coach"
+                className="inline-flex h-12 items-center rounded-full bg-accent px-6 text-sm font-semibold text-accent-foreground transition hover:brightness-105"
+              >
+                {t("common.nav.findACoach")} →
+              </LocaleLink>
+              <LocaleLink
+                to="/for-organisations"
+                className="inline-flex h-12 items-center text-sm font-semibold text-white/85 underline-offset-4 transition hover:text-white hover:underline"
+              >
+                {t("common.nav.forOrganisations")}
+              </LocaleLink>
+            </div>
           </div>
           <div className="relative">
             <img
@@ -31,11 +45,11 @@ function HeroHeader() {
               alt={t("home.hero.imgAlt")}
               width={1600}
               height={1200}
-              className="aspect-[5/4] w-full rounded-2xl object-cover"
+              className="aspect-[5/4] w-full rounded-[2rem] object-cover"
             />
             <Mark
               name="asterisk1"
-              className="pointer-events-none absolute -right-8 -top-10 h-40 w-40 text-mark-yellow"
+              className="pointer-events-none absolute -right-4 -top-7 h-24 w-24 text-mark-yellow sm:-right-6 sm:-top-9 sm:h-28 sm:w-28"
             />
           </div>
         </div>
@@ -57,20 +71,25 @@ function Audiences() {
   ];
   const isExternal = [false, false, false, true];
   const cardClassName =
-    "group flex flex-col rounded-2xl border border-border/70 bg-card p-6 transition hover:-translate-y-0.5 hover:border-chip-active-border " +
-    CARD_SHADOW;
+    "group flex flex-col bg-card p-7 transition-colors hover:bg-secondary/50";
   return (
-    <section id="find-a-coach" className="mx-auto -mt-8 max-w-7xl px-8">
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <section id="find-a-coach" className="mx-auto -mt-10 max-w-7xl px-5 sm:px-8">
+      <div className="grid gap-px overflow-hidden rounded-3xl border border-border bg-border md:grid-cols-2 lg:grid-cols-4">
         {audiences.map((a, i) => {
           const children = (
             <>
               <p className="section-label">{a.eyebrow}</p>
-              <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground">
-                {a.title}
-              </h3>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{a.desc}</p>
-              <span className="mt-6 text-sm font-semibold text-primary">{a.cta} →</span>
+              <h3 className="mt-3 text-xl font-semibold text-foreground">{a.title}</h3>
+              <p className="mt-3 flex-1 text-sm leading-[1.65] text-muted-foreground">{a.desc}</p>
+              <span className="mt-7 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
+                {a.cta}
+                <span
+                  aria-hidden="true"
+                  className="transition-transform group-hover:translate-x-1"
+                >
+                  →
+                </span>
+              </span>
             </>
           );
           if (isExternal[i]) {
@@ -105,31 +124,30 @@ function WhyCredentialed() {
   const { t, tList } = useI18n();
   const pillars = tList<{ title: string; desc: string }>("home.pillars.items");
   return (
-    <section className="relative bg-card py-24 mt-16">
+    <section className="relative mt-20 overflow-hidden bg-card py-24">
       <Mark
         name="circular1"
-        className="pointer-events-none absolute -right-16 top-10 h-72 w-72 text-mark-indigo opacity-30"
+        className="pointer-events-none absolute -right-20 top-10 h-64 w-64 text-mark-blue opacity-10"
       />
-      <div className="mx-auto max-w-7xl px-8">
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <p className="eyebrow">{t("home.pillars.eyebrow")}</p>
-        <div className="mt-4 grid gap-10 md:grid-cols-2 md:items-end">
-          <h2 className="text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
-            {t("home.pillars.title")}
-          </h2>
-          <p className="text-base leading-relaxed text-muted-foreground">
+        <div className="mt-5 grid gap-10 md:grid-cols-2 md:items-end">
+          <h2 className="display-lg text-foreground">{t("home.pillars.title")}</h2>
+          <p className="text-[17px] leading-[1.7] text-muted-foreground">
             {t("home.pillars.subtitle")}
           </p>
         </div>
-        <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-16 grid gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-4">
           {pillars.map((p, i) => (
-            <div key={p.title} className="relative">
-              <div className="mb-5 flex items-center gap-3">
-                <span className="grid h-10 w-10 place-items-center rounded-xl bg-accent/15 btn-mono font-bold">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="text-lg font-semibold tracking-tight text-foreground">{p.title}</h3>
-              </div>
-              <p className="text-sm leading-relaxed text-muted-foreground">{p.desc}</p>
+            <div key={p.title} className="relative border-t border-border pt-6">
+              <span
+                aria-hidden="true"
+                className="block font-display text-5xl font-bold leading-none tracking-tight text-primary/15"
+              >
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="mt-5 text-lg font-semibold text-foreground">{p.title}</h3>
+              <p className="mt-3 text-sm leading-[1.7] text-muted-foreground">{p.desc}</p>
             </div>
           ))}
         </div>
@@ -140,9 +158,9 @@ function WhyCredentialed() {
 
 const THEME_STYLES: { bg: string; fg: string; mark: MarkName }[] = [
   { bg: "bg-mark-cream", fg: "text-mark-indigo", mark: "circular1" },
-  { bg: "bg-mark-indigo", fg: "text-mark-cream", mark: "star" },
+  { bg: "bg-mark-cream", fg: "text-mark-blue", mark: "star" },
   { bg: "bg-mark-yellow", fg: "text-mark-indigo", mark: "asterisk1" },
-  { bg: "bg-mark-blue", fg: "text-mark-cream", mark: "circular2" },
+  { bg: "bg-mark-indigo", fg: "text-mark-cream", mark: "circular2" },
 ];
 
 function CoachingInAction() {
@@ -153,34 +171,34 @@ function CoachingInAction() {
   }));
   return (
     <section className="bg-background py-24">
-      <div className="mx-auto max-w-7xl px-8">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div>
           <p className="eyebrow">{t("home.insights.eyebrow")}</p>
-          <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
+          <h2 className="display-lg mt-4 max-w-2xl text-foreground">
             {t("home.insights.title")}
           </h2>
         </div>
-        <LocaleLink to="/insights" className="text-sm font-semibold text-primary hover:underline">
+        <LocaleLink
+          to="/insights"
+          className="text-sm font-semibold text-primary underline-offset-4 hover:underline"
+        >
           {t("home.insights.cta")}
         </LocaleLink>
       </div>
-      <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
         {themes.map((th) => (
           <LocaleLink
             key={th.tag}
             to="/insights"
-            className={
-              "group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 " +
-              CARD_SHADOW
-            }
+            className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-colors hover:border-chip-active-border"
           >
             <div className={"grid aspect-[4/3] w-full place-items-center " + th.bg + " " + th.fg}>
-              <Mark name={th.mark} className="h-1/2 w-1/2" />
+              <Mark name={th.mark} className="h-2/5 w-2/5 opacity-90" />
             </div>
             <div className="p-6">
               <p className="section-label">{th.tag}</p>
-              <h3 className="mt-2 text-base font-semibold leading-snug tracking-tight text-foreground">
+              <h3 className="mt-2.5 text-base font-semibold leading-snug text-foreground">
                 {th.title}
               </h3>
             </div>
@@ -196,10 +214,10 @@ function ForOrganisations() {
   const { t } = useI18n();
   return (
     <section id="organisations" className="bg-card text-foreground">
-      <div className="mx-auto grid max-w-7xl gap-14 px-8 py-24 md:grid-cols-2 md:items-center">
+      <div className="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 py-24 md:grid-cols-2 md:items-center">
         <div>
           <p className="eyebrow">{t("home.organisations.eyebrow")}</p>
-          <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+          <h2 className="mt-3 display-lg">
             {t("home.organisations.title")}
           </h2>
           <p className="mt-5 max-w-lg text-base leading-relaxed text-muted-foreground">
@@ -253,9 +271,9 @@ function Communities() {
   );
   return (
     <section className="bg-background py-24">
-      <div className="mx-auto max-w-7xl px-8 text-center">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 text-center">
       <p className="eyebrow">{t("home.communities.eyebrow")}</p>
-      <h2 className="mx-auto mt-3 max-w-3xl text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
+      <h2 className="mx-auto mt-3 max-w-3xl display-lg text-foreground">
         {t("home.communities.title")}
       </h2>
       <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
@@ -268,7 +286,7 @@ function Communities() {
             to="/about"
             hash="communities"
             className={
-              "block rounded-2xl border border-border/70 bg-card p-6 transition hover:-translate-y-0.5 hover:border-chip-active-border " +
+              "block rounded-2xl border border-border bg-card p-6 transition hover:-translate-y-0.5 hover:border-chip-active-border " +
               CARD_SHADOW
             }
           >
@@ -278,7 +296,7 @@ function Communities() {
               {c.langs.map((l) => (
                 <span
                   key={l}
-                  className="inline-flex items-center rounded-full border border-border/70 bg-chip px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-chip-foreground"
+                  className="inline-flex items-center rounded-full border border-border bg-chip px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-chip-foreground"
                 >
                   {l}
                 </span>
@@ -305,11 +323,11 @@ function Events() {
   ).map((item, i) => ({ ...item, ...EVENT_STYLES[i] }));
   return (
     <section className="bg-card py-24">
-      <div className="mx-auto max-w-7xl px-8">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="eyebrow">{t("home.events.eyebrow")}</p>
-            <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
+            <h2 className="mt-3 display-lg text-foreground">
               {t("home.events.title")}
             </h2>
           </div>
@@ -323,7 +341,7 @@ function Events() {
               key={e.title}
               to="/events"
               className={
-                "group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 " +
+                "group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-0.5 " +
                 CARD_SHADOW
               }
             >
@@ -341,7 +359,7 @@ function Events() {
                   {e.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="inline-flex items-center rounded-full border border-border/70 bg-chip px-2.5 py-1 text-[11px] font-semibold text-chip-foreground"
+                      className="inline-flex items-center rounded-full border border-border bg-chip px-2.5 py-1 text-[11px] font-semibold text-chip-foreground"
                     >
                       {tag}
                     </span>
@@ -361,9 +379,9 @@ function Research() {
   const partners = tList<string>("home.research.partners");
   return (
     <section className="bg-background py-24">
-      <div className="mx-auto max-w-7xl px-8 text-center">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 text-center">
       <p className="eyebrow">{t("home.research.eyebrow")}</p>
-      <h2 className="mx-auto mt-3 max-w-3xl text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
+      <h2 className="mx-auto mt-3 max-w-3xl display-lg text-foreground">
         {t("home.research.title")}
       </h2>
       <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
@@ -374,7 +392,7 @@ function Research() {
           <div
             key={p}
             className={
-              "grid h-20 place-items-center rounded-2xl border border-border/70 bg-card text-sm font-semibold text-foreground/70 " +
+              "grid h-20 place-items-center rounded-2xl border border-border bg-card text-sm font-semibold text-foreground/70 " +
               CARD_SHADOW
             }
           >
@@ -395,10 +413,10 @@ function Join() {
         name="circular2"
         className="pointer-events-none absolute -right-16 -top-10 h-96 w-96 text-mark-cream opacity-40"
       />
-      <div className="mx-auto grid max-w-7xl gap-10 px-8 py-24 md:grid-cols-[1.2fr_1fr] md:items-center">
+      <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 py-24 md:grid-cols-[1.2fr_1fr] md:items-center">
         <div>
           <p className="eyebrow !text-accent">{t("home.join.eyebrow")}</p>
-          <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+          <h2 className="mt-3 display-lg">
             {t("home.join.title")}
           </h2>
           <p className="mt-5 max-w-lg text-base leading-relaxed text-white/85">

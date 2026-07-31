@@ -25,7 +25,7 @@ export function CommunitiesPreview() {
       <div className="mx-auto grid max-w-7xl gap-12 px-8 md:grid-cols-[1fr_1fr] md:items-center">
         <div>
           <p className="eyebrow">{t("communities.preview.eyebrow")}</p>
-          <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+          <h2 className="mt-3 display-lg">
             {t("communities.preview.title")}
           </h2>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
