@@ -229,7 +229,8 @@ export default function InsightsPage() {
               </LocaleLink>
             </section>
 
-            <section className="mx-auto max-w-7xl px-8 pb-24">
+            <section className="bg-card py-24">
+              <div className="mx-auto max-w-7xl px-8">
               <p className="eyebrow">{t("insights.recent")}</p>
               {rest.length === 0 ? (
                 <p className="mt-6 text-sm text-muted-foreground">{t("insights.noneInTopic")}</p>
@@ -240,7 +241,7 @@ export default function InsightsPage() {
                       key={p.id}
                       to={`/insights/${p.id}`}
                       className={
-                        "group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 " +
+                        "group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-0.5 " +
                         CARD_SHADOW
                       }
                     >
@@ -263,12 +264,14 @@ export default function InsightsPage() {
                   ))}
                 </div>
               )}
+              </div>
             </section>
           </>
         )}
 
         {/* Cross-link to the sibling weekly feed of other European chapters. */}
-        <section className="mx-auto max-w-7xl px-8 pb-24">
+        <section className="bg-background py-24">
+          <div className="mx-auto max-w-7xl px-8">
           <div
             className={
               "flex flex-col gap-4 rounded-2xl border border-border/70 bg-card p-8 sm:flex-row sm:items-center sm:justify-between " +
@@ -290,6 +293,7 @@ export default function InsightsPage() {
             >
               {t("europe-pulse.preview.cta")} →
             </LocaleLink>
+          </div>
           </div>
         </section>
 
