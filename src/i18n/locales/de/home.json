@@ -1,14 +1,14 @@
 {
   "meta": {
-    "title": "The Switzerland Chapter of ICF | Coaching-Verband",
+    "title": "The Switzerland Chapter of ICF | Professionelles Coaching",
     "description": "The Switzerland Chapter of ICF verbindet zertifizierte Coaches, Organisationen und die Coaching-Community in der Deutschschweiz, Romandie und im Ticino."
   },
   "hero": {
     "eyebrow": "The Switzerland Chapter of ICF",
-    "titlePre": "Eine ",
+    "titlePre": "Für eine ",
     "titleAccent": "menschlichere",
-    "titlePost": " Zukunft gestalten durch professionelles Coaching.",
-    "subtitle": "Professionelles Coaching hilft Einzelpersonen, Führungskräften und Organisationen, Komplexität mit mehr Klarheit, Vertrauen und Zielgerichtetheit zu meistern.",
+    "titlePost": " Zukunft durch professionelles Coaching.",
+    "subtitle": "Professionelles Coaching hilft Einzelpersonen, Führungskräften und Organisationen, Komplexität mit mehr Klarheit, Selbstvertrauen und Zielgerichtetheit zu meistern.",
     "findCoach": "Coach finden →",
     "forOrganisations": "Für Organisationen",
     "imgAlt": "Zwei Fachpersonen in einem Coaching-Gespräch"
@@ -23,13 +23,13 @@
     {
       "eyebrow": "Ich vertrete",
       "title": "Eine Organisation",
-      "desc": "Entdecken Sie, wie Coaching Führungskräfte und Organisationen weiterentwickelt.",
+      "desc": "Erfahren Sie, wie Coaching Führungskräfte und Organisationen weiterentwickelt.",
       "cta": "Für Organisationen"
     },
     {
       "eyebrow": "Ich bin",
       "title": "Ein Coach",
-      "desc": "Entwickeln Sie Ihre Praxis durch Community, Weiterbildung und professionelle Standards.",
+      "desc": "Stärken Sie Ihre Praxis durch Community, Weiterbildung und professionelle Standards.",
       "cta": "Für Coaches"
     },
     {
@@ -42,11 +42,11 @@
   "pillars": {
     "eyebrow": "Warum einen ICF-zertifizierten Coach wählen?",
     "title": "Die Wahl eines Coaches ist eine wichtige Entscheidung.",
-    "subtitle": "ICF-zertifizierte Coaches verpflichten sich zu international anerkannten Standards, Ethik und kontinuierlicher beruflicher Weiterentwicklung.",
+    "subtitle": "ICF-zertifizierte Coaches verpflichten sich zu international anerkannten Standards, Ethik und kontinuierlicher Weiterbildung.",
     "items": [
       {
         "title": "Ethik",
-        "desc": "In jedem Mandat an den ICF-Ethikkodex gebunden."
+        "desc": "In jedem Mandat an den ICF-Ethikcode gebunden."
       },
       {
         "title": "Zertifizierungen",
@@ -54,11 +54,11 @@
       },
       {
         "title": "Erfahrung",
-        "desc": "Dokumentierte Coaching-Stunden hinter jeder Zertifizierung."
+        "desc": "Nachgewiesene Coaching-Stunden hinter jeder Zertifizierung."
       },
       {
-        "title": "Weiterentwicklung",
-        "desc": "Laufende berufliche Weiterentwicklung für den Erhalt der Zertifizierung."
+        "title": "Weiterbildung",
+        "desc": "Kontinuierliche Weiterbildung zur Aufrechterhaltung der Zertifizierung."
       }
     ]
   },
@@ -73,7 +73,7 @@
       },
       {
         "tag": "Führung",
-        "title": "Bessere Gespräche schaffen bessere Führungskräfte"
+        "title": "Bessere Gespräche bringen bessere Führungskräfte hervor"
       },
       {
         "tag": "KI & Coaching",
@@ -88,7 +88,7 @@
   "organisations": {
     "eyebrow": "Für Organisationen",
     "title": "Coaching verändert Organisationen.",
-    "subtitle": "Führungskräfte unterstützen. Teams stärken. Coaching-Kulturen aufbauen, die gesündere und anpassungsfähigere Arbeitsplätze ermöglichen.",
+    "subtitle": "Führungskräfte unterstützen. Teams stärken. Coaching-Kulturen schaffen für gesündere und anpassungsfähigere Arbeitswelten.",
     "talkToUs": "Kontaktieren Sie uns",
     "caseStudies": "Fallstudien",
     "imgAlt": "Führungsteam bei der Arbeit"
@@ -96,7 +96,7 @@
   "communities": {
     "eyebrow": "Communities",
     "title": "Eine Coaching-Community in der ganzen Schweiz.",
-    "subtitle": "Über Regionen und Sprachen hinweg bringt The Switzerland Chapter of ICF Coaches zusammen, um zu lernen, zusammenzuarbeiten und die Zukunft unseres Berufsstands mitzugestalten.",
+    "subtitle": "Über Regionen und Sprachen hinweg bringt The Switzerland Chapter of ICF Coaches zusammen, um zu lernen, zusammenzuarbeiten und die Zukunft unseres Berufs mitzugestalten.",
     "items": [
       {
         "city": "Zürich",
@@ -133,7 +133,7 @@
       {
         "date": "Di, 6. Okt. 2026",
         "city": "Online",
-        "title": "KI & Coaching: Was bleibt menschlich?",
+        "title": "AI & Coaching: What Stays Human?",
         "tags": [
           "EN",
           "Webinar"
@@ -152,7 +152,7 @@
   },
   "research": {
     "eyebrow": "Forschung & Partnerschaften",
-    "title": "Forschung, Praxis und Führung verbinden.",
+    "title": "Verbindung von Forschung, Praxis und Führung.",
     "subtitle": "Wir arbeiten mit Universitäten, Berufsverbänden, Forschenden und Unternehmenspartnern zusammen, um Coaching in der ganzen Schweiz zu stärken.",
     "partners": [
       "ETH Zürich",
@@ -165,11 +165,11 @@
   "join": {
     "eyebrow": "Werden Sie Teil von The Switzerland Chapter of ICF",
     "title": "Ein professionelles Zuhause für Coaches.",
-    "subtitle": "Egal, ob Sie am Anfang Ihrer Coaching-Laufbahn stehen oder über jahrzehntelange Erfahrung verfügen: The Switzerland Chapter of ICF bietet ein professionelles Zuhause, das auf Exzellenz, Ethik und Gemeinschaft basiert.",
+    "subtitle": "Egal, ob Sie am Anfang Ihrer Coaching-Reise stehen oder jahrzehntelange Erfahrung mitbringen: The Switzerland Chapter of ICF bietet ein professionelles Zuhause, das auf Exzellenz, Ethik und Gemeinschaft basiert.",
     "becomeMember": "Mitglied werden",
     "exploreCredentials": "Zertifizierungen entdecken",
-    "newsletterTitle": "In Kontakt bleiben.",
-    "newsletterSubtitle": "Impulse, Forschung und Events, die die Zukunft des Coachings prägen — direkt in Ihrem Posteingang.",
+    "newsletterTitle": "Bleiben Sie informiert.",
+    "newsletterSubtitle": "Ideen, Forschung und Events, die die Zukunft des Coachings prägen — direkt in Ihrem Posteingang.",
     "emailPlaceholder": "Ihre E-Mail-Adresse",
     "subscribe": "Abonnieren"
   }

@@ -7,12 +7,12 @@
     "eyebrow": "Über uns",
     "titlePrefix": "The Switzerland ",
     "titleAccent": "Chapter of ICF.",
-    "lede": "Wir sind das Schweizer Chapter der International Coaching Federation — ein berufliches Zuhause für zertifizierte Coaches und die Organisationen, denen sie dienen."
+    "lede": "Wir sind das Schweizer Chapter der International Coaching Federation — ein professionelles Zuhause für zertifizierte Coaches und die Organisationen, denen sie dienen."
   },
   "why": {
     "eyebrow": "Warum Coaching?",
     "title": "Bessere Gespräche schaffen eine bessere Zukunft.",
-    "body": "Professionelles Coaching befähigt Menschen dazu, klarer zu denken, wirksamer zu führen und Veränderungen mit Zuversicht zu begegnen.",
+    "body": "Professionelles Coaching befähigt Menschen dazu, klarer zu denken, wirkungsvoller zu führen und Veränderungen souverän zu gestalten.",
     "imageAlt": "Ein echtes Coaching-Gespräch"
   },
   "values": [
@@ -26,7 +26,7 @@
     },
     {
       "title": "Potenzial entfalten",
-      "desc": "Einzelpersonen und Teams erreichen das, was am meisten zählt — mit Unterstützung und Verbindlichkeit."
+      "desc": "Einzelpersonen und Teams erreichen mit Unterstützung und Verbindlichkeit das, was am wichtigsten ist."
     }
   ],
   "communities": {
@@ -56,7 +56,7 @@
       {
         "city": "Lugano",
         "region": "Ticino",
-        "cadence": "Vierteljährlich",
+        "cadence": "Quartalsweise",
         "langs": [
           "IT",
           "EN"
@@ -79,7 +79,7 @@
   },
   "research": {
     "eyebrow": "Forschung & Partnerschaften",
-    "title": "Verbindung von Forschung, Praxis und Führung.",
+    "title": "Forschung, Praxis und Führung verbinden.",
     "partners": [
       "ETH Zürich",
       "HEC Lausanne",
@@ -89,18 +89,18 @@
     ],
     "items": [
       {
-        "title": "Der Stand von Coaching in der Schweiz 2026",
+        "title": "State of Coaching in der Schweiz 2026",
         "desc": "Eine gemeinsame Studie mit Schweizer Universitäten über das Wachstum und die Wirkung von professionellem Coaching."
       },
       {
         "title": "Coaching, KI und die Zukunft der Arbeit",
-        "desc": "Ein Forschungsprogramm in Partnerschaft, das untersucht, wie KI die Coaching-Praxis verändert."
+        "desc": "Ein gemeinsames Forschungsprogramm, das untersucht, wie KI die Coaching-Praxis verändert."
       }
     ]
   },
   "mission": {
     "eyebrow": "Unsere Mission",
-    "title": "Förderung von professionellem Coaching in der Schweiz.",
+    "title": "Professionelles Coaching in der Schweiz fördern.",
     "body": "Wir wahren die höchsten Standards des Coaching-Berufs und setzen uns für seinen Wert für Einzelpersonen, Organisationen und die Gesellschaft ein."
   },
   "cta": {

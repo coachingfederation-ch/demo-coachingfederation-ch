@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "title": "Europe Pulse — The Switzerland Chapter of ICF",
+    "description": "Ein wöchentlicher, ausgewählter Überblick über Aktivitäten der ICF-Chapters in Europa: Events, Webinare und News in Ihrer Sprache.",
+    "week": "Woche vom {date}",
+    "summary": "{items} Beiträge aus {countries} Chapters"
+  },
+  "nav": "Europe Pulse",
+  "hero": {
+    "eyebrow": "Europe Pulse",
+    "titleLead": "Was die",
+    "titleAccent": "europäischen Chapters",
+    "titleTail": "diese Woche machen.",
+    "lede": "Jede Woche scannen wir die öffentlichen Websites der ICF-Chapters in ganz Europa und wählen die relevantesten Events, Webinare und News für Coaches in der Schweiz aus."
+  },
+  "card": {
+    "source": "Auf Chapter-Website öffnen"
+  },
+  "types": {
+    "event": "Event",
+    "news": "News",
+    "webinar": "Webinar",
+    "workshop": "Workshop",
+    "conference": "Konferenz"
+  },
+  "empty": {
+    "title": "Noch kein Pulse diese Woche",
+    "body": "Der nächste Scan läuft in Kürze. Schauen Sie in einigen Tagen wieder vorbei für das Neueste aus ganz Europa."
+  },
+  "error": {
+    "title": "Der Feed konnte nicht geladen werden",
+    "body": "Bitte versuchen Sie es in einem Moment erneut."
+  },
+  "disclaimer": "Europe Pulse verlinkt auf Inhalte anderer ICF-Chapters. Zusammenfassungen werden automatisch erstellt und können gekürzt sein; bitte prüfen Sie für verbindliche Details stets die Originalseite.",
+  "preview": {
+    "eyebrow": "Europe Pulse",
+    "title": "Diese Woche in ganz Europa.",
+    "body": "Ein wöchentlich zusammengestellter Feed mit Events, Webinaren und News von ICF-Chapters aus ganz Europa.",
+    "cta": "Europe Pulse ansehen"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "imprint": {
+    "meta": {
+      "title": "Note legali — The Switzerland Chapter of ICF",
+      "description": "Note legali e informazioni sul fornitore per il sito web di The Switzerland Chapter of ICF."
+    },
+    "hero": {
+      "eyebrow": "Informazioni legali",
+      "title": "Note legali",
+      "lede": "Note legali, informazioni sul fornitore e dichiarazioni di responsabilità per il sito web di The Switzerland Chapter of ICF."
+    }
+  },
+  "privacy": {
+    "meta": {
+      "title": "Informativa sulla privacy — The Switzerland Chapter of ICF",
+      "description": "Come The Switzerland Chapter of ICF tratta e protegge i dati personali su questo sito web."
+    },
+    "hero": {
+      "eyebrow": "Privacy",
+      "title": "Informativa sulla privacy",
+      "lede": "Informazioni sul trattamento dei dati personali sul sito web di The Switzerland Chapter of ICF e sui vostri diritti in materia di protezione dei dati."
+    }
+  },
+  "draftBanner": {
+    "title": "Bozza in attesa di revisione legale",
+    "body": "Questa pagina è una bozza per la revisione legale interna e non è ancora stata approvata per la pubblicazione. Il contenuto potrebbe cambiare prima della pubblicazione della versione finale."
+  },
+  "nav": {
+    "imprint": "Note legali",
+    "privacy": "Privacy"
+  },
+  "common": {
+    "lastUpdated": "Ultimo aggiornamento: [Data di pubblicazione]"
+  }
+}

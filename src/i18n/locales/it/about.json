@@ -1,32 +1,32 @@
 {
   "meta": {
     "title": "Chi siamo — The Switzerland Chapter of ICF",
-    "description": "Chi siamo: The Switzerland Chapter of ICF. Perché il coaching, le nostre comunità regionali e le partnership di ricerca."
+    "description": "Scopri The Switzerland Chapter of ICF: perché il coaching, le nostre comunità regionali e le partnership di ricerca."
   },
   "hero": {
     "eyebrow": "Chi siamo",
     "titlePrefix": "The Switzerland ",
     "titleAccent": "Chapter of ICF.",
-    "lede": "Siamo il chapter nazionale svizzero della International Coaching Federation: la casa professionale dei coach certificati e delle organizzazioni che servono."
+    "lede": "Siamo la sezione nazionale svizzera della International Coaching Federation: una casa professionale per coach certificati e le organizzazioni con cui collaborano."
   },
   "why": {
     "eyebrow": "Perché il coaching?",
-    "title": "Conversazioni migliori creano futuri migliori.",
-    "body": "Il coaching professionale consente alle persone di pensare con più chiarezza, guidare con maggiore efficacia e affrontare il cambiamento con sicurezza.",
+    "title": "Conversazioni migliori creano un futuro migliore.",
+    "body": "Il coaching professionale aiuta le persone a pensare con maggiore chiarezza, guidare con più efficacia e affrontare i cambiamenti con sicurezza.",
     "imageAlt": "Una vera conversazione di coaching"
   },
   "values": [
     {
-      "title": "Pensare in modo diverso",
+      "title": "Pensare diversamente",
       "desc": "Il coaching crea lo spazio per mettere in discussione le convinzioni e individuare nuove prospettive."
     },
     {
       "title": "Guidare meglio",
-      "desc": "I leader che beneficiano del coaching ascoltano più a fondo, decidono più rapidamente e fanno crescere le proprie persone."
+      "desc": "I leader che beneficiano del coaching ascoltano più a fondo, prendono decisioni più rapidamente e valorizzano i propri collaboratori."
     },
     {
       "title": "Sbloccare il potenziale",
-      "desc": "Insieme a supporto e responsabilità, individui e team raggiungono ciò che conta davvero."
+      "desc": "Singoli e team raggiungono i propri obiettivi più importanti, grazie a un supporto costante e al senso di responsabilità."
     }
   ],
   "communities": {
@@ -41,7 +41,7 @@
           "DE",
           "EN"
         ],
-        "lead": "Chapter lead: team Zürich"
+        "lead": "Responsabile Chapter: team Zürich"
       },
       {
         "city": "Lausanne & Genève",
@@ -51,7 +51,7 @@
           "FR",
           "EN"
         ],
-        "lead": "Chapter lead: team Romandie"
+        "lead": "Responsabile Chapter: team Romandie"
       },
       {
         "city": "Lugano",
@@ -61,12 +61,12 @@
           "IT",
           "EN"
         ],
-        "lead": "Chapter lead: team Ticino"
+        "lead": "Responsabile Chapter: team Ticino"
       },
       {
         "city": "Online",
         "region": "Eventi, mentoring e volontariato",
-        "cadence": "Continuo",
+        "cadence": "In corso",
         "langs": [
           "DE",
           "FR",
@@ -78,7 +78,7 @@
     ]
   },
   "research": {
-    "eyebrow": "Ricerca & partnership",
+    "eyebrow": "Ricerca e partnership",
     "title": "Connettere ricerca, pratica e leadership.",
     "partners": [
       "ETH Zürich",
@@ -90,7 +90,7 @@
     "items": [
       {
         "title": "Lo stato del coaching in Svizzera 2026",
-        "desc": "Uno studio congiunto con le università svizzere sulla crescita e sull'impatto del coaching professionale."
+        "desc": "Uno studio congiunto con le università svizzere sulla crescita e l'impatto del coaching professionale."
       },
       {
         "title": "Coaching, IA e il futuro del lavoro",
@@ -101,7 +101,7 @@
   "mission": {
     "eyebrow": "La nostra missione",
     "title": "Promuovere il coaching professionale in Svizzera.",
-    "body": "Sosteniamo i più alti standard della professione di coach e ne promuoviamo il valore per gli individui, le organizzazioni e la società."
+    "body": "Sosteniamo i più alti standard della professione di coach e ne promuoviamo il valore per individui, organizzazioni e società."
   },
   "cta": {
     "eyebrow": "Partecipa",

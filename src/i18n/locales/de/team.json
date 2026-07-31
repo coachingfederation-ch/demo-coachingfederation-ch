@@ -1,18 +1,21 @@
 {
   "meta": {
     "title": "Unser Team — The Switzerland Chapter of ICF",
-    "description": "Lernen Sie die Freiwilligen hinter The Switzerland Chapter of ICF kennen: Vorstand, regionale Communities und die Projektteams, die das Chapter tragen."
+    "description": "Lernen Sie die Freiwilligen hinter The Switzerland Chapter of ICF kennen: Vorstand, regionale Communitys und Projektteams."
   },
   "hero": {
-    "eyebrow": "Operative Struktur",
+    "eyebrow": "Betriebsstruktur",
     "titlePre": "Die Menschen hinter ",
     "titleAccent": "dem Chapter",
-    "lede": "Alles, was The Switzerland Chapter of ICF tut, wird von Freiwilligen getragen — Coaches, die ihre Zeit dem Beruf und der Community schenken."
+    "lede": "Alles, was The Switzerland Chapter of ICF tut, wird von Freiwilligen getragen — Coaches, die ihre Zeit dem Berufsstand und der Community widmen."
   },
-  "intro": "Unsere Arbeit ist in Projekte gegliedert: Vorstand, regionale Communities und thematische Teams. Filtern Sie nach Projekt, um zu sehen, wer wo mitwirkt, und öffnen Sie eine Kachel für mehr.",
-  "filters": { "all": "Alle", "label": "Team nach Projekt filtern" },
+  "intro": "Unsere Arbeit ist in Projekten organisiert: der Vorstand, die regionalen Communitys und verschiedene thematische Teams. Filtern Sie nach Projekt, um zu sehen, wer wo mitwirkt, und öffnen Sie eine Kachel, um mehr zu erfahren.",
+  "filters": {
+    "all": "Alle",
+    "label": "Team nach Projekt filtern"
+  },
   "loading": "Team wird geladen…",
-  "empty": "In diesem Projekt gibt es noch keine Teammitglieder.",
+  "empty": "Noch keine Teammitglieder in diesem Projekt.",
   "modal": {
     "close": "Schliessen",
     "email": "E-Mail",
@@ -22,7 +25,7 @@
   "preview": {
     "eyebrow": "Unser Team",
     "title": "Freiwillige, die das Chapter bewegen",
-    "body": "Vorstandsmitglieder, Community-Leitungen und Projektteams in der ganzen Schweiz — alle sind praktizierende Coaches, die ihre Zeit einbringen.",
+    "body": "Vorstandsmitglieder, Community-Leitungen und Projektteams in der ganzen Schweiz — alles praktizierende Coaches, die ihre Zeit dem Berufsstand widmen.",
     "cta": "Team kennenlernen"
   }
 }
