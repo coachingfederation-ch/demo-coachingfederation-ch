@@ -38,10 +38,10 @@ Only the shortlist is translated, so the weekly AI cost stays in the low cents.
 
 ## 3. Feed page `/europe-pulse`
 
-- Header: "Europe Pulse" + "Week of <date>", short intro line.
+- Header: "Europe Pulse" + "Week of &nbsp;", short intro line.
 - Filters: country dropdown, chapter dropdown, type (all / event / news / webinar / workshop / conference). Filters live in URL params so a filtered view is shareable.
 - Cards in a responsive grid (1 / 2 / 3 columns) using the existing card and shadow conventions: country flag + chapter name, type icon and pill, title, date, 1–2 sentence summary, "Read more →" to the chapter's original URL (new window, `rel="noopener"`).
-- Empty state: "No activity detected this week from <chapter>." when a filter yields nothing, plus a general empty state before the first run.
+- Empty state: "No activity detected this week from &nbsp;." when a filter yields nothing, plus a general empty state before the first run.
 - Footer line: "Powered by ICF Switzerland Intelligence · Updated weekly".
 - Server-rendered from the published week; no client-side scraping. Mobile-first.
 - Linked from the main navigation.
@@ -87,6 +87,7 @@ A weekly cron job (Monday early morning) calls a public scan endpoint protected 
 **Summary** — Adds Europe Pulse: a weekly Firecrawl-based scan of 29 ICF European chapter websites, an AI curation/translation pass, a public multilingual feed at `/europe-pulse`, and an admin CMS for chapters, runs and item approval.
 
 **Changes**
+
 - UI: public feed page and localised routes, nav entry, staff CMS screen.
 - Backend: scan/curation server modules, cron route, Firecrawl connector wiring.
 - i18n: new `europe-pulse` namespace in four languages.
@@ -97,4 +98,10 @@ A weekly cron job (Monday early morning) calls a public scan endpoint protected 
 
 **Risks & rollback** — self-contained; page and cron job can be removed without touching existing functionality. Third-party sites change layout, so scan quality degrades to "no items" for that chapter rather than failing the run. Firecrawl credits are consumed weekly.
 
-**Follow-ups / known debt** — week archive UI, email subscription, chapter spotlight; raw-data pruning policy to be tuned after a few real runs.
+**Follow-ups / known debt** — week archive UI, email subscription, chapter spotlight; raw-data pruning policy to be tuned after a few real runs.  
+
+
+#   
+Approval Notes
+
+Integrate the europe-pulse on the /insights page as a preview from where you then can go to the detail page /europe-pulse. 
