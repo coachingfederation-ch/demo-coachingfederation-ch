@@ -227,6 +227,7 @@ export function MemberStories() {
           ))}
         </div>
       </div>
+      </div>
     </section>
   );
 }
