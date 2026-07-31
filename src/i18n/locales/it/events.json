@@ -16,7 +16,7 @@
   "upcoming": {
     "eyebrow": "In arrivo",
     "title": "I prossimi appuntamenti.",
-    "empty": "Al momento non ci sono eventi in programma. Torna a trovarci presto."
+    "empty": "Al momento non ci sono eventi in programma. Torna a visitarci presto."
   },
   "past": {
     "eyebrow": "Eventi passati",
@@ -42,26 +42,26 @@
     "fieldName": "Nome e cognome",
     "fieldEmail": "Email",
     "fieldNotes": "C'è altro che dovremmo sapere? (opzionale)",
-    "confirmed": "Iscrizione confermata. Il tuo posto è riservato.",
+    "confirmed": "Iscrizione confermata. Abbiamo riservato il tuo posto.",
     "youAreIn": "Sei iscritto/a a questo evento.",
     "cancel": "Annulla la mia iscrizione",
     "full": "Questo evento è tutto esaurito.",
     "closed": "Le iscrizioni per questo evento sono chiuse.",
-    "noRegistration": "Nessuna iscrizione necessaria — ti aspettiamo!",
+    "noRegistration": "Nessuna iscrizione richiesta — ti aspettiamo!",
     "pastEvent": "Questo evento si è già svolto.",
     "membersOnly": "L'iscrizione a questo evento è riservata ai membri autenticati.",
     "signIn": "Accedi",
-    "seatsLeft": "Ancora {n} posti disponibili",
+    "seatsLeft": "{n} posti rimasti",
     "joinLink": "Partecipa alla sessione online",
-    "privacy": "Utilizziamo i tuoi dati esclusivamente per gestire la partecipazione all'evento.",
+    "privacy": "Utilizziamo i tuoi dati esclusivamente per gestire la partecipazione a questo evento.",
     "error": {
-      "full": "I posti per questo evento sono appena esauriti.",
-      "closed": "Le iscrizioni a questo evento sono chiuse.",
+      "full": "Questo evento è appena andato esaurito.",
+      "closed": "Le iscrizioni per questo evento sono chiuse.",
       "duplicate": "Questo indirizzo email è già registrato.",
       "error": "Si è verificato un errore. Riprova."
     },
     "notFoundTitle": "Evento non trovato",
-    "notFoundBody": "Questo evento potrebbe essere stato rimosso o il link non è corretto.",
+    "notFoundBody": "Questo evento potrebbe essere stato rimosso oppure il link non è corretto.",
     "errorTitle": "Impossibile caricare questo evento",
     "errorBody": "Riprova tra qualche istante."
   }

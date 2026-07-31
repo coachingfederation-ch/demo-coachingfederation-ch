@@ -1,0 +1,35 @@
+{
+  "imprint": {
+    "meta": {
+      "title": "Impressum — The Switzerland Chapter of ICF",
+      "description": "Impressum und Anbieterkennzeichnung für die Website von The Switzerland Chapter of ICF."
+    },
+    "hero": {
+      "eyebrow": "Rechtliches",
+      "title": "Impressum",
+      "lede": "Rechtliche Hinweise, Anbieterkennzeichnung und Haftungsausschlüsse für die Website von The Switzerland Chapter of ICF."
+    }
+  },
+  "privacy": {
+    "meta": {
+      "title": "Datenschutzerklärung — The Switzerland Chapter of ICF",
+      "description": "Wie The Switzerland Chapter of ICF personenbezogene Daten auf dieser Website verarbeitet und schützt."
+    },
+    "hero": {
+      "eyebrow": "Datenschutz",
+      "title": "Datenschutzerklärung",
+      "lede": "Informationen zur Verarbeitung personenbezogener Daten auf der Website von The Switzerland Chapter of ICF und Ihre Datenschutzrechte."
+    }
+  },
+  "draftBanner": {
+    "title": "Entwurf – Rechtliche Prüfung ausstehend",
+    "body": "Diese Seite ist ein Entwurf für die interne rechtliche Prüfung und noch nicht zur Veröffentlichung freigegeben. Der Inhalt kann sich bis zur Veröffentlichung der finalen Version noch ändern."
+  },
+  "nav": {
+    "imprint": "Impressum",
+    "privacy": "Datenschutz"
+  },
+  "common": {
+    "lastUpdated": "Zuletzt aktualisiert: [Datum der Veröffentlichung]"
+  }
+}

@@ -5,7 +5,7 @@
   },
   "hero": {
     "eyebrow": "Insights",
-    "titleLead": "Einblicke aus der Schweizer",
+    "titleLead": "Insights aus der Schweizer",
     "titleAccent": "Coaching-",
     "titleTail": "Community.",
     "lede": "Ideen, Forschung und Geschichten zu Führung, KI, Diversität und der Zukunft der Arbeit — von Coaches aus der ganzen Schweiz."
@@ -25,19 +25,19 @@
   "byline": "Redaktion The Switzerland Chapter of ICF",
   "noneInTopic": "Noch keine weiteren Artikel zu diesem Thema.",
   "error": {
-    "title": "Insights sind nicht verfügbar",
-    "body": "Wir konnten die Artikel derzeit nicht laden. Bitte versuchen Sie es in einem Moment erneut."
+    "title": "Insights nicht verfügbar",
+    "body": "Artikel konnten derzeit nicht geladen werden. Bitte versuchen Sie es in Kürze erneut."
   },
   "empty": {
     "title": "Noch keine veröffentlichten Artikel",
     "body": "Neue Beiträge aus der Schweizer Coaching-Community erscheinen hier, sobald sie veröffentlicht werden.",
-    "topicTitle": "Noch nichts vorhanden",
-    "topicBody": "Versuchen Sie ein anderes Thema oder durchsuchen Sie alles mit dem Filter «Alle».",
-    "otherLanguage": "Englische Ausgabe lesen →"
+    "topicTitle": "Hier gibt es noch nichts",
+    "topicBody": "Wählen Sie ein anderes Thema oder durchsuchen Sie alles mit dem Filter «Alle».",
+    "otherLanguage": "Englisches Original lesen →"
   },
   "newsletter": {
-    "eyebrow": "Bleiben Sie in Kontakt",
-    "title": "Erhalten Sie neue Einblicke direkt in Ihr Postfach.",
+    "eyebrow": "In Verbindung bleiben",
+    "title": "Neue Insights direkt in Ihrem Posteingang.",
     "placeholder": "Ihre E-Mail-Adresse",
     "cta": "Abonnieren"
   },
@@ -46,9 +46,9 @@
     "backCta": "Zurück zu Insights",
     "notFoundTitle": "Artikel nicht gefunden",
     "notFoundBody": "Dieser Artikel wurde möglicherweise entfernt oder verschoben.",
-    "errorTitle": "Dieser Artikel konnte nicht geladen werden",
-    "errorBody": "Bitte versuchen Sie es in einem Moment erneut.",
+    "errorTitle": "Artikel konnte nicht geladen werden",
+    "errorBody": "Bitte versuchen Sie es in Kürze erneut.",
     "notFoundMetaTitle": "Artikel nicht gefunden — The Switzerland Chapter of ICF",
-    "fallbackDescription": "Ein Artikel aus der Sammlung von The Switzerland Chapter of ICF."
+    "fallbackDescription": "Ein Artikel aus der Insights-Sammlung von The Switzerland Chapter of ICF."
   }
 }

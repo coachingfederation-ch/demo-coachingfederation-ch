@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Community locali — The Switzerland Chapter of ICF",
-    "description": "Community di coaching in Svizzera: incontri locali regolari per apprendimento tra pari, supervisione e rete, gestiti dai volontari del chapter.",
+    "description": "Community di coaching in tutta la Svizzera: incontri regolari per apprendimento tra pari, supervisione e connessione, gestiti dai volontari del chapter.",
     "detailTitle": "Community locale — The Switzerland Chapter of ICF",
     "detailDescription": "Incontra i volontari di questa community locale di coaching e scopri dove e quando si riunisce il gruppo."
   },
@@ -11,8 +11,8 @@
     "titleAccent": "dove ti trovi",
     "lede": "Da Basilea a Lugano, le nostre community locali uniscono i coach per imparare, riflettere e crescere — di persona e online."
   },
-  "intro": "Le community locali sono il cuore del chapter. Ciascuna è gestita da coach volontari che organizzano incontri regolari: peer coaching, cerchi di supervisione, relatori ospiti e scambi informali. Tutti sono i benvenuti, sia chi ha già una credenziale, chi è in formazione o chi è semplicemente curioso di conoscere la professione.",
-  "loading": "Caricamento delle community in corso…",
+  "intro": "Le community locali sono il cuore del chapter. Ciascuna è gestita da coach volontari che organizzano incontri regolari: peer coaching, gruppi di supervisione, relatori ospiti e scambi informali. Tutti sono i benvenuti, sia che abbiate una credenziale, che stiate studiando o che siate semplicemente curiosi di scoprire la professione.",
+  "loading": "Caricamento delle community…",
   "empty": "Nessuna community ancora pubblicata. Torna a visitarci presto.",
   "notFound": "Non è stato possibile trovare questa community. Potrebbe essere stata rinominata o archiviata.",
   "list": {
@@ -27,13 +27,13 @@
     "contact": "Contatta la community",
     "peopleHeading": "Volontari in questa community",
     "noMembers": "Nessun volontario ancora indicato per questa community.",
-    "noDescription": "La descrizione per questa community sarà disponibile a breve.",
+    "noDescription": "La descrizione di questa community sarà disponibile a breve.",
     "andMore": "e altri {count} volontari"
   },
   "preview": {
     "eyebrow": "Community locali",
-    "title": "Il coaching si vive a livello locale",
-    "body": "Le nostre community regionali si incontrano in tutta la Svizzera durante tutto l'anno: peer coaching, supervisione e scambi con i coach della tua zona.",
+    "title": "Il coaching si vive sul territorio",
+    "body": "Le nostre community regionali si incontrano in tutta la Svizzera durante l'anno: peer coaching, supervisione e confronto con i coach della tua zona.",
     "featuredLabel": "In evidenza: {name}",
     "cta": "Vedi tutte le community",
     "ctaFeatured": "Visita questa community"

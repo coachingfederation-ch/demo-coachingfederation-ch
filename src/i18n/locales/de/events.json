@@ -1,10 +1,10 @@
 {
   "meta": {
-    "title": "Veranstaltungen — The Switzerland Chapter of ICF",
+    "title": "Events — The Switzerland Chapter of ICF",
     "description": "Konferenzen, Webinare und Community-Treffen für Coaches und Organisationen in der ganzen Schweiz."
   },
   "hero": {
-    "eyebrow": "Veranstaltungen",
+    "eyebrow": "Events",
     "titlePrefix": "Vernetzen, lernen und ",
     "titleAccent": "wachsen",
     "titleSuffix": " – gemeinsam.",
@@ -15,8 +15,8 @@
   },
   "upcoming": {
     "eyebrow": "Demnächst",
-    "title": "Was ansteht.",
-    "empty": "Aktuell sind keine kommenden Events geplant. Bitte schauen Sie bald wieder vorbei."
+    "title": "Was als Nächstes ansteht.",
+    "empty": "Zurzeit sind keine kommenden Events geplant. Bitte schauen Sie bald wieder vorbei."
   },
   "past": {
     "eyebrow": "Vergangene Events",
@@ -46,23 +46,23 @@
     "youAreIn": "Sie sind für dieses Event angemeldet.",
     "cancel": "Meine Anmeldung stornieren",
     "full": "Dieses Event ist ausgebucht.",
-    "closed": "Die Anmeldung für dieses Event ist derzeit nicht möglich.",
+    "closed": "Die Anmeldung für dieses Event ist geschlossen.",
     "noRegistration": "Keine Anmeldung erforderlich — kommen Sie einfach vorbei.",
     "pastEvent": "Dieses Event hat bereits stattgefunden.",
-    "membersOnly": "Die Anmeldung für dieses Event ist angemeldeten Mitgliedern vorbehalten.",
+    "membersOnly": "Die Anmeldung für dieses Event steht nur angemeldeten Mitgliedern offen.",
     "signIn": "Anmelden",
     "seatsLeft": "Noch {n} Plätze frei",
-    "joinLink": "Der Online-Session beitreten",
-    "privacy": "Wir verwenden Ihre Angaben ausschliesslich zur Verwaltung der Teilnahme.",
+    "joinLink": "An der Online-Session teilnehmen",
+    "privacy": "Wir verwenden Ihre Angaben ausschliesslich zur Verwaltung der Teilnehmenden dieser Veranstaltung.",
     "error": {
-      "full": "Dieses Event wurde soeben komplett ausgebucht.",
+      "full": "Dieses Event ist soeben ausgebucht worden.",
       "closed": "Die Anmeldung für dieses Event ist geschlossen.",
       "duplicate": "Diese E-Mail-Adresse ist bereits angemeldet.",
       "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
     },
     "notFoundTitle": "Event nicht gefunden",
     "notFoundBody": "Dieses Event wurde möglicherweise entfernt oder der Link ist ungültig.",
-    "errorTitle": "Event konnte nicht geladen werden",
-    "errorBody": "Bitte versuchen Sie es in Kürze erneut."
+    "errorTitle": "Dieses Event konnte nicht geladen werden",
+    "errorBody": "Bitte versuchen Sie es in einem Moment erneut."
   }
 }

@@ -7,31 +7,31 @@
     "eyebrow": "À propos",
     "titlePrefix": "The Switzerland ",
     "titleAccent": "Chapter of ICF.",
-    "lede": "Nous sommes le chapitre national suisse de l'International Coaching Federation — un ancrage professionnel pour les coachs certifiés et les organisations qu'ils accompagnent."
+    "lede": "Nous sommes le chapitre national suisse de l'International Coaching Federation — un foyer professionnel pour les coachs certifiés et les organisations qu'ils accompagnent."
   },
   "why": {
     "eyebrow": "Pourquoi le coaching ?",
-    "title": "De meilleures conversations créent de meilleurs avenirs.",
-    "body": "Le coaching professionnel permet à chacun de clarifier sa réflexion, de diriger avec plus d'efficacité et d'aborder le changement avec confiance.",
+    "title": "De meilleures conversations créent un meilleur avenir.",
+    "body": "Le coaching professionnel permet à chacun de penser plus clairement, de diriger plus efficacement et d'aborder le changement avec confiance.",
     "imageAlt": "Une véritable conversation de coaching"
   },
   "values": [
     {
       "title": "Penser différemment",
-      "desc": "Le coaching offre un espace pour questionner ses a priori et envisager de nouvelles perspectives."
+      "desc": "Le coaching offre un espace pour remettre en question les certitudes et explorer de nouvelles options."
     },
     {
       "title": "Mieux diriger",
-      "desc": "Les leaders accompagnés écoutent plus attentivement, décident plus rapidement et font grandir leurs équipes."
+      "desc": "Les leaders accompagnés écoutent plus profondément, décident plus rapidement et font grandir leurs équipes."
     },
     {
       "title": "Révéler le potentiel",
-      "desc": "Les personnes et les équipes atteignent leurs objectifs essentiels, en bénéficiant de soutien et de responsabilité."
+      "desc": "Les individus et les équipes atteignent ce qui compte le plus, grâce à un soutien et un engagement constants."
     }
   ],
   "communities": {
     "eyebrow": "Communautés",
-    "title": "Une communauté de coaching à travers toute la Suisse.",
+    "title": "Une communauté de coaching à travers la Suisse.",
     "items": [
       {
         "city": "Zürich",
@@ -41,7 +41,7 @@
           "DE",
           "EN"
         ],
-        "lead": "Responsable du chapitre : équipe de Zürich"
+        "lead": "Responsable régional : équipe de Zürich"
       },
       {
         "city": "Lausanne & Genève",
@@ -51,7 +51,7 @@
           "FR",
           "EN"
         ],
-        "lead": "Responsable du chapitre : équipe de Romandie"
+        "lead": "Responsable régional : équipe de Romandie"
       },
       {
         "city": "Lugano",
@@ -61,7 +61,7 @@
           "IT",
           "EN"
         ],
-        "lead": "Responsable du chapitre : équipe du Ticino"
+        "lead": "Responsable régional : équipe du Ticino"
       },
       {
         "city": "En ligne",
@@ -79,7 +79,7 @@
   },
   "research": {
     "eyebrow": "Recherche & partenariats",
-    "title": "Lier la recherche, la pratique et le leadership.",
+    "title": "Relier la recherche, la pratique et le leadership.",
     "partners": [
       "ETH Zürich",
       "HEC Lausanne",
@@ -94,18 +94,18 @@
       },
       {
         "title": "Coaching, IA et l'avenir du travail",
-        "desc": "Un programme de recherche en partenariat explorant la manière dont l'IA reconfigure la pratique du coaching."
+        "desc": "Un programme de recherche en partenariat explorant la manière dont l'IA transforme la pratique du coaching."
       }
     ]
   },
   "mission": {
     "eyebrow": "Notre mission",
     "title": "Faire progresser le coaching professionnel en Suisse.",
-    "body": "Nous promouvons les normes les plus élevées de la profession de coach et défendons sa valeur auprès des personnes, des organisations et de la société."
+    "body": "Nous défendons les normes les plus élevées de la profession de coach et promouvons sa valeur auprès des personnes, des organisations et de la société."
   },
   "cta": {
     "eyebrow": "S'engager",
-    "title": "Façonnez avec nous l'avenir du coaching.",
+    "title": "Rejoignez-nous pour façonner l'avenir du coaching.",
     "join": "Devenir membre",
     "contact": "Nous contacter"
   }

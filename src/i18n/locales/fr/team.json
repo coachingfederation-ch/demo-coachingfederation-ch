@@ -1,18 +1,21 @@
 {
   "meta": {
     "title": "Notre équipe — The Switzerland Chapter of ICF",
-    "description": "Découvrez les bénévoles de The Switzerland Chapter of ICF : le comité, les communautés régionales et les équipes de projet qui font vivre le chapitre."
+    "description": "Découvrez les bénévoles de The Switzerland Chapter of ICF : le comité, les communautés régionales et les équipes de projet."
   },
   "hero": {
     "eyebrow": "Structure opérationnelle",
     "titlePre": "Les personnes derrière ",
     "titleAccent": "le chapitre",
-    "lede": "Tout ce que fait The Switzerland Chapter of ICF repose sur des bénévoles — des coachs qui donnent de leur temps à la profession et à la communauté."
+    "lede": "Tout ce que fait The Switzerland Chapter of ICF est porté par des bénévoles — des coachs qui donnent de leur temps pour la profession et la communauté."
   },
-  "intro": "Notre travail s'organise en projets : le comité, les communautés régionales et des équipes thématiques. Filtrez par projet pour voir qui contribue où, et ouvrez une tuile pour en savoir plus.",
-  "filters": { "all": "Tous", "label": "Filtrer l'équipe par projet" },
+  "intro": "Notre travail est organisé par projets : le comité, les communautés régionales et des équipes thématiques. Filtrez par projet pour voir qui contribue où, et ouvrez une fiche pour en savoir plus.",
+  "filters": {
+    "all": "Tous",
+    "label": "Filtrer l'équipe par projet"
+  },
   "loading": "Chargement de l'équipe…",
-  "empty": "Aucun membre dans ce projet pour l'instant.",
+  "empty": "Aucun membre de l'équipe dans ce projet pour le moment.",
   "modal": {
     "close": "Fermer",
     "email": "E-mail",
@@ -21,8 +24,8 @@
   },
   "preview": {
     "eyebrow": "Notre équipe",
-    "title": "Des bénévoles qui font avancer le chapitre",
-    "body": "Membres du comité, responsables de communautés et équipes de projet dans toute la Suisse — tous des coachs en exercice qui donnent de leur temps.",
-    "cta": "Découvrir l'équipe"
+    "title": "Des bénévoles qui font vivre le chapitre",
+    "body": "Membres du comité, responsables de communautés et équipes de projet dans toute la Suisse — tous des coachs actifs offrant de leur temps à la profession.",
+    "cta": "Rencontrer l'équipe"
   }
 }

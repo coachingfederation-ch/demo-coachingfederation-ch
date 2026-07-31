@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "The Switzerland Chapter of ICF | Associazione di coaching professionale",
-    "description": "The Switzerland Chapter of ICF unisce coach credenziati, organizzazioni e la comunità del coaching nella Svizzera tedesca, romanda e italiana."
+    "title": "The Switzerland Chapter of ICF | Coaching professionale",
+    "description": "The Switzerland Chapter of ICF connette coach credenziati, organizzazioni e la comunità di coaching in tutta la Svizzera tedesca, francese e italiana."
   },
   "hero": {
     "eyebrow": "The Switzerland Chapter of ICF",
@@ -15,9 +15,9 @@
   },
   "audiences": [
     {
-      "eyebrow": "Sto cercando",
+      "eyebrow": "Cerco",
       "title": "Un coach",
-      "desc": "Trova un coach di fiducia certificato ICF.",
+      "desc": "Trova un coach di fiducia con credenziale ICF.",
       "cta": "Trova un coach"
     },
     {
@@ -29,24 +29,24 @@
     {
       "eyebrow": "Sono",
       "title": "Un coach",
-      "desc": "Fai crescere la tua attività attraverso la comunità, la formazione e gli standard professionali.",
+      "desc": "Fai crescere la tua attività attraverso la community, la formazione e gli standard professionali.",
       "cta": "Per i coach"
     },
     {
-      "eyebrow": "Desidero scoprire",
+      "eyebrow": "Desidero approfondire",
       "title": "Il coaching",
       "desc": "Scopri cos'è il coaching e perché è importante.",
       "cta": "Scopri il coaching"
     }
   ],
   "pillars": {
-    "eyebrow": "Perché scegliere un coach certificato ICF?",
+    "eyebrow": "Perché scegliere un coach con credenziale ICF?",
     "title": "Scegliere un coach è una decisione importante.",
-    "subtitle": "I coach certificati ICF si impegnano a rispettare standard, codice etico e sviluppo professionale continuo riconosciuti a livello internazionale.",
+    "subtitle": "I coach con credenziale ICF si impegnano a rispettare etica, standard riconosciuti a livello internazionale e uno sviluppo professionale continuo.",
     "items": [
       {
         "title": "Etica",
-        "desc": "In ogni incarico si applica il Codice Etico ICF."
+        "desc": "Vincolati dal Codice Etico ICF in ogni incarico."
       },
       {
         "title": "Credenziali",
@@ -57,8 +57,8 @@
         "desc": "Ore di coaching documentate a supporto di ogni credenziale."
       },
       {
-        "title": "Sviluppo",
-        "desc": "Formazione professionale continua per mantenere le credenziali."
+        "title": "Sviluppo continuo",
+        "desc": "Formazione continua per mantenere attiva la credenziale."
       }
     ]
   },
@@ -69,14 +69,14 @@
     "themes": [
       {
         "tag": "Futuro del lavoro",
-        "title": "Come il coaching prepara le persone all'evoluzione del lavoro"
+        "title": "Come il coaching prepara le persone all'evoluzione del mondo del lavoro"
       },
       {
         "tag": "Leadership",
         "title": "Conversazioni migliori creano leader migliori"
       },
       {
-        "tag": "IA e Coaching",
+        "tag": "IA e coaching",
         "title": "Perché le conversazioni umane basate sulla fiducia contano più che mai"
       },
       {
@@ -88,7 +88,7 @@
   "organisations": {
     "eyebrow": "Per le organizzazioni",
     "title": "Il coaching trasforma le organizzazioni.",
-    "subtitle": "Sostieni i leader. Rafforza i team. Sviluppa culture di coaching che rendono possibili ambienti di lavoro più sani e adattabili.",
+    "subtitle": "Sostieni i leader. Rafforza i team. Sviluppa culture di coaching per ambienti di lavoro più sani e adattabili.",
     "talkToUs": "Contattaci",
     "caseStudies": "Casi di studio",
     "imgAlt": "Team di leadership al lavoro"
@@ -96,7 +96,7 @@
   "communities": {
     "eyebrow": "Comunità",
     "title": "Una comunità di coaching in tutta la Svizzera.",
-    "subtitle": "In tutte le regioni e lingue, The Switzerland Chapter of ICF unisce i coach per imparare, collaborare e contribuire al futuro della nostra professione.",
+    "subtitle": "In tutte le regioni e lingue, The Switzerland Chapter of ICF riunisce i coach per imparare, collaborare e contribuire al futuro della nostra professione.",
     "items": [
       {
         "city": "Zürich",
@@ -125,19 +125,28 @@
         "date": "Gio 17 Set 2026",
         "city": "Zürich",
         "title": "Coaching Perspectives Conference 2026",
-        "tags": ["EN · DE", "Leadership"]
+        "tags": [
+          "EN · DE",
+          "Leadership"
+        ]
       },
       {
         "date": "Mar 6 Ott 2026",
         "city": "Online",
         "title": "AI & Coaching: What Stays Human?",
-        "tags": ["EN", "Webinar"]
+        "tags": [
+          "EN",
+          "Webinar"
+        ]
       },
       {
         "date": "Gio 12 Nov 2026",
         "city": "Lausanne",
         "title": "Soirée Coaching: Bâtir une culture de coaching",
-        "tags": ["FR", "Networking"]
+        "tags": [
+          "FR",
+          "Networking"
+        ]
       }
     ]
   },
@@ -145,12 +154,18 @@
     "eyebrow": "Ricerca e partnership",
     "title": "Connettere ricerca, pratica e leadership.",
     "subtitle": "Collaboriamo con università, enti professionali, ricercatori e partner aziendali per rafforzare il coaching in tutta la Svizzera.",
-    "partners": ["ETH Zürich", "HEC Lausanne", "USI Lugano", "SwissRe", "Nestlé"]
+    "partners": [
+      "ETH Zürich",
+      "HEC Lausanne",
+      "USI Lugano",
+      "SwissRe",
+      "Nestlé"
+    ]
   },
   "join": {
     "eyebrow": "Unisciti a The Switzerland Chapter of ICF",
     "title": "Una casa professionale per i coach.",
-    "subtitle": "Che tu sia all'inizio del tuo percorso di coaching o abbia decenni di esperienza, The Switzerland Chapter of ICF offre una casa professionale fondata su eccellenza, etica e senso di appartenenza.",
+    "subtitle": "Che tu stia iniziando il tuo percorso nel coaching o abbia decenni di esperienza, The Switzerland Chapter of ICF offre una casa professionale fondata su eccellenza, etica e senso di appartenenza.",
     "becomeMember": "Diventa membro",
     "exploreCredentials": "Scopri le credenziali",
     "newsletterTitle": "Rimani in contatto.",

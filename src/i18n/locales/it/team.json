@@ -1,28 +1,31 @@
 {
   "meta": {
     "title": "Il nostro team — The Switzerland Chapter of ICF",
-    "description": "Conosci i volontari di The Switzerland Chapter of ICF: il comitato, le comunità regionali e i team di progetto che portano avanti il chapter."
+    "description": "Incontra i volontari di The Switzerland Chapter of ICF: il comitato, le comunità regionali e i team di progetto che animano il chapter."
   },
   "hero": {
     "eyebrow": "Struttura operativa",
     "titlePre": "Le persone dietro ",
-    "titleAccent": "il chapter",
-    "lede": "Tutto ciò che fa The Switzerland Chapter of ICF è sostenuto da volontari — coach che dedicano il proprio tempo alla professione e alla comunità."
+    "titleAccent": "al chapter",
+    "lede": "Tutto ciò che The Switzerland Chapter of ICF realizza è portato avanti da volontari — coach che dedicano il loro tempo alla professione e alla comunità."
   },
-  "intro": "Il nostro lavoro è organizzato in progetti: il comitato, le comunità regionali e i team tematici. Filtra per progetto per vedere chi contribuisce dove e apri una tessera per saperne di più.",
-  "filters": { "all": "Tutti", "label": "Filtra il team per progetto" },
+  "intro": "Il nostro lavoro è organizzato in progetti: il comitato, le comunità regionali e un insieme di team tematici. Filtra per progetto per vedere chi contribuisce e dove, e apri una scheda per saperne di più.",
+  "filters": {
+    "all": "Tutti",
+    "label": "Filtra il team per progetto"
+  },
   "loading": "Caricamento del team…",
-  "empty": "Nessun membro in questo progetto per ora.",
+  "empty": "Nessun membro del team ancora presente in questo progetto.",
   "modal": {
     "close": "Chiudi",
-    "email": "E-mail",
+    "email": "Email",
     "linkedin": "LinkedIn",
     "coachProfile": "Profilo coach"
   },
   "preview": {
     "eyebrow": "Il nostro team",
-    "title": "Volontari che fanno crescere il chapter",
-    "body": "Membri del comitato, responsabili di comunità e team di progetto in tutta la Svizzera — tutti coach in attività che donano il proprio tempo.",
-    "cta": "Scopri il team"
+    "title": "I volontari che fanno crescere il chapter",
+    "body": "Membri del comitato, responsabili di comunità e team di progetto in tutto il Paese — tutti coach professionisti che dedicano il loro tempo alla professione.",
+    "cta": "Incontra il team"
   }
 }

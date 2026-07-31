@@ -1,14 +1,14 @@
 {
   "meta": {
     "title": "Événements — The Switzerland Chapter of ICF",
-    "description": "Conférences, webinars et rencontres de la communauté pour les coachs et organisations en Suisse."
+    "description": "Conférences, webinaires et rencontres pour coachs et organisations dans toute la Suisse."
   },
   "hero": {
     "eyebrow": "Événements",
     "titlePrefix": "Se connecter, apprendre et ",
     "titleAccent": "grandir",
     "titleSuffix": " ensemble.",
-    "lede": "Conférences, webinars et rencontres de la communauté pour les coachs et organisations en Suisse."
+    "lede": "Conférences, webinaires et rencontres pour coachs et organisations dans toute la Suisse."
   },
   "featured": {
     "eyebrow": "Événement à la une"
@@ -16,15 +16,15 @@
   "upcoming": {
     "eyebrow": "À venir",
     "title": "Prochains événements.",
-    "empty": "Aucun événement à venir pour le moment. Revenez bientôt !"
+    "empty": "Aucun événement n'est prévu pour le moment. Veuillez revenir bientôt."
   },
   "past": {
     "eyebrow": "Événements passés",
-    "recap": "Résumé →"
+    "recap": "Récapitulatif →"
   },
   "cta": {
     "eyebrow": "Contribuer",
-    "title": "Vous souhaitez proposer un événement ?",
+    "title": "Vous avez un événement à proposer ?",
     "propose": "Proposer un événement"
   },
   "tag": {
@@ -41,21 +41,21 @@
     "saving": "Enregistrement…",
     "fieldName": "Nom complet",
     "fieldEmail": "E-mail",
-    "fieldNotes": "Des informations particulières ? (optionnel)",
-    "confirmed": "Vous êtes inscrit(e). Votre place est réservée.",
-    "youAreIn": "Vous êtes inscrit(e) à cet événement.",
+    "fieldNotes": "Souhaitez-vous nous indiquer autre chose ? (optionnel)",
+    "confirmed": "Vous êtes inscrit·e. Votre place est réservée.",
+    "youAreIn": "Vous êtes inscrit·e à cet événement.",
     "cancel": "Annuler mon inscription",
-    "full": "Cet événement est complet.",
-    "closed": "Les inscriptions sont fermées pour cet événement.",
-    "noRegistration": "Pas d'inscription requise — rejoignez-nous simplement.",
+    "full": "Cet événement affiche complet.",
+    "closed": "Les inscriptions ne sont pas ouvertes pour cet événement.",
+    "noRegistration": "Aucune inscription requise — rejoignez-nous simplement.",
     "pastEvent": "Cet événement a déjà eu lieu.",
     "membersOnly": "L'inscription à cet événement est réservée aux membres connectés.",
     "signIn": "Se connecter",
     "seatsLeft": "{n} places restantes",
     "joinLink": "Rejoindre la session en ligne",
-    "privacy": "Nous utilisons vos coordonnées uniquement pour gérer les inscriptions à cet événement.",
+    "privacy": "Nous utilisons vos coordonnées uniquement pour gérer la participation à cet événement.",
     "error": {
-      "full": "Cet événement vient d'afficher complet.",
+      "full": "Cet événement vient de afficher complet.",
       "closed": "Les inscriptions sont fermées pour cet événement.",
       "duplicate": "Cette adresse e-mail est déjà inscrite.",
       "error": "Une erreur est survenue. Veuillez réessayer."

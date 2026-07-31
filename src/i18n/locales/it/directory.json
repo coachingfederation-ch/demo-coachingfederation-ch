@@ -5,13 +5,13 @@
   },
   "hero": {
     "eyebrow": "Elenco",
-    "titlePre": "Trova un coach ",
-    "titleAccent": "certificato",
+    "titlePre": "Trova un ",
+    "titleAccent": "coach certificato",
     "titlePost": ".",
     "lede": "Ogni coach presente possiede una credenziale ICF attiva e si impegna a rispettare il Codice Etico ICF."
   },
   "filters": {
-    "title": "Filtri",
+    "title": "Filtra",
     "searchLabel": "Cerca",
     "searchPlaceholder": "Nome, città o specializzazione",
     "regionLabel": "Regione",
@@ -21,8 +21,8 @@
     "credentialLabel": "Credenziale",
     "specializationLabel": "Specializzazione",
     "formatLabel": "Modalità",
-    "acceptingLabel": "Accetta nuovi clienti",
-    "clear": "Azzera filtri",
+    "acceptingLabel": "Disponibile per nuovi clienti",
+    "clear": "Cancella filtri",
     "toggle": "Filtri"
   },
   "modes": {
@@ -35,18 +35,18 @@
     "manyMode": "{count} risultati in {mode}",
     "emptyTitle": "Nessun coach corrisponde ai filtri selezionati",
     "emptyBody": "Prova ad ampliare la ricerca per cantone o specializzazione.",
-    "emptyModeBody": "Nessun risultato in {mode} corrisponde ai tuoi filtri — prova ad ampliare la ricerca per cantone o specializzazione.",
+    "emptyModeBody": "Nessun risultato in {mode} corrisponde ancora ai tuoi filtri — prova ad ampliare la ricerca per cantone o specializzazione.",
     "loading": "Caricamento dei coach in corso…",
     "errorTitle": "L'elenco è temporaneamente non disponibile",
-    "errorBody": "Ti preghiamo di riprovare tra qualche istante.",
+    "errorBody": "Si prega di riprovare tra un momento.",
     "prev": "Precedente",
     "next": "Successivo"
   },
   "card": {
     "featured": "In evidenza",
-    "accepting": "Accetta nuovi clienti",
+    "accepting": "Disponibile per nuovi clienti",
     "waitlist": "Solo lista d'attesa",
-    "credentialSince": "Certificato dal {year}",
+    "credentialSince": "Credenziale dal {year}",
     "viewProfile": "Vedi profilo"
   },
   "formats": {
@@ -62,7 +62,7 @@
   "specializations": {
     "leadership": "Leadership",
     "career": "Carriera",
-    "team": "Coaching di team",
+    "team": "Team coaching",
     "executive": "Executive",
     "transition": "Transizione",
     "wellbeing": "Benessere",
@@ -75,15 +75,15 @@
   },
   "detail": {
     "back": "Torna alla ricerca",
-    "about": "Informazioni",
-    "specialisations": "Specializzazione",
+    "about": "Chi sono",
+    "specialisations": "Specializzazioni",
     "formats": "Modalità",
     "languages": "Lingue",
-    "regions": "Aree servite",
+    "regions": "Aree operative",
     "links": "Link",
     "notFoundTitle": "Questo profilo coach non è disponibile",
-    "notFoundBody": "Il profilo potrebbe essere stato rimosso. Sfoglia l'elenco per trovare un altro coach certificato.",
-    "metaFallback": "{name} è un coach certificato ICF presente nell'elenco di The Switzerland Chapter of ICF.",
+    "notFoundBody": "Il profilo potrebbe essere stato rimosso. Esplora l'elenco per trovare un altro coach certificato.",
+    "metaFallback": "{name} è un coach con credenziale ICF presente nell'elenco di The Switzerland Chapter of ICF.",
     "approach": "Il mio approccio",
     "clientTypes": "A chi mi rivolgo",
     "qualifications": "Credenziali e formazione",
