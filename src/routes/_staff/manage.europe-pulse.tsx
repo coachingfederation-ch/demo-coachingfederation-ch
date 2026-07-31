@@ -322,6 +322,13 @@ function EuropePulseAdmin() {
                       {item.chapter} · {item.type} · week of {item.week_of}
                     </p>
                   </div>
+                  {/* The public feed only carries items with a date that has
+                      not passed, so flag rows that stay behind the scenes. */}
+                  {!item.event_date || item.event_date < new Date().toISOString().slice(0, 10) ? (
+                    <span className="rounded-full bg-secondary px-2.5 py-1 text-[11px] font-semibold text-muted-foreground">
+                      {item.event_date ? "Past" : "No date"} · not shown publicly
+                    </span>
+                  ) : null}
                   <a
                     href={item.url}
                     target="_blank"
