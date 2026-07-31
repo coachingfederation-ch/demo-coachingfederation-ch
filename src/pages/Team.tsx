@@ -33,20 +33,22 @@ export default function TeamPage() {
         lede={t("team.hero.lede")}
       />
       <main id="main">
-        <section className="mx-auto max-w-6xl px-6 py-16 sm:px-8">
-          <p className="mx-auto max-w-2xl text-center text-base leading-relaxed text-muted-foreground">
-            {t("team.intro")}
-          </p>
-
-          <div className="mt-10">
-            <TeamFilters
-              projects={data?.projects ?? []}
-              active={project}
-              onChange={setProject}
-            />
+        <section className="bg-background py-16">
+          <div className="mx-auto max-w-6xl px-6 sm:px-8">
+            <p className="mx-auto max-w-2xl text-center text-base leading-relaxed text-muted-foreground">
+              {t("team.intro")}
+            </p>
+            <div className="mt-10">
+              <TeamFilters
+                projects={data?.projects ?? []}
+                active={project}
+                onChange={setProject}
+              />
+            </div>
           </div>
-
-          <div className="mt-12">
+        </section>
+        <section className="bg-card py-16">
+          <div className="mx-auto max-w-6xl px-6 sm:px-8">
             {isPending ? (
               <p className="text-center text-sm text-muted-foreground">{t("team.loading")}</p>
             ) : members.length === 0 ? (
