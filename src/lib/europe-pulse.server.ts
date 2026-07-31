@@ -349,6 +349,8 @@ async function poolForWeek(week: string): Promise<PoolItem[]> {
     if (seen.has(key)) continue; // rows are newest-first, so keep the first
     seen.add(key);
     for (const item of (raw.extracted_items ?? []) as ExtractedItem[]) {
+      // Rows stored by an earlier run of the same week can have aged out.
+      if (!isStillRelevant(item.event_date ?? null)) continue;
       pool.push({
         ...item,
         chapter: raw.chapter as string,
