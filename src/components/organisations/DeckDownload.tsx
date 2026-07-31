@@ -50,17 +50,19 @@ export function DeckDownload() {
   }
 
   return (
-    <div className="mt-10 rounded-2xl border border-white/15 bg-white/5 p-6 md:p-8">
+    <div className="mt-10 rounded-2xl border border-border bg-card p-6 md:p-8">
       {done ? (
         <div className="flex flex-col gap-2">
           <p className="text-lg font-semibold tracking-tight">
             {t("organisations.deck.download.doneTitle")}
           </p>
-          <p className="text-sm text-white/85">{t("organisations.deck.download.doneBody")}</p>
+          <p className="text-sm text-muted-foreground">
+            {t("organisations.deck.download.doneBody")}
+          </p>
           <a
             href={deck.url}
             download={deck.original_filename}
-            className="mt-2 text-sm font-semibold text-accent underline underline-offset-4"
+            className="mt-2 text-sm font-semibold text-primary underline underline-offset-4"
           >
             {t("organisations.deck.download.again")}
           </a>
@@ -68,17 +70,17 @@ export function DeckDownload() {
       ) : (
         <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
           <div>
-            <p className="eyebrow !text-accent">{t("organisations.deck.download.eyebrow")}</p>
+            <p className="eyebrow">{t("organisations.deck.download.eyebrow")}</p>
             <h3 className="mt-2 text-xl font-bold tracking-tight md:text-2xl">
               {t("organisations.deck.download.title")}
             </h3>
-            <p className="mt-2 max-w-xl text-sm leading-relaxed text-white/85">
+            <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
               {t("organisations.deck.download.body")}
             </p>
           </div>
           <form onSubmit={onSubmit} className="flex w-full flex-col gap-3 md:w-auto">
             <label className="flex flex-col gap-1.5">
-              <span className="text-xs font-semibold uppercase tracking-wider text-white/75">
+              <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {t("organisations.deck.download.emailLabel")}
               </span>
               <input
@@ -86,7 +88,7 @@ export function DeckDownload() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={t("organisations.deck.download.emailPlaceholder")}
-                className="h-11 w-full rounded-full border border-white/25 bg-white/10 px-4 text-sm text-white placeholder:text-white/40 outline-none focus:border-accent md:w-72"
+                className="h-11 w-full rounded-full border border-border bg-background px-4 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-primary md:w-72"
               />
             </label>
             <input
@@ -98,14 +100,14 @@ export function DeckDownload() {
               onChange={(e) => setWebsite(e.target.value)}
               className="hidden"
             />
-            {error ? <p className="text-xs text-accent">{error}</p> : null}
+            {error ? <p className="text-xs text-destructive">{error}</p> : null}
             <button
               type="submit"
-              className="inline-flex h-11 items-center justify-center rounded-full bg-accent px-6 text-sm font-semibold text-accent-foreground transition hover:opacity-90"
+              className="inline-flex h-11 items-center justify-center rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground transition hover:opacity-90"
             >
               {t("organisations.deck.download.cta")}
             </button>
-            <p className="text-xs text-white/85">{t("organisations.deck.download.note")}</p>
+            <p className="text-xs text-muted-foreground">{t("organisations.deck.download.note")}</p>
           </form>
         </div>
       )}
