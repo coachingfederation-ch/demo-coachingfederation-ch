@@ -61,7 +61,8 @@ export default function EventsPage({ data }: { data: EventsPageData }) {
       />
       <main id="main">
         {featured ? (
-          <section className="mx-auto max-w-7xl px-8 py-16">
+          <section className="bg-background py-16">
+            <div className="mx-auto max-w-7xl px-8">
             <p className="eyebrow">{t("events.featured.eyebrow")}</p>
             <LocaleLink
               to={`/events/${featured.slug}`}
@@ -116,10 +117,11 @@ export default function EventsPage({ data }: { data: EventsPageData }) {
                 </div>
               </div>
             </LocaleLink>
+            </div>
           </section>
         ) : null}
 
-        <section className="bg-muted py-24">
+        <section className="bg-card py-24">
           <div className="mx-auto max-w-7xl px-8">
             <p className="eyebrow">{t("events.upcoming.eyebrow")}</p>
             <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
@@ -136,7 +138,7 @@ export default function EventsPage({ data }: { data: EventsPageData }) {
                       key={e.id}
                       to={`/events/${e.slug}`}
                       className={
-                        "group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 " +
+                        "group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-0.5 " +
                         CARD_SHADOW
                       }
                     >
@@ -186,7 +188,8 @@ export default function EventsPage({ data }: { data: EventsPageData }) {
         </section>
 
         {past.length ? (
-          <section className="mx-auto max-w-7xl px-8 py-24">
+          <section className="bg-background py-24">
+            <div className="mx-auto max-w-7xl px-8">
             <p className="eyebrow">{t("events.past.eyebrow")}</p>
             <ul className="mt-8 divide-y divide-border/70 border-y border-border/70">
               {past.map((e) => (
@@ -207,6 +210,7 @@ export default function EventsPage({ data }: { data: EventsPageData }) {
                 </li>
               ))}
             </ul>
+            </div>
           </section>
         ) : null}
 
