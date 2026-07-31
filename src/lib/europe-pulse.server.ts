@@ -290,8 +290,6 @@ async function curate(
   return chosen;
 }
 
-export type PulseRunResult = {
-
 /**
  * Candidate pool for curation: the newest successful scan per chapter for the
  * given week, across every run of that week. Building it from the stored raw
