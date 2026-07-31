@@ -10,23 +10,23 @@
     "primaryLabel": "Principale",
     "footerLabel": "Piè di pagina",
     "languageLabel": "Lingua",
-    "homeAria": "Home di The Switzerland Chapter of ICF",
+    "homeAria": "Home page di The Switzerland Chapter of ICF",
     "menuOpen": "Apri menu",
     "menuClose": "Chiudi menu",
     "languageSwitch": "Cambia lingua",
-    "skipToContent": "Vai al contenuto principale",
-    "memberLogin": "Login membri",
+    "skipToContent": "Vai al contenuto",
+    "memberLogin": "Login soci",
     "myAccount": "Il mio account",
     "myProfile": "Il mio profilo",
     "signOut": "Esci",
-    "insightsCms": "CMS Insights",
+    "insightsCms": "Insights CMS",
     "accountMenu": "Menu account"
   },
   "footer": {
     "copyright": "The Switzerland Chapter of ICF",
     "privacy": "Protezione dei dati",
     "ethics": "Codice etico",
-    "imprint": "Impressum",
+    "imprint": "Note legali",
     "comingSoon": "Prossimamente"
   },
   "languageNotice": {
