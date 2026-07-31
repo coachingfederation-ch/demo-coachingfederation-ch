@@ -214,10 +214,10 @@ function ForOrganisations() {
   const { t } = useI18n();
   return (
     <section id="organisations" className="bg-card text-foreground">
-      <div className="mx-auto grid max-w-7xl gap-14 px-8 py-24 md:grid-cols-2 md:items-center">
+      <div className="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 py-24 md:grid-cols-2 md:items-center">
         <div>
           <p className="eyebrow">{t("home.organisations.eyebrow")}</p>
-          <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+          <h2 className="mt-3 display-lg">
             {t("home.organisations.title")}
           </h2>
           <p className="mt-5 max-w-lg text-base leading-relaxed text-muted-foreground">
@@ -271,9 +271,9 @@ function Communities() {
   );
   return (
     <section className="bg-background py-24">
-      <div className="mx-auto max-w-7xl px-8 text-center">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 text-center">
       <p className="eyebrow">{t("home.communities.eyebrow")}</p>
-      <h2 className="mx-auto mt-3 max-w-3xl text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
+      <h2 className="mx-auto mt-3 max-w-3xl display-lg text-foreground">
         {t("home.communities.title")}
       </h2>
       <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
@@ -286,7 +286,7 @@ function Communities() {
             to="/about"
             hash="communities"
             className={
-              "block rounded-2xl border border-border/70 bg-card p-6 transition hover:-translate-y-0.5 hover:border-chip-active-border " +
+              "block rounded-2xl border border-border bg-card p-6 transition hover:-translate-y-0.5 hover:border-chip-active-border " +
               CARD_SHADOW
             }
           >
@@ -296,7 +296,7 @@ function Communities() {
               {c.langs.map((l) => (
                 <span
                   key={l}
-                  className="inline-flex items-center rounded-full border border-border/70 bg-chip px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-chip-foreground"
+                  className="inline-flex items-center rounded-full border border-border bg-chip px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-chip-foreground"
                 >
                   {l}
                 </span>
@@ -323,11 +323,11 @@ function Events() {
   ).map((item, i) => ({ ...item, ...EVENT_STYLES[i] }));
   return (
     <section className="bg-card py-24">
-      <div className="mx-auto max-w-7xl px-8">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="eyebrow">{t("home.events.eyebrow")}</p>
-            <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
+            <h2 className="mt-3 display-lg text-foreground">
               {t("home.events.title")}
             </h2>
           </div>
@@ -341,7 +341,7 @@ function Events() {
               key={e.title}
               to="/events"
               className={
-                "group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 " +
+                "group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-0.5 " +
                 CARD_SHADOW
               }
             >
@@ -359,7 +359,7 @@ function Events() {
                   {e.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="inline-flex items-center rounded-full border border-border/70 bg-chip px-2.5 py-1 text-[11px] font-semibold text-chip-foreground"
+                      className="inline-flex items-center rounded-full border border-border bg-chip px-2.5 py-1 text-[11px] font-semibold text-chip-foreground"
                     >
                       {tag}
                     </span>
@@ -379,9 +379,9 @@ function Research() {
   const partners = tList<string>("home.research.partners");
   return (
     <section className="bg-background py-24">
-      <div className="mx-auto max-w-7xl px-8 text-center">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 text-center">
       <p className="eyebrow">{t("home.research.eyebrow")}</p>
-      <h2 className="mx-auto mt-3 max-w-3xl text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
+      <h2 className="mx-auto mt-3 max-w-3xl display-lg text-foreground">
         {t("home.research.title")}
       </h2>
       <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
@@ -392,7 +392,7 @@ function Research() {
           <div
             key={p}
             className={
-              "grid h-20 place-items-center rounded-2xl border border-border/70 bg-card text-sm font-semibold text-foreground/70 " +
+              "grid h-20 place-items-center rounded-2xl border border-border bg-card text-sm font-semibold text-foreground/70 " +
               CARD_SHADOW
             }
           >
@@ -413,10 +413,10 @@ function Join() {
         name="circular2"
         className="pointer-events-none absolute -right-16 -top-10 h-96 w-96 text-mark-cream opacity-40"
       />
-      <div className="mx-auto grid max-w-7xl gap-10 px-8 py-24 md:grid-cols-[1.2fr_1fr] md:items-center">
+      <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 py-24 md:grid-cols-[1.2fr_1fr] md:items-center">
         <div>
           <p className="eyebrow !text-accent">{t("home.join.eyebrow")}</p>
-          <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+          <h2 className="mt-3 display-lg">
             {t("home.join.title")}
           </h2>
           <p className="mt-5 max-w-lg text-base leading-relaxed text-white/85">
