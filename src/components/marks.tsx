@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
  * rendered. Marks are purely decorative (aria-hidden), so the one-frame gap
  * before a chunk resolves has no accessibility or layout cost.
  */
-const sources = import.meta.glob<string>("@/assets/marks/*.svg", {
+const sources = import.meta.glob<string>("./../assets/marks/*.svg", {
   query: "?raw",
   import: "default",
 });
