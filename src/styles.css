@@ -258,6 +258,12 @@
   .text-hero-foreground :where(a, button, input, select, textarea, [tabindex]):focus-visible {
     outline-color: var(--color-hero-foreground) !important;
   }
+
+  /* The skip link renders on a white pill, so keep a dark ring even inside
+     the Deep Blue header (white-on-white would be invisible). */
+  .skip-link:focus-visible {
+    outline-color: var(--color-primary) !important;
+  }
 }
 
 @utility eyebrow {
