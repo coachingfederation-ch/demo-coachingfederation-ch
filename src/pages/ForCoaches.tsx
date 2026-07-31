@@ -33,7 +33,7 @@ export default function ForCoachesPage() {
         <BenefitGrid />
         <LearningTabs />
 
-        <section id="credentials" className="scroll-mt-24 bg-background py-24">
+        <section id="credentials" className="scroll-mt-24 bg-card py-24">
           <div className="mx-auto max-w-7xl px-8">
           <p className="eyebrow">{t("coaches.credentials.eyebrow")}</p>
           <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
@@ -62,7 +62,7 @@ export default function ForCoachesPage() {
           </div>
         </section>
 
-        <section className="bg-card py-24">
+        <section className="bg-background py-24">
           <div className="mx-auto grid max-w-7xl gap-10 px-8 md:grid-cols-[1fr_1.2fr] md:items-center">
             <div className="grid aspect-[4/3] place-items-center rounded-2xl bg-mark-blue text-mark-cream">
               <Mark name="asterisk1" className="h-1/2 w-1/2" />
@@ -93,7 +93,7 @@ export default function ForCoachesPage() {
           </div>
         </section>
 
-        <section className="bg-background py-24">
+        <section className="bg-card py-24">
           <div className="mx-auto max-w-7xl px-8">
           <p className="eyebrow">{t("coaches.chapters.eyebrow")}</p>
           <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
@@ -112,7 +112,7 @@ export default function ForCoachesPage() {
           </div>
         </section>
 
-        <section className="bg-card py-20">
+        <section className="bg-background py-20">
           <div className="mx-auto grid max-w-7xl gap-10 px-8 md:grid-cols-[1.4fr_1fr] md:items-center">
             <div>
               <p className="eyebrow">{t("coaches.volunteer.eyebrow")}</p>
