@@ -71,20 +71,25 @@ function Audiences() {
   ];
   const isExternal = [false, false, false, true];
   const cardClassName =
-    "group flex flex-col rounded-2xl border border-border/70 bg-card p-6 transition hover:-translate-y-0.5 hover:border-chip-active-border " +
-    CARD_SHADOW;
+    "group flex flex-col rounded-2xl border border-border bg-card p-7 transition-colors hover:border-chip-active-border hover:bg-secondary/40";
   return (
-    <section id="find-a-coach" className="mx-auto -mt-8 max-w-7xl px-8">
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <section id="find-a-coach" className="mx-auto -mt-10 max-w-7xl px-5 sm:px-8">
+      <div className="grid gap-px overflow-hidden rounded-3xl border border-border bg-border md:grid-cols-2 lg:grid-cols-4">
         {audiences.map((a, i) => {
           const children = (
             <>
               <p className="section-label">{a.eyebrow}</p>
-              <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground">
-                {a.title}
-              </h3>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{a.desc}</p>
-              <span className="mt-6 text-sm font-semibold text-primary">{a.cta} →</span>
+              <h3 className="mt-3 text-xl font-semibold text-foreground">{a.title}</h3>
+              <p className="mt-3 flex-1 text-sm leading-[1.65] text-muted-foreground">{a.desc}</p>
+              <span className="mt-7 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
+                {a.cta}
+                <span
+                  aria-hidden="true"
+                  className="transition-transform group-hover:translate-x-1"
+                >
+                  →
+                </span>
+              </span>
             </>
           );
           if (isExternal[i]) {
@@ -119,31 +124,30 @@ function WhyCredentialed() {
   const { t, tList } = useI18n();
   const pillars = tList<{ title: string; desc: string }>("home.pillars.items");
   return (
-    <section className="relative bg-card py-24 mt-16">
+    <section className="relative mt-20 overflow-hidden bg-card py-24">
       <Mark
         name="circular1"
-        className="pointer-events-none absolute -right-16 top-10 h-72 w-72 text-mark-indigo opacity-30"
+        className="pointer-events-none absolute -right-20 top-10 h-64 w-64 text-mark-blue opacity-10"
       />
-      <div className="mx-auto max-w-7xl px-8">
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <p className="eyebrow">{t("home.pillars.eyebrow")}</p>
-        <div className="mt-4 grid gap-10 md:grid-cols-2 md:items-end">
-          <h2 className="text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
-            {t("home.pillars.title")}
-          </h2>
-          <p className="text-base leading-relaxed text-muted-foreground">
+        <div className="mt-5 grid gap-10 md:grid-cols-2 md:items-end">
+          <h2 className="display-lg text-foreground">{t("home.pillars.title")}</h2>
+          <p className="text-[17px] leading-[1.7] text-muted-foreground">
             {t("home.pillars.subtitle")}
           </p>
         </div>
-        <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-16 grid gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-4">
           {pillars.map((p, i) => (
-            <div key={p.title} className="relative">
-              <div className="mb-5 flex items-center gap-3">
-                <span className="grid h-10 w-10 place-items-center rounded-xl bg-accent/15 btn-mono font-bold">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="text-lg font-semibold tracking-tight text-foreground">{p.title}</h3>
-              </div>
-              <p className="text-sm leading-relaxed text-muted-foreground">{p.desc}</p>
+            <div key={p.title} className="relative border-t border-border pt-6">
+              <span
+                aria-hidden="true"
+                className="block font-display text-5xl font-bold leading-none tracking-tight text-primary/15"
+              >
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="mt-5 text-lg font-semibold text-foreground">{p.title}</h3>
+              <p className="mt-3 text-sm leading-[1.7] text-muted-foreground">{p.desc}</p>
             </div>
           ))}
         </div>
