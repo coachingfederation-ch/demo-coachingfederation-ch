@@ -71,7 +71,7 @@ function Audiences() {
   ];
   const isExternal = [false, false, false, true];
   const cardClassName =
-    "group flex flex-col rounded-2xl border border-border bg-card p-7 transition-colors hover:border-chip-active-border hover:bg-secondary/40";
+    "group flex flex-col bg-card p-7 transition-colors hover:bg-secondary/50";
   return (
     <section id="find-a-coach" className="mx-auto -mt-10 max-w-7xl px-5 sm:px-8">
       <div className="grid gap-px overflow-hidden rounded-3xl border border-border bg-border md:grid-cols-2 lg:grid-cols-4">
@@ -158,9 +158,9 @@ function WhyCredentialed() {
 
 const THEME_STYLES: { bg: string; fg: string; mark: MarkName }[] = [
   { bg: "bg-mark-cream", fg: "text-mark-indigo", mark: "circular1" },
-  { bg: "bg-mark-indigo", fg: "text-mark-cream", mark: "star" },
+  { bg: "bg-mark-cream", fg: "text-mark-blue", mark: "star" },
   { bg: "bg-mark-yellow", fg: "text-mark-indigo", mark: "asterisk1" },
-  { bg: "bg-mark-blue", fg: "text-mark-cream", mark: "circular2" },
+  { bg: "bg-mark-indigo", fg: "text-mark-cream", mark: "circular2" },
 ];
 
 function CoachingInAction() {
@@ -171,34 +171,34 @@ function CoachingInAction() {
   }));
   return (
     <section className="bg-background py-24">
-      <div className="mx-auto max-w-7xl px-8">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div>
           <p className="eyebrow">{t("home.insights.eyebrow")}</p>
-          <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
+          <h2 className="display-lg mt-4 max-w-2xl text-foreground">
             {t("home.insights.title")}
           </h2>
         </div>
-        <LocaleLink to="/insights" className="text-sm font-semibold text-primary hover:underline">
+        <LocaleLink
+          to="/insights"
+          className="text-sm font-semibold text-primary underline-offset-4 hover:underline"
+        >
           {t("home.insights.cta")}
         </LocaleLink>
       </div>
-      <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
         {themes.map((th) => (
           <LocaleLink
             key={th.tag}
             to="/insights"
-            className={
-              "group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 " +
-              CARD_SHADOW
-            }
+            className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-colors hover:border-chip-active-border"
           >
             <div className={"grid aspect-[4/3] w-full place-items-center " + th.bg + " " + th.fg}>
-              <Mark name={th.mark} className="h-1/2 w-1/2" />
+              <Mark name={th.mark} className="h-2/5 w-2/5 opacity-90" />
             </div>
             <div className="p-6">
               <p className="section-label">{th.tag}</p>
-              <h3 className="mt-2 text-base font-semibold leading-snug tracking-tight text-foreground">
+              <h3 className="mt-2.5 text-base font-semibold leading-snug text-foreground">
                 {th.title}
               </h3>
             </div>
