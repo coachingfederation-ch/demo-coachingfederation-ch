@@ -53,6 +53,19 @@ A manual run can be triggered from `/integration`, which is also where the
 rehearsal simulation lives — it reports what a cutover _would_ do without
 writing.
 
+## The weekly Europe Pulse scan
+
+A second cron job (`icf-europe-pulse-scan-weekly`, Monday 06:00 UTC) calls
+`/api/public/europe-pulse-scan` using the same `x-cron-token` shared-secret
+pattern as the member sync. It scrapes the European chapter websites, curates
+the week's items with AI and rebuilds the public feed.
+
+Operationally it differs from the sync in one respect: it is rate-limited by
+the Firecrawl plan, so a full run is paced across several minutes and a run
+that fails partially is normal rather than alarming. Failed chapters are
+classified and listed in `/manage/europe-pulse`, which offers a retry that
+re-scans only those. Full detail in `docs/europe-pulse.md`.
+
 ### Lifecycle and deletion
 
 Members who go inactive enter a grace period (`member_lifecycle_queue`) with a
