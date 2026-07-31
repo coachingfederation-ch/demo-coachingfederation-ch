@@ -267,6 +267,32 @@ export default function InsightsPage() {
           </>
         )}
 
+        {/* Cross-link to the sibling weekly feed of other European chapters. */}
+        <section className="mx-auto max-w-7xl px-8 pb-24">
+          <div
+            className={
+              "flex flex-col gap-4 rounded-2xl border border-border/70 bg-card p-8 sm:flex-row sm:items-center sm:justify-between " +
+              CARD_SHADOW
+            }
+          >
+            <div>
+              <p className="eyebrow">{t("europe-pulse.preview.eyebrow")}</p>
+              <h2 className="mt-2 text-xl font-bold tracking-tight">
+                {t("europe-pulse.preview.title")}
+              </h2>
+              <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
+                {t("europe-pulse.preview.body")}
+              </p>
+            </div>
+            <LocaleLink
+              to="/europe-pulse"
+              className="inline-flex h-10 shrink-0 items-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
+            >
+              {t("europe-pulse.preview.cta")} →
+            </LocaleLink>
+          </div>
+        </section>
+
         <section className="bg-hero text-hero-foreground">
           <div className="mx-auto max-w-7xl px-8 py-20 text-center">
             <p className="eyebrow !text-accent">{t("insights.newsletter.eyebrow")}</p>

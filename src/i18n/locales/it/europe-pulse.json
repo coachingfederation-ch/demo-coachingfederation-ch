@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "title": "Europe Pulse — The Switzerland Chapter of ICF",
+    "description": "Una panoramica settimanale su eventi, webinar e novità dei capitoli ICF in tutta Europa, nella tua lingua.",
+    "week": "Settimana del {date}",
+    "summary": "{items} contenuti da {countries} capitoli"
+  },
+  "nav": "Europe Pulse",
+  "hero": {
+    "eyebrow": "Europe Pulse",
+    "titleLead": "Cosa fanno i",
+    "titleAccent": "capitoli europei",
+    "titleTail": "questa settimana.",
+    "lede": "Ogni settimana selezioniamo dai siti web dei capitoli ICF in tutta Europa gli eventi, i webinar e le novità più rilevanti per i coach in Svizzera."
+  },
+  "card": {
+    "source": "Apri sul sito del capitolo"
+  },
+  "types": {
+    "event": "Evento",
+    "news": "Novità",
+    "webinar": "Webinar",
+    "workshop": "Workshop",
+    "conference": "Conferenza"
+  },
+  "empty": {
+    "title": "Nessun aggiornamento questa settimana",
+    "body": "La prossima analisi verrà eseguita a breve. Ricontrolla tra qualche giorno per le ultime novità da tutta Europa."
+  },
+  "error": {
+    "title": "Impossibile caricare il feed",
+    "body": "Riprova tra qualche istante."
+  },
+  "disclaimer": "Europe Pulse rimanda a contenuti pubblicati da altri capitoli ICF. I riassunti sono generati automaticamente e potrebbero essere abbreviati; consulta sempre la pagina originale per i dettagli ufficiali.",
+  "preview": {
+    "eyebrow": "Europe Pulse",
+    "title": "Questa settimana in Europa.",
+    "body": "Una selezione settimanale di eventi, webinar e novità dai capitoli ICF di tutta Europa.",
+    "cta": "Scopri Europe Pulse"
+  }
+}

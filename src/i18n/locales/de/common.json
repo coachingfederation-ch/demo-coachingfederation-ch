@@ -20,19 +20,19 @@
     "myProfile": "Mein Profil",
     "signOut": "Abmelden",
     "insightsCms": "Insights CMS",
-    "accountMenu": "Kontomenü"
+    "accountMenu": "Konto-Menü"
   },
   "footer": {
     "copyright": "The Switzerland Chapter of ICF",
     "privacy": "Datenschutz",
-    "ethics": "Ethikcode",
+    "ethics": "Ethikkodex",
     "imprint": "Impressum",
-    "comingSoon": "Demnächst verfügbar"
+    "comingSoon": "Demnächst"
   },
   "languageNotice": {
     "text": "Diese Seite ist auch in Ihrer bevorzugten Sprache verfügbar.",
     "cta": "Sprache wechseln",
-    "dismiss": "Schliessen"
+    "dismiss": "Ausblenden"
   },
   "form": {
     "emailLabel": "E-Mail-Adresse"

@@ -7,13 +7,13 @@
     "eyebrow": "À propos",
     "titlePrefix": "The Switzerland ",
     "titleAccent": "Chapter of ICF.",
-    "lede": "Nous sommes le chapitre national suisse de l'International Coaching Federation — un ancrage professionnel pour les coachs certifiés et les organisations qu'ils accompagnent."
+    "lede": "Nous sommes le chapitre national suisse de l'International Coaching Federation — un foyer professionnel pour les coachs certifiés et les organisations qu'ils accompagnent."
   },
   "why": {
     "eyebrow": "Pourquoi le coaching ?",
-    "title": "De meilleures conversations créent un avenir meilleur.",
-    "body": "Le coaching professionnel permet à chacun de clarifier sa réflexion, d'exercer un leadership plus efficace et d'aborder le changement avec confiance.",
-    "imageAlt": "Une vraie conversation de coaching"
+    "title": "De meilleures conversations créent un meilleur avenir.",
+    "body": "Le coaching professionnel permet à chacun de penser plus clairement, de diriger plus efficacement et d'aborder le changement avec confiance.",
+    "imageAlt": "Une véritable conversation de coaching"
   },
   "values": [
     {
@@ -26,62 +26,82 @@
     },
     {
       "title": "Révéler le potentiel",
-      "desc": "Les individus et les équipes atteignent leurs objectifs essentiels, avec soutien et responsabilisation."
+      "desc": "Les individus et les équipes atteignent ce qui compte le plus, grâce à un soutien et un engagement constants."
     }
   ],
   "communities": {
     "eyebrow": "Communautés",
-    "title": "Une communauté de coaching à travers toute la Suisse.",
+    "title": "Une communauté de coaching à travers la Suisse.",
     "items": [
       {
         "city": "Zürich",
         "region": "Suisse alémanique",
         "cadence": "Mensuel",
-        "langs": ["DE", "EN"],
-        "lead": "Responsable du chapitre : équipe Zürich"
+        "langs": [
+          "DE",
+          "EN"
+        ],
+        "lead": "Responsable régional : équipe de Zürich"
       },
       {
         "city": "Lausanne & Genève",
         "region": "Romandie",
         "cadence": "Mensuel",
-        "langs": ["FR", "EN"],
-        "lead": "Responsable du chapitre : équipe Romandie"
+        "langs": [
+          "FR",
+          "EN"
+        ],
+        "lead": "Responsable régional : équipe de Romandie"
       },
       {
         "city": "Lugano",
         "region": "Ticino",
         "cadence": "Trimestriel",
-        "langs": ["IT", "EN"],
-        "lead": "Responsable du chapitre : équipe Ticino"
+        "langs": [
+          "IT",
+          "EN"
+        ],
+        "lead": "Responsable régional : équipe du Ticino"
       },
       {
-        "city": "Online",
+        "city": "En ligne",
         "region": "Événements, mentorat & bénévolat",
         "cadence": "En continu",
-        "langs": ["DE", "FR", "IT", "EN"],
+        "langs": [
+          "DE",
+          "FR",
+          "IT",
+          "EN"
+        ],
         "lead": "Ouvert à tous les membres"
       }
     ]
   },
   "research": {
     "eyebrow": "Recherche & partenariats",
-    "title": "Relier recherche, pratique et leadership.",
-    "partners": ["ETH Zürich", "HEC Lausanne", "USI Lugano", "SwissRe", "Nestlé"],
+    "title": "Relier la recherche, la pratique et le leadership.",
+    "partners": [
+      "ETH Zürich",
+      "HEC Lausanne",
+      "USI Lugano",
+      "SwissRe",
+      "Nestlé"
+    ],
     "items": [
       {
         "title": "L'état du coaching en Suisse 2026",
-        "desc": "Une étude conjointe avec les universités suisses sur le développement et l'impact du coaching professionnel."
+        "desc": "Une étude conjointe avec des universités suisses sur la croissance et l'impact du coaching professionnel."
       },
       {
-        "title": "Coaching, IA et avenir du travail",
-        "desc": "Un programme de recherche en partenariat explorant comment l'IA redéfinit la pratique du coaching."
+        "title": "Coaching, IA et l'avenir du travail",
+        "desc": "Un programme de recherche en partenariat explorant la manière dont l'IA transforme la pratique du coaching."
       }
     ]
   },
   "mission": {
     "eyebrow": "Notre mission",
     "title": "Faire progresser le coaching professionnel en Suisse.",
-    "body": "Nous défendons les normes les plus élevées de la profession de coach et valorisons son impact pour les individus, les organisations et la société."
+    "body": "Nous défendons les normes les plus élevées de la profession de coach et promouvons sa valeur auprès des personnes, des organisations et de la société."
   },
   "cta": {
     "eyebrow": "S'engager",

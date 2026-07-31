@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "title": "Europe Pulse — The Switzerland Chapter of ICF",
+    "description": "Un aperçu hebdomadaire des événements, webinaires et actualités des chapitres ICF en Europe, dans votre langue.",
+    "week": "Semaine du {date}",
+    "summary": "{items} éléments de {countries} chapitres"
+  },
+  "nav": "Europe Pulse",
+  "hero": {
+    "eyebrow": "Europe Pulse",
+    "titleLead": "Ce que font les",
+    "titleAccent": "chapitres européens",
+    "titleTail": "cette semaine.",
+    "lede": "Chaque semaine, nous parcourons les sites web publics des chapitres ICF à travers l'Europe et sélectionnons les événements, webinaires et actualités les plus pertinents pour les coachs en Suisse."
+  },
+  "card": {
+    "source": "Ouvrir sur le site du chapitre"
+  },
+  "types": {
+    "event": "Événement",
+    "news": "Actualités",
+    "webinar": "Webinaire",
+    "workshop": "Atelier",
+    "conference": "Conférence"
+  },
+  "empty": {
+    "title": "Pas encore d'actualité cette semaine",
+    "body": "La prochaine analyse aura lieu sous peu. Revenez dans quelques jours pour découvrir les dernières nouveautés d'Europe."
+  },
+  "error": {
+    "title": "Impossible de charger le flux",
+    "body": "Veuillez réessayer dans un instant."
+  },
+  "disclaimer": "Europe Pulse renvoie vers du contenu publié par d'autres chapitres ICF. Les résumés sont générés automatiquement et peuvent être raccourcis ; veuillez toujours consulter la page d'origine pour obtenir les informations officielles.",
+  "preview": {
+    "eyebrow": "Europe Pulse",
+    "title": "Cette semaine en Europe.",
+    "body": "Un flux hebdomadaire d'événements, webinaires et actualités des chapitres ICF à travers l'Europe.",
+    "cta": "Voir Europe Pulse"
+  }
+}

@@ -1,41 +1,41 @@
 {
   "meta": {
-    "title": "Comunità locali — The Switzerland Chapter of ICF",
-    "description": "Comunità di coaching in tutta la Svizzera: incontri locali regolari per apprendimento tra pari, supervisione e scambio, animati dai volontari del chapter.",
-    "detailTitle": "Comunità locale — The Switzerland Chapter of ICF",
-    "detailDescription": "Scopri i volontari di questa comunità locale di coaching e quando e dove si riunisce il gruppo."
+    "title": "Community locali — The Switzerland Chapter of ICF",
+    "description": "Community di coaching in tutta la Svizzera: incontri regolari per apprendimento tra pari, supervisione e connessione, gestiti dai volontari del chapter.",
+    "detailTitle": "Community locale — The Switzerland Chapter of ICF",
+    "detailDescription": "Incontra i volontari di questa community locale di coaching e scopri dove e quando si riunisce il gruppo."
   },
   "hero": {
-    "eyebrow": "Comunità locali",
+    "eyebrow": "Community locali",
     "titlePre": "Il coaching vicino a ",
-    "titleAccent": "dove sei",
-    "lede": "Da Basilea a Lugano, le nostre comunità locali riuniscono coach per imparare, riflettere e crescere — di persona e online."
+    "titleAccent": "dove ti trovi",
+    "lede": "Da Basilea a Lugano, le nostre community locali uniscono i coach per imparare, riflettere e crescere — di persona e online."
   },
-  "intro": "Le comunità locali sono il cuore del chapter. Ognuna è guidata da coach volontari che organizzano incontri regolari: coaching tra pari, circoli di supervisione, ospiti e scambi informali. Tutti sono benvenuti: con una credenziale, in formazione o semplicemente curiosi della professione.",
-  "loading": "Caricamento delle comunità…",
-  "empty": "Non è ancora pubblicata alcuna comunità. Torna presto.",
-  "notFound": "Non abbiamo trovato questa comunità. Potrebbe essere stata rinominata o archiviata.",
+  "intro": "Le community locali sono il cuore del chapter. Ciascuna è gestita da coach volontari che organizzano incontri regolari: peer coaching, gruppi di supervisione, relatori ospiti e scambi informali. Tutti sono i benvenuti, sia che abbiate una credenziale, che stiate studiando o che siate semplicemente curiosi di scoprire la professione.",
+  "loading": "Caricamento delle community…",
+  "empty": "Nessuna community ancora pubblicata. Torna a visitarci presto.",
+  "notFound": "Non è stato possibile trovare questa community. Potrebbe essere stata rinominata o archiviata.",
   "list": {
     "members": "{count} volontari",
-    "open": "Vedi la comunità"
+    "open": "Vedi community"
   },
   "detail": {
-    "eyebrow": "Comunità locale",
+    "eyebrow": "Community locale",
     "lede": "Un gruppo locale di coach che si incontra regolarmente durante l'anno.",
-    "back": "Tutte le comunità",
+    "back": "Tutte le community",
     "join": "Partecipa a un incontro",
-    "contact": "Contatta la comunità",
-    "peopleHeading": "Volontari di questa comunità",
-    "noMembers": "Per questa comunità non sono ancora indicati volontari.",
-    "noDescription": "Una descrizione di questa comunità sarà disponibile a breve.",
+    "contact": "Contatta la community",
+    "peopleHeading": "Volontari in questa community",
+    "noMembers": "Nessun volontario ancora indicato per questa community.",
+    "noDescription": "La descrizione di questa community sarà disponibile a breve.",
     "andMore": "e altri {count} volontari"
   },
   "preview": {
-    "eyebrow": "Comunità locali",
-    "title": "Il coaching accade sul territorio",
-    "body": "Le nostre comunità regionali si incontrano tutto l'anno in tutta la Svizzera — coaching tra pari, supervisione e conversazioni con coach vicino a te.",
+    "eyebrow": "Community locali",
+    "title": "Il coaching si vive sul territorio",
+    "body": "Le nostre community regionali si incontrano in tutta la Svizzera durante l'anno: peer coaching, supervisione e confronto con i coach della tua zona.",
     "featuredLabel": "In evidenza: {name}",
-    "cta": "Vedi tutte le comunità",
-    "ctaFeatured": "Visita questa comunità"
+    "cta": "Vedi tutte le community",
+    "ctaFeatured": "Visita questa community"
   }
 }

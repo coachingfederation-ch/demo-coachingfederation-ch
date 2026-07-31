@@ -1,24 +1,24 @@
 {
   "meta": {
     "title": "Trouver un coach — The Switzerland Chapter of ICF",
-    "description": "Recherchez dans l'annuaire des coachs certifiés ICF en Suisse par région, langue, niveau de certification et spécialisation."
+    "description": "Cherchez un coach certifié ICF en Suisse par région, langue, niveau d'accréditation et spécialisation dans notre annuaire."
   },
   "hero": {
     "eyebrow": "Annuaire",
     "titlePre": "Trouvez un coach ",
     "titleAccent": "certifié",
     "titlePost": ".",
-    "lede": "Chaque coach référencé détient une certification ICF active et s'engage à respecter le Code de déontologie de l'ICF."
+    "lede": "Chaque coach référencé détient une accréditation ICF active et s'engage à respecter le Code de déontologie de l'ICF."
   },
   "filters": {
-    "title": "Filtres",
-    "searchLabel": "Rechercher",
+    "title": "Filtrer",
+    "searchLabel": "Recherche",
     "searchPlaceholder": "Nom, ville ou spécialisation",
     "regionLabel": "Région",
     "regionAll": "Toutes les régions",
     "languageLabel": "Langue",
     "languageAll": "Toutes les langues",
-    "credentialLabel": "Certification",
+    "credentialLabel": "Accréditation",
     "specializationLabel": "Spécialisation",
     "formatLabel": "Format",
     "acceptingLabel": "Accepte de nouveaux clients",
@@ -34,11 +34,11 @@
     "oneMode": "1 résultat en {mode}",
     "manyMode": "{count} résultats en {mode}",
     "emptyTitle": "Aucun coach ne correspond à vos filtres",
-    "emptyBody": "Essayez d'élargir votre recherche à d'autres cantons ou spécialisations.",
-    "emptyModeBody": "Aucun résultat en {mode} ne correspond à vos filtres — élargissez votre recherche à d'autres cantons ou spécialisations.",
+    "emptyBody": "Essayez d'élargir votre canton ou spécialisation.",
+    "emptyModeBody": "Aucun résultat en {mode} ne correspond à vos filtres pour le moment — essayez d'élargir votre canton ou votre spécialisation.",
     "loading": "Chargement des coachs…",
-    "errorTitle": "L'annuaire est momentanément indisponible",
-    "errorBody": "Merci de réessayer dans un instant.",
+    "errorTitle": "L'annuaire est temporairement indisponible",
+    "errorBody": "Veuillez réessayer dans quelques instants.",
     "prev": "Précédent",
     "next": "Suivant"
   },
@@ -71,7 +71,7 @@
   },
   "note": {
     "title": "Profils issus d'ICF Global",
-    "body": "Les données des coachs sont gérées par ICF Global. Les membres peuvent enrichir leur profil avec du contenu supplémentaire sur ce portail."
+    "body": "Les informations des coachs sont gérées par ICF Global. Les membres peuvent enrichir leur profil avec du contenu supplémentaire sur ce portail."
   },
   "detail": {
     "back": "Retour à la recherche",
@@ -83,10 +83,10 @@
     "links": "Liens",
     "notFoundTitle": "Ce profil de coach n'est pas disponible",
     "notFoundBody": "Le profil a peut-être été dépublié. Parcourez l'annuaire pour trouver un autre coach certifié.",
-    "metaFallback": "{name} est un coach certifié ICF référencé dans l'annuaire de The Switzerland Chapter of ICF.",
-    "approach": "Ma façon de travailler",
-    "clientTypes": "Avec qui je travaille",
-    "qualifications": "Accréditations et formation",
+    "metaFallback": "{name} est un coach certifié ICF figurant dans l'annuaire de The Switzerland Chapter of ICF.",
+    "approach": "Ma démarche",
+    "clientTypes": "Pour qui",
+    "qualifications": "Accréditations & formations",
     "fees": "Honoraires",
     "session": "Durée des séances",
     "experience": "Expérience",

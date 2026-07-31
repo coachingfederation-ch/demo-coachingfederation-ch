@@ -124,6 +124,7 @@ cutover itself, the email domain, and the custom domain.
 - [`docs/auth-and-claim-flow.md`](docs/auth-and-claim-flow.md)
 - [`docs/public-directory.md`](docs/public-directory.md)
 - [`docs/events-team-communities.md`](docs/events-team-communities.md)
+- [`docs/europe-pulse.md`](docs/europe-pulse.md)
 - [`docs/operations-and-go-live.md`](docs/operations-and-go-live.md)
 - [`docs/tech-debt.md`](docs/tech-debt.md)
 

@@ -1,13 +1,13 @@
 {
   "meta": {
     "title": "Insights — The Switzerland Chapter of ICF",
-    "description": "Idee, ricerche e storie dalla community di coaching svizzera su leadership, IA, diversità e futuro del lavoro."
+    "description": "Idee, ricerche e storie dalla community svizzera di coaching — su leadership, IA, diversità e futuro del lavoro."
   },
   "hero": {
     "eyebrow": "Insights",
-    "titleLead": "Spunti e visioni dalla",
-    "titleAccent": "community di coaching",
-    "titleTail": "svizzera.",
+    "titleLead": "Spunti dalla community svizzera di",
+    "titleAccent": "coaching",
+    "titleTail": ".",
     "lede": "Idee, ricerche e storie su leadership, IA, diversità e futuro del lavoro — da coach attivi in tutta la Svizzera."
   },
   "filters": {
@@ -15,7 +15,7 @@
   },
   "categories": {
     "Leadership": "Leadership",
-    "AI & Coaching": "IA e Coaching",
+    "AI & Coaching": "IA e coaching",
     "Diversity": "Diversità",
     "Future of Work": "Futuro del lavoro",
     "Research": "Ricerca"
@@ -23,16 +23,16 @@
   "recent": "Articoli recenti",
   "featured": "In evidenza",
   "byline": "Redazione The Switzerland Chapter of ICF",
-  "noneInTopic": "Nessun altro articolo su questo argomento al momento.",
+  "noneInTopic": "Nessun altro articolo in questo argomento per ora.",
   "error": {
-    "title": "Gli Insights non sono disponibili",
-    "body": "Impossibile caricare gli articoli al momento. Riprova tra qualche istante."
+    "title": "Gli approfondimenti non sono disponibili",
+    "body": "Impossibile caricare gli articoli in questo momento. Riprova tra qualche istante."
   },
   "empty": {
     "title": "Nessun articolo ancora pubblicato",
-    "body": "I nuovi contributi della community di coaching svizzera appariranno qui non appena pubblicati.",
-    "topicTitle": "Ancora nulla qui",
-    "topicBody": "Prova un altro argomento o esplora tutti i contenuti con il filtro Tutti.",
+    "body": "I nuovi contributi della community svizzera di coaching appariranno qui non appena pubblicati.",
+    "topicTitle": "Nessun contenuto presente",
+    "topicBody": "Prova a selezionare un altro argomento o esplora tutti i contenuti con il filtro Tutti.",
     "otherLanguage": "Leggi l'edizione in inglese →"
   },
   "newsletter": {

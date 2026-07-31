@@ -571,6 +571,266 @@ export type Database = {
         }
         Relationships: []
       }
+      europe_pulse: {
+        Row: {
+          chapter: string
+          country: string
+          country_code: string
+          created_at: string
+          description_de: string | null
+          description_en: string | null
+          description_fr: string | null
+          description_it: string | null
+          event_date: string | null
+          id: string
+          run_id: string | null
+          sort_rank: number
+          status: Database["public"]["Enums"]["pulse_item_status"]
+          title_de: string | null
+          title_en: string
+          title_fr: string | null
+          title_it: string | null
+          type: Database["public"]["Enums"]["pulse_item_type"]
+          updated_at: string
+          url: string
+          week_of: string
+        }
+        Insert: {
+          chapter: string
+          country: string
+          country_code: string
+          created_at?: string
+          description_de?: string | null
+          description_en?: string | null
+          description_fr?: string | null
+          description_it?: string | null
+          event_date?: string | null
+          id?: string
+          run_id?: string | null
+          sort_rank?: number
+          status?: Database["public"]["Enums"]["pulse_item_status"]
+          title_de?: string | null
+          title_en: string
+          title_fr?: string | null
+          title_it?: string | null
+          type?: Database["public"]["Enums"]["pulse_item_type"]
+          updated_at?: string
+          url: string
+          week_of: string
+        }
+        Update: {
+          chapter?: string
+          country?: string
+          country_code?: string
+          created_at?: string
+          description_de?: string | null
+          description_en?: string | null
+          description_fr?: string | null
+          description_it?: string | null
+          event_date?: string | null
+          id?: string
+          run_id?: string | null
+          sort_rank?: number
+          status?: Database["public"]["Enums"]["pulse_item_status"]
+          title_de?: string | null
+          title_en?: string
+          title_fr?: string | null
+          title_it?: string | null
+          type?: Database["public"]["Enums"]["pulse_item_type"]
+          updated_at?: string
+          url?: string
+          week_of?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "europe_pulse_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "europe_pulse_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      europe_pulse_chapters: {
+        Row: {
+          base_url: string
+          chapter: string
+          consecutive_failures: number
+          country: string
+          country_code: string
+          created_at: string
+          id: string
+          is_active: boolean
+          last_scanned_at: string | null
+          last_status: string | null
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          base_url: string
+          chapter: string
+          consecutive_failures?: number
+          country: string
+          country_code: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          last_scanned_at?: string | null
+          last_status?: string | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          base_url?: string
+          chapter?: string
+          consecutive_failures?: number
+          country?: string
+          country_code?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          last_scanned_at?: string | null
+          last_status?: string | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      europe_pulse_config: {
+        Row: {
+          created_at: string
+          id: boolean
+          item_cap: number
+          max_per_chapter: number
+          publish_mode: Database["public"]["Enums"]["pulse_publish_mode"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: boolean
+          item_cap?: number
+          max_per_chapter?: number
+          publish_mode?: Database["public"]["Enums"]["pulse_publish_mode"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: boolean
+          item_cap?: number
+          max_per_chapter?: number
+          publish_mode?: Database["public"]["Enums"]["pulse_publish_mode"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      europe_pulse_raw: {
+        Row: {
+          chapter: string
+          chapter_id: string | null
+          country: string
+          error_message: string | null
+          extracted_items: Json
+          failure_kind: string | null
+          id: string
+          run_id: string
+          scan_date: string
+          source_urls: string[]
+          status: string
+        }
+        Insert: {
+          chapter: string
+          chapter_id?: string | null
+          country: string
+          error_message?: string | null
+          extracted_items?: Json
+          failure_kind?: string | null
+          id?: string
+          run_id: string
+          scan_date?: string
+          source_urls?: string[]
+          status?: string
+        }
+        Update: {
+          chapter?: string
+          chapter_id?: string | null
+          country?: string
+          error_message?: string | null
+          extracted_items?: Json
+          failure_kind?: string | null
+          id?: string
+          run_id?: string
+          scan_date?: string
+          source_urls?: string[]
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "europe_pulse_raw_chapter_id_fkey"
+            columns: ["chapter_id"]
+            isOneToOne: false
+            referencedRelation: "europe_pulse_chapters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "europe_pulse_raw_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "europe_pulse_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      europe_pulse_runs: {
+        Row: {
+          chapters_failed: number
+          chapters_ok: number
+          chapters_total: number
+          created_at: string
+          curated_items: number
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          raw_items: number
+          started_at: string
+          status: Database["public"]["Enums"]["pulse_run_status"]
+          trigger_source: string
+          triggered_by: string | null
+          week_of: string
+        }
+        Insert: {
+          chapters_failed?: number
+          chapters_ok?: number
+          chapters_total?: number
+          created_at?: string
+          curated_items?: number
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          raw_items?: number
+          started_at?: string
+          status?: Database["public"]["Enums"]["pulse_run_status"]
+          trigger_source?: string
+          triggered_by?: string | null
+          week_of: string
+        }
+        Update: {
+          chapters_failed?: number
+          chapters_ok?: number
+          chapters_total?: number
+          created_at?: string
+          curated_items?: number
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          raw_items?: number
+          started_at?: string
+          status?: Database["public"]["Enums"]["pulse_run_status"]
+          trigger_source?: string
+          triggered_by?: string | null
+          week_of?: string
+        }
+        Relationships: []
+      }
       event_registrations: {
         Row: {
           created_at: string
@@ -2330,6 +2590,10 @@ export type Database = {
         | "hidden_inactive"
         | "hidden_admin"
         | "hidden_no_credential"
+      pulse_item_status: "pending" | "published" | "hidden"
+      pulse_item_type: "event" | "news" | "webinar" | "workshop" | "conference"
+      pulse_publish_mode: "automatic" | "manual"
+      pulse_run_status: "running" | "succeeded" | "failed"
       sync_run_status: "running" | "succeeded" | "failed" | "aborted"
     }
     CompositeTypes: {
@@ -2481,6 +2745,10 @@ export const Constants = {
         "hidden_admin",
         "hidden_no_credential",
       ],
+      pulse_item_status: ["pending", "published", "hidden"],
+      pulse_item_type: ["event", "news", "webinar", "workshop", "conference"],
+      pulse_publish_mode: ["automatic", "manual"],
+      pulse_run_status: ["running", "succeeded", "failed"],
       sync_run_status: ["running", "succeeded", "failed", "aborted"],
     },
   },

@@ -7,7 +7,7 @@
     "eyebrow": "Über uns",
     "titlePrefix": "The Switzerland ",
     "titleAccent": "Chapter of ICF.",
-    "lede": "Wir sind das Schweizer Chapter der International Coaching Federation — ein professionelles Zuhause für zertifizierte Coaches und die Organisationen, die sie begleiten."
+    "lede": "Wir sind das Schweizer Chapter der International Coaching Federation — ein professionelles Zuhause für zertifizierte Coaches und die Organisationen, denen sie dienen."
   },
   "why": {
     "eyebrow": "Warum Coaching?",
@@ -18,11 +18,11 @@
   "values": [
     {
       "title": "Anders denken",
-      "desc": "Coaching schafft Raum, um Annahmen zu hinterfragen und neue Perspektiven zu gewinnen."
+      "desc": "Coaching schafft Raum, um Annahmen zu hinterfragen und neue Möglichkeiten zu erkennen."
     },
     {
       "title": "Besser führen",
-      "desc": "Gecoachte Führungskräfte hören aufmerksamer zu, entscheiden schneller und fördern ihre Mitarbeitenden."
+      "desc": "Führungskräfte, die gecoacht werden, hören tiefer zu, entscheiden schneller und fördern ihre Mitarbeitenden."
     },
     {
       "title": "Potenzial entfalten",
@@ -37,28 +37,42 @@
         "city": "Zürich",
         "region": "Deutschschweiz",
         "cadence": "Monatlich",
-        "langs": ["DE", "EN"],
-        "lead": "Chapter Lead: Team Zürich"
+        "langs": [
+          "DE",
+          "EN"
+        ],
+        "lead": "Chapter-Leitung: Team Zürich"
       },
       {
         "city": "Lausanne & Genève",
         "region": "Romandie",
         "cadence": "Monatlich",
-        "langs": ["FR", "EN"],
-        "lead": "Chapter Lead: Team Romandie"
+        "langs": [
+          "FR",
+          "EN"
+        ],
+        "lead": "Chapter-Leitung: Team Romandie"
       },
       {
         "city": "Lugano",
         "region": "Ticino",
         "cadence": "Quartalsweise",
-        "langs": ["IT", "EN"],
-        "lead": "Chapter Lead: Team Ticino"
+        "langs": [
+          "IT",
+          "EN"
+        ],
+        "lead": "Chapter-Leitung: Team Ticino"
       },
       {
         "city": "Online",
         "region": "Events, Mentoring & Engagement",
         "cadence": "Fortlaufend",
-        "langs": ["DE", "FR", "IT", "EN"],
+        "langs": [
+          "DE",
+          "FR",
+          "IT",
+          "EN"
+        ],
         "lead": "Offen für alle Mitglieder"
       }
     ]
@@ -66,22 +80,28 @@
   "research": {
     "eyebrow": "Forschung & Partnerschaften",
     "title": "Forschung, Praxis und Führung verbinden.",
-    "partners": ["ETH Zürich", "HEC Lausanne", "USI Lugano", "SwissRe", "Nestlé"],
+    "partners": [
+      "ETH Zürich",
+      "HEC Lausanne",
+      "USI Lugano",
+      "SwissRe",
+      "Nestlé"
+    ],
     "items": [
       {
-        "title": "Coaching in der Schweiz 2026",
+        "title": "State of Coaching in der Schweiz 2026",
         "desc": "Eine gemeinsame Studie mit Schweizer Universitäten über das Wachstum und die Wirkung von professionellem Coaching."
       },
       {
         "title": "Coaching, KI und die Zukunft der Arbeit",
-        "desc": "Ein Forschungsprogramm in Partnerschaft zur Untersuchung, wie KI die Coaching-Praxis verändert."
+        "desc": "Ein gemeinsames Forschungsprogramm, das untersucht, wie KI die Coaching-Praxis verändert."
       }
     ]
   },
   "mission": {
     "eyebrow": "Unsere Mission",
     "title": "Professionelles Coaching in der Schweiz fördern.",
-    "body": "Wir stehen für die höchsten Standards des Coaching-Berufs ein und setzen uns für dessen Wert für Einzelpersonen, Organisationen und die Gesellschaft ein."
+    "body": "Wir wahren die höchsten Standards des Coaching-Berufs und setzen uns für seinen Wert für Einzelpersonen, Organisationen und die Gesellschaft ein."
   },
   "cta": {
     "eyebrow": "Mitmachen",

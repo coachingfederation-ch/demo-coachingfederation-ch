@@ -16,7 +16,7 @@
   "upcoming": {
     "eyebrow": "In arrivo",
     "title": "I prossimi appuntamenti.",
-    "empty": "Al momento non ci sono eventi in programma. Torna presto a trovarci."
+    "empty": "Al momento non ci sono eventi in programma. Torna a visitarci presto."
   },
   "past": {
     "eyebrow": "Eventi passati",
@@ -32,37 +32,37 @@
     "online": "Online",
     "hybrid": "Ibrido",
     "registration": "Iscrizione",
-    "full": "Al completo"
+    "full": "Tutto esaurito"
   },
   "detail": {
     "backToEvents": "Tutti gli eventi",
     "rsvpEyebrow": "Iscrizione",
     "rsvp": "Iscriviti",
-    "saving": "Salvataggio…",
+    "saving": "Salvataggio in corso…",
     "fieldName": "Nome e cognome",
-    "fieldEmail": "E-mail",
-    "fieldNotes": "C'è qualcosa che dovremmo sapere? (facoltativo)",
-    "confirmed": "Iscrizione registrata. Il tuo posto è confermato.",
-    "youAreIn": "Sei iscritto a questo evento.",
+    "fieldEmail": "Email",
+    "fieldNotes": "C'è altro che dovremmo sapere? (opzionale)",
+    "confirmed": "Iscrizione confermata. Abbiamo riservato il tuo posto.",
+    "youAreIn": "Sei iscritto/a a questo evento.",
     "cancel": "Annulla la mia iscrizione",
-    "full": "Questo evento è al completo.",
-    "closed": "Le iscrizioni non sono aperte.",
-    "noRegistration": "Nessuna iscrizione necessaria — vieni pure.",
+    "full": "Questo evento è tutto esaurito.",
+    "closed": "Le iscrizioni per questo evento sono chiuse.",
+    "noRegistration": "Nessuna iscrizione richiesta — ti aspettiamo!",
     "pastEvent": "Questo evento si è già svolto.",
-    "membersOnly": "L'iscrizione è riservata ai membri autenticati.",
+    "membersOnly": "L'iscrizione a questo evento è riservata ai membri autenticati.",
     "signIn": "Accedi",
-    "seatsLeft": "{n} posti disponibili",
+    "seatsLeft": "{n} posti rimasti",
     "joinLink": "Partecipa alla sessione online",
-    "privacy": "Usiamo i tuoi dati solo per organizzare questo evento.",
+    "privacy": "Utilizziamo i tuoi dati esclusivamente per gestire la partecipazione a questo evento.",
     "error": {
-      "full": "L'evento è appena andato al completo.",
-      "closed": "Le iscrizioni sono chiuse.",
-      "duplicate": "Questo indirizzo e-mail è già iscritto.",
-      "error": "Qualcosa è andato storto. Riprova."
+      "full": "Questo evento è appena andato esaurito.",
+      "closed": "Le iscrizioni per questo evento sono chiuse.",
+      "duplicate": "Questo indirizzo email è già registrato.",
+      "error": "Si è verificato un errore. Riprova."
     },
     "notFoundTitle": "Evento non trovato",
-    "notFoundBody": "L'evento potrebbe essere stato ritirato o il link non è corretto.",
-    "errorTitle": "Impossibile caricare l'evento",
-    "errorBody": "Riprova tra un istante."
+    "notFoundBody": "Questo evento potrebbe essere stato rimosso oppure il link non è corretto.",
+    "errorTitle": "Impossibile caricare questo evento",
+    "errorBody": "Riprova tra qualche istante."
   }
 }

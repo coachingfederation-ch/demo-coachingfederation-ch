@@ -8,7 +8,7 @@
     "titlePre": "Finden Sie einen ",
     "titleAccent": "zertifizierten",
     "titlePost": " Coach.",
-    "lede": "Jeder aufgeführte Coach verfügt über eine aktive ICF-Zertifizierung und verpflichtet sich zu den ethischen Richtlinien der ICF."
+    "lede": "Jeder aufgeführte Coach verfügt über eine aktive ICF-Zertifizierung und verpflichtet sich den ICF-Ethikrichtlinien."
   },
   "filters": {
     "title": "Filter",
@@ -34,11 +34,11 @@
     "oneMode": "1 Ergebnis in {mode}",
     "manyMode": "{count} Ergebnisse in {mode}",
     "emptyTitle": "Keine Coaches entsprechen Ihren Filtern",
-    "emptyBody": "Versuchen Sie, Ihre Auswahl nach Kanton oder Spezialisierung zu erweitern.",
-    "emptyModeBody": "Keine Ergebnisse in {mode} entsprechen Ihren Filtern — erweitern Sie Ihre Auswahl nach Kanton oder Spezialisierung.",
+    "emptyBody": "Versuchen Sie, Ihre Kanton- oder Spezialisierungsauswahl zu erweitern.",
+    "emptyModeBody": "Noch keine Ergebnisse in {mode}, die Ihren Filtern entsprechen — versuchen Sie, Ihre Kanton- oder Spezialisierungsauswahl zu erweitern.",
     "loading": "Coaches werden geladen…",
     "errorTitle": "Das Verzeichnis ist vorübergehend nicht verfügbar",
-    "errorBody": "Bitte versuchen Sie es in einem Moment erneut.",
+    "errorBody": "Bitte versuchen Sie es in einem kurzen Moment erneut.",
     "prev": "Zurück",
     "next": "Weiter"
   },
@@ -47,7 +47,7 @@
     "accepting": "Nimmt neue Klienten an",
     "waitlist": "Nur Warteliste",
     "credentialSince": "Zertifiziert seit {year}",
-    "viewProfile": "Profil ansehen"
+    "viewProfile": "Profil anzeigen"
   },
   "formats": {
     "in-person": "Vor Ort",
@@ -62,30 +62,30 @@
   "specializations": {
     "leadership": "Leadership",
     "career": "Karriere",
-    "team": "Team-Coaching",
+    "team": "Teamcoaching",
     "executive": "Executive",
-    "transition": "Transition",
+    "transition": "Neuorientierung",
     "wellbeing": "Wohlbefinden",
     "systemic": "Systemisch",
     "diversity": "Diversity & Inklusion"
   },
   "note": {
-    "title": "Profile stammen von ICF Global",
-    "body": "Die Coach-Daten werden von ICF Global verwaltet. Mitglieder können ihr Profil auf diesem Portal mit zusätzlichen Inhalten ergänzen."
+    "title": "Profile von ICF Global",
+    "body": "Die Coach-Einträge werden von ICF Global verwaltet. Mitglieder können ihr Profil auf diesem Portal mit zusätzlichen Inhalten ergänzen."
   },
   "detail": {
     "back": "Zurück zur Suche",
-    "about": "Über",
+    "about": "Über mich",
     "specialisations": "Spezialisierung",
     "formats": "Format",
     "languages": "Sprachen",
-    "regions": "Einsatzgebiete",
+    "regions": "Tätigkeitsgebiete",
     "links": "Links",
     "notFoundTitle": "Dieses Coach-Profil ist nicht verfügbar",
-    "notFoundBody": "Das Profil wurde möglicherweise depubliziert. Im Verzeichnis finden Sie weitere zertifizierte Coaches.",
-    "metaFallback": "{name} ist ein ICF-zertifizierter Coach im Verzeichnis von The Switzerland Chapter of ICF.",
-    "approach": "So arbeite ich",
-    "clientTypes": "Mit wem ich arbeite",
+    "notFoundBody": "Das Profil wurde möglicherweise entfernt. Durchsuchen Sie das Verzeichnis, um einen anderen zertifizierten Coach zu finden.",
+    "metaFallback": "{name} ist ein ICF-zertifizierter Coach, eingetragen im Verzeichnis von The Switzerland Chapter of ICF.",
+    "approach": "Arbeitsweise",
+    "clientTypes": "Zielgruppen",
     "qualifications": "Zertifizierungen & Ausbildung",
     "fees": "Honorar",
     "session": "Sitzungsdauer",
