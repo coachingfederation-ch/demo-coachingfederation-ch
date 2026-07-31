@@ -10,11 +10,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Loader2, RefreshCw, Eye, EyeOff, Check, ExternalLink } from "lucide-react";
+import { Loader2, RefreshCw, Eye, EyeOff, Check, ExternalLink, AlertTriangle } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";
 import { supabase } from "@/integrations/supabase/client";
-import { runEuropePulseNow } from "@/lib/europe-pulse.functions";
+import { runEuropePulseNow, retryFailedChapters } from "@/lib/europe-pulse.functions";
 import { flagFor, PULSE_COLUMNS, type PulsePublishMode, type PulseRow } from "@/lib/europe-pulse";
 
 export const Route = createFileRoute("/_staff/manage/europe-pulse")({
@@ -37,6 +37,7 @@ type ChapterRow = {
   is_active: boolean;
   last_status: string | null;
   last_scanned_at: string | null;
+  consecutive_failures: number;
 };
 
 type RunRow = {
@@ -51,13 +52,31 @@ type RunRow = {
   started_at: string;
 };
 
+type FailureRow = {
+  chapter: string;
+  failure_kind: string | null;
+  error_message: string | null;
+};
+
+/** Plain-language explanation per failure category, shown next to each chapter. */
+const FAILURE_HINTS: Record<string, string> = {
+  rate_limit: "Scan allowance for the minute was used up — a retry usually succeeds.",
+  upstream_error: "The chapter site or the scanner was temporarily unreachable.",
+  not_found: "The page no longer exists — the chapter URL needs updating.",
+  empty_page: "The page loaded but had no readable content to extract.",
+  other: "Unexpected error — see the message.",
+};
+
 function EuropePulseAdmin() {
   const runScan = useServerFn(runEuropePulseNow);
+  const retryFailed = useServerFn(retryFailedChapters);
   const [mode, setMode] = useState<PulsePublishMode>("automatic");
   const [items, setItems] = useState<PulseRow[]>([]);
   const [chapters, setChapters] = useState<ChapterRow[]>([]);
   const [runs, setRuns] = useState<RunRow[]>([]);
+  const [failures, setFailures] = useState<FailureRow[]>([]);
   const [busy, setBusy] = useState(false);
+  const [retrying, setRetrying] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -72,7 +91,9 @@ function EuropePulseAdmin() {
         .limit(60),
       supabase
         .from("europe_pulse_chapters")
-        .select("id, chapter, country, country_code, base_url, is_active, last_status, last_scanned_at")
+        .select(
+          "id, chapter, country, country_code, base_url, is_active, last_status, last_scanned_at, consecutive_failures",
+        )
         .order("sort_order", { ascending: true }),
       supabase
         .from("europe_pulse_runs")
@@ -85,7 +106,19 @@ function EuropePulseAdmin() {
     if (config.data) setMode(config.data.publish_mode as PulsePublishMode);
     setItems((itemRows.data ?? []) as unknown as PulseRow[]);
     setChapters((chapterRows.data ?? []) as ChapterRow[]);
-    setRuns((runRows.data ?? []) as RunRow[]);
+    const runList = (runRows.data ?? []) as RunRow[];
+    setRuns(runList);
+
+    // Failures of the most recent run drive the retry panel.
+    const latest = runList[0];
+    if (!latest) return setFailures([]);
+    const { data: failureRows } = await supabase
+      .from("europe_pulse_raw")
+      .select("chapter, failure_kind, error_message")
+      .eq("run_id", latest.id)
+      .eq("status", "failed")
+      .order("chapter", { ascending: true });
+    setFailures((failureRows ?? []) as FailureRow[]);
   };
 
   useEffect(() => {
@@ -134,6 +167,27 @@ function EuropePulseAdmin() {
       setError(err instanceof Error ? err.message : "The scan could not be started.");
     } finally {
       setBusy(false);
+    }
+  };
+
+  const retryNow = async () => {
+    const latest = runs[0];
+    if (!latest) return;
+    setRetrying(true);
+    setError(null);
+    setNotice(null);
+    try {
+      const result = await retryFailed({ data: { runId: latest.id } });
+      setNotice(
+        result
+          ? `Retry finished: ${result.chaptersOk} recovered, ${result.chaptersFailed} still failing — ${result.curatedItems} items curated.`
+          : "Nothing to retry — the last run had no failed chapters.",
+      );
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "The retry could not be started.");
+    } finally {
+      setRetrying(false);
     }
   };
 
@@ -197,6 +251,54 @@ function EuropePulseAdmin() {
             ))}
           </div>
         </section>
+
+        {failures.length ? (
+          <section className="mt-8 rounded-xl border border-destructive/30 bg-destructive/5 p-5">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <h2 className="flex items-center gap-2 text-sm font-semibold">
+                  <AlertTriangle className="h-4 w-4 text-destructive" />
+                  {failures.length} chapters failed in the last run
+                </h2>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Retrying re-scans only these chapters and rebuilds this week&apos;s feed.
+                </p>
+              </div>
+              <button
+                onClick={retryNow}
+                disabled={retrying || busy}
+                className="inline-flex h-9 items-center gap-2 rounded-full bg-secondary px-4 text-xs font-semibold transition hover:bg-secondary/80 disabled:opacity-60"
+              >
+                {retrying ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  <RefreshCw className="h-3.5 w-3.5" />
+                )}
+                {retrying ? "Retrying…" : "Retry failed chapters"}
+              </button>
+            </div>
+            <ul className="mt-4 flex flex-col gap-2">
+              {failures.map((failure) => (
+                <li key={failure.chapter} className="rounded-lg bg-card px-4 py-2.5">
+                  <p className="text-sm font-medium">
+                    {failure.chapter}
+                    <span className="ml-2 rounded-full bg-secondary px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      {(failure.failure_kind ?? "other").replace("_", " ")}
+                    </span>
+                  </p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">
+                    {FAILURE_HINTS[failure.failure_kind ?? "other"] ?? FAILURE_HINTS.other}
+                  </p>
+                  {failure.error_message ? (
+                    <p className="mt-1 truncate text-[11px] text-muted-foreground/80">
+                      {failure.error_message}
+                    </p>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
 
         <section className="mt-8">
           <h2 className="text-sm font-semibold">
