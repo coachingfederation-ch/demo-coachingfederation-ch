@@ -655,6 +655,7 @@ export type Database = {
         Row: {
           base_url: string
           chapter: string
+          consecutive_failures: number
           country: string
           country_code: string
           created_at: string
@@ -668,6 +669,7 @@ export type Database = {
         Insert: {
           base_url: string
           chapter: string
+          consecutive_failures?: number
           country: string
           country_code: string
           created_at?: string
@@ -681,6 +683,7 @@ export type Database = {
         Update: {
           base_url?: string
           chapter?: string
+          consecutive_failures?: number
           country?: string
           country_code?: string
           created_at?: string
@@ -727,6 +730,7 @@ export type Database = {
           country: string
           error_message: string | null
           extracted_items: Json
+          failure_kind: string | null
           id: string
           run_id: string
           scan_date: string
@@ -739,6 +743,7 @@ export type Database = {
           country: string
           error_message?: string | null
           extracted_items?: Json
+          failure_kind?: string | null
           id?: string
           run_id: string
           scan_date?: string
@@ -751,6 +756,7 @@ export type Database = {
           country?: string
           error_message?: string | null
           extracted_items?: Json
+          failure_kind?: string | null
           id?: string
           run_id?: string
           scan_date?: string
