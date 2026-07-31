@@ -22,7 +22,7 @@ export default function AboutPage() {
         lede={t("about.hero.lede")}
       />
       <main id="main">
-        <section className="bg-white text-foreground">
+        <section className="bg-card text-foreground">
           <div className="mx-auto grid max-w-7xl gap-10 px-8 py-24 md:grid-cols-[1.2fr_1fr] md:items-center">
             <div>
               <p className="eyebrow !text-accent">{t("about.mission.eyebrow")}</p>
@@ -41,7 +41,7 @@ export default function AboutPage() {
                 Find out more
               </a>
             </div>
-            <div className="grid aspect-[4/3] place-items-center rounded-2xl bg-muted">
+            <div className="grid aspect-[4/3] place-items-center rounded-2xl border border-border/70 bg-background">
               <Mark name="star" className="h-1/2 w-1/2 text-mark-indigo" />
             </div>
           </div>
@@ -51,7 +51,8 @@ export default function AboutPage() {
 
         <CommunitiesPreview />
 
-        <section className="mx-auto max-w-7xl px-8 py-24">
+        <section className="bg-background py-24">
+          <div className="mx-auto max-w-7xl px-8">
           <p className="eyebrow">{t("about.research.eyebrow")}</p>
           <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
             {t("about.research.title")}
@@ -79,6 +80,7 @@ export default function AboutPage() {
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{r.desc}</p>
               </div>
             ))}
+          </div>
           </div>
         </section>
 

@@ -22,7 +22,8 @@ export default function CommunityDetailPage({ slug }: { slug: string }) {
         lede={data?.cadence ?? t("communities.detail.lede")}
       />
       <main id="main">
-        <section className="mx-auto max-w-5xl px-6 py-16 sm:px-8">
+        <section className="bg-background py-16">
+          <div className="mx-auto max-w-5xl px-6 sm:px-8">
           <LocaleLink
             to="/communities"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
@@ -97,6 +98,7 @@ export default function CommunityDetailPage({ slug }: { slug: string }) {
               </div>
             </div>
           )}
+          </div>
         </section>
       </main>
       <SiteFooter />

@@ -105,7 +105,7 @@ function WhyCredentialed() {
   const { t, tList } = useI18n();
   const pillars = tList<{ title: string; desc: string }>("home.pillars.items");
   return (
-    <section className="relative bg-muted py-24 mt-16">
+    <section className="relative bg-card py-24 mt-16">
       <Mark
         name="circular1"
         className="pointer-events-none absolute -right-16 top-10 h-72 w-72 text-mark-indigo opacity-30"
@@ -152,7 +152,8 @@ function CoachingInAction() {
     ...THEME_STYLES[i],
   }));
   return (
-    <section className="mx-auto max-w-7xl px-8 py-24">
+    <section className="bg-background py-24">
+      <div className="mx-auto max-w-7xl px-8">
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div>
           <p className="eyebrow">{t("home.insights.eyebrow")}</p>
@@ -186,6 +187,7 @@ function CoachingInAction() {
           </LocaleLink>
         ))}
       </div>
+      </div>
     </section>
   );
 }
@@ -193,21 +195,21 @@ function CoachingInAction() {
 function ForOrganisations() {
   const { t } = useI18n();
   return (
-    <section id="organisations" className="bg-primary text-white">
+    <section id="organisations" className="bg-card text-foreground">
       <div className="mx-auto grid max-w-7xl gap-14 px-8 py-24 md:grid-cols-2 md:items-center">
         <div>
-          <p className="eyebrow !text-accent">{t("home.organisations.eyebrow")}</p>
+          <p className="eyebrow">{t("home.organisations.eyebrow")}</p>
           <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
             {t("home.organisations.title")}
           </h2>
-          <p className="mt-5 max-w-lg text-base leading-relaxed text-white/85">
+          <p className="mt-5 max-w-lg text-base leading-relaxed text-muted-foreground">
             {t("home.organisations.subtitle")}
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <LocaleLink
               to="/for-organisations"
               hash="organisation-contact"
-              className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90"
+              className="inline-flex h-10 items-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
             >
               {t("home.organisations.talkToUs")}
             </LocaleLink>
@@ -215,7 +217,7 @@ function ForOrganisations() {
               href="https://coachingfederation.org/resources/resource-library/?_topic=coaching-in-organizations&_resource_type=case-studies"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10"
+              className="inline-flex h-10 items-center rounded-full border border-border px-5 text-sm font-semibold text-foreground transition hover:bg-secondary"
             >
               {t("home.organisations.caseStudies")}
             </a>
@@ -250,7 +252,8 @@ function Communities() {
     }),
   );
   return (
-    <section className="mx-auto max-w-7xl px-8 py-24 text-center">
+    <section className="bg-background py-24">
+      <div className="mx-auto max-w-7xl px-8 text-center">
       <p className="eyebrow">{t("home.communities.eyebrow")}</p>
       <h2 className="mx-auto mt-3 max-w-3xl text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
         {t("home.communities.title")}
@@ -284,6 +287,7 @@ function Communities() {
           </LocaleLink>
         ))}
       </div>
+      </div>
     </section>
   );
 }
@@ -300,7 +304,7 @@ function Events() {
     "home.events.items",
   ).map((item, i) => ({ ...item, ...EVENT_STYLES[i] }));
   return (
-    <section className="bg-muted py-24">
+    <section className="bg-card py-24">
       <div className="mx-auto max-w-7xl px-8">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
@@ -356,7 +360,8 @@ function Research() {
   const { t, tList } = useI18n();
   const partners = tList<string>("home.research.partners");
   return (
-    <section className="mx-auto max-w-7xl px-8 py-24 text-center">
+    <section className="bg-background py-24">
+      <div className="mx-auto max-w-7xl px-8 text-center">
       <p className="eyebrow">{t("home.research.eyebrow")}</p>
       <h2 className="mx-auto mt-3 max-w-3xl text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl">
         {t("home.research.title")}
@@ -376,6 +381,7 @@ function Research() {
             {p}
           </div>
         ))}
+      </div>
       </div>
     </section>
   );

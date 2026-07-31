@@ -529,7 +529,7 @@ export function CoachDirectory() {
         {t("directory.filters.acceptingLabel")}
       </label>
 
-      <div className={"rounded-2xl border border-border/70 bg-muted p-5 " + CARD_SHADOW}>
+      <div className={"rounded-2xl border border-border bg-background p-5 " + CARD_SHADOW}>
         <p className="text-sm font-bold text-foreground">{t("directory.note.title")}</p>
         <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
           {t("directory.note.body")}
@@ -539,7 +539,8 @@ export function CoachDirectory() {
   );
 
   return (
-    <section className="mx-auto max-w-7xl px-8 py-16">
+    <section className="bg-card py-16">
+      <div className="mx-auto max-w-7xl px-8">
       {modes.length > 1 && mode && (
         <div className="mb-10">
           <ModeTabs
@@ -640,6 +641,7 @@ export function CoachDirectory() {
             </div>
           )}
         </div>
+      </div>
       </div>
     </section>
   );
