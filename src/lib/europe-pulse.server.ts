@@ -248,6 +248,10 @@ export async function runEuropePulse(options: {
   let failed = 0;
   const pool: PoolItem[] = [];
 
+  console.log(
+    `[europe-pulse] run=${runId} week=${week} chapters=${chapters.length} trigger=${options.triggerSource}`,
+  );
+
   try {
     for (let i = 0; i < chapters.length; i += BATCH_SIZE) {
       const batch = chapters.slice(i, i + BATCH_SIZE);
@@ -268,8 +272,14 @@ export async function runEuropePulse(options: {
       );
 
       for (const result of results) {
-        if (result.error) failed += 1;
-        else ok += 1;
+        if (result.error) {
+          failed += 1;
+          console.warn(
+            `[europe-pulse] chapter failed chapter=${JSON.stringify(result.chapter.chapter)} error=${JSON.stringify(result.error)}`,
+          );
+        } else {
+          ok += 1;
+        }
         for (const item of result.items) {
           pool.push({
             ...item,
@@ -296,9 +306,15 @@ export async function runEuropePulse(options: {
           })
           .eq("id", result.chapter.id);
       }
+      console.log(
+        `[europe-pulse] scanned ${Math.min(i + BATCH_SIZE, chapters.length)}/${chapters.length} ok=${ok} failed=${failed} pooled=${pool.length}`,
+      );
     }
 
     const curated = await curate(pool, cap, maxPerChapter);
+    console.log(
+      `[europe-pulse] curated items=${curated.length} from pool=${pool.length} mode=${publishMode}`,
+    );
 
     // Only the current week is shown, so this week's rows are replaced
     // wholesale rather than merged — a re-run is idempotent.
@@ -353,6 +369,7 @@ export async function runEuropePulse(options: {
     };
   } catch (err) {
     const message = err instanceof Error ? err.message : "Europe Pulse run failed";
+    console.error(`[europe-pulse] run=${runId} failed error=${JSON.stringify(message)}`);
     await supabaseAdmin
       .from("europe_pulse_runs")
       .update({
