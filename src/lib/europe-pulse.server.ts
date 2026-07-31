@@ -118,6 +118,20 @@ function asDate(value: unknown): string | null {
   return /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : null;
 }
 
+/** Today in ISO date form — the cut-off for "still relevant". */
+function todayIso(): string {
+  return new Date().toISOString().slice(0, 10);
+}
+
+/**
+ * The feed only carries items a member can still act on, so an item needs a
+ * resolved date that has not passed. Undated items are dropped: the extraction
+ * prompt is told to work the date out of the page content first.
+ */
+function isStillRelevant(eventDate: string | null): boolean {
+  return eventDate !== null && eventDate >= todayIso();
+}
+
 function absoluteUrl(raw: unknown, base: string): string | null {
   try {
     const url = new URL(String(raw ?? ""), base);
