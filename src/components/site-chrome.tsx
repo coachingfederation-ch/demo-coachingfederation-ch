@@ -340,7 +340,7 @@ export function SiteHeaderBar({ compact = false }: { compact?: boolean }) {
       {/* WCAG 2.4.1: lets keyboard users bypass the header on every page. */}
       <a
         href="#main"
-        className="sr-only left-0 top-0 z-50 rounded-full bg-white text-sm font-semibold text-primary focus:not-sr-only focus:absolute focus:!px-4 focus:!py-2.5 skip-link"
+        className="sr-only left-0 top-0 z-50 rounded-full bg-white text-sm font-semibold text-primary focus:not-sr-only focus:absolute focus:!px-4 focus:!py-2.5"
       >
         {t("common.nav.skipToContent")}
       </a>
