@@ -91,7 +91,7 @@ export function CultureSurvey() {
   const selectedInsight = pressures.find((p) => p.id === pressure)?.insight;
 
   return (
-    <section id="assessment" className="bg-muted py-24">
+    <section id="assessment" className="bg-background py-24">
       <div className="mx-auto max-w-4xl px-8">
         <p className="eyebrow">{t("organisations.survey.eyebrow")}</p>
         <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">

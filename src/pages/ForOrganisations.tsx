@@ -65,7 +65,8 @@ export default function ForOrganisationsPage() {
 
         <DeckSection />
 
-        <section className="bg-muted py-24">
+        {/* Raised surface: the numbered "how it works" list. */}
+        <section className="bg-card py-24">
           <div className="mx-auto max-w-7xl px-8">
             <p className="eyebrow">{t("organisations.steps.eyebrow")}</p>
             <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
@@ -89,37 +90,40 @@ export default function ForOrganisationsPage() {
 
         <Initiatives />
 
-        <section className="mx-auto max-w-7xl px-8 py-24">
-          <p className="eyebrow">{t("organisations.programmes.eyebrow")}</p>
-          <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
-            {t("organisations.programmes.title")}
-          </h2>
-          <div className="mt-12 grid gap-4 md:grid-cols-3">
-            {programmes.map((p, i) => {
-              const v = programmeVisuals[i];
-              return (
-                <a
-                  key={p.tag}
-                  href="#"
-                  className={
-                    "group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 " +
-                    CARD_SHADOW
-                  }
-                >
-                  <div
-                    className={"grid aspect-[4/3] w-full place-items-center " + v.bg + " " + v.fg}
+        {/* Raised surface: programme cards. */}
+        <section className="bg-card py-24">
+          <div className="mx-auto max-w-7xl px-8">
+            <p className="eyebrow">{t("organisations.programmes.eyebrow")}</p>
+            <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+              {t("organisations.programmes.title")}
+            </h2>
+            <div className="mt-12 grid gap-4 md:grid-cols-3">
+              {programmes.map((p, i) => {
+                const v = programmeVisuals[i];
+                return (
+                  <a
+                    key={p.tag}
+                    href="#"
+                    className={
+                      "group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-0.5 " +
+                      CARD_SHADOW
+                    }
                   >
-                    <Mark name={v.mark} className="h-1/2 w-1/2" />
-                  </div>
-                  <div className="p-6">
-                    <p className="section-label">{p.tag}</p>
-                    <h3 className="mt-2 text-base font-semibold leading-snug tracking-tight">
-                      {p.title}
-                    </h3>
-                  </div>
-                </a>
-              );
-            })}
+                    <div
+                      className={"grid aspect-[4/3] w-full place-items-center " + v.bg + " " + v.fg}
+                    >
+                      <Mark name={v.mark} className="h-1/2 w-1/2" />
+                    </div>
+                    <div className="p-6">
+                      <p className="section-label">{p.tag}</p>
+                      <h3 className="mt-2 text-base font-semibold leading-snug tracking-tight">
+                        {p.title}
+                      </h3>
+                    </div>
+                  </a>
+                );
+              })}
+            </div>
           </div>
         </section>
 

@@ -26,27 +26,31 @@ export function Differentiators() {
   const { t, tList } = useI18n();
   const items = tList<{ title: string; desc: string }>("organisations.why.items");
   return (
-    <section className="mx-auto max-w-7xl px-8 py-24">
-      <p className="eyebrow">{t("organisations.why.eyebrow")}</p>
-      <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
-        {t("organisations.why.title")}
-      </h2>
-      <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-        {t("organisations.why.lede")}
-      </p>
-      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map((item, i) => (
-          <div
-            key={item.title}
-            className={"rounded-2xl border border-border/70 bg-card p-7 " + CARD_SHADOW}
-          >
-            <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent/15 text-primary">
-              <Mark name={whyMarks[i % whyMarks.length]} className="h-6 w-6" />
-            </span>
-            <h3 className="mt-5 text-base font-semibold tracking-tight">{item.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
-          </div>
-        ))}
+    // Raised surface: card/list section (see the surface rhythm in project knowledge).
+    <section className="bg-card py-24">
+      <div className="mx-auto max-w-7xl px-8">
+        <p className="eyebrow">{t("organisations.why.eyebrow")}</p>
+        <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+          {t("organisations.why.title")}
+        </h2>
+        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          {t("organisations.why.lede")}
+        </p>
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((item, i) => (
+            // Card on a raised (white) band: full-strength border so the edge stays legible.
+            <div
+              key={item.title}
+              className={"rounded-2xl border border-border bg-card p-7 " + CARD_SHADOW}
+            >
+              <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent/15 text-primary">
+                <Mark name={whyMarks[i % whyMarks.length]} className="h-6 w-6" />
+              </span>
+              <h3 className="mt-5 text-base font-semibold tracking-tight">{item.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -64,7 +68,8 @@ export function Initiatives() {
     "organisations.initiatives.items",
   );
   return (
-    <section className="bg-muted py-24">
+    // Base surface: soft lavender page background.
+    <section className="bg-background py-24">
       <div className="mx-auto max-w-7xl px-8">
         <p className="eyebrow">{t("organisations.initiatives.eyebrow")}</p>
         <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
@@ -124,32 +129,35 @@ export function EventsStrip() {
   const { t, tList } = useI18n();
   const items = tList<{ date: string; title: string; desc: string }>("organisations.events.items");
   return (
-    <section className="mx-auto max-w-7xl px-8 py-24">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="eyebrow">{t("organisations.events.eyebrow")}</p>
-          <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
-            {t("organisations.events.title")}
-          </h2>
-        </div>
-        <LocaleLink
-          to="/events"
-          className="inline-flex h-10 items-center rounded-full border border-border px-5 text-sm font-semibold transition hover:bg-muted"
-        >
-          {t("organisations.events.cta")} →
-        </LocaleLink>
-      </div>
-      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {items.map((e) => (
-          <div
-            key={e.title}
-            className={"rounded-2xl border border-border/70 bg-card p-6 " + CARD_SHADOW}
-          >
-            <p className="btn-mono text-xs font-bold !text-teal-foreground">{e.date}</p>
-            <h3 className="mt-3 text-sm font-semibold leading-snug tracking-tight">{e.title}</h3>
-            <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{e.desc}</p>
+    // Raised surface: card/list section.
+    <section className="bg-card py-24">
+      <div className="mx-auto max-w-7xl px-8">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="eyebrow">{t("organisations.events.eyebrow")}</p>
+            <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+              {t("organisations.events.title")}
+            </h2>
           </div>
-        ))}
+          <LocaleLink
+            to="/events"
+            className="inline-flex h-10 items-center rounded-full border border-border px-5 text-sm font-semibold transition hover:bg-muted"
+          >
+            {t("organisations.events.cta")} →
+          </LocaleLink>
+        </div>
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {items.map((e) => (
+            <div
+              key={e.title}
+              className={"rounded-2xl border border-border bg-card p-6 " + CARD_SHADOW}
+            >
+              <p className="btn-mono text-xs font-bold !text-teal-foreground">{e.date}</p>
+              <h3 className="mt-3 text-sm font-semibold leading-snug tracking-tight">{e.title}</h3>
+              <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{e.desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
