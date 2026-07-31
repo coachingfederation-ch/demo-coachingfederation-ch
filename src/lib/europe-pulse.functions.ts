@@ -23,12 +23,17 @@ export const listEuropePulse = createServerFn({ method: "GET" })
   )
   .handler(async ({ data }): Promise<PulseFeed> => {
     const { publicSupabaseClient } = await import("./supabase-public.server");
+    // Read-time cut-off: an item disappears from the feed the day after it
+    // happens, without waiting for the next weekly scan.
+    const today = new Date().toISOString().slice(0, 10);
     const { data: rows, error } = await publicSupabaseClient()
       .from("europe_pulse")
       .select(PULSE_COLUMNS)
       .eq("status", "published")
+      .not("event_date", "is", null)
+      .gte("event_date", today)
       .order("week_of", { ascending: false })
-      .order("sort_rank", { ascending: true })
+      .order("event_date", { ascending: true })
       .limit(60);
     if (error) throw error;
 

@@ -118,6 +118,20 @@ function asDate(value: unknown): string | null {
   return /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : null;
 }
 
+/** Today in ISO date form — the cut-off for "still relevant". */
+function todayIso(): string {
+  return new Date().toISOString().slice(0, 10);
+}
+
+/**
+ * The feed only carries items a member can still act on, so an item needs a
+ * resolved date that has not passed. Undated items are dropped: the extraction
+ * prompt is told to work the date out of the page content first.
+ */
+function isStillRelevant(eventDate: string | null): boolean {
+  return eventDate !== null && eventDate >= todayIso();
+}
+
 function absoluteUrl(raw: unknown, base: string): string | null {
   try {
     const url = new URL(String(raw ?? ""), base);
@@ -215,7 +229,12 @@ async function extractItems(chapter: ChapterRow, markdown: string): Promise<Extr
       "conferences and chapter news. Ignore navigation, membership boilerplate, cookie notices " +
       "and evergreen marketing copy. Translate every title and description into concise English. " +
       'Reply as {"items":[{"title","description","url","type","event_date"}]} with at most 5 items. ' +
-      '"type" is one of event, news, webinar, workshop, conference. "event_date" is YYYY-MM-DD or null. ' +
+      '"type" is one of event, news, webinar, workshop, conference. "event_date" is YYYY-MM-DD. ' +
+      `Today is ${todayIso()}. Every item MUST carry a date that is today or later: work it out ` +
+      "from the content (an explicit date, the last day of a date range, a registration or " +
+      "application deadline, a year in the title). Skip anything that already happened, any recap " +
+      "or report of a past activity, and anything whose date you cannot determine — return those " +
+      "as no item at all rather than guessing or using null. " +
       '"url" is the most specific link you saw for the item, or the page URL. ' +
       "Descriptions are at most 220 characters. Reply with JSON only, and an empty array if nothing qualifies.",
     `Chapter: ${chapter.chapter} (${chapter.country})\nPage URL: ${chapter.base_url}\n\n${markdown}`,
@@ -226,13 +245,16 @@ async function extractItems(chapter: ChapterRow, markdown: string): Promise<Extr
       const item = raw as Record<string, unknown>;
       const title = String(item.title ?? "").trim();
       if (!title) return null;
+      // Undated or past items never enter the pool.
+      const eventDate = asDate(item.event_date);
+      if (!isStillRelevant(eventDate)) return null;
       const description = String(item.description ?? "").trim();
       return {
         title: title.slice(0, 200),
         description: description ? description.slice(0, 300) : null,
         url: absoluteUrl(item.url, chapter.base_url) ?? chapter.base_url,
         type: asType(item.type),
-        event_date: asDate(item.event_date),
+        event_date: eventDate,
       } satisfies ExtractedItem;
     })
     .filter((i): i is ExtractedItem => i !== null);
@@ -266,6 +288,9 @@ async function curate(
     const item = raw as Record<string, unknown>;
     const source = pool[Number(item.index)];
     if (!source) continue;
+    // Belt and braces: the model can only pick from an already-filtered pool,
+    // but never let an undated or past item through to the feed.
+    if (!isStillRelevant(source.event_date)) continue;
     const used = perChapter.get(source.chapter) ?? 0;
     if (used >= maxPerChapter) continue;
     if (chosen.length >= cap) break;
@@ -322,11 +347,17 @@ async function poolForWeek(week: string): Promise<PoolItem[]> {
 
   const seen = new Set<string>();
   const pool: PoolItem[] = [];
+  let dropped = 0;
   for (const raw of raws ?? []) {
     const key = (raw.chapter_id as string | null) ?? (raw.chapter as string);
     if (seen.has(key)) continue; // rows are newest-first, so keep the first
     seen.add(key);
     for (const item of (raw.extracted_items ?? []) as ExtractedItem[]) {
+      // Rows stored by an earlier run of the same week can have aged out.
+      if (!isStillRelevant(item.event_date ?? null)) {
+        dropped += 1;
+        continue;
+      }
       pool.push({
         ...item,
         chapter: raw.chapter as string,
@@ -335,6 +366,7 @@ async function poolForWeek(week: string): Promise<PoolItem[]> {
       });
     }
   }
+  console.log(`[europe-pulse] pool=${pool.length} dropped_past_or_undated=${dropped}`);
   return pool;
 }
 
