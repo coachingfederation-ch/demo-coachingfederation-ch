@@ -16,7 +16,8 @@ export function BenefitGrid() {
   const { t, tList } = useI18n();
   const items = tList<{ title: string; desc: string }>("coaches.benefits.items");
   return (
-    <section className="mx-auto max-w-7xl px-8 py-24">
+    <section className="bg-card py-24">
+      <div className="mx-auto max-w-7xl px-8">
       <p className="eyebrow">{t("coaches.benefits.eyebrow")}</p>
       <h2 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
         {t("coaches.benefits.title")}
