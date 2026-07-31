@@ -256,6 +256,7 @@ function EuropePulseAdmin() {
           <h2 className="text-sm font-semibold">
             Curated items{pending ? ` — ${pending} awaiting approval` : ""}
           </h2>
+
           {!items.length ? (
             <p className="mt-3 text-sm text-muted-foreground">
               Nothing curated yet. Run a scan to build this week&apos;s feed.
