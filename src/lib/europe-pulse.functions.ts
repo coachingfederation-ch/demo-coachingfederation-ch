@@ -50,3 +50,26 @@ export const runEuropePulseNow = createServerFn({ method: "POST" })
     const { runEuropePulse } = await import("./europe-pulse.server");
     return runEuropePulse({ triggerSource: "manual", triggeredBy: userId });
   });
+
+/**
+ * Re-scan only the chapters that failed in a given run. Curation still runs
+ * over the whole week, so a successful retry fills the gaps in the feed.
+ */
+export const retryFailedChapters = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => z.object({ runId: z.string().uuid() }).parse(input))
+  .handler(async ({ data, context }) => {
+    const userId = await assertAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: rows } = await supabaseAdmin
+      .from("europe_pulse_raw")
+      .select("chapter_id")
+      .eq("run_id", data.runId)
+      .eq("status", "failed");
+    const chapterIds = [
+      ...new Set((rows ?? []).map((r) => r.chapter_id as string | null).filter(Boolean) as string[]),
+    ];
+    if (!chapterIds.length) return null;
+    const { runEuropePulse } = await import("./europe-pulse.server");
+    return runEuropePulse({ triggerSource: "manual", triggeredBy: userId, chapterIds });
+  });
