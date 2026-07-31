@@ -369,15 +369,13 @@ export function CompactHero({
         <SiteHeaderBar compact />
         <div className="mt-14 max-w-3xl">
           <p className="eyebrow !text-accent">{eyebrow}</p>
-          <h1 className="mt-3 text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl">
-            {title}
-          </h1>
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/85">{lede}</p>
+          <h1 className="display-xl mt-4">{title}</h1>
+          <p className="mt-6 max-w-2xl text-[17px] leading-[1.65] text-white/85">{lede}</p>
           {ctaLabel && (
-            <div className="mt-8">
+            <div className="mt-9">
               <a
                 href={ctaHref}
-                className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-primary transition hover:bg-white/90"
+                className="inline-flex h-11 items-center rounded-full bg-accent px-6 text-sm font-semibold text-accent-foreground transition hover:brightness-105"
               >
                 {ctaLabel} →
               </a>
@@ -393,11 +391,14 @@ export function SiteFooter() {
   const { t } = useI18n();
   return (
     <footer className="bg-hero text-hero-foreground">
-      <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-3 px-8 py-6 text-xs sm:flex-row sm:items-center">
-        <p className="text-white/80">
+      <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-4 px-5 py-8 text-xs sm:flex-row sm:items-center sm:px-8">
+        <p className="text-white/70">
           © {new Date().getFullYear()} {t("common.footer.copyright")}
         </p>
-        <nav aria-label={t("common.nav.footerLabel")} className="flex flex-wrap items-center gap-4">
+        <nav
+          aria-label={t("common.nav.footerLabel")}
+          className="flex flex-wrap items-center gap-x-5 gap-y-1"
+        >
           <LocaleLink to="/find-a-coach" className="text-white/80 hover:text-white">
             {t("common.nav.findACoach")}
           </LocaleLink>
@@ -437,4 +438,4 @@ export function SiteFooter() {
 }
 
 export const CARD_SHADOW =
-  "shadow-[0_1px_2px_rgba(20,20,60,0.04),0_8px_20px_-14px_rgba(20,20,60,0.08)]";
+  "shadow-[0_1px_2px_rgba(33,34,81,0.03),0_6px_16px_-14px_rgba(33,34,81,0.06)]";
