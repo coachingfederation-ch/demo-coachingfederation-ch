@@ -19,18 +19,38 @@ export const Route = createFileRoute("/api/public/member-sync")({
         const expected = process.env.MEMBER_SYNC_CRON_TOKEN;
         const provided = request.headers.get("x-cron-token");
         if (!expected || !provided || provided !== expected) {
+          // Never log the token itself — only that a call was rejected.
+          console.warn("[member-sync] unauthorised request rejected");
           return new Response("Unauthorized", { status: 401 });
         }
+
+        const startedAt = Date.now();
+        console.log("[member-sync] start trigger=cron");
 
         const { loadIntegrationConfigAdmin } = await import("@/lib/integration-config.server");
         const config = await loadIntegrationConfigAdmin();
         if (config.cutover_in_progress) {
+          console.log("[member-sync] skipped reason=cutover_in_progress");
           return Response.json({ skipped: "cutover_in_progress" }, { status: 202 });
         }
 
         const { runMemberSync } = await import("@/lib/member-sync.server");
-        const result = await runMemberSync({ triggerSource: "cron" });
-        return Response.json(result, { status: result.status === "succeeded" ? 200 : 500 });
+        try {
+          const result = await runMemberSync({ triggerSource: "cron" });
+          const line =
+            `[member-sync] done status=${result.status} run=${result.runId} ` +
+            `feed=${result.feedCount} created=${result.created} updated=${result.updated} ` +
+            `deactivated=${result.deactivated} ms=${Date.now() - startedAt}`;
+          if (result.status === "succeeded") console.log(line);
+          else console.error(`${line} error=${JSON.stringify(result.message ?? "")}`);
+          return Response.json(result, { status: result.status === "succeeded" ? 200 : 500 });
+        } catch (err) {
+          const message = err instanceof Error ? err.message : "member sync threw";
+          console.error(
+            `[member-sync] failed ms=${Date.now() - startedAt} error=${JSON.stringify(message)}`,
+          );
+          throw err;
+        }
       },
     },
   },
