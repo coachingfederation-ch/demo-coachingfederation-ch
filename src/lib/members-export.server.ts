@@ -20,8 +20,12 @@ const COLUMNS = [
 
 function cell(value: unknown): string {
   if (value === null || value === undefined) return "";
-  const s = String(value);
-  return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  let s = String(value);
+  // Neutralise spreadsheet formula injection: Excel/Sheets execute any cell
+  // starting with =, +, -, @ or a leading tab/CR. Synced ICF fields are
+  // untrusted input, so prefix those with an apostrophe to force text.
+  if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`;
+  return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }
 
 export async function buildMembersCsv(): Promise<{ filename: string; csv: string; rows: number }> {
