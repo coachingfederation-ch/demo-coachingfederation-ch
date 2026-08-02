@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Mark, type MarkName } from "@/components/marks";
 import { CARD_SHADOW } from "@/components/site-chrome";
+import { CommunityCard } from "@/components/communities/CommunityCard";
+import { listCommunities } from "@/lib/communities.functions";
 import { useI18n } from "@/i18n";
 
 const benefitMarks: MarkName[] = [

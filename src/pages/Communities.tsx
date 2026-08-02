@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { CompactHero, SiteFooter } from "@/components/site-chrome";
-import { LocaleLink, useI18n } from "@/i18n";
+import { useI18n } from "@/i18n";
 import { CommunityCard } from "@/components/communities/CommunityCard";
 import { listCommunities } from "@/lib/communities.functions";
 
