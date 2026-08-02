@@ -1,10 +1,10 @@
 /**
- * Community hexagon with a ring of member photos.
+ * Community circle with a ring of member photos.
  *
  * The ring is a presentation of the *same* volunteers as the team page, so it
  * opens the shared `MemberModal` on activation. Display rules:
- *   - 0 or 1 member  -> hexagon only (a ring of one reads as an accident)
- *   - 2 to 12        -> everyone on the circle
+ *   - 0 members      -> the circle on its own
+ *   - 1 to 12        -> everyone on the ring
  *   - more than 12   -> the first twelve alphabetically, plus an overflow chip
  *
  * Accessibility: every photo is a real focusable <button> in DOM order with an
