@@ -31,9 +31,14 @@ export type CommunityDetail = Omit<CommunitySummary, "preview"> & {
   members: TeamMember[];
 };
 
-/** Ring members plus the overflow count, per the agreed display rules. */
+/**
+ * Ring members plus the overflow.
+ *
+ * Every member up to `RING_MAX_MEMBERS` goes on the circle — including a lone
+ * volunteer, who would otherwise disappear from the detail page and the About
+ * preview. Only members beyond the cap fall into the overflow note.
+ */
 export function splitRing(members: TeamMember[]): { ring: TeamMember[]; overflow: TeamMember[] } {
-  if (members.length <= 1) return { ring: [], overflow: members };
   return {
     ring: members.slice(0, RING_MAX_MEMBERS),
     overflow: members.slice(RING_MAX_MEMBERS),

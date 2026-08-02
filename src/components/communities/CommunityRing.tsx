@@ -1,10 +1,10 @@
 /**
- * Community hexagon with a ring of member photos.
+ * Community circle with a ring of member photos.
  *
  * The ring is a presentation of the *same* volunteers as the team page, so it
  * opens the shared `MemberModal` on activation. Display rules:
- *   - 0 or 1 member  -> hexagon only (a ring of one reads as an accident)
- *   - 2 to 12        -> everyone on the circle
+ *   - 0 members      -> the circle on its own
+ *   - 1 to 12        -> everyone on the ring
  *   - more than 12   -> the first twelve alphabetically, plus an overflow chip
  *
  * Accessibility: every photo is a real focusable <button> in DOM order with an
@@ -15,7 +15,6 @@
  */
 import { useState } from "react";
 import { useI18n } from "@/i18n";
-import { HEX_CLIP } from "@/components/team/TeamGrid";
 import { MemberModal } from "@/components/team/MemberModal";
 import { ringPosition, splitRing } from "@/lib/communities";
 import type { TeamMember } from "@/lib/team";
@@ -67,11 +66,8 @@ export function CommunityRing({
     return role ? `${member.name} — ${role}` : member.name;
   };
 
-  const hexagon = (
-    <span
-      className="grid h-full w-full place-items-center bg-primary text-center text-primary-foreground"
-      style={{ clipPath: HEX_CLIP }}
-    >
+  const hub = (
+    <span className="grid h-full w-full place-items-center rounded-full bg-primary text-center text-primary-foreground">
       <span className="px-4 text-sm font-bold leading-tight sm:text-base">{name}</span>
     </span>
   );
@@ -82,11 +78,11 @@ export function CommunityRing({
       <div className="hidden sm:block">
         {/* No ring to draw: don't reserve a whole square of empty space. */}
         {ring.length === 0 ? (
-          <div className="mx-auto h-48 w-56">{hexagon}</div>
+          <div className="mx-auto aspect-square w-52">{hub}</div>
         ) : (
           <div className="relative mx-auto aspect-square w-full max-w-[30rem]">
-            <div className="absolute left-1/2 top-1/2 h-[46%] w-[52%] -translate-x-1/2 -translate-y-1/2">
-              {hexagon}
+            <div className="absolute left-1/2 top-1/2 aspect-square w-[50%] -translate-x-1/2 -translate-y-1/2">
+              {hub}
             </div>
             {ring.map((member, index) => {
               const { x, y } = ringPosition(index, ring.length);
@@ -120,9 +116,7 @@ export function CommunityRing({
 
       {/* Touch / small-screen fallback: a plain, tappable avatar list. */}
       <div className="sm:hidden">
-        <div className="mx-auto grid aspect-square w-40 place-items-center">
-          <div className="h-full w-full">{hexagon}</div>
-        </div>
+        <div className="mx-auto aspect-square w-40">{hub}</div>
         {ring.length ? (
           <ul className="mt-6 space-y-2">
             {ring.map((member) => (
@@ -148,7 +142,7 @@ export function CommunityRing({
         ) : null}
       </div>
 
-      {overflow.length && members.length > 1 ? (
+      {overflow.length ? (
         <p className="mt-6 text-center text-xs text-muted-foreground">
           {t("communities.detail.andMore").replace("{count}", String(overflow.length))}
         </p>
