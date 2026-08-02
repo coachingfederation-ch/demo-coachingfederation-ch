@@ -136,29 +136,18 @@ export function LearningTabs() {
 }
 
 export function CommunityGrid() {
-  const { tList } = useI18n();
-  const items = tList<{ name: string; languages: string; status: string }>(
-    "coaches.chapters.items",
-  );
-  if (items.length === 0) return null;
+  const { locale } = useI18n();
+  const { data } = useQuery({
+    queryKey: ["communities", locale],
+    queryFn: () => listCommunities({ data: { locale } }),
+  });
+  // Teaser only: the full list lives on /communities.
+  const communities = (data ?? []).slice(0, 6);
+  if (communities.length === 0) return null;
   return (
-    <div className="mt-10 grid gap-3 sm:grid-cols-2">
-      {items.map((c) => (
-        <div
-          key={c.name}
-          className={
-            "flex items-center justify-between gap-4 rounded-2xl border border-border/70 bg-card px-5 py-4 " +
-            CARD_SHADOW
-          }
-        >
-          <div>
-            <p className="text-sm font-semibold tracking-tight">{c.name}</p>
-            <p className="mt-0.5 text-xs text-muted-foreground">{c.status}</p>
-          </div>
-          <span className="inline-flex shrink-0 items-center rounded-full bg-chip px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-chip-foreground">
-            {c.languages}
-          </span>
-        </div>
+    <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {communities.map((c) => (
+        <CommunityCard key={c.slug} community={c} headingLevel="h3" />
       ))}
     </div>
   );

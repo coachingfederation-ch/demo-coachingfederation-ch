@@ -104,7 +104,7 @@ export default function ForCoachesPage() {
           </p>
           <CommunityGrid />
           <LocaleLink
-            to="/about"
+            to="/communities"
             className="mt-8 inline-flex text-sm font-semibold text-primary hover:underline"
           >
             {t("coaches.chapters.cta")}
