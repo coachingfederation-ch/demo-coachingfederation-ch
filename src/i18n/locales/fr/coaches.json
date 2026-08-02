@@ -130,49 +130,7 @@
     "eyebrow": "Communautés régionales",
     "title": "Trouvez votre communauté régionale.",
     "desc": "De Zürich à la Romandie et au Ticino, nos communautés régionales se réunissent régulièrement pour apprendre, pratiquer et se soutenir mutuellement.",
-    "cta": "Explorer les communautés →",
-    "items": [
-      {
-        "name": "Zürich",
-        "languages": "EN / DE",
-        "status": "Active"
-      },
-      {
-        "name": "Genève",
-        "languages": "EN / FR",
-        "status": "Active"
-      },
-      {
-        "name": "Lausanne",
-        "languages": "FR / EN",
-        "status": "Active"
-      },
-      {
-        "name": "Basel",
-        "languages": "DE / EN",
-        "status": "Active"
-      },
-      {
-        "name": "Bern",
-        "languages": "DE / EN / FR",
-        "status": "Lancée en 2026"
-      },
-      {
-        "name": "Svizzera Italiana",
-        "languages": "IT / EN",
-        "status": "Active"
-      },
-      {
-        "name": "Ost-Schweiz",
-        "languages": "DE",
-        "status": "Arrive en 2026"
-      },
-      {
-        "name": "Valais",
-        "languages": "FR / DE",
-        "status": "Arrive en 2026"
-      }
-    ]
+    "cta": "Explorer les communautés →"
   },
   "volunteer": {
     "eyebrow": "Bénévolat & leadership",
