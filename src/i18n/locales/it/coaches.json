@@ -130,49 +130,7 @@
     "eyebrow": "Community locali",
     "title": "Trova la tua community regionale.",
     "desc": "Da Zürich a Romandie fino a Ticino, le community del nostro chapter si incontrano regolarmente per imparare, esercitarsi e supportarsi a vicenda.",
-    "cta": "Esplora le community →",
-    "items": [
-      {
-        "name": "Zurich",
-        "languages": "EN / DE",
-        "status": "Attiva"
-      },
-      {
-        "name": "Geneva",
-        "languages": "EN / FR",
-        "status": "Attiva"
-      },
-      {
-        "name": "Lausanne",
-        "languages": "FR / EN",
-        "status": "Attiva"
-      },
-      {
-        "name": "Basel",
-        "languages": "DE / EN",
-        "status": "Attiva"
-      },
-      {
-        "name": "Bern",
-        "languages": "DE / EN / FR",
-        "status": "Lanciata nel 2026"
-      },
-      {
-        "name": "Svizzera Italiana",
-        "languages": "IT / EN",
-        "status": "Attiva"
-      },
-      {
-        "name": "Ost-Schweiz",
-        "languages": "DE",
-        "status": "In arrivo nel 2026"
-      },
-      {
-        "name": "Valais",
-        "languages": "FR / DE",
-        "status": "In arrivo nel 2026"
-      }
-    ]
+    "cta": "Esplora le community →"
   },
   "volunteer": {
     "eyebrow": "Diventa volontario e guida",

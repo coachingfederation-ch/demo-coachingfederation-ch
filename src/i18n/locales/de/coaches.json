@@ -130,49 +130,7 @@
     "eyebrow": "Chapter-Communities",
     "title": "Finden Sie Ihre regionale Community.",
     "desc": "Von Zürich über die Romandie bis ins Ticino treffen sich unsere Chapter-Communities regelmässig, um zu lernen, zu üben und sich gegenseitig zu unterstützen.",
-    "cta": "Communities erkunden →",
-    "items": [
-      {
-        "name": "Zürich",
-        "languages": "EN / DE",
-        "status": "Aktiv"
-      },
-      {
-        "name": "Genève",
-        "languages": "EN / FR",
-        "status": "Aktiv"
-      },
-      {
-        "name": "Lausanne",
-        "languages": "FR / EN",
-        "status": "Aktiv"
-      },
-      {
-        "name": "Basel",
-        "languages": "DE / EN",
-        "status": "Aktiv"
-      },
-      {
-        "name": "Bern",
-        "languages": "DE / EN / FR",
-        "status": "Lanciert 2026"
-      },
-      {
-        "name": "Svizzera Italiana",
-        "languages": "IT / EN",
-        "status": "Aktiv"
-      },
-      {
-        "name": "Ost-Schweiz",
-        "languages": "DE",
-        "status": "Kommt 2026"
-      },
-      {
-        "name": "Valais",
-        "languages": "FR / DE",
-        "status": "Kommt 2026"
-      }
-    ]
+    "cta": "Communities erkunden →"
   },
   "volunteer": {
     "eyebrow": "Engagieren & Führen",

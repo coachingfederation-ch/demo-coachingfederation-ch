@@ -130,17 +130,7 @@
     "eyebrow": "Chapter communities",
     "title": "Find your regional community.",
     "desc": "From Zürich to Romandie to Ticino, our chapter communities meet regularly to learn, practise and support one another.",
-    "cta": "Explore communities →",
-    "items": [
-      { "name": "Zurich", "languages": "EN / DE", "status": "Active" },
-      { "name": "Geneva", "languages": "EN / FR", "status": "Active" },
-      { "name": "Lausanne", "languages": "FR / EN", "status": "Active" },
-      { "name": "Basel", "languages": "DE / EN", "status": "Active" },
-      { "name": "Bern", "languages": "DE / EN / FR", "status": "Launched 2026" },
-      { "name": "Svizzera Italiana", "languages": "IT / EN", "status": "Active" },
-      { "name": "Ost-Schweiz", "languages": "DE", "status": "Coming 2026" },
-      { "name": "Valais", "languages": "FR / DE", "status": "Coming 2026" }
-    ]
+    "cta": "Explore communities →"
   },
   "volunteer": {
     "eyebrow": "Volunteer & lead",
