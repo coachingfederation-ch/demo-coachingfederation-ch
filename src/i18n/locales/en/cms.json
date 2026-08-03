@@ -467,7 +467,42 @@
     "testimonialAttributionPlaceholder": "e.g. Team lead, Swiss financial services",
     "teamBioTitle": "Team role description",
     "teamBioNote": "Shown in the popup on the public team page.",
-    "teamBio": "Team role description"
+    "teamBio": "Team role description",
+    "home": {
+      "eyebrow": "Member area",
+      "greeting": "Welcome back",
+      "greetingNamed": "Welcome back, {name}",
+      "intro": "Everything the chapter offers you as a member, in one place.",
+      "soon": "Coming soon",
+      "profile": {
+        "title": "My profile",
+        "body": "Keep your Coach Finder listing up to date: photo, description, service area, languages and availability.",
+        "cta": "Open my profile"
+      },
+      "engage": {
+        "title": "ICF Engage",
+        "body": "ICF Engage is the global ICF community platform. Join the Switzerland Chapter community there to exchange with peers, follow discussions and access shared resources.",
+        "cta": "Join us on ICF Engage"
+      },
+      "volunteer": {
+        "title": "Volunteering",
+        "body": "The chapter runs on volunteers. Boards, communities and projects all need members who give a few hours. Open opportunities will be listed here."
+      },
+      "ads": {
+        "title": "Advertise with us",
+        "body": "Reach coaches across Switzerland through our newsletter, website and events. Paid placements for members will be offered here."
+      },
+      "communities": {
+        "title": "Communities in your service area",
+        "body": "Local communities that cover the regions you selected on your profile, with someone to contact.",
+        "loading": "Loading communities…",
+        "noRegions": "Select your service area to see the communities near you.",
+        "setRegions": "Set your service area",
+        "empty": "No local community covers your service area yet.",
+        "view": "View community",
+        "contact": "Contact the community"
+      }
+    }
   },
   "noAccess": {
     "title": "No access yet",
@@ -741,7 +776,9 @@
       "description": "Description (Markdown)",
       "languages": "Languages spoken",
       "translations": "Translations",
-      "translate": "Translate with AI"
+      "translate": "Translate with AI",
+      "regions": "Regions covered",
+      "regionsNote": "Members whose service area includes these regions see this community in their Member Area."
     }
   }
 }

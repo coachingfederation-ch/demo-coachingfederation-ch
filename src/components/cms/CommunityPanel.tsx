@@ -48,6 +48,8 @@ export function CommunityPanel({
   const { t } = useCms();
   const [row, setRow] = useState<CommunityFields>(project);
   const [languages, setLanguages] = useState<{ slug: string; name: string }[]>([]);
+  const [regions, setRegions] = useState<{ id: string; name: string }[]>([]);
+  const [regionIds, setRegionIds] = useState<string[]>([]);
   const [busy, setBusy] = useState<Target | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -63,6 +65,43 @@ export function CommunityPanel({
       setLanguages((data ?? []) as { slug: string; name: string }[]);
     })();
   }, []);
+
+  useEffect(() => {
+    void (async () => {
+      const { data } = await supabase
+        .from("cf_regions")
+        .select("id, name")
+        .eq("is_active", true)
+        .order("sort_order", { ascending: true });
+      setRegions((data ?? []) as { id: string; name: string }[]);
+    })();
+  }, []);
+
+  // Region links drive the "communities in your service area" block in the
+  // Member Area, so they live with the rest of the community content.
+  useEffect(() => {
+    void (async () => {
+      const { data } = await supabase
+        .from("op_project_regions")
+        .select("region_id")
+        .eq("project_id", project.id);
+      setRegionIds((data ?? []).map((r) => r.region_id as string));
+    })();
+  }, [project.id]);
+
+  const toggleRegion = async (regionId: string) => {
+    const attached = regionIds.includes(regionId);
+    setRegionIds((prev) => (attached ? prev.filter((id) => id !== regionId) : [...prev, regionId]));
+    const query = attached
+      ? supabase
+          .from("op_project_regions")
+          .delete()
+          .eq("project_id", project.id)
+          .eq("region_id", regionId)
+      : supabase.from("op_project_regions").insert({ project_id: project.id, region_id: regionId });
+    const { error: err } = await query;
+    if (err) setError(err.message);
+  };
 
   const save = async (values: Partial<CommunityFields>) => {
     setRow((prev) => ({ ...prev, ...values }));
@@ -187,6 +226,31 @@ export function CommunityPanel({
                     className="h-4 w-4 accent-[var(--color-primary)]"
                   />
                   {lang.name}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend className="text-xs font-semibold text-muted-foreground">
+              {t("ops.community.regions")}
+            </legend>
+            <p className="mt-1 text-[11px] text-muted-foreground">
+              {t("ops.community.regionsNote")}
+            </p>
+            <div className="mt-2 flex flex-wrap gap-3">
+              {regions.map((region) => (
+                <label
+                  key={region.id}
+                  className="inline-flex items-center gap-1.5 text-xs text-muted-foreground"
+                >
+                  <input
+                    type="checkbox"
+                    checked={regionIds.includes(region.id)}
+                    onChange={() => void toggleRegion(region.id)}
+                    className="h-4 w-4 accent-[var(--color-primary)]"
+                  />
+                  {region.name}
                 </label>
               ))}
             </div>

@@ -467,7 +467,42 @@
     "testimonialAttributionPlaceholder": "ex. Responsable d'équipe, services financiers suisses",
     "teamBioTitle": "Description du rôle au sein de l'équipe",
     "teamBioNote": "Affiché dans la fenêtre contextuelle sur la page publique de l'équipe.",
-    "teamBio": "Description du rôle au sein de l'équipe"
+    "teamBio": "Description du rôle au sein de l'équipe",
+    "home": {
+      "eyebrow": "Espace membre",
+      "greeting": "Bon retour",
+      "greetingNamed": "Bon retour, {name}",
+      "intro": "Tout ce que le chapitre vous offre en tant que membre, au même endroit.",
+      "soon": "Bientôt disponible",
+      "profile": {
+        "title": "Mon profil",
+        "body": "Gardez votre fiche Coach Finder à jour : photo, description, zone d’intervention, langues et disponibilité.",
+        "cta": "Ouvrir mon profil"
+      },
+      "engage": {
+        "title": "ICF Engage",
+        "body": "ICF Engage est la plateforme communautaire mondiale de l’ICF. Rejoignez-y la communauté du Switzerland Chapter pour échanger et accéder aux ressources partagées.",
+        "cta": "Nous rejoindre sur ICF Engage"
+      },
+      "volunteer": {
+        "title": "Bénévolat",
+        "body": "Le chapitre fonctionne grâce aux bénévoles. Comité, communautés et projets ont besoin de membres qui offrent quelques heures. Les occasions ouvertes seront listées ici."
+      },
+      "ads": {
+        "title": "Faites de la publicité avec nous",
+        "body": "Touchez les coachs de toute la Suisse via notre newsletter, notre site et nos événements. Des placements payants pour les membres seront proposés ici."
+      },
+      "communities": {
+        "title": "Communautés dans votre zone d’intervention",
+        "body": "Les communautés locales qui couvrent les régions choisies dans votre profil, avec une personne de contact.",
+        "loading": "Chargement des communautés…",
+        "noRegions": "Choisissez votre zone d’intervention pour voir les communautés proches.",
+        "setRegions": "Définir ma zone d’intervention",
+        "empty": "Aucune communauté locale ne couvre encore votre zone d’intervention.",
+        "view": "Voir la communauté",
+        "contact": "Contacter la communauté"
+      }
+    }
   },
   "noAccess": {
     "title": "Pas encore d'accès",
@@ -741,7 +776,9 @@
       "description": "Description (Markdown)",
       "languages": "Langues parlées",
       "translations": "Traductions",
-      "translate": "Traduire avec l'IA"
+      "translate": "Traduire avec l'IA",
+      "regions": "Régions couvertes",
+      "regionsNote": "Les membres dont la zone d’intervention inclut ces régions voient cette communauté dans leur espace membre."
     }
   }
 }

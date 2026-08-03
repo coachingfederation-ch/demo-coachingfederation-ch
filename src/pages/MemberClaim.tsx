@@ -173,7 +173,7 @@ export function ClaimTokenPage({ token }: { token: string }) {
       if (error) throw error;
     },
     onError: (err) => setError(err instanceof Error ? err.message : t("auth.genericError")),
-    onSuccess: () => navigate({ to: "/my-profile" }),
+    onSuccess: () => navigate({ to: "/member" }),
   });
 
   useEffect(() => setError(null), [password, confirm]);

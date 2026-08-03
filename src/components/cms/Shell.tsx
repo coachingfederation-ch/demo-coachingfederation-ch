@@ -125,7 +125,7 @@ export function Shell({ children }: { children: ReactNode }) {
           {roles.isMember ? (
             <div className="border-t border-border px-3 py-3">
               <Link
-                to="/my-profile"
+                to="/member"
                 className="flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-muted-foreground transition-colors hover:bg-secondary/60 hover:text-foreground"
               >
                 <UserCircle className="h-4 w-4" />

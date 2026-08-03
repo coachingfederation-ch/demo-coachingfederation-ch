@@ -21,7 +21,7 @@ export const Route = createFileRoute("/_staff")({
 
     const roles = await context.queryClient.ensureQueryData(myRolesQueryOptions(data.user.id));
     if (!roles.isStaff) {
-      throw redirect({ to: roles.isMember ? "/my-profile" : "/no-access" });
+      throw redirect({ to: roles.isMember ? "/member" : "/no-access" });
     }
     return { user: data.user, roles };
   },
