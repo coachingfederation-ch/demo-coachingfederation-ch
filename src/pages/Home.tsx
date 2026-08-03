@@ -256,6 +256,7 @@ function ForOrganisations() {
 }
 
 function Sponsors() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { t, tList } = useI18n();
   // Demo imagery is bundled positionally: locale item order matches AD_IMAGES.
   const items = tList<SponsorItem>("home.ads.items").map((item, i) => ({
