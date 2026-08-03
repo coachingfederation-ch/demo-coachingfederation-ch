@@ -13,7 +13,7 @@
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, MapPin, Plus, Trash2 } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { supabase } from "@/integrations/supabase/client";
 import { useCms } from "@/i18n/cms";
@@ -85,6 +85,10 @@ function OperationalStructurePage() {
   const [pickedMember, setPickedMember] = useState("");
   const [pickedRole, setPickedRole] = useState("");
   const [error, setError] = useState<string | null>(null);
+  // Reordering writes `sort_order`, which drives the public /team filter chips
+  // and the /communities order. It is a rare action, so the arrows stay hidden
+  // behind this toggle instead of dominating the list.
+  const [reordering, setReordering] = useState(false);
 
   const loadProjects = async () => {
     const { data, error: err } = await supabase
