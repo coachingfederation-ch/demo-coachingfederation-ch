@@ -108,8 +108,10 @@ function ArticlesPage() {
   useEffect(() => {
     supabase
       .from("articles")
-      .select("id, title, language, status, updated_at, translations:article_translations(locale)")
-      .order("updated_at", { ascending: false })
+      .select(
+        "id, title, language, status, updated_at, published_at, author:profiles(first_name, last_name), translations:article_translations(locale)",
+      )
+      .order("published_at", { ascending: false })
       .then(({ data }) => setRows((data as unknown as Row[]) ?? []));
   }, []);
 
