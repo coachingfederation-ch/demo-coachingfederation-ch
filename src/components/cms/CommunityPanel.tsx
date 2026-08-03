@@ -158,7 +158,7 @@ export function CommunityPanel({
         </label>
       </div>
 
-      {(
+      {
         <div className="mt-4 space-y-4">
           <div className="grid gap-2 sm:grid-cols-2">
             <label className="text-xs font-semibold text-muted-foreground">
@@ -301,7 +301,7 @@ export function CommunityPanel({
             ))}
           </div>
         </div>
-      )}
+      }
     </section>
   );
 }
