@@ -32,7 +32,7 @@ function SponsorCard({
   return (
     <article
       className={
-        "relative flex h-full w-[19rem] shrink-0 flex-col overflow-hidden rounded-2xl border p-6 sm:w-[21rem] " +
+        "relative flex h-full min-h-[13rem] w-[19rem] shrink-0 flex-col overflow-hidden rounded-2xl border p-6 sm:w-[21rem] " +
         SURFACES[index % SURFACES.length]
       }
     >
