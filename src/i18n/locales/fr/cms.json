@@ -45,6 +45,10 @@
     "new": "Nouvel article",
     "empty": "Aucun article pour le moment.",
     "updated": "Mis à jour",
+    "author": "Auteur",
+    "published": "Publié le",
+    "previous": "Précédent",
+    "next": "Suivant",
     "filters": {
       "All": "Tous",
       "Drafts": "Brouillons",

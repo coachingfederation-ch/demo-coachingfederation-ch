@@ -45,6 +45,10 @@
     "new": "New article",
     "empty": "No articles yet.",
     "updated": "Updated",
+    "author": "Author",
+    "published": "Published",
+    "previous": "Previous",
+    "next": "Next",
     "filters": {
       "All": "All",
       "Drafts": "Drafts",

@@ -1,10 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { requireStaffAccess, ARTICLE_ROLES } from "@/lib/staff-guard";
 import { useEffect, useMemo, useState } from "react";
-import { ChevronRight, Plus, Search } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus, Search } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { useCms } from "@/i18n/cms";
 import { supabase } from "@/integrations/supabase/client";
+import { authorName } from "@/lib/articles";
 
 export const Route = createFileRoute("/_staff/articles/")({
   beforeLoad: ({ context }) => requireStaffAccess(context.queryClient, ARTICLE_ROLES),
@@ -39,6 +40,8 @@ interface Row {
   language: Lang;
   status: Status;
   updated_at: string;
+  published_at: string | null;
+  author: { first_name: string | null; last_name: string | null } | null;
   translations?: { locale: string }[] | null;
 }
 
@@ -101,12 +104,16 @@ function ArticlesPage() {
   const [rows, setRows] = useState<Row[] | null>(null);
   const [filter, setFilter] = useState<Filter>("All");
   const [q, setQ] = useState("");
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 20;
 
   useEffect(() => {
     supabase
       .from("articles")
-      .select("id, title, language, status, updated_at, translations:article_translations(locale)")
-      .order("updated_at", { ascending: false })
+      .select(
+        "id, title, language, status, updated_at, published_at, author:profiles(first_name, last_name), translations:article_translations(locale)",
+      )
+      .order("published_at", { ascending: false })
       .then(({ data }) => setRows((data as unknown as Row[]) ?? []));
   }, []);
 
@@ -119,6 +126,14 @@ function ArticlesPage() {
     const needle = q.trim().toLowerCase();
     return needle ? byStatus.filter((r) => r.title.toLowerCase().includes(needle)) : byStatus;
   }, [rows, filter, q]);
+
+  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const safePage = Math.min(page, pageCount);
+  const pageRows = filtered.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+
+  useEffect(() => {
+    setPage(1);
+  }, [filter, q]);
 
   const counts = useMemo(() => {
     if (!rows) return { total: 0, drafts: 0, scheduled: 0 };
@@ -178,11 +193,12 @@ function ArticlesPage() {
         </div>
 
         <div className="mt-6 overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-soft)]">
-          <div className="grid grid-cols-[minmax(0,2fr)_0.8fr_1fr_0.8fr_auto] items-center gap-4 border-b border-border bg-secondary/50 px-6 py-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+          <div className="grid grid-cols-[minmax(0,2fr)_1fr_0.8fr_1fr_0.8fr_auto] items-center gap-4 border-b border-border bg-secondary/50 px-6 py-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
             <div>{t("list.title")}</div>
+            <div>{t("list.author")}</div>
             <div>{t("editor.sourceLanguage")}</div>
             <div>{t("editor.statusLabel")}</div>
-            <div>{t("list.updated")}</div>
+            <div>{t("list.published")}</div>
             <div className="w-4" />
           </div>
           {rows === null ? (
@@ -194,15 +210,18 @@ function ArticlesPage() {
               {t("list.empty")}
             </div>
           ) : (
-            filtered.map((r) => (
+            pageRows.map((r) => (
               <Link
                 to="/articles/$id"
                 params={{ id: r.id }}
                 key={r.id}
-                className="group grid grid-cols-[minmax(0,2fr)_0.8fr_1fr_0.8fr_auto] items-center gap-4 border-b border-border/70 px-6 py-4 text-sm transition last:border-b-0 hover:bg-secondary/60"
+                className="group grid grid-cols-[minmax(0,2fr)_1fr_0.8fr_1fr_0.8fr_auto] items-center gap-4 border-b border-border/70 px-6 py-4 text-sm transition last:border-b-0 hover:bg-secondary/60"
               >
                 <div className="font-semibold text-foreground">
                   {r.title || <span className="text-muted-foreground">Untitled</span>}
+                </div>
+                <div className="text-muted-foreground">
+                  {authorName(r.author) || <span className="italic">{t("editor.none")}</span>}
                 </div>
                 <div className="flex flex-wrap items-center gap-1">
                   <LangChip code={r.language} />
@@ -218,12 +237,38 @@ function ArticlesPage() {
                 <div>
                   <StatusPill status={r.status} t={t} />
                 </div>
-                <div className="text-muted-foreground">{timeAgo(r.updated_at)}</div>
+                <div className="text-muted-foreground">
+                  {r.published_at ? timeAgo(r.published_at) : "—"}
+                </div>
                 <ChevronRight className="h-4 w-4 text-muted-foreground transition group-hover:translate-x-0.5 group-hover:text-foreground" />
               </Link>
             ))
           )}
         </div>
+
+        {filtered.length > PAGE_SIZE && (
+          <div className="mt-6 flex items-center justify-between gap-4">
+            <button
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={safePage <= 1}
+              className="inline-flex items-center gap-1 rounded-full border border-border bg-card px-3 py-2 text-sm font-medium text-foreground transition hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <ChevronLeft className="h-4 w-4" />
+              {t("list.previous")}
+            </button>
+            <span className="text-sm text-muted-foreground">
+              {safePage} / {pageCount}
+            </span>
+            <button
+              onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
+              disabled={safePage >= pageCount}
+              className="inline-flex items-center gap-1 rounded-full border border-border bg-card px-3 py-2 text-sm font-medium text-foreground transition hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {t("list.next")}
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
+        )}
       </div>
     </Shell>
   );
