@@ -436,6 +436,10 @@ export function MemberProfileEditor() {
             <dt className="text-muted-foreground">{t("member.credential")}</dt>
             <dd className="font-medium">{member?.credential_slug ?? "—"}</dd>
           </div>
+          <div>
+            <dt className="text-muted-foreground">{t("member.memberId")}</dt>
+            <dd className="font-medium tabular-nums">{member?.cst_recno ?? "—"}</dd>
+          </div>
         </dl>
         <p className="mt-3 text-xs text-muted-foreground">
           {t(`member.eligibility.${data.eligibility.reason}`)}

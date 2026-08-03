@@ -388,6 +388,7 @@
     "identityTitle": "Adhésion ICF (lecture seule)",
     "identityNote": "Importé depuis ICF Global à chaque synchronisation. Contactez ICF pour toute correction.",
     "name": "Nom",
+    "memberId": "Identifiant membre ICF Global",
     "credential": "Credential",
     "eligibility": {
       "eligible": "Vous remplissez les conditions pour figurer dans l'annuaire public (adhésion active et credential ACC, PCC ou MCC valide).",
