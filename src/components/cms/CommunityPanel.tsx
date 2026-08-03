@@ -136,6 +136,10 @@ export function CommunityPanel({
   const localeField = (field: "description" | "cadence_note", locale: Target) =>
     `${field}_${locale}` as keyof CommunityFields;
 
+  // The project-type choice lives in the parent "Project details" card; this
+  // panel only renders the content behind that choice.
+  if (!row.is_community) return null;
+
   return (
     <section className="rounded-2xl border border-border bg-card p-5">
       <h2 className="text-sm font-bold">{t("ops.community.title")}</h2>
@@ -146,16 +150,6 @@ export function CommunityPanel({
         <label className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
           <input
             type="checkbox"
-            checked={row.is_community}
-            onChange={(e) => void save({ is_community: e.target.checked })}
-            className="h-4 w-4 accent-[var(--color-primary)]"
-          />
-          {t("ops.community.isCommunity")}
-        </label>
-        <label className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-          <input
-            type="checkbox"
-            disabled={!row.is_community}
             checked={row.is_featured_community}
             onChange={(e) => void save({ is_featured_community: e.target.checked })}
             className="h-4 w-4 accent-[var(--color-primary)]"
@@ -164,7 +158,7 @@ export function CommunityPanel({
         </label>
       </div>
 
-      {row.is_community ? (
+      {(
         <div className="mt-4 space-y-4">
           <div className="grid gap-2 sm:grid-cols-2">
             <label className="text-xs font-semibold text-muted-foreground">
@@ -307,7 +301,7 @@ export function CommunityPanel({
             ))}
           </div>
         </div>
-      ) : null}
+      )}
     </section>
   );
 }
