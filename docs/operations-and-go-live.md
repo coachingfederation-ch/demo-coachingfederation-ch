@@ -250,13 +250,13 @@ again and re-claims through the live flow like any other member.
 
 ## Gate 2 — data validated
 
-| Check                                                          | Signed |
-| -------------------------------------------------------------- | ------ |
-| Cutover step log clean, `cutover_completed_at` recorded        |        |
-| Member counts verified, credentialed ceiling recorded          |        |
-| Archive bundle stored off-database                             |        |
-| One nightly sync completed successfully against LIVE           |        |
-| Bubble member area confirmed read-only and silent              |        |
+| Check                                                   | Signed |
+| ------------------------------------------------------- | ------ |
+| Cutover step log clean, `cutover_completed_at` recorded |        |
+| Member counts verified, credentialed ceiling recorded   |        |
+| Archive bundle stored off-database                      |        |
+| One nightly sync completed successfully against LIVE    |        |
+| Bubble member area confirmed read-only and silent       |        |
 
 ## Phase C — Claim waves and profile building
 
@@ -292,15 +292,15 @@ controls, and the organisation ends up maintaining two systems indefinitely. If
 the date arrives and the threshold has not, switch anyway and keep running
 waves.
 
-| Criterion                                             | Target                        |
-| ----------------------------------------------------- | ----------------------------- |
-| Published profiles as % of credentialed-eligible      | suggested 40–50%              |
-| Absolute published profile count                      | to be set                     |
-| **Hard date, regardless of threshold**                | suggested 8–10 weeks post-W0  |
-| Content migration complete in all four languages      |                               |
-| Redirect map built and tested                         |                               |
-| No unresolved P1 support themes from the waves        |                               |
-| Nightly sync stable for two consecutive weeks         |                               |
+| Criterion                                        | Target                       |
+| ------------------------------------------------ | ---------------------------- |
+| Published profiles as % of credentialed-eligible | suggested 40–50%             |
+| Absolute published profile count                 | to be set                    |
+| **Hard date, regardless of threshold**           | suggested 8–10 weeks post-W0 |
+| Content migration complete in all four languages |                              |
+| Redirect map built and tested                    |                              |
+| No unresolved P1 support themes from the waves   |                              |
+| Nightly sync stable for two consecutive weeks    |                              |
 
 ## Phase D — Public switch
 
@@ -340,16 +340,16 @@ the remaining tail justifies them.
 There is no rollback of the member domain. Be explicit with the Board about
 that before Phase B.
 
-| Failure                                    | Response                                                                                        |
-| ------------------------------------------ | ----------------------------------------------------------------------------------------------- |
-| New site broken during the window          | No public impact — Bubble is still the public face. Fix at leisure                              |
-| New site broken after the switch           | Revert DNS to Bubble. The new site stays LIVE underneath, unreferenced                          |
-| Email deliverability failing               | `emails_suppressed = true`, pause waves. Intents still logged. Cheap and reversible              |
-| Claim flow misbehaving                     | `account_claim_enabled = false`. `/claim` shows its closed state; the directory is unaffected    |
-| Member data wrong after the LIVE import    | Fix in netFORUM and re-sync. The feed is authoritative                                          |
-| Sync corrupting data                       | Disable the cron; data freezes at the last good sync. Read `member_sync_runs.error_message`      |
-| Directory must go dark without data loss   | Set `cutover_in_progress = true`. Maintenance state, no data touched                            |
-| The cutover itself was wrong               | **No automated recovery.** The archive bundle is the only path, and restoring it is untested manual work |
+| Failure                                  | Response                                                                                                 |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| New site broken during the window        | No public impact — Bubble is still the public face. Fix at leisure                                       |
+| New site broken after the switch         | Revert DNS to Bubble. The new site stays LIVE underneath, unreferenced                                   |
+| Email deliverability failing             | `emails_suppressed = true`, pause waves. Intents still logged. Cheap and reversible                      |
+| Claim flow misbehaving                   | `account_claim_enabled = false`. `/claim` shows its closed state; the directory is unaffected            |
+| Member data wrong after the LIVE import  | Fix in netFORUM and re-sync. The feed is authoritative                                                   |
+| Sync corrupting data                     | Disable the cron; data freezes at the last good sync. Read `member_sync_runs.error_message`              |
+| Directory must go dark without data loss | Set `cutover_in_progress = true`. Maintenance state, no data touched                                     |
+| The cutover itself was wrong             | **No automated recovery.** The archive bundle is the only path, and restoring it is untested manual work |
 
 If claims fail, check in this order: `member_email_log` (sent, suppressed, or
 blocked as test-shaped) → provider delivery events → `member_sync_events` for
@@ -360,17 +360,17 @@ blocked as test-shaped) → provider delivery events → `member_sync_events` fo
 
 If a runbook step seems to conflict with one of these, the database wins.
 
-| Rule                                                            | Enforced by                                      |
-| --------------------------------------------------------------- | ------------------------------------------------ |
-| TEST mode cannot send email or open claiming                    | `tg_integration_config_guard`                    |
-| Claiming requires LIVE mode plus a recorded cutover             | `tg_integration_config_guard`                    |
-| LIVE → TEST is refused                                          | `tg_integration_config_guard`                    |
-| No publish without an active member and a valid credential      | `tg_directory_profile_eligibility_guard`         |
-| Members bind by `auth_user_id`, never email equality            | `member-claim.server.ts`, RLS ownership checks   |
-| A `zz`-shaped address can never be a claimable identity         | `isTestShapedEmail`, permanent                   |
-| Sync aborts on an unexplained feed drop                         | `member-sync.server.ts`                          |
-| Sync never runs during a cutover                                | `api/public/member-sync.ts`                      |
-| Roles cannot be self-granted                                    | `user_roles` has no insert or update policy      |
+| Rule                                                       | Enforced by                                    |
+| ---------------------------------------------------------- | ---------------------------------------------- |
+| TEST mode cannot send email or open claiming               | `tg_integration_config_guard`                  |
+| Claiming requires LIVE mode plus a recorded cutover        | `tg_integration_config_guard`                  |
+| LIVE → TEST is refused                                     | `tg_integration_config_guard`                  |
+| No publish without an active member and a valid credential | `tg_directory_profile_eligibility_guard`       |
+| Members bind by `auth_user_id`, never email equality       | `member-claim.server.ts`, RLS ownership checks |
+| A `zz`-shaped address can never be a claimable identity    | `isTestShapedEmail`, permanent                 |
+| Sync aborts on an unexplained feed drop                    | `member-sync.server.ts`                        |
+| Sync never runs during a cutover                           | `api/public/member-sync.ts`                    |
+| Roles cannot be self-granted                               | `user_roles` has no insert or update policy    |
 
 ### Migration hygiene
 
