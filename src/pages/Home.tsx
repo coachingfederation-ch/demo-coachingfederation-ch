@@ -2,6 +2,7 @@ import heroImg from "@/assets/hero-coaching.jpg";
 import leadershipImg from "@/assets/leadership-team.jpg";
 import { Mark, type MarkName } from "@/components/marks";
 import { SiteHeaderBar, SiteFooter, CARD_SHADOW } from "@/components/site-chrome";
+import { SponsorMarquee, type SponsorItem } from "@/components/home/SponsorMarquee";
 import { useI18n, LocaleLink } from "@/i18n";
 
 function HeroHeader() {
@@ -254,57 +255,25 @@ function ForOrganisations() {
   );
 }
 
-const COMMUNITY_LANGS: string[][] = [
-  ["DE", "EN"],
-  ["FR", "EN"],
-  ["IT", "EN"],
-  ["DE", "FR", "IT", "EN"],
-];
-
-function Communities() {
+function Sponsors() {
   const { t, tList } = useI18n();
-  const communities = tList<{ city: string; region: string }>("home.communities.items").map(
-    (item, i) => ({
-      ...item,
-      langs: COMMUNITY_LANGS[i],
-    }),
-  );
+  const items = tList<SponsorItem>("home.ads.items");
   return (
-    <section className="bg-background py-24">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 text-center">
-      <p className="eyebrow">{t("home.communities.eyebrow")}</p>
-      <h2 className="mx-auto mt-3 max-w-3xl display-lg text-foreground">
-        {t("home.communities.title")}
-      </h2>
-      <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
-        {t("home.communities.subtitle")}
-      </p>
-      <div className="mt-14 grid gap-4 text-left md:grid-cols-2 lg:grid-cols-4">
-        {communities.map((c) => (
-          <LocaleLink
-            key={c.city}
-            to="/about"
-            hash="communities"
-            className={
-              "block rounded-2xl border border-border bg-card p-6 transition hover:-translate-y-0.5 hover:border-chip-active-border " +
-              CARD_SHADOW
-            }
-          >
-            <h3 className="text-lg font-semibold tracking-tight text-foreground">{c.city}</h3>
-            <p className="mt-2 text-sm text-muted-foreground">{c.region}</p>
-            <div className="mt-6 flex flex-wrap items-center gap-2">
-              {c.langs.map((l) => (
-                <span
-                  key={l}
-                  className="inline-flex items-center rounded-full border border-border bg-chip px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-chip-foreground"
-                >
-                  {l}
-                </span>
-              ))}
-            </div>
-          </LocaleLink>
-        ))}
+    <section
+      aria-label={t("home.ads.eyebrow")}
+      className="border-t border-border bg-card py-24"
+    >
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <div className="max-w-2xl">
+          <p className="eyebrow">{t("home.ads.eyebrow")}</p>
+          <h2 className="mt-4 display-lg text-foreground">{t("home.ads.title")}</h2>
+          <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+            {t("home.ads.subtitle")}
+          </p>
+        </div>
       </div>
+      <div className="mt-12">
+        <SponsorMarquee items={items} adLabel={t("home.ads.adLabel")} cta={t("home.ads.cta")} />
       </div>
     </section>
   );
@@ -483,8 +452,8 @@ export default function HomePage() {
         <WhyCredentialed />
         <CoachingInAction />
         <ForOrganisations />
-        <Communities />
         <Events />
+        <Sponsors />
         <Research />
         <Join />
       </main>

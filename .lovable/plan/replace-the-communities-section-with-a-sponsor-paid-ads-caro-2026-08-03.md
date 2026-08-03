@@ -27,6 +27,7 @@ Demo content is static and lives in the existing i18n files under a new `home.ad
 **Summary** — Swaps the homepage local-communities grid for a static, brand-consistent sponsor/advertising carousel demo.
 
 **Changes**
+
 - UI: new `SponsorMarquee` component; `Home.tsx` section swap; marquee keyframes in `styles.css`.
 - Content: `home.ads` added, `home.communities` removed, in four locales.
 
@@ -37,3 +38,7 @@ Demo content is static and lives in the existing i18n files under a new `home.ad
 **Risks & rollback** — Low, presentational only. Revert the component and i18n edits to restore the communities grid. Local communities remain available at `/communities` and on the About page.
 
 **Follow-ups** — CMS-managed sponsors (table, staff editor, image upload, active date ranges, click tracking) deliberately deferred; this phase is demo-static.
+
+# Approval Note
+
+Can you bring it below the "Upcoming Events" - meaning swaping place with Upcoming Events. 
