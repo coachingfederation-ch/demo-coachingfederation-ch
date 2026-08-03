@@ -135,6 +135,7 @@
     "title": "Kategorien",
     "subtitle": "Themen zur Gruppierung von Insights-Artikeln.",
     "name": "Name",
+    "memberId": "ICF Global Mitglieds-ID",
     "slug": "Slug",
     "add": "Kategorie hinzufügen",
     "namePlaceholder": "Kategoriename",

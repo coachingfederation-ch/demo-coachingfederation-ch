@@ -135,6 +135,7 @@
     "title": "Categories",
     "subtitle": "Topics used to group Insights articles.",
     "name": "Name",
+    "memberId": "ICF Global member ID",
     "slug": "Slug",
     "add": "Add category",
     "namePlaceholder": "Category name",

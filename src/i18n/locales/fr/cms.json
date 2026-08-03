@@ -135,6 +135,7 @@
     "title": "Catégories",
     "subtitle": "Sujets utilisés pour regrouper les articles Insights.",
     "name": "Nom",
+    "memberId": "Identifiant membre ICF Global",
     "slug": "Slug",
     "add": "Ajouter une catégorie",
     "namePlaceholder": "Nom de la catégorie",
