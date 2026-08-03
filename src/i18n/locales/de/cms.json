@@ -784,6 +784,19 @@
       "translate": "Mit KI übersetzen",
       "regions": "Abgedeckte Regionen",
       "regionsNote": "Mitglieder mit diesen Regionen im Einsatzgebiet sehen diese Community in ihrem Mitgliederbereich."
+    },
+    "reorder": "Reihenfolge ändern",
+    "reorderHint": "Die Reihenfolge steuert, wie Projekte und Communities auf den öffentlichen Team- und Community-Seiten erscheinen.",
+    "group": {
+      "general": "Allgemeine Projekte",
+      "communities": "Lokale Communities"
+    },
+    "type": {
+      "legend": "Projekttyp",
+      "general": "Allgemeines Projekt",
+      "generalNote": "Gremium oder Arbeitsgruppe. Erscheint nur auf der öffentlichen Teamseite.",
+      "community": "Lokale Community",
+      "communityNote": "Regionale Community. Wird zusätzlich auf /communities veröffentlicht."
     }
   }
 }

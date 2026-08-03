@@ -784,6 +784,19 @@
       "translate": "Traduire avec l'IA",
       "regions": "Régions couvertes",
       "regionsNote": "Les membres dont la zone d’intervention inclut ces régions voient cette communauté dans leur espace membre."
+    },
+    "reorder": "Réorganiser",
+    "reorderHint": "L'ordre détermine l'affichage des projets et des communautés sur les pages publiques équipe et communautés.",
+    "group": {
+      "general": "Projets généraux",
+      "communities": "Communautés locales"
+    },
+    "type": {
+      "legend": "Type de projet",
+      "general": "Projet général",
+      "generalNote": "Comité ou groupe de travail. Apparaît uniquement sur la page équipe publique.",
+      "community": "Communauté locale",
+      "communityNote": "Communauté régionale. Également publiée sur /communities."
     }
   }
 }
