@@ -44,10 +44,22 @@
     "title": "Choosing a coach is an important decision.",
     "subtitle": "ICF credentialed coaches commit to internationally recognised standards, ethics and continuous professional development.",
     "items": [
-      { "title": "Ethics", "desc": "Bound by the ICF Code of Ethics in every engagement." },
-      { "title": "Credentials", "desc": "ACC, PCC and MCC — earned, assessed and renewed." },
-      { "title": "Experience", "desc": "Documented coaching hours behind every credential." },
-      { "title": "Development", "desc": "Ongoing professional development to stay credentialed." }
+      {
+        "title": "Ethics",
+        "desc": "Bound by the ICF Code of Ethics in every engagement."
+      },
+      {
+        "title": "Credentials",
+        "desc": "ACC, PCC and MCC — earned, assessed and renewed."
+      },
+      {
+        "title": "Experience",
+        "desc": "Documented coaching hours behind every credential."
+      },
+      {
+        "title": "Development",
+        "desc": "Ongoing professional development to stay credentialed."
+      }
     ]
   },
   "insights": {
@@ -59,9 +71,18 @@
         "tag": "Future of Work",
         "title": "How coaching prepares people for what work becomes next"
       },
-      { "tag": "Leadership", "title": "Better conversations create better leaders" },
-      { "tag": "AI & Coaching", "title": "Why trusted human conversations matter more than ever" },
-      { "tag": "Diversity & Inclusion", "title": "Coaching that welcomes every perspective" }
+      {
+        "tag": "Leadership",
+        "title": "Better conversations create better leaders"
+      },
+      {
+        "tag": "AI & Coaching",
+        "title": "Why trusted human conversations matter more than ever"
+      },
+      {
+        "tag": "Diversity & Inclusion",
+        "title": "Coaching that welcomes every perspective"
+      }
     ]
   },
   "organisations": {
@@ -75,7 +96,7 @@
   "ads": {
     "eyebrow": "Advertisement",
     "title": "Partners who support our chapter.",
-    "subtitle": "Paid placements from organisations working alongside coaches in Switzerland. Demo content.",
+    "subtitle": "Paid placements from organisations working alongside coaches in Switzerland. Demo content. Images are AI generated.",
     "adLabel": "Ad",
     "cta": "Learn more",
     "items": [
@@ -120,19 +141,28 @@
         "date": "Thu 17 Sep 2026",
         "city": "Zürich",
         "title": "Coaching Perspectives Conference 2026",
-        "tags": ["EN · DE", "Leadership"]
+        "tags": [
+          "EN · DE",
+          "Leadership"
+        ]
       },
       {
         "date": "Tue 6 Oct 2026",
         "city": "Online",
         "title": "AI & Coaching: What Stays Human?",
-        "tags": ["EN", "Webinar"]
+        "tags": [
+          "EN",
+          "Webinar"
+        ]
       },
       {
         "date": "Thu 12 Nov 2026",
         "city": "Lausanne",
         "title": "Soirée Coaching: Bâtir une culture de coaching",
-        "tags": ["FR", "Networking"]
+        "tags": [
+          "FR",
+          "Networking"
+        ]
       }
     ]
   },
@@ -140,7 +170,13 @@
     "eyebrow": "Research & partnerships",
     "title": "Connecting research, practice and leadership.",
     "subtitle": "We work alongside universities, professional bodies, researchers and corporate partners to strengthen coaching across Switzerland.",
-    "partners": ["ETH Zürich", "HEC Lausanne", "USI Lugano", "SwissRe", "Nestlé"]
+    "partners": [
+      "ETH Zürich",
+      "HEC Lausanne",
+      "USI Lugano",
+      "SwissRe",
+      "Nestlé"
+    ]
   },
   "join": {
     "eyebrow": "Join The Switzerland Chapter of ICF",
