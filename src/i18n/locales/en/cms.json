@@ -784,6 +784,19 @@
       "translate": "Translate with AI",
       "regions": "Regions covered",
       "regionsNote": "Members whose service area includes these regions see this community in their Member Area."
+    },
+    "reorder": "Reorder",
+    "reorderHint": "Order controls how projects and communities appear on the public team and communities pages.",
+    "group": {
+      "general": "General projects",
+      "communities": "Local communities"
+    },
+    "type": {
+      "legend": "Project type",
+      "general": "General project",
+      "generalNote": "Committee or working group. Appears on the public team page only.",
+      "community": "Local community",
+      "communityNote": "Regional community. Also published on /communities."
     }
   }
 }

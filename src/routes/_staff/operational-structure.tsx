@@ -13,7 +13,7 @@
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, MapPin, Plus, Trash2 } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { supabase } from "@/integrations/supabase/client";
 import { useCms } from "@/i18n/cms";
@@ -85,6 +85,10 @@ function OperationalStructurePage() {
   const [pickedMember, setPickedMember] = useState("");
   const [pickedRole, setPickedRole] = useState("");
   const [error, setError] = useState<string | null>(null);
+  // Reordering writes `sort_order`, which drives the public /team filter chips
+  // and the /communities order. It is a rare action, so the arrows stay hidden
+  // behind this toggle instead of dominating the list.
+  const [reordering, setReordering] = useState(false);
 
   const loadProjects = async () => {
     const { data, error: err } = await supabase
@@ -147,14 +151,17 @@ function OperationalStructurePage() {
   const patch = async (
     table: "op_projects" | "op_project_roles",
     id: string,
-    values: Partial<Localized>,
+    values: Partial<ProjectRow>,
   ) => {
     if (table === "op_projects") {
       setProjects((prev) => prev.map((r) => (r.id === id ? { ...r, ...values } : r)));
     } else {
       setRoles((prev) => prev.map((r) => (r.id === id ? { ...r, ...values } : r)));
     }
-    const { error: err } = await supabase.from(table).update(values).eq("id", id);
+    const { error: err } = await supabase
+      .from(table)
+      .update(values as never)
+      .eq("id", id);
     if (err) setError(err.message);
   };
 
@@ -284,40 +291,79 @@ function OperationalStructurePage() {
         </div>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-[260px_1fr]">
-          <nav className="space-y-1" aria-label={t("ops.projects")}>
-            {projects.map((p, index) => (
-              <div key={p.id} className="flex items-center gap-1">
-                <button
-                  type="button"
-                  onClick={() => setSelected(p.id)}
-                  className={
-                    "flex-1 truncate rounded-lg px-3 py-2 text-left text-sm " +
-                    (p.id === selected
-                      ? "bg-secondary font-semibold text-primary"
-                      : "text-muted-foreground hover:bg-secondary/60") +
-                    (p.is_active ? "" : " opacity-50")
-                  }
-                >
-                  {p.name}
-                </button>
-                <button
-                  onClick={() => void move("op_projects", projects, index, -1)}
-                  disabled={index === 0}
-                  aria-label={t("ops.moveUp")}
-                  className="rounded p-1 text-muted-foreground hover:bg-secondary disabled:opacity-30"
-                >
-                  <ArrowUp className="h-3.5 w-3.5" />
-                </button>
-                <button
-                  onClick={() => void move("op_projects", projects, index, 1)}
-                  disabled={index === projects.length - 1}
-                  aria-label={t("ops.moveDown")}
-                  className="rounded p-1 text-muted-foreground hover:bg-secondary disabled:opacity-30"
-                >
-                  <ArrowDown className="h-3.5 w-3.5" />
-                </button>
-              </div>
-            ))}
+          <nav className="space-y-5" aria-label={t("ops.projects")}>
+            <div className="flex items-center justify-between gap-2">
+              <label className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+                <input
+                  type="checkbox"
+                  checked={reordering}
+                  onChange={(e) => setReordering(e.target.checked)}
+                  className="h-3.5 w-3.5 accent-[var(--color-primary)]"
+                />
+                {t("ops.reorder")}
+              </label>
+            </div>
+            {reordering ? (
+              <p className="-mt-3 text-[11px] leading-snug text-muted-foreground">
+                {t("ops.reorderHint")}
+              </p>
+            ) : null}
+            {(
+              [
+                { key: "general", rows: projects.filter((p) => !p.is_community) },
+                { key: "communities", rows: projects.filter((p) => p.is_community) },
+              ] as const
+            ).map((group) =>
+              group.rows.length === 0 ? null : (
+                <div key={group.key}>
+                  <h2 className="px-3 pb-1 text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground">
+                    {t(`ops.group.${group.key}`)}
+                  </h2>
+                  <div className="space-y-1">
+                    {group.rows.map((p, index) => (
+                      <div key={p.id} className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => setSelected(p.id)}
+                          className={
+                            "flex min-w-0 flex-1 items-center gap-1.5 rounded-lg px-3 py-2 text-left text-sm " +
+                            (p.id === selected
+                              ? "bg-secondary font-semibold text-primary"
+                              : "text-muted-foreground hover:bg-secondary/60") +
+                            (p.is_active ? "" : " opacity-50")
+                          }
+                        >
+                          {p.is_community ? (
+                            <MapPin className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                          ) : null}
+                          <span className="truncate">{p.name}</span>
+                        </button>
+                        {reordering ? (
+                          <>
+                            <button
+                              onClick={() => void move("op_projects", group.rows, index, -1)}
+                              disabled={index === 0}
+                              aria-label={t("ops.moveUp")}
+                              className="rounded p-1 text-muted-foreground hover:bg-secondary disabled:opacity-30"
+                            >
+                              <ArrowUp className="h-3.5 w-3.5" />
+                            </button>
+                            <button
+                              onClick={() => void move("op_projects", group.rows, index, 1)}
+                              disabled={index === group.rows.length - 1}
+                              aria-label={t("ops.moveDown")}
+                              className="rounded p-1 text-muted-foreground hover:bg-secondary disabled:opacity-30"
+                            >
+                              <ArrowDown className="h-3.5 w-3.5" />
+                            </button>
+                          </>
+                        ) : null}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ),
+            )}
           </nav>
 
           {project ? (
@@ -375,6 +421,50 @@ function OperationalStructurePage() {
                     <Trash2 className="h-3.5 w-3.5" /> {t("ops.deleteProject")}
                   </button>
                 </div>
+
+                <fieldset className="mt-5 border-t border-border pt-4">
+                  <legend className="sr-only">{t("ops.type.legend")}</legend>
+                  <p className="text-xs font-bold">{t("ops.type.legend")}</p>
+                  <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                    {(
+                      [
+                        { value: false, key: "general" },
+                        { value: true, key: "community" },
+                      ] as const
+                    ).map((option) => (
+                      <label
+                        key={option.key}
+                        className={
+                          "flex cursor-pointer gap-2 rounded-xl border p-3 text-left " +
+                          (project.is_community === option.value
+                            ? "border-primary bg-secondary/60"
+                            : "border-border hover:bg-secondary/30")
+                        }
+                      >
+                        <input
+                          type="radio"
+                          name="project-type"
+                          className="mt-0.5 h-4 w-4 accent-[var(--color-primary)]"
+                          checked={project.is_community === option.value}
+                          onChange={() =>
+                            void patch("op_projects", project.id, {
+                              is_community: option.value,
+                              ...(option.value ? {} : { is_featured_community: false }),
+                            })
+                          }
+                        />
+                        <span>
+                          <span className="block text-xs font-semibold">
+                            {t(`ops.type.${option.key}`)}
+                          </span>
+                          <span className="mt-0.5 block text-[11px] leading-snug text-muted-foreground">
+                            {t(`ops.type.${option.key}Note`)}
+                          </span>
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
               </section>
 
               <CommunityPanel project={project} onSaved={loadProjects} />

@@ -784,6 +784,19 @@
       "translate": "Traduci con IA",
       "regions": "Regioni coperte",
       "regionsNote": "I soci con queste regioni nella loro area di servizio vedono questa community nell’area soci."
+    },
+    "reorder": "Riordina",
+    "reorderHint": "L'ordine determina come progetti e community appaiono sulle pagine pubbliche team e community.",
+    "group": {
+      "general": "Progetti generali",
+      "communities": "Community locali"
+    },
+    "type": {
+      "legend": "Tipo di progetto",
+      "general": "Progetto generale",
+      "generalNote": "Comitato o gruppo di lavoro. Appare solo sulla pagina pubblica del team.",
+      "community": "Community locale",
+      "communityNote": "Community regionale. Pubblicata anche su /communities."
     }
   }
 }
