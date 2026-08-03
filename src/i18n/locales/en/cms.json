@@ -380,6 +380,7 @@
   },
   "member": {
     "title": "My coach profile",
+    "back": "← Back to Member Area",
     "subtitle": "Your public Coach Finder listing. ICF identity data is imported and read-only; everything else is yours to edit.",
     "loading": "Loading your profile…",
     "unboundTitle": "No member record linked",

@@ -380,6 +380,7 @@
   },
   "member": {
     "title": "Mon profil de coach",
+    "back": "← Retour à l'espace membre",
     "subtitle": "Votre fiche publique sur Coach Finder. Les données d'identité ICF sont importées et en lecture seule ; tout le reste peut être édité par vos soins.",
     "loading": "Chargement de votre profil…",
     "unboundTitle": "Aucun compte membre lié",
