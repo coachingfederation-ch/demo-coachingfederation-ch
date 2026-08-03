@@ -32,7 +32,7 @@ function SponsorCard({
   return (
     <article
       className={
-        "relative flex w-[19rem] shrink-0 flex-col overflow-hidden rounded-2xl border p-6 sm:w-[21rem] " +
+        "relative flex h-full w-[19rem] shrink-0 flex-col overflow-hidden rounded-2xl border p-6 sm:w-[21rem] " +
         SURFACES[index % SURFACES.length]
       }
     >
@@ -76,12 +76,20 @@ export function SponsorMarquee({
   cta: string;
 }) {
   return (
-    <div className="group relative overflow-hidden motion-reduce:overflow-x-auto">
-      <div className="marquee-track flex w-max gap-5 group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused] motion-reduce:animate-none">
+    <div
+      className="group relative overflow-hidden motion-reduce:overflow-x-auto"
+      style={{
+        maskImage:
+          "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
+        WebkitMaskImage:
+          "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
+      }}
+    >
+      <div className="marquee-track flex w-max items-stretch gap-5 group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused] motion-reduce:animate-none">
         {[0, 1].map((copy) => (
-          <div key={copy} className="flex gap-5" aria-hidden={copy === 1 || undefined}>
+          <div key={copy} className="flex items-stretch gap-5" aria-hidden={copy === 1 || undefined}>
             {items.map((item, i) => (
-              <div key={item.name} className="relative">
+              <div key={item.name} className="relative flex">
                 <SponsorCard item={item} index={i} cta={cta} />
                 <span className="pointer-events-none absolute right-4 top-4 inline-flex items-center rounded-full border border-border bg-chip px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-chip-foreground">
                   {adLabel}
