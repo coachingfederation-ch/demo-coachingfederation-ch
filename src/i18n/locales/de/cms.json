@@ -45,6 +45,10 @@
     "new": "Neuer Artikel",
     "empty": "Noch keine Artikel vorhanden.",
     "updated": "Aktualisiert",
+    "author": "Autor:in",
+    "published": "Veröffentlicht",
+    "previous": "Zurück",
+    "next": "Weiter",
     "filters": {
       "All": "Alle",
       "Drafts": "Entwürfe",
