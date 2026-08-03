@@ -1,9 +1,25 @@
+import adSupervision from "@/assets/ads/ad-supervision.jpg";
+import adPress from "@/assets/ads/ad-press.jpg";
+import adAssessment from "@/assets/ads/ad-assessment.jpg";
+import adPractice from "@/assets/ads/ad-practice.jpg";
+import adRetreats from "@/assets/ads/ad-retreats.jpg";
+import adMentoring from "@/assets/ads/ad-mentoring.jpg";
 import heroImg from "@/assets/hero-coaching.jpg";
 import leadershipImg from "@/assets/leadership-team.jpg";
 import { Mark, type MarkName } from "@/components/marks";
 import { SiteHeaderBar, SiteFooter, CARD_SHADOW } from "@/components/site-chrome";
 import { SponsorMarquee, type SponsorItem } from "@/components/home/SponsorMarquee";
 import { useI18n, LocaleLink } from "@/i18n";
+
+/** Demo sponsor imagery (AI generated), ordered to match `home.ads.items`. */
+const AD_IMAGES = [
+  adSupervision,
+  adPress,
+  adAssessment,
+  adPractice,
+  adRetreats,
+  adMentoring,
+];
 
 function HeroHeader() {
   const { t } = useI18n();
@@ -256,7 +272,6 @@ function ForOrganisations() {
 }
 
 function Sponsors() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { t, tList } = useI18n();
   // Demo imagery is bundled positionally: locale item order matches AD_IMAGES.
   const items = tList<SponsorItem>("home.ads.items").map((item, i) => ({
