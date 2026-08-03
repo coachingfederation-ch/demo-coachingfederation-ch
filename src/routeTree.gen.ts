@@ -39,6 +39,7 @@ import { Route as LocalePrivacyRouteImport } from './routes/$locale/privacy'
 import { Route as LocaleTeamRouteImport } from './routes/$locale/team'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as MemberMemberRouteImport } from './routes/_member/member'
 import { Route as MemberMyProfileRouteImport } from './routes/_member/my-profile'
 import { Route as StaffArticlesRouteImport } from './routes/_staff/articles'
 import { Route as StaffCoachFinderRouteImport } from './routes/_staff/coach-finder'
@@ -227,6 +228,11 @@ const Char91DotwellKnownChar93OauthProtectedResourceRoute =
     path: '/.well-known/oauth-protected-resource',
     getParentRoute: () => rootRouteImport,
   } as any)
+const MemberMemberRoute = MemberMemberRouteImport.update({
+  id: '/member',
+  path: '/member',
+  getParentRoute: () => MemberRouteRoute,
+} as any)
 const MemberMyProfileRoute = MemberMyProfileRouteImport.update({
   id: '/my-profile',
   path: '/my-profile',
@@ -444,6 +450,7 @@ export interface FileRoutesByFullPath {
   '/$locale/team': typeof LocaleTeamRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/member': typeof MemberMemberRoute
   '/my-profile': typeof MemberMyProfileRoute
   '/articles': typeof StaffArticlesRouteWithChildren
   '/coach-finder': typeof StaffCoachFinderRoute
@@ -508,6 +515,7 @@ export interface FileRoutesByTo {
   '/$locale/team': typeof LocaleTeamRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/member': typeof MemberMemberRoute
   '/my-profile': typeof MemberMyProfileRoute
   '/coach-finder': typeof StaffCoachFinderRoute
   '/integration': typeof StaffIntegrationRoute
@@ -577,6 +585,7 @@ export interface FileRoutesById {
   '/$locale/team': typeof LocaleTeamRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/_member/member': typeof MemberMemberRoute
   '/_member/my-profile': typeof MemberMyProfileRoute
   '/_staff/articles': typeof StaffArticlesRouteWithChildren
   '/_staff/coach-finder': typeof StaffCoachFinderRoute
@@ -646,6 +655,7 @@ export interface FileRouteTypes {
     | '/$locale/team'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/member'
     | '/my-profile'
     | '/articles'
     | '/coach-finder'
@@ -710,6 +720,7 @@ export interface FileRouteTypes {
     | '/$locale/team'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/member'
     | '/my-profile'
     | '/coach-finder'
     | '/integration'
@@ -778,6 +789,7 @@ export interface FileRouteTypes {
     | '/$locale/team'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/_member/member'
     | '/_member/my-profile'
     | '/_staff/articles'
     | '/_staff/coach-finder'
@@ -1063,6 +1075,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/.well-known/oauth-protected-resource'
       preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_member/member': {
+      id: '/_member/member'
+      path: '/member'
+      fullPath: '/member'
+      preLoaderRoute: typeof MemberMemberRouteImport
+      parentRoute: typeof MemberRouteRoute
     }
     '/_member/my-profile': {
       id: '/_member/my-profile'
@@ -1381,10 +1400,12 @@ const LocaleRouteRouteWithChildren = LocaleRouteRoute._addFileChildren(
 )
 
 interface MemberRouteRouteChildren {
+  MemberMemberRoute: typeof MemberMemberRoute
   MemberMyProfileRoute: typeof MemberMyProfileRoute
 }
 
 const MemberRouteRouteChildren: MemberRouteRouteChildren = {
+  MemberMemberRoute: MemberMemberRoute,
   MemberMyProfileRoute: MemberMyProfileRoute,
 }
 

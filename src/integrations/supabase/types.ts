@@ -2046,6 +2046,46 @@ export type Database = {
           },
         ]
       }
+      op_project_regions: {
+        Row: {
+          created_at: string
+          project_id: string
+          region_id: string
+        }
+        Insert: {
+          created_at?: string
+          project_id: string
+          region_id: string
+        }
+        Update: {
+          created_at?: string
+          project_id?: string
+          region_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "op_project_regions_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "op_projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "op_project_regions_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "team_projects_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "op_project_regions_region_id_fkey"
+            columns: ["region_id"]
+            isOneToOne: false
+            referencedRelation: "cf_regions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       op_project_roles: {
         Row: {
           created_at: string

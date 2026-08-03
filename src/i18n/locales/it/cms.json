@@ -467,7 +467,42 @@
     "testimonialAttributionPlaceholder": "es. Team lead, servizi finanziari svizzeri",
     "teamBioTitle": "Descrizione del ruolo nel team",
     "teamBioNote": "Mostrato nella finestra popup sulla pagina pubblica del team.",
-    "teamBio": "Descrizione del ruolo nel team"
+    "teamBio": "Descrizione del ruolo nel team",
+    "home": {
+      "eyebrow": "Area soci",
+      "greeting": "Bentornata/o",
+      "greetingNamed": "Bentornata/o, {name}",
+      "intro": "Tutto ciò che il chapter ti offre come socio, in un unico posto.",
+      "soon": "Presto disponibile",
+      "profile": {
+        "title": "Il mio profilo",
+        "body": "Mantieni aggiornata la tua scheda Coach Finder: foto, descrizione, area di servizio, lingue e disponibilità.",
+        "cta": "Apri il mio profilo"
+      },
+      "engage": {
+        "title": "ICF Engage",
+        "body": "ICF Engage è la piattaforma community globale di ICF. Unisciti lì alla community dello Switzerland Chapter per confrontarti e accedere alle risorse condivise.",
+        "cta": "Unisciti su ICF Engage"
+      },
+      "volunteer": {
+        "title": "Volontariato",
+        "body": "Il chapter vive grazie ai volontari. Comitato, community e progetti hanno bisogno di soci che dedichino qualche ora. Le opportunità aperte compariranno qui."
+      },
+      "ads": {
+        "title": "Fai pubblicità con noi",
+        "body": "Raggiungi i coach di tutta la Svizzera tramite newsletter, sito ed eventi. Gli spazi a pagamento per i soci saranno proposti qui."
+      },
+      "communities": {
+        "title": "Community nella tua area di servizio",
+        "body": "Le community locali che coprono le regioni scelte nel tuo profilo, con una persona di riferimento.",
+        "loading": "Caricamento delle community…",
+        "noRegions": "Scegli la tua area di servizio per vedere le community vicine.",
+        "setRegions": "Imposta l’area di servizio",
+        "empty": "Nessuna community locale copre ancora la tua area di servizio.",
+        "view": "Vedi la community",
+        "contact": "Contatta la community"
+      }
+    }
   },
   "noAccess": {
     "title": "Nessun accesso per ora",
@@ -741,7 +776,9 @@
       "description": "Descrizione (Markdown)",
       "languages": "Lingue parlate",
       "translations": "Traduzioni",
-      "translate": "Traduci con IA"
+      "translate": "Traduci con IA",
+      "regions": "Regioni coperte",
+      "regionsNote": "I soci con queste regioni nella loro area di servizio vedono questa community nell’area soci."
     }
   }
 }

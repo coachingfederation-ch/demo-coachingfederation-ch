@@ -26,10 +26,10 @@ import type { AppRole, RoleSet } from "@/lib/role-model";
  */
 function fallbackFor(
   roles: RoleSet,
-): "/articles" | "/manage/events" | "/my-profile" | "/no-access" {
+): "/articles" | "/manage/events" | "/member" | "/no-access" {
   if (hasExactRole(roles.roles, "editor")) return "/articles";
   if (hasExactRole(roles.roles, "organizer")) return "/manage/events";
-  if (roles.isMember) return "/my-profile";
+  if (roles.isMember) return "/member";
   return "/no-access";
 }
 

@@ -467,7 +467,42 @@
     "testimonialAttributionPlaceholder": "z. B. Teamleitung, Schweizer Finanzdienstleister",
     "teamBioTitle": "Beschreibung der Teamrolle",
     "teamBioNote": "Wird im Popup auf der öffentlichen Teamseite angezeigt.",
-    "teamBio": "Beschreibung der Teamrolle"
+    "teamBio": "Beschreibung der Teamrolle",
+    "home": {
+      "eyebrow": "Mitgliederbereich",
+      "greeting": "Willkommen zurück",
+      "greetingNamed": "Willkommen zurück, {name}",
+      "intro": "Alles, was Ihnen das Chapter als Mitglied bietet, an einem Ort.",
+      "soon": "Demnächst",
+      "profile": {
+        "title": "Mein Profil",
+        "body": "Halten Sie Ihren Coach-Finder-Eintrag aktuell: Foto, Beschreibung, Einsatzgebiet, Sprachen und Verfügbarkeit.",
+        "cta": "Profil öffnen"
+      },
+      "engage": {
+        "title": "ICF Engage",
+        "body": "ICF Engage ist die globale Community-Plattform der ICF. Treten Sie dort der Community des Switzerland Chapter bei, tauschen Sie sich aus und nutzen Sie gemeinsame Ressourcen.",
+        "cta": "Auf ICF Engage beitreten"
+      },
+      "volunteer": {
+        "title": "Freiwilligenarbeit",
+        "body": "Das Chapter lebt von Freiwilligen. Vorstand, Communities und Projekte brauchen Mitglieder, die einige Stunden einbringen. Offene Möglichkeiten erscheinen hier."
+      },
+      "ads": {
+        "title": "Werben Sie mit uns",
+        "body": "Erreichen Sie Coaches in der ganzen Schweiz über Newsletter, Website und Events. Bezahlte Platzierungen für Mitglieder folgen hier."
+      },
+      "communities": {
+        "title": "Communities in Ihrem Einsatzgebiet",
+        "body": "Lokale Communities in den Regionen, die Sie in Ihrem Profil gewählt haben – mit Ansprechperson.",
+        "loading": "Communities werden geladen…",
+        "noRegions": "Wählen Sie Ihr Einsatzgebiet, um Communities in Ihrer Nähe zu sehen.",
+        "setRegions": "Einsatzgebiet festlegen",
+        "empty": "Für Ihr Einsatzgebiet gibt es noch keine lokale Community.",
+        "view": "Community ansehen",
+        "contact": "Community kontaktieren"
+      }
+    }
   },
   "noAccess": {
     "title": "Noch kein Zugriff",
@@ -741,7 +776,9 @@
       "description": "Beschreibung (Markdown)",
       "languages": "Gesprochene Sprachen",
       "translations": "Übersetzungen",
-      "translate": "Mit KI übersetzen"
+      "translate": "Mit KI übersetzen",
+      "regions": "Abgedeckte Regionen",
+      "regionsNote": "Mitglieder mit diesen Regionen im Einsatzgebiet sehen diese Community in ihrem Mitgliederbereich."
     }
   }
 }

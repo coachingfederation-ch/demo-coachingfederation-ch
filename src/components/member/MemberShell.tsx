@@ -41,8 +41,10 @@ export function MemberShell({ children }: { children: ReactNode }) {
     <div className="min-h-screen bg-background text-foreground">
       <header className="border-b border-border bg-primary text-primary-foreground">
         <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-4 px-6 py-4">
-          <img src={icfLogo.url} alt="The Switzerland Chapter of ICF" className="h-12 w-auto" />
-          <span className="text-sm font-semibold">{t("member.areaTitle")}</span>
+          <Link to="/member" className="flex items-center gap-4">
+            <img src={icfLogo.url} alt="The Switzerland Chapter of ICF" className="h-12 w-auto" />
+            <span className="text-sm font-semibold">{t("member.areaTitle")}</span>
+          </Link>
           <div className="ml-auto flex items-center gap-3">
             {roles.isStaff ? (
               <Link

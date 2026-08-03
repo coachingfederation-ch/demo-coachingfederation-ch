@@ -73,8 +73,8 @@ export function hasExactRole(roles: AppRole[], role: AppRole): boolean {
  */
 export function landingPath(
   roles: RoleSet,
-): "/articles" | "/manage/events" | "/my-profile" | "/no-access" {
-  if (roles.isMember) return "/my-profile";
+): "/articles" | "/manage/events" | "/member" | "/no-access" {
+  if (roles.isMember) return "/member";
   // An organizer-only staff account has no access to /articles — the route
   // guard would bounce them straight back out.
   if (
