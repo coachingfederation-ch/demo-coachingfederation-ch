@@ -125,6 +125,7 @@ export function MemberHome() {
                             {" "}
                             <a
                               href={`mailto:${lead.email}`}
+                              target="_top"
                               className="font-semibold text-primary underline"
                             >
                               {lead.email}
@@ -148,6 +149,7 @@ export function MemberHome() {
                   {community.contactEmail ? (
                     <a
                       href={`mailto:${community.contactEmail}`}
+                      target="_top"
                       className="inline-flex items-center gap-1.5 text-primary underline"
                     >
                       <Mail className="h-3.5 w-3.5" aria-hidden />
