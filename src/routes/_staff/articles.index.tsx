@@ -127,6 +127,14 @@ function ArticlesPage() {
     return needle ? byStatus.filter((r) => r.title.toLowerCase().includes(needle)) : byStatus;
   }, [rows, filter, q]);
 
+  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const safePage = Math.min(page, pageCount);
+  const pageRows = filtered.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+
+  useEffect(() => {
+    setPage(1);
+  }, [filter, q]);
+
   const counts = useMemo(() => {
     if (!rows) return { total: 0, drafts: 0, scheduled: 0 };
     return {
