@@ -380,6 +380,7 @@
   },
   "member": {
     "title": "Il mio profilo coach",
+    "back": "← Torna all'area soci",
     "subtitle": "La tua scheda pubblica su Coach Finder. I dati identitari ICF sono importati e in sola lettura; tutto il resto è a tua disposizione da modificare.",
     "loading": "Caricamento del tuo profilo in corso…",
     "unboundTitle": "Nessuna scheda membro collegata",

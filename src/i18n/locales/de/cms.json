@@ -380,6 +380,7 @@
   },
   "member": {
     "title": "Mein Coach-Profil",
+    "back": "← Zurück zum Mitgliederbereich",
     "subtitle": "Eintrag im öffentlichen Coach Finder. Identitätsdaten von ICF sind importiert und schreibgeschützt; alles andere können Sie selbst bearbeiten.",
     "loading": "Profil wird geladen…",
     "unboundTitle": "Kein Mitgliedsdatensatz verknüpft",
