@@ -19,7 +19,15 @@ const SURFACES = [
   "bg-hero text-hero-foreground border-transparent",
 ] as const;
 
-function SponsorCard({ item, index }: { item: SponsorItem; index: number }) {
+function SponsorCard({
+  item,
+  index,
+  cta,
+}: {
+  item: SponsorItem;
+  index: number;
+  cta: string;
+}) {
   const onHero = index % SURFACES.length === 2;
   return (
     <article
@@ -52,7 +60,7 @@ function SponsorCard({ item, index }: { item: SponsorItem; index: number }) {
           (onHero ? "text-hero-accent" : "text-primary")
         }
       >
-        {item.cta}
+        {cta}
       </span>
     </article>
   );
@@ -67,15 +75,14 @@ export function SponsorMarquee({
   adLabel: string;
   cta: string;
 }) {
-  const cards = items.map((item, i) => ({ ...item, cta, adLabel, key: item.name, index: i }));
   return (
     <div className="group relative overflow-hidden motion-reduce:overflow-x-auto">
       <div className="marquee-track flex w-max gap-5 group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused] motion-reduce:animate-none">
         {[0, 1].map((copy) => (
           <div key={copy} className="flex gap-5" aria-hidden={copy === 1 || undefined}>
-            {cards.map((c) => (
-              <div key={c.key} className="relative">
-                <SponsorCard item={c} index={c.index} />
+            {items.map((item, i) => (
+              <div key={item.name} className="relative">
+                <SponsorCard item={item} index={i} cta={cta} />
                 <span className="pointer-events-none absolute right-4 top-4 inline-flex items-center rounded-full border border-border bg-chip px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-chip-foreground">
                   {adLabel}
                 </span>
