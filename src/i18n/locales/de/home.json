@@ -93,26 +93,42 @@
     "caseStudies": "Fallstudien",
     "imgAlt": "Führungsteam bei der Arbeit"
   },
-  "communities": {
-    "eyebrow": "Communities",
-    "title": "Eine Coaching-Community in der ganzen Schweiz.",
-    "subtitle": "Über Regionen und Sprachen hinweg bringt The Switzerland Chapter of ICF Coaches zusammen, um zu lernen, zusammenzuarbeiten und die Zukunft unseres Berufs mitzugestalten.",
+  "ads": {
+    "eyebrow": "Anzeige",
+    "title": "Partner, die unser Chapter unterstützen.",
+    "subtitle": "Bezahlte Platzierungen von Organisationen, die mit Coaches in der Schweiz arbeiten. Demo-Inhalte.",
+    "adLabel": "Anzeige",
+    "cta": "Mehr erfahren",
     "items": [
       {
-        "city": "Zürich",
-        "region": "Deutschschweiz"
+        "name": "Alpine Supervision Collective",
+        "category": "Supervision",
+        "claim": "Peer-Supervisionsgruppen in vier Sprachen."
       },
       {
-        "city": "Lausanne & Genève",
-        "region": "Romandie"
+        "name": "Lakeside Coaching Press",
+        "category": "Verlag",
+        "claim": "Bücher und Arbeitshefte für reflektierte Praxis."
       },
       {
-        "city": "Lugano",
-        "region": "Ticino"
+        "name": "Vertex Assessment Group",
+        "category": "Assessment",
+        "claim": "Evidenzbasierte 360-Instrumente für die Coaching-Arbeit."
       },
       {
-        "city": "Online",
-        "region": "Events, Mentoring & Engagement"
+        "name": "Bern Practice Studio",
+        "category": "Praxis",
+        "claim": "Buchhaltung und Administration für Einzelpraxen."
+      },
+      {
+        "name": "Terra Retreats Ticino",
+        "category": "Räume",
+        "claim": "Ruhige Orte für Coaching-Offsites."
+      },
+      {
+        "name": "Genève Mentoring Guild",
+        "category": "Mentoring",
+        "claim": "Mentor-Coaching-Stunden für ACC und PCC."
       }
     ]
   },
