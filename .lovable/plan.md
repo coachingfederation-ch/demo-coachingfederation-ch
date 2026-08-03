@@ -21,11 +21,36 @@ language switcher, sign-out, staff link when applicable).
    in a new tab.
 4. **Volunteering** — the chapter runs on volunteers; opportunities will be
    listed here. CTA present but disabled, labelled "Coming soon".
-5. **Advertise with us** — paid placements for coaches in chapter
+5. **Your local communities** — the communities that match the member's own
+   service-area regions (the cantons selected in their profile), each with its
+   lead(s) to contact: name, role and contact route (community contact email
+   where set, otherwise the community page). With no regions selected the card
+   invites them to set their service area; with no match it links to
+   `/communities`.
+6. **Advertise with us** — paid placements for coaches in chapter
    communications. CTA present but disabled, labelled "Coming soon".
 
 Cards follow the existing surface rhythm (bone base, white cards, restrained
 borders); no new colours, fonts or components invented.
+
+## Matching communities to regions
+
+Communities are `op_projects` rows flagged `is_community`; they have no link to
+`cf_regions` today, and slug matching would be wrong (Community Romandie covers
+Vaud, Geneva and Romandie-other; Valais and "Online only" map to nothing). So
+the plan adds an explicit, staff-managed link:
+
+- New table `public.op_project_regions` (project_id, region_id) with the same
+  access rules as `op_projects`: public read, admin write.
+- Region multi-select added to the community block of the Operational
+  Structure editor, so admins own the mapping.
+- Initial mapping seeded in the migration: zurich, bern, basel, central,
+  eastern, ticino to their communities, and romandie-vaud + romandie-geneva +
+  romandie-other to Community Romandie. Valais and Online-only stay unmapped.
+
+Leads come from `op_assignments` on the community's `lead` role. No lead is
+assigned in the data yet, so the card falls back to the community contact email
+and then to the community page link.
 
 ## Routing
 
@@ -42,6 +67,10 @@ header title links to `/member`.
 - Name and profile state come from the existing `getMyMemberProfile` server
   function via `useServerFn` + `useQuery` — no new server function, no schema
   change, no new database access.
+- Community matching runs in a new authenticated server function
+  (`member-home.functions.ts` + `member-home.server.ts`) that resolves the
+  caller's regions from their own member record and returns matching
+  communities with their leads.
 - Copy added under a `member.home.*` block in `src/i18n/locales/{en,de,fr,it}/cms.json`,
   matching the existing CMS i18n pattern.
 - `landingPath` in `src/lib/role-model.ts` gains `/member` in its return union;
@@ -58,11 +87,17 @@ members now land there instead of straight in the profile editor.
   to it; `/my-profile` gains a back link.
 - Routing: `landingPath()` returns `/member` for members.
 - i18n: `member.home.*` keys in all four locales.
+- Backend: `op_project_regions` link table + admin region picker in the
+  Operational Structure editor; new authenticated server function returning the
+  member's matching communities and their leads.
 
-**Backend / schema changes** — None.
+**Backend / schema changes** — New `op_project_regions` link table (public
+read, admin write, GRANTs included) plus a seed of the current region-to-
+community mapping. No changes to existing tables.
 
 **Testing & verification** — Sign in as a claimed member (landing, greeting,
-all four cards, active vs disabled CTAs), as a member who also holds `editor`
+all five cards, communities matching the member's regions, active vs disabled
+CTAs), as a member who also holds `editor`
 (staff link still present), and as a staff-only account (unchanged routing).
 Checked mobile and desktop widths, keyboard focus order and that disabled CTAs
 are announced as disabled.
@@ -70,5 +105,6 @@ are announced as disabled.
 **Risks & rollback** — Low blast radius: additive route plus one redirect
 target. Revert by pointing `landingPath` back at `/my-profile`.
 
-**Follow-ups** — Volunteering and advertising CTAs are intentionally inert
-until that content exists.
+**Follow-ups** — Community leads are unassigned in the data today, so cards
+fall back to contact email or the community page. Volunteering and advertising
+CTAs are intentionally inert until that content exists.
