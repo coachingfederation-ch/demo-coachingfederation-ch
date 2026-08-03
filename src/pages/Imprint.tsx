@@ -34,6 +34,7 @@ export default function ImprintPage() {
               Email:{" "}
               <a
                 href="mailto:office@coachingfederation.ch"
+                target="_top"
                 className="text-primary underline underline-offset-4 hover:text-primary/80"
               >
                 office@coachingfederation.ch
@@ -61,6 +62,7 @@ export default function ImprintPage() {
             Contact:{" "}
             <a
               href="mailto:office@coachingfederation.ch"
+              target="_top"
               className="text-primary underline underline-offset-4 hover:text-primary/80"
             >
               office@coachingfederation.ch

@@ -368,6 +368,7 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
                   {contactEmail && (
                     <a
                       href={`mailto:${contactEmail}`}
+                      target="_top"
                       className="inline-flex h-11 items-center rounded-full border border-hero-foreground/40 px-5 text-sm font-semibold text-hero-foreground hover:bg-hero-foreground/10"
                     >
                       {t("directory.detail.message")}
@@ -476,6 +477,7 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
                   {contactEmail && (
                     <a
                       href={`mailto:${contactEmail}`}
+                      target="_top"
                       className="inline-flex h-11 items-center justify-center rounded-full border-2 border-primary px-5 text-sm font-semibold text-primary hover:bg-secondary"
                     >
                       {t("directory.detail.message")}

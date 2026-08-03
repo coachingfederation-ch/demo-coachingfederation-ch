@@ -18,6 +18,7 @@ function MailLink({ address }: { address: string }) {
   return (
     <a
       href={`mailto:${address}`}
+      target="_top"
       className="text-primary underline underline-offset-4 hover:text-primary/80"
     >
       {address}
