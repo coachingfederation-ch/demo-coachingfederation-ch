@@ -259,7 +259,10 @@ function Sponsors() {
   const { t, tList } = useI18n();
   const items = tList<SponsorItem>("home.ads.items");
   return (
-    <section aria-label={t("home.ads.eyebrow")} className="bg-background py-24">
+    <section
+      aria-label={t("home.ads.eyebrow")}
+      className="border-t border-border bg-card py-24"
+    >
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="max-w-2xl">
           <p className="eyebrow">{t("home.ads.eyebrow")}</p>
