@@ -257,7 +257,11 @@ function ForOrganisations() {
 
 function Sponsors() {
   const { t, tList } = useI18n();
-  const items = tList<SponsorItem>("home.ads.items");
+  // Demo imagery is bundled positionally: locale item order matches AD_IMAGES.
+  const items = tList<SponsorItem>("home.ads.items").map((item, i) => ({
+    ...item,
+    image: AD_IMAGES[i],
+  }));
   return (
     <section
       aria-label={t("home.ads.eyebrow")}
