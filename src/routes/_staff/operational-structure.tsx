@@ -151,14 +151,17 @@ function OperationalStructurePage() {
   const patch = async (
     table: "op_projects" | "op_project_roles",
     id: string,
-    values: Partial<Localized>,
+    values: Partial<ProjectRow>,
   ) => {
     if (table === "op_projects") {
       setProjects((prev) => prev.map((r) => (r.id === id ? { ...r, ...values } : r)));
     } else {
       setRoles((prev) => prev.map((r) => (r.id === id ? { ...r, ...values } : r)));
     }
-    const { error: err } = await supabase.from(table).update(values).eq("id", id);
+    const { error: err } = await supabase
+      .from(table)
+      .update(values as never)
+      .eq("id", id);
     if (err) setError(err.message);
   };
 
