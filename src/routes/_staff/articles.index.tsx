@@ -40,6 +40,8 @@ interface Row {
   language: Lang;
   status: Status;
   updated_at: string;
+  published_at: string | null;
+  author: { first_name: string | null; last_name: string | null } | null;
   translations?: { locale: string }[] | null;
 }
 
