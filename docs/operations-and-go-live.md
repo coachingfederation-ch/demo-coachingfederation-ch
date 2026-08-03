@@ -356,6 +356,19 @@ blocked as test-shaped) → provider delivery events → `member_sync_events` fo
 `member_claim_link_issued_by_staff` and `member_account_claimed` →
 `member_profile_links` status and `attempts` → app logs for an auth error.
 
+## Migration hygiene
+
+- Do not reorder the migration history while the project is in TEST/cutover.
+- Replaying the 46 existing migrations in order is correct, but many files are
+  follow-up hardening passes on the same objects. If you need to understand the
+  final RLS shape, read the last few migrations rather than the whole chain.
+- Squashing the migration history into a single initial file is safe **only** for
+  fresh environments. The current database already contains 501 test members and
+  member-authored profiles, so any squash must be applied as metadata-only and
+  verified against a throwaway copy. After go-live, the migrations can be squashed
+  as a cleanup step; before go-live, keep them intact because they are the audit
+  trail for the cutover rehearsal.
+
 ## Appendix — where the rules actually live
 
 If a runbook step seems to conflict with one of these, the database wins.
@@ -371,19 +384,6 @@ If a runbook step seems to conflict with one of these, the database wins.
 | Sync aborts on an unexplained feed drop                    | `member-sync.server.ts`                        |
 | Sync never runs during a cutover                           | `api/public/member-sync.ts`                    |
 | Roles cannot be self-granted                               | `user_roles` has no insert or update policy    |
-
-### Migration hygiene
-
-- Do not reorder the migration history while the project is in TEST/cutover.
-- Replaying the 46 existing migrations in order is correct, but many files are
-  follow-up hardening passes on the same objects. If you need to understand the
-  final RLS shape, read the last few migrations rather than the whole chain.
-- Squashing the migration history into a single initial file is safe **only** for
-  fresh environments. The current database already contains 501 test members and
-  member-authored profiles, so any squash must be applied as metadata-only and
-  verified against a throwaway copy. After go-live, the migrations can be squashed
-  as a cleanup step; before go-live, keep them intact because they are the audit
-  trail for the cutover rehearsal.
 
 ## Troubleshooting
 
