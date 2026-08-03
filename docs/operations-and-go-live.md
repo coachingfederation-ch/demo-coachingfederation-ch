@@ -73,7 +73,47 @@ scheduled deletion date rather than being removed immediately. Membership
 lapses and renewals are routine; immediate deletion would destroy
 member-authored profile content over an administrative gap.
 
-## Go-live checklist
+## Go-live: the shape of the migration
+
+The authoritative migration plan is the separate _Migration Runbook v3 —
+coachingfederation.ch_ document, which carries the owners, dates, decision
+register and wave schedule. This section holds the part an engineer or operator
+needs when working on the system.
+
+The public DNS switch happens **last**. Members claim accounts and build
+profiles on `new.coachingfederation.ch` while the existing Bubble site remains
+the public face, so the directory fills before the public ever sees it.
+
+```text
+A Preparation      reversible      public sees Bubble
+Gate 1             go / no-go
+B Cutover          IRREVERSIBLE    public sees Bubble   (data event on new. only)
+Gate 2             data validated
+C Claim waves      pausable        public sees Bubble   (the long phase)
+Gate 3             threshold AND hard date
+D Public switch    partly rev.     public sees new site
+E Monitoring
+F Containment
+```
+
+The irreversible line sits at **Phase B**, not at the DNS switch. That is the
+point most people get backwards: if the new site breaks during the window there
+is no public impact at all, but the member domain purge cannot be undone.
+
+### The directory ceiling
+
+On TEST data, 501 active members produce 204 `draft`, 296
+`hidden_no_credential` and 1 `published`. If that credential ratio holds in
+LIVE, roughly **40% of the membership can ever appear in the directory**.
+Re-measure after the first LIVE import before anyone commits to a Gate 3
+threshold.
+
+Note also that claiming is not the goal. The funnel is
+invited → claimed → completed → **published**, and only the last step puts a
+coach in Find a Coach. A claimed account with an empty draft profile is
+invisible.
+
+## Phase A — Preparation (reversible)
 
 ### Code — done
 
@@ -85,39 +125,238 @@ member-authored profile content over an administrative gap.
 - [x] Claim flow, built end to end and gated off
 - [x] Accessibility pass (WCAG 2.2 AA on public routes)
 
+### Code — still required
+
+- [ ] **Wire the email transport.** `member-email.server.ts` currently logs
+      `no_transport` and returns "not sent" — the provider call has never been
+      written. Until it exists no claim invitation can be delivered, which
+      blocks members getting into their profiles. Contained to one module; the
+      call sites and `member_email_log` already exist.
+- [ ] **`SITE_URL` in `src/i18n/config.ts`** is hardcoded to the Lovable
+      preview host. It feeds the sitemap, canonical tags and hreflang, so it
+      must point at `https://new.coachingfederation.ch` for the window and at
+      the apex in Phase D. Verify `claimUrl()` resolves against it — a claim
+      link pointing at the preview host is a dead link.
+- [ ] **`noindex` posture on `new.`** for the whole window: `X-Robots-Tag` or a
+      site-wide meta, plus a disallow in `public/robots.txt`. Do not submit the
+      sitemap to Search Console until Phase D. Remove all of it in Phase D as
+      one deliberate step.
+- [ ] **Gate toggles.** `/integration` exposes mode, sync, cutover, rehearsal
+      and `email_redirect_to`, but **not** `emails_suppressed` or
+      `account_claim_enabled`. Either add two guarded admin toggles, or write
+      the exact service-role SQL into the runbook in advance and have it
+      reviewed.
+
 ### Blocked on external configuration
 
-- [ ] **Email domain.** Until one is configured, no member email can be
-      delivered — which blocks the claim invitations, which blocks members
-      getting into their profiles. This is the critical-path item.
-- [ ] **Custom domain** for the public site.
-- [ ] **LIVE ICF credentials** verified against the production feed.
+- [ ] **Email sending domain.** Lovable-managed, via NS delegation of a
+      subdomain, and verification can take up to 72 hours. **Start this first:
+      it is the long pole.** Confirm no conflicting MX or SPF records survive
+      from the Bubble setup.
+- [ ] **`new.coachingfederation.ch`** created in DNS, connected in Lovable,
+      primary, SSL verified. The apex and `www` keep pointing at Bubble.
+- [ ] **LIVE ICF credentials.** The four `ICF_SOAP_LIVE_*` variables are stored
+      but have never been exercised against the LIVE endpoint, and the cutover
+      preflight only checks that they _exist_. Execute a real LIVE
+      `authenticate()` call and confirm a token comes back before Gate 1.
+- [ ] **Auth allowlists.** Add `new.`, the apex **and** `www` to the Supabase
+      Site URL / redirect allowlist and to the Google OAuth authorised origins
+      now, so Phase D needs no auth change under time pressure.
 
-### Cutover sequence
+### LIVE feed audit (read-only, before Gate 1)
 
-Do not reorder; each step depends on the previous one being verified.
+Record each number; they are the baseline every later count is checked against.
 
-1. Run the rehearsal simulation at `/integration` against LIVE credentials and
-   review the projected create/update/deactivate counts. Numbers that look
-   surprising are a stop signal.
-2. Take an archive snapshot (`member_archive_snapshots`).
-3. Flip `mode` to `live` and run a full sync.
-4. Verify the directory: spot-check a sample of published coaches, and confirm
-   the total count is plausible against ICF's own figure.
-5. Record the cutover (`cutover_completed_at`). Only now does the database
-   permit claiming to be opened.
-6. Configure email delivery and send a small pilot batch of claim invitations
-   before the full send.
-7. Open `account_claim_enabled`.
+- [ ] Total active members in the LIVE feed, compared against ICF's own chapter
+      figure. A large gap is a stop signal.
+- [ ] Count with **no email** — these members cannot self-claim and need a
+      staff-issued link.
+- [ ] Count with **duplicate emails** — `attemptMemberClaim` refuses these
+      outright; resolve in netFORUM.
+- [ ] Count with a valid ACC/PCC/MCC and non-past `credential_expires_on`.
+      This is the directory ceiling.
+- [ ] **Confirm with ICF whether the LIVE feed marks lapsed members or omits
+      them.** Omission looks like a feed drop and will trip the safety valve.
 
-### After go-live
+### Operational settings and known gaps
 
-- Watch `member_sync_runs` for the first several nightly runs.
-- Watch `member_email_log` for failures during the invitation wave.
+- [ ] `feed_drop_threshold_pct` and `grace_period_days` reviewed for LIVE.
+- [ ] Cron: run `select jobname, schedule, command from cron.job;` and inspect
+      the command text. The endpoint requires an **`x-cron-token`** header
+      matched against `MEMBER_SYNC_CRON_TOKEN` — not `apikey`. A job built on
+      the `apikey` assumption returns 401 every night, silently. Rotate the
+      token at cutover; the current value has been in test circulation. Update
+      both cron URLs to the apex after Phase D.
+- [ ] **Nothing currently reads `member_lifecycle_queue`.** The grace-period
+      notice and the scheduled deletion never run. This is an unimplemented
+      retention commitment, not an untuned setting. It probably does not block
+      launch, but it must be scheduled.
+- [ ] Auth policy: leaked-password protection on, email signups disabled or
+      restricted so the claim flow is the only member entry path, and
+      `member-profile-images` stays a private bucket.
+
+### Content, redirects and legal (due before Gate 3, not before cutover)
+
+- [ ] Inventory the old site's indexed URLs and build the redirect map to the
+      new locale-prefixed paths. The rules must live on the new host, since
+      Bubble stops serving those paths at the switch.
+- [ ] Enter events, insights, team, communities and sponsor content into the
+      CMS, in all four languages on core pages.
+- [ ] Imprint current; privacy policy updated for the current processors under
+      Swiss DSG and **live on `new.` before the first claim wave** — members
+      who publish during the window are publishing publicly, not previewing.
+
+## Gate 1 — go / no-go for cutover
+
+| Check                                                                     | Signed |
+| ------------------------------------------------------------------------- | ------ |
+| LIVE credentials present **and a real LIVE authenticate call succeeded**  |        |
+| Feed audit complete; all four counts recorded                             |        |
+| ICF confirmed lapsed members are marked, not omitted                      |        |
+| `new.` live, `noindex`, SSL verified                                      |        |
+| Email sending domain verified                                             |        |
+| Email transport wired, deployed, verified through `email_redirect_to`     |        |
+| `SITE_URL`, robots, auth allowlists and OAuth origins updated, redeployed |        |
+| Claim flow verified end to end via a staff-issued link                    |        |
+| Privacy policy live on `new.`                                             |        |
+| Cron job state known and correct                                          |        |
+| Containment owner named and available                                     |        |
+
+## Phase B — Cutover (irreversible)
+
+The public site is untouched throughout. This is a data event on `new.` only.
+
+1. Run the non-mutating rehearsal at `/integration` against LIVE credentials
+   and read every returned line: what would be purged, which bindings released,
+   how many auth users deleted. Surprising numbers are a stop signal.
+2. Freeze the Bubble member area to read-only — signups, claim, password reset
+   and all outbound transactional mail off — while leaving its coach finder and
+   public pages readable. Members must not be maintaining two profiles. Freeze
+   CMS publishing on both sides and confirm no nightly sync is due to fire.
+3. Take the archive snapshot (`member_archive_snapshots`) and **download the
+   bundle out of the database**. It is written into the same database that is
+   about to be purged, so it is not a backup until it is stored somewhere else,
+   durable and access-controlled. Do not proceed without it.
+4. Execute the cutover. `runCutover` performs, in order: preflight → archive →
+   freeze → purge → switch `mode` to `live` → first LIVE import → validate →
+   record `cutover_completed_at`. Capture the full step log.
+5. Verify: imported count matches the feed audit, spot-check five members
+   against the ICF portal, staff accounts land correctly, CMS content intact,
+   `emails_suppressed` still true and `account_claim_enabled` still false.
+   Smoke-test `/find-a-coach` in all four locales.
+
+Every TEST binding is gone afterwards. The admin test account is staff-only
+again and re-claims through the live flow like any other member.
+
+## Gate 2 — data validated
+
+| Check                                                   | Signed |
+| ------------------------------------------------------- | ------ |
+| Cutover step log clean, `cutover_completed_at` recorded |        |
+| Member counts verified, credentialed ceiling recorded   |        |
+| Archive bundle stored off-database                      |        |
+| One nightly sync completed successfully against LIVE    |        |
+| Bubble member area confirmed read-only and silent       |        |
+
+## Phase C — Claim waves and profile building
+
+The longest phase, and the one that decides whether the migration succeeds.
+
+Open the gates carefully: confirm `email_redirect_to` is still catching sends,
+set `emails_suppressed = false`, send **one** invitation to a staff member on
+production infrastructure and verify it end to end (delivery, link, password,
+`/my-profile`, publish, appears in the directory), then clear
+`email_redirect_to` and set `account_claim_enabled = true`.
+
+Then run waves — board and leads first, then volunteers, then by credential
+tier, then the balance, then a reminder to non-responders. At least five days
+between waves: the token TTL is seven days, so a late responder still has a
+working link and the support load settles before the next send. Do not start a
+wave on a Friday. Stop and diagnose if bounces exceed a few percent or if
+conversion in a wave falls below roughly half the previous one.
+
+Per wave, watch `member_email_log` for failures, provider delivery events for
+bounces and suppressions, and `member_sync_events` for
+`member_account_claimed`. Handle the exception queue: no email, duplicate
+email, `account_exists` collisions.
+
+Second-touch communication to claimed-but-unpublished members is the real work
+of this phase. Report the published count against the credentialed ceiling
+weekly.
+
+## Gate 3 — readiness for the public switch
+
+Set **both a threshold and a hard date; whichever comes first wins.** A
+threshold-only gate hands the switch decision to member behaviour nobody
+controls, and the organisation ends up maintaining two systems indefinitely. If
+the date arrives and the threshold has not, switch anyway and keep running
+waves.
+
+| Criterion                                        | Target                       |
+| ------------------------------------------------ | ---------------------------- |
+| Published profiles as % of credentialed-eligible | suggested 40–50%             |
+| Absolute published profile count                 | to be set                    |
+| **Hard date, regardless of threshold**           | suggested 8–10 weeks post-W0 |
+| Content migration complete in all four languages |                              |
+| Redirect map built and tested                    |                              |
+| No unresolved P1 support themes from the waves   |                              |
+| Nightly sync stable for two consecutive weeks    |                              |
+
+## Phase D — Public switch
+
+A small, well-rehearsed change rather than the whole migration.
+
+- [ ] Remove `noindex` — headers, meta and `robots.txt`
+- [ ] `SITE_URL` changed to the apex; redeploy; verify canonical and hreflang
+      in page source
+- [ ] Connect the apex and `www` in Lovable, make primary, switch public DNS
+- [ ] Verify HTTPS, certificates, and the apex ↔ `www` canonical redirect
+- [ ] **Keep `new.coachingfederation.ch` alive as a permanent 301 to the
+      apex.** Members have bookmarks, password-manager entries and in-flight
+      emails pointing there
+- [ ] Verify redirects from all old URL patterns
+- [ ] Submit the sitemap in Search Console
+- [ ] Update both cron job URLs to the apex and verify one run
+- [ ] Confirm Bubble is fully read-only and sends nothing
+
+## Phase E — Monitoring
+
+First two weeks after the switch:
+
+- Watch `member_sync_runs` after each nightly run. An abort is usually the
+  feed-drop valve doing its job — check the feed before overriding.
+- Watch `member_email_log` for failures.
+- Watch Search Console for crawl errors and redirect problems.
 - Watch claim conversion; a low rate usually means invitations are landing in
   spam rather than that the flow is broken.
+- Watch that the published-profile trend continues upward.
 
-### Migration hygiene
+Then: decide the Bubble site's fate, schedule the lifecycle queue processor,
+and schedule the bulk invitation tool and a send-status column on `/members` if
+the remaining tail justifies them.
+
+## Phase F — Containment
+
+There is no rollback of the member domain. Be explicit with the Board about
+that before Phase B.
+
+| Failure                                  | Response                                                                                                 |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| New site broken during the window        | No public impact — Bubble is still the public face. Fix at leisure                                       |
+| New site broken after the switch         | Revert DNS to Bubble. The new site stays LIVE underneath, unreferenced                                   |
+| Email deliverability failing             | `emails_suppressed = true`, pause waves. Intents still logged. Cheap and reversible                      |
+| Claim flow misbehaving                   | `account_claim_enabled = false`. `/claim` shows its closed state; the directory is unaffected            |
+| Member data wrong after the LIVE import  | Fix in netFORUM and re-sync. The feed is authoritative                                                   |
+| Sync corrupting data                     | Disable the cron; data freezes at the last good sync. Read `member_sync_runs.error_message`              |
+| Directory must go dark without data loss | Set `cutover_in_progress = true`. Maintenance state, no data touched                                     |
+| The cutover itself was wrong             | **No automated recovery.** The archive bundle is the only path, and restoring it is untested manual work |
+
+If claims fail, check in this order: `member_email_log` (sent, suppressed, or
+blocked as test-shaped) → provider delivery events → `member_sync_events` for
+`member_claim_link_issued_by_staff` and `member_account_claimed` →
+`member_profile_links` status and `attempts` → app logs for an auth error.
+
+## Migration hygiene
 
 - Do not reorder the migration history while the project is in TEST/cutover.
 - Replaying the 46 existing migrations in order is correct, but many files are
@@ -129,6 +368,22 @@ Do not reorder; each step depends on the previous one being verified.
   verified against a throwaway copy. After go-live, the migrations can be squashed
   as a cleanup step; before go-live, keep them intact because they are the audit
   trail for the cutover rehearsal.
+
+## Appendix — where the rules actually live
+
+If a runbook step seems to conflict with one of these, the database wins.
+
+| Rule                                                       | Enforced by                                    |
+| ---------------------------------------------------------- | ---------------------------------------------- |
+| TEST mode cannot send email or open claiming               | `tg_integration_config_guard`                  |
+| Claiming requires LIVE mode plus a recorded cutover        | `tg_integration_config_guard`                  |
+| LIVE → TEST is refused                                     | `tg_integration_config_guard`                  |
+| No publish without an active member and a valid credential | `tg_directory_profile_eligibility_guard`       |
+| Members bind by `auth_user_id`, never email equality       | `member-claim.server.ts`, RLS ownership checks |
+| A `zz`-shaped address can never be a claimable identity    | `isTestShapedEmail`, permanent                 |
+| Sync aborts on an unexplained feed drop                    | `member-sync.server.ts`                        |
+| Sync never runs during a cutover                           | `api/public/member-sync.ts`                    |
+| Roles cannot be self-granted                               | `user_roles` has no insert or update policy    |
 
 ## Troubleshooting
 
