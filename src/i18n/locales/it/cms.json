@@ -135,7 +135,6 @@
     "title": "Categorie",
     "subtitle": "Argomenti usati per raggruppare gli articoli di Insights.",
     "name": "Nome",
-    "memberId": "ID membro ICF Global",
     "slug": "Slug",
     "add": "Aggiungi categoria",
     "namePlaceholder": "Nome della categoria",
@@ -389,6 +388,7 @@
     "identityTitle": "Iscrizione ICF (sola lettura)",
     "identityNote": "Importato da ICF Global a ogni sincronizzazione. Contatta ICF per eventuali correzioni.",
     "name": "Nome",
+    "memberId": "ID membro ICF Global",
     "credential": "Credenziale",
     "eligibility": {
       "eligible": "Soddisfi i requisiti per apparire nell'elenco pubblico (iscrizione attiva e credenziale ACC, PCC o MCC valida).",

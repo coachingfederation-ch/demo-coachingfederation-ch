@@ -135,7 +135,6 @@
     "title": "Kategorien",
     "subtitle": "Themen zur Gruppierung von Insights-Artikeln.",
     "name": "Name",
-    "memberId": "ICF Global Mitglieds-ID",
     "slug": "Slug",
     "add": "Kategorie hinzufügen",
     "namePlaceholder": "Kategoriename",
@@ -389,6 +388,7 @@
     "identityTitle": "ICF-Mitgliedschaft (schreibgeschützt)",
     "identityNote": "Bei jeder Synchronisation von ICF Global importiert. Wenden Sie sich für Korrekturen an ICF.",
     "name": "Name",
+    "memberId": "ICF Global Mitglieds-ID",
     "credential": "Zertifizierung",
     "eligibility": {
       "eligible": "Sie erfüllen die Anforderungen für einen öffentlichen Eintrag (aktive Mitgliedschaft und gültige ACC-, PCC- oder MCC-Zertifizierung).",

@@ -135,7 +135,6 @@
     "title": "Categories",
     "subtitle": "Topics used to group Insights articles.",
     "name": "Name",
-    "memberId": "ICF Global member ID",
     "slug": "Slug",
     "add": "Add category",
     "namePlaceholder": "Category name",
@@ -389,6 +388,7 @@
     "identityTitle": "ICF membership (read-only)",
     "identityNote": "Imported from ICF Global on every sync. Contact ICF to correct it.",
     "name": "Name",
+    "memberId": "ICF Global member ID",
     "credential": "Credential",
     "eligibility": {
       "eligible": "You meet the requirements for a public listing (active membership and a valid ACC, PCC or MCC credential).",
