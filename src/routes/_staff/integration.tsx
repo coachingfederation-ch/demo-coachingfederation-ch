@@ -167,7 +167,6 @@ function IntegrationPage() {
 
             <section className={CARD}>
               <h2 className="text-sm font-bold">{t("integration.actions")}</h2>
-
               <div className="mt-3 flex flex-wrap gap-2">
                 <button
                   className={BTN}
@@ -197,6 +196,8 @@ function IntegrationPage() {
                 </button>
               </div>
             </section>
+
+            <ContentOwnershipPanel />
 
             <section className={CARD + " border-destructive/40"}>
               <h2 className="flex items-center gap-2 text-sm font-bold text-destructive">
