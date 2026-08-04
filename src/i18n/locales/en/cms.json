@@ -667,7 +667,9 @@
     "qaPasswordPlaceholder": "Password (at least 10 characters)",
     "qaCreate": "Create test account",
     "qaCreated": "Test account created",
-    "qaCredentialsNote": "Shown once — copy it now. Nothing is stored or emailed."
+    "qaCredentialsNote": "Shown once — copy it now. Nothing is stored or emailed.",
+    "removeAccess": "Remove access",
+    "removeConfirm": "Remove editor and organizer access for {name}? They keep their membership and Member Area access."
   },
   "events": {
     "title": "Events",

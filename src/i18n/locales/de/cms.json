@@ -667,7 +667,9 @@
     "qaPasswordPlaceholder": "Passwort (mindestens 10 Zeichen)",
     "qaCreate": "Testkonto erstellen",
     "qaCreated": "Testkonto erstellt",
-    "qaCredentialsNote": "Wird einmalig angezeigt — jetzt kopieren. Es wird nichts gespeichert oder per E-Mail versendet."
+    "qaCredentialsNote": "Wird einmalig angezeigt — jetzt kopieren. Es wird nichts gespeichert oder per E-Mail versendet.",
+    "removeAccess": "Zugriff entfernen",
+    "removeConfirm": "Editor- und Organizer-Zugriff für {name} entfernen? Mitgliedschaft und Zugang zum Mitgliederbereich bleiben bestehen."
   },
   "events": {
     "title": "Events",
