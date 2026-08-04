@@ -112,7 +112,8 @@
     "languageLocked": "Quellsprache nach der ersten Veröffentlichung gesperrt",
     "languageUnlocked": "Quellsprache kann bis zur ersten Veröffentlichung geändert werden",
     "imageError": "Für dieses Bild konnte kein Link erstellt werden.",
-    "previewEmpty": "Noch nichts für die Vorschau vorhanden — beginnen Sie zu schreiben."
+    "previewEmpty": "Noch nichts für die Vorschau vorhanden — beginnen Sie zu schreiben.",
+    "unnamedAuthor": "Konto ohne Namen"
   },
   "translations": {
     "title": "Übersetzungen",
@@ -380,7 +381,18 @@
     "rehearseRunning": "Probe läuft…",
     "rehearseDone": "Probe abgeschlossen — es wurden keine Daten verändert.",
     "rehearseColStep": "Schritt",
-    "rehearseColDetail": "Ergebnis"
+    "rehearseColDetail": "Ergebnis",
+    "ownTitle": "Inhaltsverantwortung",
+    "ownBody": "Artikel und Events, die einem Konto gehören, das beim Go-live entfernt würde. Weisen Sie sie einem Staff-Konto zu; die Umstellung wird dadurch nie blockiert.",
+    "ownEmpty": "Nichts zuzuweisen — alle Inhalte gehören Staff-Konten.",
+    "ownArticles": "Artikel",
+    "ownEvents": "Events",
+    "ownOwner": "Aktuelle:r Inhaber:in",
+    "ownReassignTo": "Zuweisen an",
+    "ownReassign": "Auswahl zuweisen",
+    "ownDone": "Zugewiesen",
+    "ownRefresh": "Aktualisieren",
+    "ownLoading": "Inhaltsverantwortung wird geprüft…"
   },
   "member": {
     "title": "Mein Coach-Profil",

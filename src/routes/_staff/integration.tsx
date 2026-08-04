@@ -3,6 +3,7 @@ import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";
 import { useEffect, useState } from "react";
 import { AlertTriangle, CheckCircle2, ClipboardCheck, RefreshCw } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
+import { ContentOwnershipPanel } from "@/components/cms/ContentOwnershipPanel";
 import { useCms } from "@/i18n/cms";
 import {
   fetchIntegrationConfig,
@@ -195,6 +196,8 @@ function IntegrationPage() {
                 </button>
               </div>
             </section>
+
+            <ContentOwnershipPanel />
 
             <section className={CARD + " border-destructive/40"}>
               <h2 className="flex items-center gap-2 text-sm font-bold text-destructive">

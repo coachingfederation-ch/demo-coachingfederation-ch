@@ -140,6 +140,18 @@ export async function runCutover(
     const wouldDeleteUsers = (authList?.users ?? []).filter((u) => !staffIds.has(u.id)).length;
     const purgeSummary = MEMBER_DOMAIN_TABLES.map((t) => `${t}: ${counts[t] ?? 0}`).join(", ");
     record("purge_preview", true, `Would delete — ${purgeSummary}.`);
+    // Informational only: articles/events owned by an account the purge would
+    // delete. The foreign key now blocks that delete, so this is a to-do list
+    // for the Content ownership panel, never a gate on the cutover.
+    const { countAtRiskContent } = await import("./content-ownership.server");
+    const atRisk = await countAtRiskContent();
+    record(
+      "content_ownership_preview",
+      true,
+      atRisk.articles + atRisk.events === 0
+        ? "No article or event is owned by an account scheduled for removal."
+        : `${atRisk.articles} article(s) and ${atRisk.events} event(s) are owned by accounts scheduled for removal — reassign them from the Content ownership panel.`,
+    );
     record(
       "binding_preview",
       true,
