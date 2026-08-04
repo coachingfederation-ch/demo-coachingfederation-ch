@@ -20,6 +20,7 @@ import {
   listRoleAdminData,
   provisionQaTestAccount,
   revokeMemberRole,
+  searchQaCandidates,
 } from "@/lib/roles.functions";
 import type { ManagedRole } from "@/lib/role-model";
 
