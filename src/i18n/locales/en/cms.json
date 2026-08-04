@@ -639,6 +639,7 @@
     "qaLiveDisabled": "Not available: the integration is in LIVE mode. Members claim their own account instead.",
     "qaSearchMember": "Search unclaimed members by name or ICF number…",
     "qaNoMatches": "No matching members.",
+    "qaMoreResults": "Showing the first 50 matches — refine your search.",
     "qaSelectedMember": "Selected:",
     "qaSelectMember": "Choose an unclaimed member…",
     "qaEmailPlaceholder": "Test login email",
