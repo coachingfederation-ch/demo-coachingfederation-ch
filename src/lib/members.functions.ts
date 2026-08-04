@@ -155,6 +155,27 @@ export const issueMemberClaimLink = createServerFn({ method: "POST" })
     const { issueClaimLinkForMember } = await import("./member-claim.server");
     return await issueClaimLinkForMember(userId, data.memberId, new URL(getRequestUrl()).origin);
   });
+
+/** Read model behind the staff invitation panel (admin only). */
+export const getMemberClaimInvitationStatus = createServerFn({ method: "POST" })
+  .inputValidator((input) => z.object({ memberId: z.string().uuid() }).parse(input))
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context, data }) => {
+    await assertAdmin(context);
+    const { loadClaimInvitationStatus } = await import("./member-claim.server");
+    return await loadClaimInvitationStatus(data.memberId);
+  });
+
+/** Sends (or resends) the claim invitation email to a member. Admin only. */
+export const sendMemberClaimInvitation = createServerFn({ method: "POST" })
+  .inputValidator((input) => z.object({ memberId: z.string().uuid() }).parse(input))
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context, data }) => {
+    const userId = await assertAdmin(context);
+    const { getRequestUrl } = await import("@tanstack/react-start/server");
+    const { sendClaimInvitation } = await import("./member-claim.server");
+    return await sendClaimInvitation(userId, data.memberId, new URL(getRequestUrl()).origin);
+  });
 /**
  * Staff-support account binding (admin only). Separate from the future
  * member-initiated claim flow — this is testing/support tooling.
