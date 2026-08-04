@@ -8,7 +8,9 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   bindMemberAccount,
   getMemberDetail,
+  getMemberClaimInvitationStatus,
   issueMemberClaimLink,
+  sendMemberClaimInvitation,
   unbindMemberAccount,
   updateMemberDirectory,
 } from "@/lib/members.functions";
@@ -76,6 +78,11 @@ function MemberDetailPage() {
   const [claimLink, setClaimLink] = useState<string | null>(null);
   const [bindBusy, setBindBusy] = useState(false);
   const [bindError, setBindError] = useState<string | null>(null);
+  const [invitation, setInvitation] = useState<Awaited<
+    ReturnType<typeof getMemberClaimInvitationStatus>
+  > | null>(null);
+  const [inviteBusy, setInviteBusy] = useState(false);
+  const [inviteResult, setInviteResult] = useState<string | null>(null);
 
   const applyDetail = (next: Detail) => {
     setDetail(next);
@@ -98,6 +105,7 @@ function MemberDetailPage() {
         ]);
         applyDetail(next);
         setRegions((vocab.data ?? []) as VocabRow[]);
+        setInvitation(await getMemberClaimInvitationStatus({ data: { memberId: id } }));
       } catch (err) {
         setError(err instanceof Error ? err.message : String(err));
       }
@@ -176,6 +184,23 @@ function MemberDetailPage() {
       setBindError(err instanceof Error ? err.message : String(err));
     } finally {
       setBindBusy(false);
+    }
+  };
+
+  // Invitation email. A resend is the same operation as a first send: it mints
+  // a fresh link and supersedes whatever was mailed before.
+  const sendInvitation = async () => {
+    setInviteBusy(true);
+    setBindError(null);
+    setInviteResult(null);
+    try {
+      const { status, result } = await sendMemberClaimInvitation({ data: { memberId: id } });
+      setInvitation(status);
+      setInviteResult(result);
+    } catch (err) {
+      setBindError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setInviteBusy(false);
     }
   };
 
