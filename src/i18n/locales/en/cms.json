@@ -329,6 +329,15 @@
       "invited": "Invited",
       "expired": "Link expired",
       "never": "Not invited"
+    },
+    "invite": {
+      "title": "Claim invitation email",
+      "hint": "Emails a one-time activation link to the member's address. A resend replaces any earlier link.",
+      "lastSent": "Last sent:",
+      "neverSent": "No invitation sent yet.",
+      "send": "Send invitation",
+      "resend": "Resend invitation",
+      "result": "Result:"
     }
   },
   "integration": {

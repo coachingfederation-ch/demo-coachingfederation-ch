@@ -329,6 +329,15 @@
       "invited": "Eingeladen",
       "expired": "Link abgelaufen",
       "never": "Nicht eingeladen"
+    },
+    "invite": {
+      "title": "Einladungs-E-Mail zur Kontoaktivierung",
+      "hint": "Sendet einen einmaligen Aktivierungslink an die E-Mail-Adresse des Mitglieds. Ein erneuter Versand ersetzt frühere Links.",
+      "lastSent": "Zuletzt gesendet:",
+      "neverSent": "Noch keine Einladung gesendet.",
+      "send": "Einladung senden",
+      "resend": "Einladung erneut senden",
+      "result": "Ergebnis:"
     }
   },
   "integration": {

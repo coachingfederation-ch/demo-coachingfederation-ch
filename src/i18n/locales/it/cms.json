@@ -329,6 +329,15 @@
       "invited": "Invitato",
       "expired": "Link scaduto",
       "never": "Non invitato"
+    },
+    "invite": {
+      "title": "E-mail di invito all’attivazione",
+      "hint": "Invia un link di attivazione monouso all’indirizzo del membro. Un nuovo invio sostituisce i link precedenti.",
+      "lastSent": "Ultimo invio:",
+      "neverSent": "Nessun invito inviato.",
+      "send": "Invia invito",
+      "resend": "Invia di nuovo",
+      "result": "Esito:"
     }
   },
   "integration": {

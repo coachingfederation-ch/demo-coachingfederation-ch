@@ -329,6 +329,15 @@
       "invited": "Invité",
       "expired": "Lien expiré",
       "never": "Non invité"
+    },
+    "invite": {
+      "title": "E-mail d’invitation à l’activation",
+      "hint": "Envoie un lien d’activation à usage unique à l’adresse du membre. Un nouvel envoi remplace les liens précédents.",
+      "lastSent": "Dernier envoi :",
+      "neverSent": "Aucune invitation envoyée.",
+      "send": "Envoyer l’invitation",
+      "resend": "Renvoyer l’invitation",
+      "result": "Résultat :"
     }
   },
   "integration": {
