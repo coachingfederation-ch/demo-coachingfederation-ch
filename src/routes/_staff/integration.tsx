@@ -3,6 +3,7 @@ import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";
 import { useEffect, useState } from "react";
 import { AlertTriangle, CheckCircle2, ClipboardCheck, RefreshCw } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
+import { ContentOwnershipPanel } from "@/components/cms/ContentOwnershipPanel";
 import { useCms } from "@/i18n/cms";
 import {
   fetchIntegrationConfig,
@@ -166,6 +167,7 @@ function IntegrationPage() {
 
             <section className={CARD}>
               <h2 className="text-sm font-bold">{t("integration.actions")}</h2>
+
               <div className="mt-3 flex flex-wrap gap-2">
                 <button
                   className={BTN}
