@@ -502,9 +502,7 @@ function QaTestAccountPanel({ onProvisioned }: { onProvisioned: () => void }) {
                           setQuery(c.name);
                         }}
                         className={`w-full px-3 py-2 text-left text-sm transition-colors ${
-                          selected
-                            ? "bg-primary/10 text-primary"
-                            : "hover:bg-secondary/60"
+                          selected ? "bg-primary/10 text-primary" : "hover:bg-secondary/60"
                         }`}
                       >
                         {c.name} · ICF {c.cstRecno}
