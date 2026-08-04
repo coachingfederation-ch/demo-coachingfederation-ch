@@ -77,6 +77,7 @@ import { Route as ApiPublicEuropePulseScanRouteImport } from './routes/api/publi
 import { Route as ApiPublicMemberSyncRouteImport } from './routes/api/public/member-sync'
 import { Route as StaffManageEventsIndexRouteImport } from './routes/_staff/manage.events.index'
 import { Route as StaffManageEventsIdRouteImport } from './routes/_staff/manage.events.$id'
+import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -421,6 +422,12 @@ const StaffManageEventsIdRoute = StaffManageEventsIdRouteImport.update({
   path: '/manage/events/$id',
   getParentRoute: () => StaffRouteRoute,
 } as any)
+const LovableEmailTransactionalPreviewRoute =
+  LovableEmailTransactionalPreviewRouteImport.update({
+    id: '/lovable/email/transactional/preview',
+    path: '/lovable/email/transactional/preview',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -488,6 +495,7 @@ export interface FileRoutesByFullPath {
   '/articles/': typeof StaffArticlesIndexRoute
   '/members/': typeof StaffMembersIndexRoute
   '/manage/events/$id': typeof StaffManageEventsIdRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
   '/manage/events/': typeof StaffManageEventsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -552,6 +560,7 @@ export interface FileRoutesByTo {
   '/articles': typeof StaffArticlesIndexRoute
   '/members': typeof StaffMembersIndexRoute
   '/manage/events/$id': typeof StaffManageEventsIdRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
   '/manage/events': typeof StaffManageEventsIndexRoute
 }
 export interface FileRoutesById {
@@ -623,6 +632,7 @@ export interface FileRoutesById {
   '/_staff/articles/': typeof StaffArticlesIndexRoute
   '/_staff/members/': typeof StaffMembersIndexRoute
   '/_staff/manage/events/$id': typeof StaffManageEventsIdRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
   '/_staff/manage/events/': typeof StaffManageEventsIndexRoute
 }
 export interface FileRouteTypes {
@@ -693,6 +703,7 @@ export interface FileRouteTypes {
     | '/articles/'
     | '/members/'
     | '/manage/events/$id'
+    | '/lovable/email/transactional/preview'
     | '/manage/events/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -757,6 +768,7 @@ export interface FileRouteTypes {
     | '/articles'
     | '/members'
     | '/manage/events/$id'
+    | '/lovable/email/transactional/preview'
     | '/manage/events'
   id:
     | '__root__'
@@ -827,6 +839,7 @@ export interface FileRouteTypes {
     | '/_staff/articles/'
     | '/_staff/members/'
     | '/_staff/manage/events/$id'
+    | '/lovable/email/transactional/preview'
     | '/_staff/manage/events/'
   fileRoutesById: FileRoutesById
 }
@@ -862,6 +875,7 @@ export interface RootRouteChildren {
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicEuropePulseScanRoute: typeof ApiPublicEuropePulseScanRoute
   ApiPublicMemberSyncRoute: typeof ApiPublicMemberSyncRoute
+  LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1342,6 +1356,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StaffManageEventsIdRouteImport
       parentRoute: typeof StaffRouteRoute
     }
+    '/lovable/email/transactional/preview': {
+      id: '/lovable/email/transactional/preview'
+      path: '/lovable/email/transactional/preview'
+      fullPath: '/lovable/email/transactional/preview'
+      preLoaderRoute: typeof LovableEmailTransactionalPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -1520,6 +1541,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicEuropePulseScanRoute: ApiPublicEuropePulseScanRoute,
   ApiPublicMemberSyncRoute: ApiPublicMemberSyncRoute,
+  LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
