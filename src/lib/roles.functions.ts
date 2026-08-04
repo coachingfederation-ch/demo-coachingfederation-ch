@@ -20,6 +20,7 @@ const grantSchema = z.object({
   memberId: z.string().uuid(),
   role: z.enum(MANAGED_ROLES),
 });
+const accountSchema = z.object({ authUserId: z.string().uuid() });
 const qaAccountSchema = z.object({
   memberId: z.string().uuid(),
   email: z.string().email(),
