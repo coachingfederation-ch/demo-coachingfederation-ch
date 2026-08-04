@@ -667,7 +667,9 @@
     "qaPasswordPlaceholder": "Mot de passe (au moins 10 caractères)",
     "qaCreate": "Créer un compte de test",
     "qaCreated": "Compte de test créé",
-    "qaCredentialsNote": "Affiché une seule fois — copiez-le maintenant. Rien n'est stocké ni envoyé par e-mail."
+    "qaCredentialsNote": "Affiché une seule fois — copiez-le maintenant. Rien n'est stocké ni envoyé par e-mail.",
+    "removeAccess": "Retirer l’accès",
+    "removeConfirm": "Retirer l’accès éditeur et organisateur pour {name} ? L’adhésion et l’accès à l’espace membre sont conservés."
   },
   "events": {
     "title": "Événements",

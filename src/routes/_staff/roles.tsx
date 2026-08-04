@@ -20,6 +20,7 @@ import {
   listRoleAdminData,
   provisionQaTestAccount,
   revokeMemberRole,
+  revokeAccountStaffRoles,
   searchQaCandidates,
 } from "@/lib/roles.functions";
 import type { ManagedRole } from "@/lib/role-model";
@@ -75,6 +76,24 @@ function RolesPage() {
     try {
       if (held) await revokeMemberRole({ data: { memberId: row.memberId, role } });
       else await grantMemberRole({ data: { memberId: row.memberId, role } });
+      await load();
+    } catch {
+      setError(t("roles.saveError"));
+    } finally {
+      setPending(null);
+    }
+  };
+
+  /**
+   * Clears editor + organizer in one action. Internal rows drop out of their
+   * table entirely once the last privileged grant is gone, which is the point:
+   * leftovers must not accumulate there.
+   */
+  const removeAccess = async (authUserId: string, name: string) => {
+    if (!window.confirm(t("roles.removeConfirm").replace("{name}", name))) return;
+    setPending(`account:${authUserId}`);
+    try {
+      await revokeAccountStaffRoles({ data: { authUserId } });
       await load();
     } catch {
       setError(t("roles.saveError"));
@@ -204,6 +223,15 @@ function RolesPage() {
                           >
                             {m.isOrganizer ? t("roles.revokeOrganizer") : t("roles.grantOrganizer")}
                           </button>
+                          {m.isEditor || m.isOrganizer ? (
+                            <button
+                              onClick={() => void removeAccess(m.authUserId, m.name)}
+                              disabled={pending === `account:${m.authUserId}`}
+                              className="rounded-full border border-destructive/40 px-3 py-1.5 text-xs font-semibold text-destructive hover:bg-destructive/10 disabled:opacity-50"
+                            >
+                              {t("roles.removeAccess")}
+                            </button>
+                          ) : null}
                         </div>
                       )}
                     </td>
@@ -226,18 +254,19 @@ function RolesPage() {
                 <th className="px-4 py-3 font-semibold">{t("roles.colName")}</th>
                 <th className="px-4 py-3 font-semibold">{t("roles.colEmail")}</th>
                 <th className="px-4 py-3 font-semibold">{t("roles.colRoles")}</th>
+                <th className="px-4 py-3" />
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={3} className="px-4 py-6 text-muted-foreground">
+                  <td colSpan={4} className="px-4 py-6 text-muted-foreground">
                     {t("roles.loading")}
                   </td>
                 </tr>
               ) : internal.length === 0 ? (
                 <tr>
-                  <td colSpan={3} className="px-4 py-6 text-muted-foreground">
+                  <td colSpan={4} className="px-4 py-6 text-muted-foreground">
                     {t("roles.internalEmpty")}
                   </td>
                 </tr>
@@ -256,6 +285,24 @@ function RolesPage() {
                           {role}
                         </span>
                       ))}
+                    </td>
+                    {/* Admin stays read-only; only the managed grants can go. */}
+                    <td className="px-4 py-3 text-right">
+                      {a.roles.some((r) => r === "editor" || r === "organizer") ? (
+                        <button
+                          onClick={() =>
+                            void removeAccess(a.authUserId, a.name ?? a.email ?? a.authUserId)
+                          }
+                          disabled={pending === `account:${a.authUserId}`}
+                          className="rounded-full border border-destructive/40 px-3 py-1.5 text-xs font-semibold text-destructive hover:bg-destructive/10 disabled:opacity-50"
+                        >
+                          {t("roles.removeAccess")}
+                        </button>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">
+                          {t("roles.adminNote")}
+                        </span>
+                      )}
                     </td>
                   </tr>
                 ))
@@ -455,9 +502,7 @@ function QaTestAccountPanel({ onProvisioned }: { onProvisioned: () => void }) {
                           setQuery(c.name);
                         }}
                         className={`w-full px-3 py-2 text-left text-sm transition-colors ${
-                          selected
-                            ? "bg-primary/10 text-primary"
-                            : "hover:bg-secondary/60"
+                          selected ? "bg-primary/10 text-primary" : "hover:bg-secondary/60"
                         }`}
                       >
                         {c.name} · ICF {c.cstRecno}

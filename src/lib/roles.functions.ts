@@ -20,6 +20,7 @@ const grantSchema = z.object({
   memberId: z.string().uuid(),
   role: z.enum(MANAGED_ROLES),
 });
+const accountSchema = z.object({ authUserId: z.string().uuid() });
 const qaAccountSchema = z.object({
   memberId: z.string().uuid(),
   email: z.string().email(),
@@ -132,5 +133,28 @@ export const revokeMemberRole = createServerFn({ method: "POST" })
       .select("id");
     if (error) throw new Error("Could not revoke access.");
     if (!deleted || deleted.length === 0) throw new Error("Could not revoke access.");
+    return { ok: true };
+  });
+
+/**
+ * Removes every managed staff grant (editor + organizer) from one account in a
+ * single action. `admin` and `member` are deliberately untouched: this only
+ * takes away CMS/event access, never membership or the account itself.
+ *
+ * Keyed by auth user id rather than member id so it also works for internal
+ * accounts that have no imported member record.
+ */
+export const revokeAccountStaffRoles = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => accountSchema.parse(input))
+  .handler(async ({ context, data }) => {
+    await assertAdmin(context);
+    const { error } = await context.supabase
+      .from("user_roles")
+      .delete()
+      .eq("user_id", data.authUserId)
+      .in("role", MANAGED_ROLES)
+      .select("id");
+    if (error) throw new Error("Could not remove access.");
     return { ok: true };
   });

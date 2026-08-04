@@ -667,7 +667,9 @@
     "qaPasswordPlaceholder": "Password (almeno 10 caratteri)",
     "qaCreate": "Crea account di test",
     "qaCreated": "Account di test creato",
-    "qaCredentialsNote": "Mostrato una sola volta — copialo ora. Nulla viene memorizzato o inviato via e-mail."
+    "qaCredentialsNote": "Mostrato una sola volta — copialo ora. Nulla viene memorizzato o inviato via e-mail.",
+    "removeAccess": "Rimuovi accesso",
+    "removeConfirm": "Rimuovere l’accesso editor e organizzatore per {name}? L’iscrizione e l’accesso all’area soci restano invariati."
   },
   "events": {
     "title": "Eventi",
