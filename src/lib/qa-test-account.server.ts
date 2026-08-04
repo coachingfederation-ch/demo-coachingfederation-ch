@@ -31,15 +31,38 @@ function displayName(row: {
   return (row.full_name || joined || "Unnamed member").trim();
 }
 
-/** Active members with no linked account — the only valid QA binding targets. */
-export async function listClaimableMembers(limit = 200): Promise<ClaimableMember[]> {
-  const { data, error } = await supabaseAdmin
+/**
+ * Active members with no linked account — the only valid QA binding targets.
+ *
+ * With ~500 claimable members, a plain capped list silently hides most of the
+ * chapter, so filtering by name / ICF number happens here rather than in the
+ * browser over a truncated slice.
+ */
+export async function listClaimableMembers(
+  search?: string,
+  limit = 200,
+): Promise<ClaimableMember[]> {
+  let query = supabaseAdmin
     .from("members")
     .select("id, cst_recno, full_name, first_name, last_name")
     .is("auth_user_id", null)
-    .eq("activity_state", "active")
-    .order("last_name", { ascending: true })
-    .limit(limit);
+    .eq("activity_state", "active");
+
+  // Strip PostgREST filter metacharacters before interpolating into `or(...)`.
+  const cleaned = (search ?? "").replace(/[%_,().*]/g, "").trim();
+  if (cleaned.length >= 2) {
+    const like = `%${cleaned}%`;
+    query = query.or(
+      [
+        `first_name.ilike.${like}`,
+        `last_name.ilike.${like}`,
+        `full_name.ilike.${like}`,
+        `cst_recno.ilike.${like}`,
+      ].join(","),
+    );
+  }
+
+  const { data, error } = await query.order("last_name", { ascending: true }).limit(limit);
   if (error) throw error;
   return (data ?? []).map((m) => ({
     memberId: m.id as string,

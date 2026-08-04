@@ -639,6 +639,7 @@
     "qaLiveDisabled": "Nicht verfügbar: Die Integration befindet sich im LIVE-Modus. Mitglieder aktivieren ihr Konto stattdessen selbst.",
     "qaSearchMember": "Nicht aktivierte Mitglieder nach Name oder ICF-Nummer suchen…",
     "qaNoMatches": "Keine passenden Mitglieder.",
+    "qaMoreResults": "Die ersten 50 Treffer werden angezeigt — Suche verfeinern.",
     "qaSelectedMember": "Ausgewählt:",
     "qaSelectMember": "Wählen Sie ein nicht aktiviertes Mitglied…",
     "qaEmailPlaceholder": "E-Mail für Test-Login",

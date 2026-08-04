@@ -639,6 +639,7 @@
     "qaLiveDisabled": "Non disponibile: l'integrazione è in modalità LIVE. I membri riscattano autonomamente il proprio account.",
     "qaSearchMember": "Cerca membri non riscattati per nome o numero ICF…",
     "qaNoMatches": "Nessun membro corrispondente.",
+    "qaMoreResults": "Vengono mostrati i primi 50 risultati — affina la ricerca.",
     "qaSelectedMember": "Selezionato:",
     "qaSelectMember": "Scegli un membro non riscattato…",
     "qaEmailPlaceholder": "E-mail per l'accesso di test",

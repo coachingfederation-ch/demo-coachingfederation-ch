@@ -25,6 +25,7 @@ const qaAccountSchema = z.object({
   email: z.string().email(),
   password: z.string().min(10),
 });
+const qaSearchSchema = z.object({ query: z.string().max(120) });
 
 /**
  * Claimed members with their current CMS grant, the internal (non-member)
@@ -58,6 +59,24 @@ export const listQaProvisioningOptions = createServerFn({ method: "POST" })
     if (config.mode !== "test") return { testMode: false as const, candidates: [] };
     const { listClaimableMembers } = await import("./qa-test-account.server");
     return { testMode: true as const, candidates: await listClaimableMembers() };
+  });
+
+/**
+ * Searches every claimable member, not just the first page of the default
+ * list — the picker would otherwise never surface members further down the
+ * alphabet.
+ */
+export const searchQaCandidates = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => qaSearchSchema.parse(input))
+  .handler(async ({ context, data }) => {
+    await assertAdmin(context);
+    const { loadIntegrationConfigAdmin } = await import("./integration-config.server");
+    const config = await loadIntegrationConfigAdmin();
+    if (config.mode !== "test") return { candidates: [], truncated: false };
+    const { listClaimableMembers } = await import("./qa-test-account.server");
+    const candidates = await listClaimableMembers(data.query, 50);
+    return { candidates, truncated: candidates.length === 50 };
   });
 
 /**

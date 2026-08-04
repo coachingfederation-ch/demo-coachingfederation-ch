@@ -639,6 +639,7 @@
     "qaLiveDisabled": "Indisponible : l'intégration est en mode LIVE. Les membres activent leur propre compte.",
     "qaSearchMember": "Rechercher un membre non activé par nom ou numéro ICF…",
     "qaNoMatches": "Aucun membre correspondant.",
+    "qaMoreResults": "Les 50 premiers résultats sont affichés — affinez votre recherche.",
     "qaSelectedMember": "Sélectionné :",
     "qaSelectMember": "Choisir un membre non activé…",
     "qaEmailPlaceholder": "E-mail du compte de test",
