@@ -17,10 +17,12 @@ export type MemberEmail = {
   templateKey: string;
   subject: string;
   body: string;
+  /** Registered React Email template used for the actual send. */
+  template?: { name: string; data?: Record<string, unknown>; idempotencyKey?: string };
 };
 
 export type MemberEmailResult =
-  | { sent: false; reason: "suppressed" | "test_shaped_recipient" | "failed" }
+  | { sent: false; reason: "suppressed" | "test_shaped_recipient" | "failed" | "recipient_suppressed" }
   | { sent: true; redirected: boolean };
 
 export async function sendMemberEmail(email: MemberEmail): Promise<MemberEmailResult> {
@@ -52,12 +54,32 @@ export async function sendMemberEmail(email: MemberEmail): Promise<MemberEmailRe
   const recipient = config.emails_suppressed ? config.email_redirect_to! : email.to;
   const redirected = recipient !== email.to;
 
-  // No member-facing transport is wired yet: claim and lifecycle notices stay
-  // switched off until after the LIVE cutover, at which point the email domain
-  // is scaffolded and this branch gets the real send call. Until then an
-  // unsuppressed send is recorded as `no_transport` rather than silently lost.
-  await log(redirected ? "no_transport_redirected" : "no_transport", recipient);
-  return { sent: false, reason: "failed" };
+  // Emails without a registered template have no transport of their own — they
+  // are intent records only, so they are logged and dropped rather than lost
+  // silently.
+  if (!email.template) {
+    await log(redirected ? "no_transport_redirected" : "no_transport", recipient);
+    return { sent: false, reason: "failed" };
+  }
+
+  try {
+    const { sendTemplateEmail } = await import("./email-templates/send-email");
+    const result = await sendTemplateEmail(email.template.name, recipient, {
+      templateData: email.template.data,
+      idempotencyKey: email.template.idempotencyKey,
+    });
+    if (!result.sent) {
+      // Bounced/complained/unsubscribed recipients are blocked upstream; this
+      // is an expected outcome for staff to act on, not a failure to retry.
+      await log(redirected ? "recipient_suppressed_redirected" : "recipient_suppressed", recipient);
+      return { sent: false, reason: "recipient_suppressed" };
+    }
+    await log(redirected ? "sent_redirected" : "sent", recipient);
+    return { sent: true, redirected };
+  } catch (err) {
+    await log("failed", recipient, err instanceof Error ? err.message : String(err));
+    return { sent: false, reason: "failed" };
+  }
 }
 
 export function describeEmailGate(config: IntegrationConfig): string {

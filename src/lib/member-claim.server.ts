@@ -46,8 +46,58 @@ export type CompleteClaimResult =
   | { status: "weak_password" };
 
 const TOKEN_TTL_MS = 7 * 86_400_000;
+const TOKEN_TTL_DAYS = 7;
 const MAX_ATTEMPTS_PER_TOKEN = 10;
 const MAX_REQUESTS_PER_EMAIL_PER_HOUR = 3;
+/** Chapter languages the invitation email is written in. */
+const CLAIM_LOCALES = ["en", "de", "fr", "it"] as const;
+export type ClaimEmailLocale = (typeof CLAIM_LOCALES)[number];
+
+function normalizeLocale(value: string | null | undefined): ClaimEmailLocale {
+  const candidate = (value ?? "").slice(0, 2).toLowerCase();
+  return (CLAIM_LOCALES as readonly string[]).includes(candidate)
+    ? (candidate as ClaimEmailLocale)
+    : "en";
+}
+
+/**
+ * Sends one claim invitation. The link is minted here and never re-used: every
+ * send (first or resend) supersedes the previous pending link, so an older
+ * message in an inbox stops working the moment a new one goes out.
+ */
+async function deliverClaimInvitation(args: {
+  memberId: string;
+  email: string;
+  firstName?: string | null;
+  locale?: string | null;
+  baseUrl: string;
+  isResend: boolean;
+}) {
+  const token = await mintClaimToken(args.memberId, args.email);
+  const url = claimUrl(args.baseUrl, token);
+
+  const { sendMemberEmail } = await import("./member-email.server");
+  return await sendMemberEmail({
+    memberId: args.memberId,
+    to: args.email,
+    templateKey: "member_claim",
+    subject: "Activate your Member Area account",
+    body: url,
+    template: {
+      name: "member-claim-invitation",
+      data: {
+        claimUrl: url,
+        firstName: args.firstName ?? undefined,
+        expiresInDays: TOKEN_TTL_DAYS,
+        isResend: args.isResend,
+        locale: normalizeLocale(args.locale),
+      },
+      // Token-scoped: a retry of the same send is deduped, a genuine resend
+      // mints a new token and therefore a new key.
+      idempotencyKey: `member-claim-${hashToken(token).slice(0, 32)}`,
+    },
+  });
+}
 
 function hashToken(token: string) {
   return createHash("sha256").update(token).digest("hex");
@@ -129,15 +179,11 @@ export async function attemptMemberClaim(email: string, baseUrl: string): Promis
   if (member.activity_state !== "active" || !member.last_synced_at)
     return { status: "not_eligible" };
 
-  const token = await mintClaimToken(member.id, normalized);
-
-  const { sendMemberEmail } = await import("./member-email.server");
-  await sendMemberEmail({
+  await deliverClaimInvitation({
     memberId: member.id,
-    to: normalized,
-    templateKey: "member_claim",
-    subject: "Set your The Switzerland Chapter of ICF Member Area password",
-    body: `<p>Follow this link to set your password: <a href="${claimUrl(baseUrl, token)}">${claimUrl(baseUrl, token)}</a></p>`,
+    email: normalized,
+    baseUrl,
+    isResend: false,
   });
 
   return { status: "sent" };
@@ -312,4 +358,109 @@ export async function issueClaimLinkForMember(
   });
 
   return { url: claimUrl(baseUrl, token), email };
+}
+
+export type ClaimInvitationStatus = {
+  email: string | null;
+  eligible: boolean;
+  blockedReason: string | null;
+  lastSentAt: string | null;
+  lastStatus: string | null;
+  sendCount: number;
+};
+
+function invitationBlockReason(member: {
+  email: string | null;
+  auth_user_id: string | null;
+  activity_state: string;
+}): string | null {
+  if (member.auth_user_id) return "already_claimed";
+  if (!member.email) return "no_email";
+  if (member.activity_state !== "active") return "inactive";
+  if (isTestShapedEmail(member.email.trim().toLowerCase())) return "test_identity";
+  return null;
+}
+
+/** Read model for the staff panel: whether an invitation can go out, and what already did. */
+export async function loadClaimInvitationStatus(memberId: string): Promise<ClaimInvitationStatus> {
+  const { data: member, error } = await supabaseAdmin
+    .from("members")
+    .select("email, auth_user_id, activity_state")
+    .eq("id", memberId)
+    .maybeSingle();
+  if (error) throw error;
+  if (!member) throw new Error("Member not found.");
+
+  const { data: log, error: logError } = await supabaseAdmin
+    .from("member_email_log")
+    .select("status, created_at")
+    .eq("member_id", memberId)
+    .eq("template_key", "member_claim")
+    .order("created_at", { ascending: false });
+  if (logError) throw logError;
+
+  const blockedReason = invitationBlockReason(member);
+  return {
+    email: member.email,
+    eligible: blockedReason === null,
+    blockedReason,
+    lastSentAt: log?.[0]?.created_at ?? null,
+    lastStatus: log?.[0]?.status ?? null,
+    sendCount: log?.length ?? 0,
+  };
+}
+
+/**
+ * Staff-triggered invitation (first send and resend are the same operation —
+ * a resend simply supersedes the previous link). Audited like every other
+ * member-facing staff action.
+ */
+export async function sendClaimInvitation(
+  actorUserId: string,
+  memberId: string,
+  baseUrl: string,
+): Promise<{ status: ClaimInvitationStatus; result: string }> {
+  const { data: member, error } = await supabaseAdmin
+    .from("members")
+    .select("id, email, first_name, auth_user_id, activity_state")
+    .eq("id", memberId)
+    .maybeSingle();
+  if (error) throw error;
+  if (!member) throw new Error("Member not found.");
+
+  const blocked = invitationBlockReason(member);
+  if (blocked === "already_claimed") throw new Error("This member already has a linked account.");
+  if (blocked === "no_email") throw new Error("This member record has no email address.");
+  if (blocked === "inactive") throw new Error("Only active members can claim an account.");
+  if (blocked === "test_identity")
+    throw new Error("This member uses a test-shaped address and can never be emailed.");
+
+  const email = member.email!.trim().toLowerCase();
+  const priorStatus = await loadClaimInvitationStatus(memberId);
+  const isResend = priorStatus.sendCount > 0;
+
+  const sendResult = await deliverClaimInvitation({
+    memberId: member.id,
+    email,
+    firstName: member.first_name,
+    baseUrl,
+    isResend,
+  });
+
+  await supabaseAdmin.from("member_sync_events").insert({
+    member_id: member.id,
+    event_type: isResend ? "member_claim_invitation_resent" : "member_claim_invitation_sent",
+    severity: "info",
+    message: `Staff ${isResend ? "resent" : "sent"} the claim invitation to ${email}.`,
+    actor_user_id: actorUserId,
+    details: { email, outcome: sendResult },
+  });
+
+  const result = sendResult.sent
+    ? sendResult.redirected
+      ? "sent_redirected"
+      : "sent"
+    : sendResult.reason;
+
+  return { status: await loadClaimInvitationStatus(memberId), result };
 }
