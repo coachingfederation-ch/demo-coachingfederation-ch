@@ -308,6 +308,12 @@ function QaTestAccountPanel({ onProvisioned }: { onProvisioned: () => void }) {
   >([]);
   const [query, setQuery] = useState("");
   const [memberId, setMemberId] = useState("");
+  const [selectedName, setSelectedName] = useState("");
+  const [remote, setRemote] = useState<{
+    candidates: { memberId: string; name: string; cstRecno: string }[];
+    truncated: boolean;
+  } | null>(null);
+  const [searching, setSearching] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -331,6 +337,31 @@ function QaTestAccountPanel({ onProvisioned }: { onProvisioned: () => void }) {
     })();
   }, [open, testMode]);
 
+  // The default list is capped, so anything typed is resolved server-side over
+  // the full set of claimable members rather than filtered locally.
+  useEffect(() => {
+    const term = query.trim();
+    if (!open || !testMode || term.length < 2) {
+      setRemote(null);
+      setSearching(false);
+      return;
+    }
+    setSearching(true);
+    const timer = setTimeout(() => {
+      void (async () => {
+        try {
+          const res = await searchQaCandidates({ data: { query: term } });
+          setRemote({ candidates: res.candidates, truncated: res.truncated });
+        } catch {
+          setRemote({ candidates: [], truncated: false });
+        } finally {
+          setSearching(false);
+        }
+      })();
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [query, open, testMode]);
+
   const submit = async () => {
     setBusy(true);
     setError(null);
@@ -338,7 +369,9 @@ function QaTestAccountPanel({ onProvisioned }: { onProvisioned: () => void }) {
       const res = await provisionQaTestAccount({ data: { memberId, email, password } });
       setResult({ email: res.email, password, memberName: res.memberName });
       setMemberId("");
+      setSelectedName("");
       setQuery("");
+      setRemote(null);
       setEmail("");
       setPassword("");
       setCandidates((prev) => prev.filter((c) => c.memberId !== memberId));
@@ -384,13 +417,23 @@ function QaTestAccountPanel({ onProvisioned }: { onProvisioned: () => void }) {
               >
                 {(() => {
                   const q = query.trim().toLowerCase();
-                  const filtered = q
-                    ? candidates.filter(
-                        (c) =>
-                          c.name.toLowerCase().includes(q) ||
-                          c.cstRecno.toLowerCase().includes(q),
-                      )
-                    : candidates;
+                  const searchingRemotely = q.length >= 2;
+                  if (searchingRemotely && (searching || !remote)) {
+                    return (
+                      <div className="px-3 py-2 text-sm text-muted-foreground">
+                        {t("roles.loading")}
+                      </div>
+                    );
+                  }
+                  const filtered = searchingRemotely
+                    ? (remote?.candidates ?? [])
+                    : q
+                      ? candidates.filter(
+                          (c) =>
+                            c.name.toLowerCase().includes(q) ||
+                            c.cstRecno.toLowerCase().includes(q),
+                        )
+                      : candidates;
                   if (filtered.length === 0) {
                     return (
                       <div className="px-3 py-2 text-sm text-muted-foreground">
@@ -398,7 +441,7 @@ function QaTestAccountPanel({ onProvisioned }: { onProvisioned: () => void }) {
                       </div>
                     );
                   }
-                  return filtered.map((c) => {
+                  const rows = filtered.map((c) => {
                     const selected = memberId === c.memberId;
                     return (
                       <button
@@ -408,6 +451,7 @@ function QaTestAccountPanel({ onProvisioned }: { onProvisioned: () => void }) {
                         aria-selected={selected}
                         onClick={() => {
                           setMemberId(c.memberId);
+                          setSelectedName(c.name);
                           setQuery(c.name);
                         }}
                         className={`w-full px-3 py-2 text-left text-sm transition-colors ${
@@ -420,18 +464,29 @@ function QaTestAccountPanel({ onProvisioned }: { onProvisioned: () => void }) {
                       </button>
                     );
                   });
+                  return (
+                    <>
+                      {rows}
+                      {searchingRemotely && remote?.truncated ? (
+                        <p className="px-3 py-2 text-xs text-muted-foreground">
+                          {t("roles.qaMoreResults")}
+                        </p>
+                      ) : null}
+                    </>
+                  );
                 })()}
               </div>
               {memberId ? (
                 <div className="mt-2 flex items-center gap-2 text-sm">
                   <span className="text-muted-foreground">{t("roles.qaSelectedMember")}</span>
                   <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-1 font-medium text-primary">
-                    {candidates.find((c) => c.memberId === memberId)?.name ?? memberId}
+                    {selectedName || memberId}
                   </span>
                   <button
                     type="button"
                     onClick={() => {
                       setMemberId("");
+                      setSelectedName("");
                       setQuery("");
                     }}
                     className="text-muted-foreground hover:text-foreground"
