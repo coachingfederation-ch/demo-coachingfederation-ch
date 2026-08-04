@@ -305,6 +305,7 @@ function QaTestAccountPanel({ onProvisioned }: { onProvisioned: () => void }) {
   const [candidates, setCandidates] = useState<
     { memberId: string; name: string; cstRecno: string }[]
   >([]);
+  const [query, setQuery] = useState("");
   const [memberId, setMemberId] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -336,6 +337,7 @@ function QaTestAccountPanel({ onProvisioned }: { onProvisioned: () => void }) {
       const res = await provisionQaTestAccount({ data: { memberId, email, password } });
       setResult({ email: res.email, password, memberName: res.memberName });
       setMemberId("");
+      setQuery("");
       setEmail("");
       setPassword("");
       setCandidates((prev) => prev.filter((c) => c.memberId !== memberId));
@@ -364,18 +366,80 @@ function QaTestAccountPanel({ onProvisioned }: { onProvisioned: () => void }) {
           <p className="mt-4 text-sm text-muted-foreground">{t("roles.qaLiveDisabled")}</p>
         ) : (
           <div className="mt-4 space-y-3">
-            <select
-              value={memberId}
-              onChange={(e) => setMemberId(e.target.value)}
-              className="w-full max-w-md rounded-lg border border-border bg-card px-3 py-2 text-sm"
-            >
-              <option value="">{t("roles.qaSelectMember")}</option>
-              {candidates.map((c) => (
-                <option key={c.memberId} value={c.memberId}>
-                  {c.name} · ICF {c.cstRecno}
-                </option>
-              ))}
-            </select>
+            <div className="w-full max-w-md">
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={t("roles.qaSearchMember")}
+                className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm"
+                aria-autocomplete="list"
+                aria-controls="candidate-list"
+              />
+              <div
+                id="candidate-list"
+                className="mt-1 max-h-60 overflow-auto rounded-lg border border-border bg-card"
+                role="listbox"
+              >
+                {(() => {
+                  const q = query.trim().toLowerCase();
+                  const filtered = q
+                    ? candidates.filter(
+                        (c) =>
+                          c.name.toLowerCase().includes(q) ||
+                          c.cstRecno.toLowerCase().includes(q),
+                      )
+                    : candidates;
+                  if (filtered.length === 0) {
+                    return (
+                      <div className="px-3 py-2 text-sm text-muted-foreground">
+                        {t("roles.qaNoMatches")}
+                      </div>
+                    );
+                  }
+                  return filtered.map((c) => {
+                    const selected = memberId === c.memberId;
+                    return (
+                      <button
+                        key={c.memberId}
+                        type="button"
+                        role="option"
+                        aria-selected={selected}
+                        onClick={() => {
+                          setMemberId(c.memberId);
+                          setQuery(c.name);
+                        }}
+                        className={`w-full px-3 py-2 text-left text-sm transition-colors ${
+                          selected
+                            ? "bg-primary/10 text-primary"
+                            : "hover:bg-secondary/60"
+                        }`}
+                      >
+                        {c.name} · ICF {c.cstRecno}
+                      </button>
+                    );
+                  });
+                })()}
+              </div>
+              {memberId ? (
+                <div className="mt-2 flex items-center gap-2 text-sm">
+                  <span className="text-muted-foreground">{t("roles.qaSelectedMember")}</span>
+                  <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-1 font-medium text-primary">
+                    {candidates.find((c) => c.memberId === memberId)?.name ?? memberId}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMemberId("");
+                      setQuery("");
+                    }}
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    ×
+                  </button>
+                </div>
+              ) : null}
+            </div>
             <input
               type="email"
               value={email}
