@@ -559,7 +559,8 @@ function EditorPage() {
                   >
                     {profiles.map((p) => (
                       <option key={p.id} value={p.id}>
-                        {authorName(p) ?? t("editor.author")}
+                        {/* Google-created staff profiles often have no name yet. */}
+                        {authorName(p) ?? `${t("editor.unnamedAuthor")} ${p.id.slice(0, 8)}`}
                       </option>
                     ))}
                   </select>
