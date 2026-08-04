@@ -112,7 +112,8 @@
     "languageLocked": "Source language locked after first publication",
     "languageUnlocked": "Source language can be changed until first publication",
     "imageError": "Could not create a link for this image.",
-    "previewEmpty": "Nothing to preview yet — start writing."
+    "previewEmpty": "Nothing to preview yet — start writing.",
+    "unnamedAuthor": "Unnamed account"
   },
   "translations": {
     "title": "Translations",
@@ -380,7 +381,18 @@
     "rehearseRunning": "Rehearsing…",
     "rehearseDone": "Rehearsal complete — no data was changed.",
     "rehearseColStep": "Step",
-    "rehearseColDetail": "Result"
+    "rehearseColDetail": "Result",
+    "ownTitle": "Content ownership",
+    "ownBody": "Articles and events owned by an account that go-live would remove. Reassign them to a staff author; the cutover is never blocked by this list.",
+    "ownEmpty": "Nothing to reassign — all content is owned by staff accounts.",
+    "ownArticles": "Articles",
+    "ownEvents": "Events",
+    "ownOwner": "Current owner",
+    "ownReassignTo": "Reassign to",
+    "ownReassign": "Reassign selected",
+    "ownDone": "Reassigned",
+    "ownRefresh": "Refresh",
+    "ownLoading": "Checking content ownership…"
   },
   "member": {
     "title": "My coach profile",
