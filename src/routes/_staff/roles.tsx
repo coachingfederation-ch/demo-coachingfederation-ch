@@ -337,6 +337,7 @@ function QaTestAccountPanel({ onProvisioned }: { onProvisioned: () => void }) {
       const res = await provisionQaTestAccount({ data: { memberId, email, password } });
       setResult({ email: res.email, password, memberName: res.memberName });
       setMemberId("");
+      setQuery("");
       setEmail("");
       setPassword("");
       setCandidates((prev) => prev.filter((c) => c.memberId !== memberId));
