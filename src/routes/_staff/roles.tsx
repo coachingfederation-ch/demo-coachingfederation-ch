@@ -305,6 +305,7 @@ function QaTestAccountPanel({ onProvisioned }: { onProvisioned: () => void }) {
   const [candidates, setCandidates] = useState<
     { memberId: string; name: string; cstRecno: string }[]
   >([]);
+  const [query, setQuery] = useState("");
   const [memberId, setMemberId] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
