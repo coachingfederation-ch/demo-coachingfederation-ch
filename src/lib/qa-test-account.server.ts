@@ -17,6 +17,7 @@
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { loadIntegrationConfigAdmin } from "./integration-config.server";
 import { isTestShapedEmail } from "./integration";
+import { syncAccountProfileName } from "./member-admin.server";
 
 export type ClaimableMember = { memberId: string; name: string; cstRecno: string };
 
@@ -103,6 +104,11 @@ export async function provisionQaTestMember(
     email: login,
     password,
     email_confirm: true,
+    // Feeds the auto-created profile row, so the account has a byline name.
+    user_metadata: {
+      first_name: member.first_name ?? "",
+      last_name: member.last_name ?? "",
+    },
   });
   if (createError || !created?.user) {
     const message = createError?.message ?? "";
@@ -129,6 +135,8 @@ export async function provisionQaTestMember(
     .from("user_roles")
     .upsert({ user_id: authUserId, role: "member" }, { onConflict: "user_id,role" });
   if (roleError) throw roleError;
+
+  await syncAccountProfileName(authUserId, member.first_name, member.last_name);
 
   await supabaseAdmin.from("member_sync_events").insert({
     member_id: member.id,

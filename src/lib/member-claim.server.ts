@@ -309,6 +309,8 @@ export async function completeClaim(token: string, password: string): Promise<Co
     .upsert({ user_id: authUserId, role: "member" }, { onConflict: "user_id,role" });
   if (roleError) throw roleError;
 
+  await syncAccountProfileName(authUserId, member.first_name, member.last_name);
+
   await supabaseAdmin
     .from("member_profile_links")
     .update({
