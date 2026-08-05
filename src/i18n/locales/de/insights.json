@@ -41,6 +41,14 @@
     "placeholder": "Ihre E-Mail-Adresse",
     "cta": "Abonnieren"
   },
+  "share": {
+    "title": "Diesen Artikel teilen",
+    "linkedin": "Auf LinkedIn teilen",
+    "x": "Auf X teilen",
+    "email": "Per E-Mail teilen",
+    "copy": "Link kopieren",
+    "copied": "Link kopiert"
+  },
   "detail": {
     "back": "← Insights",
     "backCta": "Zurück zu Insights",

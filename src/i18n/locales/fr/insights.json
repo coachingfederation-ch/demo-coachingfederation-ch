@@ -41,6 +41,14 @@
     "placeholder": "Votre adresse e-mail",
     "cta": "S'abonner"
   },
+  "share": {
+    "title": "Partager cet article",
+    "linkedin": "Partager sur LinkedIn",
+    "x": "Partager sur X",
+    "email": "Partager par e-mail",
+    "copy": "Copier le lien",
+    "copied": "Lien copié"
+  },
   "detail": {
     "back": "← Perspectives",
     "backCta": "Retour aux perspectives",
