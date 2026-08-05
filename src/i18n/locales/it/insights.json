@@ -41,6 +41,14 @@
     "placeholder": "Il tuo indirizzo e-mail",
     "cta": "Iscriviti"
   },
+  "share": {
+    "title": "Condividi questo articolo",
+    "linkedin": "Condividi su LinkedIn",
+    "x": "Condividi su X",
+    "email": "Condividi via e-mail",
+    "copy": "Copia link",
+    "copied": "Link copiato"
+  },
   "detail": {
     "back": "← Insights",
     "backCta": "Torna a Insights",
