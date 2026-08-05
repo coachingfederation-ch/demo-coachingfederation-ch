@@ -49,12 +49,6 @@
     "copy": "Copy link",
     "copied": "Link copied"
   },
-  "newsletterUnused": {
-    "eyebrow": "Stay connected",
-    "title": "Get new insights in your inbox.",
-    "placeholder": "Your email address",
-    "cta": "Subscribe"
-  },
   "detail": {
     "back": "← Insights",
     "backCta": "Back to Insights",
