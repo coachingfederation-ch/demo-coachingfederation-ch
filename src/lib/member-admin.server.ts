@@ -17,6 +17,45 @@
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import type { MemberVisibility } from "./directory-eligibility";
 
+/**
+ * Keep the account's `profiles` row (the byline identity used across the CMS
+ * and public article pages) in step with the imported member name.
+ *
+ * The row is auto-created from sign-up metadata, so it is only correct when
+ * the caller supplied names. Writing it explicitly after the bind makes the
+ * outcome independent of that trigger path. Never overwrites a non-empty
+ * stored name — staff may have corrected it by hand.
+ */
+export async function syncAccountProfileName(
+  authUserId: string,
+  firstName: string | null,
+  lastName: string | null,
+): Promise<void> {
+  const first = (firstName ?? "").trim();
+  const last = (lastName ?? "").trim();
+  if (!first && !last) return;
+
+  const { data: existing } = await supabaseAdmin
+    .from("profiles")
+    .select("id, first_name, last_name")
+    .eq("id", authUserId)
+    .maybeSingle();
+
+  const patch = {
+    id: authUserId,
+    first_name: (existing?.first_name ?? "").trim() || first,
+    last_name: (existing?.last_name ?? "").trim() || last,
+  };
+  if (
+    existing &&
+    patch.first_name === existing.first_name &&
+    patch.last_name === existing.last_name
+  ) {
+    return;
+  }
+  await supabaseAdmin.from("profiles").upsert(patch, { onConflict: "id" });
+}
+
 export type MemberDetail = {
   member: {
     id: string;

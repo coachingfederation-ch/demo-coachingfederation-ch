@@ -19,6 +19,7 @@
  */
 import { createHash, randomBytes, timingSafeEqual } from "crypto";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { syncAccountProfileName } from "./member-admin.server";
 import { loadIntegrationConfigAdmin } from "./integration-config.server";
 import { isTestShapedEmail } from "./integration";
 
@@ -261,7 +262,7 @@ export async function completeClaim(token: string, password: string): Promise<Co
 
   const { data: member, error } = await supabaseAdmin
     .from("members")
-    .select("id, auth_user_id, activity_state")
+    .select("id, auth_user_id, activity_state, first_name, last_name")
     .eq("id", link.member_id)
     .maybeSingle();
   if (error) throw error;
@@ -272,6 +273,12 @@ export async function completeClaim(token: string, password: string): Promise<Co
     email: link.email,
     password,
     email_confirm: true,
+    // The profile row is auto-created from this metadata; without it the
+    // account ends up nameless and public bylines lose the surname.
+    user_metadata: {
+      first_name: member.first_name ?? "",
+      last_name: member.last_name ?? "",
+    },
   });
   if (createError || !created?.user) {
     // Only a genuine collision is a member-facing outcome: an existing account
@@ -302,6 +309,8 @@ export async function completeClaim(token: string, password: string): Promise<Co
     .from("user_roles")
     .upsert({ user_id: authUserId, role: "member" }, { onConflict: "user_id,role" });
   if (roleError) throw roleError;
+
+  await syncAccountProfileName(authUserId, member.first_name, member.last_name);
 
   await supabaseAdmin
     .from("member_profile_links")

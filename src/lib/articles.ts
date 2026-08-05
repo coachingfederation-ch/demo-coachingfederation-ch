@@ -66,10 +66,10 @@ export interface TranslationRef {
   content?: string | null;
 }
 
-/** "Surname Name" display used in the CMS author picker and public bylines. */
+/** Natural "First Last" display used in the CMS author picker and public bylines. */
 export function authorName(author: AuthorRef | null | undefined): string | null {
   if (!author) return null;
-  const name = `${author.last_name ?? ""} ${author.first_name ?? ""}`.trim();
+  const name = `${author.first_name ?? ""} ${author.last_name ?? ""}`.trim();
   return name.length > 0 ? name : null;
 }
 
