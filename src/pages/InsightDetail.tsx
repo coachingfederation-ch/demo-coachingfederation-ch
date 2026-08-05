@@ -9,6 +9,8 @@ import {
   type PublicArticle,
 } from "@/lib/articles";
 import { LocaleLink, useI18n } from "@/i18n";
+import { localizePath, SITE_URL } from "@/i18n/config";
+import { ShareInline, ShareBlock } from "@/components/share-buttons";
 
 export function DetailShell({ children }: { children: React.ReactNode }) {
   return (
@@ -52,6 +54,8 @@ export default function InsightDetailPage({ article }: { article: DetailArticle 
   const tile = tileFor(article.id);
   const category = articleCategoryLabel(article as PublicArticle, locale);
   const byline = authorName(article.author) ?? t("insights.byline");
+  // Canonical, locale-aware URL so readers share their own language edition.
+  const shareUrl = `${SITE_URL}${localizePath(`/insights/${article.id}`, locale)}`;
 
   return (
     <DetailShell>
@@ -66,9 +70,16 @@ export default function InsightDetailPage({ article }: { article: DetailArticle 
         <h1 className="mt-3 text-3xl font-bold leading-tight tracking-tight md:text-5xl">
           {article.title}
         </h1>
-        <p className="btn-mono mt-5 !text-muted-foreground">
-          {formatArticleDate(article.published_at)} · {byline}
-        </p>
+        <div className="mt-6 flex flex-wrap items-start justify-between gap-4 border-b border-border/70 pb-6">
+          <div>
+            <p className="text-base font-semibold text-foreground">{byline}</p>
+            <p className="btn-mono mt-1 !text-muted-foreground">
+              {formatArticleDate(article.published_at)}
+              {category ? ` · ${category}` : ""}
+            </p>
+          </div>
+          <ShareInline url={shareUrl} title={article.title} />
+        </div>
         {article.excerpt ? (
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground">{article.excerpt}</p>
         ) : null}
@@ -114,6 +125,8 @@ export default function InsightDetailPage({ article }: { article: DetailArticle 
         <div className="mt-10">
           <Markdown>{String(article.content ?? "")}</Markdown>
         </div>
+
+        <ShareBlock url={shareUrl} title={article.title} />
       </article>
     </DetailShell>
   );
