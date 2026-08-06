@@ -1,3 +1,8 @@
+/**
+ * Privacy policy page detailing data processing, rights, and third-party services.
+ * Exports: PrivacyPage (default). Rendered by src/routes/privacy.tsx and
+ * the locale-prefixed equivalent in src/routes/$locale/privacy.tsx.
+ */
 import { LegalPageShell } from "./LegalPageShell";
 import { Info } from "lucide-react";
 

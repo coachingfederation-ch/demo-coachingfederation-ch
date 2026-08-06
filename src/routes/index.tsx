@@ -1,3 +1,9 @@
+/**
+ * Website homepage route (/).
+ * Exports: Route. Renders the main landing page of the ICF Switzerland
+ * website with localized SEO metadata.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import HomePage from "@/pages/Home";
 import { localeLinkTags, localeMeta } from "@/i18n";

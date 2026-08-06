@@ -1,3 +1,8 @@
+/**
+ * Chapter team directory showing board and project members in a honeycomb grid.
+ * Exports: TeamPage (default). Rendered by src/routes/team.tsx and
+ * the locale-prefixed equivalent in src/routes/$locale/team.tsx.
+ */
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { CompactHero, SiteFooter } from "@/components/site-chrome";

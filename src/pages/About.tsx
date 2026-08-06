@@ -1,3 +1,8 @@
+/**
+ * About page showing the ICF Switzerland mission, research partners, and team/community previews.
+ * Exports: AboutPage (default). Rendered by src/routes/about.tsx and the locale-prefixed
+ * equivalent in src/routes/$locale/about.tsx.
+ */
 import { Mark } from "@/components/marks";
 import { CompactHero, SiteFooter, CARD_SHADOW } from "@/components/site-chrome";
 import { TeamPreview } from "@/components/team/TeamPreview";

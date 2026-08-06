@@ -1,3 +1,9 @@
+/**
+ * Events CMS listing route (/_staff/manage/events).
+ * Exports: Route. Renders the administrative workspace for creating,
+ * publishing, and managing chapter events.
+ */
+
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { requireStaffAccess, EVENT_ROLES } from "@/lib/staff-guard";
 import { useEffect, useState } from "react";

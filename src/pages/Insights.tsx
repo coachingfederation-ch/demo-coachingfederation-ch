@@ -1,3 +1,8 @@
+/**
+ * Blog/Insights listing page with topic filtering and featured article section.
+ * Exports: InsightsPage (default). Rendered by src/routes/insights.index.tsx and
+ * the locale-prefixed equivalent in src/routes/$locale/insights.index.tsx.
+ */
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";

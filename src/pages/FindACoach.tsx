@@ -1,3 +1,8 @@
+/**
+ * Coach directory search page allowing users to find credentialed ICF coaches.
+ * Exports: FindACoachPage (default). Rendered by src/routes/find-a-coach.tsx and
+ * the locale-prefixed equivalent in src/routes/$locale/find-a-coach.tsx.
+ */
 import { CompactHero, SiteFooter } from "@/components/site-chrome";
 import { CoachDirectory } from "@/components/coaches/directory";
 import { useI18n } from "@/i18n";

@@ -1,3 +1,8 @@
+/**
+ * Public events listing page with category, region, language, and format filters.
+ * Exports: EventsPage (default), EventsPageData. Rendered by src/routes/events.index.tsx
+ * and the locale-prefixed equivalent in src/routes/$locale/events.index.tsx.
+ */
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { Mark, type MarkName } from "@/components/marks";
 import { CompactHero, SiteFooter, CARD_SHADOW } from "@/components/site-chrome";

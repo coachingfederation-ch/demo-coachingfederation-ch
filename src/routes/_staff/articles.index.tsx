@@ -1,3 +1,9 @@
+/**
+ * CMS article list route (/_staff/articles).
+ * Exports: Route. Renders the searchable editorial workspace for managing
+ * Insights drafts, scheduled, and published articles.
+ */
+
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { requireStaffAccess, ARTICLE_ROLES } from "@/lib/staff-guard";
 import { useEffect, useMemo, useState } from "react";

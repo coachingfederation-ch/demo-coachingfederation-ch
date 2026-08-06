@@ -1,3 +1,8 @@
+/**
+ * Main landing page of the site featuring hero, audiences, pillars, and events overview.
+ * Exports: HomePage (default). Rendered by src/routes/index.tsx and the
+ * locale-prefixed equivalent in src/routes/$locale/index.tsx.
+ */
 import adSupervision from "@/assets/ads/ad-supervision.jpg";
 import adPress from "@/assets/ads/ad-press.jpg";
 import adAssessment from "@/assets/ads/ad-assessment.jpg";

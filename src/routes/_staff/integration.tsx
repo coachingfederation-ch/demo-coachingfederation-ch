@@ -1,3 +1,9 @@
+/**
+ * System integration and sync management route (/_staff/integration).
+ * Exports: Route. Renders the admin dashboard for Supabase/External syncs,
+ * cutover controls, and history logs.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";
 import { Fragment, useEffect, useState } from "react";

@@ -1,3 +1,9 @@
+/**
+ * Public "For Organisations" landing page (/for-organisations).
+ * Exports: Route. Renders the informational page for organisations with
+ * localized meta tags and SEO links.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import ForOrganisationsPage from "@/pages/ForOrganisations";
 import { localeLinkTags, localeMeta } from "@/i18n";

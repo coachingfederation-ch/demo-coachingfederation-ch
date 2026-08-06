@@ -1,3 +1,9 @@
+/**
+ * Member sign-in route (/auth).
+ * Exports: Route. Renders the sign-in form for members, allowing them to access
+ * the protected member area or claim an imported account.
+ */
+
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCms } from "@/i18n/cms";
 import { safeNext } from "@/lib/safe-next";

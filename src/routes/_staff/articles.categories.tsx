@@ -1,3 +1,9 @@
+/**
+ * CMS article categories management route (/_staff/articles/categories).
+ * Exports: Route. Renders the admin interface for managing Insights
+ * categories and their localized names.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";
 import { useEffect, useState } from "react";

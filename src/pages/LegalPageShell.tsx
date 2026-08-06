@@ -1,3 +1,8 @@
+/**
+ * Common layout shell for legal pages like Imprint and Privacy with a draft banner.
+ * Exports: LegalPageShell, DraftBanner. Used as a wrapper by src/pages/Imprint.tsx
+ * and src/pages/Privacy.tsx.
+ */
 import * as React from "react";
 import { CompactHero, SiteFooter } from "@/components/site-chrome";
 import { useI18n } from "@/i18n";

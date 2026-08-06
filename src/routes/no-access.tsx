@@ -1,3 +1,9 @@
+/**
+ * Access denied fallback route (/no-access).
+ * Exports: Route. Renders a "No Access" message for authenticated users
+ * who lack the required roles for a protected area.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useCms } from "@/i18n/cms";

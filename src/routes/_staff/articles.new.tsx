@@ -1,3 +1,9 @@
+/**
+ * CMS "Create Article" route (/_staff/articles/new).
+ * Exports: Route. Renders the initial language selection and creation
+ * interface for starting a new Insight article.
+ */
+
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { requireStaffAccess, ARTICLE_ROLES } from "@/lib/staff-guard";
 import { useState } from "react";

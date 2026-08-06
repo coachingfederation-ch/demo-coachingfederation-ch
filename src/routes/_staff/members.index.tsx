@@ -1,3 +1,9 @@
+/**
+ * CMS member directory route (/_staff/members).
+ * Exports: Route. Renders the searchable list of chapter members,
+ * their sync status, and directory eligibility.
+ */
+
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";
 import { useEffect, useMemo, useState } from "react";

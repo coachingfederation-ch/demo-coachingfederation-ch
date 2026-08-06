@@ -1,3 +1,8 @@
+/**
+ * Listing page for ICF Switzerland communities and chapters.
+ * Exports: CommunitiesPage (default). Rendered by src/routes/communities.index.tsx and
+ * the locale-prefixed equivalent in src/routes/$locale/communities.index.tsx.
+ */
 import { useQuery } from "@tanstack/react-query";
 import { CompactHero, SiteFooter } from "@/components/site-chrome";
 import { useI18n } from "@/i18n";

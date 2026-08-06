@@ -1,3 +1,8 @@
+/**
+ * Individual insight/article detail page with content, byline, and social sharing.
+ * Exports: InsightDetailPage (default), DetailShell, ArticleFallback. Rendered by
+ * src/routes/insights.$id.tsx and the locale-prefixed equivalent.
+ */
 import { Mark } from "@/components/marks";
 import { Markdown } from "@/components/markdown";
 import { SiteHeaderBar, SiteFooter } from "@/components/site-chrome";

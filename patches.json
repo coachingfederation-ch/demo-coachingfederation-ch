@@ -1,0 +1,106 @@
+[
+  {
+    "file_path": "src/router.tsx",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Router configuration and factory.\n+ * Exports: getRouter. Creates the TanStack Router instance with QueryClient and routeTree.\n+ */\n+\n import { QueryClient } from \"@tanstack/react-query\";"
+  },
+  {
+    "file_path": "src/server.ts",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Server entry point for TanStack Start.\n+ * Exports: default fetch handler. Manages SSR entry loading and catastrophic error normalization.\n+ */\n+\n import \"./lib/error-capture\";"
+  },
+  {
+    "file_path": "src/start.ts",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Application entry point for TanStack Start.\n+ * Exports: startInstance. Configures global middleware including Supabase auth and error handling.\n+ */\n+\n import { createStart, createMiddleware } from \"@tanstack/react-start\";"
+  },
+  {
+    "file_path": "src/routes/__root.tsx",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Root route component for the entire application.\n+ * Exports: Route. Defines the base HTML shell, global head tags, and shared providers (QueryClient).\n+ */\n+\n import { QueryClient, QueryClientProvider } from \"@tanstack/react-query\";"
+  },
+  {
+    "file_path": "src/routes//route.tsx",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Locale-prefixed layout route (/:locale).\n+ * Exports: Route. Validates the locale parameter and provides a nested outlet for localized pages.\n+ */\n+\n import { createFileRoute, notFound, Outlet } from \"@tanstack/react-router\";"
+  },
+  {
+    "file_path": "src/routes//index.tsx",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Locale-prefixed home page route (/:locale/).\n+ * Exports: Route. Renders the localized Home page and manages locale-specific metadata.\n+ */\n+\n import { createFileRoute } from \"@tanstack/react-router\";"
+  },
+  {
+    "file_path": "src/routes//about.tsx",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Locale-prefixed about page route (/:locale/about).\n+ * Exports: Route. Renders the About page with localized content and metadata.\n+ */\n+\n import { createFileRoute } from \"@tanstack/react-router\";"
+  },
+  {
+    "file_path": "src/routes//coach..tsx",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Locale-prefixed coach profile route (/:locale/coach/:profileId).\n+ * Exports: Route. Loads coach data via directory.functions and renders the CoachProfile page.\n+ */\n+\n import { createFileRoute, notFound } from \"@tanstack/react-router\";"
+  },
+  {
+    "file_path": "src/routes//communities..tsx",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Locale-prefixed community detail route (/:locale/communities/:slug).\n+ * Exports: Route. Renders CommunityDetailPage for a specific chapter or community slug.\n+ */\n+\n import { createFileRoute } from \"@tanstack/react-router\";"
+  },
+  {
+    "file_path": "src/routes//communities.index.tsx",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Locale-prefixed communities index route (/:locale/communities).\n+ * Exports: Route. Renders the Communities listing page with localized metadata.\n+ */\n+\n import { createFileRoute } from \"@tanstack/react-router\";"
+  },
+  {
+    "file_path": "src/routes//europe-pulse.tsx",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Locale-prefixed Europe Pulse route (/:locale/europe-pulse).\n+ * Exports: Route. Renders the Europe Pulse news aggregator with search validation.\n+ */\n+\n import { createFileRoute } from \"@tanstack/react-router\";"
+  },
+  {
+    "file_path": "src/routes//events..tsx",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Locale-prefixed event detail route (/:locale/events/:slug).\n+ * Exports: Route. Loads event data via events.functions and renders EventDetailPage.\n+ */\n+\n import { createFileRoute, notFound } from \"@tanstack/react-router\";"
+  },
+  {
+    "file_path": "src/routes//events.index.tsx",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Locale-prefixed events index route (/:locale/events).\n+ * Exports: Route. Loads published events via events.functions and renders the localized Events page.\n+ */\n+\n import { createFileRoute } from \"@tanstack/react-router\";"
+  },
+  {
+    "file_path": "src/routes//find-a-coach.tsx",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Locale-prefixed coach finder route (/:locale/find-a-coach).\n+ * Exports: Route. Renders the coach directory search page with filter validation.\n+ */\n+\n import { createFileRoute } from \"@tanstack/react-router\";"
+  },
+  {
+    "file_path": "src/routes//for-coaches.tsx",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Locale-prefixed for-coaches route (/:locale/for-coaches).\n+ * Exports: Route. Renders the landing page dedicated to coach resources and membership.\n+ */\n+\n import { createFileRoute } from \"@tanstack/react-router\";"
+  },
+  {
+    "file_path": "src/routes//for-organisations.tsx",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Locale-prefixed for-organisations route (/:locale/for-organisations).\n+ * Exports: Route. Renders the landing page for organizational coaching services.\n+ */\n+\n import { createFileRoute } from \"@tanstack/react-router\";"
+  },
+  {
+    "file_path": "src/routes//imprint.tsx",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Locale-prefixed imprint route (/:locale/imprint).\n+ * Exports: Route. Renders the legal imprint page with localized metadata.\n+ */\n+\n import { createFileRoute } from \"@tanstack/react-router\";"
+  },
+  {
+    "file_path": "src/routes//insights..tsx",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Locale-prefixed insight detail route (/:locale/insights/:id).\n+ * Exports: Route. Loads article data via insights.functions and renders InsightDetailPage.\n+ */\n+\n import { createFileRoute, notFound, redirect } from \"@tanstack/react-router\";"
+  },
+  {
+    "file_path": "src/routes//insights.index.tsx",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Locale-prefixed insights index route (/:locale/insights).\n+ * Exports: Route. Renders the localized insights/blog listing page.\n+ */\n+\n import { createFileRoute } from \"@tanstack/react-router\";"
+  },
+  {
+    "file_path": "src/routes//insights.tsx",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Locale-prefixed insights layout route (/:locale/insights).\n+ * Exports: Route. Provides a shared outlet for insight-related nested routes.\n+ */\n+\n import { createFileRoute, Outlet } from \"@tanstack/react-router\";"
+  },
+  {
+    "file_path": "src/routes//privacy.tsx",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Locale-prefixed privacy policy route (/:locale/privacy).\n+ * Exports: Route. Renders the privacy policy page with localized metadata.\n+ */\n+\n import { createFileRoute } from \"@tanstack/react-router\";"
+  },
+  {
+    "file_path": "src/routes//team.tsx",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Locale-prefixed team route (/:locale/team).\n+ * Exports: Route. Renders the Chapter board and leadership team page.\n+ */\n+\n import { createFileRoute } from \"@tanstack/react-router\";"
+  },
+  {
+    "file_path": "src/routes/api/public/europe-pulse-scan.ts",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * API route for Europe Pulse automated scanning (/api/public/europe-pulse-scan).\n+ * Exports: Route. Handles POST requests from cron to trigger news aggregation.\n+ */\n+\n import { createFileRoute } from \"@tanstack/react-router\";"
+  },
+  {
+    "file_path": "src/routes/api/public/member-sync.ts",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * API route for ICF member synchronization (/api/public/member-sync).\n+ * Exports: Route. Handles POST requests from cron to sync member data with the master ICF feed.\n+ */\n+\n import { createFileRoute } from \"@tanstack/react-router\";"
+  },
+  {
+    "file_path": "src/routes/lovable/email/transactional/preview.ts",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * API route for email template previews (/lovable/email/transactional/preview).\n+ * Exports: Route. Renders all registered transactional email templates for internal preview tools.\n+ */\n+\n import * as React from 'react'"
+  },
+  {
+    "file_path": "src/routes/sitemap[.]xml.ts",
+    "patch": "@@ -1,1 +1,7 @@\n+/**\n+ * Dynamic sitemap generator route (/sitemap.xml).\n+ * Exports: Route. Generates an XML sitemap of all localized pages, insights, and events.\n+ */\n+\n import { createFileRoute } from \"@tanstack/react-router\";"
+  }
+]

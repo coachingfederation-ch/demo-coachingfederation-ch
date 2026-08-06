@@ -1,3 +1,9 @@
+/**
+ * CMS vocabulary management route (/_staff/vocabularies).
+ * Exports: Route. Renders the admin interface for managing directory
+ * taxonomy terms (Regions, Credentials, etc.) and translations.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";
 import { useEffect, useState } from "react";
