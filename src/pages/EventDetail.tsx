@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { CalendarDays, Clock, MapPin, Users } from "lucide-react";
 import { SiteFooter, SiteHeaderBar, CARD_SHADOW } from "@/components/site-chrome";
+import { Mark, type MarkName } from "@/components/marks";
 import { LocaleLink, useI18n } from "@/i18n";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -31,6 +32,29 @@ type RsvpState =
   | { kind: "saving" }
   | { kind: "done" }
   | { kind: "error"; reason: "full" | "closed" | "duplicate" | "error" };
+
+/*
+ * Decoration for the hero band. The marks are picked from the event slug
+ * (not at random) so a given event always renders the same composition —
+ * stable across re-renders, SSR and hydration.
+ */
+/** Only the wide highlight swashes read correctly as an underline. */
+const UNDERLINE_MARKS: MarkName[] = ["highlight1", "highlight2", "highlight3"];
+const CORNER_MARKS: MarkName[] = ["circular1", "circular2", "asterisk1", "asterisk3", "star2"];
+
+const hashSlug = (slug: string) => {
+  let h = 0;
+  for (let i = 0; i < slug.length; i += 1) h = (h * 31 + slug.charCodeAt(i)) >>> 0;
+  return h;
+};
+
+const heroMarks = (slug: string) => {
+  const h = hashSlug(slug || "event");
+  return {
+    underline: UNDERLINE_MARKS[h % UNDERLINE_MARKS.length]!,
+    corner: CORNER_MARKS[Math.floor(h / 7) % CORNER_MARKS.length]!,
+  };
+};
 
 export function EventFallback({ titleKey, bodyKey }: { titleKey: string; bodyKey: string }) {
   const { t } = useI18n();
@@ -65,6 +89,7 @@ export default function EventDetailPage({
   const tz = event.timezone ?? "Europe/Zurich";
   const past = isPastEvent(event);
   const hosts = event.hosts ?? [];
+  const marks = heroMarks(event.slug ?? event.id ?? "");
 
   const session = useQuery({
     queryKey: ["auth-user-id"],
@@ -127,17 +152,47 @@ export default function EventDetailPage({
         </div>
       </header>
       <main id="main">
-        <section className="bg-hero text-hero-foreground">
-          <div className="mx-auto max-w-5xl px-8 pb-16 pt-4">
+        <section className="relative isolate overflow-hidden bg-hero text-hero-foreground">
+          {/*
+           * Cover image as atmosphere: the photo is decorative (the title is
+           * the accessible name of the page), and the Deep Blue wash above it
+           * keeps white text above AA at every width — near-solid on mobile,
+           * where the text spans the full column.
+           */}
+          {event.image_url ? (
+            <>
+              <img
+                src={event.image_url}
+                alt=""
+                aria-hidden
+                className="absolute inset-0 -z-20 h-full w-full object-cover"
+              />
+              <div
+                className="absolute inset-0 -z-10 bg-hero/85 md:bg-gradient-to-r md:from-hero md:via-hero/85 md:to-hero/45"
+                aria-hidden
+              />
+            </>
+          ) : null}
+          <Mark
+            name={marks.corner}
+            className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 text-mark-yellow/10 md:h-72 md:w-72"
+          />
+          <div className={"relative mx-auto max-w-5xl px-8 pt-4 " + (event.image_url ? "pb-24" : "pb-16")}>
             <LocaleLink
               to="/events"
               className="btn-mono !text-hero-foreground/70 hover:!text-hero-foreground"
             >
               ← {t("events.detail.backToEvents")}
             </LocaleLink>
-            <h1 className="mt-6 max-w-3xl text-4xl font-bold leading-tight tracking-tight md:text-5xl">
-              {event.title}
-            </h1>
+            <div className="relative mt-6 max-w-3xl">
+              <h1 className="text-4xl font-bold leading-tight tracking-tight md:text-5xl">
+                {event.title}
+              </h1>
+              <Mark
+                name={marks.underline}
+                className="-mt-1 block h-5 w-44 text-mark-yellow md:w-64"
+              />
+            </div>
             {event.summary ? (
               <p className="mt-5 max-w-2xl text-lg leading-relaxed text-hero-foreground/85">
                 {event.summary}
@@ -163,6 +218,21 @@ export default function EventDetailPage({
                 </span>
               ) : null}
             </div>
+            {event.image_url && event.image_credit_name ? (
+              <p className="mt-10 text-right text-xs text-hero-foreground/60">
+                {t("events.detail.photoCredit").replace("{name}", event.image_credit_name)}{" "}
+                {event.image_credit_url ? (
+                  <a
+                    href={event.image_credit_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline underline-offset-2"
+                  >
+                    ↗
+                  </a>
+                ) : null}
+              </p>
+            ) : null}
           </div>
         </section>
 
