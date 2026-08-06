@@ -267,7 +267,11 @@ export function AssistantWidget() {
                             <Shimmer className="text-sm">{t("assistant.searching")}</Shimmer>
                           )}
                           {text && (
-                            <MessageResponse className="text-sm leading-relaxed [&_a]:font-medium [&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2 [&_li]:my-0.5 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-5 [&_p]:my-2 [&_strong]:font-semibold [&_ul]:my-2 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5">
+                            <MessageResponse
+                              components={markdownComponents}
+                              linkSafety={{ enabled: false }}
+                              className="text-sm leading-relaxed [&_a]:cursor-pointer [&_a]:font-medium [&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2 [&_li]:my-0.5 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-5 [&_p]:my-2 [&_strong]:font-semibold [&_ul]:my-2 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5"
+                            >
                               {text}
                             </MessageResponse>
                           )}
