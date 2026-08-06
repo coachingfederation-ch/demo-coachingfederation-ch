@@ -15,35 +15,66 @@ import { PULSE_COLUMNS, localizePulse, type PulseItem, type PulseRow } from "./e
 
 const localeSchema = z.enum(["en", "de", "fr", "it"]);
 
-export type PulseFeed = { weekOf: string | null; items: PulseItem[] };
+export type PulseFeed = {
+  weekOf: string | null;
+  /** The most recent published editions, newest first (max 4). */
+  weeks: string[];
+  isCurrent: boolean;
+  items: PulseItem[];
+};
+
+/** How many weekly editions stay reachable from the public page. */
+const ARCHIVE_WEEKS = 4;
 
 export const listEuropePulse = createServerFn({ method: "GET" })
   .inputValidator((input: unknown) =>
-    z.object({ locale: localeSchema.optional() }).parse(input ?? {}),
+    z.object({ locale: localeSchema.optional(), week: z.string().optional() }).parse(input ?? {}),
   )
   .handler(async ({ data }): Promise<PulseFeed> => {
     const { publicSupabaseClient } = await import("./supabase-public.server");
-    // Read-time cut-off: an item disappears from the feed the day after it
-    // happens, without waiting for the next weekly scan.
-    const today = new Date().toISOString().slice(0, 10);
-    const { data: rows, error } = await publicSupabaseClient()
+    const client = publicSupabaseClient();
+    const locale = (data.locale ?? "en") as Locale;
+
+    // Which editions are reachable at all: the most recent distinct weeks.
+    const { data: weekRows, error: weekError } = await client
+      .from("europe_pulse")
+      .select("week_of")
+      .eq("status", "published")
+      .order("week_of", { ascending: false })
+      .limit(400);
+    if (weekError) throw weekError;
+    const weeks = [...new Set((weekRows ?? []).map((r) => r.week_of as string))].slice(
+      0,
+      ARCHIVE_WEEKS,
+    );
+    if (!weeks.length) return { weekOf: null, weeks: [], isCurrent: true, items: [] };
+
+    const requested = data.week && weeks.includes(data.week) ? data.week : weeks[0];
+    const isCurrent = requested === weeks[0];
+
+    let query = client
       .from("europe_pulse")
       .select(PULSE_COLUMNS)
       .eq("status", "published")
-      .not("event_date", "is", null)
-      .gte("event_date", today)
-      .order("week_of", { ascending: false })
+      .eq("week_of", requested);
+    if (isCurrent) {
+      // Read-time cut-off on the live edition: an item disappears the day
+      // after it happens, without waiting for the next weekly scan. Archived
+      // editions keep everything they were curated with.
+      const today = new Date().toISOString().slice(0, 10);
+      query = query.not("event_date", "is", null).gte("event_date", today);
+    }
+    const { data: rows, error } = await query
+      .order("sort_rank", { ascending: true })
       .order("event_date", { ascending: true })
-      .limit(60);
+      .limit(80);
     if (error) throw error;
 
-    const all = (rows ?? []) as unknown as PulseRow[];
-    // Only the most recent week is published as a feed; older rows are archive.
-    const weekOf = all[0]?.week_of ?? null;
-    const locale = (data.locale ?? "en") as Locale;
     return {
-      weekOf,
-      items: all.filter((r) => r.week_of === weekOf).map((r) => localizePulse(r, locale)),
+      weekOf: requested,
+      weeks,
+      isCurrent,
+      items: ((rows ?? []) as unknown as PulseRow[]).map((r) => localizePulse(r, locale)),
     };
   });
 
