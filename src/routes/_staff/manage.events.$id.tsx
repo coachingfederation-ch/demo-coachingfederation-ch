@@ -14,6 +14,7 @@ import { UnsplashPicker, type UnsplashPick } from "@/components/cms/UnsplashPick
 import { EventTranslationsPanel } from "@/components/cms/EventTranslationsPanel";
 import { EventHostsPanel } from "@/components/cms/EventHostsPanel";
 import { useCms } from "@/i18n/cms";
+import { fetchVocabulary, vocabLabel, type VocabRow } from "@/lib/vocabularies";
 import {
   getManagedEvent,
   listEventRegistrations,
@@ -101,6 +102,22 @@ function EventEditor() {
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
+  // Category and region are the public filter facets, so the editor reads the
+  // same vocabulary tables the /events filter bar does.
+  const [categories, setCategories] = useState<VocabRow[]>([]);
+  const [regions, setRegions] = useState<VocabRow[]>([]);
+
+  useEffect(() => {
+    void Promise.all([
+      fetchVocabulary("cf_event_categories", { activeOnly: true }),
+      fetchVocabulary("cf_regions", { activeOnly: true }),
+    ])
+      .then(([cats, regs]) => {
+        setCategories(cats);
+        setRegions(regs);
+      })
+      .catch(() => undefined);
+  }, []);
 
   const load = async () => {
     const row = await getManagedEvent({ data: { id } });
@@ -154,6 +171,8 @@ function EventEditor() {
           registration_closes_at: event.registration_closes_at,
           guest_registration_allowed: event.guest_registration_allowed,
           is_featured: event.is_featured,
+          category_id: event.category_id,
+          region_id: event.region_id,
         },
       });
       setMessage(t("events.saved"));
@@ -215,6 +234,34 @@ function EventEditor() {
               {["de", "fr", "it", "en"].map((l) => (
                 <option key={l} value={l}>
                   {l.toUpperCase()}
+                </option>
+              ))}
+            </select>
+          </Field>
+          <Field label={t("events.fieldCategory")}>
+            <select
+              className={inputClass}
+              value={event.category_id ?? ""}
+              onChange={(e) => patch({ category_id: e.target.value || null })}
+            >
+              <option value="">{t("events.fieldUnset")}</option>
+              {categories.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {vocabLabel(c, "en")}
+                </option>
+              ))}
+            </select>
+          </Field>
+          <Field label={t("events.fieldRegion")}>
+            <select
+              className={inputClass}
+              value={event.region_id ?? ""}
+              onChange={(e) => patch({ region_id: e.target.value || null })}
+            >
+              <option value="">{t("events.fieldUnset")}</option>
+              {regions.map((r) => (
+                <option key={r.id} value={r.id}>
+                  {vocabLabel(r, "en")}
                 </option>
               ))}
             </select>
