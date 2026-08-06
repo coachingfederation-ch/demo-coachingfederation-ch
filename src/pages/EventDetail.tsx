@@ -168,14 +168,14 @@ export default function EventDetailPage({
                 className="absolute inset-0 -z-20 h-full w-full object-cover"
               />
               <div
-                className="absolute inset-0 -z-10 bg-hero/90 md:bg-gradient-to-r md:from-hero md:via-hero/90 md:to-hero/60"
+                className="absolute inset-0 -z-10 bg-hero/85 md:bg-gradient-to-r md:from-hero md:via-hero/85 md:to-hero/45"
                 aria-hidden
               />
             </>
           ) : null}
           <Mark
             name={marks.corner}
-            className="pointer-events-none absolute -right-10 -top-16 -z-0 h-56 w-56 text-mark-blue/25 md:h-72 md:w-72"
+            className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 text-mark-yellow/10 md:h-72 md:w-72"
           />
           <div className={"relative mx-auto max-w-5xl px-8 pt-4 " + (event.image_url ? "pb-24" : "pb-16")}>
             <LocaleLink
@@ -190,7 +190,7 @@ export default function EventDetailPage({
               </h1>
               <Mark
                 name={marks.underline}
-                className="mt-2 block h-4 w-40 text-mark-yellow md:w-56"
+                className="-mt-1 block h-5 w-44 text-mark-yellow md:w-64"
               />
             </div>
             {event.summary ? (
