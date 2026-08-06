@@ -28,6 +28,17 @@ export default defineConfig({
           import.meta.dirname,
           "node_modules/entities/lib/encode.js",
         ),
+        // parse5 v7 (via rehype-raw/hast-util-raw) needs entities v6 subpath
+        // exports, which v4.5.0 doesn't provide. Point those subpaths at the
+        // nested v6 copy so the broad `entities` alias below can't swallow them.
+        "entities/escape": path.resolve(
+          import.meta.dirname,
+          "node_modules/parse5/node_modules/entities/dist/esm/escape.js",
+        ),
+        "entities/decode": path.resolve(
+          import.meta.dirname,
+          "node_modules/parse5/node_modules/entities/dist/esm/decode.js",
+        ),
         entities: path.resolve(import.meta.dirname, "node_modules/entities"),
       },
     },
