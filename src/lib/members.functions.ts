@@ -22,6 +22,17 @@ export const runSyncNow = createServerFn({ method: "POST" })
   });
 
 /** Admin "Clean up": anonymise members past their scheduled deletion date. */
+export const getSyncRunDetail = createServerFn({ method: "POST" })
+  .inputValidator((input) => z.object({ runId: z.string().uuid() }).parse(input))
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context, data }) => {
+    // Admin only: the run log carries member names and email addresses.
+    await assertAdmin(context);
+    const { loadSyncRunDetail } = await import("./sync-run-log.server");
+    return await loadSyncRunDetail(data.runId);
+  });
+
+/** Admin "Clean up": anonymise members past their scheduled deletion date. */
 export const cleanupExpiredMembers = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
