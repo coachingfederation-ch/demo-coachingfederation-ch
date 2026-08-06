@@ -2602,7 +2602,7 @@ export type Database = {
           cadence_note_de?: string | null
           cadence_note_fr?: string | null
           cadence_note_it?: string | null
-          contact_email?: string | null
+          contact_email?: never
           description?: string | null
           description_de?: string | null
           description_fr?: string | null
@@ -2624,7 +2624,7 @@ export type Database = {
           cadence_note_de?: string | null
           cadence_note_fr?: string | null
           cadence_note_it?: string | null
-          contact_email?: string | null
+          contact_email?: never
           description?: string | null
           description_de?: string | null
           description_fr?: string | null
