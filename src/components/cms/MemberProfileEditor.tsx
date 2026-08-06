@@ -158,7 +158,13 @@ export function MemberProfileEditor() {
         locale={locale}
       />
 
-      <PracticeSection t={t} locale={locale} vocab={vocab} practice={practice} setPractice={setPractice} />
+      <PracticeSection
+        t={t}
+        locale={locale}
+        vocab={vocab}
+        practice={practice}
+        setPractice={setPractice}
+      />
 
       <ContactSection t={t} practice={practice} setPractice={setPractice} email={member?.email} />
 
@@ -166,9 +172,7 @@ export function MemberProfileEditor() {
 
       <LinksSection t={t} links={links} setLinks={setLinks} />
 
-      {isTeamMember ? (
-        <TeamBioSection t={t} practice={practice} setPractice={setPractice} />
-      ) : null}
+      {isTeamMember ? <TeamBioSection t={t} practice={practice} setPractice={setPractice} /> : null}
 
       <ProfileTranslationsPanel showTeamFields={isTeamMember} />
 

@@ -3,7 +3,7 @@
  * and "communities", with optional drag-free reordering and the add-project
  * form. Extracted verbatim from the operational-structure route.
  */
-import { ArrowDown, ArrowUp, MapPin, Plus } from "lucide-react";
+import { ArrowDown, ArrowUp, MapPin } from "lucide-react";
 import type { useCms } from "@/i18n/cms";
 import { INPUT, type ProjectRow } from "@/components/cms/ops/types";
 
@@ -20,9 +20,6 @@ type Props = {
     index: number,
     direction: -1 | 1,
   ) => void | Promise<void>;
-  newProject: string;
-  setNewProject: (value: string) => void;
-  addProject: () => void | Promise<void>;
 };
 
 export function ProjectGroupList({
@@ -33,29 +30,9 @@ export function ProjectGroupList({
   reordering,
   setReordering,
   move,
-  newProject,
-  setNewProject,
-  addProject,
 }: Props) {
   return (
-    <>
-      <div className="mt-6 flex gap-2">
-        <input
-          value={newProject}
-          onChange={(e) => setNewProject(e.target.value)}
-          placeholder={t("ops.projectPlaceholder")}
-          className={INPUT + " w-72"}
-        />
-        <button
-          onClick={() => void addProject()}
-          className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"
-        >
-          <Plus className="h-4 w-4" />
-          {t("ops.addProject")}
-        </button>
-      </div>
-
-      <nav className="space-y-5" aria-label={t("ops.projects")}>
+    <nav className="space-y-5" aria-label={t("ops.projects")}>
         <div className="flex items-center justify-between gap-2">
           <label className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
             <input
@@ -128,7 +105,6 @@ export function ProjectGroupList({
             </div>
           ),
         )}
-      </nav>
-    </>
+    </nav>
   );
 }

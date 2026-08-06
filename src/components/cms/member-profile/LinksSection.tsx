@@ -25,9 +25,7 @@ export function LinksSection({
               onChange={(e) =>
                 setLinks((prev) =>
                   prev.map((l, i) =>
-                    i === index
-                      ? { ...l, link_type: e.target.value as LinkDraft["link_type"] }
-                      : l,
+                    i === index ? { ...l, link_type: e.target.value as LinkDraft["link_type"] } : l,
                   ),
                 )
               }
@@ -72,7 +70,9 @@ export function LinksSection({
       {links.length < LINKS_MAX ? (
         <button
           type="button"
-          onClick={() => setLinks((prev) => [...prev, { link_type: "website", label: "", url: "" }])}
+          onClick={() =>
+            setLinks((prev) => [...prev, { link_type: "website", label: "", url: "" }])
+          }
           className="mt-3 rounded-full border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary"
         >
           {t("member.linkAdd")}

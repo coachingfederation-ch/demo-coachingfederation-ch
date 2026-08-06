@@ -21,11 +21,13 @@ export function ServicesSection({
   locale: Parameters<typeof vocabLabel>[1];
   vocab: CoachFinderVocabularies | null;
   services: { coaching: boolean; mentoring: boolean; supervision: boolean };
-  setServices: (updater: (s: { coaching: boolean; mentoring: boolean; supervision: boolean }) => {
-    coaching: boolean;
-    mentoring: boolean;
-    supervision: boolean;
-  }) => void;
+  setServices: (
+    updater: (s: { coaching: boolean; mentoring: boolean; supervision: boolean }) => {
+      coaching: boolean;
+      mentoring: boolean;
+      supervision: boolean;
+    },
+  ) => void;
   availability: string;
   setAvailability: (value: string) => void;
   mentorAccredited: boolean;
