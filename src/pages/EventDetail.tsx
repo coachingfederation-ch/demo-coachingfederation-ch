@@ -168,7 +168,7 @@ export default function EventDetailPage({
                 className="absolute inset-0 -z-20 h-full w-full object-cover"
               />
               <div
-                className="absolute inset-0 -z-10 bg-hero/85 md:bg-gradient-to-r md:from-hero md:via-hero/85 md:to-hero/45"
+                className="absolute inset-0 -z-10 bg-hero/80 md:bg-gradient-to-r md:from-hero/90 md:via-hero/80 md:to-hero/40"
                 aria-hidden
               />
             </>
