@@ -318,6 +318,36 @@ export function AssistantWidget() {
           </div>
         </div>
       )}
+
+      <AlertDialog
+        open={pendingExternal !== null}
+        onOpenChange={(next) => {
+          if (!next) setPendingExternal(null);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("assistant.externalLink.title")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("assistant.externalLink.body")}
+              <span className="mt-2 block break-all font-medium text-foreground">
+                {pendingExternal}
+              </span>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t("assistant.externalLink.cancel")}</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (pendingExternal) window.open(pendingExternal, "_blank", "noopener,noreferrer");
+                setPendingExternal(null);
+              }}
+            >
+              {t("assistant.externalLink.open")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }
