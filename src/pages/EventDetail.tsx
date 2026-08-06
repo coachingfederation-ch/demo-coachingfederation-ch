@@ -174,7 +174,6 @@ export default function EventDetailPage({
           ) : null}
           <Mark
             name={marks.corner}
-            aria-hidden
             className="pointer-events-none absolute -right-10 -top-16 -z-0 h-56 w-56 text-mark-blue/25 md:h-72 md:w-72"
           />
           <div className={"relative mx-auto max-w-5xl px-8 pt-4 " + (event.image_url ? "pb-24" : "pb-16")}>
@@ -190,7 +189,6 @@ export default function EventDetailPage({
               </h1>
               <Mark
                 name={marks.underline}
-                aria-hidden
                 className="mt-2 block h-4 w-40 text-mark-yellow md:w-56"
               />
             </div>
