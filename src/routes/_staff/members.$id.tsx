@@ -95,7 +95,6 @@ function MemberDetailPage() {
   }, [id]);
 
   const facts = detail?.member ?? null;
-  const reason = facts ? directoryEligibilityReason(facts) : "inactive";
   // Publication needs eligibility *and* a declared service area: a listing with
   // no canton cannot be found by the directory's region filter.
   const publishBlocked = useMemo(() => {
@@ -206,76 +205,12 @@ function MemberDetailPage() {
               {detail.member.full_name ?? "—"}
             </h1>
 
-            <section className="mt-6 rounded-2xl border border-border bg-card p-5">
-              <h2 className="text-sm font-semibold">{t("members.detail.importedTitle")}</h2>
-              <p className="mt-1 text-xs text-muted-foreground">
-                {t("members.detail.importedNote")}
-              </p>
-              <dl className="mt-3 text-sm">
-                <Row label={t("members.detail.recno")} value={detail.member.cst_recno} />
-                <Row label={t("members.colEmail")} value={detail.member.email} />
-                <Row label={t("members.detail.phone")} value={detail.member.phone} />
-                <Row label={t("members.detail.address")} value={address} />
-                <Row label={t("members.colCredential")} value={detail.member.credential_slug} />
-                <Row
-                  label={t("members.detail.awarded")}
-                  value={detail.member.credential_awarded_on}
-                />
-                <Row
-                  label={t("members.detail.credExpires")}
-                  value={detail.member.credential_expires_on}
-                />
-                <Row label={t("members.detail.memberType")} value={detail.member.member_type} />
-                <Row
-                  label={t("members.detail.joined")}
-                  value={detail.member.membership_join_date}
-                />
-                <Row
-                  label={t("members.detail.expires")}
-                  value={detail.member.membership_expiration_date}
-                />
-                <Row
-                  label={t("members.colState")}
-                  value={t(`members.state.${detail.member.activity_state}`)}
-                />
-                <Row
-                  label={t("members.colSynced")}
-                  value={
-                    detail.member.last_synced_at
-                      ? new Date(detail.member.last_synced_at).toLocaleString()
-                      : null
-                  }
-                />
-              </dl>
-              <p className="mt-3 text-xs text-muted-foreground">
-                {t("members.detail.addressNote")}
-              </p>
-            </section>
-
-            <section className="mt-5 rounded-2xl border border-border bg-card p-5">
-              <h2 className="text-sm font-semibold">{t("members.detail.eligibilityTitle")}</h2>
-              <div className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
-                <Flag
-                  label={t("members.detail.isActiveMember")}
-                  on={isActiveMember(detail.member)}
-                />
-                <Flag
-                  label={t("members.detail.hasCredential")}
-                  on={hasDirectoryCredential(detail.member)}
-                />
-                <Flag
-                  label={t("members.detail.isEligible")}
-                  on={isDirectoryEligible(detail.member)}
-                />
-                <Flag
-                  label={t("members.detail.isVisible")}
-                  on={isDirectoryVisible(detail.member, detail.profile?.visibility ?? null)}
-                />
-              </div>
-              <p className="mt-3 text-xs text-muted-foreground">
-                {t(`members.eligibility.${reason}`)}
-              </p>
-            </section>
+            <MemberSyncStatusPanel
+              detail={detail}
+              address={address}
+              visibility={detail.profile?.visibility ?? null}
+              t={t}
+            />
 
             {!detail.profile ? (
               <p className="mt-5 rounded-2xl border border-border bg-card p-5 text-sm text-muted-foreground">
