@@ -7,7 +7,7 @@
  */
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { CalendarDays, Clock, MapPin, Users } from "lucide-react";
+import { CalendarDays, Clock, Languages, MapPin, Users } from "lucide-react";
 import { SiteFooter, SiteHeaderBar, CARD_SHADOW } from "@/components/site-chrome";
 import { Mark, type MarkName } from "@/components/marks";
 import { LocaleLink, useI18n } from "@/i18n";
@@ -214,6 +214,10 @@ export default function EventDetailPage({
               <span className="inline-flex items-center gap-2">
                 <MapPin className="h-4 w-4" aria-hidden />
                 {eventPlace(event, t("events.tag.online"))}
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <Languages className="h-4 w-4" aria-hidden />
+                {t(`common.languageNames.${event.language ?? "en"}`)}
               </span>
               {event.capacity ? (
                 <span className="inline-flex items-center gap-2">
