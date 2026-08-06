@@ -45,7 +45,7 @@ function AuthPage() {
       </p>
       <p className="mt-2 text-center text-xs text-muted-foreground">
         <Link to="/" className="hover:underline">
-          ← Back to icf.ch
+          ← Back to Home
         </Link>
       </p>
     </AuthCard>
