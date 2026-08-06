@@ -16,6 +16,13 @@
   "card": {
     "source": "Ouvrir sur le site du chapitre"
   },
+  "archive": {
+    "label": "Éditions précédentes",
+    "current": "Cette semaine",
+    "previous": "Édition précédente",
+    "next": "Édition suivante",
+    "note": "Ceci est une édition passée. Elle présente les contenus tels qu'ils ont été sélectionnés cette semaine-là, y compris ceux qui ont eu lieu depuis."
+  },
   "types": {
     "event": "Événement",
     "news": "Actualités",

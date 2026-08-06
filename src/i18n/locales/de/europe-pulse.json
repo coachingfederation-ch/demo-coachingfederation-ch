@@ -16,6 +16,13 @@
   "card": {
     "source": "Auf Chapter-Website öffnen"
   },
+  "archive": {
+    "label": "Frühere Ausgaben",
+    "current": "Diese Woche",
+    "previous": "Vorherige Ausgabe",
+    "next": "Nächste Ausgabe",
+    "note": "Dies ist eine frühere Ausgabe. Sie zeigt die Beiträge so, wie sie in jener Woche zusammengestellt wurden – auch solche, die inzwischen stattgefunden haben."
+  },
   "types": {
     "event": "Event",
     "news": "News",
