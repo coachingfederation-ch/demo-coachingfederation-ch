@@ -9,7 +9,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { PUBLIC_EVENT_COLUMNS, type PublicEvent } from "./events";
+import { PUBLIC_EVENT_COLUMNS, type EventFacetOption, type PublicEvent } from "./events";
 
 const slugSchema = z.object({ slug: z.string().min(1).max(120) });
 const localeSchema = z.enum(["en", "de", "fr", "it"]);
@@ -44,6 +44,21 @@ const rsvpSchema = z.object({
   email: z.string().trim().email().max(200),
   notes: z.string().trim().max(1000).optional().nullable(),
 });
+
+type VocabRow = {
+  slug: string;
+  name: string;
+  name_de: string | null;
+  name_fr: string | null;
+  name_it: string | null;
+};
+
+function vocabLabel(row: VocabRow, locale: "en" | "de" | "fr" | "it") {
+  if (locale === "de") return row.name_de || row.name;
+  if (locale === "fr") return row.name_fr || row.name;
+  if (locale === "it") return row.name_it || row.name;
+  return row.name;
+}
 
 /** Upcoming and recent past events for the public listing. */
 export const listPublicEvents = createServerFn({ method: "GET" })
