@@ -7,6 +7,14 @@
  * DE / FR / IT / EN without any request-time AI call.
  */
 import type { Locale } from "@/i18n/config";
+import { z } from "zod";
+import { fallback } from "@tanstack/zod-adapter";
+
+/** `?week=YYYY-MM-DD` selects an archived edition; empty means "latest". */
+export const europePulseSearchSchema = z.object({
+  week: fallback(z.string(), "").default(""),
+});
+export type EuropePulseSearch = z.infer<typeof europePulseSearchSchema>;
 
 export const PULSE_TYPES = ["event", "news", "webinar", "workshop", "conference"] as const;
 export type PulseType = (typeof PULSE_TYPES)[number];

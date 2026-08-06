@@ -16,6 +16,13 @@
   "card": {
     "source": "Open on chapter site"
   },
+  "archive": {
+    "label": "Past editions",
+    "current": "This week",
+    "previous": "Previous edition",
+    "next": "Next edition",
+    "note": "This is a past edition. It shows the items as they were curated that week, including ones that have since taken place."
+  },
   "types": {
     "event": "Event",
     "news": "News",
