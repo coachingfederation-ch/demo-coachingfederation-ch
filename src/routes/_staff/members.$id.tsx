@@ -7,9 +7,11 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, Check, X } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { useCms } from "@/i18n/cms";
+import { MemberSyncStatusPanel } from "@/components/cms/MemberSyncStatusPanel";
+import { MemberClaimStatusPanel } from "@/components/cms/MemberClaimStatusPanel";
 import { supabase } from "@/integrations/supabase/client";
 import {
   bindMemberAccount,
@@ -22,11 +24,7 @@ import {
 } from "@/lib/members.functions";
 import { VOCAB_COLUMNS, vocabLabel, type VocabRow } from "@/lib/vocabularies";
 import {
-  directoryEligibilityReason,
-  hasDirectoryCredential,
-  isActiveMember,
   isDirectoryEligible,
-  isDirectoryVisible,
   publishBlockReason,
   type MemberVisibility,
 } from "@/lib/directory-eligibility";
@@ -46,28 +44,6 @@ type Detail = Awaited<ReturnType<typeof getMemberDetail>>;
 
 /** Visibility values staff may set. System states are shown but not chosen. */
 const STAFF_VISIBILITY: MemberVisibility[] = ["draft", "published", "hidden_admin"];
-
-function Row({ label, value }: { label: string; value: string | null | undefined }) {
-  return (
-    <div className="flex justify-between gap-4 border-b border-border/60 py-1.5 last:border-0">
-      <dt className="text-muted-foreground">{label}</dt>
-      <dd className="text-right font-medium">{value || "—"}</dd>
-    </div>
-  );
-}
-
-function Flag({ label, on }: { label: string; on: boolean }) {
-  return (
-    <div className="flex items-center gap-2">
-      {on ? (
-        <Check className="h-4 w-4 text-primary" aria-hidden />
-      ) : (
-        <X className="h-4 w-4 text-destructive" aria-hidden />
-      )}
-      <span>{label}</span>
-    </div>
-  );
-}
 
 function MemberDetailPage() {
   const { t, locale } = useCms();
