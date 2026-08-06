@@ -22,9 +22,7 @@ export const Route = createFileRoute("/$locale/events/")({
     };
   },
   errorComponent: () => (
-    <EventsPage
-      data={{ featured: null, upcoming: [], past: [], categories: [], regions: [] }}
-    />
+    <EventsPage data={{ featured: null, upcoming: [], past: [], categories: [], regions: [] }} />
   ),
   component: LocaleEventsRoute,
 });

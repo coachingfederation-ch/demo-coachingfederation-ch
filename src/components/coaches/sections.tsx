@@ -25,38 +25,36 @@ export function BenefitGrid() {
   return (
     <section className="bg-card py-24">
       <div className="mx-auto max-w-7xl px-8">
-      <p className="eyebrow">{t("coaches.benefits.eyebrow")}</p>
-      <h2 className="mt-3 max-w-2xl display-lg">
-        {t("coaches.benefits.title")}
-      </h2>
-      <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-        {t("coaches.benefits.lede")}
-      </p>
-      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map((item, i) => (
-          <div
-            key={item.title}
-            className={"rounded-2xl border border-border bg-card p-7 " + CARD_SHADOW}
+        <p className="eyebrow">{t("coaches.benefits.eyebrow")}</p>
+        <h2 className="mt-3 max-w-2xl display-lg">{t("coaches.benefits.title")}</h2>
+        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          {t("coaches.benefits.lede")}
+        </p>
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((item, i) => (
+            <div
+              key={item.title}
+              className={"rounded-2xl border border-border bg-card p-7 " + CARD_SHADOW}
+            >
+              <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent/15 text-primary">
+                <Mark name={benefitMarks[i % benefitMarks.length]} className="h-6 w-6" />
+              </span>
+              <h3 className="mt-5 text-base font-semibold tracking-tight">{item.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-10 flex flex-wrap items-center gap-4">
+          <a
+            href="https://coachingfederation.org/about/icf-membership/individual-membership/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-10 items-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground transition hover:opacity-90"
           >
-            <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent/15 text-primary">
-              <Mark name={benefitMarks[i % benefitMarks.length]} className="h-6 w-6" />
-            </span>
-            <h3 className="mt-5 text-base font-semibold tracking-tight">{item.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
-          </div>
-        ))}
-      </div>
-      <div className="mt-10 flex flex-wrap items-center gap-4">
-        <a
-          href="https://coachingfederation.org/about/icf-membership/individual-membership/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex h-10 items-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground transition hover:opacity-90"
-        >
-          {t("coaches.benefits.cta")}
-        </a>
-        <p className="text-xs text-muted-foreground">{t("coaches.benefits.ctaNote")}</p>
-      </div>
+            {t("coaches.benefits.cta")}
+          </a>
+          <p className="text-xs text-muted-foreground">{t("coaches.benefits.ctaNote")}</p>
+        </div>
       </div>
     </section>
   );
@@ -72,9 +70,7 @@ export function LearningTabs() {
     <section className="bg-background py-24">
       <div className="mx-auto max-w-7xl px-8">
         <p className="eyebrow">{t("coaches.learning.eyebrow")}</p>
-        <h2 className="mt-3 max-w-2xl display-lg">
-          {t("coaches.learning.title")}
-        </h2>
+        <h2 className="mt-3 max-w-2xl display-lg">{t("coaches.learning.title")}</h2>
         <div
           role="tablist"
           aria-label={t("coaches.learning.eyebrow")}
@@ -172,57 +168,55 @@ export function MemberStories() {
   return (
     <section className="bg-card py-24">
       <div className="mx-auto max-w-7xl px-8">
-      <p className="eyebrow">{t("coaches.stories.eyebrow")}</p>
-      <h2 className="mt-3 max-w-2xl display-lg">
-        {t("coaches.stories.title")}
-      </h2>
-      <figure
-        className={"mt-10 rounded-2xl border border-border bg-card p-8 md:p-12 " + CARD_SHADOW}
-      >
-        <blockquote className="max-w-3xl text-xl font-semibold leading-snug tracking-tight md:text-2xl">
-          “{story.quote}”
-        </blockquote>
-        <figcaption className="mt-8 flex flex-wrap items-center gap-3">
-          <span className="grid h-11 w-11 place-items-center rounded-full bg-accent/15 text-primary">
-            <Mark name="circular2" className="h-6 w-6" />
-          </span>
-          <span className="text-sm font-semibold">
-            {story.name}, {story.credential}
-          </span>
-          <span className="text-sm text-muted-foreground">{story.community}</span>
-          <span className="inline-flex items-center rounded-full bg-chip px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-chip-foreground">
-            {story.languages}
-          </span>
-        </figcaption>
-      </figure>
-      <div className="mt-6 flex items-center gap-3">
-        <button
-          type="button"
-          aria-label={t("coaches.stories.prev")}
-          onClick={() => setIndex((i) => (i - 1 + items.length) % items.length)}
-          className="grid h-9 w-9 place-items-center rounded-full border border-border bg-card text-sm text-muted-foreground transition hover:text-foreground"
+        <p className="eyebrow">{t("coaches.stories.eyebrow")}</p>
+        <h2 className="mt-3 max-w-2xl display-lg">{t("coaches.stories.title")}</h2>
+        <figure
+          className={"mt-10 rounded-2xl border border-border bg-card p-8 md:p-12 " + CARD_SHADOW}
         >
-          ←
-        </button>
-        <button
-          type="button"
-          aria-label={t("coaches.stories.next")}
-          onClick={() => setIndex((i) => (i + 1) % items.length)}
-          className="grid h-9 w-9 place-items-center rounded-full border border-border bg-card text-sm text-muted-foreground transition hover:text-foreground"
-        >
-          →
-        </button>
-        <div className="ml-2 flex gap-1.5">
-          {items.map((s, i) => (
-            <span
-              key={s.name}
-              className={
-                "h-1.5 w-6 rounded-full transition " + (i === index ? "bg-primary" : "bg-border")
-              }
-            />
-          ))}
+          <blockquote className="max-w-3xl text-xl font-semibold leading-snug tracking-tight md:text-2xl">
+            “{story.quote}”
+          </blockquote>
+          <figcaption className="mt-8 flex flex-wrap items-center gap-3">
+            <span className="grid h-11 w-11 place-items-center rounded-full bg-accent/15 text-primary">
+              <Mark name="circular2" className="h-6 w-6" />
+            </span>
+            <span className="text-sm font-semibold">
+              {story.name}, {story.credential}
+            </span>
+            <span className="text-sm text-muted-foreground">{story.community}</span>
+            <span className="inline-flex items-center rounded-full bg-chip px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-chip-foreground">
+              {story.languages}
+            </span>
+          </figcaption>
+        </figure>
+        <div className="mt-6 flex items-center gap-3">
+          <button
+            type="button"
+            aria-label={t("coaches.stories.prev")}
+            onClick={() => setIndex((i) => (i - 1 + items.length) % items.length)}
+            className="grid h-9 w-9 place-items-center rounded-full border border-border bg-card text-sm text-muted-foreground transition hover:text-foreground"
+          >
+            ←
+          </button>
+          <button
+            type="button"
+            aria-label={t("coaches.stories.next")}
+            onClick={() => setIndex((i) => (i + 1) % items.length)}
+            className="grid h-9 w-9 place-items-center rounded-full border border-border bg-card text-sm text-muted-foreground transition hover:text-foreground"
+          >
+            →
+          </button>
+          <div className="ml-2 flex gap-1.5">
+            {items.map((s, i) => (
+              <span
+                key={s.name}
+                className={
+                  "h-1.5 w-6 rounded-full transition " + (i === index ? "bg-primary" : "bg-border")
+                }
+              />
+            ))}
+          </div>
         </div>
-      </div>
       </div>
     </section>
   );

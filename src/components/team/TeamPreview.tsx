@@ -22,9 +22,7 @@ export function TeamPreview() {
       <div className="mx-auto grid max-w-7xl gap-12 px-8 md:grid-cols-[1fr_1.1fr] md:items-center">
         <div>
           <p className="eyebrow">{t("team.preview.eyebrow")}</p>
-          <h2 className="mt-3 display-lg">
-            {t("team.preview.title")}
-          </h2>
+          <h2 className="mt-3 display-lg">{t("team.preview.title")}</h2>
           <p className="mt-5 text-base leading-relaxed text-muted-foreground">
             {t("team.preview.body")}
           </p>

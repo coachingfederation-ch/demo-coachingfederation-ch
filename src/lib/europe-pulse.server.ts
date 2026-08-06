@@ -31,12 +31,7 @@ const BATCH_SIZE = 2;
 const SCRAPES_PER_MINUTE = 8;
 const MAX_SCRAPE_ATTEMPTS = 3;
 
-export type FailureKind =
-  | "rate_limit"
-  | "upstream_error"
-  | "not_found"
-  | "empty_page"
-  | "other";
+export type FailureKind = "rate_limit" | "upstream_error" | "not_found" | "empty_page" | "other";
 
 type ChapterRow = {
   id: string;

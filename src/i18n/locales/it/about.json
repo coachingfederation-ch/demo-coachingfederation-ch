@@ -37,42 +37,28 @@
         "city": "Zürich",
         "region": "Svizzera tedesca",
         "cadence": "Mensile",
-        "langs": [
-          "DE",
-          "EN"
-        ],
+        "langs": ["DE", "EN"],
         "lead": "Responsabile Chapter: team Zürich"
       },
       {
         "city": "Lausanne & Genève",
         "region": "Romandie",
         "cadence": "Mensile",
-        "langs": [
-          "FR",
-          "EN"
-        ],
+        "langs": ["FR", "EN"],
         "lead": "Responsabile Chapter: team Romandie"
       },
       {
         "city": "Lugano",
         "region": "Ticino",
         "cadence": "Trimestrale",
-        "langs": [
-          "IT",
-          "EN"
-        ],
+        "langs": ["IT", "EN"],
         "lead": "Responsabile Chapter: team Ticino"
       },
       {
         "city": "Online",
         "region": "Eventi, mentoring e volontariato",
         "cadence": "In corso",
-        "langs": [
-          "DE",
-          "FR",
-          "IT",
-          "EN"
-        ],
+        "langs": ["DE", "FR", "IT", "EN"],
         "lead": "Aperto a tutti i membri"
       }
     ]
@@ -80,13 +66,7 @@
   "research": {
     "eyebrow": "Ricerca e partnership",
     "title": "Connettere ricerca, pratica e leadership.",
-    "partners": [
-      "ETH Zürich",
-      "HEC Lausanne",
-      "USI Lugano",
-      "SwissRe",
-      "Nestlé"
-    ],
+    "partners": ["ETH Zürich", "HEC Lausanne", "USI Lugano", "SwissRe", "Nestlé"],
     "items": [
       {
         "title": "Lo stato del coaching in Svizzera 2026",

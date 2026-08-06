@@ -19,7 +19,10 @@ export const Route = createFileRoute("/staff-sign-in")({
   head: () => ({
     meta: [
       { title: "Internal sign-in — The Switzerland Chapter of ICF" },
-      { name: "description", content: "Sign-in for The Switzerland Chapter of ICF staff and administrators." },
+      {
+        name: "description",
+        content: "Sign-in for The Switzerland Chapter of ICF staff and administrators.",
+      },
       { name: "robots", content: "noindex" },
     ],
   }),

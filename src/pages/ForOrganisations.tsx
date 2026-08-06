@@ -49,9 +49,7 @@ export default function ForOrganisationsPage() {
 
         <section className="mx-auto max-w-7xl px-8 py-24">
           <p className="eyebrow">{t("organisations.outcomes.eyebrow")}</p>
-          <h2 className="mt-3 max-w-2xl display-lg">
-            {t("organisations.outcomes.title")}
-          </h2>
+          <h2 className="mt-3 max-w-2xl display-lg">{t("organisations.outcomes.title")}</h2>
           <div className="mt-12 grid gap-4 md:grid-cols-3">
             {outcomes.map((o) => (
               <div
@@ -74,9 +72,7 @@ export default function ForOrganisationsPage() {
         <section className="bg-card py-24">
           <div className="mx-auto max-w-7xl px-8">
             <p className="eyebrow">{t("organisations.steps.eyebrow")}</p>
-            <h2 className="mt-3 max-w-2xl display-lg">
-              {t("organisations.steps.title")}
-            </h2>
+            <h2 className="mt-3 max-w-2xl display-lg">{t("organisations.steps.title")}</h2>
             <div className="mt-14 grid gap-8 md:grid-cols-3">
               {steps.map((s) => (
                 <div key={s.n}>
@@ -99,9 +95,7 @@ export default function ForOrganisationsPage() {
         <section className="bg-card py-24">
           <div className="mx-auto max-w-7xl px-8">
             <p className="eyebrow">{t("organisations.programmes.eyebrow")}</p>
-            <h2 className="mt-3 max-w-2xl display-lg">
-              {t("organisations.programmes.title")}
-            </h2>
+            <h2 className="mt-3 max-w-2xl display-lg">{t("organisations.programmes.title")}</h2>
             <div className="mt-12 grid gap-4 md:grid-cols-3">
               {programmes.map((p, i) => {
                 const v = programmeVisuals[i];

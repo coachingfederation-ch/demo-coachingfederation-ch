@@ -461,9 +461,7 @@ function MemberDetailPage() {
               {!detail.member.auth_user_id && (
                 <div className="mt-4 border-t border-border pt-4">
                   <p className="text-xs font-semibold">{t("members.invite.title")}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    {t("members.invite.hint")}
-                  </p>
+                  <p className="mt-1 text-xs text-muted-foreground">{t("members.invite.hint")}</p>
                   {invitation?.lastSentAt ? (
                     <p className="mt-2 text-xs text-muted-foreground">
                       {t("members.invite.lastSent")}{" "}
@@ -481,9 +479,7 @@ function MemberDetailPage() {
                     onClick={() => void sendInvitation()}
                     className="mt-2 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground disabled:opacity-50"
                   >
-                    {invitation?.sendCount
-                      ? t("members.invite.resend")
-                      : t("members.invite.send")}
+                    {invitation?.sendCount ? t("members.invite.resend") : t("members.invite.send")}
                   </button>
                   {inviteResult ? (
                     <p className="mt-2 text-xs text-muted-foreground">

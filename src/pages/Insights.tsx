@@ -236,39 +236,39 @@ export default function InsightsPage() {
 
             <section className="bg-card py-24">
               <div className="mx-auto max-w-7xl px-8">
-              <p className="eyebrow">{t("insights.recent")}</p>
-              {rest.length === 0 ? (
-                <p className="mt-6 text-sm text-muted-foreground">{t("insights.noneInTopic")}</p>
-              ) : (
-                <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                  {rest.map((p) => (
-                    <LocaleLink
-                      key={p.id}
-                      to={`/insights/${p.id}`}
-                      className={
-                        "group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-0.5 " +
-                        CARD_SHADOW
-                      }
-                    >
-                      <CardVisual article={p} className="aspect-[16/10]" />
-                      <div className="flex flex-1 flex-col p-6">
-                        {cardCategory(p) ? (
-                          <p className="section-label">{cardCategory(p)}</p>
-                        ) : null}
-                        <h3 className="mt-2 text-base font-semibold leading-snug tracking-tight">
-                          {p.title}
-                        </h3>
-                        <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
-                          {p.excerpt}
-                        </p>
-                        <p className="btn-mono mt-4 !text-muted-foreground">
-                          {formatArticleDate(p.published_at)}
-                        </p>
-                      </div>
-                    </LocaleLink>
-                  ))}
-                </div>
-              )}
+                <p className="eyebrow">{t("insights.recent")}</p>
+                {rest.length === 0 ? (
+                  <p className="mt-6 text-sm text-muted-foreground">{t("insights.noneInTopic")}</p>
+                ) : (
+                  <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    {rest.map((p) => (
+                      <LocaleLink
+                        key={p.id}
+                        to={`/insights/${p.id}`}
+                        className={
+                          "group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-0.5 " +
+                          CARD_SHADOW
+                        }
+                      >
+                        <CardVisual article={p} className="aspect-[16/10]" />
+                        <div className="flex flex-1 flex-col p-6">
+                          {cardCategory(p) ? (
+                            <p className="section-label">{cardCategory(p)}</p>
+                          ) : null}
+                          <h3 className="mt-2 text-base font-semibold leading-snug tracking-tight">
+                            {p.title}
+                          </h3>
+                          <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
+                            {p.excerpt}
+                          </p>
+                          <p className="btn-mono mt-4 !text-muted-foreground">
+                            {formatArticleDate(p.published_at)}
+                          </p>
+                        </div>
+                      </LocaleLink>
+                    ))}
+                  </div>
+                )}
               </div>
             </section>
           </>
@@ -277,37 +277,35 @@ export default function InsightsPage() {
         {/* Cross-link to the sibling weekly feed of other European chapters. */}
         <section className="bg-background py-24">
           <div className="mx-auto max-w-7xl px-8">
-          <div
-            className={
-              "flex flex-col gap-4 rounded-2xl border border-border/70 bg-card p-8 sm:flex-row sm:items-center sm:justify-between " +
-              CARD_SHADOW
-            }
-          >
-            <div>
-              <p className="eyebrow">{t("europe-pulse.preview.eyebrow")}</p>
-              <h2 className="mt-2 text-xl font-bold tracking-tight">
-                {t("europe-pulse.preview.title")}
-              </h2>
-              <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
-                {t("europe-pulse.preview.body")}
-              </p>
-            </div>
-            <LocaleLink
-              to="/europe-pulse"
-              className="inline-flex h-10 shrink-0 items-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
+            <div
+              className={
+                "flex flex-col gap-4 rounded-2xl border border-border/70 bg-card p-8 sm:flex-row sm:items-center sm:justify-between " +
+                CARD_SHADOW
+              }
             >
-              {t("europe-pulse.preview.cta")} →
-            </LocaleLink>
-          </div>
+              <div>
+                <p className="eyebrow">{t("europe-pulse.preview.eyebrow")}</p>
+                <h2 className="mt-2 text-xl font-bold tracking-tight">
+                  {t("europe-pulse.preview.title")}
+                </h2>
+                <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
+                  {t("europe-pulse.preview.body")}
+                </p>
+              </div>
+              <LocaleLink
+                to="/europe-pulse"
+                className="inline-flex h-10 shrink-0 items-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
+              >
+                {t("europe-pulse.preview.cta")} →
+              </LocaleLink>
+            </div>
           </div>
         </section>
 
         <section className="bg-hero text-hero-foreground">
           <div className="mx-auto max-w-7xl px-8 py-20 text-center">
             <p className="eyebrow !text-accent">{t("insights.newsletter.eyebrow")}</p>
-            <h2 className="mx-auto mt-3 max-w-2xl display-lg">
-              {t("insights.newsletter.title")}
-            </h2>
+            <h2 className="mx-auto mt-3 max-w-2xl display-lg">{t("insights.newsletter.title")}</h2>
             <form
               onSubmit={(e) => e.preventDefault()}
               className="mx-auto mt-8 flex max-w-md flex-col gap-2 sm:flex-row"

@@ -22,7 +22,10 @@ export type MemberEmail = {
 };
 
 export type MemberEmailResult =
-  | { sent: false; reason: "suppressed" | "test_shaped_recipient" | "failed" | "recipient_suppressed" }
+  | {
+      sent: false;
+      reason: "suppressed" | "test_shaped_recipient" | "failed" | "recipient_suppressed";
+    }
   | { sent: true; redirected: boolean };
 
 export async function sendMemberEmail(email: MemberEmail): Promise<MemberEmailResult> {

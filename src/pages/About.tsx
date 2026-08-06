@@ -31,9 +31,7 @@ export default function AboutPage() {
           <div className="mx-auto grid max-w-7xl gap-10 px-8 py-24 md:grid-cols-[1.2fr_1fr] md:items-center">
             <div>
               <p className="eyebrow">{t("about.mission.eyebrow")}</p>
-              <h2 className="mt-3 display-lg">
-                {t("about.mission.title")}
-              </h2>
+              <h2 className="mt-3 display-lg">{t("about.mission.title")}</h2>
               <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
                 {t("about.mission.body")}
               </p>
@@ -58,43 +56,39 @@ export default function AboutPage() {
 
         <section className="bg-background py-24">
           <div className="mx-auto max-w-7xl px-8">
-          <p className="eyebrow">{t("about.research.eyebrow")}</p>
-          <h2 className="mt-3 max-w-2xl display-lg">
-            {t("about.research.title")}
-          </h2>
-          <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-5">
-            {partners.map((p) => (
-              <div
-                key={p}
-                className={
-                  "grid h-20 place-items-center rounded-2xl border border-border/70 bg-card text-sm font-semibold text-foreground/70 " +
-                  CARD_SHADOW
-                }
-              >
-                {p}
-              </div>
-            ))}
-          </div>
-          <div className="mt-12 grid gap-4 md:grid-cols-2">
-            {research.map((r) => (
-              <div
-                key={r.title}
-                className={"rounded-2xl border border-border/70 bg-card p-8 " + CARD_SHADOW}
-              >
-                <h3 className="text-lg font-semibold tracking-tight">{r.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{r.desc}</p>
-              </div>
-            ))}
-          </div>
+            <p className="eyebrow">{t("about.research.eyebrow")}</p>
+            <h2 className="mt-3 max-w-2xl display-lg">{t("about.research.title")}</h2>
+            <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-5">
+              {partners.map((p) => (
+                <div
+                  key={p}
+                  className={
+                    "grid h-20 place-items-center rounded-2xl border border-border/70 bg-card text-sm font-semibold text-foreground/70 " +
+                    CARD_SHADOW
+                  }
+                >
+                  {p}
+                </div>
+              ))}
+            </div>
+            <div className="mt-12 grid gap-4 md:grid-cols-2">
+              {research.map((r) => (
+                <div
+                  key={r.title}
+                  className={"rounded-2xl border border-border/70 bg-card p-8 " + CARD_SHADOW}
+                >
+                  <h3 className="text-lg font-semibold tracking-tight">{r.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{r.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
         <section className="bg-hero text-hero-foreground">
           <div className="mx-auto max-w-7xl px-8 py-20 text-center">
             <p className="eyebrow !text-accent">{t("about.cta.eyebrow")}</p>
-            <h2 className="mx-auto mt-3 max-w-2xl display-lg">
-              {t("about.cta.title")}
-            </h2>
+            <h2 className="mx-auto mt-3 max-w-2xl display-lg">{t("about.cta.title")}</h2>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <a
                 href="https://coachingfederation.org/about/icf-membership/individual-membership/"

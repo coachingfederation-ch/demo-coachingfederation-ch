@@ -19,6 +19,9 @@ export const listTeamDirectory = createServerFn({ method: "GET" })
   .handler(async ({ data }): Promise<TeamDirectory> => {
     const { loadPublicProjects, loadTeamMembers, usedProjects } = await import("./team.server");
     const locale = (data.locale ?? "en") as Locale;
-    const [projectRows, members] = await Promise.all([loadPublicProjects(), loadTeamMembers(locale)]);
+    const [projectRows, members] = await Promise.all([
+      loadPublicProjects(),
+      loadTeamMembers(locale),
+    ]);
     return { projects: usedProjects(projectRows, members, locale), members };
   });

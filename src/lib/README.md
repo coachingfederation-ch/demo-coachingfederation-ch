@@ -4,11 +4,11 @@ Three filename suffixes coexist here on purpose. They mark the server/client
 boundary that TanStack Start enforces at build time, so the suffix is not
 cosmetic — putting code in the wrong one breaks the bundle.
 
-| Suffix | Runs where | May be imported by |
-|---|---|---|
-| `*.server.ts` | Server only | Other `*.server.ts` files and `*.functions.ts` handlers. **Never** by a component or route module. Blocked from client bundles by filename. |
-| `*.functions.ts` | Declares `createServerFn` RPC endpoints | Components, routes and loaders. The declaration file ships to the client as a stub; the handler body stays on the server. |
-| plain `*.ts` | Both | Anything. Browser-safe types, pure helpers, constants, zod schemas. |
+| Suffix           | Runs where                              | May be imported by                                                                                                                          |
+| ---------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `*.server.ts`    | Server only                             | Other `*.server.ts` files and `*.functions.ts` handlers. **Never** by a component or route module. Blocked from client bundles by filename. |
+| `*.functions.ts` | Declares `createServerFn` RPC endpoints | Components, routes and loaders. The declaration file ships to the client as a stub; the handler body stays on the server.                   |
+| plain `*.ts`     | Both                                    | Anything. Browser-safe types, pure helpers, constants, zod schemas.                                                                         |
 
 So a feature typically spans three files, e.g. articles:
 

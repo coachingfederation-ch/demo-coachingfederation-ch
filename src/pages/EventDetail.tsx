@@ -177,7 +177,11 @@ export default function EventDetailPage({
             name={marks.corner}
             className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 text-mark-yellow/10 md:h-72 md:w-72"
           />
-          <div className={"relative mx-auto max-w-5xl px-8 pt-4 " + (event.image_url ? "pb-24" : "pb-16")}>
+          <div
+            className={
+              "relative mx-auto max-w-5xl px-8 pt-4 " + (event.image_url ? "pb-24" : "pb-16")
+            }
+          >
             <LocaleLink
               to="/events"
               className="btn-mono !text-hero-foreground/70 hover:!text-hero-foreground"
@@ -283,7 +287,10 @@ export default function EventDetailPage({
                             className="h-12 w-12 shrink-0 rounded-full object-cover"
                           />
                         ) : (
-                          <span className="h-12 w-12 shrink-0 rounded-full bg-secondary" aria-hidden />
+                          <span
+                            className="h-12 w-12 shrink-0 rounded-full bg-secondary"
+                            aria-hidden
+                          />
                         )}
                         <span className="min-w-0">
                           <span className="block truncate text-sm font-semibold">

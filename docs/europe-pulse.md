@@ -56,13 +56,13 @@ weekly cron, and the CMS run button reports progress.
 
 `classifyFailure()` maps every error to one `FailureKind`:
 
-| Kind             | Meaning                                        | Action                                    |
-| ---------------- | ---------------------------------------------- | ----------------------------------------- |
-| `rate_limit`     | 429 after all retries                          | Usually self-healing; retry the run       |
-| `upstream_error` | 5xx or a network failure                       | Transient; retry                          |
-| `not_found`      | 404/410 — the chapter moved or renamed a page  | Fix the chapter URL in the CMS            |
-| `empty_page`     | Scrape succeeded but yielded no usable content | JS-only site; needs a different source    |
-| `other`          | Any other 4xx                                  | Configuration — check URL and connector   |
+| Kind             | Meaning                                        | Action                                  |
+| ---------------- | ---------------------------------------------- | --------------------------------------- |
+| `rate_limit`     | 429 after all retries                          | Usually self-healing; retry the run     |
+| `upstream_error` | 5xx or a network failure                       | Transient; retry                        |
+| `not_found`      | 404/410 — the chapter moved or renamed a page  | Fix the chapter URL in the CMS          |
+| `empty_page`     | Scrape succeeded but yielded no usable content | JS-only site; needs a different source  |
+| `other`          | Any other 4xx                                  | Configuration — check URL and connector |
 
 The kind is stored on the `europe_pulse_raw` row and mirrored onto the chapter
 as `last_status`. `europe_pulse_chapters.consecutive_failures` counts runs that
@@ -97,5 +97,5 @@ disappearing from the feed.
 
 Static UI strings (`src/i18n/locales/*/europe-pulse.json`) are translated once
 at build time by `scripts/translate.ts`. The weekly run only translates scraped
-*content*. Those are two separate pipelines; changing chapter content never
+_content_. Those are two separate pipelines; changing chapter content never
 touches the UI strings.
