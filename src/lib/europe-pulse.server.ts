@@ -20,8 +20,19 @@
  * orchestrator that wires them together into one run.
  */
 import { weekStart } from "./europe-pulse";
-import { BATCH_SIZE, pacedScrape, classifyFailure, type ChapterRow, type FailureKind } from "./europe-pulse/crawl.server";
-import { extractItems, curate, type ExtractedItem, type PoolItem } from "./europe-pulse/summarise.server";
+import {
+  BATCH_SIZE,
+  pacedScrape,
+  classifyFailure,
+  type ChapterRow,
+  type FailureKind,
+} from "./europe-pulse/crawl.server";
+import {
+  extractItems,
+  curate,
+  type ExtractedItem,
+  type PoolItem,
+} from "./europe-pulse/summarise.server";
 import { poolForWeek, type PulseRunResult } from "./europe-pulse/store.server";
 
 export type { FailureKind } from "./europe-pulse/crawl.server";

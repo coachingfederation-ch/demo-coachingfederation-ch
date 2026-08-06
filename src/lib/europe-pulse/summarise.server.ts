@@ -85,7 +85,10 @@ async function askAi(system: string, user: string): Promise<unknown> {
   return JSON.parse(text.replace(/^```json\s*|\s*```$/g, ""));
 }
 
-export async function extractItems(chapter: ChapterRow, markdown: string): Promise<ExtractedItem[]> {
+export async function extractItems(
+  chapter: ChapterRow,
+  markdown: string,
+): Promise<ExtractedItem[]> {
   if (markdown.trim().length < 200) return [];
   const parsed = (await askAi(
     "You read the homepage of a national chapter of the International Coaching Federation and " +
