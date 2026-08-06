@@ -1,0 +1,18 @@
+{
+  "launcher": "Posez-nous une question",
+  "title": "Assistant du chapitre",
+  "subtitle": "Coachs, credentials, événements et communautés",
+  "empty": "Posez une question sur la recherche d'un coach, les ICF Credentials, les prochains événements ou nos communautés locales.",
+  "placeholder": "Posez votre question…",
+  "thinking": "Réflexion…",
+  "searching": "Recherche en cours…",
+  "reset": "Recommencer",
+  "close": "Fermer le chat",
+  "error": "Un problème est survenu. Réessayez ou écrivez à office@coachingfederation.ch.",
+  "disclaimer": "Assistant IA. Il peut se tromper — vérifiez les informations importantes.",
+  "suggestions": {
+    "coach": "Trouver un coach près de chez moi",
+    "events": "Quels sont les prochains événements ?",
+    "credentials": "Qu'est-ce qu'un ICF Credential ?"
+  }
+}
