@@ -64,6 +64,7 @@
     "notFoundBody": "Questo evento potrebbe essere stato rimosso oppure il link non è corretto.",
     "errorTitle": "Impossibile caricare questo evento",
     "errorBody": "Riprova tra qualche istante.",
-    "hostedBy": "Ospitato da"
+    "hostedBy": "Ospitato da",
+    "photoCredit": "Foto di {name} su Unsplash"
   }
 }
