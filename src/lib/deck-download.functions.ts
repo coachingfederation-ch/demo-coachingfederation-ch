@@ -1,3 +1,7 @@
+/**
+ * Server function to record organisation deck download leads in Supabase.
+ * Exports: recordDeckDownload (createServerFn). Called by components/organisations/DeckDownload.tsx.
+ */
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 

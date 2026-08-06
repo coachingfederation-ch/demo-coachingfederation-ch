@@ -1,3 +1,9 @@
+/**
+ * Europe Pulse page route (/europe-pulse).
+ * Exports: Route. Renders the Europe Pulse page with search validation
+ * and localized meta tags.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import EuropePulsePage from "@/pages/EuropePulse";

@@ -1,3 +1,9 @@
+/**
+ * Supabase OAuth callback handler (/auth/callback).
+ * Exports: Route. Processes the post-login session hydration and redirects
+ * users to their role-based landing page or a preserved target URL.
+ */
+
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";

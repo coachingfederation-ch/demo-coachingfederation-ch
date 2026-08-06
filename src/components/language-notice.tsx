@@ -1,3 +1,7 @@
+/**
+ * Sticky notice suggesting a previously chosen language to visitors on localized routes.
+ * Exports: LanguageNotice. Rendered by the locale route layout.
+ */
 import { useEffect, useState } from "react";
 import { useRouter } from "@tanstack/react-router";
 import { useCanonicalPath, useI18n } from "@/i18n";

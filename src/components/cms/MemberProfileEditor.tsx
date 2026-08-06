@@ -20,7 +20,7 @@ import { useMyRoles } from "@/lib/roles";
 import { publishBlockReason } from "@/lib/directory-eligibility";
 import { PROFILE_IMAGE_BUCKET, PROFILE_IMAGE_PREVIEW_TTL_SECONDS } from "@/lib/storage";
 
-export const PHOTO_BUCKET = PROFILE_IMAGE_BUCKET;
+const PHOTO_BUCKET = PROFILE_IMAGE_BUCKET;
 const PHOTO_SIZE = 512;
 const DESCRIPTION_MAX = 3000;
 const TAGLINE_MAX = 160;

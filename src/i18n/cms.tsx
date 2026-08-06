@@ -1,3 +1,7 @@
+/**
+ * CMS-specific i18n hook and state management for interface language.
+ * Exports: setCmsLocale, useCms. Called by CMS-related staff routes.
+ */
 import { useSyncExternalStore } from "react";
 import { DEFAULT_LOCALE, isLocale, type Locale } from "./config";
 import { makeT } from "./index";

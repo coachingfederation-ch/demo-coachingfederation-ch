@@ -1,3 +1,9 @@
+/**
+ * Coach Finder configuration route (/_staff/coach-finder).
+ * Exports: Route. Renders the admin settings for directory display,
+ * sorting, search facets, and internal tuning parameters.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";
 import { useEffect, useState } from "react";

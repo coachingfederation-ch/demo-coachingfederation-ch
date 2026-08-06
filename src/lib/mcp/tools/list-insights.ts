@@ -1,3 +1,7 @@
+/**
+ * MCP tool definition to list or search published articles.
+ * Exports: default (defineTool). Registered in the internal MCP tool registry.
+ */
 import { defineTool } from "@lovable.dev/mcp-js";
 import { z } from "zod";
 import { errorResult, sanitiseSearchText, supabaseForUser, textResult } from "../supabase";

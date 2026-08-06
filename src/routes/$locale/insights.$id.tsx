@@ -1,3 +1,8 @@
+/**
+ * Locale-prefixed insight detail route (/:locale/insights/:id).
+ * Exports: Route. Loads article data via insights.functions and renders InsightDetailPage.
+ */
+
 import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
 import InsightDetailPage, { ArticleFallback } from "@/pages/InsightDetail";
 import { getPublishedArticle } from "@/lib/insights.functions";

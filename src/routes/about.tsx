@@ -1,3 +1,9 @@
+/**
+ * Public "About Us" page route (/about).
+ * Exports: Route. Renders the AboutPage component with localized meta tags
+ * and SEO links.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import AboutPage from "@/pages/About";
 import { localeLinkTags, localeMeta } from "@/i18n";

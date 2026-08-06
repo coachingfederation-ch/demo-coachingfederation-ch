@@ -1,3 +1,7 @@
+/**
+ * Multi-mode (Write/Split/Preview) Markdown editor for the staff CMS.
+ * Exports: MarkdownEditor, MarkdownPreview. Consumed by the article editor and translation panels.
+ */
 import { useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { Pencil, Columns2, Eye } from "lucide-react";
 import { Markdown } from "@/components/markdown";

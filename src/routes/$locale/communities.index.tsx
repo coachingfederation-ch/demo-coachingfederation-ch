@@ -1,3 +1,8 @@
+/**
+ * Locale-prefixed communities index route (/:locale/communities).
+ * Exports: Route. Renders the Communities listing page with localized metadata.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import CommunitiesPage from "@/pages/Communities";
 import { localeLinkTags, localeMeta } from "@/i18n";

@@ -1,3 +1,7 @@
+/**
+ * Static HTML template for the fallback error page shown when the app fails to load.
+ * Exports: renderErrorPage. Called by start.ts and server.ts.
+ */
 export function renderErrorPage(): string {
   return `<!doctype html>
 <html lang="en">

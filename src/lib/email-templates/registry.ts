@@ -1,3 +1,7 @@
+/**
+ * Central registry mapping template names to their React Email components.
+ * Exports: TEMPLATES. Called by lib/email-templates/send-email.ts.
+ */
 import type { ComponentType } from 'react'
 
 export interface TemplateEntry {

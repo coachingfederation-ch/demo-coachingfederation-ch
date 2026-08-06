@@ -1,3 +1,9 @@
+/**
+ * Member profile editor route (/my-profile).
+ * Exports: Route. Renders the coach profile editor for authenticated members
+ * to manage their directory listing.
+ */
+
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCms } from "@/i18n/cms";
 import { MemberShell } from "@/components/member/MemberShell";

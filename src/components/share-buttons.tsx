@@ -1,3 +1,7 @@
+/**
+ * Social sharing links and clipboard copy buttons for article pages.
+ * Exports: ShareInline, ShareBlock. Rendered in the article detail layout.
+ */
 import { useState } from "react";
 import { Linkedin, Mail, Link2, Check } from "lucide-react";
 import { useI18n } from "@/i18n";

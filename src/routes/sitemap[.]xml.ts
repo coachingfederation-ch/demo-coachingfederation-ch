@@ -1,3 +1,8 @@
+/**
+ * Dynamic sitemap generator route (/sitemap.xml).
+ * Exports: Route. Generates an XML sitemap of all localized pages, insights, and events.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { LOCALES, localizePath, SITE_URL } from "@/i18n/config";

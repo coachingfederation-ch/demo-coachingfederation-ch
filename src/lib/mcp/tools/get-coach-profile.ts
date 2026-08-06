@@ -1,3 +1,7 @@
+/**
+ * MCP tool definition to retrieve a full published coach profile by ID.
+ * Exports: default (defineTool). Registered in the internal MCP tool registry.
+ */
 import { defineTool } from "@lovable.dev/mcp-js";
 import { z } from "zod";
 import { errorResult, supabaseForUser, textResult } from "../supabase";

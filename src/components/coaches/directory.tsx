@@ -23,7 +23,7 @@ import {
   type VocabRow,
 } from "@/lib/vocabularies";
 
-export function initials(name: string) {
+function initials(name: string) {
   return name
     .split(/\s+/)
     .filter(Boolean)
@@ -163,7 +163,7 @@ function ModeTabs({
 
 type LabelLookup = (slug: string) => string;
 
-export function CoachCard({
+function CoachCard({
   entry,
   specialisationLabel,
   formatLabel,

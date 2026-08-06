@@ -1,3 +1,9 @@
+/**
+ * Public communities directory route (/communities).
+ * Exports: Route. Renders the listing of all ICF Switzerland communities
+ * with localized meta tags.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import CommunitiesPage from "@/pages/Communities";
 import { localeLinkTags, localeMeta } from "@/i18n";

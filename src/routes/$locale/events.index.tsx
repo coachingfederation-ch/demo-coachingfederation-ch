@@ -1,3 +1,8 @@
+/**
+ * Locale-prefixed events index route (/:locale/events).
+ * Exports: Route. Loads published events via events.functions and renders the localized Events page.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import EventsPage from "@/pages/Events";

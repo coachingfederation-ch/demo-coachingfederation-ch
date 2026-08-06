@@ -1,3 +1,8 @@
+/**
+ * Landing page for organisations highlighting coaching outcomes and ICF differentiators.
+ * Exports: ForOrganisationsPage (default). Rendered by src/routes/for-organisations.tsx
+ * and the locale-prefixed equivalent in src/routes/$locale/for-organisations.tsx.
+ */
 import { Mark, type MarkName } from "@/components/marks";
 import { CompactHero, SiteFooter, CARD_SHADOW } from "@/components/site-chrome";
 import { CultureSurvey } from "@/components/organisations/CultureSurvey";

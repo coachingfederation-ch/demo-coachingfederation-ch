@@ -1,3 +1,9 @@
+/**
+ * Public events directory route (/events).
+ * Exports: Route. Renders the searchable list of upcoming and past events
+ * with search param validation and localized meta.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import EventsPage from "@/pages/Events";

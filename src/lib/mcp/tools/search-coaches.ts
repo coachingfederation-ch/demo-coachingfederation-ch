@@ -1,3 +1,7 @@
+/**
+ * MCP tool definition to search the published coach directory with various filters.
+ * Exports: default (defineTool). Registered in the internal MCP tool registry.
+ */
 import { defineTool } from "@lovable.dev/mcp-js";
 import { z } from "zod";
 import { errorResult, sanitiseSearchText, supabaseForUser, textResult } from "../supabase";

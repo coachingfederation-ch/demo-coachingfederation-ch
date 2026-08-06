@@ -1,3 +1,7 @@
+/**
+ * Server function to machine-translate articles using AI (Lovable AI Gateway).
+ * Exports: translateArticle (createServerFn). Called by components/cms/TranslationsPanel.tsx.
+ */
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";

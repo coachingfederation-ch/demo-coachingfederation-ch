@@ -1,3 +1,7 @@
+/**
+ * Thematic callout component for highlighting notes, tips, and warnings in markdown content.
+ * Exports: Callout, calloutShadeFrom, and re-exports from callout-shades. Consumed by Markdown and MarkdownToolbar.
+ */
 import type { ReactNode } from "react";
 import { CALLOUT_ALIASES, type CalloutShade } from "@/components/callout-shades";
 

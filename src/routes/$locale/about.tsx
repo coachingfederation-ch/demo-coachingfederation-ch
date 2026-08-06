@@ -1,3 +1,8 @@
+/**
+ * Locale-prefixed about page route (/:locale/about).
+ * Exports: Route. Renders the About page with localized content and metadata.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import AboutPage from "@/pages/About";
 import { localeLinkTags, localeMeta } from "@/i18n";

@@ -1,3 +1,7 @@
+/**
+ * Lead capture form and file downloader for the organisational partnership deck.
+ * Exports: DeckDownload. Consumed by the DeckSection carousel.
+ */
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { useI18n } from "@/i18n";

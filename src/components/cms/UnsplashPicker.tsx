@@ -1,3 +1,7 @@
+/**
+ * Image search and selection dialog powered by the Unsplash API for CMS assets.
+ * Exports: UnsplashPicker. Consumed by the article editor for cover image selection.
+ */
 import { useState } from "react";
 import { Search, ImageOff } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";

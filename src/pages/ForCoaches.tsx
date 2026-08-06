@@ -1,3 +1,8 @@
+/**
+ * Landing page for coaches detailing membership benefits, credentials, and volunteering.
+ * Exports: ForCoachesPage (default). Rendered by src/routes/for-coaches.tsx and
+ * the locale-prefixed equivalent in src/routes/$locale/for-coaches.tsx.
+ */
 import { Mark } from "@/components/marks";
 import { CompactHero, SiteFooter, CARD_SHADOW } from "@/components/site-chrome";
 import {

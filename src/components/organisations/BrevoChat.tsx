@@ -1,3 +1,7 @@
+/**
+ * Runtime injector for the Brevo Conversations chat widget on the organisations page.
+ * Exports: BrevoChat. Mounted exclusively on the /for-organisations route.
+ */
 import { useEffect } from "react";
 
 const BREVO_CONVERSATIONS_ID = "64d25eac4e092e659768e10a";

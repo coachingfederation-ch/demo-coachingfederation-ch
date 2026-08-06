@@ -1,3 +1,7 @@
+/**
+ * CMS sidebar panel for managing automated and manual translations of articles.
+ * Exports: TranslationsPanel. Consumed by the article editor route.
+ */
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Languages, Loader2, Eye } from "lucide-react";

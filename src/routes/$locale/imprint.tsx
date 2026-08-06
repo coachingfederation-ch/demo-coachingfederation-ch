@@ -1,3 +1,8 @@
+/**
+ * Locale-prefixed imprint route (/:locale/imprint).
+ * Exports: Route. Renders the legal imprint page with localized metadata.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import ImprintPage from "@/pages/Imprint";
 import { localeLinkTags, localeMeta } from "@/i18n";

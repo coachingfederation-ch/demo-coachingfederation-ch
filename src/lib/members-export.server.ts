@@ -1,3 +1,7 @@
+/**
+ * Server-only utility to generate a CSV export of the member database.
+ * Exports: buildMembersCsv. Called by lib/members.functions.ts.
+ */
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 const COLUMNS = [

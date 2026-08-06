@@ -1,3 +1,8 @@
+/**
+ * Imprint/Legal notice page providing chapter provider info and liability statements.
+ * Exports: ImprintPage (default). Rendered by src/routes/imprint.tsx and
+ * the locale-prefixed equivalent in src/routes/$locale/imprint.tsx.
+ */
 import { LegalPageShell } from "./LegalPageShell";
 
 export default function ImprintPage() {

@@ -1,3 +1,9 @@
+/**
+ * Member Area home route (/member).
+ * Exports: Route. Renders the private dashboard for authenticated members
+ * within the MemberShell layout.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import { MemberShell } from "@/components/member/MemberShell";
 import { MemberHome } from "@/components/member/MemberHome";

@@ -31,7 +31,7 @@ function AvatarStack({ members }: { members: TeamMember[] }) {
 }
 
 /** First sentence / paragraph of the markdown description, stripped of syntax. */
-export function excerpt(markdown: string | null, max = 180): string | null {
+function excerpt(markdown: string | null, max = 180): string | null {
   if (!markdown) return null;
   const plain = markdown
     .replace(/!\[[^\]]*\]\([^)]*\)/g, "")

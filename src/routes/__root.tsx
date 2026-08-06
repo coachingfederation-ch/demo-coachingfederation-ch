@@ -1,3 +1,8 @@
+/**
+ * Root route component for the entire application.
+ * Exports: Route. Defines the base HTML shell, global head tags, and shared providers (QueryClient).
+ */
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,

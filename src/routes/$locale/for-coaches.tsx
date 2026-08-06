@@ -1,3 +1,8 @@
+/**
+ * Locale-prefixed for-coaches route (/:locale/for-coaches).
+ * Exports: Route. Renders the landing page dedicated to coach resources and membership.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import ForCoachesPage from "@/pages/ForCoaches";
 import { localeLinkTags, localeMeta } from "@/i18n";

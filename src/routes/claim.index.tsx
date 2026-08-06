@@ -1,3 +1,9 @@
+/**
+ * Member account claim request route (/claim).
+ * Exports: Route. Renders the starting point for members to request
+ * or begin claiming their imported account record.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import { ClaimRequestPage } from "@/pages/MemberClaim";
 

@@ -1,3 +1,8 @@
+/**
+ * Detailed view of a specific community, showing description, cadence, and members.
+ * Exports: CommunityDetailPage (default). Rendered by src/routes/communities.$slug.tsx
+ * and the locale-prefixed equivalent in src/routes/$locale/communities.$slug.tsx.
+ */
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, CalendarClock, Mail, ArrowUpRight } from "lucide-react";
 import { CompactHero, SiteFooter } from "@/components/site-chrome";

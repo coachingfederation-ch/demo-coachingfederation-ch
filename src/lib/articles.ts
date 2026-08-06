@@ -1,3 +1,7 @@
+/**
+ * Types and utilities for article management, categorization, and localization.
+ * Exports: ARTICLE_CATEGORIES, ArticleRow, authorName, localizeArticles, tileFor. Shared utility.
+ */
 import type { MarkName } from "@/components/marks";
 import type { Locale } from "@/i18n/config";
 

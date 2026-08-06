@@ -1,3 +1,8 @@
+/**
+ * Locale-prefixed home page route (/:locale/).
+ * Exports: Route. Renders the localized Home page and manages locale-specific metadata.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import HomePage from "@/pages/Home";
 import { localeLinkTags, localeMeta } from "@/i18n";

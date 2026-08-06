@@ -1,3 +1,7 @@
+/**
+ * Formatting toolbar for the Markdown editor, providing shortcuts for headings, lists, links, and callouts.
+ * Exports: MarkdownToolbar. Consumed by MarkdownEditor.
+ */
 import { useState, type RefObject } from "react";
 import {
   Bold,

@@ -1,3 +1,7 @@
+/**
+ * Lazy-loaded SVG brush-stroke library for decorative site elements.
+ * Exports: Mark, MARK_NAMES, MarkName. Consumed by various section and landing page components.
+ */
 import { useEffect, useState } from "react";
 
 /*
@@ -52,7 +56,7 @@ const FILES = {
 
 export type MarkName = keyof typeof FILES;
 
-export const MARK_NAMES = Object.keys(FILES) as MarkName[];
+const MARK_NAMES = Object.keys(FILES) as MarkName[];
 
 // Strip the inlined <style> fill so we can recolor via currentColor.
 const normalize = (svg: string) =>

@@ -1,3 +1,7 @@
+/**
+ * Custom remark plugin to transform blockquote-based callouts into HTML data attributes.
+ * Exports: remarkCallout. Used by components/markdown.tsx.
+ */
 import { visit } from "unist-util-visit";
 import type { Root, Blockquote, Paragraph, Text } from "mdast";
 import { CALLOUT_ALIASES } from "@/components/callout-shades";

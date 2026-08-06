@@ -1,3 +1,7 @@
+/**
+ * Primary Markdown renderer for the site, supporting GFM and custom callout blocks.
+ * Exports: Markdown. Used for article bodies and CMS previews.
+ */
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Callout, calloutShadeFrom } from "@/components/callout";
