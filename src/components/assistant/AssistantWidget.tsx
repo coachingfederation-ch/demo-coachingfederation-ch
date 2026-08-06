@@ -17,6 +17,16 @@ import {
   PromptInputTextarea,
 } from "@/components/ai-elements/prompt-input";
 import { Shimmer } from "@/components/ai-elements/shimmer";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { useCanonicalPath, useI18n } from "@/i18n";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
@@ -321,7 +331,7 @@ export function AssistantWidget() {
 
       <AlertDialog
         open={pendingExternal !== null}
-        onOpenChange={(next) => {
+        onOpenChange={(next: boolean) => {
           if (!next) setPendingExternal(null);
         }}
       >
