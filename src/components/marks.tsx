@@ -56,7 +56,7 @@ const FILES = {
 
 export type MarkName = keyof typeof FILES;
 
-export const MARK_NAMES = Object.keys(FILES) as MarkName[];
+const MARK_NAMES = Object.keys(FILES) as MarkName[];
 
 // Strip the inlined <style> fill so we can recolor via currentColor.
 const normalize = (svg: string) =>

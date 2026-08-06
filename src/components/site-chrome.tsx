@@ -21,7 +21,7 @@ const navItems = [
   { key: "about", to: "/about" },
 ] as const;
 
-export function Logo({ variant = "hero" }: { variant?: "hero" | "compact" }) {
+function Logo({ variant = "hero" }: { variant?: "hero" | "compact" }) {
   const { t } = useI18n();
   return (
     <LocaleLink to="/" aria-label={t("common.nav.homeAria")} className="inline-flex">
@@ -244,7 +244,7 @@ function MobileAccountLinks({ onNavigate }: { onNavigate: () => void }) {
   );
 }
 
-export function SiteNav() {
+function SiteNav() {
   const { t, locale } = useI18n();
   const path = useCanonicalPath();
   const [menuOpen, setMenuOpen] = React.useState(false);
