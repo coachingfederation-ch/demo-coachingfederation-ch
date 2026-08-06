@@ -47,6 +47,7 @@ import { Route as StaffIntegrationRouteImport } from './routes/_staff/integratio
 import { Route as StaffOperationalStructureRouteImport } from './routes/_staff/operational-structure'
 import { Route as StaffRolesRouteImport } from './routes/_staff/roles'
 import { Route as StaffVocabulariesRouteImport } from './routes/_staff/vocabularies'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as ClaimIndexRouteImport } from './routes/claim.index'
 import { Route as ClaimTokenRouteImport } from './routes/claim.$token'
@@ -270,6 +271,11 @@ const StaffVocabulariesRoute = StaffVocabulariesRouteImport.update({
   path: '/vocabularies',
   getParentRoute: () => StaffRouteRoute,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
   id: '/callback',
   path: '/callback',
@@ -465,6 +471,7 @@ export interface FileRoutesByFullPath {
   '/operational-structure': typeof StaffOperationalStructureRoute
   '/roles': typeof StaffRolesRoute
   '/vocabularies': typeof StaffVocabulariesRoute
+  '/api/chat': typeof ApiChatRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/claim/$token': typeof ClaimTokenRoute
   '/coach/$profileId': typeof CoachProfileIdRoute
@@ -530,6 +537,7 @@ export interface FileRoutesByTo {
   '/operational-structure': typeof StaffOperationalStructureRoute
   '/roles': typeof StaffRolesRoute
   '/vocabularies': typeof StaffVocabulariesRoute
+  '/api/chat': typeof ApiChatRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/claim/$token': typeof ClaimTokenRoute
   '/coach/$profileId': typeof CoachProfileIdRoute
@@ -602,6 +610,7 @@ export interface FileRoutesById {
   '/_staff/operational-structure': typeof StaffOperationalStructureRoute
   '/_staff/roles': typeof StaffRolesRoute
   '/_staff/vocabularies': typeof StaffVocabulariesRoute
+  '/api/chat': typeof ApiChatRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/claim/$token': typeof ClaimTokenRoute
   '/coach/$profileId': typeof CoachProfileIdRoute
@@ -673,6 +682,7 @@ export interface FileRouteTypes {
     | '/operational-structure'
     | '/roles'
     | '/vocabularies'
+    | '/api/chat'
     | '/auth/callback'
     | '/claim/$token'
     | '/coach/$profileId'
@@ -738,6 +748,7 @@ export interface FileRouteTypes {
     | '/operational-structure'
     | '/roles'
     | '/vocabularies'
+    | '/api/chat'
     | '/auth/callback'
     | '/claim/$token'
     | '/coach/$profileId'
@@ -809,6 +820,7 @@ export interface FileRouteTypes {
     | '/_staff/operational-structure'
     | '/_staff/roles'
     | '/_staff/vocabularies'
+    | '/api/chat'
     | '/auth/callback'
     | '/claim/$token'
     | '/coach/$profileId'
@@ -864,6 +876,7 @@ export interface RootRouteChildren {
   TeamRoute: typeof TeamRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  ApiChatRoute: typeof ApiChatRoute
   ClaimTokenRoute: typeof ClaimTokenRoute
   CoachProfileIdRoute: typeof CoachProfileIdRoute
   CommunitiesSlugRoute: typeof CommunitiesSlugRoute
@@ -1145,6 +1158,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/vocabularies'
       preLoaderRoute: typeof StaffVocabulariesRouteImport
       parentRoute: typeof StaffRouteRoute
+    }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/auth/callback': {
       id: '/auth/callback'
@@ -1530,6 +1550,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
+  ApiChatRoute: ApiChatRoute,
   ClaimTokenRoute: ClaimTokenRoute,
   CoachProfileIdRoute: CoachProfileIdRoute,
   CommunitiesSlugRoute: CommunitiesSlugRoute,

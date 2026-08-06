@@ -14,6 +14,7 @@ import { useLocale } from "../i18n";
 import { LOCALE_HTML_LANG } from "../i18n/config";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LanguageNotice } from "../components/language-notice";
+import { AssistantWidget } from "../components/assistant/AssistantWidget";
 
 function NotFoundComponent() {
   return (
@@ -170,6 +171,7 @@ function RootComponent() {
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
       <LanguageNotice />
+      <AssistantWidget />
     </QueryClientProvider>
   );
 }
