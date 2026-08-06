@@ -74,12 +74,35 @@ export const listPublicEvents = createServerFn({ method: "GET" })
     const supabase = publicSupabaseClient();
 
     const cutoff = new Date(Date.now() - 18 * 30 * 24 * 60 * 60 * 1000).toISOString();
-    const { data: list, error } = await supabase
-      .from("events_public")
-      .select(PUBLIC_EVENT_COLUMNS)
-      .gte("starts_at", cutoff)
-      .order("starts_at", { ascending: true });
+    const [{ data: list, error }, { data: categoryRows }, { data: regionRows }] = await Promise.all([
+      supabase
+        .from("events_public")
+        .select(PUBLIC_EVENT_COLUMNS)
+        .gte("starts_at", cutoff)
+        .order("starts_at", { ascending: true }),
+      supabase
+        .from("cf_event_categories")
+        .select("slug, name, name_de, name_fr, name_it")
+        .eq("is_active", true)
+        .order("sort_order", { ascending: true }),
+      supabase
+        .from("cf_regions")
+        .select("slug, name, name_de, name_fr, name_it")
+        .eq("is_active", true)
+        .order("sort_order", { ascending: true }),
+    ]);
     if (error) throw new Error(error.message);
+
+    // Filter vocabularies travel with the list so the page can label a slug
+    // without a second round trip — and so SSR renders the bar already filled.
+    const categories: EventFacetOption[] = ((categoryRows ?? []) as VocabRow[]).map((r) => ({
+      slug: r.slug,
+      label: vocabLabel(r, locale),
+    }));
+    const regions: EventFacetOption[] = ((regionRows ?? []) as VocabRow[]).map((r) => ({
+      slug: r.slug,
+      label: vocabLabel(r, locale),
+    }));
 
     const source = (list ?? []) as PublicEvent[];
     const ids = source.map((e) => e.id).filter((id): id is string => Boolean(id));
@@ -102,10 +125,7 @@ export const listPublicEvents = createServerFn({ method: "GET" })
     );
     const now = Date.now();
     const upcoming = rows.filter((e) => new Date(e.ends_at ?? e.starts_at!).getTime() >= now);
-    const past = rows
-      .filter((e) => new Date(e.ends_at ?? e.starts_at!).getTime() < now)
-      .reverse()
-      .slice(0, 6);
+    const past = rows.filter((e) => new Date(e.ends_at ?? e.starts_at!).getTime() < now).reverse();
 
     // The chapter marks at most one event as featured; fall back to the next one
     // up so the hero card is never empty.
@@ -114,6 +134,8 @@ export const listPublicEvents = createServerFn({ method: "GET" })
       featured,
       upcoming: upcoming.filter((e) => e.id !== featured?.id),
       past,
+      categories,
+      regions,
     };
   });
 
