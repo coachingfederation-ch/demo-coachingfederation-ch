@@ -62,10 +62,8 @@ export function AssistantWidget() {
       prepareSendMessagesRequest: async ({ messages: outgoing }) => {
         const { data } = await supabase.auth.getSession();
         const token = data.session?.access_token;
-        return {
-          body: { messages: outgoing, locale },
-          headers: token ? { Authorization: `Bearer ${token}` } : {},
-        };
+        const headers: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {};
+        return { body: { messages: outgoing, locale }, headers };
       },
     }),
   });
@@ -87,8 +85,8 @@ export function AssistantWidget() {
   const busy = status === "submitted" || status === "streaming";
 
   const submit = useCallback(
-    (event: React.FormEvent) => {
-      event.preventDefault();
+    (event?: React.FormEvent) => {
+      event?.preventDefault();
       const text = input.trim();
       if (!text || busy) return;
       setInput("");
@@ -218,7 +216,7 @@ export function AssistantWidget() {
           </Conversation>
 
           <div className="border-t border-border p-3">
-            <PromptInput onSubmit={submit}>
+            <PromptInput onSubmit={(_message, event) => submit(event)}>
               <PromptInputTextarea
                 ref={textareaRef}
                 value={input}
