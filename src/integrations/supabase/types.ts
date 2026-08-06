@@ -1399,6 +1399,7 @@ export type Database = {
       }
       member_import_snapshots: {
         Row: {
+          change_kind: string
           changed_fields: string[]
           created_at: string
           cst_recno: string
@@ -1408,6 +1409,7 @@ export type Database = {
           sync_run_id: string
         }
         Insert: {
+          change_kind?: string
           changed_fields?: string[]
           created_at?: string
           cst_recno: string
@@ -1417,6 +1419,7 @@ export type Database = {
           sync_run_id: string
         }
         Update: {
+          change_kind?: string
           changed_fields?: string[]
           created_at?: string
           cst_recno?: string
