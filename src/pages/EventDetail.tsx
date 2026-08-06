@@ -88,6 +88,7 @@ export default function EventDetailPage({
   const tz = event.timezone ?? "Europe/Zurich";
   const past = isPastEvent(event);
   const hosts = event.hosts ?? [];
+  const marks = heroMarks(event.slug ?? event.id ?? "");
 
   const session = useQuery({
     queryKey: ["auth-user-id"],
