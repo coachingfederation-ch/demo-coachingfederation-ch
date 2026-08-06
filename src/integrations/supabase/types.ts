@@ -2281,6 +2281,7 @@ export type Database = {
           name_de: string | null
           name_fr: string | null
           name_it: string | null
+          public_contact_email: string | null
           signup_url: string | null
           slug: string
           sort_order: number
@@ -2307,6 +2308,7 @@ export type Database = {
           name_de?: string | null
           name_fr?: string | null
           name_it?: string | null
+          public_contact_email?: string | null
           signup_url?: string | null
           slug: string
           sort_order?: number
@@ -2333,6 +2335,7 @@ export type Database = {
           name_de?: string | null
           name_fr?: string | null
           name_it?: string | null
+          public_contact_email?: string | null
           signup_url?: string | null
           slug?: string
           sort_order?: number
@@ -2602,7 +2605,7 @@ export type Database = {
           cadence_note_de?: string | null
           cadence_note_fr?: string | null
           cadence_note_it?: string | null
-          contact_email?: never
+          contact_email?: string | null
           description?: string | null
           description_de?: string | null
           description_fr?: string | null
@@ -2624,7 +2627,7 @@ export type Database = {
           cadence_note_de?: string | null
           cadence_note_fr?: string | null
           cadence_note_it?: string | null
-          contact_email?: never
+          contact_email?: string | null
           description?: string | null
           description_de?: string | null
           description_fr?: string | null
