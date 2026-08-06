@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { CalendarDays, Clock, MapPin, Users } from "lucide-react";
 import { SiteFooter, SiteHeaderBar, CARD_SHADOW } from "@/components/site-chrome";
+import { Mark, type MarkName } from "@/components/marks";
 import { LocaleLink, useI18n } from "@/i18n";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -31,6 +32,28 @@ type RsvpState =
   | { kind: "saving" }
   | { kind: "done" }
   | { kind: "error"; reason: "full" | "closed" | "duplicate" | "error" };
+
+/*
+ * Decoration for the hero band. The marks are picked from the event slug
+ * (not at random) so a given event always renders the same composition —
+ * stable across re-renders, SSR and hydration.
+ */
+const UNDERLINE_MARKS: MarkName[] = ["stroke1", "stroke2", "stroke3", "stroke4"];
+const CORNER_MARKS: MarkName[] = ["circular1", "circular2", "asterisk1", "asterisk3", "star2"];
+
+const hashSlug = (slug: string) => {
+  let h = 0;
+  for (let i = 0; i < slug.length; i += 1) h = (h * 31 + slug.charCodeAt(i)) >>> 0;
+  return h;
+};
+
+const heroMarks = (slug: string) => {
+  const h = hashSlug(slug || "event");
+  return {
+    underline: UNDERLINE_MARKS[h % UNDERLINE_MARKS.length]!,
+    corner: CORNER_MARKS[Math.floor(h / 7) % CORNER_MARKS.length]!,
+  };
+};
 
 export function EventFallback({ titleKey, bodyKey }: { titleKey: string; bodyKey: string }) {
   const { t } = useI18n();
