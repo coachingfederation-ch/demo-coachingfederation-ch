@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";
-import { useEffect, useState } from "react";
-import { AlertTriangle, CheckCircle2, ClipboardCheck, RefreshCw } from "lucide-react";
+import { Fragment, useEffect, useState } from "react";
+import { AlertTriangle, CheckCircle2, ChevronRight, ClipboardCheck, RefreshCw } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { ContentOwnershipPanel } from "@/components/cms/ContentOwnershipPanel";
 import { SyncRunDetail } from "@/components/cms/SyncRunDetail";
