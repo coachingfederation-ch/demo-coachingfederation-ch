@@ -1,3 +1,8 @@
+/**
+ * API route for Europe Pulse automated scanning (/api/public/europe-pulse-scan).
+ * Exports: Route. Handles POST requests from cron to trigger news aggregation.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 
 /**

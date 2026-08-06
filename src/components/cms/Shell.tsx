@@ -1,3 +1,7 @@
+/**
+ * Navigation sidebar and layout wrapper for the staff CMS workspace.
+ * Exports: Shell. Wraps all routes under the /articles and /manage hierarchies.
+ */
 import { Link, useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import {

@@ -1,3 +1,8 @@
+/**
+ * Locale-prefixed team route (/:locale/team).
+ * Exports: Route. Renders the Chapter board and leadership team page.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import TeamPage from "@/pages/Team";
 import { localeLinkTags, localeMeta } from "@/i18n";

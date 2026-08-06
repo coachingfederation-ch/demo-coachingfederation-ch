@@ -1,3 +1,8 @@
+/**
+ * Locale-prefixed insights index route (/:locale/insights).
+ * Exports: Route. Renders the localized insights/blog listing page.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import InsightsPage from "@/pages/Insights";
 import { localeLinkTags, localeMeta } from "@/i18n";

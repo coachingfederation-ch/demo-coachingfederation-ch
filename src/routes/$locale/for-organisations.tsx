@@ -1,3 +1,8 @@
+/**
+ * Locale-prefixed for-organisations route (/:locale/for-organisations).
+ * Exports: Route. Renders the landing page for organizational coaching services.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import ForOrganisationsPage from "@/pages/ForOrganisations";
 import { localeLinkTags, localeMeta } from "@/i18n";

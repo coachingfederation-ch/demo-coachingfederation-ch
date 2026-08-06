@@ -1,3 +1,9 @@
+/**
+ * Public event detail route (/events/$slug).
+ * Exports: Route. Loads and renders a single public event by slug, including
+ * localized head metadata and error handling.
+ */
+
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import EventDetailPage, { EventFallback } from "@/pages/EventDetail";
 import { getPublicEvent } from "@/lib/events.functions";

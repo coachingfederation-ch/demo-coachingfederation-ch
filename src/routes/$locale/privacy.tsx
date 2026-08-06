@@ -1,3 +1,8 @@
+/**
+ * Locale-prefixed privacy policy route (/:locale/privacy).
+ * Exports: Route. Renders the privacy policy page with localized metadata.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import PrivacyPage from "@/pages/Privacy";
 import { localeLinkTags, localeMeta } from "@/i18n";

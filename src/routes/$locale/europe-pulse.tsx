@@ -1,3 +1,8 @@
+/**
+ * Locale-prefixed Europe Pulse route (/:locale/europe-pulse).
+ * Exports: Route. Renders the Europe Pulse news aggregator with search validation.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import EuropePulsePage from "@/pages/EuropePulse";

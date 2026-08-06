@@ -1,3 +1,8 @@
+/**
+ * Server entry point for TanStack Start.
+ * Exports: default fetch handler. Manages SSR entry loading and catastrophic error normalization.
+ */
+
 import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";

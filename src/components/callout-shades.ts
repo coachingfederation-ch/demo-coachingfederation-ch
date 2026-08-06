@@ -1,3 +1,7 @@
+/**
+ * Shared constants and types for callout styling and aliases.
+ * Exports: CALLOUT_SHADES, CalloutShade, CALLOUT_ALIASES, SHADE_SWATCH. Consumed by the Callout component and CMS toolbar.
+ */
 export const CALLOUT_SHADES = ["info", "highlight", "warning"] as const;
 export type CalloutShade = (typeof CALLOUT_SHADES)[number];
 

@@ -1,3 +1,8 @@
+/**
+ * API route for ICF member synchronization (/api/public/member-sync).
+ * Exports: Route. Handles POST requests from cron to sync member data with the master ICF feed.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 
 /**

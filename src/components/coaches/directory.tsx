@@ -163,7 +163,7 @@ function ModeTabs({
 
 type LabelLookup = (slug: string) => string;
 
-export function CoachCard({
+function CoachCard({
   entry,
   specialisationLabel,
   formatLabel,

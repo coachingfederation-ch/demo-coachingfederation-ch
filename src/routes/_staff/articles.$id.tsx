@@ -1,3 +1,9 @@
+/**
+ * CMS article editor route (/_staff/articles/$id).
+ * Exports: Route. Renders the full markdown editor, image management,
+ * and publishing controls for a specific article.
+ */
+
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { requireStaffAccess, ARTICLE_ROLES } from "@/lib/staff-guard";
 import { useMyRoles } from "@/lib/roles";

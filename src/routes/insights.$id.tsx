@@ -1,3 +1,9 @@
+/**
+ * Public Insight article detail route (/insights/$id).
+ * Exports: Route. Loads and renders a published article by ID, handling
+ * locale-based redirects and localized head metadata.
+ */
+
 import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
 import InsightDetailPage, { ArticleFallback } from "@/pages/InsightDetail";
 import { getPublishedArticle } from "@/lib/insights.functions";

@@ -1,3 +1,8 @@
+/**
+ * Locale-prefixed coach finder route (/:locale/find-a-coach).
+ * Exports: Route. Renders the coach directory search page with filter validation.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import FindACoachPage from "@/pages/FindACoach";

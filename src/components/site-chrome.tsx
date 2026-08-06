@@ -1,3 +1,7 @@
+/**
+ * Site header, navigation, mobile menu, and footer shared by all public pages.
+ * Exports: Logo, SiteNav, SiteHeaderBar, CompactHero, SiteFooter, CARD_SHADOW. Rendered by the locale route layout.
+ */
 import * as React from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";

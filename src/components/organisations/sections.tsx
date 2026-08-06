@@ -1,3 +1,7 @@
+/**
+ * Structural sections for the "For Organisations" landing page, covering proof points and initiatives.
+ * Exports: ProofBar, Differentiators, Initiatives, EventsStrip. Rendered by the organisations landing route.
+ */
 import { Mark, type MarkName } from "@/components/marks";
 import { CARD_SHADOW } from "@/components/site-chrome";
 import { LocaleLink, useI18n } from "@/i18n";

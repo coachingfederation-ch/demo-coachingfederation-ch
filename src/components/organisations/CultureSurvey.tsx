@@ -1,3 +1,7 @@
+/**
+ * Interactive organisational culture assessment tool with score calculation and lead capture.
+ * Exports: CultureSurvey. Rendered on the organisations landing page.
+ */
 import { useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { CARD_SHADOW } from "@/components/site-chrome";

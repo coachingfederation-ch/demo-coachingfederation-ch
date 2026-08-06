@@ -1,3 +1,9 @@
+/**
+ * CMS member detail and admin route (/_staff/members/$id).
+ * Exports: Route. Renders detailed member facts, directory visibility
+ * controls, and manual account binding tools.
+ */
+
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";
 import { useEffect, useMemo, useState } from "react";

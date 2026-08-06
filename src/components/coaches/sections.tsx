@@ -1,3 +1,7 @@
+/**
+ * Landing page sections for the "For Coaches" area, including benefits, learning, and member stories.
+ * Exports: BenefitGrid, LearningTabs, CommunityGrid, MemberStories. Rendered by the coaches landing route.
+ */
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Mark, type MarkName } from "@/components/marks";

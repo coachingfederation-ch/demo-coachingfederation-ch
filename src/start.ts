@@ -1,3 +1,8 @@
+/**
+ * Application entry point for TanStack Start.
+ * Exports: startInstance. Configures global middleware including Supabase auth and error handling.
+ */
+
 import { createStart, createMiddleware } from "@tanstack/react-start";
 
 import { renderErrorPage } from "./lib/error-page";

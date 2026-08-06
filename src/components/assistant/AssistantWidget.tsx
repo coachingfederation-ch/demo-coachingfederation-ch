@@ -1,3 +1,7 @@
+/**
+ * Floating AI assistant widget with persistent chat history and link safety warnings.
+ * Exports: AssistantWidget. Rendered in the root layout to be available across all public pages.
+ */
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
 import { useRouter } from "@tanstack/react-router";

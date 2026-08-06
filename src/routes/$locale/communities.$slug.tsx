@@ -1,3 +1,8 @@
+/**
+ * Locale-prefixed community detail route (/:locale/communities/:slug).
+ * Exports: Route. Renders CommunityDetailPage for a specific chapter or community slug.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import CommunityDetailPage from "@/pages/CommunityDetail";
 import { localeLinkTags, localeMeta } from "@/i18n";

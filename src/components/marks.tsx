@@ -1,3 +1,7 @@
+/**
+ * Lazy-loaded SVG brush-stroke library for decorative site elements.
+ * Exports: Mark, MARK_NAMES, MarkName. Consumed by various section and landing page components.
+ */
 import { useEffect, useState } from "react";
 
 /*

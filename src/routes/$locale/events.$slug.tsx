@@ -1,3 +1,8 @@
+/**
+ * Locale-prefixed event detail route (/:locale/events/:slug).
+ * Exports: Route. Loads event data via events.functions and renders EventDetailPage.
+ */
+
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import EventDetailPage, { EventFallback } from "@/pages/EventDetail";
 import { getPublicEvent } from "@/lib/events.functions";

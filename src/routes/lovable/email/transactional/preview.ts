@@ -1,3 +1,8 @@
+/**
+ * API route for email template previews (/lovable/email/transactional/preview).
+ * Exports: Route. Renders all registered transactional email templates for internal preview tools.
+ */
+
 import * as React from 'react'
 import { render } from '@react-email/render'
 import { createFileRoute } from '@tanstack/react-router'

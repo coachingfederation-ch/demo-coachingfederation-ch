@@ -1,3 +1,9 @@
+/**
+ * Member account claim activation route (/claim/$token).
+ * Exports: Route. Renders the password setup page for members who have
+ * received a claim invitation token.
+ */
+
 import { createFileRoute } from "@tanstack/react-router";
 import { ClaimTokenPage } from "@/pages/MemberClaim";
 

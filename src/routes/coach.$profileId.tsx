@@ -1,3 +1,9 @@
+/**
+ * Public coach profile detail route (/coach/$profileId).
+ * Exports: Route. Loads a public coach profile by ID and renders the
+ * CoachProfilePage with localized metadata.
+ */
+
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import CoachProfilePage, { CoachFallback } from "@/pages/CoachProfile";
 import { getPublicCoachProfile } from "@/lib/directory.functions";

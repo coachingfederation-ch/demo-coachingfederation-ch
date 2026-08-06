@@ -1,3 +1,7 @@
+/**
+ * Interactive carousel showcasing key slides from the organisational partnership deck.
+ * Exports: DeckSection. Rendered on the organisations landing page.
+ */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Mark } from "@/components/marks";
 import { CARD_SHADOW } from "@/components/site-chrome";
