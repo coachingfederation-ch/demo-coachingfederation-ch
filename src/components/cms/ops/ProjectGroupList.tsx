@@ -4,11 +4,11 @@
  * form. Extracted verbatim from the operational-structure route.
  */
 import { ArrowDown, ArrowUp, MapPin, Plus } from "lucide-react";
-import type { UseCmsReturn } from "@/i18n/cms";
+import type { useCms } from "@/i18n/cms";
 import { INPUT, type ProjectRow } from "@/components/cms/ops/types";
 
 type Props = {
-  t: UseCmsReturn["t"];
+  t: ReturnType<typeof useCms>["t"];
   projects: ProjectRow[];
   selected: string | null;
   setSelected: (id: string) => void;

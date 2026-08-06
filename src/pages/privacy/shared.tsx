@@ -5,7 +5,7 @@
  */
 import { Info } from "lucide-react";
 
-function ExternalLink({ href, children }: { href: string; children: React.ReactNode }) {
+export function ExternalLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <a
       href={href}
@@ -18,7 +18,7 @@ function ExternalLink({ href, children }: { href: string; children: React.ReactN
   );
 }
 
-function MailLink({ address }: { address: string }) {
+export function MailLink({ address }: { address: string }) {
   return (
     <a
       href={`mailto:${address}`}
@@ -30,7 +30,7 @@ function MailLink({ address }: { address: string }) {
   );
 }
 
-function Table({ headers, rows }: { headers: string[]; rows: React.ReactNode[][] }) {
+export function Table({ headers, rows }: { headers: string[]; rows: React.ReactNode[][] }) {
   return (
     <div
       className="overflow-x-auto rounded-2xl border border-border/70 bg-card"
@@ -64,7 +64,7 @@ function Table({ headers, rows }: { headers: string[]; rows: React.ReactNode[][]
   );
 }
 
-function InfoCallout({ children }: { children: React.ReactNode }) {
+export function InfoCallout({ children }: { children: React.ReactNode }) {
   return (
     <div className="rounded-2xl border border-border/70 bg-muted/50 p-5">
       <div className="flex items-start gap-3">
