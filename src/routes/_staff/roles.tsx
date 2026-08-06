@@ -10,18 +10,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";
 import { useEffect, useMemo, useState } from "react";
-import { CalendarDays, Search, ShieldCheck } from "lucide-react";
+import { Search, ShieldCheck } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { useCms } from "@/i18n/cms";
 import { useMyRoles } from "@/lib/roles";
+import { RoleTableRow } from "@/components/cms/RoleTableRow";
+import { QaTestAccountPanel } from "@/components/cms/QaTestAccountPanel";
 import {
   grantMemberRole,
-  listQaProvisioningOptions,
   listRoleAdminData,
-  provisionQaTestAccount,
   revokeMemberRole,
   revokeAccountStaffRoles,
-  searchQaCandidates,
 } from "@/lib/roles.functions";
 import type { ManagedRole } from "@/lib/role-model";
 
@@ -168,79 +167,21 @@ function RolesPage() {
                 </tr>
               ) : (
                 filtered.map((m) => (
-                  <tr key={m.memberId} className="border-t border-border">
-                    <td className="px-4 py-3 font-medium">{m.name}</td>
-                    <td className="px-4 py-3 text-muted-foreground">{m.email ?? "—"}</td>
-                    {/* Claim linkage, the thing QA actually needs to verify:
-                        which imported record, and which auth identity. */}
-                    <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
-                      <div>ICF {m.cstRecno}</div>
-                      <div title={m.authUserId}>{m.authUserId.slice(0, 8)}…</div>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-2.5 py-1 text-xs font-semibold">
-                        {t("roles.memberBadge")}
-                      </span>
-                      {m.isEditor ? (
-                        <span className="ml-1.5 inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
-                          <ShieldCheck className="h-3.5 w-3.5" />
-                          {t("roles.editorBadge")}
-                        </span>
-                      ) : null}
-                      {m.isOrganizer ? (
-                        <span className="ml-1.5 inline-flex items-center gap-1.5 rounded-full bg-teal-soft px-2.5 py-1 text-xs font-semibold text-teal-foreground">
-                          <CalendarDays className="h-3.5 w-3.5" />
-                          {t("roles.organizerBadge")}
-                        </span>
-                      ) : null}
-                      {/* Hybrid accounts (member + admin) are listed here, not
-                          under "Internal accounts" — the badge makes that legible. */}
-                      {m.isAdmin ? (
-                        <span className="ml-1.5 inline-flex items-center gap-1.5 rounded-full bg-primary px-2.5 py-1 text-xs font-semibold text-primary-foreground">
-                          <ShieldCheck className="h-3.5 w-3.5" />
-                          {t("roles.adminBadge")}
-                        </span>
-                      ) : null}
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      {m.isAdmin ? (
-                        <span className="text-xs text-muted-foreground">
-                          {t("roles.adminNote")}
-                        </span>
-                      ) : (
-                        <div className="flex justify-end gap-1.5">
-                          <button
-                            onClick={() => void toggle(m, "editor")}
-                            disabled={pending === `${m.memberId}:editor`}
-                            className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary disabled:opacity-50"
-                          >
-                            {m.isEditor ? t("roles.revokeEditor") : t("roles.grantEditor")}
-                          </button>
-                          <button
-                            onClick={() => void toggle(m, "organizer")}
-                            disabled={pending === `${m.memberId}:organizer`}
-                            className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary disabled:opacity-50"
-                          >
-                            {m.isOrganizer ? t("roles.revokeOrganizer") : t("roles.grantOrganizer")}
-                          </button>
-                          {m.isEditor || m.isOrganizer ? (
-                            <button
-                              onClick={() => void removeAccess(m.authUserId, m.name)}
-                              disabled={pending === `account:${m.authUserId}`}
-                              className="rounded-full border border-destructive/40 px-3 py-1.5 text-xs font-semibold text-destructive hover:bg-destructive/10 disabled:opacity-50"
-                            >
-                              {t("roles.removeAccess")}
-                            </button>
-                          ) : null}
-                        </div>
-                      )}
-                    </td>
-                  </tr>
+                  <RoleTableRow
+                    key={m.memberId}
+                    member={m}
+                    pending={pending}
+                    onToggle={toggle}
+                    onRemoveAccess={removeAccess}
+                    t={t}
+                  />
                 ))
               )}
             </tbody>
           </table>
         </div>
+
+        {/* Internal accounts        </div>
 
         {/* Internal accounts: admins (and legacy staff roles) with no imported
             ICF member record. Read-only — admin is provisioned by migration and
@@ -336,246 +277,5 @@ function RolesPage() {
         </ul>
       </div>
     </Shell>
-  );
-}
-
-/**
- * Admin-only QA support control, visible only while the integration is in TEST
- * mode. It creates a pure-member account bound to one unclaimed imported
- * record — the same binding contract as the claim flow, with a login address
- * the operator controls. The password is shown once, in-session, and never
- * stored or emailed.
- */
-function QaTestAccountPanel({ onProvisioned }: { onProvisioned: () => void }) {
-  const { t } = useCms();
-  const [open, setOpen] = useState(false);
-  const [testMode, setTestMode] = useState<boolean | null>(null);
-  const [candidates, setCandidates] = useState<
-    { memberId: string; name: string; cstRecno: string }[]
-  >([]);
-  const [query, setQuery] = useState("");
-  const [memberId, setMemberId] = useState("");
-  const [selectedName, setSelectedName] = useState("");
-  const [remote, setRemote] = useState<{
-    candidates: { memberId: string; name: string; cstRecno: string }[];
-    truncated: boolean;
-  } | null>(null);
-  const [searching, setSearching] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<{
-    email: string;
-    password: string;
-    memberName: string;
-  } | null>(null);
-
-  useEffect(() => {
-    if (!open || testMode !== null) return;
-    void (async () => {
-      try {
-        const data = await listQaProvisioningOptions();
-        setTestMode(data.testMode);
-        setCandidates(data.candidates);
-      } catch {
-        setTestMode(false);
-      }
-    })();
-  }, [open, testMode]);
-
-  // The default list is capped, so anything typed is resolved server-side over
-  // the full set of claimable members rather than filtered locally.
-  useEffect(() => {
-    const term = query.trim();
-    if (!open || !testMode || term.length < 2) {
-      setRemote(null);
-      setSearching(false);
-      return;
-    }
-    setSearching(true);
-    const timer = setTimeout(() => {
-      void (async () => {
-        try {
-          const res = await searchQaCandidates({ data: { query: term } });
-          setRemote({ candidates: res.candidates, truncated: res.truncated });
-        } catch {
-          setRemote({ candidates: [], truncated: false });
-        } finally {
-          setSearching(false);
-        }
-      })();
-    }, 250);
-    return () => clearTimeout(timer);
-  }, [query, open, testMode]);
-
-  const submit = async () => {
-    setBusy(true);
-    setError(null);
-    try {
-      const res = await provisionQaTestAccount({ data: { memberId, email, password } });
-      setResult({ email: res.email, password, memberName: res.memberName });
-      setMemberId("");
-      setSelectedName("");
-      setQuery("");
-      setRemote(null);
-      setEmail("");
-      setPassword("");
-      setCandidates((prev) => prev.filter((c) => c.memberId !== memberId));
-      onProvisioned();
-    } catch (e) {
-      setError(e instanceof Error ? e.message : t("roles.saveError"));
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  return (
-    <div className="mt-10 rounded-2xl border border-border bg-card p-5">
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="text-lg font-semibold tracking-tight hover:underline"
-      >
-        {t("roles.qaTitle")}
-      </button>
-      <p className="mt-1 max-w-2xl text-sm text-muted-foreground">{t("roles.qaIntro")}</p>
-
-      {open ? (
-        testMode === null ? (
-          <p className="mt-4 text-sm text-muted-foreground">{t("roles.loading")}</p>
-        ) : !testMode ? (
-          <p className="mt-4 text-sm text-muted-foreground">{t("roles.qaLiveDisabled")}</p>
-        ) : (
-          <div className="mt-4 space-y-3">
-            <div className="w-full max-w-md">
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder={t("roles.qaSearchMember")}
-                className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm"
-                aria-autocomplete="list"
-                aria-controls="candidate-list"
-              />
-              <div
-                id="candidate-list"
-                className="mt-1 max-h-60 overflow-auto rounded-lg border border-border bg-card"
-                role="listbox"
-              >
-                {(() => {
-                  const q = query.trim().toLowerCase();
-                  const searchingRemotely = q.length >= 2;
-                  if (searchingRemotely && (searching || !remote)) {
-                    return (
-                      <div className="px-3 py-2 text-sm text-muted-foreground">
-                        {t("roles.loading")}
-                      </div>
-                    );
-                  }
-                  const filtered = searchingRemotely
-                    ? (remote?.candidates ?? [])
-                    : q
-                      ? candidates.filter(
-                          (c) =>
-                            c.name.toLowerCase().includes(q) ||
-                            c.cstRecno.toLowerCase().includes(q),
-                        )
-                      : candidates;
-                  if (filtered.length === 0) {
-                    return (
-                      <div className="px-3 py-2 text-sm text-muted-foreground">
-                        {t("roles.qaNoMatches")}
-                      </div>
-                    );
-                  }
-                  const rows = filtered.map((c) => {
-                    const selected = memberId === c.memberId;
-                    return (
-                      <button
-                        key={c.memberId}
-                        type="button"
-                        role="option"
-                        aria-selected={selected}
-                        onClick={() => {
-                          setMemberId(c.memberId);
-                          setSelectedName(c.name);
-                          setQuery(c.name);
-                        }}
-                        className={`w-full px-3 py-2 text-left text-sm transition-colors ${
-                          selected ? "bg-primary/10 text-primary" : "hover:bg-secondary/60"
-                        }`}
-                      >
-                        {c.name} · ICF {c.cstRecno}
-                      </button>
-                    );
-                  });
-                  return (
-                    <>
-                      {rows}
-                      {searchingRemotely && remote?.truncated ? (
-                        <p className="px-3 py-2 text-xs text-muted-foreground">
-                          {t("roles.qaMoreResults")}
-                        </p>
-                      ) : null}
-                    </>
-                  );
-                })()}
-              </div>
-              {memberId ? (
-                <div className="mt-2 flex items-center gap-2 text-sm">
-                  <span className="text-muted-foreground">{t("roles.qaSelectedMember")}</span>
-                  <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-1 font-medium text-primary">
-                    {selectedName || memberId}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMemberId("");
-                      setSelectedName("");
-                      setQuery("");
-                    }}
-                    className="text-muted-foreground hover:text-foreground"
-                  >
-                    ×
-                  </button>
-                </div>
-              ) : null}
-            </div>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={t("roles.qaEmailPlaceholder")}
-              className="block w-full max-w-md rounded-lg border border-border bg-card px-3 py-2 text-sm"
-            />
-            <input
-              type="text"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder={t("roles.qaPasswordPlaceholder")}
-              className="block w-full max-w-md rounded-lg border border-border bg-card px-3 py-2 text-sm"
-            />
-            <button
-              onClick={() => void submit()}
-              disabled={busy || !memberId || !email || password.length < 10}
-              className="rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-50"
-            >
-              {t("roles.qaCreate")}
-            </button>
-
-            {error ? <p className="text-sm text-destructive">{error}</p> : null}
-            {result ? (
-              <div className="rounded-lg border border-border bg-secondary/50 px-4 py-3 text-sm">
-                <p className="font-semibold">{t("roles.qaCreated")}</p>
-                <p className="mt-1 text-muted-foreground">{result.memberName}</p>
-                <p className="mt-1 font-mono text-xs">{result.email}</p>
-                <p className="font-mono text-xs">{result.password}</p>
-                <p className="mt-1 text-xs text-muted-foreground">{t("roles.qaCredentialsNote")}</p>
-              </div>
-            ) : null}
-          </div>
-        )
-      ) : null}
-    </div>
   );
 }
