@@ -13,7 +13,7 @@ import { assertOrganizer } from "./authz";
 import { MAX_EVENT_HOSTS } from "./event-hosts";
 
 const LIST_COLUMNS =
-  "id, slug, title, summary, language, status, starts_at, ends_at, timezone, location_mode, venue_name, city, capacity, is_featured, organizer_id, updated_at";
+  "id, slug, title, summary, language, status, starts_at, ends_at, timezone, location_mode, venue_name, city, capacity, is_featured, category_id, region_id, organizer_id, updated_at";
 
 const EDIT_COLUMNS = `${LIST_COLUMNS}, description, image_url, image_credit_name, image_credit_url, online_url, registration_mode, registration_opens_at, registration_closes_at, guest_registration_allowed, published_at, content_updated_at`;
 
@@ -46,6 +46,8 @@ const eventInput = z.object({
   registration_closes_at: z.string().min(1).nullable().optional(),
   guest_registration_allowed: z.boolean(),
   is_featured: z.boolean(),
+  category_id: z.string().uuid().nullable().optional(),
+  region_id: z.string().uuid().nullable().optional(),
 });
 
 /** Empty strings from the form mean "unset", not "the empty string". */
@@ -63,6 +65,8 @@ function normalize(input: z.infer<typeof eventInput>) {
     image_credit_name: blankToNull(input.image_credit_name),
     image_credit_url: blankToNull(input.image_credit_url),
     capacity: input.capacity ?? null,
+    category_id: input.category_id ?? null,
+    region_id: input.region_id ?? null,
     registration_opens_at: blankToNull(input.registration_opens_at),
     registration_closes_at: blankToNull(input.registration_closes_at),
   };
