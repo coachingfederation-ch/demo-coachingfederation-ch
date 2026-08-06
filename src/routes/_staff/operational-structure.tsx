@@ -13,7 +13,7 @@
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowDown, ArrowUp, MapPin, Plus, Trash2 } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { supabase } from "@/integrations/supabase/client";
 import { useCms } from "@/i18n/cms";
@@ -25,7 +25,16 @@ import {
   searchOpsMembers,
 } from "@/lib/ops-admin.functions";
 import { grantMemberRole, revokeMemberRole } from "@/lib/roles.functions";
-import { CommunityPanel, type CommunityFields } from "@/components/cms/CommunityPanel";
+import { ProjectGroupList } from "@/components/cms/ops/ProjectGroupList";
+import { ProjectForm } from "@/components/cms/ops/ProjectForm";
+import { RoleAssignmentEditor } from "@/components/cms/ops/RoleAssignmentEditor";
+import {
+  INPUT,
+  type Assignment,
+  type Localized,
+  type MemberOption,
+  type ProjectRow,
+} from "@/components/cms/ops/types";
 
 export const Route = createFileRoute("/_staff/operational-structure")({
   beforeLoad: ({ context }) => requireStaffAccess(context.queryClient, ADMIN_ONLY),
@@ -38,39 +47,12 @@ export const Route = createFileRoute("/_staff/operational-structure")({
   component: OperationalStructurePage,
 });
 
-type Localized = {
-  id: string;
-  slug: string;
-  name: string;
-  name_de: string | null;
-  name_fr: string | null;
-  name_it: string | null;
-  sort_order: number;
-  is_active: boolean;
-};
-
-/** Projects carry the community fields too; roles never do. */
-type ProjectRow = Localized & CommunityFields;
-
-type Assignment = {
-  id: string;
-  member_id: string;
-  role_id: string;
-  sort_order: number;
-  member: { full_name: string | null; email: string | null; auth_user_id: string | null } | null;
-};
-
-type MemberOption = { id: string; full_name: string | null; auth_user_id: string | null };
-
-const LOCALE_COLS = ["name_de", "name_fr", "name_it"] as const;
 const COLUMNS = "id, slug, name, name_de, name_fr, name_it, sort_order, is_active";
 const PROJECT_COLUMNS =
   COLUMNS +
   ", is_community, is_featured_community, description, description_de, description_fr," +
   " description_it, cadence_note, cadence_note_de, cadence_note_fr, cadence_note_it," +
   " contact_email, signup_url, language_slugs";
-const INPUT =
-  "rounded-lg border border-border bg-card px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-ring/20";
 
 function OperationalStructurePage() {
   const { t } = useCms();
@@ -265,6 +247,16 @@ function OperationalStructurePage() {
     await loadDetail(selected);
   };
 
+  const moveAssignmentUp = async (row: Assignment, index: number) => {
+    const b = assignments[index - 1];
+    if (!b) return;
+    await Promise.all([
+      supabase.from("op_assignments").update({ sort_order: b.sort_order }).eq("id", row.id),
+      supabase.from("op_assignments").update({ sort_order: row.sort_order }).eq("id", b.id),
+    ]);
+    await loadDetail(selected!);
+  };
+
   const project = projects.find((p) => p.id === selected) ?? null;
 
   return (
@@ -291,363 +283,49 @@ function OperationalStructurePage() {
         </div>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-[260px_1fr]">
-          <nav className="space-y-5" aria-label={t("ops.projects")}>
-            <div className="flex items-center justify-between gap-2">
-              <label className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-                <input
-                  type="checkbox"
-                  checked={reordering}
-                  onChange={(e) => setReordering(e.target.checked)}
-                  className="h-3.5 w-3.5 accent-[var(--color-primary)]"
-                />
-                {t("ops.reorder")}
-              </label>
-            </div>
-            {reordering ? (
-              <p className="-mt-3 text-[11px] leading-snug text-muted-foreground">
-                {t("ops.reorderHint")}
-              </p>
-            ) : null}
-            {(
-              [
-                { key: "general", rows: projects.filter((p) => !p.is_community) },
-                { key: "communities", rows: projects.filter((p) => p.is_community) },
-              ] as const
-            ).map((group) =>
-              group.rows.length === 0 ? null : (
-                <div key={group.key}>
-                  <h2 className="px-3 pb-1 text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground">
-                    {t(`ops.group.${group.key}`)}
-                  </h2>
-                  <div className="space-y-1">
-                    {group.rows.map((p, index) => (
-                      <div key={p.id} className="flex items-center gap-1">
-                        <button
-                          type="button"
-                          onClick={() => setSelected(p.id)}
-                          className={
-                            "flex min-w-0 flex-1 items-center gap-1.5 rounded-lg px-3 py-2 text-left text-sm " +
-                            (p.id === selected
-                              ? "bg-secondary font-semibold text-primary"
-                              : "text-muted-foreground hover:bg-secondary/60") +
-                            (p.is_active ? "" : " opacity-50")
-                          }
-                        >
-                          {p.is_community ? (
-                            <MapPin className="h-3.5 w-3.5 shrink-0" aria-hidden />
-                          ) : null}
-                          <span className="truncate">{p.name}</span>
-                        </button>
-                        {reordering ? (
-                          <>
-                            <button
-                              onClick={() => void move("op_projects", group.rows, index, -1)}
-                              disabled={index === 0}
-                              aria-label={t("ops.moveUp")}
-                              className="rounded p-1 text-muted-foreground hover:bg-secondary disabled:opacity-30"
-                            >
-                              <ArrowUp className="h-3.5 w-3.5" />
-                            </button>
-                            <button
-                              onClick={() => void move("op_projects", group.rows, index, 1)}
-                              disabled={index === group.rows.length - 1}
-                              aria-label={t("ops.moveDown")}
-                              className="rounded p-1 text-muted-foreground hover:bg-secondary disabled:opacity-30"
-                            >
-                              <ArrowDown className="h-3.5 w-3.5" />
-                            </button>
-                          </>
-                        ) : null}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ),
-            )}
-          </nav>
+          <ProjectGroupList
+            t={t}
+            projects={projects}
+            selected={selected}
+            setSelected={setSelected}
+            reordering={reordering}
+            setReordering={setReordering}
+            move={move}
+          />
 
           {project ? (
             <div className="space-y-6">
-              <section className="rounded-2xl border border-border bg-card p-5">
-                <h2 className="text-sm font-bold">{t("ops.projectDetails")}</h2>
-                <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                  <input
-                    aria-label={t("ops.nameEn")}
-                    value={project.name}
-                    onChange={(e) =>
-                      setProjects((prev) =>
-                        prev.map((r) => (r.id === project.id ? { ...r, name: e.target.value } : r)),
-                      )
-                    }
-                    onBlur={(e) => void patch("op_projects", project.id, { name: e.target.value })}
-                    className={INPUT}
-                  />
-                  {LOCALE_COLS.map((col) => (
-                    <input
-                      key={col}
-                      aria-label={t(`ops.${col}`)}
-                      placeholder={t(`ops.${col}`)}
-                      value={project[col] ?? ""}
-                      onChange={(e) =>
-                        setProjects((prev) =>
-                          prev.map((r) =>
-                            r.id === project.id ? { ...r, [col]: e.target.value } : r,
-                          ),
-                        )
-                      }
-                      onBlur={(e) =>
-                        void patch("op_projects", project.id, { [col]: e.target.value || null })
-                      }
-                      className={INPUT}
-                    />
-                  ))}
-                </div>
-                <div className="mt-3 flex items-center gap-4">
-                  <label className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-                    <input
-                      type="checkbox"
-                      checked={project.is_active}
-                      onChange={(e) =>
-                        void patch("op_projects", project.id, { is_active: e.target.checked })
-                      }
-                      className="h-4 w-4 accent-[var(--color-primary)]"
-                    />
-                    {t("ops.active")}
-                  </label>
-                  <button
-                    onClick={() => void removeRow("op_projects", project.id)}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-destructive"
-                  >
-                    <Trash2 className="h-3.5 w-3.5" /> {t("ops.deleteProject")}
-                  </button>
-                </div>
+              <ProjectForm
+                t={t}
+                project={project}
+                setProjects={setProjects}
+                patch={patch}
+                removeRow={removeRow}
+                loadProjects={loadProjects}
+              />
 
-                <fieldset className="mt-5 border-t border-border pt-4">
-                  <legend className="sr-only">{t("ops.type.legend")}</legend>
-                  <p className="text-xs font-bold">{t("ops.type.legend")}</p>
-                  <div className="mt-2 grid gap-2 sm:grid-cols-2">
-                    {(
-                      [
-                        { value: false, key: "general" },
-                        { value: true, key: "community" },
-                      ] as const
-                    ).map((option) => (
-                      <label
-                        key={option.key}
-                        className={
-                          "flex cursor-pointer gap-2 rounded-xl border p-3 text-left " +
-                          (project.is_community === option.value
-                            ? "border-primary bg-secondary/60"
-                            : "border-border hover:bg-secondary/30")
-                        }
-                      >
-                        <input
-                          type="radio"
-                          name="project-type"
-                          className="mt-0.5 h-4 w-4 accent-[var(--color-primary)]"
-                          checked={project.is_community === option.value}
-                          onChange={() =>
-                            void patch("op_projects", project.id, {
-                              is_community: option.value,
-                              ...(option.value ? {} : { is_featured_community: false }),
-                            })
-                          }
-                        />
-                        <span>
-                          <span className="block text-xs font-semibold">
-                            {t(`ops.type.${option.key}`)}
-                          </span>
-                          <span className="mt-0.5 block text-[11px] leading-snug text-muted-foreground">
-                            {t(`ops.type.${option.key}Note`)}
-                          </span>
-                        </span>
-                      </label>
-                    ))}
-                  </div>
-                </fieldset>
-              </section>
-
-              <CommunityPanel project={project} onSaved={loadProjects} />
-
-              <section className="rounded-2xl border border-border bg-card p-5">
-                <h2 className="text-sm font-bold">{t("ops.roles")}</h2>
-                <div className="mt-3 space-y-3">
-                  {roles.map((role, index) => (
-                    <div
-                      key={role.id}
-                      className="grid gap-2 border-t border-border pt-3 sm:grid-cols-2"
-                    >
-                      <div className="flex items-center gap-1 sm:col-span-2">
-                        <input
-                          aria-label={t("ops.nameEn")}
-                          value={role.name}
-                          onChange={(e) =>
-                            setRoles((prev) =>
-                              prev.map((r) =>
-                                r.id === role.id ? { ...r, name: e.target.value } : r,
-                              ),
-                            )
-                          }
-                          onBlur={(e) =>
-                            void patch("op_project_roles", role.id, { name: e.target.value })
-                          }
-                          className={INPUT + " flex-1 font-semibold"}
-                        />
-                        <button
-                          onClick={() => void move("op_project_roles", roles, index, -1)}
-                          disabled={index === 0}
-                          aria-label={t("ops.moveUp")}
-                          className="rounded p-1 text-muted-foreground hover:bg-secondary disabled:opacity-30"
-                        >
-                          <ArrowUp className="h-3.5 w-3.5" />
-                        </button>
-                        <button
-                          onClick={() => void move("op_project_roles", roles, index, 1)}
-                          disabled={index === roles.length - 1}
-                          aria-label={t("ops.moveDown")}
-                          className="rounded p-1 text-muted-foreground hover:bg-secondary disabled:opacity-30"
-                        >
-                          <ArrowDown className="h-3.5 w-3.5" />
-                        </button>
-                        <button
-                          onClick={() => void removeRow("op_project_roles", role.id)}
-                          aria-label={t("ops.delete")}
-                          className="rounded p-1 text-muted-foreground hover:text-destructive"
-                        >
-                          <Trash2 className="h-3.5 w-3.5" />
-                        </button>
-                      </div>
-                      {LOCALE_COLS.map((col) => (
-                        <input
-                          key={col}
-                          aria-label={t(`ops.${col}`)}
-                          placeholder={t(`ops.${col}`)}
-                          value={role[col] ?? ""}
-                          onChange={(e) =>
-                            setRoles((prev) =>
-                              prev.map((r) =>
-                                r.id === role.id ? { ...r, [col]: e.target.value } : r,
-                              ),
-                            )
-                          }
-                          onBlur={(e) =>
-                            void patch("op_project_roles", role.id, {
-                              [col]: e.target.value || null,
-                            })
-                          }
-                          className={INPUT}
-                        />
-                      ))}
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-4 flex gap-2">
-                  <input
-                    value={newRole}
-                    onChange={(e) => setNewRole(e.target.value)}
-                    placeholder={t("ops.rolePlaceholder")}
-                    className={INPUT + " w-60"}
-                  />
-                  <button
-                    onClick={() => void addRole()}
-                    className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold hover:bg-secondary"
-                  >
-                    {t("ops.addRole")}
-                  </button>
-                </div>
-              </section>
-
-              <section className="rounded-2xl border border-border bg-card p-5">
-                <h2 className="text-sm font-bold">{t("ops.assignments")}</h2>
-                <p className="mt-1 text-xs text-muted-foreground">{t("ops.assignmentsNote")}</p>
-
-                <ul className="mt-3 divide-y divide-border">
-                  {assignments.map((row, index) => (
-                    <li key={row.id} className="flex items-center gap-2 py-2">
-                      <span className="min-w-0 flex-1 truncate text-sm">
-                        {row.member?.full_name ?? row.member_id}
-                        <span className="ml-2 text-xs text-muted-foreground">
-                          {roles.find((r) => r.id === row.role_id)?.name ?? ""}
-                        </span>
-                      </span>
-                      <button
-                        onClick={async () => {
-                          const b = assignments[index - 1];
-                          if (!b) return;
-                          await Promise.all([
-                            supabase
-                              .from("op_assignments")
-                              .update({ sort_order: b.sort_order })
-                              .eq("id", row.id),
-                            supabase
-                              .from("op_assignments")
-                              .update({ sort_order: row.sort_order })
-                              .eq("id", b.id),
-                          ]);
-                          await loadDetail(selected!);
-                        }}
-                        disabled={index === 0}
-                        aria-label={t("ops.moveUp")}
-                        className="rounded p-1 text-muted-foreground hover:bg-secondary disabled:opacity-30"
-                      >
-                        <ArrowUp className="h-3.5 w-3.5" />
-                      </button>
-                      <button
-                        onClick={() => void unassign(row)}
-                        aria-label={t("ops.remove")}
-                        className="rounded p-1 text-muted-foreground hover:text-destructive"
-                      >
-                        <Trash2 className="h-3.5 w-3.5" />
-                      </button>
-                    </li>
-                  ))}
-                  {assignments.length === 0 ? (
-                    <li className="py-2 text-sm text-muted-foreground">{t("ops.noAssignments")}</li>
-                  ) : null}
-                </ul>
-
-                <div className="mt-4 flex flex-wrap items-center gap-2">
-                  <input
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    placeholder={t("ops.memberSearch")}
-                    className={INPUT + " w-56"}
-                  />
-                  <select
-                    aria-label={t("ops.member")}
-                    value={pickedMember}
-                    onChange={(e) => setPickedMember(e.target.value)}
-                    className={INPUT + " w-56"}
-                  >
-                    <option value="">{t("ops.selectMember")}</option>
-                    {members.map((m) => (
-                      <option key={m.id} value={m.id}>
-                        {m.full_name ?? m.id}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    aria-label={t("ops.role")}
-                    value={pickedRole}
-                    onChange={(e) => setPickedRole(e.target.value)}
-                    className={INPUT + " w-44"}
-                  >
-                    <option value="">{t("ops.selectRole")}</option>
-                    {roles.map((r) => (
-                      <option key={r.id} value={r.id}>
-                        {r.name}
-                      </option>
-                    ))}
-                  </select>
-                  <button
-                    onClick={() => void assign()}
-                    disabled={!pickedMember || !pickedRole}
-                    className="rounded-full bg-primary px-4 py-1.5 text-xs font-semibold text-primary-foreground disabled:opacity-50"
-                  >
-                    {t("ops.assign")}
-                  </button>
-                </div>
-              </section>
+              <RoleAssignmentEditor
+                t={t}
+                roles={roles}
+                setRoles={setRoles}
+                patch={patch}
+                move={move}
+                removeRow={removeRow}
+                newRole={newRole}
+                setNewRole={setNewRole}
+                addRole={addRole}
+                assignments={assignments}
+                moveAssignmentUp={moveAssignmentUp}
+                unassign={unassign}
+                search={search}
+                setSearch={setSearch}
+                members={members}
+                pickedMember={pickedMember}
+                setPickedMember={setPickedMember}
+                pickedRole={pickedRole}
+                setPickedRole={setPickedRole}
+                assign={assign}
+              />
             </div>
           ) : (
             <p className="text-sm text-muted-foreground">{t("ops.selectProject")}</p>

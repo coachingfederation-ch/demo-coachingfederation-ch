@@ -10,7 +10,9 @@
  * inactive/grace lifecycle, never hard-deleted by the sync itself.
  */
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
-import { fetchActiveMemberFeed, type NormalizedMember } from "./icf-soap.server";
+import { fetchActiveMemberFeed } from "./icf-soap.server";
+import { IMPORTED_FIELDS, diffFeed } from "./member-sync/diff.server";
+import { upsertFeedAndSnapshot } from "./member-sync/snapshots.server";
 import { loadIntegrationConfigAdmin } from "./integration-config.server";
 import {
   directoryEligibilityReason,
@@ -27,23 +29,6 @@ export type SyncResult = {
   deactivated: number;
   message?: string;
 };
-
-const IMPORTED_FIELDS: (keyof NormalizedMember)[] = [
-  "first_name",
-  "last_name",
-  "full_name",
-  "email",
-  "phone",
-  "city",
-  "country",
-  "organisation",
-  "credential_slug",
-  "member_type",
-  "membership_join_date",
-  "membership_expiration_date",
-  "credential_awarded_on",
-  "credential_expires_on",
-];
 
 async function logEvent(
   runId: string | null,
@@ -172,71 +157,13 @@ export async function runMemberSync(options: {
       byRecno.set(String(row.cst_recno), row);
     }
 
-    let created = 0;
-    let updated = 0;
     const now = new Date().toISOString();
-    const snapshots: Record<string, unknown>[] = [];
-
-    // Upserted in chunks: the chapter feed is ~500 rows, and one round trip per
-    // member would not finish inside a serverless request budget.
-    const changedByRecno = new Map<string, string[]>();
     // Whether a feed row is a first import or a change to an existing member.
     // Recorded on the snapshot so the run log can separate the two later; the
     // field lists alone cannot tell them apart.
-    const createdRecnos = new Set<string>();
-    for (const member of feed) {
-      const existing = byRecno.get(member.cst_recno);
-      const changed = IMPORTED_FIELDS.filter(
-        (field) => !existing || (existing[field] ?? null) !== (member[field] ?? null),
-      );
-      changedByRecno.set(member.cst_recno, existing ? changed : [...IMPORTED_FIELDS]);
-      if (existing) updated += changed.length ? 1 : 0;
-      else {
-        created += 1;
-        createdRecnos.add(member.cst_recno);
-      }
-    }
+    const { changedByRecno, createdRecnos, created, updated } = diffFeed(feed, byRecno);
 
-    const CHUNK = 200;
-    for (let i = 0; i < feed.length; i += CHUNK) {
-      const chunk = feed.slice(i, i + CHUNK).map((member) => ({
-        ...member,
-        activity_state: "active" as const,
-        inactive_since: null,
-        scheduled_deletion_at: null,
-        last_synced_at: now,
-        last_sync_run_id: runId,
-      }));
-      const { data: upserted, error: upsertError } = await supabaseAdmin
-        .from("members")
-        .upsert(chunk, { onConflict: "cst_recno" })
-        .select("id, cst_recno");
-      if (upsertError) throw upsertError;
-
-      for (const row of upserted ?? []) {
-        const member = feed.find((m) => m.cst_recno === String(row.cst_recno));
-        if (!member) continue;
-        const changed = changedByRecno.get(member.cst_recno) ?? [];
-        // Only record a snapshot when something actually moved. Otherwise a
-        // daily run would add ~500 identical rows to the audit trail forever.
-        if (!changed.length) continue;
-        snapshots.push({
-          sync_run_id: runId,
-          member_id: row.id,
-          cst_recno: member.cst_recno,
-          normalized_payload: member,
-          changed_fields: changed,
-          change_kind: createdRecnos.has(member.cst_recno) ? "created" : "updated",
-        });
-      }
-    }
-
-    for (let i = 0; i < snapshots.length; i += 200) {
-      const { error } = await supabaseAdmin
-        .from("member_import_snapshots")
-        .insert(snapshots.slice(i, i + 200) as never);
-      if (error) throw error;
-    }
+    await upsertFeedAndSnapshot({ feed, runId, now, changedByRecno, createdRecnos });
 
     // Absent from the feed -> inactive, entering the grace window.
     const feedRecnos = new Set(feed.map((m) => m.cst_recno));

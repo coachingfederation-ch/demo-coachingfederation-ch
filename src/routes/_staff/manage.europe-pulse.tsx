@@ -10,8 +10,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Loader2, RefreshCw, Eye, EyeOff, Check, ExternalLink, AlertTriangle } from "lucide-react";
+import { Loader2, RefreshCw, Eye, EyeOff, AlertTriangle } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
+import { PulseItemCard } from "@/components/cms/PulseItemCard";
+import { PulseRunControls } from "@/components/cms/PulseRunControls";
 import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";
 import { supabase } from "@/integrations/supabase/client";
 import { runEuropePulseNow, retryFailedChapters } from "@/lib/europe-pulse.functions";
@@ -196,27 +198,11 @@ function EuropePulseAdmin() {
   return (
     <Shell>
       <div className="mx-auto max-w-5xl px-8 py-10">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Europe Pulse</h1>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Weekly scan of {chapters.filter((c) => c.is_active).length} European ICF chapter
-              websites, curated into the public feed at /europe-pulse.
-            </p>
-          </div>
-          <button
-            onClick={scanNow}
-            disabled={busy}
-            className="inline-flex h-10 items-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-60"
-          >
-            {busy ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <RefreshCw className="h-4 w-4" />
-            )}
-            {busy ? "Scanning…" : "Run scan now"}
-          </button>
-        </div>
+        <PulseRunControls
+          activeChapterCount={chapters.filter((c) => c.is_active).length}
+          busy={busy}
+          onScanNow={scanNow}
+        />
 
         {notice ? <p className="mt-4 rounded-lg bg-secondary px-4 py-3 text-sm">{notice}</p> : null}
         {error ? (
@@ -309,52 +295,7 @@ function EuropePulseAdmin() {
           ) : (
             <ul className="mt-3 flex flex-col gap-2">
               {items.map((item) => (
-                <li
-                  key={item.id}
-                  className="flex flex-wrap items-center gap-3 rounded-lg border border-border bg-card px-4 py-3"
-                >
-                  <span aria-hidden>{flagFor(item.country_code)}</span>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-medium">{item.title_en}</p>
-                    <p className="truncate text-xs text-muted-foreground">
-                      {item.chapter} · {item.type} · week of {item.week_of}
-                    </p>
-                  </div>
-                  {/* The public feed only carries items with a date that has
-                      not passed, so flag rows that stay behind the scenes. */}
-                  {!item.event_date || item.event_date < new Date().toISOString().slice(0, 10) ? (
-                    <span className="rounded-full bg-secondary px-2.5 py-1 text-[11px] font-semibold text-muted-foreground">
-                      {item.event_date ? "Past" : "No date"} · not shown publicly
-                    </span>
-                  ) : null}
-                  <a
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-md p-1.5 text-muted-foreground hover:bg-secondary hover:text-foreground"
-                    title="Open source"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                  </a>
-                  {item.status !== "published" ? (
-                    <button
-                      onClick={() => setStatus(item.id, "published")}
-                      className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground"
-                    >
-                      <Check className="h-3.5 w-3.5" /> Publish
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => setStatus(item.id, "hidden")}
-                      className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-3 py-1.5 text-xs font-semibold"
-                    >
-                      <EyeOff className="h-3.5 w-3.5" /> Hide
-                    </button>
-                  )}
-                  <span className="w-20 text-right text-[11px] uppercase tracking-wider text-muted-foreground">
-                    {item.status}
-                  </span>
-                </li>
+                <PulseItemCard key={item.id} item={item} onSetStatus={setStatus} />
               ))}
             </ul>
           )}
