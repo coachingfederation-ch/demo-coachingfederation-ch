@@ -518,6 +518,11 @@
         "title": "Advertise with us",
         "body": "Reach coaches across Switzerland through our newsletter, website and events. Paid placements for members will be offered here."
       },
+      "writeForUs": {
+        "title": "Write for us",
+        "body": "Share your expertise with the coaching community by contributing articles to our Insights section. We welcome perspectives, case studies and practical guidance.",
+        "cta": "Apply to write"
+      },
       "communities": {
         "title": "Communities in your service area",
         "body": "Local communities that cover the regions you selected on your profile, with someone to contact.",
