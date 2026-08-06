@@ -20,7 +20,9 @@
   },
   "past": {
     "eyebrow": "Eventi passati",
-    "recap": "Riepilogo →"
+    "recap": "Riepilogo →",
+    "title": "Cosa è già successo.",
+    "empty": "Nessun evento passato al momento."
   },
   "cta": {
     "eyebrow": "Contribuisci",
@@ -66,5 +68,20 @@
     "errorBody": "Riprova tra qualche istante.",
     "hostedBy": "Ospitato da",
     "photoCredit": "Foto di {name} su Unsplash"
+  },
+  "filters": {
+    "when": "Periodo",
+    "upcoming": "In arrivo",
+    "past": "Passati",
+    "category": "Categoria",
+    "region": "Regione",
+    "language": "Lingua",
+    "format": "Formato",
+    "allCategories": "Tutte le categorie",
+    "allRegions": "Tutte le regioni",
+    "allLanguages": "Tutte le lingue",
+    "allFormats": "Tutti i formati",
+    "reset": "Reimposta i filtri",
+    "noMatches": "Nessun evento corrisponde a questi filtri."
   }
 }

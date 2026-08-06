@@ -20,7 +20,9 @@
   },
   "past": {
     "eyebrow": "Past events",
-    "recap": "Recap →"
+    "recap": "Recap →",
+    "title": "Where we've been.",
+    "empty": "No past events to show yet."
   },
   "cta": {
     "eyebrow": "Contribute",
@@ -66,5 +68,20 @@
     "errorBody": "Please try again in a moment.",
     "hostedBy": "Hosted by",
     "photoCredit": "Photo by {name} on Unsplash"
+  },
+  "filters": {
+    "when": "When",
+    "upcoming": "Upcoming",
+    "past": "Past",
+    "category": "Category",
+    "region": "Region",
+    "language": "Language",
+    "format": "Format",
+    "allCategories": "All categories",
+    "allRegions": "All regions",
+    "allLanguages": "All languages",
+    "allFormats": "All formats",
+    "reset": "Reset filters",
+    "noMatches": "No events match these filters."
   }
 }
