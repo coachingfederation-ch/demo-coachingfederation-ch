@@ -218,6 +218,18 @@ export default function EventDetailPage({
                 </span>
               ) : null}
             </div>
+            {event.category_name || event.region_name ? (
+              <div className="mt-5 flex flex-wrap gap-2">
+                {[event.category_name, event.region_name].filter(Boolean).map((label) => (
+                  <span
+                    key={label as string}
+                    className="inline-flex items-center rounded-full border border-hero-foreground/30 px-3 py-1 text-xs font-semibold text-hero-foreground/85"
+                  >
+                    {label}
+                  </span>
+                ))}
+              </div>
+            ) : null}
             {event.image_url && event.image_credit_name ? (
               <p className="mt-10 text-right text-xs text-hero-foreground/60">
                 {t("events.detail.photoCredit").replace("{name}", event.image_credit_name)}{" "}

@@ -298,6 +298,45 @@ export type Database = {
         }
         Relationships: []
       }
+      cf_event_categories: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          name_de: string | null
+          name_fr: string | null
+          name_it: string | null
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          name_de?: string | null
+          name_fr?: string | null
+          name_it?: string | null
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       cf_experience_bands: {
         Row: {
           created_at: string
@@ -992,6 +1031,7 @@ export type Database = {
       events: {
         Row: {
           capacity: number | null
+          category_id: string | null
           city: string | null
           content_updated_at: string
           created_at: string
@@ -1008,6 +1048,7 @@ export type Database = {
           online_url: string | null
           organizer_id: string | null
           published_at: string | null
+          region_id: string | null
           registration_closes_at: string | null
           registration_mode: Database["public"]["Enums"]["event_registration_mode"]
           registration_opens_at: string | null
@@ -1022,6 +1063,7 @@ export type Database = {
         }
         Insert: {
           capacity?: number | null
+          category_id?: string | null
           city?: string | null
           content_updated_at?: string
           created_at?: string
@@ -1038,6 +1080,7 @@ export type Database = {
           online_url?: string | null
           organizer_id?: string | null
           published_at?: string | null
+          region_id?: string | null
           registration_closes_at?: string | null
           registration_mode?: Database["public"]["Enums"]["event_registration_mode"]
           registration_opens_at?: string | null
@@ -1052,6 +1095,7 @@ export type Database = {
         }
         Update: {
           capacity?: number | null
+          category_id?: string | null
           city?: string | null
           content_updated_at?: string
           created_at?: string
@@ -1068,6 +1112,7 @@ export type Database = {
           online_url?: string | null
           organizer_id?: string | null
           published_at?: string | null
+          region_id?: string | null
           registration_closes_at?: string | null
           registration_mode?: Database["public"]["Enums"]["event_registration_mode"]
           registration_opens_at?: string | null
@@ -1080,7 +1125,22 @@ export type Database = {
           updated_at?: string
           venue_name?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "events_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "cf_event_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "events_region_id_fkey"
+            columns: ["region_id"]
+            isOneToOne: false
+            referencedRelation: "cf_regions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       integration_config: {
         Row: {
@@ -2456,6 +2516,8 @@ export type Database = {
       events_public: {
         Row: {
           capacity: number | null
+          category_name: string | null
+          category_slug: string | null
           city: string | null
           description: string | null
           ends_at: string | null
@@ -2472,6 +2534,8 @@ export type Database = {
             | null
           online_url: string | null
           published_at: string | null
+          region_name: string | null
+          region_slug: string | null
           registration_closes_at: string | null
           registration_count: number | null
           registration_mode:
@@ -2487,74 +2551,6 @@ export type Database = {
           title: string | null
           updated_at: string | null
           venue_name: string | null
-        }
-        Insert: {
-          capacity?: number | null
-          city?: string | null
-          description?: string | null
-          ends_at?: string | null
-          guest_registration_allowed?: boolean | null
-          id?: string | null
-          image_credit_name?: string | null
-          image_credit_url?: string | null
-          image_url?: string | null
-          is_featured?: boolean | null
-          is_full?: never
-          language?: Database["public"]["Enums"]["article_lang"] | null
-          location_mode?:
-            | Database["public"]["Enums"]["event_location_mode"]
-            | null
-          online_url?: string | null
-          published_at?: string | null
-          registration_closes_at?: string | null
-          registration_count?: never
-          registration_mode?:
-            | Database["public"]["Enums"]["event_registration_mode"]
-            | null
-          registration_open?: never
-          registration_opens_at?: string | null
-          seats_remaining?: never
-          slug?: string | null
-          starts_at?: string | null
-          summary?: string | null
-          timezone?: string | null
-          title?: string | null
-          updated_at?: string | null
-          venue_name?: string | null
-        }
-        Update: {
-          capacity?: number | null
-          city?: string | null
-          description?: string | null
-          ends_at?: string | null
-          guest_registration_allowed?: boolean | null
-          id?: string | null
-          image_credit_name?: string | null
-          image_credit_url?: string | null
-          image_url?: string | null
-          is_featured?: boolean | null
-          is_full?: never
-          language?: Database["public"]["Enums"]["article_lang"] | null
-          location_mode?:
-            | Database["public"]["Enums"]["event_location_mode"]
-            | null
-          online_url?: string | null
-          published_at?: string | null
-          registration_closes_at?: string | null
-          registration_count?: never
-          registration_mode?:
-            | Database["public"]["Enums"]["event_registration_mode"]
-            | null
-          registration_open?: never
-          registration_opens_at?: string | null
-          seats_remaining?: never
-          slug?: string | null
-          starts_at?: string | null
-          summary?: string | null
-          timezone?: string | null
-          title?: string | null
-          updated_at?: string | null
-          venue_name?: string | null
         }
         Relationships: []
       }

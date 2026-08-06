@@ -20,7 +20,9 @@
   },
   "past": {
     "eyebrow": "Vergangene Events",
-    "recap": "Rückblick →"
+    "recap": "Rückblick →",
+    "title": "Was bereits stattfand.",
+    "empty": "Noch keine vergangenen Events."
   },
   "cta": {
     "eyebrow": "Mitgestalten",
@@ -66,5 +68,20 @@
     "errorBody": "Bitte versuchen Sie es in einem Moment erneut.",
     "hostedBy": "Gastgeber",
     "photoCredit": "Foto von {name} auf Unsplash"
+  },
+  "filters": {
+    "when": "Zeitraum",
+    "upcoming": "Kommend",
+    "past": "Vergangen",
+    "category": "Kategorie",
+    "region": "Region",
+    "language": "Sprache",
+    "format": "Format",
+    "allCategories": "Alle Kategorien",
+    "allRegions": "Alle Regionen",
+    "allLanguages": "Alle Sprachen",
+    "allFormats": "Alle Formate",
+    "reset": "Filter zurücksetzen",
+    "noMatches": "Keine Events entsprechen diesen Filtern."
   }
 }

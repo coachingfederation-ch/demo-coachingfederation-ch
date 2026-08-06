@@ -1,7 +1,14 @@
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { Mark, type MarkName } from "@/components/marks";
 import { CompactHero, SiteFooter, CARD_SHADOW } from "@/components/site-chrome";
 import { LocaleLink, useI18n } from "@/i18n";
-import { eventPlace, formatEventDate, type PublicEvent } from "@/lib/events";
+import {
+  eventPlace,
+  formatEventDate,
+  type EventFacetOption,
+  type PublicEvent,
+} from "@/lib/events";
+import type { EventsSearch } from "@/lib/events-search";
 
 /**
  * Events carry no artwork of their own in phase 1, so each card gets a stable
@@ -28,15 +35,93 @@ const LOCATION_TAG: Record<string, string> = {
   hybrid: "events.tag.hybrid",
 };
 
+const FORMATS = ["in_person", "online", "hybrid"] as const;
+const LANGUAGES = ["de", "fr", "it", "en"] as const;
+
 export type EventsPageData = {
   featured: PublicEvent | null;
   upcoming: PublicEvent[];
   past: PublicEvent[];
+  categories: EventFacetOption[];
+  regions: EventFacetOption[];
 };
+
+const selectClass =
+  "h-10 w-full rounded-full border border-border bg-card px-4 text-sm font-medium text-foreground";
+
+function FilterSelect({
+  label,
+  value,
+  options,
+  anyLabel,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  options: { value: string; label: string }[];
+  anyLabel: string;
+  onChange: (next: string) => void;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+        {label}
+      </span>
+      <select className={selectClass} value={value} onChange={(e) => onChange(e.target.value)}>
+        <option value="">{anyLabel}</option>
+        {options.map((o) => (
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
 
 export default function EventsPage({ data }: { data: EventsPageData }) {
   const { t, locale } = useI18n();
-  const { featured, upcoming, past } = data;
+  const navigate = useNavigate();
+  const search = useSearch({ strict: false }) as EventsSearch;
+  const { featured, upcoming, past, categories, regions } = data;
+
+  const when = search.when === "past" ? "past" : "upcoming";
+  const category = search.category ?? "";
+  const region = search.region ?? "";
+  const lang = search.lang ?? "";
+  const format = search.format ?? "";
+  const hasFacetFilters = Boolean(category || region || lang || format);
+
+  const setFilter = (key: keyof EventsSearch, value: string) => {
+    void navigate({
+      // Empty means "any", and an empty facet is dropped so the URL stays clean.
+      search: ((prev: Record<string, unknown>) => ({
+        ...prev,
+        [key]: value || undefined,
+      })) as never,
+      replace: true,
+    });
+  };
+  const resetFilters = () =>
+    void navigate({
+      search: ((prev: Record<string, unknown>) => ({ when: prev["when"] })) as never,
+      replace: true,
+    });
+
+  const matches = (e: PublicEvent) =>
+    (!category || e.category_slug === category) &&
+    (!region || e.region_slug === region) &&
+    (!lang || (e.language ?? "en") === lang) &&
+    (!format || (e.location_mode ?? "in_person") === format);
+
+  // The featured card is a curated hero, so it only survives an unfiltered
+  // upcoming view; otherwise it joins the grid like any other match.
+  const showFeaturedCard = when === "upcoming" && !hasFacetFilters && Boolean(featured);
+  const pool = when === "past" ? past : featured && !showFeaturedCard ? [featured, ...upcoming] : upcoming;
+  const results = pool.filter(matches);
+
+  const categoryLabel = (slug: string | null) =>
+    categories.find((c) => c.slug === slug)?.label ?? null;
 
   const tagsFor = (e: PublicEvent) => [
     (e.language ?? "en").toUpperCase(),
@@ -60,78 +145,164 @@ export default function EventsPage({ data }: { data: EventsPageData }) {
         lede={t("events.hero.lede")}
       />
       <main id="main">
-        {featured ? (
-          <section className="bg-background py-16">
-            <div className="mx-auto max-w-7xl px-8">
-            <p className="eyebrow">{t("events.featured.eyebrow")}</p>
-            <LocaleLink
-              to={`/events/${featured.slug}`}
-              className={
-                "group mt-6 grid overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 md:grid-cols-2 " +
-                CARD_SHADOW
-              }
-            >
-              <div
-                className={
-                  "grid aspect-[4/3] w-full place-items-center md:aspect-auto " +
-                  visualFor(featured.slug ?? "").bg +
-                  " " +
-                  visualFor(featured.slug ?? "").fg
-                }
-              >
-                {featured.image_url ? (
-                  <img
-                    src={featured.image_url}
-                    alt=""
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                  />
-                ) : (
-                  <Mark name={visualFor(featured.slug ?? "").mark} className="h-1/2 w-1/2" />
-                )}
-              </div>
-              <div className="flex flex-col justify-center p-10">
-                <p className="btn-mono !text-muted-foreground">{dateLine(featured)}</p>
-                <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight md:text-3xl">
-                  {featured.title}
-                </h2>
-                {featured.summary ? (
-                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                    {featured.summary}
-                  </p>
-                ) : null}
-                <div className="mt-6 flex flex-wrap items-center gap-2">
-                  {tagsFor(featured).map((tag) => (
-                    <span
-                      key={tag}
-                      className="inline-flex items-center rounded-full border border-border/70 bg-chip px-2.5 py-1 text-[11px] font-semibold text-chip-foreground"
+        <section className="bg-background py-10">
+          <div className="mx-auto max-w-7xl px-8">
+            <div className="flex flex-wrap items-end gap-4">
+              <div>
+                <span className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                  {t("events.filters.when")}
+                </span>
+                <div
+                  className="inline-flex rounded-full border border-border bg-card p-1"
+                  role="group"
+                  aria-label={t("events.filters.when")}
+                >
+                  {(["upcoming", "past"] as const).map((v) => (
+                    <button
+                      key={v}
+                      type="button"
+                      aria-pressed={when === v}
+                      onClick={() => setFilter("when", v === "upcoming" ? "" : v)}
+                      className={
+                        "h-8 rounded-full px-4 text-sm font-semibold transition " +
+                        (when === v
+                          ? "bg-primary text-primary-foreground"
+                          : "text-muted-foreground hover:text-foreground")
+                      }
                     >
-                      {tag}
-                    </span>
+                      {t(`events.filters.${v}`)}
+                    </button>
                   ))}
-                  {featured.is_full ? (
-                    <span className="inline-flex items-center rounded-full bg-warn-soft px-2.5 py-1 text-[11px] font-semibold text-[color:var(--warn)]">
-                      {t("events.tag.full")}
-                    </span>
-                  ) : null}
                 </div>
               </div>
-            </LocaleLink>
+              <div className="grid flex-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                <FilterSelect
+                  label={t("events.filters.category")}
+                  anyLabel={t("events.filters.allCategories")}
+                  value={category}
+                  options={categories.map((c) => ({ value: c.slug, label: c.label }))}
+                  onChange={(v) => setFilter("category", v)}
+                />
+                <FilterSelect
+                  label={t("events.filters.region")}
+                  anyLabel={t("events.filters.allRegions")}
+                  value={region}
+                  options={regions.map((r) => ({ value: r.slug, label: r.label }))}
+                  onChange={(v) => setFilter("region", v)}
+                />
+                <FilterSelect
+                  label={t("events.filters.language")}
+                  anyLabel={t("events.filters.allLanguages")}
+                  value={lang}
+                  options={LANGUAGES.map((l) => ({ value: l, label: l.toUpperCase() }))}
+                  onChange={(v) => setFilter("lang", v)}
+                />
+                <FilterSelect
+                  label={t("events.filters.format")}
+                  anyLabel={t("events.filters.allFormats")}
+                  value={format}
+                  options={FORMATS.map((f) => ({ value: f, label: t(LOCATION_TAG[f]) }))}
+                  onChange={(v) => setFilter("format", v)}
+                />
+              </div>
+            </div>
+            {hasFacetFilters ? (
+              <button
+                type="button"
+                onClick={resetFilters}
+                className="mt-4 text-sm font-semibold text-primary hover:underline"
+              >
+                {t("events.filters.reset")}
+              </button>
+            ) : null}
+          </div>
+        </section>
+
+        {showFeaturedCard && featured ? (
+          <section className="bg-background pb-12">
+            <div className="mx-auto max-w-7xl px-8">
+              <p className="eyebrow">{t("events.featured.eyebrow")}</p>
+              <LocaleLink
+                to={`/events/${featured.slug}`}
+                className={
+                  "group mt-6 grid overflow-hidden rounded-2xl border border-border/70 bg-card transition hover:-translate-y-0.5 md:grid-cols-2 " +
+                  CARD_SHADOW
+                }
+              >
+                <div
+                  className={
+                    "grid aspect-[4/3] w-full place-items-center md:aspect-auto " +
+                    visualFor(featured.slug ?? "").bg +
+                    " " +
+                    visualFor(featured.slug ?? "").fg
+                  }
+                >
+                  {featured.image_url ? (
+                    <img
+                      src={featured.image_url}
+                      alt=""
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <Mark name={visualFor(featured.slug ?? "").mark} className="h-1/2 w-1/2" />
+                  )}
+                </div>
+                <div className="flex flex-col justify-center p-10">
+                  <p className="btn-mono !text-muted-foreground">{dateLine(featured)}</p>
+                  {categoryLabel(featured.category_slug) ? (
+                    <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-primary">
+                      {categoryLabel(featured.category_slug)}
+                    </p>
+                  ) : null}
+                  <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight md:text-3xl">
+                    {featured.title}
+                  </h2>
+                  {featured.summary ? (
+                    <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                      {featured.summary}
+                    </p>
+                  ) : null}
+                  <div className="mt-6 flex flex-wrap items-center gap-2">
+                    {tagsFor(featured).map((tag) => (
+                      <span
+                        key={tag}
+                        className="inline-flex items-center rounded-full border border-border/70 bg-chip px-2.5 py-1 text-[11px] font-semibold text-chip-foreground"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                    {featured.is_full ? (
+                      <span className="inline-flex items-center rounded-full bg-warn-soft px-2.5 py-1 text-[11px] font-semibold text-[color:var(--warn)]">
+                        {t("events.tag.full")}
+                      </span>
+                    ) : null}
+                  </div>
+                </div>
+              </LocaleLink>
             </div>
           </section>
         ) : null}
 
         <section className="bg-card py-24">
           <div className="mx-auto max-w-7xl px-8">
-            <p className="eyebrow">{t("events.upcoming.eyebrow")}</p>
+            <p className="eyebrow">
+              {when === "past" ? t("events.past.eyebrow") : t("events.upcoming.eyebrow")}
+            </p>
             <h2 className="mt-3 max-w-2xl display-lg">
-              {t("events.upcoming.title")}
+              {when === "past" ? t("events.past.title") : t("events.upcoming.title")}
             </h2>
-            {upcoming.length === 0 && !featured ? (
-              <p className="mt-8 text-base text-muted-foreground">{t("events.upcoming.empty")}</p>
+            {results.length === 0 ? (
+              <p className="mt-8 text-base text-muted-foreground">
+                {hasFacetFilters
+                  ? t("events.filters.noMatches")
+                  : when === "past"
+                    ? t("events.past.empty")
+                    : t("events.upcoming.empty")}
+              </p>
             ) : (
               <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {upcoming.map((e) => {
+                {results.map((e) => {
                   const v = visualFor(e.slug ?? "");
                   return (
                     <LocaleLink
@@ -160,6 +331,11 @@ export default function EventsPage({ data }: { data: EventsPageData }) {
                       </div>
                       <div className="flex flex-1 flex-col p-6">
                         <p className="btn-mono !text-muted-foreground">{dateLine(e)}</p>
+                        {categoryLabel(e.category_slug) ? (
+                          <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-primary">
+                            {categoryLabel(e.category_slug)}
+                          </p>
+                        ) : null}
                         <h3 className="mt-3 text-lg font-semibold leading-snug tracking-tight">
                           {e.title}
                         </h3>
@@ -187,39 +363,10 @@ export default function EventsPage({ data }: { data: EventsPageData }) {
           </div>
         </section>
 
-        {past.length ? (
-          <section className="bg-background py-24">
-            <div className="mx-auto max-w-7xl px-8">
-            <p className="eyebrow">{t("events.past.eyebrow")}</p>
-            <ul className="mt-8 divide-y divide-border/70 border-y border-border/70">
-              {past.map((e) => (
-                <li
-                  key={e.id}
-                  className="flex flex-col gap-1 py-5 sm:flex-row sm:items-center sm:justify-between"
-                >
-                  <div>
-                    <p className="btn-mono !text-muted-foreground">{dateLine(e)}</p>
-                    <p className="mt-1 text-base font-semibold tracking-tight">{e.title}</p>
-                  </div>
-                  <LocaleLink
-                    to={`/events/${e.slug}`}
-                    className="text-sm font-semibold text-primary hover:underline"
-                  >
-                    {t("events.past.recap")}
-                  </LocaleLink>
-                </li>
-              ))}
-            </ul>
-            </div>
-          </section>
-        ) : null}
-
         <section className="bg-hero text-hero-foreground">
           <div className="mx-auto max-w-7xl px-8 py-20 text-center">
             <p className="eyebrow !text-accent">{t("events.cta.eyebrow")}</p>
-            <h2 className="mx-auto mt-3 max-w-2xl display-lg">
-              {t("events.cta.title")}
-            </h2>
+            <h2 className="mx-auto mt-3 max-w-2xl display-lg">{t("events.cta.title")}</h2>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <LocaleLink
                 to="/about"

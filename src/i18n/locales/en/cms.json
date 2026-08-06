@@ -215,7 +215,8 @@
       "languages": "Languages",
       "availability": "Availability",
       "clientTypes": "Client Types",
-      "experienceBands": "Experience bands"
+      "experienceBands": "Experience bands",
+      "eventCategories": "Event categories"
     }
   },
   "finder": {
@@ -765,7 +766,10 @@
       "sectionHint": "Link this event to the coaches hosting it.",
       "loadError": "Could not load hosts.",
       "saveError": "Could not save hosts."
-    }
+    },
+    "fieldCategory": "Category",
+    "fieldRegion": "Region",
+    "fieldUnset": "— not set —"
   },
   "eventTranslations": {
     "title": "Translations",

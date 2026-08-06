@@ -215,7 +215,8 @@
       "languages": "Langues",
       "availability": "Disponibilité",
       "clientTypes": "Types de clients",
-      "experienceBands": "Tranches d'expérience"
+      "experienceBands": "Tranches d'expérience",
+      "eventCategories": "Catégories d'événements"
     }
   },
   "finder": {
@@ -765,7 +766,10 @@
       "sectionHint": "Reliez cet événement aux coachs qui l’animent.",
       "loadError": "Impossible de charger les hôtes.",
       "saveError": "Impossible d’enregistrer les hôtes."
-    }
+    },
+    "fieldCategory": "Catégorie",
+    "fieldRegion": "Région",
+    "fieldUnset": "— non défini —"
   },
   "eventTranslations": {
     "title": "Traductions",
