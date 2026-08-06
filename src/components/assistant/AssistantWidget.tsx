@@ -16,7 +16,7 @@ import {
   PromptInputTextarea,
 } from "@/components/ai-elements/prompt-input";
 import { Shimmer } from "@/components/ai-elements/shimmer";
-import { useI18n } from "@/i18n";
+import { useCanonicalPath, useI18n } from "@/i18n";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
@@ -46,8 +46,22 @@ function isToolPart(part: UIMessage["parts"][number]) {
   return part.type.startsWith("tool-") || part.type === "dynamic-tool";
 }
 
+/** Staff CMS and member workspace paths keep their own focused UI. */
+const HIDDEN_PREFIXES = [
+  "/articles",
+  "/manage",
+  "/members",
+  "/roles",
+  "/vocabularies",
+  "/integration",
+  "/coach-finder",
+  "/operational-structure",
+  "/my-profile",
+];
+
 export function AssistantWidget() {
   const { t, locale } = useI18n();
+  const path = useCanonicalPath();
   const [open, setOpen] = useState(false);
   const [initialMessages] = useState<UIMessage[]>(() => loadStoredMessages());
   const [input, setInput] = useState("");
@@ -108,6 +122,10 @@ export function AssistantWidget() {
     t("assistant.suggestions.events"),
     t("assistant.suggestions.credentials"),
   ];
+
+  if (HIDDEN_PREFIXES.some((prefix) => path === prefix || path.startsWith(`${prefix}/`))) {
+    return null;
+  }
 
   return (
     <>
