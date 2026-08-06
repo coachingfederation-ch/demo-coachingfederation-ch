@@ -84,8 +84,9 @@ export function MemberClaimStatusPanel({
           <p className="mt-1 text-xs text-muted-foreground">{t("members.invite.hint")}</p>
           {invitation?.lastSentAt ? (
             <p className="mt-2 text-xs text-muted-foreground">
-              {t("members.invite.lastSent")} {new Date(invitation.lastSentAt).toLocaleString(locale)}{" "}
-              · {invitation.lastStatus} ({invitation.sendCount})
+              {t("members.invite.lastSent")}{" "}
+              {new Date(invitation.lastSentAt).toLocaleString(locale)} · {invitation.lastStatus} (
+              {invitation.sendCount})
             </p>
           ) : (
             <p className="mt-2 text-xs text-muted-foreground">{t("members.invite.neverSent")}</p>
