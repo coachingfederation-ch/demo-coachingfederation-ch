@@ -1,0 +1,18 @@
+{
+  "launcher": "Ask us",
+  "title": "Chapter assistant",
+  "subtitle": "Coaches, credentials, events and communities",
+  "empty": "Ask about finding a coach, ICF Credentials, upcoming events or our local communities.",
+  "placeholder": "Ask a question…",
+  "thinking": "Thinking…",
+  "searching": "Looking this up…",
+  "reset": "Start over",
+  "close": "Close chat",
+  "error": "Something went wrong. Please try again, or write to office@coachingfederation.ch.",
+  "disclaimer": "AI assistant. It can make mistakes — please check anything important.",
+  "suggestions": {
+    "coach": "Find a coach near me",
+    "events": "What's coming up?",
+    "credentials": "What is an ICF Credential?"
+  }
+}
