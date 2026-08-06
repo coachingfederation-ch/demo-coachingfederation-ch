@@ -14,5 +14,11 @@
     "coach": "Einen Coach in meiner Nähe finden",
     "events": "Was steht als Nächstes an?",
     "credentials": "Was ist ein ICF Credential?"
+  },
+  "externalLink": {
+    "title": "Externen Link öffnen?",
+    "body": "Dieser Link führt auf eine andere Website.",
+    "cancel": "Abbrechen",
+    "open": "Link öffnen"
   }
 }
