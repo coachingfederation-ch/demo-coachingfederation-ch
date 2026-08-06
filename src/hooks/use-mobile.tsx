@@ -1,3 +1,7 @@
+/**
+ * Hook to detect if the current viewport is mobile based on a 768px breakpoint.
+ * Exports: useIsMobile. Called by components/ui/sidebar.tsx.
+ */
 import * as React from "react";
 
 const MOBILE_BREAKPOINT = 768;

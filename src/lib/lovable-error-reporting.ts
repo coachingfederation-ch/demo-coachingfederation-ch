@@ -1,3 +1,7 @@
+/**
+ * Client-side utility to report caught exceptions to the Lovable error monitoring system.
+ * Exports: reportLovableError. Called by routes/__root.tsx.
+ */
 type LovableErrorOptions = {
   mechanism?: "manual" | "onerror" | "unhandledrejection" | "react_error_boundary";
   handled?: boolean;

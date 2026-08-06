@@ -1,3 +1,7 @@
+/**
+ * Main i18n utilities for translation, locale detection, and localized links.
+ * Exports: translate, makeT, useLocale, useI18n, LocaleLink, localeMeta. App-wide consumer.
+ */
 import { Link, useRouterState } from "@tanstack/react-router";
 import type { ComponentProps, ReactNode } from "react";
 import {

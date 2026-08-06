@@ -1,3 +1,7 @@
+/**
+ * Server-only helper to render and send registered email templates via Lovable API.
+ * Exports: sendTemplateEmail. Called by lib/member-email.server.ts.
+ */
 import * as React from 'react'
 import { render } from '@react-email/render'
 import { EmailAPIError, sendLovableEmail } from '@lovable.dev/email-js'

@@ -1,3 +1,7 @@
+/**
+ * Server functions for operational structure management and project assignments.
+ * Exports: searchOpsMembers, listOpsAssignments (createServerFn). Called by staff routes.
+ */
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";

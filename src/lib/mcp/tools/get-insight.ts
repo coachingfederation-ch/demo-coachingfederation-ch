@@ -1,3 +1,7 @@
+/**
+ * MCP tool definition to read the full markdown content of a published article.
+ * Exports: default (defineTool). Registered in the internal MCP tool registry.
+ */
 import { defineTool } from "@lovable.dev/mcp-js";
 import { z } from "zod";
 import { errorResult, supabaseForUser, textResult } from "../supabase";

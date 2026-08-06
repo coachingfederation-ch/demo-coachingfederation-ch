@@ -1,3 +1,7 @@
+/**
+ * SEO metadata and canonical link generator for public event detail pages.
+ * Exports: eventHead. Called by public event routes.
+ */
 import { localizePath, SITE_URL, type Locale } from "@/i18n/config";
 import { makeT } from "@/i18n";
 

@@ -1,3 +1,7 @@
+/**
+ * Helper to generate SEO meta tags and canonical links for coach profile pages.
+ * Exports: coachHead. Called by coach profile routes.
+ */
 import { localizePath, SITE_URL, type Locale } from "@/i18n/config";
 import { makeT } from "@/i18n";
 

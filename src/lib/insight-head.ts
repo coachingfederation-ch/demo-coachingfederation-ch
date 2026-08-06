@@ -1,3 +1,7 @@
+/**
+ * SEO metadata and canonical link generator for public insight (article) detail pages.
+ * Exports: articleHead. Called by public insight routes.
+ */
 import { localizePath, SITE_URL, type Locale } from "@/i18n/config";
 import { makeT } from "@/i18n";
 

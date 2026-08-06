@@ -1,3 +1,7 @@
+/**
+ * Shared configuration for locales, path localization, and site URL.
+ * Exports: LOCALES, Locale, DEFAULT_LOCALE, localizePath, parseLocalePath. Shared utility.
+ */
 export const LOCALES = ["en", "de", "fr", "it"] as const;
 
 export type Locale = (typeof LOCALES)[number];

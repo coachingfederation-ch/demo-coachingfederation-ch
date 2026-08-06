@@ -1,3 +1,7 @@
+/**
+ * Server functions to search Unsplash photos and track downloads for attribution.
+ * Exports: searchUnsplash, trackUnsplashDownload (createServerFn). Called by CMS image picker.
+ */
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 

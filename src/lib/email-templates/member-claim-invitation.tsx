@@ -1,3 +1,7 @@
+/**
+ * React Email template for inviting members to claim their account.
+ * Exports: template. Registered in lib/email-templates/registry.ts.
+ */
 import * as React from 'react'
 import {
   Body,

@@ -1,3 +1,7 @@
+/**
+ * Server functions to fetch published articles with localization support.
+ * Exports: getPublishedArticle (createServerFn). Called by public insight routes.
+ */
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 

@@ -1,3 +1,7 @@
+/**
+ * Server functions for member management, sync control, and account claim flows.
+ * Exports: listMembers, runSyncNow, completeMemberClaim (createServerFn). Called by staff and claim routes.
+ */
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";

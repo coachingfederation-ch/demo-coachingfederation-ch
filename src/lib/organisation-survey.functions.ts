@@ -1,3 +1,7 @@
+/**
+ * Server function to submit and record organisation maturity survey responses.
+ * Exports: submitOrganisationSurvey (createServerFn). Called by organisation pages.
+ */
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
