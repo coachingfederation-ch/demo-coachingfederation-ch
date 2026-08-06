@@ -109,9 +109,7 @@ export function ProjectForm({ t, project, setProjects, patch, removeRow, loadPro
                   }
                 />
                 <span>
-                  <span className="block text-xs font-semibold">
-                    {t(`ops.type.${option.key}`)}
-                  </span>
+                  <span className="block text-xs font-semibold">{t(`ops.type.${option.key}`)}</span>
                   <span className="mt-0.5 block text-[11px] leading-snug text-muted-foreground">
                     {t(`ops.type.${option.key}Note`)}
                   </span>

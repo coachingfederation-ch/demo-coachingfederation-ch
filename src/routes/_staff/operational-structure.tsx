@@ -28,7 +28,13 @@ import { grantMemberRole, revokeMemberRole } from "@/lib/roles.functions";
 import { ProjectGroupList } from "@/components/cms/ops/ProjectGroupList";
 import { ProjectForm } from "@/components/cms/ops/ProjectForm";
 import { RoleAssignmentEditor } from "@/components/cms/ops/RoleAssignmentEditor";
-import { INPUT, type Assignment, type Localized, type MemberOption, type ProjectRow } from "@/components/cms/ops/types";
+import {
+  INPUT,
+  type Assignment,
+  type Localized,
+  type MemberOption,
+  type ProjectRow,
+} from "@/components/cms/ops/types";
 
 export const Route = createFileRoute("/_staff/operational-structure")({
   beforeLoad: ({ context }) => requireStaffAccess(context.queryClient, ADMIN_ONLY),
