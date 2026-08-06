@@ -150,17 +150,49 @@ export default function EventDetailPage({
         </div>
       </header>
       <main id="main">
-        <section className="bg-hero text-hero-foreground">
-          <div className="mx-auto max-w-5xl px-8 pb-16 pt-4">
+        <section className="relative isolate overflow-hidden bg-hero text-hero-foreground">
+          {/*
+           * Cover image as atmosphere: the photo is decorative (the title is
+           * the accessible name of the page), and the Deep Blue wash above it
+           * keeps white text above AA at every width — near-solid on mobile,
+           * where the text spans the full column.
+           */}
+          {event.image_url ? (
+            <>
+              <img
+                src={event.image_url}
+                alt=""
+                aria-hidden
+                className="absolute inset-0 -z-20 h-full w-full object-cover"
+              />
+              <div
+                className="absolute inset-0 -z-10 bg-hero/90 md:bg-gradient-to-r md:from-hero md:via-hero/90 md:to-hero/60"
+                aria-hidden
+              />
+            </>
+          ) : null}
+          <Mark
+            name={marks.corner}
+            aria-hidden
+            className="pointer-events-none absolute -right-10 -top-16 -z-0 h-56 w-56 text-mark-blue/25 md:h-72 md:w-72"
+          />
+          <div className={"relative mx-auto max-w-5xl px-8 pt-4 " + (event.image_url ? "pb-24" : "pb-16")}>
             <LocaleLink
               to="/events"
               className="btn-mono !text-hero-foreground/70 hover:!text-hero-foreground"
             >
               ← {t("events.detail.backToEvents")}
             </LocaleLink>
-            <h1 className="mt-6 max-w-3xl text-4xl font-bold leading-tight tracking-tight md:text-5xl">
-              {event.title}
-            </h1>
+            <div className="relative mt-6 max-w-3xl">
+              <h1 className="text-4xl font-bold leading-tight tracking-tight md:text-5xl">
+                {event.title}
+              </h1>
+              <Mark
+                name={marks.underline}
+                aria-hidden
+                className="mt-2 block h-4 w-40 text-mark-yellow md:w-56"
+              />
+            </div>
             {event.summary ? (
               <p className="mt-5 max-w-2xl text-lg leading-relaxed text-hero-foreground/85">
                 {event.summary}
@@ -186,6 +218,21 @@ export default function EventDetailPage({
                 </span>
               ) : null}
             </div>
+            {event.image_url && event.image_credit_name ? (
+              <p className="mt-10 text-right text-xs text-hero-foreground/60">
+                {t("events.detail.photoCredit").replace("{name}", event.image_credit_name)}{" "}
+                {event.image_credit_url ? (
+                  <a
+                    href={event.image_credit_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline underline-offset-2"
+                  >
+                    ↗
+                  </a>
+                ) : null}
+              </p>
+            ) : null}
           </div>
         </section>
 
