@@ -11,7 +11,7 @@
  */
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight, ExternalLink, Mail, MapPin, Megaphone, HeartHandshake, UserRound } from "lucide-react";
+import { ArrowRight, ExternalLink, Mail, MapPin, Megaphone, HeartHandshake, UserRound, PenLine } from "lucide-react";
 import { useCms } from "@/i18n/cms";
 import { getMemberHome } from "@/lib/member-home.functions";
 

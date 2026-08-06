@@ -518,6 +518,11 @@
         "title": "Fai pubblicità con noi",
         "body": "Raggiungi i coach di tutta la Svizzera tramite newsletter, sito ed eventi. Gli spazi a pagamento per i soci saranno proposti qui."
       },
+      "writeForUs": {
+        "title": "Scrivi per noi",
+        "body": "Condividi la tua competenza con la community di coach contribuendo con articoli alla nostra sezione Insights. Accogliamo punti di vista, casi studio e orientamenti pratici.",
+        "cta": "Candidati"
+      },
       "communities": {
         "title": "Community nella tua area di servizio",
         "body": "Le community locali che coprono le regioni scelte nel tuo profilo, con una persona di riferimento.",

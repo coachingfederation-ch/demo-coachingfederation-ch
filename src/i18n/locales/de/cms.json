@@ -518,6 +518,11 @@
         "title": "Werben Sie mit uns",
         "body": "Erreichen Sie Coaches in der ganzen Schweiz über Newsletter, Website und Events. Bezahlte Platzierungen für Mitglieder folgen hier."
       },
+      "writeForUs": {
+        "title": "Für uns schreiben",
+        "body": "Teilen Sie Ihr Fachwissen mit der Coaching-Community, indem Sie Artikel für unsere Insights-Rubrik beisteuern. Wir freuen uns über Perspektiven, Fallstudien und praktische Anleitungen.",
+        "cta": "Bewerben"
+      },
       "communities": {
         "title": "Communities in Ihrem Einsatzgebiet",
         "body": "Lokale Communities in den Regionen, die Sie in Ihrem Profil gewählt haben – mit Ansprechperson.",
