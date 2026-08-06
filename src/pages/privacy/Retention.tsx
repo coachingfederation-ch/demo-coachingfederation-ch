@@ -7,59 +7,54 @@ import { Table } from "./shared";
 export function RetentionSection() {
   return (
     <>
-          <div className="space-y-6">
-            <h3 className="text-lg font-semibold tracking-tight">
-              7. How long do we store your data?
-            </h3>
-            <p className="text-foreground/80">
-              We retain personal data only for as long as is necessary to fulfil the purposes for
-              which it was collected, or as long as required by law. The specific retention periods
-              are:
-            </p>
-            <Table
-              headers={["Category", "Retention period / criteria"]}
-              rows={[
-                [
-                  "Technical data (logs)",
-                  "[Confirm: e.g., 30–90 days for access logs; longer for security logs]",
-                ],
-                [
-                  "Contact enquiries",
-                  "For the duration of the enquiry and [Confirm: e.g., 12 months] thereafter for follow-up",
-                ],
-                [
-                  "Newsletter subscriptions",
-                  "Until you unsubscribe; suppression list retained to prevent re-subscription without consent",
-                ],
-                [
-                  "Member account data",
-                  "For the duration of ICF membership; deleted or anonymised [Confirm: e.g., 30 days] after membership ends",
-                ],
-                [
-                  "Coach directory profiles",
-                  "For as long as the member maintains a public profile; removed when the member deactivates their profile or membership ends",
-                ],
-                [
-                  "Event registration data",
-                  "For the duration of the event and [Confirm: e.g., 12 months] thereafter for accounting and follow-up",
-                ],
-                [
-                  "CMS/staff user data",
-                  "For the duration of the user&apos;s role; deleted [Confirm: e.g., 30 days] after access is revoked",
-                ],
-                [
-                  "ICF Global integration data",
-                  "Synchronised nightly; retained according to membership status",
-                ],
-              ]}
-            />
-            <p className="text-foreground/80">
-              Where legal or regulatory obligations require longer retention (e.g., accounting
-              records under Swiss tax and commercial law), data is retained for the legally required
-              period.
-            </p>
-          </div>
-
+      <div className="space-y-6">
+        <h3 className="text-lg font-semibold tracking-tight">7. How long do we store your data?</h3>
+        <p className="text-foreground/80">
+          We retain personal data only for as long as is necessary to fulfil the purposes for which
+          it was collected, or as long as required by law. The specific retention periods are:
+        </p>
+        <Table
+          headers={["Category", "Retention period / criteria"]}
+          rows={[
+            [
+              "Technical data (logs)",
+              "[Confirm: e.g., 30–90 days for access logs; longer for security logs]",
+            ],
+            [
+              "Contact enquiries",
+              "For the duration of the enquiry and [Confirm: e.g., 12 months] thereafter for follow-up",
+            ],
+            [
+              "Newsletter subscriptions",
+              "Until you unsubscribe; suppression list retained to prevent re-subscription without consent",
+            ],
+            [
+              "Member account data",
+              "For the duration of ICF membership; deleted or anonymised [Confirm: e.g., 30 days] after membership ends",
+            ],
+            [
+              "Coach directory profiles",
+              "For as long as the member maintains a public profile; removed when the member deactivates their profile or membership ends",
+            ],
+            [
+              "Event registration data",
+              "For the duration of the event and [Confirm: e.g., 12 months] thereafter for accounting and follow-up",
+            ],
+            [
+              "CMS/staff user data",
+              "For the duration of the user&apos;s role; deleted [Confirm: e.g., 30 days] after access is revoked",
+            ],
+            [
+              "ICF Global integration data",
+              "Synchronised nightly; retained according to membership status",
+            ],
+          ]}
+        />
+        <p className="text-foreground/80">
+          Where legal or regulatory obligations require longer retention (e.g., accounting records
+          under Swiss tax and commercial law), data is retained for the legally required period.
+        </p>
+      </div>
     </>
   );
 }
