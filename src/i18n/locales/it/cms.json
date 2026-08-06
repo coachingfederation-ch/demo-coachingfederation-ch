@@ -215,7 +215,8 @@
       "languages": "Lingue",
       "availability": "Disponibilità",
       "clientTypes": "Tipi di cliente",
-      "experienceBands": "Fasce di esperienza"
+      "experienceBands": "Fasce di esperienza",
+      "eventCategories": "Categorie di eventi"
     }
   },
   "finder": {
@@ -765,7 +766,10 @@
       "sectionHint": "Collega questo evento ai coach che lo ospitano.",
       "loadError": "Impossibile caricare gli host.",
       "saveError": "Impossibile salvare gli host."
-    }
+    },
+    "fieldCategory": "Categoria",
+    "fieldRegion": "Regione",
+    "fieldUnset": "— non impostato —"
   },
   "eventTranslations": {
     "title": "Traduzioni",

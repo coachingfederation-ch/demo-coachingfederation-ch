@@ -215,7 +215,8 @@
       "languages": "Sprachen",
       "availability": "Verfügbarkeit",
       "clientTypes": "Kundenkategorien",
-      "experienceBands": "Erfahrungsstufen"
+      "experienceBands": "Erfahrungsstufen",
+      "eventCategories": "Event-Kategorien"
     }
   },
   "finder": {
@@ -765,7 +766,10 @@
       "sectionHint": "Verknüpfe diese Veranstaltung mit den gastgebenden Coaches.",
       "loadError": "Gastgeber konnten nicht geladen werden.",
       "saveError": "Gastgeber konnten nicht gespeichert werden."
-    }
+    },
+    "fieldCategory": "Kategorie",
+    "fieldRegion": "Region",
+    "fieldUnset": "— nicht gesetzt —"
   },
   "eventTranslations": {
     "title": "Übersetzungen",
