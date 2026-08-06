@@ -180,6 +180,10 @@ export async function runMemberSync(options: {
     // Upserted in chunks: the chapter feed is ~500 rows, and one round trip per
     // member would not finish inside a serverless request budget.
     const changedByRecno = new Map<string, string[]>();
+    // Whether a feed row is a first import or a change to an existing member.
+    // Recorded on the snapshot so the run log can separate the two later; the
+    // field lists alone cannot tell them apart.
+    const createdRecnos = new Set<string>();
     for (const member of feed) {
       const existing = byRecno.get(member.cst_recno);
       const changed = IMPORTED_FIELDS.filter(
@@ -187,7 +191,10 @@ export async function runMemberSync(options: {
       );
       changedByRecno.set(member.cst_recno, existing ? changed : [...IMPORTED_FIELDS]);
       if (existing) updated += changed.length ? 1 : 0;
-      else created += 1;
+      else {
+        created += 1;
+        createdRecnos.add(member.cst_recno);
+      }
     }
 
     const CHUNK = 200;
@@ -219,6 +226,7 @@ export async function runMemberSync(options: {
           cst_recno: member.cst_recno,
           normalized_payload: member,
           changed_fields: changed,
+          change_kind: createdRecnos.has(member.cst_recno) ? "created" : "updated",
         });
       }
     }
@@ -255,6 +263,19 @@ export async function runMemberSync(options: {
         .update({ visibility: "hidden_inactive" })
         .eq("member_id", row.id as string)
         .eq("visibility", "published");
+      // One audit row per deactivation: the run counter alone cannot tell an
+      // admin *which* members dropped out of the feed.
+      await logEvent(
+        runId,
+        "member_deactivated",
+        "Absent from the ICF feed — moved to the grace window.",
+        {
+          severity: "warning",
+          member_id: row.id as string,
+          cst_recno: String(row.cst_recno),
+          scheduled_deletion_at: deletionAt,
+        },
+      );
       deactivated += 1;
     }
 
