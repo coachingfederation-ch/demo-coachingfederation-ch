@@ -38,7 +38,8 @@ type RsvpState =
  * (not at random) so a given event always renders the same composition —
  * stable across re-renders, SSR and hydration.
  */
-const UNDERLINE_MARKS: MarkName[] = ["stroke1", "stroke2", "stroke3", "stroke4"];
+/** Only the wide highlight swashes read correctly as an underline. */
+const UNDERLINE_MARKS: MarkName[] = ["highlight1", "highlight2", "highlight3"];
 const CORNER_MARKS: MarkName[] = ["circular1", "circular2", "asterisk1", "asterisk3", "star2"];
 
 const hashSlug = (slug: string) => {
