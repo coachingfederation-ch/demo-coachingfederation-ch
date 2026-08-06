@@ -13,6 +13,7 @@
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { Plus } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { supabase } from "@/integrations/supabase/client";
 import { useCms } from "@/i18n/cms";
@@ -27,7 +28,7 @@ import { grantMemberRole, revokeMemberRole } from "@/lib/roles.functions";
 import { ProjectGroupList } from "@/components/cms/ops/ProjectGroupList";
 import { ProjectForm } from "@/components/cms/ops/ProjectForm";
 import { RoleAssignmentEditor } from "@/components/cms/ops/RoleAssignmentEditor";
-import type { Assignment, Localized, MemberOption, ProjectRow } from "@/components/cms/ops/types";
+import { INPUT, type Assignment, type Localized, type MemberOption, type ProjectRow } from "@/components/cms/ops/types";
 
 export const Route = createFileRoute("/_staff/operational-structure")({
   beforeLoad: ({ context }) => requireStaffAccess(context.queryClient, ADMIN_ONLY),
@@ -259,6 +260,22 @@ function OperationalStructurePage() {
         <p className="mt-1 text-sm text-muted-foreground">{t("ops.subtitle")}</p>
         {error ? <p className="mt-3 text-xs text-destructive">{error}</p> : null}
 
+        <div className="mt-6 flex gap-2">
+          <input
+            value={newProject}
+            onChange={(e) => setNewProject(e.target.value)}
+            placeholder={t("ops.projectPlaceholder")}
+            className={INPUT + " w-72"}
+          />
+          <button
+            onClick={() => void addProject()}
+            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"
+          >
+            <Plus className="h-4 w-4" />
+            {t("ops.addProject")}
+          </button>
+        </div>
+
         <div className="mt-6 grid gap-6 lg:grid-cols-[260px_1fr]">
           <ProjectGroupList
             t={t}
@@ -268,9 +285,6 @@ function OperationalStructurePage() {
             reordering={reordering}
             setReordering={setReordering}
             move={move}
-            newProject={newProject}
-            setNewProject={setNewProject}
-            addProject={addProject}
           />
 
           {project ? (
