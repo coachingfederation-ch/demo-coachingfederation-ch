@@ -119,9 +119,12 @@ export const getPublicEvent = createServerFn({ method: "GET" })
     const event = (row as PublicEvent | null) ?? null;
     if (!event) return null;
 
+    const { loadEventHosts } = await import("./event-hosts.server");
+    const hosts = event.id ? await loadEventHosts(event.id) : [];
+
     const locale = data.locale ?? "en";
     if (!event.id || event.language === locale) {
-      return { ...event, resolvedLocale: event.language ?? locale };
+      return { ...event, hosts, resolvedLocale: event.language ?? locale };
     }
     const { data: tr } = await supabase
       .from("event_translations")
@@ -129,7 +132,7 @@ export const getPublicEvent = createServerFn({ method: "GET" })
       .eq("event_id", event.id)
       .eq("locale", locale)
       .maybeSingle();
-    return applyTranslation(event, (tr as EventTranslation | null) ?? undefined);
+    return { ...applyTranslation(event, (tr as EventTranslation | null) ?? undefined), hosts };
   });
 
 type RsvpResult = { ok: true } | { ok: false; reason: "full" | "closed" | "duplicate" | "error" };

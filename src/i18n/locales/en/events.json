@@ -63,6 +63,7 @@
     "notFoundTitle": "Event not found",
     "notFoundBody": "This event may have been unpublished or the link is incorrect.",
     "errorTitle": "We couldn't load this event",
-    "errorBody": "Please try again in a moment."
+    "errorBody": "Please try again in a moment.",
+    "hostedBy": "Hosted by"
   }
 }

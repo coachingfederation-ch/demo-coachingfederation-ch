@@ -63,6 +63,7 @@
     "notFoundTitle": "Event nicht gefunden",
     "notFoundBody": "Dieses Event wurde möglicherweise entfernt oder der Link ist ungültig.",
     "errorTitle": "Dieses Event konnte nicht geladen werden",
-    "errorBody": "Bitte versuchen Sie es in einem Moment erneut."
+    "errorBody": "Bitte versuchen Sie es in einem Moment erneut.",
+    "hostedBy": "Gastgeber"
   }
 }

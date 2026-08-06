@@ -18,6 +18,7 @@ import {
   isPastEvent,
   type PublicEvent,
 } from "@/lib/events";
+import type { EventHost } from "@/lib/event-hosts";
 import {
   cancelMyRegistration,
   getMyRegistration,
@@ -55,10 +56,15 @@ export function EventFallback({ titleKey, bodyKey }: { titleKey: string; bodyKey
   );
 }
 
-export default function EventDetailPage({ event }: { event: PublicEvent }) {
+export default function EventDetailPage({
+  event,
+}: {
+  event: PublicEvent & { hosts?: EventHost[] };
+}) {
   const { t, locale } = useI18n();
   const tz = event.timezone ?? "Europe/Zurich";
   const past = isPastEvent(event);
+  const hosts = event.hosts ?? [];
 
   const session = useQuery({
     queryKey: ["auth-user-id"],
@@ -177,6 +183,41 @@ export default function EventDetailPage({ event }: { event: PublicEvent }) {
                   {t("events.detail.joinLink")}
                 </a>
               </p>
+            ) : null}
+            {hosts.length > 0 ? (
+              <section className="mt-10 not-prose">
+                <p className="eyebrow">{t("events.detail.hostedBy")}</p>
+                <ul className="mt-4 grid gap-4 sm:grid-cols-2">
+                  {hosts.map((host) => (
+                    <li key={host.profileId}>
+                      <LocaleLink
+                        to={`/coach/${host.profileId}`}
+                        className="flex items-center gap-3 rounded-2xl border border-border/70 bg-card p-3 transition hover:border-primary/50"
+                      >
+                        {host.imageUrl ? (
+                          <img
+                            src={host.imageUrl}
+                            alt=""
+                            className="h-12 w-12 shrink-0 rounded-full object-cover"
+                          />
+                        ) : (
+                          <span className="h-12 w-12 shrink-0 rounded-full bg-secondary" aria-hidden />
+                        )}
+                        <span className="min-w-0">
+                          <span className="block truncate text-sm font-semibold">
+                            {host.fullName}
+                          </span>
+                          {host.tagline ? (
+                            <span className="block truncate text-xs text-muted-foreground">
+                              {host.tagline}
+                            </span>
+                          ) : null}
+                        </span>
+                      </LocaleLink>
+                    </li>
+                  ))}
+                </ul>
+              </section>
             ) : null}
           </article>
 

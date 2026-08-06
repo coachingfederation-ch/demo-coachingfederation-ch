@@ -63,6 +63,7 @@
     "notFoundTitle": "Evento non trovato",
     "notFoundBody": "Questo evento potrebbe essere stato rimosso oppure il link non è corretto.",
     "errorTitle": "Impossibile caricare questo evento",
-    "errorBody": "Riprova tra qualche istante."
+    "errorBody": "Riprova tra qualche istante.",
+    "hostedBy": "Ospitato da"
   }
 }

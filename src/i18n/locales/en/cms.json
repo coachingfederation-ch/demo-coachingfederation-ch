@@ -745,7 +745,27 @@
     "chooseUnsplash": "Choose from Unsplash",
     "removeImage": "Remove image",
     "imageCredit": "Photo by",
-    "imageFallback": "No image selected — the event will show its hand-drawn mark."
+    "imageFallback": "No image selected — the event will show its hand-drawn mark.",
+    "section": {
+      "details": "Event details",
+      "content": "Event content",
+      "hosts": "Hosts",
+      "when": "Date and time",
+      "location": "Location",
+      "image": "Cover image",
+      "registration": "Registration"
+    },
+    "hosts": {
+      "none": "No hosts selected yet.",
+      "search": "Search coaches…",
+      "select": "Select a coach",
+      "add": "Add host",
+      "remove": "Remove host",
+      "hint": "Up to two hosts. Only members with a published directory profile can be selected.",
+      "sectionHint": "Link this event to the coaches hosting it.",
+      "loadError": "Could not load hosts.",
+      "saveError": "Could not save hosts."
+    }
   },
   "eventTranslations": {
     "title": "Translations",

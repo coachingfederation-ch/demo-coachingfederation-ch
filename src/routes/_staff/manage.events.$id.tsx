@@ -12,6 +12,7 @@ import { ImagePlus, X } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { UnsplashPicker, type UnsplashPick } from "@/components/cms/UnsplashPicker";
 import { EventTranslationsPanel } from "@/components/cms/EventTranslationsPanel";
+import { EventHostsPanel } from "@/components/cms/EventHostsPanel";
 import { useCms } from "@/i18n/cms";
 import {
   getManagedEvent,
@@ -70,6 +71,25 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 }
 
 const inputClass = "w-full rounded-lg border border-border bg-background px-3 py-2 text-sm";
+
+/** One labelled block of the form — the editor is long, so it reads in chunks. */
+function Section({
+  title,
+  hint,
+  children,
+}: {
+  title: string;
+  hint?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="mt-6 rounded-2xl border border-border bg-card p-6">
+      <h2 className="text-sm font-bold uppercase tracking-wide text-muted-foreground">{title}</h2>
+      {hint ? <p className="mt-1 text-xs text-muted-foreground">{hint}</p> : null}
+      <div className="mt-4 border-t border-border pt-4">{children}</div>
+    </section>
+  );
+}
 
 function EventEditor() {
   const { id } = Route.useParams();
@@ -170,8 +190,9 @@ function EventEditor() {
         {message ? <p className="mt-3 text-sm text-teal-foreground">{message}</p> : null}
         {error ? <p className="mt-3 text-sm text-destructive">{error}</p> : null}
 
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          <Field label={t("events.fieldTitle")}>
+        <Section title={t("events.section.details")}>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field label={t("events.fieldTitle")}>
             <input
               className={inputClass}
               value={event.title}
@@ -205,7 +226,11 @@ function EventEditor() {
               onChange={(e) => patch({ is_featured: e.target.checked })}
             />
           </Field>
-          <div className="sm:col-span-2">
+          </div>
+        </Section>
+
+        <Section title={t("events.section.content")}>
+          <div className="grid gap-4">
             <Field label={t("events.fieldSummary")}>
               <input
                 className={inputClass}
@@ -213,8 +238,6 @@ function EventEditor() {
                 onChange={(e) => patch({ summary: e.target.value })}
               />
             </Field>
-          </div>
-          <div className="sm:col-span-2">
             <Field label={t("events.fieldDescription")}>
               <textarea
                 rows={8}
@@ -223,15 +246,21 @@ function EventEditor() {
                 onChange={(e) => patch({ description: e.target.value })}
               />
             </Field>
-          </div>
-          <div className="sm:col-span-2">
             <EventTranslationsPanel
               eventId={event.id}
               sourceLanguage={event.language}
               contentUpdatedAt={event.content_updated_at ?? null}
             />
           </div>
-          <Field label={t("events.fieldStarts")}>
+        </Section>
+
+        <Section title={t("events.section.hosts")} hint={t("events.hosts.sectionHint")}>
+          <EventHostsPanel eventId={event.id} />
+        </Section>
+
+        <Section title={t("events.section.when")}>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field label={t("events.fieldStarts")}>
             <input
               type="datetime-local"
               className={inputClass}
@@ -249,7 +278,12 @@ function EventEditor() {
               onChange={(e) => patch({ ends_at: fromLocalInput(e.target.value) })}
             />
           </Field>
-          <Field label={t("events.fieldLocationMode")}>
+          </div>
+        </Section>
+
+        <Section title={t("events.section.location")}>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field label={t("events.fieldLocationMode")}>
             <select
               className={inputClass}
               value={event.location_mode}
@@ -281,7 +315,11 @@ function EventEditor() {
               onChange={(e) => patch({ online_url: e.target.value })}
             />
           </Field>
-          <div className="sm:col-span-2">
+          </div>
+        </Section>
+
+        <Section title={t("events.section.image")}>
+          <div>
             <Field label={t("events.fieldImageUrl")}>
               <input
                 className={inputClass}
@@ -337,7 +375,11 @@ function EventEditor() {
               <p className="mt-3 text-xs text-muted-foreground">{t("events.imageFallback")}</p>
             )}
           </div>
-          <Field label={t("events.fieldCapacity")}>
+        </Section>
+
+        <Section title={t("events.section.registration")}>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field label={t("events.fieldCapacity")}>
             <input
               type="number"
               min={1}
@@ -381,7 +423,8 @@ function EventEditor() {
               onChange={(e) => patch({ registration_closes_at: fromLocalInput(e.target.value) })}
             />
           </Field>
-        </div>
+          </div>
+        </Section>
 
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <button

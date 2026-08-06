@@ -745,7 +745,27 @@
     "chooseUnsplash": "Choisir sur Unsplash",
     "removeImage": "Supprimer l'image",
     "imageCredit": "Photo par",
-    "imageFallback": "Aucune image sélectionnée — l'événement affichera son visuel dessiné à la main."
+    "imageFallback": "Aucune image sélectionnée — l'événement affichera son visuel dessiné à la main.",
+    "section": {
+      "details": "Détails de l’événement",
+      "content": "Contenu",
+      "hosts": "Hôtes",
+      "when": "Date et heure",
+      "location": "Lieu",
+      "image": "Image de couverture",
+      "registration": "Inscription"
+    },
+    "hosts": {
+      "none": "Aucun hôte sélectionné.",
+      "search": "Rechercher des coachs…",
+      "select": "Sélectionner un coach",
+      "add": "Ajouter un hôte",
+      "remove": "Retirer l’hôte",
+      "hint": "Deux hôtes au maximum. Seuls les membres avec un profil publié dans l’annuaire peuvent être sélectionnés.",
+      "sectionHint": "Reliez cet événement aux coachs qui l’animent.",
+      "loadError": "Impossible de charger les hôtes.",
+      "saveError": "Impossible d’enregistrer les hôtes."
+    }
   },
   "eventTranslations": {
     "title": "Traductions",
