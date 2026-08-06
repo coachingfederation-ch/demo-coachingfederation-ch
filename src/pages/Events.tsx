@@ -95,13 +95,16 @@ export default function EventsPage({ data }: { data: EventsPageData }) {
   const setFilter = (key: keyof EventsSearch, value: string) => {
     void navigate({
       // Empty means "any", and an empty facet is dropped so the URL stays clean.
-      search: (prev: Record<string, unknown>) => ({ ...prev, [key]: value || undefined }),
+      search: ((prev: Record<string, unknown>) => ({
+        ...prev,
+        [key]: value || undefined,
+      })) as never,
       replace: true,
     });
   };
   const resetFilters = () =>
     void navigate({
-      search: (prev: Record<string, unknown>) => ({ when: prev['when'] }),
+      search: ((prev: Record<string, unknown>) => ({ when: prev["when"] })) as never,
       replace: true,
     });
 
