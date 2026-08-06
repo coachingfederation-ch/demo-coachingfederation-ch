@@ -5,6 +5,7 @@
  * supplied by callers through a small `adapter` object.
  */
 import { useEffect, useState } from "react";
+import type { ReactNode } from "react";
 import { Eye, Languages } from "lucide-react";
 import { MarkdownPreview } from "@/components/cms/MarkdownEditor";
 import { LOCALE_ORDER, type Locale } from "@/i18n/config";
@@ -53,6 +54,27 @@ export interface TranslationPanelAdapter<
   save: (locale: string, values: Values) => Promise<{ error: string | null }>;
   valuesFromRow: (row: Row) => Values;
   labels: TranslationPanelLabels;
+  /** Overrides the default missing/fresh/stale badge with entity-specific states (e.g. profile's 5-state model). */
+  badge?: (row: Row | undefined, contentUpdatedAt: string | null) => { label: string; cls: string };
+  /** Optional per-locale hint rendered under the badge row (e.g. an "outdated" explanation). */
+  hint?: (locale: string, row: Row | undefined) => ReactNode;
+  /** Extra per-locale disable condition for the translate button, in addition to a busy panel. */
+  translateDisabled?: (row: Row | undefined) => boolean;
+  translateTitle?: (row: Row | undefined) => string | undefined;
+  /** Extra buttons rendered after the open/close toggle (e.g. publish/remove). */
+  extraActions?: (locale: string, row: Row | undefined, busy: string | null) => ReactNode;
+  /** Overrides the default field control for one field (e.g. showing the source text, hiding empty fields). */
+  renderField?: (
+    field: TranslationFieldConfig<Extract<keyof Values, string>>,
+    value: string,
+    onChange: (value: string) => void,
+    row: Row | undefined,
+  ) => ReactNode;
+  /** Extra content rendered between the hint and the locale list (e.g. a primary-locale selector). */
+  topContent?: ReactNode;
+  /** Lets a translate/save call hand back fresh rows directly, skipping an extra load() round-trip. */
+  translateReturnsRows?: (locale: string) => Promise<Row[] | void>;
+  saveReturnsRows?: (locale: string, values: Values) => Promise<{ error: string | null; rows?: Row[] }>;
 }
 
 export function GenericTranslationsPanel<
@@ -96,8 +118,14 @@ export function GenericTranslationsPanel<
     setError(null);
     setBusy(locale);
     try {
-      await adapter.translate(locale);
-      await load();
+      if (adapter.translateReturnsRows) {
+        const nextRows = await adapter.translateReturnsRows(locale);
+        if (nextRows) setRows(nextRows);
+        else await load();
+      } else {
+        await adapter.translate(locale);
+        await load();
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : adapter.labels.failed);
     } finally {
@@ -117,19 +145,23 @@ export function GenericTranslationsPanel<
   const saveDraft = async () => {
     if (!draft || !draftLocale) return;
     setBusy(draftLocale);
-    const { error: err } = await adapter.save(draftLocale, draft);
+    const { error: err, rows: nextRows } = adapter.saveReturnsRows
+      ? await adapter.saveReturnsRows(draftLocale, draft)
+      : { ...(await adapter.save(draftLocale, draft)), rows: undefined };
     setBusy(null);
     if (err) {
       setError(err);
       return;
     }
     setSavedNote(true);
-    await load();
+    if (nextRows) setRows(nextRows);
+    else await load();
   };
 
   const badge = (locale: Locale) => {
-    const s = stateFor(locale);
     const row = rows.find((r) => r.locale === locale);
+    if (adapter.badge) return adapter.badge(row, adapter.contentUpdatedAt);
+    const s = stateFor(locale);
     if (s === "missing")
       return { label: adapter.labels.notTranslated, cls: "bg-secondary text-muted-foreground" };
     if (s === "stale")
@@ -144,45 +176,60 @@ export function GenericTranslationsPanel<
   };
 
   const items: TranslationLocaleItem[] = targets.map((locale) => {
+    const row = rows.find((r) => r.locale === locale);
     const b = badge(locale);
-    const exists = stateFor(locale) !== "missing";
+    const exists = !!row;
     const isOpen = openLocale === locale;
     const editorOpen = isOpen && draft && draftLocale === locale;
     return {
       locale,
       badgeLabel: b.label,
       badgeClassName: b.cls,
+      hint: adapter.hint ? adapter.hint(locale, row) : undefined,
       translateLabel: busy === locale
         ? adapter.labels.working
         : exists
           ? adapter.labels.refresh
           : adapter.labels.translate,
       translating: busy === locale,
-      translateDisabled: busy !== null,
+      translateDisabled: busy !== null || (adapter.translateDisabled?.(row) ?? false),
+      translateTitle: adapter.translateTitle?.(row),
       onTranslate: () => void translate(locale),
       showOpenToggle: exists,
       isOpen,
       onToggleOpen: () => (isOpen ? setOpenLocale(null) : openEditor(locale)),
       openLabel: adapter.labels.open,
       closeLabel: adapter.labels.close,
+      extraActions: adapter.extraActions ? adapter.extraActions(locale, row, busy) : undefined,
       editor: editorOpen ? (
         <div className="mt-3 space-y-2">
-          {adapter.fields.map((field) => (
-            <FieldBlock
-              key={field.key}
-              field={field}
-              value={(draft as Values)[field.key] ?? ""}
-              onChange={(value) => setDraft({ ...(draft as Values), [field.key]: value } as Values)}
-              isPreview={adapter.previewField === field.key && previewLocale === locale}
-              onTogglePreview={
-                adapter.previewField === field.key
-                  ? () => setPreviewLocale(previewLocale === locale ? null : locale)
-                  : undefined
-              }
-              previewWrite={adapter.labels.previewWrite}
-              previewShow={adapter.labels.previewShow}
-            />
-          ))}
+          {adapter.fields.map((field) =>
+            adapter.renderField ? (
+              <div key={field.key}>
+                {adapter.renderField(
+                  field,
+                  (draft as Values)[field.key] ?? "",
+                  (value) => setDraft({ ...(draft as Values), [field.key]: value } as Values),
+                  row,
+                )}
+              </div>
+            ) : (
+              <FieldBlock
+                key={field.key}
+                field={field}
+                value={(draft as Values)[field.key] ?? ""}
+                onChange={(value) => setDraft({ ...(draft as Values), [field.key]: value } as Values)}
+                isPreview={adapter.previewField === field.key && previewLocale === locale}
+                onTogglePreview={
+                  adapter.previewField === field.key
+                    ? () => setPreviewLocale(previewLocale === locale ? null : locale)
+                    : undefined
+                }
+                previewWrite={adapter.labels.previewWrite}
+                previewShow={adapter.labels.previewShow}
+              />
+            ),
+          )}
           <div className="flex items-center gap-2">
             <button
               onClick={() => void saveDraft()}
@@ -221,6 +268,7 @@ export function GenericTranslationsPanel<
       )}
       <div className="space-y-3 rounded-2xl border border-border bg-card p-4 text-sm">
         <p className="text-xs text-muted-foreground">{adapter.labels.hint}</p>
+        {adapter.topContent}
         <TranslationLocaleList items={items} />
         {error ? <p className="text-xs text-destructive">{error}</p> : null}
       </div>
