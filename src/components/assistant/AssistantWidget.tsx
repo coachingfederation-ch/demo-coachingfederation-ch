@@ -78,7 +78,9 @@ const HIDDEN_PREFIXES = [
 export function AssistantWidget() {
   const { t, locale } = useI18n();
   const path = useCanonicalPath();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [pendingExternal, setPendingExternal] = useState<string | null>(null);
   const [initialMessages] = useState<UIMessage[]>(() => loadStoredMessages());
   const [input, setInput] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -138,6 +140,45 @@ export function AssistantWidget() {
     t("assistant.suggestions.events"),
     t("assistant.suggestions.credentials"),
   ];
+
+  // Internal links navigate straight away; only off-site links get a warning.
+  const markdownComponents = useMemo(
+    () => ({
+      a: ({ href, children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
+        const target = href ?? "";
+        if (!target || isExternalHref(target)) {
+          return (
+            <a
+              {...props}
+              href={target || undefined}
+              onClick={(event) => {
+                if (!target) return;
+                event.preventDefault();
+                setPendingExternal(target);
+              }}
+            >
+              {children}
+            </a>
+          );
+        }
+        return (
+          <a
+            {...props}
+            href={target}
+            onClick={(event) => {
+              if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+              event.preventDefault();
+              setOpen(false);
+              void router.navigate({ to: target });
+            }}
+          >
+            {children}
+          </a>
+        );
+      },
+    }),
+    [router],
+  );
 
   if (HIDDEN_PREFIXES.some((prefix) => path === prefix || path.startsWith(`${prefix}/`))) {
     return null;
