@@ -14,5 +14,11 @@
     "coach": "Find a coach near me",
     "events": "What's coming up?",
     "credentials": "What is an ICF Credential?"
+  },
+  "externalLink": {
+    "title": "Open external link?",
+    "body": "This link leads to another website.",
+    "cancel": "Cancel",
+    "open": "Open link"
   }
 }

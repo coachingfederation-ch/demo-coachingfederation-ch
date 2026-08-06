@@ -1,7 +1,8 @@
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
+import { useRouter } from "@tanstack/react-router";
 import { MessageCircle, RotateCcw, X } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import {
   Conversation,
@@ -16,11 +17,36 @@ import {
   PromptInputTextarea,
 } from "@/components/ai-elements/prompt-input";
 import { Shimmer } from "@/components/ai-elements/shimmer";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { useCanonicalPath, useI18n } from "@/i18n";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
 const STORAGE_KEY = "icf-assistant-conversation";
+
+/**
+ * Links the assistant writes are relative site paths; only a full URL to
+ * another origin counts as external. Streamdown's "open external link?"
+ * confirmation is therefore reserved for those.
+ */
+function isExternalHref(href: string) {
+  if (!/^[a-zA-Z][a-zA-Z\d+\-.]*:/.test(href)) return false; // relative path or hash
+  if (typeof window === "undefined") return true;
+  try {
+    return new URL(href, window.location.href).origin !== window.location.origin;
+  } catch {
+    return true;
+  }
+}
 
 /** One rolling conversation per browser — no server-side chat history. */
 function loadStoredMessages(): UIMessage[] {
@@ -62,7 +88,9 @@ const HIDDEN_PREFIXES = [
 export function AssistantWidget() {
   const { t, locale } = useI18n();
   const path = useCanonicalPath();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [pendingExternal, setPendingExternal] = useState<string | null>(null);
   const [initialMessages] = useState<UIMessage[]>(() => loadStoredMessages());
   const [input, setInput] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -122,6 +150,45 @@ export function AssistantWidget() {
     t("assistant.suggestions.events"),
     t("assistant.suggestions.credentials"),
   ];
+
+  // Internal links navigate straight away; only off-site links get a warning.
+  const markdownComponents = useMemo(
+    () => ({
+      a: ({ href, children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
+        const target = href ?? "";
+        if (!target || isExternalHref(target)) {
+          return (
+            <a
+              {...props}
+              href={target || undefined}
+              onClick={(event) => {
+                if (!target) return;
+                event.preventDefault();
+                setPendingExternal(target);
+              }}
+            >
+              {children}
+            </a>
+          );
+        }
+        return (
+          <a
+            {...props}
+            href={target}
+            onClick={(event) => {
+              if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+              event.preventDefault();
+              setOpen(false);
+              void router.navigate({ to: target });
+            }}
+          >
+            {children}
+          </a>
+        );
+      },
+    }),
+    [router],
+  );
 
   if (HIDDEN_PREFIXES.some((prefix) => path === prefix || path.startsWith(`${prefix}/`))) {
     return null;
@@ -210,7 +277,11 @@ export function AssistantWidget() {
                             <Shimmer className="text-sm">{t("assistant.searching")}</Shimmer>
                           )}
                           {text && (
-                            <MessageResponse className="text-sm leading-relaxed [&_a]:font-medium [&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2 [&_li]:my-0.5 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-5 [&_p]:my-2 [&_strong]:font-semibold [&_ul]:my-2 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5">
+                            <MessageResponse
+                              components={markdownComponents}
+                              linkSafety={{ enabled: false }}
+                              className="text-sm leading-relaxed [&_a]:cursor-pointer [&_a]:font-medium [&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2 [&_li]:my-0.5 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-5 [&_p]:my-2 [&_strong]:font-semibold [&_ul]:my-2 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5"
+                            >
                               {text}
                             </MessageResponse>
                           )}
@@ -257,6 +328,36 @@ export function AssistantWidget() {
           </div>
         </div>
       )}
+
+      <AlertDialog
+        open={pendingExternal !== null}
+        onOpenChange={(next: boolean) => {
+          if (!next) setPendingExternal(null);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("assistant.externalLink.title")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("assistant.externalLink.body")}
+              <span className="mt-2 block break-all font-medium text-foreground">
+                {pendingExternal}
+              </span>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t("assistant.externalLink.cancel")}</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (pendingExternal) window.open(pendingExternal, "_blank", "noopener,noreferrer");
+                setPendingExternal(null);
+              }}
+            >
+              {t("assistant.externalLink.open")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }
