@@ -1,7 +1,8 @@
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
+import { useRouter } from "@tanstack/react-router";
 import { MessageCircle, RotateCcw, X } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import {
   Conversation,
@@ -21,6 +22,21 @@ import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
 const STORAGE_KEY = "icf-assistant-conversation";
+
+/**
+ * Links the assistant writes are relative site paths; only a full URL to
+ * another origin counts as external. Streamdown's "open external link?"
+ * confirmation is therefore reserved for those.
+ */
+function isExternalHref(href: string) {
+  if (!/^[a-zA-Z][a-zA-Z\d+\-.]*:/.test(href)) return false; // relative path or hash
+  if (typeof window === "undefined") return true;
+  try {
+    return new URL(href, window.location.href).origin !== window.location.origin;
+  } catch {
+    return true;
+  }
+}
 
 /** One rolling conversation per browser — no server-side chat history. */
 function loadStoredMessages(): UIMessage[] {
