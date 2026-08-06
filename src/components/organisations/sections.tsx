@@ -34,9 +34,7 @@ export function Differentiators() {
     <section className="bg-card py-24">
       <div className="mx-auto max-w-7xl px-8">
         <p className="eyebrow">{t("organisations.why.eyebrow")}</p>
-        <h2 className="mt-3 max-w-2xl display-lg">
-          {t("organisations.why.title")}
-        </h2>
+        <h2 className="mt-3 max-w-2xl display-lg">{t("organisations.why.title")}</h2>
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
           {t("organisations.why.lede")}
         </p>
@@ -76,9 +74,7 @@ export function Initiatives() {
     <section className="bg-background py-24">
       <div className="mx-auto max-w-7xl px-8">
         <p className="eyebrow">{t("organisations.initiatives.eyebrow")}</p>
-        <h2 className="mt-3 max-w-2xl display-lg">
-          {t("organisations.initiatives.title")}
-        </h2>
+        <h2 className="mt-3 max-w-2xl display-lg">{t("organisations.initiatives.title")}</h2>
         <div className="mt-14 space-y-6">
           {items.map((item, i) => {
             const v = initiativeVisuals[i % initiativeVisuals.length];
@@ -139,9 +135,7 @@ export function EventsStrip() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="eyebrow">{t("organisations.events.eyebrow")}</p>
-            <h2 className="mt-3 display-lg">
-              {t("organisations.events.title")}
-            </h2>
+            <h2 className="mt-3 display-lg">{t("organisations.events.title")}</h2>
           </div>
           <LocaleLink
             to="/events"

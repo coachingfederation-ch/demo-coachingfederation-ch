@@ -116,7 +116,10 @@ export default function PrivacyPage() {
               ;{" "}
               <ExternalLink href="https://lovable.dev/privacy">Lovable Privacy Policy</ExternalLink>{" "}
               (last updated April 2026);{" "}
-              <ExternalLink href="https://trust.lovable.dev">Lovable sub-processor list</ExternalLink>.
+              <ExternalLink href="https://trust.lovable.dev">
+                Lovable sub-processor list
+              </ExternalLink>
+              .
             </p>
           </InfoCallout>
         </section>
@@ -293,8 +296,8 @@ export default function PrivacyPage() {
             </ul>
             <p className="text-foreground/80">
               This privacy policy is written to comply with the Swiss Federal Act on Data Protection
-              (DSG, SR 235.1). Where the processing also affects individuals in the European Economic
-              Area, the General Data Protection Regulation (GDPR) may additionally apply.
+              (DSG, SR 235.1). Where the processing also affects individuals in the European
+              Economic Area, the General Data Protection Regulation (GDPR) may additionally apply.
             </p>
           </div>
 
@@ -336,7 +339,9 @@ export default function PrivacyPage() {
             </div>
 
             <div className="space-y-4">
-              <h4 className="text-base font-semibold tracking-tight">b) Contact and enquiry data</h4>
+              <h4 className="text-base font-semibold tracking-tight">
+                b) Contact and enquiry data
+              </h4>
               <p className="text-foreground/80">
                 When you contact us via email or a contact form, we process:
               </p>
@@ -357,9 +362,7 @@ export default function PrivacyPage() {
               <ul className="list-disc space-y-1 pl-5 text-foreground/80">
                 <li>Email address</li>
                 <li>Subscription date and status</li>
-                <li>
-                  [Confirm: any additional fields collected at signup, e.g., name, interests]
-                </li>
+                <li>[Confirm: any additional fields collected at signup, e.g., name, interests]</li>
               </ul>
             </div>
 
@@ -385,8 +388,8 @@ export default function PrivacyPage() {
                 e) Coach directory profile data
               </h4>
               <p className="text-foreground/80">
-                For members whose profiles appear in the public &quot;Find a Coach&quot; directory, we
-                process and publish:
+                For members whose profiles appear in the public &quot;Find a Coach&quot; directory,
+                we process and publish:
               </p>
               <ul className="list-disc space-y-1 pl-5 text-foreground/80">
                 <li>Name and credentials</li>
@@ -429,9 +432,9 @@ export default function PrivacyPage() {
                   accessibility needs are collected, these may reveal information about health,
                   religion, or other sensitive personal data under Art. 5 lit. c DSG. If collected,
                   the following must apply: the fields are voluntary, used solely for event
-                  organisation, access-restricted to event organisers, and deleted shortly after
-                  the event unless retention is legally required. This should be explicitly stated
-                  in the final policy.
+                  organisation, access-restricted to event organisers, and deleted shortly after the
+                  event unless retention is legally required. This should be explicitly stated in
+                  the final policy.
                 </p>
               </InfoCallout>
             </div>
@@ -472,7 +475,9 @@ export default function PrivacyPage() {
             <h3 className="text-lg font-semibold tracking-tight">
               4. For what purposes and on what legal basis do we process your data?
             </h3>
-            <p className="text-foreground/80">We process personal data for the following purposes:</p>
+            <p className="text-foreground/80">
+              We process personal data for the following purposes:
+            </p>
             <Table
               headers={["Purpose", "Categories of data"]}
               rows={[
@@ -518,26 +523,24 @@ export default function PrivacyPage() {
                 <li>a legal obligation, or</li>
                 <li>an overriding private or public interest (Art. 31 DSG).</li>
               </ul>
-              <p className="text-foreground/80">
-                For the processing activities described above:
-              </p>
+              <p className="text-foreground/80">For the processing activities described above:</p>
               <ul className="list-disc space-y-1 pl-5 text-foreground/80">
                 <li>
-                  <strong>Newsletter subscriptions</strong> are based on your active consent. You may
-                  unsubscribe at any time.
+                  <strong>Newsletter subscriptions</strong> are based on your active consent. You
+                  may unsubscribe at any time.
                 </li>
                 <li>
-                  <strong>Coach directory profiles</strong> are published as part of the member&apos;s
-                  participation in the association, subject to the member&apos;s visibility settings.
-                  [Confirm: the exact consent / opt-in mechanism]
+                  <strong>Coach directory profiles</strong> are published as part of the
+                  member&apos;s participation in the association, subject to the member&apos;s
+                  visibility settings. [Confirm: the exact consent / opt-in mechanism]
                 </li>
                 <li>
                   <strong>Technical data processing</strong> is necessary for the operation and
                   security of the website.
                 </li>
                 <li>
-                  <strong>Member data and ICF Global integration</strong> serve the fulfilment of the
-                  membership relationship and the association&apos;s purpose.
+                  <strong>Member data and ICF Global integration</strong> serve the fulfilment of
+                  the membership relationship and the association&apos;s purpose.
                 </li>
                 <li>
                   <strong>Event registration data</strong> is processed to organise events and
@@ -547,7 +550,9 @@ export default function PrivacyPage() {
             </div>
 
             <div className="space-y-4">
-              <h4 className="text-base font-semibold tracking-tight">Where the GDPR also applies</h4>
+              <h4 className="text-base font-semibold tracking-tight">
+                Where the GDPR also applies
+              </h4>
               <p className="text-foreground/80">
                 Where the processing also affects individuals in the European Economic Area and the
                 GDPR applies, the relevant legal bases include: consent (Art. 6 para. 1 lit. a
@@ -605,18 +610,19 @@ export default function PrivacyPage() {
                   <strong>Supabase</strong> — provides the database, authentication, file storage,
                   and real-time infrastructure for our website. Supabase is accessed through Lovable
                   Cloud, meaning Supabase is a sub-processor of Lovable, not a direct processor of
-                  The Switzerland Chapter of ICF. Personal data stored in Supabase is processed under
-                  Lovable&apos;s data processing agreement. Data residency: Europe (Ireland) — the
-                  Lovable Cloud project is configured to store data in the EU (Ireland) region. The
-                  EU/EEA is recognised as having an adequate level of data protection under Swiss law.
+                  The Switzerland Chapter of ICF. Personal data stored in Supabase is processed
+                  under Lovable&apos;s data processing agreement. Data residency: Europe (Ireland) —
+                  the Lovable Cloud project is configured to store data in the EU (Ireland) region.
+                  The EU/EEA is recognised as having an adequate level of data protection under
+                  Swiss law.
                 </li>
                 <li>
-                  <strong>Cloudflare</strong> — provides the edge runtime and content delivery network
-                  (CDN) for the current website deployment. The site is being migrated from
+                  <strong>Cloudflare</strong> — provides the edge runtime and content delivery
+                  network (CDN) for the current website deployment. The site is being migrated from
                   Cloudflare to Lovable. [Confirm: whether Cloudflare services (CDN, WAF, DNS) will
-                  remain in front of the Lovable deployment or will be fully retired after migration.
-                  If retained, list which Cloudflare services remain and their data processing
-                  locations.]
+                  remain in front of the Lovable deployment or will be fully retired after
+                  migration. If retained, list which Cloudflare services remain and their data
+                  processing locations.]
                 </li>
               </ul>
             </div>
@@ -627,14 +633,14 @@ export default function PrivacyPage() {
               </h4>
               <p className="text-foreground/80">
                 The Switzerland Chapter of ICF website is hosted and operated on the{" "}
-                <strong>Lovable</strong> platform (Lovable Labs Incorporated, a US company).
-                Lovable provides the web application hosting, development tools, and deployment
-                infrastructure for coachingfederation.ch. The site is being migrated from a
-                previous Cloudflare-based deployment to Lovable.
+                <strong>Lovable</strong> platform (Lovable Labs Incorporated, a US company). Lovable
+                provides the web application hosting, development tools, and deployment
+                infrastructure for coachingfederation.ch. The site is being migrated from a previous
+                Cloudflare-based deployment to Lovable.
               </p>
               <p className="text-foreground/80">
-                Lovable processes personal data as a <strong>data processor</strong> on behalf of The
-                Switzerland Chapter of ICF. Key details from{" "}
+                Lovable processes personal data as a <strong>data processor</strong> on behalf of
+                The Switzerland Chapter of ICF. Key details from{" "}
                 <ExternalLink href="https://lovable.dev/privacy">
                   Lovable&apos;s Privacy Policy
                 </ExternalLink>{" "}
@@ -649,8 +655,7 @@ export default function PrivacyPage() {
                   Stockholm, Sweden
                 </li>
                 <li>
-                  <strong>DPO contact:</strong>{" "}
-                  <MailLink address="dpo@lovable.dev" />
+                  <strong>DPO contact:</strong> <MailLink address="dpo@lovable.dev" />
                 </li>
                 <li>
                   <strong>Role:</strong> Lovable processes Customer Data (website content, user
@@ -661,12 +666,12 @@ export default function PrivacyPage() {
                 </li>
                 <li>
                   <strong>Hosting infrastructure:</strong> Lovable Cloud stores and processes all
-                  Customer Data — including the website&apos;s database, authentication, file storage,
-                  and application data — on Supabase infrastructure. Supabase is a sub-processor of
-                  Lovable, accessed through Lovable Cloud. The Switzerland Chapter of ICF does not
-                  have a direct contractual relationship with Supabase. If Lovable&apos;s AI Gateway is
-                  used, data may also be transmitted to third-party AI providers (OpenAI, Google
-                  Gemini, models via OpenRouter).
+                  Customer Data — including the website&apos;s database, authentication, file
+                  storage, and application data — on Supabase infrastructure. Supabase is a
+                  sub-processor of Lovable, accessed through Lovable Cloud. The Switzerland Chapter
+                  of ICF does not have a direct contractual relationship with Supabase. If
+                  Lovable&apos;s AI Gateway is used, data may also be transmitted to third-party AI
+                  providers (OpenAI, Google Gemini, models via OpenRouter).
                 </li>
                 <li>
                   <strong>Sub-processors:</strong> Lovable engages sub-processors including Supabase
@@ -676,11 +681,11 @@ export default function PrivacyPage() {
                   <ExternalLink href="https://trust.lovable.dev">trust.lovable.dev</ExternalLink>.
                 </li>
                 <li>
-                  <strong>International transfers:</strong> Lovable may transfer Personal Data to the
-                  United States. Lovable safeguards these transfers through EU Standard Contractual
-                  Clauses (Module 2, Controller-to-Processor), the UK International Data Transfer
-                  Addendum, and a Swiss Addendum adapting the SCCs to the revised Swiss FADP,
-                  naming the FDPIC as the competent authority.
+                  <strong>International transfers:</strong> Lovable may transfer Personal Data to
+                  the United States. Lovable safeguards these transfers through EU Standard
+                  Contractual Clauses (Module 2, Controller-to-Processor), the UK International Data
+                  Transfer Addendum, and a Swiss Addendum adapting the SCCs to the revised Swiss
+                  FADP, naming the FDPIC as the competent authority.
                 </li>
                 <li>
                   <strong>Data retention:</strong> Lovable retains Log Data for up to 90 days;
@@ -707,26 +712,27 @@ export default function PrivacyPage() {
                     should be in place with Lovable as a processor.
                   </li>
                   <li>
-                    <strong>Migration status</strong> — Confirm whether the migration from Cloudflare
-                    to Lovable is complete. During the transition, both platforms may process data.
-                    Update the privacy policy to reflect the final production setup once migration is
-                    complete.
+                    <strong>Migration status</strong> — Confirm whether the migration from
+                    Cloudflare to Lovable is complete. During the transition, both platforms may
+                    process data. Update the privacy policy to reflect the final production setup
+                    once migration is complete.
                   </li>
                   <li>
                     <strong>Lovable Cloud vs. direct Supabase</strong> — Confirmed: Supabase is
                     accessed through Lovable Cloud. Supabase is a sub-processor of Lovable, and The
                     Switzerland Chapter of ICF does not have a direct contractual relationship with
-                    Supabase. Data residency: Europe (Ireland) — the EU/EEA is recognised as adequate
-                    under Swiss law.
+                    Supabase. Data residency: Europe (Ireland) — the EU/EEA is recognised as
+                    adequate under Swiss law.
                   </li>
                   <li>
-                    <strong>AI Gateway</strong> — Confirm whether Lovable&apos;s AI Gateway is used on the
-                    live site. If so, data may be transmitted to OpenAI, Google, and OpenRouter.
+                    <strong>AI Gateway</strong> — Confirm whether Lovable&apos;s AI Gateway is used
+                    on the live site. If so, data may be transmitted to OpenAI, Google, and
+                    OpenRouter.
                   </li>
                   <li>
-                    <strong>Lovable cookies on live site</strong> — Conduct a cookie audit on the live
-                    coachingfederation.ch site once migrated to Lovable to determine whether any
-                    Lovable platform cookies (PostHog, Google Analytics, TikTok, Facebook/Meta,
+                    <strong>Lovable cookies on live site</strong> — Conduct a cookie audit on the
+                    live coachingfederation.ch site once migrated to Lovable to determine whether
+                    any Lovable platform cookies (PostHog, Google Analytics, TikTok, Facebook/Meta,
                     Google Ads) are present.
                   </li>
                   <li>
@@ -735,15 +741,18 @@ export default function PrivacyPage() {
                     Cloudflare services are still used in front of the Lovable deployment.
                   </li>
                   <li>
-                    <strong>Sub-processor review</strong> — Review Lovable&apos;s full sub-processor list at{" "}
+                    <strong>Sub-processor review</strong> — Review Lovable&apos;s full sub-processor
+                    list at{" "}
                     <ExternalLink href="https://trust.lovable.dev">
                       https://trust.lovable.dev
                     </ExternalLink>{" "}
-                    and ensure alignment with The Switzerland Chapter of ICF&apos;s data processing needs.
+                    and ensure alignment with The Switzerland Chapter of ICF&apos;s data processing
+                    needs.
                   </li>
                   <li>
-                    <strong>DPA</strong> — Ensure a Data Processing Agreement is in place with Lovable.
-                    If on a Free/Pro plan, request a DPA or upgrade to a plan that includes one.
+                    <strong>DPA</strong> — Ensure a Data Processing Agreement is in place with
+                    Lovable. If on a Free/Pro plan, request a DPA or upgrade to a plan that includes
+                    one.
                   </li>
                 </ol>
               </InfoCallout>
@@ -766,9 +775,9 @@ export default function PrivacyPage() {
               </h4>
               <p className="text-foreground/80">
                 [Confirm: whether any analytics or tracking tools are used — e.g., Google Analytics,
-                Plausible, Fathom, Vercel Analytics, or other. If none are used, state &quot;We do not
-                use third-party analytics or tracking tools.&quot; If any are used, list the provider,
-                what data is collected, and the processing location.]
+                Plausible, Fathom, Vercel Analytics, or other. If none are used, state &quot;We do
+                not use third-party analytics or tracking tools.&quot; If any are used, list the
+                provider, what data is collected, and the processing location.]
               </p>
             </div>
 
@@ -776,9 +785,9 @@ export default function PrivacyPage() {
               <h4 className="text-base font-semibold tracking-tight">e) ICF Global</h4>
               <p className="text-foreground/80">
                 Member data is exchanged with ICF Global through an automated integration. This
-                includes receiving member data from ICF Global and potentially sending profile updates
-                back. [Confirm: the direction of data flow and the specific data shared with ICF
-                Global, and where ICF Global processes this data.]
+                includes receiving member data from ICF Global and potentially sending profile
+                updates back. [Confirm: the direction of data flow and the specific data shared with
+                ICF Global, and where ICF Global processes this data.]
               </p>
             </div>
 
@@ -809,8 +818,8 @@ export default function PrivacyPage() {
                 h) Other third-party services
               </h4>
               <p className="text-foreground/80">
-                Fonts are self-hosted (Quicksand for headlines, Plus Jakarta Sans for body text) — no
-                external font requests are made.
+                Fonts are self-hosted (Quicksand for headlines, Plus Jakarta Sans for body text) —
+                no external font requests are made.
               </p>
               <p className="text-foreground/80">
                 The following third-party services may be used on the website:
@@ -818,7 +827,9 @@ export default function PrivacyPage() {
               <ul className="list-disc space-y-1 pl-5 text-foreground/80">
                 <li>[Confirm: Embedded maps (e.g., Google Maps, Mapbox)]</li>
                 <li>[Confirm: Video embeds (e.g., YouTube, Vimeo)]</li>
-                <li>[Confirm: Social media embeds or plugins (e.g., LinkedIn, X/Twitter, Facebook)]</li>
+                <li>
+                  [Confirm: Social media embeds or plugins (e.g., LinkedIn, X/Twitter, Facebook)]
+                </li>
                 <li>
                   [Confirm: CAPTCHA / bot protection (e.g., Google reCAPTCHA, hCaptcha, Cloudflare
                   Turnstile)]
@@ -827,12 +838,12 @@ export default function PrivacyPage() {
                 <li>[Confirm: Newsletter tracking pixels (open / click tracking)]</li>
               </ul>
               <p className="text-foreground/80">
-                <strong>Note on analytics:</strong> No analytics or tracking tools were detected on the
-                Lovable-hosted demo as of July 2026. If analytics are added before launch, they must
-                be listed here with their data processing details. Lovable&apos;s own platform analytics
-                (PostHog, Google Analytics, TikTok, Facebook/Meta, Google Ads) apply to the Lovable
-                editor at lovable.dev, not to visitors of coachingfederation.ch — unless Lovable
-                injects tracking into deployed sites. [Confirm: whether Lovable injects any
+                <strong>Note on analytics:</strong> No analytics or tracking tools were detected on
+                the Lovable-hosted demo as of July 2026. If analytics are added before launch, they
+                must be listed here with their data processing details. Lovable&apos;s own platform
+                analytics (PostHog, Google Analytics, TikTok, Facebook/Meta, Google Ads) apply to
+                the Lovable editor at lovable.dev, not to visitors of coachingfederation.ch — unless
+                Lovable injects tracking into deployed sites. [Confirm: whether Lovable injects any
                 platform-level tracking into deployed sites.]
               </p>
               <p className="text-foreground/80">We do not sell personal data to third parties.</p>
@@ -849,15 +860,15 @@ export default function PrivacyPage() {
             </p>
             <p className="text-foreground/80">
               <strong>Customer data</strong> (member accounts, coach profiles, event registrations,
-              newsletter subscriptions) is stored in Supabase&apos;s Europe (Ireland) region via Lovable
-              Cloud. The EU/EEA is recognised as having an adequate level of data protection under
-              Swiss law (Art. 16 para. 1 DSG), so no additional safeguards are required for this
-              storage.
+              newsletter subscriptions) is stored in Supabase&apos;s Europe (Ireland) region via
+              Lovable Cloud. The EU/EEA is recognised as having an adequate level of data protection
+              under Swiss law (Art. 16 para. 1 DSG), so no additional safeguards are required for
+              this storage.
             </p>
             <p className="text-foreground/80">
               However, Lovable Labs Inc. (a US company) has processor access to this data, and
-              Lovable&apos;s Service Data (technical logs, usage telemetry) is processed in the United
-              States. These transfers are covered by the safeguards listed below.
+              Lovable&apos;s Service Data (technical logs, usage telemetry) is processed in the
+              United States. These transfers are covered by the safeguards listed below.
             </p>
             <Table
               headers={["Recipient", "Country / region", "Safeguard"]}
@@ -907,7 +918,9 @@ export default function PrivacyPage() {
               </p>
               <ul className="mt-2 list-disc space-y-1 pl-5">
                 <li>Supabase: data residency region</li>
-                <li>Cloudflare: data processing locations and any applicable transfer mechanisms</li>
+                <li>
+                  Cloudflare: data processing locations and any applicable transfer mechanisms
+                </li>
                 <li>
                   Lovable (if still active): transfers to the United States; Lovable uses EU SCCs
                   (Module 2), UK Addendum, and Swiss Addendum — see{" "}
@@ -1002,8 +1015,8 @@ export default function PrivacyPage() {
                 privacy policy may be gated or not yet active at launch (e.g., member account
                 claiming, member-facing email). The final published policy must accurately reflect
                 only the features that are live. Remove or adjust sections for features that are not
-                yet active. The EDÖB warns against vague formulations such as &quot;we may process data
-                in such or such a way&quot; — the policy must match actual data processing.
+                yet active. The EDÖB warns against vague formulations such as &quot;we may process
+                data in such or such a way&quot; — the policy must match actual data processing.
               </p>
             </InfoCallout>
 
@@ -1047,8 +1060,9 @@ export default function PrivacyPage() {
               <p>
                 <strong>Item to confirm before publishing:</strong> A complete cookie audit must be
                 conducted to list all cookies and similar technologies actually set by the website,
-                including those set by third-party services. If consent is required for non-essential
-                cookies, a consent management mechanism must be implemented and described here.
+                including those set by third-party services. If consent is required for
+                non-essential cookies, a consent management mechanism must be implemented and
+                described here.
               </p>
             </InfoCallout>
           </div>
@@ -1058,8 +1072,8 @@ export default function PrivacyPage() {
               9. What are your data protection rights?
             </h3>
             <p className="text-foreground/80">
-              Under the Swiss Data Protection Act (DSG), you have the following rights regarding your
-              personal data:
+              Under the Swiss Data Protection Act (DSG), you have the following rights regarding
+              your personal data:
             </p>
             <ul className="list-disc space-y-2 pl-5 text-foreground/80">
               <li>
@@ -1072,9 +1086,9 @@ export default function PrivacyPage() {
                 the correction of inaccurate or incomplete personal data (Art. 32 DSG).
               </li>
               <li>
-                <strong>Right to erasure (Recht auf Löschung)</strong> — You may request the deletion
-                of your personal data, subject to legal retention obligations and other exceptions
-                (Art. 32 DSG).
+                <strong>Right to erasure (Recht auf Löschung)</strong> — You may request the
+                deletion of your personal data, subject to legal retention obligations and other
+                exceptions (Art. 32 DSG).
               </li>
               <li>
                 <strong>Right to object (Widerspruchsrecht)</strong> — You may object to the
@@ -1089,12 +1103,13 @@ export default function PrivacyPage() {
               </li>
               <li>
                 <strong>Right to withdraw consent</strong> — Where processing is based on your
-                consent, you may withdraw consent at any time. This does not affect the lawfulness of
-                processing carried out before withdrawal.
+                consent, you may withdraw consent at any time. This does not affect the lawfulness
+                of processing carried out before withdrawal.
               </li>
               <li>
-                <strong>Right to lodge a complaint</strong> — You have the right to lodge a complaint
-                with the Swiss Federal Data Protection and Information Commissioner (FDPIC / EDÖB):
+                <strong>Right to lodge a complaint</strong> — You have the right to lodge a
+                complaint with the Swiss Federal Data Protection and Information Commissioner (FDPIC
+                / EDÖB):
               </li>
             </ul>
             <div className="rounded-2xl border border-border/70 bg-card p-6 text-foreground/80">
@@ -1112,8 +1127,8 @@ export default function PrivacyPage() {
             <p className="text-foreground/80">
               To exercise any of these rights, please contact us at{" "}
               <MailLink address="office@coachingfederation.ch" />. We will respond to your request
-              within 30 days. In complex cases, this period may be extended; we will inform you of any
-              extension and the reasons for it.
+              within 30 days. In complex cases, this period may be extended; we will inform you of
+              any extension and the reasons for it.
             </p>
           </div>
 
@@ -1132,17 +1147,20 @@ export default function PrivacyPage() {
               </li>
               <li>Member account creation and profile management involve human oversight.</li>
               <li>
-                No profiling is carried out that would produce legal or similarly significant effects
-                on you.
+                No profiling is carried out that would produce legal or similarly significant
+                effects on you.
               </li>
             </ul>
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold tracking-tight">11. How do we protect your data?</h3>
+            <h3 className="text-lg font-semibold tracking-tight">
+              11. How do we protect your data?
+            </h3>
             <p className="text-foreground/80">
-              We implement appropriate technical and organisational measures to protect personal data
-              against unauthorised access, loss, destruction, or alteration. These measures include:
+              We implement appropriate technical and organisational measures to protect personal
+              data against unauthorised access, loss, destruction, or alteration. These measures
+              include:
             </p>
             <ul className="list-disc space-y-1 pl-5 text-foreground/80">
               <li>Encrypted data transmission (TLS/SSL)</li>
@@ -1150,8 +1168,8 @@ export default function PrivacyPage() {
               <li>Regular security reviews of our systems</li>
               <li>Data stored in a managed database with row-level security policies</li>
               <li>
-                [Confirm: any additional specific security measures, e.g., penetration testing, audit
-                certifications, incident response procedures]
+                [Confirm: any additional specific security measures, e.g., penetration testing,
+                audit certifications, incident response procedures]
               </li>
             </ul>
             <p className="text-foreground/80">
@@ -1212,8 +1230,8 @@ export default function PrivacyPage() {
             Appendix: Items to confirm before publishing
           </h2>
           <p className="text-foreground/80">
-            The following items are marked with [Confirm:] placeholders throughout this document. They
-            must be verified and completed before the privacy policy is published:
+            The following items are marked with [Confirm:] placeholders throughout this document.
+            They must be verified and completed before the privacy policy is published:
           </p>
 
           <div className="space-y-4">
@@ -1226,8 +1244,8 @@ export default function PrivacyPage() {
               </li>
               <li>
                 <strong>Board contact</strong> — Should a named board member (e.g., President) be
-                listed as responsible for content in the Imprint? Currently, &quot;The Board&quot; is used
-                generically.
+                listed as responsible for content in the Imprint? Currently, &quot;The Board&quot;
+                is used generically.
               </li>
               <li>
                 <strong>VAT status</strong> — The UID extract shows no VAT registration. This is
@@ -1251,10 +1269,10 @@ export default function PrivacyPage() {
                 processor relationship is covered by SCCs and the Swiss Addendum.
               </li>
               <li>
-                <strong>Cloudflare — migration status</strong> — The site is migrating from Cloudflare
-                to Lovable. Confirm whether Cloudflare services (CDN, WAF, DNS) will remain in front
-                of the Lovable deployment or be fully retired. If retained, list which services
-                remain and their data processing locations.
+                <strong>Cloudflare — migration status</strong> — The site is migrating from
+                Cloudflare to Lovable. Confirm whether Cloudflare services (CDN, WAF, DNS) will
+                remain in front of the Lovable deployment or be fully retired. If retained, list
+                which services remain and their data processing locations.
               </li>
               <li>
                 <strong>Newsletter/email provider</strong> — Confirm which service is used for the
@@ -1262,10 +1280,11 @@ export default function PrivacyPage() {
                 processing location.
               </li>
               <li>
-                <strong>Analytics/tracking</strong> — Confirm whether any analytics or tracking tools
-                are used on the live coachingfederation.ch site, including any inherited from
-                Lovable&apos;s platform (PostHog, Google Analytics, TikTok, Facebook/Meta, Google Ads). If
-                none are used, state &quot;We do not use third-party analytics or tracking tools.&quot;
+                <strong>Analytics/tracking</strong> — Confirm whether any analytics or tracking
+                tools are used on the live coachingfederation.ch site, including any inherited from
+                Lovable&apos;s platform (PostHog, Google Analytics, TikTok, Facebook/Meta, Google
+                Ads). If none are used, state &quot;We do not use third-party analytics or tracking
+                tools.&quot;
               </li>
               <li>
                 <strong>Payment provider</strong> — If event registrations or other services involve
@@ -1274,8 +1293,8 @@ export default function PrivacyPage() {
               </li>
               <li>
                 <strong>ICF Global data flow</strong> — Confirm the exact data fields exchanged with
-                ICF Global, the direction of data flow, and where ICF Global stores and processes this
-                data.
+                ICF Global, the direction of data flow, and where ICF Global stores and processes
+                this data.
               </li>
               <li>
                 <strong>Lovable — production platform</strong> — Lovable is the target production
@@ -1295,8 +1314,8 @@ export default function PrivacyPage() {
                     Europe (Ireland).
                   </li>
                   <li>
-                    Whether Lovable&apos;s AI Gateway is used on the live site (transmits data to OpenAI,
-                    Google, OpenRouter)
+                    Whether Lovable&apos;s AI Gateway is used on the live site (transmits data to
+                    OpenAI, Google, OpenRouter)
                   </li>
                   <li>
                     Whether Lovable&apos;s platform cookies (PostHog, Google Analytics, TikTok,
@@ -1315,29 +1334,30 @@ export default function PrivacyPage() {
                 </ul>
               </li>
               <li>
-                <strong>Embedded third-party services</strong> — As of July 2026, no analytics, social
-                media embeds, maps, video embeds, or CAPTCHA services were detected on the demo.
-                Fonts are self-hosted (Quicksand + Plus Jakarta Sans). Verify whether any additional
-                third-party services are added before launch (maps, videos, social plugins,
-                CAPTCHA, Unsplash API, newsletter tracking pixels).
+                <strong>Embedded third-party services</strong> — As of July 2026, no analytics,
+                social media embeds, maps, video embeds, or CAPTCHA services were detected on the
+                demo. Fonts are self-hosted (Quicksand + Plus Jakarta Sans). Verify whether any
+                additional third-party services are added before launch (maps, videos, social
+                plugins, CAPTCHA, Unsplash API, newsletter tracking pixels).
               </li>
               <li>
-                <strong>Gated / inactive features</strong> — Confirm which features are actually live
-                at launch (the repo notes that member account claiming and member-facing email are
-                &quot;built but gated off&quot;). Remove or adjust privacy policy sections for features that
-                are not yet active.
+                <strong>Gated / inactive features</strong> — Confirm which features are actually
+                live at launch (the repo notes that member account claiming and member-facing email
+                are &quot;built but gated off&quot;). Remove or adjust privacy policy sections for
+                features that are not yet active.
               </li>
               <li>
                 <strong>Cookie consent banner</strong> — No cookie consent mechanism was detected on
                 the Lovable-hosted demo. Fonts are self-hosted, removing the primary driver for
                 consent. A consent banner should still be implemented before launch if any
-                non-essential cookies are used. Conduct a final cookie audit once the site is live on
-                Lovable.
+                non-essential cookies are used. Conduct a final cookie audit once the site is live
+                on Lovable.
               </li>
               <li>
-                <strong>Footer legal links</strong> — The demo site already has disabled &quot;Privacy&quot;,
-                &quot;Imprint&quot;, and &quot;Code of Ethics&quot; links in the footer (marked &quot;Coming soon&quot;). Ensure
-                these link to the published pages once the content is finalized.
+                <strong>Footer legal links</strong> — The demo site already has disabled
+                &quot;Privacy&quot;, &quot;Imprint&quot;, and &quot;Code of Ethics&quot; links in
+                the footer (marked &quot;Coming soon&quot;). Ensure these link to the published
+                pages once the content is finalized.
               </li>
             </ol>
           </div>
@@ -1351,13 +1371,13 @@ export default function PrivacyPage() {
                 collected beyond email.
               </li>
               <li>
-                <strong>Event registration fields</strong> — The demo shows events with date, location,
-                language, and topic. Confirm all fields collected during event registration (name,
-                email, organisation, dietary requirements, accessibility, etc.).
+                <strong>Event registration fields</strong> — The demo shows events with date,
+                location, language, and topic. Confirm all fields collected during event
+                registration (name, email, organisation, dietary requirements, accessibility, etc.).
               </li>
               <li>
-                <strong>ICF Global integration fields</strong> — Confirm the exact data fields received
-                in the nightly sync.
+                <strong>ICF Global integration fields</strong> — Confirm the exact data fields
+                received in the nightly sync.
               </li>
             </ol>
           </div>
@@ -1382,7 +1402,8 @@ export default function PrivacyPage() {
                 data.
               </li>
               <li>
-                <strong>CMS/staff data</strong> — Confirm the retention period after access is revoked.
+                <strong>CMS/staff data</strong> — Confirm the retention period after access is
+                revoked.
               </li>
             </ol>
           </div>
@@ -1392,9 +1413,10 @@ export default function PrivacyPage() {
             <ol className="list-decimal space-y-2 pl-5 text-foreground/80">
               <li>
                 <strong>Cookie audit</strong> — Conduct a complete audit of all cookies and similar
-                technologies set by the website and any third-party services once the site is live on
-                Lovable. As of the July 2026 demo, no third-party cookies or tracking were detected
-                and fonts are self-hosted. List all cookies in the cookie table in Section 8.
+                technologies set by the website and any third-party services once the site is live
+                on Lovable. As of the July 2026 demo, no third-party cookies or tracking were
+                detected and fonts are self-hosted. List all cookies in the cookie table in Section
+                8.
               </li>
               <li>
                 <strong>Consent mechanism</strong> — No cookie consent banner was detected on the
@@ -1424,9 +1446,9 @@ export default function PrivacyPage() {
                 included.
               </li>
               <li>
-                <strong>Association statutes</strong> — Verify that the data processing described here
-                aligns with the association&apos;s statutes (Statuten) regarding member data, as the
-                board is responsible under association law.
+                <strong>Association statutes</strong> — Verify that the data processing described
+                here aligns with the association&apos;s statutes (Statuten) regarding member data,
+                as the board is responsible under association law.
               </li>
               <li>
                 <strong>Lovable DPA</strong> — A Data Processing Agreement with Lovable is required

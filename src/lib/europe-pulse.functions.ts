@@ -103,7 +103,9 @@ export const retryFailedChapters = createServerFn({ method: "POST" })
       .eq("run_id", data.runId)
       .eq("status", "failed");
     const chapterIds = [
-      ...new Set((rows ?? []).map((r) => r.chapter_id as string | null).filter(Boolean) as string[]),
+      ...new Set(
+        (rows ?? []).map((r) => r.chapter_id as string | null).filter(Boolean) as string[],
+      ),
     ];
     if (!chapterIds.length) return null;
     const { runEuropePulse } = await import("./europe-pulse.server");

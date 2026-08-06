@@ -158,12 +158,13 @@ export function SyncRunDetail({ runId }: { runId: string }) {
   }, [runId]);
 
   if (error) return <p className="py-3 text-xs text-destructive">{error}</p>;
-  if (!detail) return <p className="py-3 text-xs text-muted-foreground">{t("integration.runDetailLoading")}</p>;
+  if (!detail)
+    return (
+      <p className="py-3 text-xs text-muted-foreground">{t("integration.runDetailLoading")}</p>
+    );
 
   const nothing =
-    detail.created.length === 0 &&
-    detail.updated.length === 0 &&
-    detail.deactivated.length === 0;
+    detail.created.length === 0 && detail.updated.length === 0 && detail.deactivated.length === 0;
 
   return (
     <div className="rounded-xl bg-secondary/60 p-4">

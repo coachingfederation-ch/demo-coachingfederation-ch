@@ -54,9 +54,7 @@ export function DeckSection() {
     <section className="bg-background py-24">
       <div className="mx-auto max-w-7xl px-8">
         <p className="eyebrow">{t("organisations.deck.eyebrow")}</p>
-        <h2 className="mt-3 max-w-2xl display-lg">
-          {t("organisations.deck.title")}
-        </h2>
+        <h2 className="mt-3 max-w-2xl display-lg">{t("organisations.deck.title")}</h2>
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
           {t("organisations.deck.lede")}
         </p>

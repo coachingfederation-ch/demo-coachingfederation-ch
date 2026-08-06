@@ -88,7 +88,8 @@
   --color-warn-foreground: var(--warn-foreground);
   --color-highlight: var(--highlight);
   --color-highlight-foreground: var(--highlight-foreground);
-  --shadow-soft: 0 1px 2px oklch(0.2802 0.084 278.57 / 5%), 0 6px 18px oklch(0.2802 0.084 278.57 / 5%);
+  --shadow-soft:
+    0 1px 2px oklch(0.2802 0.084 278.57 / 5%), 0 6px 18px oklch(0.2802 0.084 278.57 / 5%);
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   --font-body: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   --font-heading: "Quicksand", system-ui, -apple-system, sans-serif;

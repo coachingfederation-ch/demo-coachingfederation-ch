@@ -11,7 +11,16 @@
  */
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight, ExternalLink, Mail, MapPin, Megaphone, HeartHandshake, UserRound, PenLine } from "lucide-react";
+import {
+  ArrowRight,
+  ExternalLink,
+  Mail,
+  MapPin,
+  Megaphone,
+  HeartHandshake,
+  UserRound,
+  PenLine,
+} from "lucide-react";
 import { useCms } from "@/i18n/cms";
 import { getMemberHome } from "@/lib/member-home.functions";
 
@@ -40,7 +49,9 @@ export function MemberHome() {
           {t("member.home.eyebrow")}
         </p>
         <h1 className="mt-2 text-3xl font-bold tracking-tight">
-          {name ? t("member.home.greetingNamed").replace("{name}", name) : t("member.home.greeting")}
+          {name
+            ? t("member.home.greetingNamed").replace("{name}", name)
+            : t("member.home.greeting")}
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-muted-foreground">{t("member.home.intro")}</p>
       </header>
@@ -88,11 +99,7 @@ export function MemberHome() {
           <PenLine className="h-5 w-5 text-primary" aria-hidden />
           <h2 className="mt-3 text-lg font-bold">{t("member.home.writeForUs.title")}</h2>
           <p className="mt-1 text-sm text-muted-foreground">{t("member.home.writeForUs.body")}</p>
-          <a
-            href="mailto:office@coachingfederation.ch"
-            target="_top"
-            className={CTA}
-          >
+          <a href="mailto:office@coachingfederation.ch" target="_top" className={CTA}>
             {t("member.home.writeForUs.cta")}
             <Mail className="h-4 w-4" aria-hidden />
           </a>
@@ -104,7 +111,9 @@ export function MemberHome() {
         <p className="mt-1 text-sm text-muted-foreground">{t("member.home.communities.body")}</p>
 
         {isLoading ? (
-          <p className="mt-4 text-sm text-muted-foreground">{t("member.home.communities.loading")}</p>
+          <p className="mt-4 text-sm text-muted-foreground">
+            {t("member.home.communities.loading")}
+          </p>
         ) : data?.noRegions ? (
           <p className="mt-4 text-sm text-muted-foreground">
             {t("member.home.communities.noRegions")}{" "}

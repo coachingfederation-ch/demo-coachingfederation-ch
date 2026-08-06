@@ -18,15 +18,7 @@ export type SponsorItem = {
   image?: string;
 };
 
-function SponsorCard({
-  item,
-  cta,
-  adLabel,
-}: {
-  item: SponsorItem;
-  cta: string;
-  adLabel: string;
-}) {
+function SponsorCard({ item, cta, adLabel }: { item: SponsorItem; cta: string; adLabel: string }) {
   return (
     <article className="group/card relative flex h-full w-[19rem] shrink-0 flex-col overflow-hidden rounded-3xl border border-white/10 bg-hero text-hero-foreground shadow-[0_25px_50px_-12px_color-mix(in_oklab,var(--hero)_45%,transparent)] sm:w-[21rem]">
       <div className="relative h-44 w-full overflow-hidden">
@@ -91,15 +83,17 @@ export function SponsorMarquee({
     <div
       className="group relative overflow-hidden motion-reduce:overflow-x-auto"
       style={{
-        maskImage:
-          "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
-        WebkitMaskImage:
-          "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
+        maskImage: "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
+        WebkitMaskImage: "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
       }}
     >
       <div className="marquee-track flex w-max items-stretch gap-5 group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused] motion-reduce:animate-none">
         {[0, 1].map((copy) => (
-          <div key={copy} className="flex items-stretch gap-5" aria-hidden={copy === 1 || undefined}>
+          <div
+            key={copy}
+            className="flex items-stretch gap-5"
+            aria-hidden={copy === 1 || undefined}
+          >
             {items.map((item) => (
               <div key={item.name} className="flex">
                 <SponsorCard item={item} cta={cta} adLabel={adLabel} />

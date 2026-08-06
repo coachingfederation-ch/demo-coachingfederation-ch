@@ -7,12 +7,7 @@ import { useNavigate, useSearch } from "@tanstack/react-router";
 import { Mark, type MarkName } from "@/components/marks";
 import { CompactHero, SiteFooter, CARD_SHADOW } from "@/components/site-chrome";
 import { LocaleLink, useI18n } from "@/i18n";
-import {
-  eventPlace,
-  formatEventDate,
-  type EventFacetOption,
-  type PublicEvent,
-} from "@/lib/events";
+import { eventPlace, formatEventDate, type EventFacetOption, type PublicEvent } from "@/lib/events";
 import type { EventsSearch } from "@/lib/events-search";
 
 /**
@@ -122,7 +117,8 @@ export default function EventsPage({ data }: { data: EventsPageData }) {
   // The featured card is a curated hero, so it only survives an unfiltered
   // upcoming view; otherwise it joins the grid like any other match.
   const showFeaturedCard = when === "upcoming" && !hasFacetFilters && Boolean(featured);
-  const pool = when === "past" ? past : featured && !showFeaturedCard ? [featured, ...upcoming] : upcoming;
+  const pool =
+    when === "past" ? past : featured && !showFeaturedCard ? [featured, ...upcoming] : upcoming;
   const results = pool.filter(matches);
 
   const categoryLabel = (slug: string | null) =>

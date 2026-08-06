@@ -75,8 +75,7 @@ export async function loadContentOwnership(): Promise<ContentOwnershipReport> {
     supabaseAdmin.from("events").select("id, title, status, organizer_id"),
   ]);
 
-  const label = (id: string | null) =>
-    id ? (labels.get(id) ?? `Account ${id.slice(0, 8)}`) : "—";
+  const label = (id: string | null) => (id ? (labels.get(id) ?? `Account ${id.slice(0, 8)}`) : "—");
 
   return {
     staffProfiles: [...staffIds]

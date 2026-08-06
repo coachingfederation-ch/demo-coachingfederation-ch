@@ -19,9 +19,7 @@ export const Route = createFileRoute("/events/")({
     links: localeLinkTags("/events", "en"),
   }),
   errorComponent: () => (
-    <EventsPage
-      data={{ featured: null, upcoming: [], past: [], categories: [], regions: [] }}
-    />
+    <EventsPage data={{ featured: null, upcoming: [], past: [], categories: [], regions: [] }} />
   ),
   component: EventsRoute,
 });

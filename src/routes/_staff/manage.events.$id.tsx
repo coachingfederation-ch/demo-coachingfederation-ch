@@ -212,67 +212,67 @@ function EventEditor() {
         <Section title={t("events.section.details")}>
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label={t("events.fieldTitle")}>
-            <input
-              className={inputClass}
-              value={event.title}
-              onChange={(e) => patch({ title: e.target.value })}
-            />
-          </Field>
-          <Field label={t("events.fieldSlug")}>
-            <input
-              className={inputClass}
-              value={event.slug}
-              onChange={(e) => patch({ slug: e.target.value })}
-            />
-          </Field>
-          <Field label={t("events.fieldLanguage")}>
-            <select
-              className={inputClass}
-              value={event.language}
-              onChange={(e) => patch({ language: e.target.value as Managed["language"] })}
-            >
-              {["de", "fr", "it", "en"].map((l) => (
-                <option key={l} value={l}>
-                  {l.toUpperCase()}
-                </option>
-              ))}
-            </select>
-          </Field>
-          <Field label={t("events.fieldCategory")}>
-            <select
-              className={inputClass}
-              value={event.category_id ?? ""}
-              onChange={(e) => patch({ category_id: e.target.value || null })}
-            >
-              <option value="">{t("events.fieldUnset")}</option>
-              {categories.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {vocabLabel(c, "en")}
-                </option>
-              ))}
-            </select>
-          </Field>
-          <Field label={t("events.fieldRegion")}>
-            <select
-              className={inputClass}
-              value={event.region_id ?? ""}
-              onChange={(e) => patch({ region_id: e.target.value || null })}
-            >
-              <option value="">{t("events.fieldUnset")}</option>
-              {regions.map((r) => (
-                <option key={r.id} value={r.id}>
-                  {vocabLabel(r, "en")}
-                </option>
-              ))}
-            </select>
-          </Field>
-          <Field label={t("events.fieldFeatured")}>
-            <input
-              type="checkbox"
-              checked={event.is_featured}
-              onChange={(e) => patch({ is_featured: e.target.checked })}
-            />
-          </Field>
+              <input
+                className={inputClass}
+                value={event.title}
+                onChange={(e) => patch({ title: e.target.value })}
+              />
+            </Field>
+            <Field label={t("events.fieldSlug")}>
+              <input
+                className={inputClass}
+                value={event.slug}
+                onChange={(e) => patch({ slug: e.target.value })}
+              />
+            </Field>
+            <Field label={t("events.fieldLanguage")}>
+              <select
+                className={inputClass}
+                value={event.language}
+                onChange={(e) => patch({ language: e.target.value as Managed["language"] })}
+              >
+                {["de", "fr", "it", "en"].map((l) => (
+                  <option key={l} value={l}>
+                    {l.toUpperCase()}
+                  </option>
+                ))}
+              </select>
+            </Field>
+            <Field label={t("events.fieldCategory")}>
+              <select
+                className={inputClass}
+                value={event.category_id ?? ""}
+                onChange={(e) => patch({ category_id: e.target.value || null })}
+              >
+                <option value="">{t("events.fieldUnset")}</option>
+                {categories.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {vocabLabel(c, "en")}
+                  </option>
+                ))}
+              </select>
+            </Field>
+            <Field label={t("events.fieldRegion")}>
+              <select
+                className={inputClass}
+                value={event.region_id ?? ""}
+                onChange={(e) => patch({ region_id: e.target.value || null })}
+              >
+                <option value="">{t("events.fieldUnset")}</option>
+                {regions.map((r) => (
+                  <option key={r.id} value={r.id}>
+                    {vocabLabel(r, "en")}
+                  </option>
+                ))}
+              </select>
+            </Field>
+            <Field label={t("events.fieldFeatured")}>
+              <input
+                type="checkbox"
+                checked={event.is_featured}
+                onChange={(e) => patch({ is_featured: e.target.checked })}
+              />
+            </Field>
           </div>
         </Section>
 
@@ -308,60 +308,62 @@ function EventEditor() {
         <Section title={t("events.section.when")}>
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label={t("events.fieldStarts")}>
-            <input
-              type="datetime-local"
-              className={inputClass}
-              value={toLocalInput(event.starts_at)}
-              onChange={(e) =>
-                patch({ starts_at: fromLocalInput(e.target.value) ?? event.starts_at })
-              }
-            />
-          </Field>
-          <Field label={t("events.fieldEnds")}>
-            <input
-              type="datetime-local"
-              className={inputClass}
-              value={toLocalInput(event.ends_at)}
-              onChange={(e) => patch({ ends_at: fromLocalInput(e.target.value) })}
-            />
-          </Field>
+              <input
+                type="datetime-local"
+                className={inputClass}
+                value={toLocalInput(event.starts_at)}
+                onChange={(e) =>
+                  patch({ starts_at: fromLocalInput(e.target.value) ?? event.starts_at })
+                }
+              />
+            </Field>
+            <Field label={t("events.fieldEnds")}>
+              <input
+                type="datetime-local"
+                className={inputClass}
+                value={toLocalInput(event.ends_at)}
+                onChange={(e) => patch({ ends_at: fromLocalInput(e.target.value) })}
+              />
+            </Field>
           </div>
         </Section>
 
         <Section title={t("events.section.location")}>
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label={t("events.fieldLocationMode")}>
-            <select
-              className={inputClass}
-              value={event.location_mode}
-              onChange={(e) => patch({ location_mode: e.target.value as Managed["location_mode"] })}
-            >
-              <option value="in_person">{t("events.mode.inPerson")}</option>
-              <option value="online">{t("events.mode.online")}</option>
-              <option value="hybrid">{t("events.mode.hybrid")}</option>
-            </select>
-          </Field>
-          <Field label={t("events.fieldCity")}>
-            <input
-              className={inputClass}
-              value={event.city ?? ""}
-              onChange={(e) => patch({ city: e.target.value })}
-            />
-          </Field>
-          <Field label={t("events.fieldVenue")}>
-            <input
-              className={inputClass}
-              value={event.venue_name ?? ""}
-              onChange={(e) => patch({ venue_name: e.target.value })}
-            />
-          </Field>
-          <Field label={t("events.fieldOnlineUrl")}>
-            <input
-              className={inputClass}
-              value={event.online_url ?? ""}
-              onChange={(e) => patch({ online_url: e.target.value })}
-            />
-          </Field>
+              <select
+                className={inputClass}
+                value={event.location_mode}
+                onChange={(e) =>
+                  patch({ location_mode: e.target.value as Managed["location_mode"] })
+                }
+              >
+                <option value="in_person">{t("events.mode.inPerson")}</option>
+                <option value="online">{t("events.mode.online")}</option>
+                <option value="hybrid">{t("events.mode.hybrid")}</option>
+              </select>
+            </Field>
+            <Field label={t("events.fieldCity")}>
+              <input
+                className={inputClass}
+                value={event.city ?? ""}
+                onChange={(e) => patch({ city: e.target.value })}
+              />
+            </Field>
+            <Field label={t("events.fieldVenue")}>
+              <input
+                className={inputClass}
+                value={event.venue_name ?? ""}
+                onChange={(e) => patch({ venue_name: e.target.value })}
+              />
+            </Field>
+            <Field label={t("events.fieldOnlineUrl")}>
+              <input
+                className={inputClass}
+                value={event.online_url ?? ""}
+                onChange={(e) => patch({ online_url: e.target.value })}
+              />
+            </Field>
           </div>
         </Section>
 
@@ -427,49 +429,51 @@ function EventEditor() {
         <Section title={t("events.section.registration")}>
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label={t("events.fieldCapacity")}>
-            <input
-              type="number"
-              min={1}
-              className={inputClass}
-              value={event.capacity ?? ""}
-              onChange={(e) => patch({ capacity: e.target.value ? Number(e.target.value) : null })}
-            />
-          </Field>
-          <Field label={t("events.fieldRegistrationMode")}>
-            <select
-              className={inputClass}
-              value={event.registration_mode}
-              onChange={(e) =>
-                patch({ registration_mode: e.target.value as Managed["registration_mode"] })
-              }
-            >
-              <option value="rsvp">{t("events.regMode.rsvp")}</option>
-              <option value="none">{t("events.regMode.none")}</option>
-            </select>
-          </Field>
-          <Field label={t("events.fieldGuests")}>
-            <input
-              type="checkbox"
-              checked={event.guest_registration_allowed}
-              onChange={(e) => patch({ guest_registration_allowed: e.target.checked })}
-            />
-          </Field>
-          <Field label={t("events.fieldRegOpens")}>
-            <input
-              type="datetime-local"
-              className={inputClass}
-              value={toLocalInput(event.registration_opens_at)}
-              onChange={(e) => patch({ registration_opens_at: fromLocalInput(e.target.value) })}
-            />
-          </Field>
-          <Field label={t("events.fieldRegCloses")}>
-            <input
-              type="datetime-local"
-              className={inputClass}
-              value={toLocalInput(event.registration_closes_at)}
-              onChange={(e) => patch({ registration_closes_at: fromLocalInput(e.target.value) })}
-            />
-          </Field>
+              <input
+                type="number"
+                min={1}
+                className={inputClass}
+                value={event.capacity ?? ""}
+                onChange={(e) =>
+                  patch({ capacity: e.target.value ? Number(e.target.value) : null })
+                }
+              />
+            </Field>
+            <Field label={t("events.fieldRegistrationMode")}>
+              <select
+                className={inputClass}
+                value={event.registration_mode}
+                onChange={(e) =>
+                  patch({ registration_mode: e.target.value as Managed["registration_mode"] })
+                }
+              >
+                <option value="rsvp">{t("events.regMode.rsvp")}</option>
+                <option value="none">{t("events.regMode.none")}</option>
+              </select>
+            </Field>
+            <Field label={t("events.fieldGuests")}>
+              <input
+                type="checkbox"
+                checked={event.guest_registration_allowed}
+                onChange={(e) => patch({ guest_registration_allowed: e.target.checked })}
+              />
+            </Field>
+            <Field label={t("events.fieldRegOpens")}>
+              <input
+                type="datetime-local"
+                className={inputClass}
+                value={toLocalInput(event.registration_opens_at)}
+                onChange={(e) => patch({ registration_opens_at: fromLocalInput(e.target.value) })}
+              />
+            </Field>
+            <Field label={t("events.fieldRegCloses")}>
+              <input
+                type="datetime-local"
+                className={inputClass}
+                value={toLocalInput(event.registration_closes_at)}
+                onChange={(e) => patch({ registration_closes_at: fromLocalInput(e.target.value) })}
+              />
+            </Field>
           </div>
         </Section>
 

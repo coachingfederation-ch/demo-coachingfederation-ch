@@ -8,10 +8,7 @@
 import { useEffect, useState } from "react";
 import { CheckCircle2, RefreshCw, Users } from "lucide-react";
 import { useCms } from "@/i18n/cms";
-import {
-  getContentOwnership,
-  reassignContent,
-} from "@/lib/content-ownership.functions";
+import { getContentOwnership, reassignContent } from "@/lib/content-ownership.functions";
 
 type Item = { id: string; title: string; status: string; ownerLabel: string };
 type Report = {

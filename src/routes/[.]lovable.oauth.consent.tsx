@@ -39,7 +39,10 @@ export const Route = createFileRoute("/.lovable/oauth/consent")({
     authorization_id: typeof search.authorization_id === "string" ? search.authorization_id : "",
   }),
   head: () => ({
-    meta: [{ title: "Authorize access — The Switzerland Chapter of ICF" }, { name: "robots", content: "noindex" }],
+    meta: [
+      { title: "Authorize access — The Switzerland Chapter of ICF" },
+      { name: "robots", content: "noindex" },
+    ],
   }),
   beforeLoad: async ({ search, location }) => {
     if (!search.authorization_id) throw new Error("Missing authorization_id");
@@ -110,8 +113,8 @@ function Consent() {
     <Frame>
       <h1 className="text-xl font-bold tracking-tight">Connect {clientName}</h1>
       <p className="mt-2 text-sm text-muted-foreground">
-        {clientName} is asking to use The Switzerland Chapter of ICF tools as you. It will see only what your
-        account can already see on the site.
+        {clientName} is asking to use The Switzerland Chapter of ICF tools as you. It will see only
+        what your account can already see on the site.
       </p>
       {error ? (
         <p role="alert" className="mt-4 text-xs text-destructive">

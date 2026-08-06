@@ -403,25 +403,46 @@ export function SiteFooter() {
           aria-label={t("common.nav.footerLabel")}
           className="flex flex-wrap items-center gap-x-5 gap-y-2"
         >
-          <LocaleLink to="/find-a-coach" className="inline-flex min-h-6 items-center text-white/80 hover:text-white">
+          <LocaleLink
+            to="/find-a-coach"
+            className="inline-flex min-h-6 items-center text-white/80 hover:text-white"
+          >
             {t("common.nav.findACoach")}
           </LocaleLink>
-          <LocaleLink to="/for-organisations" className="inline-flex min-h-6 items-center text-white/80 hover:text-white">
+          <LocaleLink
+            to="/for-organisations"
+            className="inline-flex min-h-6 items-center text-white/80 hover:text-white"
+          >
             {t("common.nav.forOrganisations")}
           </LocaleLink>
-          <LocaleLink to="/for-coaches" className="inline-flex min-h-6 items-center text-white/80 hover:text-white">
+          <LocaleLink
+            to="/for-coaches"
+            className="inline-flex min-h-6 items-center text-white/80 hover:text-white"
+          >
             {t("common.nav.forCoaches")}
           </LocaleLink>
-          <LocaleLink to="/insights" className="inline-flex min-h-6 items-center text-white/80 hover:text-white">
+          <LocaleLink
+            to="/insights"
+            className="inline-flex min-h-6 items-center text-white/80 hover:text-white"
+          >
             {t("common.nav.insights")}
           </LocaleLink>
-          <LocaleLink to="/events" className="inline-flex min-h-6 items-center text-white/80 hover:text-white">
+          <LocaleLink
+            to="/events"
+            className="inline-flex min-h-6 items-center text-white/80 hover:text-white"
+          >
             {t("common.nav.events")}
           </LocaleLink>
-          <LocaleLink to="/about" className="inline-flex min-h-6 items-center text-white/80 hover:text-white">
+          <LocaleLink
+            to="/about"
+            className="inline-flex min-h-6 items-center text-white/80 hover:text-white"
+          >
             {t("common.nav.about")}
           </LocaleLink>
-          <LocaleLink to="/privacy" className="inline-flex min-h-6 items-center text-white/80 hover:text-white">
+          <LocaleLink
+            to="/privacy"
+            className="inline-flex min-h-6 items-center text-white/80 hover:text-white"
+          >
             {t("common.footer.privacy")}
           </LocaleLink>
           <a
@@ -432,7 +453,10 @@ export function SiteFooter() {
           >
             {t("common.footer.ethics")}
           </a>
-          <LocaleLink to="/imprint" className="inline-flex min-h-6 items-center text-white/80 hover:text-white">
+          <LocaleLink
+            to="/imprint"
+            className="inline-flex min-h-6 items-center text-white/80 hover:text-white"
+          >
             {t("common.footer.imprint")}
           </LocaleLink>
         </nav>

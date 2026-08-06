@@ -137,7 +137,8 @@ export function buildAssistantTools(options: { locale: Locale; userId?: string }
   });
 
   const getInsight = tool({
-    description: "Read the full body of one published Insights article by the id from list_insights.",
+    description:
+      "Read the full body of one published Insights article by the id from list_insights.",
     inputSchema: z.object({ id: z.string() }),
     execute: async ({ id }) => {
       const supabase = await anonClient();

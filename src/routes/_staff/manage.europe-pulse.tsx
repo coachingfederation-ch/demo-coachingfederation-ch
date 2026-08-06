@@ -218,9 +218,7 @@ function EuropePulseAdmin() {
           </button>
         </div>
 
-        {notice ? (
-          <p className="mt-4 rounded-lg bg-secondary px-4 py-3 text-sm">{notice}</p>
-        ) : null}
+        {notice ? <p className="mt-4 rounded-lg bg-secondary px-4 py-3 text-sm">{notice}</p> : null}
         {error ? (
           <p className="mt-4 rounded-lg bg-destructive/10 px-4 py-3 text-sm text-destructive">
             {error}
@@ -230,8 +228,8 @@ function EuropePulseAdmin() {
         <section className="mt-8 rounded-xl border border-border bg-card p-5">
           <h2 className="text-sm font-semibold">Publishing mode</h2>
           <p className="mt-1 text-xs text-muted-foreground">
-            Automatic publishes each weekly run immediately. Manual holds new items as pending
-            until you approve them below.
+            Automatic publishes each weekly run immediately. Manual holds new items as pending until
+            you approve them below.
           </p>
           <div className="mt-3 flex gap-2">
             {(["automatic", "manual"] as const).map((value) => (
@@ -383,11 +381,7 @@ function EuropePulseAdmin() {
                   title={chapter.is_active ? "Exclude from scan" : "Include in scan"}
                   className="rounded-md p-1.5 text-muted-foreground hover:bg-secondary hover:text-foreground"
                 >
-                  {chapter.is_active ? (
-                    <Eye className="h-4 w-4" />
-                  ) : (
-                    <EyeOff className="h-4 w-4" />
-                  )}
+                  {chapter.is_active ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
                 </button>
               </li>
             ))}

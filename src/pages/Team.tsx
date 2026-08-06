@@ -44,11 +44,7 @@ export default function TeamPage() {
               {t("team.intro")}
             </p>
             <div className="mt-10">
-              <TeamFilters
-                projects={data?.projects ?? []}
-                active={project}
-                onChange={setProject}
-              />
+              <TeamFilters projects={data?.projects ?? []} active={project} onChange={setProject} />
             </div>
           </div>
         </section>

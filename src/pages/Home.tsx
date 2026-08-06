@@ -17,14 +17,7 @@ import { SponsorMarquee, type SponsorItem } from "@/components/home/SponsorMarqu
 import { useI18n, LocaleLink } from "@/i18n";
 
 /** Demo sponsor imagery (AI generated), ordered to match `home.ads.items`. */
-const AD_IMAGES = [
-  adSupervision,
-  adPress,
-  adAssessment,
-  adPractice,
-  adRetreats,
-  adMentoring,
-];
+const AD_IMAGES = [adSupervision, adPress, adAssessment, adPractice, adRetreats, adMentoring];
 
 function HeroHeader() {
   const { t } = useI18n();
@@ -92,8 +85,7 @@ function Audiences() {
     "https://coachingfederation.org/become-a-coach/why-become-a-coach/",
   ];
   const isExternal = [false, false, false, true];
-  const cardClassName =
-    "group flex flex-col bg-card p-7 transition-colors hover:bg-secondary/50";
+  const cardClassName = "group flex flex-col bg-card p-7 transition-colors hover:bg-secondary/50";
   return (
     <section id="find-a-coach" className="mx-auto -mt-10 max-w-7xl px-5 sm:px-8">
       <div className="grid gap-px overflow-hidden rounded-3xl border border-border bg-border md:grid-cols-2 lg:grid-cols-4">
@@ -105,10 +97,7 @@ function Audiences() {
               <p className="mt-3 flex-1 text-sm leading-[1.65] text-muted-foreground">{a.desc}</p>
               <span className="mt-7 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
                 {a.cta}
-                <span
-                  aria-hidden="true"
-                  className="transition-transform group-hover:translate-x-1"
-                >
+                <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
                   →
                 </span>
               </span>
@@ -194,39 +183,39 @@ function CoachingInAction() {
   return (
     <section className="bg-background py-24">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-      <div className="flex flex-wrap items-end justify-between gap-6">
-        <div>
-          <p className="eyebrow">{t("home.insights.eyebrow")}</p>
-          <h2 className="display-lg mt-4 max-w-2xl text-foreground">
-            {t("home.insights.title")}
-          </h2>
-        </div>
-        <LocaleLink
-          to="/insights"
-          className="text-sm font-semibold text-primary underline-offset-4 hover:underline"
-        >
-          {t("home.insights.cta")}
-        </LocaleLink>
-      </div>
-      <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-        {themes.map((th) => (
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <p className="eyebrow">{t("home.insights.eyebrow")}</p>
+            <h2 className="display-lg mt-4 max-w-2xl text-foreground">
+              {t("home.insights.title")}
+            </h2>
+          </div>
           <LocaleLink
-            key={th.tag}
             to="/insights"
-            className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-colors hover:border-chip-active-border"
+            className="text-sm font-semibold text-primary underline-offset-4 hover:underline"
           >
-            <div className={"grid aspect-[4/3] w-full place-items-center " + th.bg + " " + th.fg}>
-              <Mark name={th.mark} className="h-2/5 w-2/5 opacity-90" />
-            </div>
-            <div className="p-6">
-              <p className="section-label">{th.tag}</p>
-              <h3 className="mt-2.5 text-base font-semibold leading-snug text-foreground">
-                {th.title}
-              </h3>
-            </div>
+            {t("home.insights.cta")}
           </LocaleLink>
-        ))}
-      </div>
+        </div>
+        <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          {themes.map((th) => (
+            <LocaleLink
+              key={th.tag}
+              to="/insights"
+              className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-colors hover:border-chip-active-border"
+            >
+              <div className={"grid aspect-[4/3] w-full place-items-center " + th.bg + " " + th.fg}>
+                <Mark name={th.mark} className="h-2/5 w-2/5 opacity-90" />
+              </div>
+              <div className="p-6">
+                <p className="section-label">{th.tag}</p>
+                <h3 className="mt-2.5 text-base font-semibold leading-snug text-foreground">
+                  {th.title}
+                </h3>
+              </div>
+            </LocaleLink>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -239,9 +228,7 @@ function ForOrganisations() {
       <div className="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 py-24 md:grid-cols-2 md:items-center">
         <div>
           <p className="eyebrow">{t("home.organisations.eyebrow")}</p>
-          <h2 className="mt-3 display-lg">
-            {t("home.organisations.title")}
-          </h2>
+          <h2 className="mt-3 display-lg">{t("home.organisations.title")}</h2>
           <p className="mt-5 max-w-lg text-base leading-relaxed text-muted-foreground">
             {t("home.organisations.subtitle")}
           </p>
@@ -284,10 +271,7 @@ function Sponsors() {
     image: AD_IMAGES[i],
   }));
   return (
-    <section
-      aria-label={t("home.ads.eyebrow")}
-      className="border-t border-border bg-card py-24"
-    >
+    <section aria-label={t("home.ads.eyebrow")} className="border-t border-border bg-card py-24">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="max-w-2xl">
           <p className="eyebrow">{t("home.ads.eyebrow")}</p>
@@ -321,9 +305,7 @@ function Events() {
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="eyebrow">{t("home.events.eyebrow")}</p>
-            <h2 className="mt-3 display-lg text-foreground">
-              {t("home.events.title")}
-            </h2>
+            <h2 className="mt-3 display-lg text-foreground">{t("home.events.title")}</h2>
           </div>
           <LocaleLink to="/events" className="text-sm font-semibold text-primary hover:underline">
             {t("home.events.viewAll")}
@@ -374,26 +356,26 @@ function Research() {
   return (
     <section className="bg-background py-24">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 text-center">
-      <p className="eyebrow">{t("home.research.eyebrow")}</p>
-      <h2 className="mx-auto mt-3 max-w-3xl display-lg text-foreground">
-        {t("home.research.title")}
-      </h2>
-      <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
-        {t("home.research.subtitle")}
-      </p>
-      <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-5">
-        {partners.map((p) => (
-          <div
-            key={p}
-            className={
-              "grid h-20 place-items-center rounded-2xl border border-border bg-card text-sm font-semibold text-foreground/70 " +
-              CARD_SHADOW
-            }
-          >
-            {p}
-          </div>
-        ))}
-      </div>
+        <p className="eyebrow">{t("home.research.eyebrow")}</p>
+        <h2 className="mx-auto mt-3 max-w-3xl display-lg text-foreground">
+          {t("home.research.title")}
+        </h2>
+        <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
+          {t("home.research.subtitle")}
+        </p>
+        <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-5">
+          {partners.map((p) => (
+            <div
+              key={p}
+              className={
+                "grid h-20 place-items-center rounded-2xl border border-border bg-card text-sm font-semibold text-foreground/70 " +
+                CARD_SHADOW
+              }
+            >
+              {p}
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -410,9 +392,7 @@ function Join() {
       <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 py-24 md:grid-cols-[1.2fr_1fr] md:items-center">
         <div>
           <p className="eyebrow !text-accent">{t("home.join.eyebrow")}</p>
-          <h2 className="mt-3 display-lg">
-            {t("home.join.title")}
-          </h2>
+          <h2 className="mt-3 display-lg">{t("home.join.title")}</h2>
           <p className="mt-5 max-w-lg text-base leading-relaxed text-white/85">
             {t("home.join.subtitle")}
           </p>

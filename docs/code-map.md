@@ -56,11 +56,11 @@ before adding a new file.
 
 ### Europe Pulse
 
-| Module                          | Responsibility                                                                                                                        |
-| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `europe-pulse.ts`               | Client-safe types, locale resolution for curated items, flag emoji and week-start helpers.                                             |
-| `europe-pulse.server.ts`        | The weekly scan engine: Firecrawl pacing and retries, AI extraction, curation and multilingual writing, failure classification.        |
-| `europe-pulse.functions.ts`     | Public feed read, the admin "scan now" trigger and the failed-chapter retry. See `docs/europe-pulse.md`.                                |
+| Module                      | Responsibility                                                                                                                  |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `europe-pulse.ts`           | Client-safe types, locale resolution for curated items, flag emoji and week-start helpers.                                      |
+| `europe-pulse.server.ts`    | The weekly scan engine: Firecrawl pacing and retries, AI extraction, curation and multilingual writing, failure classification. |
+| `europe-pulse.functions.ts` | Public feed read, the admin "scan now" trigger and the failed-chapter retry. See `docs/europe-pulse.md`.                        |
 
 ### Shared infrastructure
 

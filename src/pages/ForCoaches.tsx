@@ -40,30 +40,28 @@ export default function ForCoachesPage() {
 
         <section id="credentials" className="scroll-mt-24 bg-card py-24">
           <div className="mx-auto max-w-7xl px-8">
-          <p className="eyebrow">{t("coaches.credentials.eyebrow")}</p>
-          <h2 className="mt-3 max-w-2xl display-lg">
-            {t("coaches.credentials.title")}
-          </h2>
-          <div className="mt-12 grid gap-4 md:grid-cols-3">
-            {credentials.map((c) => (
-              <div
-                key={c.level}
-                className={"rounded-2xl border border-border/70 bg-card p-8 " + CARD_SHADOW}
-              >
-                <p className="btn-mono !text-teal-foreground">{c.hours}</p>
-                <h3 className="mt-3 text-3xl font-bold tracking-tight text-primary">{c.level}</h3>
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{c.desc}</p>
-              </div>
-            ))}
-          </div>
-          <a
-            href="https://coachingfederation.org/credentialing/icf-credentials-overview/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-8 inline-flex h-10 items-center rounded-full bg-primary px-5 text-sm font-semibold text-white transition hover:bg-primary/90"
-          >
-            {t("coaches.credentials.cta")}
-          </a>
+            <p className="eyebrow">{t("coaches.credentials.eyebrow")}</p>
+            <h2 className="mt-3 max-w-2xl display-lg">{t("coaches.credentials.title")}</h2>
+            <div className="mt-12 grid gap-4 md:grid-cols-3">
+              {credentials.map((c) => (
+                <div
+                  key={c.level}
+                  className={"rounded-2xl border border-border/70 bg-card p-8 " + CARD_SHADOW}
+                >
+                  <p className="btn-mono !text-teal-foreground">{c.hours}</p>
+                  <h3 className="mt-3 text-3xl font-bold tracking-tight text-primary">{c.level}</h3>
+                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{c.desc}</p>
+                </div>
+              ))}
+            </div>
+            <a
+              href="https://coachingfederation.org/credentialing/icf-credentials-overview/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-flex h-10 items-center rounded-full bg-primary px-5 text-sm font-semibold text-white transition hover:bg-primary/90"
+            >
+              {t("coaches.credentials.cta")}
+            </a>
           </div>
         </section>
 
@@ -74,9 +72,7 @@ export default function ForCoachesPage() {
             </div>
             <div>
               <p className="eyebrow">{t("coaches.deib.eyebrow")}</p>
-              <h2 className="mt-3 display-lg">
-                {t("coaches.deib.title")}
-              </h2>
+              <h2 className="mt-3 display-lg">{t("coaches.deib.title")}</h2>
               <p className="mt-5 text-base leading-relaxed text-muted-foreground">
                 {t("coaches.deib.desc")}
               </p>
@@ -100,20 +96,18 @@ export default function ForCoachesPage() {
 
         <section className="bg-card py-24">
           <div className="mx-auto max-w-7xl px-8">
-          <p className="eyebrow">{t("coaches.chapters.eyebrow")}</p>
-          <h2 className="mt-3 max-w-2xl display-lg">
-            {t("coaches.chapters.title")}
-          </h2>
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
-            {t("coaches.chapters.desc")}
-          </p>
-          <CommunityGrid />
-          <LocaleLink
-            to="/communities"
-            className="mt-8 inline-flex text-sm font-semibold text-primary hover:underline"
-          >
-            {t("coaches.chapters.cta")}
-          </LocaleLink>
+            <p className="eyebrow">{t("coaches.chapters.eyebrow")}</p>
+            <h2 className="mt-3 max-w-2xl display-lg">{t("coaches.chapters.title")}</h2>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
+              {t("coaches.chapters.desc")}
+            </p>
+            <CommunityGrid />
+            <LocaleLink
+              to="/communities"
+              className="mt-8 inline-flex text-sm font-semibold text-primary hover:underline"
+            >
+              {t("coaches.chapters.cta")}
+            </LocaleLink>
           </div>
         </section>
 
@@ -121,9 +115,7 @@ export default function ForCoachesPage() {
           <div className="mx-auto grid max-w-7xl gap-10 px-8 md:grid-cols-[1.4fr_1fr] md:items-center">
             <div>
               <p className="eyebrow">{t("coaches.volunteer.eyebrow")}</p>
-              <h2 className="mt-3 display-lg">
-                {t("coaches.volunteer.title")}
-              </h2>
+              <h2 className="mt-3 display-lg">{t("coaches.volunteer.title")}</h2>
               <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
                 {t("coaches.volunteer.desc")}
               </p>
@@ -145,9 +137,7 @@ export default function ForCoachesPage() {
         <section className="bg-hero text-hero-foreground">
           <div className="mx-auto max-w-7xl px-8 py-20 text-center">
             <p className="eyebrow !text-accent">{t("coaches.join.eyebrow")}</p>
-            <h2 className="mx-auto mt-3 max-w-2xl display-lg">
-              {t("coaches.join.title")}
-            </h2>
+            <h2 className="mx-auto mt-3 max-w-2xl display-lg">{t("coaches.join.title")}</h2>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <a
                 href="https://coachingfederation.org/about/icf-membership/individual-membership/"

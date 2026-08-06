@@ -98,9 +98,7 @@ export function CultureSurvey() {
     <section id="assessment" className="bg-background py-24">
       <div className="mx-auto max-w-4xl px-8">
         <p className="eyebrow">{t("organisations.survey.eyebrow")}</p>
-        <h2 className="mt-3 display-lg">
-          {t("organisations.survey.title")}
-        </h2>
+        <h2 className="mt-3 display-lg">{t("organisations.survey.title")}</h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
           {t("organisations.survey.lede")}
         </p>

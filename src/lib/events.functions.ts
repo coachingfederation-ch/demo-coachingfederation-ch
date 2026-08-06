@@ -74,23 +74,25 @@ export const listPublicEvents = createServerFn({ method: "GET" })
     const supabase = publicSupabaseClient();
 
     const cutoff = new Date(Date.now() - 18 * 30 * 24 * 60 * 60 * 1000).toISOString();
-    const [{ data: list, error }, { data: categoryRows }, { data: regionRows }] = await Promise.all([
-      supabase
-        .from("events_public")
-        .select(PUBLIC_EVENT_COLUMNS)
-        .gte("starts_at", cutoff)
-        .order("starts_at", { ascending: true }),
-      supabase
-        .from("cf_event_categories")
-        .select("slug, name, name_de, name_fr, name_it")
-        .eq("is_active", true)
-        .order("sort_order", { ascending: true }),
-      supabase
-        .from("cf_regions")
-        .select("slug, name, name_de, name_fr, name_it")
-        .eq("is_active", true)
-        .order("sort_order", { ascending: true }),
-    ]);
+    const [{ data: list, error }, { data: categoryRows }, { data: regionRows }] = await Promise.all(
+      [
+        supabase
+          .from("events_public")
+          .select(PUBLIC_EVENT_COLUMNS)
+          .gte("starts_at", cutoff)
+          .order("starts_at", { ascending: true }),
+        supabase
+          .from("cf_event_categories")
+          .select("slug, name, name_de, name_fr, name_it")
+          .eq("is_active", true)
+          .order("sort_order", { ascending: true }),
+        supabase
+          .from("cf_regions")
+          .select("slug, name, name_de, name_fr, name_it")
+          .eq("is_active", true)
+          .order("sort_order", { ascending: true }),
+      ],
+    );
     if (error) throw new Error(error.message);
 
     // Filter vocabularies travel with the list so the page can label a slug

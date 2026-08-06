@@ -143,13 +143,11 @@ export async function loadMemberHome(
 
   type AssignRow = {
     project_id: string;
-    members:
-      | {
-          full_name: string | null;
-          email: string | null;
-          member_directory_profiles?: { contact_email_public: boolean }[] | null;
-        }
-      | null;
+    members: {
+      full_name: string | null;
+      email: string | null;
+      member_directory_profiles?: { contact_email_public: boolean }[] | null;
+    } | null;
     op_project_roles: {
       slug: string;
       name: string;
