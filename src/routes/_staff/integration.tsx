@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AlertTriangle, CheckCircle2, ClipboardCheck, RefreshCw } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { ContentOwnershipPanel } from "@/components/cms/ContentOwnershipPanel";
+import { SyncRunDetail } from "@/components/cms/SyncRunDetail";
 import { useCms } from "@/i18n/cms";
 import {
   fetchIntegrationConfig,
@@ -49,6 +50,7 @@ function IntegrationPage() {
   const [rehearsal, setRehearsal] = useState<
     { step: string; ok: boolean; detail: string }[] | null
   >(null);
+  const [openRunId, setOpenRunId] = useState<string | null>(null);
 
   const reload = async () => {
     try {
@@ -316,15 +318,61 @@ function IntegrationPage() {
                       </tr>
                     ) : (
                       runs.map((r) => (
-                        <tr key={r.id} className="border-t border-border">
-                          <td className="py-1.5 pr-3">{formatDate(r.started_at)}</td>
-                          <td className="py-1.5 pr-3 uppercase">{r.mode}</td>
-                          <td className="py-1.5 pr-3">{r.status}</td>
-                          <td className="py-1.5 pr-3">{r.feed_member_count ?? "—"}</td>
-                          <td className="py-1.5">
-                            +{r.created_count} / ~{r.updated_count} / −{r.deactivated_count}
-                          </td>
-                        </tr>
+                        <Fragment key={r.id}>
+                          <tr
+                            className="cursor-pointer border-t border-border hover:bg-secondary/60"
+                            onClick={() => setOpenRunId(openRunId === r.id ? null : r.id)}
+                          >
+                            <td className="py-1.5 pr-3">
+                              <button
+                                type="button"
+                                className="inline-flex items-center gap-1 text-left font-semibold"
+                                aria-expanded={openRunId === r.id}
+                              >
+                                <ChevronRight
+                                  className={
+                                    "h-3.5 w-3.5 transition-transform " +
+                                    (openRunId === r.id ? "rotate-90" : "")
+                                  }
+                                  aria-hidden
+                                />
+                                {formatDate(r.started_at)}
+                              </button>
+                            </td>
+                            <td className="py-1.5 pr-3 uppercase">{r.mode}</td>
+                            <td className="py-1.5 pr-3">{r.status}</td>
+                            <td className="py-1.5 pr-3">{r.feed_member_count ?? "—"}</td>
+                            <td className="py-1.5">
+                              +{r.created_count} / ~{r.updated_count} / −{r.deactivated_count}
+                            </td>
+                          </tr>
+                          {openRunId === r.id ? (
+                            <tr className="border-t border-border/40">
+                              <td colSpan={5} className="pb-4 pt-2">
+                                <p className="mb-2 text-xs text-muted-foreground">
+                                  {t("integration.runTrigger")}: {r.trigger_source} ·{" "}
+                                  {t("integration.runDuration")}:{" "}
+                                  {r.finished_at
+                                    ? Math.max(
+                                        0,
+                                        Math.round(
+                                          (new Date(r.finished_at).getTime() -
+                                            new Date(r.started_at).getTime()) /
+                                            1000,
+                                        ),
+                                      ) + "s"
+                                    : "—"}
+                                </p>
+                                {r.error_message ? (
+                                  <p className="mb-2 rounded-lg bg-card p-2 text-xs text-destructive">
+                                    {r.error_message}
+                                  </p>
+                                ) : null}
+                                <SyncRunDetail runId={r.id} />
+                              </td>
+                            </tr>
+                          ) : null}
+                        </Fragment>
                       ))
                     )}
                   </tbody>
