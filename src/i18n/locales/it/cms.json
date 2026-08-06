@@ -745,7 +745,27 @@
     "chooseUnsplash": "Scegli da Unsplash",
     "removeImage": "Rimuovi immagine",
     "imageCredit": "Foto di",
-    "imageFallback": "Nessuna immagine selezionata — l'evento mostrerà il suo simbolo disegnato a mano."
+    "imageFallback": "Nessuna immagine selezionata — l'evento mostrerà il suo simbolo disegnato a mano.",
+    "section": {
+      "details": "Dettagli dell’evento",
+      "content": "Contenuto",
+      "hosts": "Host",
+      "when": "Data e ora",
+      "location": "Luogo",
+      "image": "Immagine di copertina",
+      "registration": "Iscrizione"
+    },
+    "hosts": {
+      "none": "Nessun host selezionato.",
+      "search": "Cerca coach…",
+      "select": "Seleziona un coach",
+      "add": "Aggiungi host",
+      "remove": "Rimuovi host",
+      "hint": "Massimo due host. Sono selezionabili solo i membri con un profilo pubblicato nella directory.",
+      "sectionHint": "Collega questo evento ai coach che lo ospitano.",
+      "loadError": "Impossibile caricare gli host.",
+      "saveError": "Impossibile salvare gli host."
+    }
   },
   "eventTranslations": {
     "title": "Traduzioni",

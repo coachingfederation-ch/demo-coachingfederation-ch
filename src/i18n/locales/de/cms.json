@@ -745,7 +745,27 @@
     "chooseUnsplash": "Aus Unsplash auswählen",
     "removeImage": "Bild entfernen",
     "imageCredit": "Foto von",
-    "imageFallback": "Kein Bild ausgewählt — das Event zeigt das gezeichnete Signet."
+    "imageFallback": "Kein Bild ausgewählt — das Event zeigt das gezeichnete Signet.",
+    "section": {
+      "details": "Veranstaltungsdetails",
+      "content": "Inhalt",
+      "hosts": "Gastgeber",
+      "when": "Datum und Zeit",
+      "location": "Ort",
+      "image": "Titelbild",
+      "registration": "Anmeldung"
+    },
+    "hosts": {
+      "none": "Noch keine Gastgeber ausgewählt.",
+      "search": "Coaches suchen…",
+      "select": "Coach auswählen",
+      "add": "Gastgeber hinzufügen",
+      "remove": "Gastgeber entfernen",
+      "hint": "Bis zu zwei Gastgeber. Auswählbar sind nur Mitglieder mit veröffentlichtem Verzeichnisprofil.",
+      "sectionHint": "Verknüpfe diese Veranstaltung mit den gastgebenden Coaches.",
+      "loadError": "Gastgeber konnten nicht geladen werden.",
+      "saveError": "Gastgeber konnten nicht gespeichert werden."
+    }
   },
   "eventTranslations": {
     "title": "Übersetzungen",

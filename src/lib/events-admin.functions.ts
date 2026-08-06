@@ -10,6 +10,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { assertOrganizer } from "./authz";
+import { MAX_EVENT_HOSTS } from "./event-hosts";
 
 const LIST_COLUMNS =
   "id, slug, title, summary, language, status, starts_at, ends_at, timezone, location_mode, venue_name, city, capacity, is_featured, organizer_id, updated_at";
@@ -189,4 +190,62 @@ export const setRegistrationStatus = createServerFn({ method: "POST" })
       .eq("id", data.registrationId);
     if (error) throw new Error(error.message);
     return { ok: true };
+  });
+
+/**
+ * Host management.
+ *
+ * Reads resolve through the public directory view, so the CMS can only ever
+ * attach a coach the public page can also show. Writes run through the
+ * caller's own client, so `event_hosts` RLS decides who may edit which event.
+ */
+export const searchEventHostCandidates = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => z.object({ term: z.string().max(120) }).parse(input))
+  .handler(async ({ context, data }) => {
+    await assertOrganizer(context);
+    const { searchHostCandidates } = await import("./event-hosts.server");
+    return searchHostCandidates(data.term);
+  });
+
+export const listEventHosts = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => z.object({ eventId: z.string().uuid() }).parse(input))
+  .handler(async ({ context, data }) => {
+    await assertOrganizer(context);
+    const { loadEventHosts } = await import("./event-hosts.server");
+    return loadEventHosts(data.eventId);
+  });
+
+/** Replaces the whole host set for one event — at most two, order preserved. */
+export const setEventHosts = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) =>
+    z
+      .object({
+        eventId: z.string().uuid(),
+        profileIds: z.array(z.string().uuid()).max(MAX_EVENT_HOSTS),
+      })
+      .parse(input),
+  )
+  .handler(async ({ context, data }) => {
+    await assertOrganizer(context);
+    const unique = [...new Set(data.profileIds)];
+    const { error: delError } = await context.supabase
+      .from("event_hosts")
+      .delete()
+      .eq("event_id", data.eventId);
+    if (delError) throw new Error(delError.message);
+    if (unique.length > 0) {
+      const { error } = await context.supabase.from("event_hosts").insert(
+        unique.map((profile_id, index) => ({
+          event_id: data.eventId,
+          profile_id,
+          sort_order: index,
+        })),
+      );
+      if (error) throw new Error(error.message);
+    }
+    const { loadEventHosts } = await import("./event-hosts.server");
+    return loadEventHosts(data.eventId);
   });

@@ -63,6 +63,7 @@
     "notFoundTitle": "Événement introuvable",
     "notFoundBody": "Cet événement a peut-être été dépublié ou le lien est incorrect.",
     "errorTitle": "Impossible de charger cet événement",
-    "errorBody": "Veuillez réessayer dans un instant."
+    "errorBody": "Veuillez réessayer dans un instant.",
+    "hostedBy": "Animé par"
   }
 }
