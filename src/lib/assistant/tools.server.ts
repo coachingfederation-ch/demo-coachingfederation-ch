@@ -102,7 +102,7 @@ export function buildAssistantTools(options: { locale: Locale; userId?: string }
       if (!input.include_past) q = q.gte("starts_at", new Date().toISOString());
       if (input.category) q = q.eq("category_slug", input.category);
       if (input.region) q = q.eq("region_slug", input.region);
-      if (input.language) q = q.eq("language", input.language);
+      if (input.language) q = q.eq("language", input.language as "de" | "fr" | "it" | "en");
       if (input.location_mode) q = q.eq("location_mode", input.location_mode);
 
       const { data, error } = await q.limit(input.limit ?? 6);
@@ -174,28 +174,27 @@ export function buildAssistantTools(options: { locale: Locale; userId?: string }
     },
   });
 
-  const tools: Record<string, ReturnType<typeof tool>> = {
+  const memberTool = userId
+    ? tool({
+        description:
+          "Read the signed-in member's own chapter context: their greeting name and the local communities that cover their selected service regions. Use for questions like 'which community is mine?'.",
+        inputSchema: z.object({}),
+        execute: async () => {
+          const { loadMemberHome } = await import("@/lib/member-home.server");
+          const home = await loadMemberHome(userId, locale);
+          if (!home) return { error: "No member record is linked to this account yet." };
+          return home;
+        },
+      })
+    : undefined;
+
+  return {
     search_coaches: searchCoaches,
     get_coach_profile: getCoachProfile,
     list_events: listEvents,
     list_insights: listInsights,
     get_insight: getInsight,
     list_communities: listCommunities,
+    ...(memberTool ? { get_my_membership: memberTool } : {}),
   };
-
-  if (userId) {
-    tools.get_my_membership = tool({
-      description:
-        "Read the signed-in member's own chapter context: their greeting name and the local communities that cover their selected service regions. Use for questions like 'which community is mine?'.",
-      inputSchema: z.object({}),
-      execute: async () => {
-        const { loadMemberHome } = await import("@/lib/member-home.server");
-        const home = await loadMemberHome(userId, locale);
-        if (!home) return { error: "No member record is linked to this account yet." };
-        return home;
-      },
-    });
-  }
-
-  return tools;
 }
