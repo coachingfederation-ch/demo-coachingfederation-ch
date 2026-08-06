@@ -1,0 +1,130 @@
+/**
+ * Small presentational primitives shared by the Member Area profile editor
+ * sections: vocabulary Chips, the card-like Section wrapper, and the plain
+ * Field/TextArea inputs. Consumed by MemberProfileEditor and its sections.
+ */
+import { vocabLabel, type VocabRow } from "@/lib/vocabularies";
+
+export function Chips({
+  rows,
+  selected,
+  onToggle,
+  locale,
+}: {
+  rows: VocabRow[];
+  selected: string[];
+  onToggle: (id: string) => void;
+  locale: Parameters<typeof vocabLabel>[1];
+}) {
+  return (
+    <div className="mt-3 flex flex-wrap gap-2">
+      {rows.map((row) => {
+        const on = selected.includes(row.id);
+        return (
+          <button
+            key={row.id}
+            type="button"
+            aria-pressed={on}
+            onClick={() => onToggle(row.id)}
+            className={
+              on
+                ? "rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground"
+                : "rounded-full border border-border px-3 py-1 text-xs font-semibold hover:bg-secondary"
+            }
+          >
+            {vocabLabel(row, locale)}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+export function Section({
+  title,
+  note,
+  children,
+}: {
+  title: string;
+  note?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="mt-5 rounded-2xl border border-border bg-card p-5">
+      <h2 className="text-sm font-semibold">{title}</h2>
+      {note ? <p className="mt-1 text-xs text-muted-foreground">{note}</p> : null}
+      {children}
+    </section>
+  );
+}
+
+/** Labelled single-line field used by the practice/contact sections. */
+export function Field({
+  id,
+  label,
+  value,
+  onChange,
+  max,
+  placeholder,
+  type = "text",
+}: {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  max: number;
+  placeholder?: string;
+  type?: string;
+}) {
+  return (
+    <div className="mt-4">
+      <label className="block text-xs font-semibold text-muted-foreground" htmlFor={id}>
+        {label}
+      </label>
+      <input
+        id={id}
+        type={type}
+        value={value}
+        maxLength={max}
+        placeholder={placeholder}
+        onChange={(e) => onChange(e.target.value)}
+        className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+      />
+    </div>
+  );
+}
+
+export function TextArea({
+  id,
+  label,
+  note,
+  value,
+  onChange,
+  max,
+  rows = 5,
+}: {
+  id: string;
+  label: string;
+  note?: string;
+  value: string;
+  onChange: (value: string) => void;
+  max: number;
+  rows?: number;
+}) {
+  return (
+    <div className="mt-4">
+      <label className="block text-xs font-semibold text-muted-foreground" htmlFor={id}>
+        {label}
+      </label>
+      {note ? <p className="mt-1 text-xs text-muted-foreground">{note}</p> : null}
+      <textarea
+        id={id}
+        value={value}
+        rows={rows}
+        maxLength={max}
+        onChange={(e) => onChange(e.target.value)}
+        className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+      />
+    </div>
+  );
+}
