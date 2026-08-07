@@ -5,9 +5,7 @@
  */
 
 export type RichInline = { text: string; bold?: boolean; italic?: boolean };
-export type RichBlock =
-  | { type: "p"; inline: RichInline[] }
-  | { type: "ul"; items: RichInline[][] };
+export type RichBlock = { type: "p"; inline: RichInline[] } | { type: "ul"; items: RichInline[][] };
 
 const TOKEN = /(\*\*[^*]+\*\*|__[^_]+__|\*[^*\n]+\*|_[^_\n]+_)/g;
 

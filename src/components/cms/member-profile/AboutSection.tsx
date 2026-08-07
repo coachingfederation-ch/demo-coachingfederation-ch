@@ -31,7 +31,10 @@ export function AboutSection({
         onChange={(e) => setTagline(e.target.value)}
         className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
       />
-      <label className="mt-4 block text-xs font-semibold text-muted-foreground" id="description-label">
+      <label
+        className="mt-4 block text-xs font-semibold text-muted-foreground"
+        id="description-label"
+      >
         {t("member.description")}
       </label>
       <RichTextField
