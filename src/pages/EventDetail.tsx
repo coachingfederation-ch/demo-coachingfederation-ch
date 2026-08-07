@@ -21,6 +21,7 @@ import {
   type PublicEvent,
 } from "@/lib/events";
 import type { EventHost } from "@/lib/event-hosts";
+import { eventMap } from "@/lib/event-map";
 import {
   cancelMyRegistration,
   getMyRegistration,
@@ -91,6 +92,7 @@ export default function EventDetailPage({
   const past = isPastEvent(event);
   const hosts = event.hosts ?? [];
   const marks = heroMarks(event.slug ?? event.id ?? "");
+  const map = eventMap(event.map_location);
 
   const session = useQuery({
     queryKey: ["auth-user-id"],
