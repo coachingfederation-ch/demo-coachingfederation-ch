@@ -814,7 +814,8 @@
       "create": "Crea le date",
       "creating": "Creazione…",
       "created": "Date create:",
-      "skipped": "già esistenti:"
+      "skipped": "già esistenti:",
+      "badge": "Serie"
     }
   },
   "eventTranslations": {

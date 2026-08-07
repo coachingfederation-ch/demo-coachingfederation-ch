@@ -337,7 +337,8 @@ export const generateEventOccurrences = createServerFn({ method: "POST" })
         description: source.description,
         language: source.language,
         starts_at: iso,
-        ends_at: durationMs === null ? null : new Date(new Date(iso).getTime() + durationMs).toISOString(),
+        ends_at:
+          durationMs === null ? null : new Date(new Date(iso).getTime() + durationMs).toISOString(),
         timezone: source.timezone,
         location_mode: source.location_mode,
         venue_name: source.venue_name,

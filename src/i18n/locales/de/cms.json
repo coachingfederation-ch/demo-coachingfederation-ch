@@ -814,7 +814,8 @@
       "create": "Termine erstellen",
       "creating": "Wird erstellt…",
       "created": "Erstellte Termine:",
-      "skipped": "bereits vorhanden:"
+      "skipped": "bereits vorhanden:",
+      "badge": "Serie"
     }
   },
   "eventTranslations": {

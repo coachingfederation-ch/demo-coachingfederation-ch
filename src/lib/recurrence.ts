@@ -53,14 +53,7 @@ function nthWeekdayOfMonth(year: number, month: number, weekday: number, nth: nu
   const firstWeekday = new Date(Date.UTC(year, month, 1)).getUTCDay();
   const day = 1 + ((weekday - firstWeekday + 7) % 7) + (nth - 1) * 7;
   const candidate = new Date(
-    Date.UTC(
-      year,
-      month,
-      day,
-      time.getUTCHours(),
-      time.getUTCMinutes(),
-      time.getUTCSeconds(),
-    ),
+    Date.UTC(year, month, day, time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds()),
   );
   return candidate.getUTCMonth() === month ? candidate : null;
 }

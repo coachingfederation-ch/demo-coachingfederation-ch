@@ -120,8 +120,7 @@ export function EventDetailsSection({
               value={event.category_id ?? ""}
               onChange={(e) => {
                 const next = e.target.value || null;
-                const nextIsCommunity =
-                  categories.find((c) => c.id === next)?.slug === "community";
+                const nextIsCommunity = categories.find((c) => c.id === next)?.slug === "community";
                 patch({
                   category_id: next,
                   ...(nextIsCommunity ? { region_id: null } : { community_id: null }),
@@ -203,7 +202,6 @@ export function EventDetailsSection({
   );
 }
 
-
 /**
  * Repeat panel: turns one event into a series of independent dated copies.
  * Dates are previewed with the very same expander the server uses, so the
@@ -265,7 +263,9 @@ export function EventRepeatSection({
               <select
                 className={inputClass}
                 value={rule.endMode}
-                onChange={(e) => patchRule({ endMode: e.target.value as RecurrenceRule["endMode"] })}
+                onChange={(e) =>
+                  patchRule({ endMode: e.target.value as RecurrenceRule["endMode"] })
+                }
               >
                 <option value="count">{t("events.repeat.endAfter")}</option>
                 <option value="until">{t("events.repeat.endOn")}</option>
@@ -326,9 +326,7 @@ export function EventRepeatSection({
               }
             }}
           >
-            {busy
-              ? t("events.repeat.creating")
-              : `${t("events.repeat.create")} (${dates.length})`}
+            {busy ? t("events.repeat.creating") : `${t("events.repeat.create")} (${dates.length})`}
           </button>
         </>
       ) : null}
