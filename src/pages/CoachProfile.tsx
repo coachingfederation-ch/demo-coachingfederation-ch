@@ -136,29 +136,38 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
       >
         <div className="flex min-w-0 flex-col gap-6">
           {profile.description && (
-            <Panel index={panel()} title={t("directory.detail.about")} edge="primary">
+            <Panel index={panel()} title={t("directory.detail.about")} mark="highlight2">
               <Prose text={profile.description} />
             </Panel>
           )}
           {profile.testimonial_quote && (
             <figure
               className={
-                "rounded-2xl border border-border/60 bg-hero p-8 text-hero-foreground " +
+                "relative overflow-hidden rounded-2xl border border-border/60 bg-hero p-8 text-hero-foreground sm:p-10 " +
                 CARD_SHADOW
               }
             >
-              <blockquote className="text-lg font-semibold leading-relaxed">
-                “{profile.testimonial_quote}”
-              </blockquote>
-              {profile.testimonial_attribution && (
-                <figcaption className="mt-4 text-xs font-semibold text-hero-foreground/70">
-                  {profile.testimonial_attribution}
-                </figcaption>
-              )}
+              <Mark
+                name="asterisk2"
+                className="pointer-events-none absolute -right-6 -bottom-8 h-32 w-32 text-mark-blue/25"
+              />
+              <div className="relative">
+                <blockquote className="text-lg leading-relaxed font-semibold sm:text-xl">
+                  “{profile.testimonial_quote}”
+                </blockquote>
+                {profile.testimonial_attribution && (
+                  <figcaption className="mt-6 flex items-center gap-4">
+                    <span aria-hidden className="h-px w-10 shrink-0 bg-accent" />
+                    <span className="text-xs font-semibold tracking-wide text-hero-foreground/80 uppercase">
+                      {profile.testimonial_attribution}
+                    </span>
+                  </figcaption>
+                )}
+              </div>
             </figure>
           )}
           {profile.approach && (
-            <Panel index={panel()} title={t("directory.detail.approach")} edge="accent">
+            <Panel index={panel()} title={t("directory.detail.approach")}>
               <HowIWorkFlow text={profile.approach} />
             </Panel>
           )}
@@ -166,23 +175,33 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
             <div
               className={
                 "grid gap-6 " +
-                (specialisations.length > 0 && clientTypes.length > 0 ? "md:grid-cols-2" : "")
+                (specialisations.length > 0 && clientTypes.length > 0
+                  ? "md:grid-cols-12"
+                  : "")
               }
             >
               {specialisations.length > 0 && (
-                <Panel index={panel()} title={t("directory.detail.specialisations")} edge="accent">
+                <Panel
+                  index={panel()}
+                  title={t("directory.detail.specialisations")}
+                  className={clientTypes.length > 0 ? "md:col-span-7" : ""}
+                >
                   <Chips labels={specialisations} />
                 </Panel>
               )}
               {clientTypes.length > 0 && (
-                <Panel index={panel()} title={t("directory.detail.clientTypes")} edge="muted">
+                <Panel
+                  index={panel()}
+                  title={t("directory.detail.clientTypes")}
+                  className={specialisations.length > 0 ? "md:col-span-5" : ""}
+                >
                   <Chips labels={clientTypes} />
                 </Panel>
               )}
             </div>
           )}
           {profile.qualifications && (
-            <Panel index={panel()} title={t("directory.detail.qualifications")} edge="primary">
+            <Panel index={panel()} title={t("directory.detail.qualifications")}>
               <Prose text={profile.qualifications} />
             </Panel>
           )}
