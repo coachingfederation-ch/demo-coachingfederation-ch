@@ -1149,6 +1149,13 @@ export type Database = {
             foreignKeyName: "events_community_id_fkey"
             columns: ["community_id"]
             isOneToOne: false
+            referencedRelation: "events_public"
+            referencedColumns: ["community_id"]
+          },
+          {
+            foreignKeyName: "events_community_id_fkey"
+            columns: ["community_id"]
+            isOneToOne: false
             referencedRelation: "op_projects"
             referencedColumns: ["id"]
           },
@@ -2226,6 +2233,13 @@ export type Database = {
             foreignKeyName: "op_assignments_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
+            referencedRelation: "events_public"
+            referencedColumns: ["community_id"]
+          },
+          {
+            foreignKeyName: "op_assignments_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
             referencedRelation: "op_projects"
             referencedColumns: ["id"]
           },
@@ -2262,6 +2276,13 @@ export type Database = {
           region_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "op_project_regions_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "events_public"
+            referencedColumns: ["community_id"]
+          },
           {
             foreignKeyName: "op_project_regions_project_id_fkey"
             columns: ["project_id"]
@@ -2326,6 +2347,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "op_project_roles_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "events_public"
+            referencedColumns: ["community_id"]
+          },
           {
             foreignKeyName: "op_project_roles_project_id_fkey"
             columns: ["project_id"]
@@ -2608,6 +2636,9 @@ export type Database = {
           category_name: string | null
           category_slug: string | null
           city: string | null
+          community_id: string | null
+          community_name: string | null
+          community_slug: string | null
           description: string | null
           ends_at: string | null
           guest_registration_allowed: boolean | null
