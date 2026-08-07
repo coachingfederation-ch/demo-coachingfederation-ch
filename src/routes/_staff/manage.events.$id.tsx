@@ -15,6 +15,7 @@ import {
   EventContentSection,
   EventLocationSection,
   EventHostsSection,
+  EventRepeatSection,
   EventPublishingSection,
   type Managed,
   type Registration,
@@ -22,6 +23,7 @@ import {
 import { useCms } from "@/i18n/cms";
 import { fetchVocabulary, type VocabRow } from "@/lib/vocabularies";
 import {
+  generateEventOccurrences,
   getManagedEvent,
   listCommunityOptions,
   listEventRegistrations,
@@ -192,6 +194,24 @@ function EventEditor() {
           regions={regions}
           communities={communities}
           t={t}
+        />
+
+        <EventRepeatSection
+          event={event}
+          t={t}
+          onGenerate={async (rule) => {
+            setMessage(null);
+            setError(null);
+            try {
+              const res = await generateEventOccurrences({ data: { id: event.id, rule } });
+              setMessage(
+                `${t("events.repeat.created")} ${res.created}${res.skipped ? ` · ${t("events.repeat.skipped")} ${res.skipped}` : ""}`,
+              );
+              await load();
+            } catch (e) {
+              setError(e instanceof Error ? e.message : t("events.saveError"));
+            }
+          }}
         />
 
         <EventContentSection event={event} patch={patch} setPickerOpen={setPickerOpen} t={t} />

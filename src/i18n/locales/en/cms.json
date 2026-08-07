@@ -794,7 +794,28 @@
     "fieldCategory": "Category",
     "fieldCommunity": "Community",
     "fieldRegion": "Region",
-    "fieldUnset": "— not set —"
+    "fieldUnset": "— not set —",
+    "repeat": {
+      "section": "Repeat",
+      "hint": "Create the same event on several dates, up to 12 months ahead. Each date becomes its own draft event with its own registrations.",
+      "enable": "This event repeats",
+      "frequency": "Repeats",
+      "weekly": "Weekly",
+      "monthlyDate": "Monthly, same date",
+      "monthlyWeekday": "Monthly, same weekday",
+      "interval": "Every N weeks",
+      "endMode": "Ends",
+      "endAfter": "After a number of dates",
+      "endOn": "On a date",
+      "count": "Number of dates (incl. this one)",
+      "until": "Last date",
+      "preview": "Dates to create",
+      "none": "No further dates within the next 12 months.",
+      "create": "Create dates",
+      "creating": "Creating…",
+      "created": "Dates created:",
+      "skipped": "already existed:"
+    }
   },
   "eventTranslations": {
     "title": "Translations",
