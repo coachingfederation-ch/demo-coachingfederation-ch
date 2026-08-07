@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { CalendarDays, Clock, Languages, MapPin, Users } from "lucide-react";
 import { SiteFooter, SiteHeaderBar, CARD_SHADOW } from "@/components/site-chrome";
 import { Mark, type MarkName } from "@/components/marks";
+import { RichTextView } from "@/components/rich-text-view";
 import { LocaleLink, useI18n } from "@/i18n";
 import { supabase } from "@/integrations/supabase/client";
 import {
