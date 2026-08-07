@@ -40,7 +40,9 @@
     "errorTitle": "Das Verzeichnis ist vorübergehend nicht verfügbar",
     "errorBody": "Bitte versuchen Sie es in einem kurzen Moment erneut.",
     "prev": "Zurück",
-    "next": "Weiter"
+    "next": "Weiter",
+    "sample": "{shown} von {total} Coaches angezeigt",
+    "sampleMode": "{shown} von {total} Coaches in {mode} angezeigt"
   },
   "card": {
     "featured": "Hervorgehoben",

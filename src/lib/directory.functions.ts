@@ -28,6 +28,10 @@ const filterSchema = z.object({
   formats: slugList,
   credentials: slugList,
   page: z.number().int().min(0).max(500).optional(),
+  /** Random showcase size for the unfiltered first view (max 8). */
+  sample: z.number().int().min(1).max(8).optional(),
+  /** Reshuffle token — only varies the React Query key, unused server-side. */
+  seed: z.number().optional(),
   locale: localeSchema.optional(),
 });
 
@@ -56,6 +60,8 @@ export type DirectoryPage = {
   total: number;
   page: number;
   pageSize: number;
+  /** True when `entries` is a random showcase rather than a ranged page. */
+  sampled?: boolean;
 };
 
 export const queryCoachDirectory = createServerFn({ method: "GET" })
@@ -90,6 +96,61 @@ export const queryCoachDirectory = createServerFn({ method: "GET" })
       );
     }
 
+    const locale = (data.locale ?? "en") as Locale;
+
+    // Unfiltered first view: show a random showcase instead of the first
+    // alphabetical page, so every published coach gets exposure.
+    const facetsActive = Boolean(
+      data.regions?.length ||
+        data.languages?.length ||
+        data.specialisations?.length ||
+        data.formats?.length ||
+        data.credentials?.length,
+    );
+    if (data.sample && !facetsActive && page === 0) {
+      let idQuery = supabasePublic
+        .from("coach_directory_public")
+        .select("profile_id", { count: "exact" });
+      if (data.services?.length) idQuery = idQuery.overlaps("services", data.services);
+      const { data: idRows, error: idError, count: idCount } = await idQuery;
+      if (idError) throw idError;
+
+      const ids = (idRows ?? []).map((r) => r.profile_id).filter((id): id is string => !!id);
+      for (let i = ids.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [ids[i], ids[j]] = [ids[j]!, ids[i]!];
+      }
+      const picked = ids.slice(0, data.sample);
+      if (!picked.length) {
+        return { entries: [], total: idCount ?? 0, page: 0, pageSize: data.sample, sampled: true };
+      }
+
+      const { data: sampleRows, error: sampleError } = await supabasePublic
+        .from("coach_directory_public")
+        .select("*")
+        .in("profile_id", picked);
+      if (sampleError) throw sampleError;
+
+      const sampled = (sampleRows ?? []) as DirectoryEntry[];
+      // Preserve the shuffled order the ids were picked in.
+      sampled.sort((a, b) => picked.indexOf(a.profile_id!) - picked.indexOf(b.profile_id!));
+      const sampleSigned = await signProfileImages(
+        sampled.map((e) => e.profile_image_path).filter((p): p is string => !!p),
+      );
+      for (const entry of sampled) {
+        entry.image_url = entry.profile_image_path
+          ? (sampleSigned.get(entry.profile_image_path) ?? null)
+          : null;
+      }
+      return {
+        entries: sampled.map((entry) => resolveProfileLocale(entry, locale)),
+        total: idCount ?? sampled.length,
+        page: 0,
+        pageSize: data.sample,
+        sampled: true,
+      };
+    }
+
     const {
       data: rows,
       error,
@@ -110,14 +171,12 @@ export const queryCoachDirectory = createServerFn({ method: "GET" })
         : null;
     }
 
-    // Display-only localization: filtering above always ran against the
-    // primary-language row and the slug facets.
-    const locale = (data.locale ?? "en") as Locale;
     return {
       entries: entries.map((entry) => resolveProfileLocale(entry, locale)),
       total: count ?? 0,
       page,
       pageSize,
+      sampled: false,
     };
   });
 

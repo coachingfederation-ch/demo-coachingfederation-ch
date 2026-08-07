@@ -55,6 +55,7 @@ export function CoachDirectory() {
     formatLabel,
     countLabel,
     hasMore,
+    isSample,
   } = useCoachDirectoryFilters();
 
   const filterPanel = (
@@ -141,6 +142,7 @@ export function CoachDirectory() {
               setPage={setPage}
               hasMore={hasMore}
               modeLabel={modeLabel}
+              isSample={isSample}
             />
           </div>
         </div>

@@ -58,6 +58,9 @@ export function useCoachDirectoryFilters() {
   const [acceptingOnly, setAcceptingOnly] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [page, setPage] = useState(0);
+  // Stable per mount: keeps React Query from reshuffling on re-render while
+  // still producing a fresh showcase on reload or mode change.
+  const [shuffleSeed] = useState(() => Math.floor(Math.random() * 1e9));
 
   /** Mode is navigation, not a filter: it lives in the URL. */
   function selectMode(slug: string) {
@@ -101,12 +104,6 @@ export function useCoachDirectoryFilters() {
     [mode, region, language, credentials, specializations, formats, page, locale],
   );
 
-  const { data, isPending, isError } = useQuery({
-    queryKey: ["coach-directory", filters],
-    queryFn: () => queryCoachDirectory({ data: filters }),
-    placeholderData: keepPreviousData,
-  });
-
   const dirty =
     query !== "" ||
     region !== "all" ||
@@ -115,6 +112,19 @@ export function useCoachDirectoryFilters() {
     specializations.length > 0 ||
     formats.length > 0 ||
     acceptingOnly;
+
+  // Unfiltered first view: ask the server for a random showcase of 8.
+  const sampled = !dirty && page === 0;
+  const queryInput = useMemo(
+    () => (sampled ? { ...filters, sample: 8, seed: shuffleSeed } : filters),
+    [filters, sampled, shuffleSeed],
+  );
+
+  const { data, isPending, isError } = useQuery({
+    queryKey: ["coach-directory", queryInput],
+    queryFn: () => queryCoachDirectory({ data: queryInput }),
+    placeholderData: keepPreviousData,
+  });
 
   function clearAll() {
     setQuery("");
@@ -155,15 +165,23 @@ export function useCoachDirectoryFilters() {
   const pageSize = data?.pageSize ?? 12;
   const narrowed = query.trim() !== "" || acceptingOnly;
   const shownCount = narrowed ? results.length : total;
+  const isSample = Boolean(data?.sampled) && sampled;
   // When a mode is resolved the count names it ("3 mentoring coaches"); the
   // generic strings remain the fallback when no mode is configured.
   const countKey = shownCount === 1 ? "one" : "many";
-  const countLabel = (
-    modeLabel
-      ? t(`directory.results.${countKey}Mode`).replace("{mode}", modeLabel)
-      : t(`directory.results.${countKey}`)
-  ).replace("{count}", String(shownCount));
-  const hasMore = !narrowed && (page + 1) * pageSize < total;
+  const countLabel = isSample
+    ? (modeLabel
+        ? t("directory.results.sampleMode").replace("{mode}", modeLabel)
+        : t("directory.results.sample")
+      )
+        .replace("{shown}", String(results.length))
+        .replace("{total}", String(total))
+    : (
+        modeLabel
+          ? t(`directory.results.${countKey}Mode`).replace("{mode}", modeLabel)
+          : t(`directory.results.${countKey}`)
+      ).replace("{count}", String(shownCount));
+  const hasMore = !isSample && !narrowed && (page + 1) * pageSize < total;
 
   return {
     t,
@@ -205,5 +223,6 @@ export function useCoachDirectoryFilters() {
     formatLabel,
     countLabel,
     hasMore,
+    isSample,
   };
 }
