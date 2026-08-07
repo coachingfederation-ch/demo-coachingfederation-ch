@@ -40,7 +40,9 @@
     "errorTitle": "The directory is temporarily unavailable",
     "errorBody": "Please try again in a moment.",
     "prev": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "sample": "Showing {shown} of {total} coaches",
+    "sampleMode": "Showing {shown} of {total} coaches in {mode}"
   },
   "card": {
     "featured": "Featured",
