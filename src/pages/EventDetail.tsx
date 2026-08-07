@@ -259,11 +259,10 @@ export default function EventDetailPage({
         <div className="mx-auto grid max-w-5xl gap-10 px-8 py-16 lg:grid-cols-[1fr_20rem]">
           <article className="prose-icf max-w-none">
             {event.description ? (
-              event.description.split(/\n{2,}/).map((para, i) => (
-                <p key={i} className="mb-5 text-base leading-relaxed text-foreground/90">
-                  {para}
-                </p>
-              ))
+              <RichTextView
+                text={event.description}
+                className="gap-5 text-base text-foreground/90"
+              />
             ) : (
               <p className="text-base text-muted-foreground">{event.summary}</p>
             )}
