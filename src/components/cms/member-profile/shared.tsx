@@ -128,3 +128,43 @@ export function TextArea({
     </div>
   );
 }
+
+/**
+ * Long-form field with the standard formatting toolbar. Same label/note/limit
+ * contract as TextArea so sections can swap between them.
+ */
+export function RichTextArea({
+  id,
+  label,
+  note,
+  value,
+  onChange,
+  max,
+  minHeight = "12rem",
+}: {
+  id: string;
+  label: string;
+  note?: string;
+  value: string;
+  onChange: (value: string) => void;
+  max: number;
+  minHeight?: string;
+}) {
+  return (
+    <div className="mt-4">
+      <label className="block text-xs font-semibold text-muted-foreground" htmlFor={id}>
+        {label}
+      </label>
+      {note ? <p className="mt-1 text-xs text-muted-foreground">{note}</p> : null}
+      <RichTextEditor
+        id={id}
+        value={value}
+        minHeight={minHeight}
+        onChange={(next) => onChange(next.slice(0, max))}
+      />
+      <p className="mt-1 text-right text-[11px] text-muted-foreground">
+        {value.length} / {max}
+      </p>
+    </div>
+  );
+}
