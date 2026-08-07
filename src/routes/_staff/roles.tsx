@@ -198,8 +198,6 @@ function RolesPage() {
           />
         ) : null}
 
-        {/* Internal accounts        </div>
-
         {/* Internal accounts: admins (and legacy staff roles) with no imported
             ICF member record. Read-only — admin is provisioned by migration and
             the database refuses to grant editor to a non-member. */}
@@ -246,7 +244,9 @@ function RolesPage() {
                     </td>
                     {/* Admin stays read-only; only the managed grants can go. */}
                     <td className="px-4 py-3 text-right">
-                      {a.roles.some((r) => r === "editor" || r === "organizer") ? (
+                      {a.roles.some(
+                        (r) => r === "editor" || r === "organizer" || r === "publisher",
+                      ) ? (
                         <button
                           onClick={() =>
                             void removeAccess(a.authUserId, a.name ?? a.email ?? a.authUserId)
