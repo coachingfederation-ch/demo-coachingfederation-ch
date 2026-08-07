@@ -138,6 +138,7 @@ function EventEditor() {
           is_featured: event.is_featured,
           category_id: event.category_id,
           region_id: event.region_id,
+          community_id: event.community_id,
         },
       });
       setMessage(t("events.saved"));
