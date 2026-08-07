@@ -43,7 +43,7 @@ export default function AboutPage() {
                 rel="noopener noreferrer"
                 className="mt-8 inline-flex h-10 items-center rounded-full bg-primary px-5 text-sm font-semibold text-white transition hover:bg-primary/90"
               >
-                Find out more
+                Our Strategy
               </a>
             </div>
             <div className="grid aspect-[4/3] place-items-center rounded-2xl border border-border/70 bg-background">
