@@ -59,6 +59,8 @@ export default function AboutPage() {
 
         <CommunitiesPreview />
 
+        <Governance />
+
         <section className="bg-card py-24">
           <div className="mx-auto max-w-7xl px-8">
             <p className="eyebrow">{t("about.research.eyebrow")}</p>
