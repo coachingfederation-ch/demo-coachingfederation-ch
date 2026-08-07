@@ -34,6 +34,7 @@ import { Route as LocaleEuropePulseRouteImport } from './routes/$locale/europe-p
 import { Route as LocaleFindACoachRouteImport } from './routes/$locale/find-a-coach'
 import { Route as LocaleForCoachesRouteImport } from './routes/$locale/for-coaches'
 import { Route as LocaleForOrganisationsRouteImport } from './routes/$locale/for-organisations'
+import { Route as LocaleGovernanceRouteImport } from './routes/$locale/governance'
 import { Route as LocaleImprintRouteImport } from './routes/$locale/imprint'
 import { Route as LocaleInsightsRouteImport } from './routes/$locale/insights'
 import { Route as LocalePrivacyRouteImport } from './routes/$locale/privacy'
@@ -202,6 +203,11 @@ const LocaleForCoachesRoute = LocaleForCoachesRouteImport.update({
 const LocaleForOrganisationsRoute = LocaleForOrganisationsRouteImport.update({
   id: '/for-organisations',
   path: '/for-organisations',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleGovernanceRoute = LocaleGovernanceRouteImport.update({
+  id: '/governance',
+  path: '/governance',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
 const LocaleImprintRoute = LocaleImprintRouteImport.update({
@@ -464,6 +470,7 @@ export interface FileRoutesByFullPath {
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
+  '/$locale/governance': typeof LocaleGovernanceRoute
   '/$locale/imprint': typeof LocaleImprintRoute
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
   '/$locale/privacy': typeof LocalePrivacyRoute
@@ -533,6 +540,7 @@ export interface FileRoutesByTo {
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
+  '/$locale/governance': typeof LocaleGovernanceRoute
   '/$locale/imprint': typeof LocaleImprintRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale/team': typeof LocaleTeamRoute
@@ -605,6 +613,7 @@ export interface FileRoutesById {
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
+  '/$locale/governance': typeof LocaleGovernanceRoute
   '/$locale/imprint': typeof LocaleImprintRoute
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
   '/$locale/privacy': typeof LocalePrivacyRoute
@@ -678,6 +687,7 @@ export interface FileRouteTypes {
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
+    | '/$locale/governance'
     | '/$locale/imprint'
     | '/$locale/insights'
     | '/$locale/privacy'
@@ -747,6 +757,7 @@ export interface FileRouteTypes {
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
+    | '/$locale/governance'
     | '/$locale/imprint'
     | '/$locale/privacy'
     | '/$locale/team'
@@ -818,6 +829,7 @@ export interface FileRouteTypes {
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
+    | '/$locale/governance'
     | '/$locale/imprint'
     | '/$locale/insights'
     | '/$locale/privacy'
@@ -1079,6 +1091,13 @@ declare module '@tanstack/react-router' {
       path: '/for-organisations'
       fullPath: '/$locale/for-organisations'
       preLoaderRoute: typeof LocaleForOrganisationsRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/governance': {
+      id: '/$locale/governance'
+      path: '/governance'
+      fullPath: '/$locale/governance'
+      preLoaderRoute: typeof LocaleGovernanceRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
     '/$locale/imprint': {
@@ -1426,6 +1445,7 @@ interface LocaleRouteRouteChildren {
   LocaleFindACoachRoute: typeof LocaleFindACoachRoute
   LocaleForCoachesRoute: typeof LocaleForCoachesRoute
   LocaleForOrganisationsRoute: typeof LocaleForOrganisationsRoute
+  LocaleGovernanceRoute: typeof LocaleGovernanceRoute
   LocaleImprintRoute: typeof LocaleImprintRoute
   LocaleInsightsRoute: typeof LocaleInsightsRouteWithChildren
   LocalePrivacyRoute: typeof LocalePrivacyRoute
@@ -1444,6 +1464,7 @@ const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleFindACoachRoute: LocaleFindACoachRoute,
   LocaleForCoachesRoute: LocaleForCoachesRoute,
   LocaleForOrganisationsRoute: LocaleForOrganisationsRoute,
+  LocaleGovernanceRoute: LocaleGovernanceRoute,
   LocaleImprintRoute: LocaleImprintRoute,
   LocaleInsightsRoute: LocaleInsightsRouteWithChildren,
   LocalePrivacyRoute: LocalePrivacyRoute,
