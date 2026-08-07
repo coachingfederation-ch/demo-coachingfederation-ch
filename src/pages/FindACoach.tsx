@@ -24,6 +24,7 @@ export default function FindACoachPage() {
         lede={t("directory.hero.lede")}
       />
       <main id="main">
+        <CoachFinderContext />
         <CoachDirectory />
       </main>
       <SiteFooter />
