@@ -73,21 +73,19 @@ export function CoachFinderContext() {
                   className="relative overflow-hidden rounded-2xl bg-card p-6 shadow-[var(--shadow-soft)]"
                 >
                 <div className="relative z-10">
-                  <div className="relative inline-block">
-                    <div className="flex items-baseline gap-2">
-                      <span className="font-display text-3xl font-semibold text-primary">
-                        {card.abbr}
+                  <div className="flex items-baseline gap-2">
+                    <span className="font-display text-3xl font-semibold text-primary">
+                      {card.abbr}
+                    </span>
+                    <span className="relative text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      {card.title}
+                      <span
+                        className="pointer-events-none absolute -bottom-1 left-0 h-2 w-full text-mark-yellow"
+                        aria-hidden
+                      >
+                        <Mark name="highlight1" className="h-full w-full" />
                       </span>
-                      <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                        {card.title}
-                      </span>
-                    </div>
-                    <div
-                      className="pointer-events-none absolute -bottom-1 left-0 h-2 w-24 text-mark-yellow"
-                      aria-hidden
-                    >
-                      <Mark name="highlight1" className="h-full w-full" />
-                    </div>
+                    </span>
                   </div>
                   <p className="mt-5 text-sm leading-relaxed text-foreground">
                     {card.description}
