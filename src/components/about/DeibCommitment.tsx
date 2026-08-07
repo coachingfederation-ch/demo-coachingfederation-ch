@@ -16,7 +16,7 @@ export function DeibCommitment() {
       <div className="mx-auto max-w-7xl px-8">
         <div className="grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:items-start">
           <div>
-            <p className="eyebrow !text-accent">{t("about.deib.eyebrow")}</p>
+            <p className="eyebrow">{t("about.deib.eyebrow")}</p>
             <h2 className="mt-3 display-lg">{t("about.deib.title")}</h2>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
               {t("about.deib.intro")}
