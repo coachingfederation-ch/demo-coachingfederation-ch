@@ -167,7 +167,10 @@
     "callout": "Hervorhebung",
     "write": "Schreiben",
     "split": "Geteilt",
-    "preview": "Vorschau"
+    "preview": "Vorschau",
+    "heading1": "Überschrift",
+    "heading2": "Zwischenüberschrift",
+    "heading3": "Kleine Überschrift"
   },
   "callout": {
     "shade": "Stil",

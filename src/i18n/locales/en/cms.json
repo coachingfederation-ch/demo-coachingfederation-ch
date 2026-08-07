@@ -167,7 +167,10 @@
     "callout": "Callout",
     "write": "Write",
     "split": "Split",
-    "preview": "Preview"
+    "preview": "Preview",
+    "heading1": "Heading",
+    "heading2": "Subheading",
+    "heading3": "Small heading"
   },
   "callout": {
     "shade": "Style",

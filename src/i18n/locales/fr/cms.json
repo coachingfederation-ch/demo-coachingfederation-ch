@@ -167,7 +167,10 @@
     "callout": "Encadré",
     "write": "Rédiger",
     "split": "Diviser",
-    "preview": "Aperçu"
+    "preview": "Aperçu",
+    "heading1": "Titre",
+    "heading2": "Sous-titre",
+    "heading3": "Petit titre"
   },
   "callout": {
     "shade": "Style",

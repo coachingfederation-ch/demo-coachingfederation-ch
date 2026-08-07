@@ -167,7 +167,10 @@
     "callout": "Riquadro informativo",
     "write": "Scrivi",
     "split": "Diviso",
-    "preview": "Anteprima"
+    "preview": "Anteprima",
+    "heading1": "Titolo",
+    "heading2": "Sottotitolo",
+    "heading3": "Titolo piccolo"
   },
   "callout": {
     "shade": "Stile",
