@@ -314,6 +314,30 @@ export default function EventDetailPage({
                 </ul>
               </section>
             ) : null}
+            {map ? (
+              <section className="mt-10 not-prose">
+                <p className="eyebrow">{t("events.detail.gettingThere")}</p>
+                {map.embedSrc ? (
+                  <iframe
+                    title={t("events.detail.mapTitle")}
+                    src={map.embedSrc}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="mt-4 h-72 w-full rounded-2xl border border-border/70"
+                  />
+                ) : null}
+                <p className="mt-3 text-sm">
+                  <a
+                    href={map.linkHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-primary hover:underline"
+                  >
+                    {t("events.detail.openInMaps")} ↗
+                  </a>
+                </p>
+              </section>
+            ) : null}
           </article>
 
           <aside
