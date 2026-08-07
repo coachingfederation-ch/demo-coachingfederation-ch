@@ -7,6 +7,7 @@
 import { useEffect, useState } from "react";
 import { Eye, Languages } from "lucide-react";
 import { MarkdownPreview } from "@/components/cms/MarkdownEditor";
+import { RichTextEditor } from "@/components/cms/RichTextField";
 import { LOCALE_ORDER, type Locale } from "@/i18n/config";
 import { TranslationLocaleList } from "./TranslationLocaleList";
 import type { TranslationFieldConfig, TranslationLocaleItem } from "./types";
