@@ -53,9 +53,7 @@ export function RichTextView({ text, className }: { text: string; className?: st
         return (
           <ListTag
             key={index}
-            className={
-              (block.type === "ol" ? "list-decimal" : "list-disc") + " space-y-1.5 pl-5"
-            }
+            className={(block.type === "ol" ? "list-decimal" : "list-disc") + " space-y-1.5 pl-5"}
           >
             {block.items.map((item, itemIndex) => (
               <li key={itemIndex}>

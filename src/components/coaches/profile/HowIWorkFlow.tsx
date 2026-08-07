@@ -50,10 +50,7 @@ export function HowIWorkFlow({ text }: { text: string }) {
             >
               {index + 1}
             </span>
-            <StepBody
-              text={step}
-              className="gap-2 pt-2 text-sm text-muted-foreground md:pt-3"
-            />
+            <StepBody text={step} className="gap-2 pt-2 text-sm text-muted-foreground md:pt-3" />
           </li>
         ))}
       </ol>
