@@ -792,6 +792,7 @@
       "saveError": "Impossible d'enregistrer les hôtes."
     },
     "fieldCategory": "Catégorie",
+    "fieldCommunity": "Communauté",
     "fieldRegion": "Région",
     "fieldUnset": "— non défini —"
   },

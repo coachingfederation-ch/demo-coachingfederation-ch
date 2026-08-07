@@ -67,15 +67,18 @@ function EventEditor() {
   // same vocabulary tables the /events filter bar does.
   const [categories, setCategories] = useState<VocabRow[]>([]);
   const [regions, setRegions] = useState<VocabRow[]>([]);
+  const [communities, setCommunities] = useState<{ id: string; name: string }[]>([]);
 
   useEffect(() => {
     void Promise.all([
       fetchVocabulary("cf_event_categories", { activeOnly: true }),
       fetchVocabulary("cf_regions", { activeOnly: true }),
+      listCommunityOptions(),
     ])
-      .then(([cats, regs]) => {
+      .then(([cats, regs, comms]) => {
         setCategories(cats);
         setRegions(regs);
+        setCommunities(comms);
       })
       .catch(() => undefined);
   }, []);
@@ -185,6 +188,7 @@ function EventEditor() {
           patch={patch}
           categories={categories}
           regions={regions}
+          communities={communities}
           t={t}
         />
 

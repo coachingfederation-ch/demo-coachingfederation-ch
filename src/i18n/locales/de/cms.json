@@ -792,6 +792,7 @@
       "saveError": "Gastgeber konnten nicht gespeichert werden."
     },
     "fieldCategory": "Kategorie",
+    "fieldCommunity": "Community",
     "fieldRegion": "Region",
     "fieldUnset": "— nicht festgelegt —"
   },
