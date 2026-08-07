@@ -4,6 +4,7 @@
  */
 import { Section } from "./shared";
 import { DESCRIPTION_MAX, TAGLINE_MAX } from "./types";
+import { RichTextField } from "@/components/cms/RichTextField";
 
 export function AboutSection({
   t,
@@ -32,17 +33,14 @@ export function AboutSection({
       />
       <label
         className="mt-4 block text-xs font-semibold text-muted-foreground"
-        htmlFor="description"
+        id="description-label"
       >
         {t("member.description")}
       </label>
-      <textarea
+      <RichTextField
         id="description"
         value={description}
-        maxLength={DESCRIPTION_MAX}
-        rows={8}
-        onChange={(e) => setDescription(e.target.value)}
-        className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+        onChange={(next) => setDescription(next.slice(0, DESCRIPTION_MAX))}
       />
       <p className="mt-1 text-xs text-muted-foreground">
         {description.length} / {DESCRIPTION_MAX}
