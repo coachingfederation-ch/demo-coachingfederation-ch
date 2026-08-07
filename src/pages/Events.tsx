@@ -232,7 +232,7 @@ export default function EventsPage({ data }: { data: EventsPageData }) {
               >
                 <div
                   className={
-                    "grid aspect-[4/3] w-full place-items-center md:aspect-auto " +
+                    "relative grid aspect-[4/3] w-full place-items-center overflow-hidden md:aspect-auto " +
                     visualFor(featured.slug ?? "").bg +
                     " " +
                     visualFor(featured.slug ?? "").fg
@@ -242,7 +242,7 @@ export default function EventsPage({ data }: { data: EventsPageData }) {
                     <img
                       src={featured.image_url}
                       alt=""
-                      className="h-full w-full object-cover"
+                      className="absolute inset-0 h-full w-full object-cover"
                       loading="lazy"
                     />
                   ) : (
