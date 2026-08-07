@@ -97,6 +97,34 @@
       "Alignement avec les initiatives DEIB d'ICF Global"
     ]
   },
+  "governance": {
+    "eyebrow": "Notre gouvernance",
+    "title": "Responsabilité et transparence",
+    "lede": "Documents clés qui guident notre fonctionnement, nos décisions et notre service aux membres.",
+    "link": "Consulter",
+    "documents": [
+      {
+        "title": "Annual General Meeting (AGM)",
+        "desc": "Notre assemblée générale annuelle, modalités de vote et procès-verbaux."
+      },
+      {
+        "title": "Code of Ethics",
+        "desc": "ICF Code of Ethics et Standards of Conduct auxquels adhèrent tous les membres."
+      },
+      {
+        "title": "DEIB Commitment Statement",
+        "desc": "Notre engagement en faveur de la diversité, de l'équité, de l'inclusion et de l'appartenance."
+      },
+      {
+        "title": "ICF Global Charter Chapter status",
+        "desc": "Reconnaissance officielle en tant que chapitre agréé ICF en Suisse."
+      },
+      {
+        "title": "Annual Report / Impact Review",
+        "desc": "Vue d'ensemble annuelle des activités, de l'impact et des finances du chapter."
+      }
+    ]
+  },
   "contact": {
     "eyebrow": "Contact",
     "title": "Écrivez-nous",

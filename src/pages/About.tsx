@@ -7,6 +7,7 @@ import { Mark } from "@/components/marks";
 import { CompactHero, SiteFooter, CARD_SHADOW } from "@/components/site-chrome";
 import { DeibCommitment } from "@/components/about/DeibCommitment";
 import { ContactForm } from "@/components/about/ContactForm";
+import { Governance } from "@/components/about/Governance";
 import { TeamPreview } from "@/components/team/TeamPreview";
 import { CommunitiesPreview } from "@/components/communities/CommunitiesPreview";
 import { useI18n } from "@/i18n";
