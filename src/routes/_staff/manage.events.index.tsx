@@ -148,7 +148,14 @@ function ManageEventsPage() {
                     }
                     className="cursor-pointer border-t border-border hover:bg-secondary/40"
                   >
-                    <td className="px-4 py-3 font-medium">{row.title}</td>
+                    <td className="px-4 py-3 font-medium">
+                      {row.title}
+                      {row.series_id ? (
+                        <span className="ml-2 inline-flex rounded-full bg-secondary px-2 py-0.5 text-[11px] font-semibold text-muted-foreground">
+                          {t("events.repeat.badge")}
+                        </span>
+                      ) : null}
+                    </td>
                     <td className="px-4 py-3 text-muted-foreground">
                       <span className="inline-flex items-center gap-1.5">
                         <CalendarDays className="h-3.5 w-3.5" />
