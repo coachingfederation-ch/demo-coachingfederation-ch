@@ -105,7 +105,7 @@ export default function AboutPage() {
                 {t("about.cta.join")}
               </a>
               <a
-                href="#"
+                href="#contact"
                 className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10"
               >
                 {t("about.cta.contact")}
