@@ -1046,6 +1046,7 @@ export type Database = {
           is_featured: boolean
           language: Database["public"]["Enums"]["article_lang"]
           location_mode: Database["public"]["Enums"]["event_location_mode"]
+          map_location: string | null
           online_url: string | null
           organizer_id: string | null
           published_at: string | null
@@ -1081,6 +1082,7 @@ export type Database = {
           is_featured?: boolean
           language?: Database["public"]["Enums"]["article_lang"]
           location_mode?: Database["public"]["Enums"]["event_location_mode"]
+          map_location?: string | null
           online_url?: string | null
           organizer_id?: string | null
           published_at?: string | null
@@ -1116,6 +1118,7 @@ export type Database = {
           is_featured?: boolean
           language?: Database["public"]["Enums"]["article_lang"]
           location_mode?: Database["public"]["Enums"]["event_location_mode"]
+          map_location?: string | null
           online_url?: string | null
           organizer_id?: string | null
           published_at?: string | null
@@ -2618,6 +2621,7 @@ export type Database = {
           location_mode:
             | Database["public"]["Enums"]["event_location_mode"]
             | null
+          map_location: string | null
           online_url: string | null
           published_at: string | null
           region_name: string | null
