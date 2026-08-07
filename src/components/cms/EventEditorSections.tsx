@@ -481,6 +481,16 @@ export function EventLocationSection({
           />
         </Field>
       </div>
+      <div className="mt-4">
+        <Field label={t("events.fieldMapLocation")} hint={t("events.fieldMapLocationHint")}>
+          <input
+            className={inputClass}
+            value={event.map_location ?? ""}
+            onChange={(e) => patch({ map_location: e.target.value })}
+            placeholder="Bahnhofstrasse 1, 8001 Zürich"
+          />
+        </Field>
+      </div>
     </Section>
   );
 }
