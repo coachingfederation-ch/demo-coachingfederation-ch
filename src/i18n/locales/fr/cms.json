@@ -120,7 +120,7 @@
     "submitForReview": "Soumettre pour relecture",
     "submitChanges": "Soumettre les modifications",
     "returnToDraft": "Remettre en brouillon",
-    "reviewNeedsPublisher": "Une personne « Publisher » de Communication & Marketing doit publier cet article.",
+    "reviewNeedsPublisher": "Un compte disposant des droits de publication doit publier cet article.",
     "reviewSelfBlocked": "Vous avez créé cet article — une autre personne « Publisher » doit le relire et le publier.",
     "publishFailed": "Action refusée. Veuillez recharger la page et réessayer.",
     "statusUnchanged": "Le statut de l'article n'a pas changé."
@@ -712,7 +712,15 @@
     "qaCreated": "Compte de test créé",
     "qaCredentialsNote": "Affiché une seule fois — copiez-le maintenant. Rien n'est stocké ni envoyé par e-mail.",
     "removeAccess": "Supprimer l'accès",
-    "removeConfirm": "Supprimer les accès éditeur et organisateur pour {name} ? Cette personne conserve son adhésion et son accès à l'Espace membres."
+    "removeConfirm": "Retirer les accès éditeur, organisateur et publisher pour {name} ? L'adhésion et l'espace membre restent inchangés.",
+    "publisherBadge": "Publisher",
+    "manage": "Gérer",
+    "close": "Fermer",
+    "rightsTitle": "Droits d'accès",
+    "accountAuditTitle": "Modifications récentes pour ce compte",
+    "editorDesc": "Créer et modifier des articles",
+    "organizerDesc": "Créer et gérer des événements",
+    "publisherDesc": "Relire et publier des articles"
   },
   "events": {
     "title": "Événements",
