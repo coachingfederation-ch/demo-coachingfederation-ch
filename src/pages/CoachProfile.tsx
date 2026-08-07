@@ -21,6 +21,7 @@ import { Chips, Panel, Prose } from "@/components/coaches/profile/shared";
 import { HowIWorkFlow } from "@/components/coaches/profile/HowIWorkFlow";
 import { CoachProfileHero } from "@/components/coaches/profile/CoachProfileHero";
 import { CoachProfileSidebar } from "@/components/coaches/profile/CoachProfileSidebar";
+import { Mark } from "@/components/marks";
 
 export function CoachProfileShell({ children }: { children: React.ReactNode }) {
   return (
