@@ -97,6 +97,19 @@
       "Abstimmung mit den DEIB-Initiativen der ICF Global"
     ]
   },
+  "contact": {
+    "eyebrow": "Kontakt",
+    "title": "Schreiben Sie uns",
+    "lede": "Fragen zu Mitgliedschaft, Events oder Partnerschaften? Wir freuen uns auf Ihre Nachricht.",
+    "nameLabel": "Name",
+    "namePlaceholder": "Ihr Name",
+    "emailLabel": "E-Mail",
+    "emailPlaceholder": "ihre@email.com",
+    "messageLabel": "Nachricht",
+    "messagePlaceholder": "Wie können wir helfen?",
+    "send": "E-Mail senden",
+    "privacy": "Mit dem Senden stimmen Sie zu, dass Ihre Nachricht per E-Mail verarbeitet wird. Lesen Sie unsere"
+  },
   "cta": {
     "eyebrow": "Mitmachen",
     "title": "Gestalten Sie mit uns die Zukunft des Coachings.",
