@@ -258,6 +258,12 @@ function FieldBlock({
           onChange={(e) => onChange(e.target.value)}
           className="w-full rounded-lg border border-border bg-card px-2 py-1.5 text-sm outline-none focus:ring-2 focus:ring-ring/20"
         />
+      ) : field.type === "rich" ? (
+        <RichTextEditor
+          value={value}
+          minHeight={`${(field.rows ?? 6) * 1.6}rem`}
+          onChange={onChange}
+        />
       ) : onTogglePreview ? (
         <div className="space-y-2">
           <textarea
