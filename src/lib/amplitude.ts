@@ -37,6 +37,7 @@ export function initAmplitude() {
 
 /** Sends a page view for the current SPA location. */
 export function trackAmplitudePageView(path: string) {
+  initAmplitude();
   if (!initialised) return;
   amplitude.track("[Amplitude] Page Viewed", {
     "[Amplitude] Page Path": path,
@@ -47,6 +48,9 @@ export function trackAmplitudePageView(path: string) {
 
 /** Sends a product event. Safe to call before init — it simply no-ops. */
 export function trackEvent(name: string, properties?: Record<string, unknown>) {
+  // Child effects run before the root <Analytics /> effect, so init lazily
+  // here instead of dropping the first event of a page.
+  initAmplitude();
   if (!initialised) return;
   amplitude.track(name, properties);
 }
