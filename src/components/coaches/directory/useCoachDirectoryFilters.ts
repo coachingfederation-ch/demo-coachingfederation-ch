@@ -4,11 +4,12 @@
  * credentials, specialisations, formats, accepting-only, pagination) are
  * local state that drives the server-side query plus client-side narrowing.
  */
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useI18n } from "@/i18n";
 import { queryCoachDirectory } from "@/lib/directory.functions";
+import { trackEvent } from "@/lib/amplitude";
 import {
   activeFinderModes,
   fetchCoachFinderConfig,
@@ -127,6 +128,7 @@ export function useCoachDirectoryFilters() {
   });
 
   function clearAll() {
+    trackEvent("Coach Search Cleared");
     setQuery("");
     setRegion("all");
     setLanguage("all");
