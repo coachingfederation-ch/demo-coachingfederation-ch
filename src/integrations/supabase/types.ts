@@ -1049,10 +1049,12 @@ export type Database = {
           online_url: string | null
           organizer_id: string | null
           published_at: string | null
+          recurrence: Json | null
           region_id: string | null
           registration_closes_at: string | null
           registration_mode: Database["public"]["Enums"]["event_registration_mode"]
           registration_opens_at: string | null
+          series_id: string | null
           slug: string
           starts_at: string
           status: Database["public"]["Enums"]["event_status"]
@@ -1082,10 +1084,12 @@ export type Database = {
           online_url?: string | null
           organizer_id?: string | null
           published_at?: string | null
+          recurrence?: Json | null
           region_id?: string | null
           registration_closes_at?: string | null
           registration_mode?: Database["public"]["Enums"]["event_registration_mode"]
           registration_opens_at?: string | null
+          series_id?: string | null
           slug: string
           starts_at: string
           status?: Database["public"]["Enums"]["event_status"]
@@ -1115,10 +1119,12 @@ export type Database = {
           online_url?: string | null
           organizer_id?: string | null
           published_at?: string | null
+          recurrence?: Json | null
           region_id?: string | null
           registration_closes_at?: string | null
           registration_mode?: Database["public"]["Enums"]["event_registration_mode"]
           registration_opens_at?: string | null
+          series_id?: string | null
           slug?: string
           starts_at?: string
           status?: Database["public"]["Enums"]["event_status"]
