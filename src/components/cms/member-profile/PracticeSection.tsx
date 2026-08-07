@@ -4,7 +4,7 @@
  * fees. Consumed by MemberProfileEditor.tsx.
  */
 import { vocabLabel, type CoachFinderVocabularies } from "@/lib/vocabularies";
-import { Field, Section, TextArea } from "./shared";
+import { Field, RichTextArea, Section } from "./shared";
 import { NOTE_MAX, RICH_TEXT_MAX, type PracticeDraft } from "./types";
 
 export function PracticeSection({
@@ -22,16 +22,15 @@ export function PracticeSection({
 }) {
   return (
     <Section title={t("member.practiceTitle")} note={t("member.practiceNote")}>
-      <TextArea
+      <RichTextArea
         id="approach"
         label={t("member.approach")}
         note={t("member.approachNote")}
         value={practice.approach}
         onChange={(v) => setPractice((p) => ({ ...p, approach: v }))}
         max={RICH_TEXT_MAX}
-        rows={6}
       />
-      <TextArea
+      <RichTextArea
         id="qualifications"
         label={t("member.qualifications")}
         note={t("member.qualificationsNote")}
@@ -73,14 +72,14 @@ export function PracticeSection({
         max={NOTE_MAX}
         placeholder={t("member.availabilityNotePlaceholder")}
       />
-      <TextArea
+      <RichTextArea
         id="fees"
         label={t("member.fees")}
         note={t("member.feesNote")}
         value={practice.fees_note}
         onChange={(v) => setPractice((p) => ({ ...p, fees_note: v }))}
         max={RICH_TEXT_MAX}
-        rows={4}
+        minHeight="9rem"
       />
     </Section>
   );
