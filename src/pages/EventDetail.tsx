@@ -22,6 +22,7 @@ import {
 } from "@/lib/events";
 import type { EventHost } from "@/lib/event-hosts";
 import { eventMap } from "@/lib/event-map";
+import { trackEvent, useTrackView } from "@/lib/amplitude";
 import {
   cancelMyRegistration,
   getMyRegistration,
@@ -93,6 +94,12 @@ export default function EventDetailPage({
   const hosts = event.hosts ?? [];
   const marks = heroMarks(event.slug ?? event.id ?? "");
   const map = eventMap(event.map_location);
+  useTrackView("Event Viewed", event.id ?? event.slug ?? "", {
+    event_id: event.id,
+    event_slug: event.slug,
+    event_title: event.title,
+    is_past: past,
+  });
 
   const session = useQuery({
     queryKey: ["auth-user-id"],
