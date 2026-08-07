@@ -16,6 +16,7 @@ export function CoachResultsGrid({
   setPage,
   hasMore,
   modeLabel,
+  isSample = false,
 }: {
   isError: boolean;
   isPending: boolean;
@@ -26,6 +27,8 @@ export function CoachResultsGrid({
   setPage: (updater: (p: number) => number) => void;
   hasMore: boolean;
   modeLabel: string | null;
+  /** Random showcase: a single set, never paginated. */
+  isSample?: boolean;
 }) {
   const { t } = useI18n();
 
@@ -52,7 +55,7 @@ export function CoachResultsGrid({
             </li>
           ))}
         </ul>
-        {(page > 0 || hasMore) && (
+        {!isSample && (page > 0 || hasMore) && (
           <div className="mt-8 flex items-center justify-center gap-3">
             <button
               type="button"
