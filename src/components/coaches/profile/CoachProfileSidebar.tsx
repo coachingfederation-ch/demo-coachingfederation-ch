@@ -5,13 +5,7 @@
  */
 import { useI18n } from "@/i18n";
 import type { PublicCoachProfile } from "@/lib/directory.functions";
-import {
-  Chips,
-  Fact,
-  PROFILE_CARD,
-  Prose,
-  SideCard,
-} from "@/components/coaches/profile/shared";
+import { Chips, Fact, PROFILE_CARD, Prose, SideCard } from "@/components/coaches/profile/shared";
 
 export function CoachProfileSidebar({
   profile,
@@ -49,47 +43,47 @@ export function CoachProfileSidebar({
             {t("directory.detail.workWith").replace("{name}", name.split(" ")[0] ?? name)}
           </h2>
           <div className="p-6">
-          {hasSidebarFacts && (
-            <dl>
-              <Fact
-                label={t("directory.detail.formats")}
-                value={formats.length ? formats.join(" · ") : null}
-              />
-              <Fact label={t("directory.detail.session")} value={profile.session_length_note} />
-              <Fact
-                label={t("directory.detail.languages")}
-                value={languages.length ? languages.join(" · ") : null}
-              />
-              <Fact label={t("directory.detail.experience")} value={experience} />
-              <Fact label={t("directory.detail.availability")} value={availabilityText} />
-            </dl>
-          )}
-          {hasCta && (
-            <div className={(hasSidebarFacts ? "mt-6 " : "") + "flex flex-col gap-2"}>
-              {bookingUrl && (
-                <a
-                  href={bookingUrl}
-                  target="_blank"
-                  rel="noopener noreferrer nofollow"
-                  className="inline-flex h-11 items-center justify-center rounded-full bg-accent px-5 text-sm font-semibold text-accent-foreground transition-transform duration-200 hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
-                >
-                  {t("directory.detail.book")}
-                </a>
-              )}
-              {contactEmail && (
-                <a
-                  href={`mailto:${contactEmail}`}
-                  target="_top"
-                  className="inline-flex h-11 items-center justify-center rounded-full border-2 border-primary px-5 text-sm font-semibold text-primary hover:bg-secondary"
-                >
-                  {t("directory.detail.message")}
-                </a>
-              )}
-              {profile.response_time_note && (
-                <p className="mt-1 text-xs text-muted-foreground">{profile.response_time_note}</p>
-              )}
-            </div>
-          )}
+            {hasSidebarFacts && (
+              <dl>
+                <Fact
+                  label={t("directory.detail.formats")}
+                  value={formats.length ? formats.join(" · ") : null}
+                />
+                <Fact label={t("directory.detail.session")} value={profile.session_length_note} />
+                <Fact
+                  label={t("directory.detail.languages")}
+                  value={languages.length ? languages.join(" · ") : null}
+                />
+                <Fact label={t("directory.detail.experience")} value={experience} />
+                <Fact label={t("directory.detail.availability")} value={availabilityText} />
+              </dl>
+            )}
+            {hasCta && (
+              <div className={(hasSidebarFacts ? "mt-6 " : "") + "flex flex-col gap-2"}>
+                {bookingUrl && (
+                  <a
+                    href={bookingUrl}
+                    target="_blank"
+                    rel="noopener noreferrer nofollow"
+                    className="inline-flex h-11 items-center justify-center rounded-full bg-accent px-5 text-sm font-semibold text-accent-foreground transition-transform duration-200 hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                  >
+                    {t("directory.detail.book")}
+                  </a>
+                )}
+                {contactEmail && (
+                  <a
+                    href={`mailto:${contactEmail}`}
+                    target="_top"
+                    className="inline-flex h-11 items-center justify-center rounded-full border-2 border-primary px-5 text-sm font-semibold text-primary hover:bg-secondary"
+                  >
+                    {t("directory.detail.message")}
+                  </a>
+                )}
+                {profile.response_time_note && (
+                  <p className="mt-1 text-xs text-muted-foreground">{profile.response_time_note}</p>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}

@@ -176,9 +176,7 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
             <div
               className={
                 "grid gap-6 " +
-                (specialisations.length > 0 && clientTypes.length > 0
-                  ? "md:grid-cols-12"
-                  : "")
+                (specialisations.length > 0 && clientTypes.length > 0 ? "md:grid-cols-12" : "")
               }
             >
               {specialisations.length > 0 && (
