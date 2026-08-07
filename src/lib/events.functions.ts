@@ -141,6 +141,69 @@ export const listPublicEvents = createServerFn({ method: "GET" })
     };
   });
 
+/** How many events the community section shows at most. */
+const COMMUNITY_EVENT_LIMIT = 6;
+
+/**
+ * Upcoming events for one local community, with a chapter-wide fallback.
+ *
+ * A community page should not look dormant just because its own programme is
+ * empty, so events from other local communities fill the remaining slots —
+ * always after the community's own, and tagged in the UI with their community
+ * name so the origin stays obvious.
+ */
+export const listCommunityEvents = createServerFn({ method: "GET" })
+  .inputValidator((input: unknown) =>
+    slugSchema.extend({ locale: localeSchema.optional() }).parse(input),
+  )
+  .handler(async ({ data }) => {
+    const locale = data.locale ?? "en";
+    const { publicSupabaseClient } = await import("./supabase-public.server");
+    const supabase = publicSupabaseClient();
+
+    // `ends_at` is the real "still upcoming" boundary for multi-day events, but
+    // it is nullable; filter on `starts_at` in SQL and refine below.
+    const from = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+    const { data: list, error } = await supabase
+      .from("events_public")
+      .select(PUBLIC_EVENT_COLUMNS)
+      .not("community_slug", "is", null)
+      .gte("starts_at", from)
+      .order("starts_at", { ascending: true });
+    if (error) throw new Error(error.message);
+
+    const now = Date.now();
+    const upcoming = ((list ?? []) as PublicEvent[]).filter(
+      (e) => new Date(e.ends_at ?? e.starts_at!).getTime() >= now,
+    );
+    const own = upcoming.filter((e) => e.community_slug === data.slug);
+    const other = upcoming.filter((e) => e.community_slug !== data.slug);
+    const selected = [...own, ...other].slice(0, COMMUNITY_EVENT_LIMIT);
+    if (selected.length === 0) return { events: [], hasOwn: false };
+
+    const ids = selected.map((e) => e.id).filter((id): id is string => Boolean(id));
+    let byEvent = new Map<string, EventTranslation>();
+    if (ids.length > 0) {
+      const { data: translations } = await supabase
+        .from("event_translations")
+        .select("event_id, locale, title, summary, description")
+        .eq("locale", locale)
+        .in("event_id", ids);
+      byEvent = new Map(
+        ((translations ?? []) as EventTranslation[]).map((tr) => [tr.event_id, tr]),
+      );
+    }
+
+    return {
+      events: selected.map((e) =>
+        e.language === locale
+          ? { ...e, resolvedLocale: locale }
+          : applyTranslation(e, byEvent.get(e.id!)),
+      ),
+      hasOwn: own.length > 0,
+    };
+  });
+
 /** One published event by slug, or null. */
 export const getPublicEvent = createServerFn({ method: "GET" })
   .inputValidator((input: unknown) =>
