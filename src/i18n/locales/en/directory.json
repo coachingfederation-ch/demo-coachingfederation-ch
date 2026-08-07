@@ -10,6 +10,36 @@
     "titlePost": " coach.",
     "lede": "Every coach listed holds an active ICF credential and commits to the ICF Code of Ethics."
   },
+  "finderContext": {
+    "credentials": {
+      "title": "ICF Credentials Explained",
+      "lede": "Three credential levels show a coach's training, experience, and commitment to professional standards.",
+      "acc": {
+        "abbr": "ACC",
+        "title": "Associate Certified Coach",
+        "description": "Min. 60 coaching hours + ICF-approved training. Entry-level credential."
+      },
+      "pcc": {
+        "abbr": "PCC",
+        "title": "Professional Certified Coach",
+        "description": "Min. 500 coaching hours + demonstrated competency. Most common among Swiss coaches."
+      },
+      "mcc": {
+        "abbr": "MCC",
+        "title": "Master Certified Coach",
+        "description": "Min. 2,500 coaching hours. Highest ICF credential level."
+      }
+    },
+    "deib": {
+      "title": "Find a coach who understands your context",
+      "lede": "Our coaches come from diverse professional and personal backgrounds. Search for coaches with cultural competence, multilingual capability, or focus areas such as neurodiversity and inclusion."
+    },
+    "organisations": {
+      "title": "Looking for multiple coaches?",
+      "lede": "Contact us for bespoke introductions to coaches with organisational and team coaching expertise.",
+      "cta": "Contact ICF Switzerland"
+    }
+  },
   "filters": {
     "title": "Filter",
     "searchLabel": "Search",

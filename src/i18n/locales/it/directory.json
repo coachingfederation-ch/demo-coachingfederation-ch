@@ -10,6 +10,36 @@
     "titlePost": ".",
     "lede": "Ogni coach presente possiede una credenziale ICF attiva e si impegna a rispettare il Codice Etico ICF."
   },
+  "finderContext": {
+    "credentials": {
+      "title": "Le credenziali ICF spiegate",
+      "lede": "Tre livelli di credenziale indicano la formazione, l'esperienza e l'impegno di un coach verso gli standard professionali.",
+      "acc": {
+        "abbr": "ACC",
+        "title": "Associate Certified Coach",
+        "description": "Min. 60 ore di coaching + formazione approvata ICF. Credenziale entry-level."
+      },
+      "pcc": {
+        "abbr": "PCC",
+        "title": "Professional Certified Coach",
+        "description": "Min. 500 ore di coaching + competenza dimostrata. La più comune tra i coach svizzeri."
+      },
+      "mcc": {
+        "abbr": "MCC",
+        "title": "Master Certified Coach",
+        "description": "Min. 2.500 ore di coaching. Massimo livello di credenziale ICF."
+      }
+    },
+    "deib": {
+      "title": "Trova un coach che comprende il tuo contesto",
+      "lede": "I nostri coach provengono da background professionali e personali diversi. Cerca coach con competenza culturale, capacità multilingue o aree di interesse come neurodiversità e inclusione."
+    },
+    "organisations": {
+      "title": "Cerchi più coach?",
+      "lede": "Contattaci per presentazioni personalizzate di coach con competenza in coaching organizzativo e di team.",
+      "cta": "Contatta ICF Svizzera"
+    }
+  },
   "filters": {
     "title": "Filtra",
     "searchLabel": "Cerca",

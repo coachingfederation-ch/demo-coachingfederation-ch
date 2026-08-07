@@ -5,6 +5,7 @@
  */
 import { CompactHero, SiteFooter } from "@/components/site-chrome";
 import { CoachDirectory } from "@/components/coaches/directory";
+import { CoachFinderContext } from "@/components/coaches/CoachFinderContext";
 import { useI18n } from "@/i18n";
 
 export default function FindACoachPage() {
@@ -23,6 +24,7 @@ export default function FindACoachPage() {
         lede={t("directory.hero.lede")}
       />
       <main id="main">
+        <CoachFinderContext />
         <CoachDirectory />
       </main>
       <SiteFooter />

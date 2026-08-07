@@ -10,6 +10,36 @@
     "titlePost": " Coach.",
     "lede": "Jeder aufgeführte Coach verfügt über eine aktive ICF-Zertifizierung und verpflichtet sich den ICF-Ethikrichtlinien."
   },
+  "finderContext": {
+    "credentials": {
+      "title": "ICF-Zertifizierungen erklärt",
+      "lede": "Drei Zertifizierungsstufen zeigen die Ausbildung, Erfahrung und das Engagement eines Coaches für professionelle Standards.",
+      "acc": {
+        "abbr": "ACC",
+        "title": "Associate Certified Coach",
+        "description": "Min. 60 Coaching-Stunden + ICF-anerkannte Ausbildung. Einstiegszertifizierung."
+      },
+      "pcc": {
+        "abbr": "PCC",
+        "title": "Professional Certified Coach",
+        "description": "Min. 500 Coaching-Stunden + nachgewiesene Kompetenz. Am häufigsten unter Schweizer Coaches."
+      },
+      "mcc": {
+        "abbr": "MCC",
+        "title": "Master Certified Coach",
+        "description": "Min. 2.500 Coaching-Stunden. Höchste ICF-Zertifizierungsstufe."
+      }
+    },
+    "deib": {
+      "title": "Finden Sie einen Coach, der Ihren Kontext versteht",
+      "lede": "Unsere Coaches kommen aus unterschiedlichen beruflichen und persönlichen Hintergründen. Suchen Sie nach Coaches mit kultureller Kompetenz, mehrsprachigen Fähigkeiten oder Schwerpunkten wie Neurodiversität und Inklusion."
+    },
+    "organisations": {
+      "title": "Suchen Sie mehrere Coaches?",
+      "lede": "Kontaktieren Sie uns für massgeschneiderte Empfehlungen von Coaches mit Expertise in Organisations- und Teamcoaching.",
+      "cta": "ICF Switzerland kontaktieren"
+    }
+  },
   "filters": {
     "title": "Filter",
     "searchLabel": "Suche",
