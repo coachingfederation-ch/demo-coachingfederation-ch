@@ -6,7 +6,6 @@
 
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { requireStaffAccess, ARTICLE_ROLES } from "@/lib/staff-guard";
-import { useMyRoles } from "@/lib/roles";
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
@@ -45,12 +44,20 @@ type Status = ArticleStatus;
 type Lang = ArticleLang;
 type Article = ArticleRow;
 
+/** What the caller may do with this article under the four-eye rule. */
+type Permissions = {
+  isAdmin: boolean;
+  isPublisher: boolean;
+  isCreator: boolean;
+  canPublish: boolean;
+};
+
 function EditorPage() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
   const { t, locale } = useCms();
-  const { roles } = useMyRoles();
   const [article, setArticle] = useState<Article | null>(null);
+  const [permissions, setPermissions] = useState<Permissions | null>(null);
   const [categories, setCategories] = useState<CategoryRow[]>([]);
   const [profiles, setProfiles] = useState<ProfileRow[]>([]);
   const bodyRef = useRef<HTMLTextAreaElement | null>(null);
@@ -69,6 +76,7 @@ function EditorPage() {
         const data = await getArticleEditorData({ data: { id } });
         setCategories(data.categories);
         setProfiles(data.profiles);
+        setPermissions(data.permissions as Permissions);
         if (!data.article) setNotFound(true);
         else setArticle(data.article);
       } catch {
@@ -177,8 +185,33 @@ function EditorPage() {
     try {
       const patch = await changeArticleStatus({ data: { id: article.id, action: "publish" } });
       update(patch as Partial<Article>);
+      setActionError(null);
     } catch {
-      /* the status pill simply stays as it was */
+      setActionError(t("editor.publishFailed"));
+    }
+  };
+
+  const submitForReview = async () => {
+    if (!article) return;
+    try {
+      const patch = await changeArticleStatus({ data: { id: article.id, action: "submit" } });
+      update(patch as Partial<Article>);
+      setActionError(null);
+    } catch {
+      setActionError(t("editor.publishFailed"));
+    }
+  };
+
+  const returnToDraft = async () => {
+    if (!article) return;
+    try {
+      const patch = await changeArticleStatus({
+        data: { id: article.id, action: "return_to_draft" },
+      });
+      update(patch as Partial<Article>);
+      setActionError(null);
+    } catch {
+      setActionError(t("editor.publishFailed"));
     }
   };
 
