@@ -6,6 +6,7 @@
 import { Mark } from "@/components/marks";
 import { CompactHero, SiteFooter, CARD_SHADOW } from "@/components/site-chrome";
 import { DeibCommitment } from "@/components/about/DeibCommitment";
+import { ContactForm } from "@/components/about/ContactForm";
 import { TeamPreview } from "@/components/team/TeamPreview";
 import { CommunitiesPreview } from "@/components/communities/CommunitiesPreview";
 import { useI18n } from "@/i18n";
@@ -88,6 +89,8 @@ export default function AboutPage() {
           </div>
         </section>
 
+        <ContactForm />
+
         <section className="bg-hero text-hero-foreground">
           <div className="mx-auto max-w-7xl px-8 py-20 text-center">
             <p className="eyebrow !text-accent">{t("about.cta.eyebrow")}</p>
@@ -102,7 +105,7 @@ export default function AboutPage() {
                 {t("about.cta.join")}
               </a>
               <a
-                href="#"
+                href="#contact"
                 className="inline-flex h-10 items-center rounded-full border border-white/30 px-5 text-sm font-semibold text-white transition hover:bg-white/10"
               >
                 {t("about.cta.contact")}
