@@ -16,6 +16,7 @@ import {
   type PulseItem,
 } from "@/lib/europe-pulse";
 import { listEuropePulse } from "@/lib/europe-pulse.functions";
+import { useTrackView } from "@/lib/amplitude";
 
 function TypeChip({ label }: { label: string }) {
   return (
