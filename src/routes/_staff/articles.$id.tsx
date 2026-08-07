@@ -68,6 +68,7 @@ function EditorPage() {
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [featuredNote, setFeaturedNote] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
   const [unsplashOpen, setUnsplashOpen] = useState(false);
 
   useEffect(() => {
@@ -306,7 +307,18 @@ function EditorPage() {
           <span className="text-xs text-muted-foreground">{saveLabel}</span>
         </div>
         <div className="flex items-center gap-2">
-          {roles.isEditor && (article.status === "published" || article.status === "scheduled") ? (
+          {actionError ? (
+            <span className="max-w-xs text-xs text-destructive">{actionError}</span>
+          ) : null}
+          {article.status === "review" && !canPublish ? (
+            <span className="max-w-xs text-xs text-muted-foreground">
+              {permissions?.isCreator && permissions.isPublisher
+                ? t("editor.reviewSelfBlocked")
+                : t("editor.reviewNeedsPublisher")}
+            </span>
+          ) : null}
+
+          {canUnpublish ? (
             <button
               onClick={unpublish}
               className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium hover:bg-secondary"
@@ -314,7 +326,28 @@ function EditorPage() {
               {t("editor.unpublish")}
             </button>
           ) : null}
-          {roles.isEditor ? (
+
+          {article.status === "review" && (permissions?.isPublisher || permissions?.isAdmin) ? (
+            <button
+              onClick={returnToDraft}
+              className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium hover:bg-secondary"
+            >
+              {t("editor.returnToDraft")}
+            </button>
+          ) : null}
+
+          {canSubmit ? (
+            <button
+              onClick={submitForReview}
+              className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] hover:opacity-95"
+            >
+              {article.status === "published" || article.status === "scheduled"
+                ? t("editor.submitChanges")
+                : t("editor.submitForReview")}
+            </button>
+          ) : null}
+
+          {article.status === "review" && canPublish ? (
             <>
               <button
                 onClick={schedule}
@@ -326,7 +359,7 @@ function EditorPage() {
                 onClick={publishNow}
                 className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] hover:opacity-95"
               >
-                {article.status === "published" ? t("editor.republish") : t("editor.publish")}
+                {article.first_published_at ? t("editor.republish") : t("editor.publish")}
               </button>
             </>
           ) : null}
