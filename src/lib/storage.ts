@@ -19,6 +19,19 @@ export const PROFILE_IMAGE_BUCKET = "member-profile-images";
 export const ARTICLE_IMAGE_BUCKET = "article-images";
 
 /**
+ * Governance documents (PDFs and similar). Private bucket: public buckets are
+ * blocked by workspace policy, so every download link is a short-lived signed
+ * URL minted server-side for rows that are already `is_published`.
+ */
+export const GOVERNANCE_DOCUMENT_BUCKET = "governance-documents";
+
+/**
+ * Governance download links: 1h. The archive page re-signs on every render, so
+ * a short window is enough and keeps stale links from circulating.
+ */
+export const GOVERNANCE_DOCUMENT_TTL_SECONDS = 60 * 60;
+
+/**
  * Public directory listings: 24h.
  *
  * The URL only ever leaves the server for rows `coach_directory_public`

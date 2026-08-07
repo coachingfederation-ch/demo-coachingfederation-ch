@@ -3,8 +3,8 @@
  * governance links such as AGM, Code of Ethics, DEIB statement, charter
  * status and annual report.
  */
-import { ExternalLink } from "lucide-react";
-import { useI18n } from "@/i18n";
+import { ArrowRight, ExternalLink } from "lucide-react";
+import { LocaleLink, useI18n } from "@/i18n";
 
 const GOVERNANCE_URLS: Record<string, string> = {
   "Annual General Meeting (AGM)": "https://coachingfederation.org/about/icf-membership/chapter-membership",
@@ -53,6 +53,16 @@ export function Governance() {
               </a>
             );
           })}
+        </div>
+
+        <div className="mt-10">
+          <LocaleLink
+            to="/governance"
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          >
+            {t("governance.archiveCta")}
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </LocaleLink>
         </div>
       </div>
     </section>

@@ -19,6 +19,7 @@ import { Route as EuropePulseRouteImport } from './routes/europe-pulse'
 import { Route as FindACoachRouteImport } from './routes/find-a-coach'
 import { Route as ForCoachesRouteImport } from './routes/for-coaches'
 import { Route as ForOrganisationsRouteImport } from './routes/for-organisations'
+import { Route as GovernanceRouteImport } from './routes/governance'
 import { Route as ImprintRouteImport } from './routes/imprint'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as McpRouteImport } from './routes/mcp'
@@ -33,6 +34,7 @@ import { Route as LocaleEuropePulseRouteImport } from './routes/$locale/europe-p
 import { Route as LocaleFindACoachRouteImport } from './routes/$locale/find-a-coach'
 import { Route as LocaleForCoachesRouteImport } from './routes/$locale/for-coaches'
 import { Route as LocaleForOrganisationsRouteImport } from './routes/$locale/for-organisations'
+import { Route as LocaleGovernanceRouteImport } from './routes/$locale/governance'
 import { Route as LocaleImprintRouteImport } from './routes/$locale/imprint'
 import { Route as LocaleInsightsRouteImport } from './routes/$locale/insights'
 import { Route as LocalePrivacyRouteImport } from './routes/$locale/privacy'
@@ -72,6 +74,7 @@ import { Route as StaffArticlesIdRouteImport } from './routes/_staff/articles.$i
 import { Route as StaffArticlesCategoriesRouteImport } from './routes/_staff/articles.categories'
 import { Route as StaffArticlesNewRouteImport } from './routes/_staff/articles.new'
 import { Route as StaffManageEuropePulseRouteImport } from './routes/_staff/manage.europe-pulse'
+import { Route as StaffManageGovernanceRouteImport } from './routes/_staff/manage.governance'
 import { Route as StaffMembersIndexRouteImport } from './routes/_staff/members.index'
 import { Route as StaffMembersIdRouteImport } from './routes/_staff/members.$id'
 import { Route as ApiPublicEuropePulseScanRouteImport } from './routes/api/public/europe-pulse-scan'
@@ -126,6 +129,11 @@ const ForCoachesRoute = ForCoachesRouteImport.update({
 const ForOrganisationsRoute = ForOrganisationsRouteImport.update({
   id: '/for-organisations',
   path: '/for-organisations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GovernanceRoute = GovernanceRouteImport.update({
+  id: '/governance',
+  path: '/governance',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ImprintRoute = ImprintRouteImport.update({
@@ -196,6 +204,11 @@ const LocaleForCoachesRoute = LocaleForCoachesRouteImport.update({
 const LocaleForOrganisationsRoute = LocaleForOrganisationsRouteImport.update({
   id: '/for-organisations',
   path: '/for-organisations',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleGovernanceRoute = LocaleGovernanceRouteImport.update({
+  id: '/governance',
+  path: '/governance',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
 const LocaleImprintRoute = LocaleImprintRouteImport.update({
@@ -397,6 +410,11 @@ const StaffManageEuropePulseRoute = StaffManageEuropePulseRouteImport.update({
   path: '/manage/europe-pulse',
   getParentRoute: () => StaffRouteRoute,
 } as any)
+const StaffManageGovernanceRoute = StaffManageGovernanceRouteImport.update({
+  id: '/manage/governance',
+  path: '/manage/governance',
+  getParentRoute: () => StaffRouteRoute,
+} as any)
 const StaffMembersIndexRoute = StaffMembersIndexRouteImport.update({
   id: '/members/',
   path: '/members/',
@@ -444,6 +462,7 @@ export interface FileRoutesByFullPath {
   '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
+  '/governance': typeof GovernanceRoute
   '/imprint': typeof ImprintRoute
   '/insights': typeof InsightsRouteWithChildren
   '/mcp': typeof McpRoute
@@ -457,6 +476,7 @@ export interface FileRoutesByFullPath {
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
+  '/$locale/governance': typeof LocaleGovernanceRoute
   '/$locale/imprint': typeof LocaleImprintRoute
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
   '/$locale/privacy': typeof LocalePrivacyRoute
@@ -493,6 +513,7 @@ export interface FileRoutesByFullPath {
   '/articles/categories': typeof StaffArticlesCategoriesRoute
   '/articles/new': typeof StaffArticlesNewRoute
   '/manage/europe-pulse': typeof StaffManageEuropePulseRoute
+  '/manage/governance': typeof StaffManageGovernanceRoute
   '/members/$id': typeof StaffMembersIdRoute
   '/api/public/europe-pulse-scan': typeof ApiPublicEuropePulseScanRoute
   '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
@@ -513,6 +534,7 @@ export interface FileRoutesByTo {
   '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
+  '/governance': typeof GovernanceRoute
   '/imprint': typeof ImprintRoute
   '/mcp': typeof McpRoute
   '/no-access': typeof NoAccessRoute
@@ -525,6 +547,7 @@ export interface FileRoutesByTo {
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
+  '/$locale/governance': typeof LocaleGovernanceRoute
   '/$locale/imprint': typeof LocaleImprintRoute
   '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale/team': typeof LocaleTeamRoute
@@ -559,6 +582,7 @@ export interface FileRoutesByTo {
   '/articles/categories': typeof StaffArticlesCategoriesRoute
   '/articles/new': typeof StaffArticlesNewRoute
   '/manage/europe-pulse': typeof StaffManageEuropePulseRoute
+  '/manage/governance': typeof StaffManageGovernanceRoute
   '/members/$id': typeof StaffMembersIdRoute
   '/api/public/europe-pulse-scan': typeof ApiPublicEuropePulseScanRoute
   '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
@@ -583,6 +607,7 @@ export interface FileRoutesById {
   '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
+  '/governance': typeof GovernanceRoute
   '/imprint': typeof ImprintRoute
   '/insights': typeof InsightsRouteWithChildren
   '/mcp': typeof McpRoute
@@ -596,6 +621,7 @@ export interface FileRoutesById {
   '/$locale/find-a-coach': typeof LocaleFindACoachRoute
   '/$locale/for-coaches': typeof LocaleForCoachesRoute
   '/$locale/for-organisations': typeof LocaleForOrganisationsRoute
+  '/$locale/governance': typeof LocaleGovernanceRoute
   '/$locale/imprint': typeof LocaleImprintRoute
   '/$locale/insights': typeof LocaleInsightsRouteWithChildren
   '/$locale/privacy': typeof LocalePrivacyRoute
@@ -632,6 +658,7 @@ export interface FileRoutesById {
   '/_staff/articles/categories': typeof StaffArticlesCategoriesRoute
   '/_staff/articles/new': typeof StaffArticlesNewRoute
   '/_staff/manage/europe-pulse': typeof StaffManageEuropePulseRoute
+  '/_staff/manage/governance': typeof StaffManageGovernanceRoute
   '/_staff/members/$id': typeof StaffMembersIdRoute
   '/api/public/europe-pulse-scan': typeof ApiPublicEuropePulseScanRoute
   '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
@@ -655,6 +682,7 @@ export interface FileRouteTypes {
     | '/find-a-coach'
     | '/for-coaches'
     | '/for-organisations'
+    | '/governance'
     | '/imprint'
     | '/insights'
     | '/mcp'
@@ -668,6 +696,7 @@ export interface FileRouteTypes {
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
+    | '/$locale/governance'
     | '/$locale/imprint'
     | '/$locale/insights'
     | '/$locale/privacy'
@@ -704,6 +733,7 @@ export interface FileRouteTypes {
     | '/articles/categories'
     | '/articles/new'
     | '/manage/europe-pulse'
+    | '/manage/governance'
     | '/members/$id'
     | '/api/public/europe-pulse-scan'
     | '/api/public/member-sync'
@@ -724,6 +754,7 @@ export interface FileRouteTypes {
     | '/find-a-coach'
     | '/for-coaches'
     | '/for-organisations'
+    | '/governance'
     | '/imprint'
     | '/mcp'
     | '/no-access'
@@ -736,6 +767,7 @@ export interface FileRouteTypes {
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
+    | '/$locale/governance'
     | '/$locale/imprint'
     | '/$locale/privacy'
     | '/$locale/team'
@@ -770,6 +802,7 @@ export interface FileRouteTypes {
     | '/articles/categories'
     | '/articles/new'
     | '/manage/europe-pulse'
+    | '/manage/governance'
     | '/members/$id'
     | '/api/public/europe-pulse-scan'
     | '/api/public/member-sync'
@@ -793,6 +826,7 @@ export interface FileRouteTypes {
     | '/find-a-coach'
     | '/for-coaches'
     | '/for-organisations'
+    | '/governance'
     | '/imprint'
     | '/insights'
     | '/mcp'
@@ -806,6 +840,7 @@ export interface FileRouteTypes {
     | '/$locale/find-a-coach'
     | '/$locale/for-coaches'
     | '/$locale/for-organisations'
+    | '/$locale/governance'
     | '/$locale/imprint'
     | '/$locale/insights'
     | '/$locale/privacy'
@@ -842,6 +877,7 @@ export interface FileRouteTypes {
     | '/_staff/articles/categories'
     | '/_staff/articles/new'
     | '/_staff/manage/europe-pulse'
+    | '/_staff/manage/governance'
     | '/_staff/members/$id'
     | '/api/public/europe-pulse-scan'
     | '/api/public/member-sync'
@@ -866,6 +902,7 @@ export interface RootRouteChildren {
   FindACoachRoute: typeof FindACoachRoute
   ForCoachesRoute: typeof ForCoachesRoute
   ForOrganisationsRoute: typeof ForOrganisationsRoute
+  GovernanceRoute: typeof GovernanceRoute
   ImprintRoute: typeof ImprintRoute
   InsightsRoute: typeof InsightsRouteWithChildren
   McpRoute: typeof McpRoute
@@ -961,6 +998,13 @@ declare module '@tanstack/react-router' {
       path: '/for-organisations'
       fullPath: '/for-organisations'
       preLoaderRoute: typeof ForOrganisationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/governance': {
+      id: '/governance'
+      path: '/governance'
+      fullPath: '/governance'
+      preLoaderRoute: typeof GovernanceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/imprint': {
@@ -1059,6 +1103,13 @@ declare module '@tanstack/react-router' {
       path: '/for-organisations'
       fullPath: '/$locale/for-organisations'
       preLoaderRoute: typeof LocaleForOrganisationsRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/governance': {
+      id: '/$locale/governance'
+      path: '/governance'
+      fullPath: '/$locale/governance'
+      preLoaderRoute: typeof LocaleGovernanceRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
     '/$locale/imprint': {
@@ -1334,6 +1385,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StaffManageEuropePulseRouteImport
       parentRoute: typeof StaffRouteRoute
     }
+    '/_staff/manage/governance': {
+      id: '/_staff/manage/governance'
+      path: '/manage/governance'
+      fullPath: '/manage/governance'
+      preLoaderRoute: typeof StaffManageGovernanceRouteImport
+      parentRoute: typeof StaffRouteRoute
+    }
     '/_staff/members/': {
       id: '/_staff/members/'
       path: '/members'
@@ -1406,6 +1464,7 @@ interface LocaleRouteRouteChildren {
   LocaleFindACoachRoute: typeof LocaleFindACoachRoute
   LocaleForCoachesRoute: typeof LocaleForCoachesRoute
   LocaleForOrganisationsRoute: typeof LocaleForOrganisationsRoute
+  LocaleGovernanceRoute: typeof LocaleGovernanceRoute
   LocaleImprintRoute: typeof LocaleImprintRoute
   LocaleInsightsRoute: typeof LocaleInsightsRouteWithChildren
   LocalePrivacyRoute: typeof LocalePrivacyRoute
@@ -1424,6 +1483,7 @@ const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleFindACoachRoute: LocaleFindACoachRoute,
   LocaleForCoachesRoute: LocaleForCoachesRoute,
   LocaleForOrganisationsRoute: LocaleForOrganisationsRoute,
+  LocaleGovernanceRoute: LocaleGovernanceRoute,
   LocaleImprintRoute: LocaleImprintRoute,
   LocaleInsightsRoute: LocaleInsightsRouteWithChildren,
   LocalePrivacyRoute: LocalePrivacyRoute,
@@ -1480,6 +1540,7 @@ interface StaffRouteRouteChildren {
   StaffRolesRoute: typeof StaffRolesRoute
   StaffVocabulariesRoute: typeof StaffVocabulariesRoute
   StaffManageEuropePulseRoute: typeof StaffManageEuropePulseRoute
+  StaffManageGovernanceRoute: typeof StaffManageGovernanceRoute
   StaffMembersIdRoute: typeof StaffMembersIdRoute
   StaffMembersIndexRoute: typeof StaffMembersIndexRoute
   StaffManageEventsIdRoute: typeof StaffManageEventsIdRoute
@@ -1494,6 +1555,7 @@ const StaffRouteRouteChildren: StaffRouteRouteChildren = {
   StaffRolesRoute: StaffRolesRoute,
   StaffVocabulariesRoute: StaffVocabulariesRoute,
   StaffManageEuropePulseRoute: StaffManageEuropePulseRoute,
+  StaffManageGovernanceRoute: StaffManageGovernanceRoute,
   StaffMembersIdRoute: StaffMembersIdRoute,
   StaffMembersIndexRoute: StaffMembersIndexRoute,
   StaffManageEventsIdRoute: StaffManageEventsIdRoute,
@@ -1539,6 +1601,7 @@ const rootRouteChildren: RootRouteChildren = {
   FindACoachRoute: FindACoachRoute,
   ForCoachesRoute: ForCoachesRoute,
   ForOrganisationsRoute: ForOrganisationsRoute,
+  GovernanceRoute: GovernanceRoute,
   ImprintRoute: ImprintRoute,
   InsightsRoute: InsightsRouteWithChildren,
   McpRoute: McpRoute,

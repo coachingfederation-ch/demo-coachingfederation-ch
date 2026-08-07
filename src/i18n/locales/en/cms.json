@@ -17,7 +17,8 @@
     "insightsCms": "Insights CMS",
     "events": "Events",
     "opsStructure": "Operational structure",
-    "europePulse": "Europe Pulse"
+    "europePulse": "Europe Pulse",
+    "governance": "Governance"
   },
   "auth": {
     "signInSub": "Sign in to continue",
@@ -904,5 +905,25 @@
       "community": "Local community",
       "communityNote": "Regional community. Also published on /communities."
     }
+  },
+  "governance": {
+    "title": "Governance documents",
+    "subtitle": "Upload and publish the documents shown in the public governance archive. Unpublished rows stay hidden from visitors.",
+    "addTitle": "Add a document",
+    "fieldTitle": "Document title",
+    "fieldCategory": "Category",
+    "fieldYear": "Year",
+    "fieldLanguage": "Language",
+    "fieldDescription": "Short description",
+    "fieldFile": "File (PDF)",
+    "fieldExternalUrl": "…or an external link",
+    "add": "Add document",
+    "needSource": "Add a file or an external link.",
+    "confirmDelete": "Delete this document? The stored file is removed too.",
+    "signFailed": "Could not open the file.",
+    "published": "Published",
+    "preview": "Open document",
+    "delete": "Delete document",
+    "empty": "No governance documents yet."
   }
 }
