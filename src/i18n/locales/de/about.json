@@ -83,6 +83,20 @@
     "title": "Professionelles Coaching in der Schweiz fördern.",
     "body": "Wir wahren die höchsten Standards des Coaching-Berufs und setzen uns für seinen Wert für Einzelpersonen, Organisationen und die Gesellschaft ein."
   },
+  "deib": {
+    "eyebrow": "Unser DEIB-Engagement",
+    "title": "Diversity, Equity, Inclusion and Belonging",
+    "intro": "DEIB ist in allem, was wir tun, verankert – kein Nebenprojekt, sondern ein Kernwert. Unser Chapter umfasst 4 Sprachen, mehrere Nationalitäten und eine große Vielfalt an Coaching-Hintergründen. Ein dediziertes DEIB-Team treibt unsere Strategie voran.",
+    "approachTitle": "Unser DEIB-Ansatz",
+    "approachItems": [
+      "Vierteljährliche DEIB Open House Events – Peer-Learning mit realen Fallbeispielen",
+      "Inclusive Coaching Inspiration Kit für alle Mitglieder",
+      "Event Accessibility Checklist (hybrid, Untertitel, sensorische Bedürfnisse, Bezahlbarkeit)",
+      "Webinare und Mitgliederbeiträge zu Neurodiversität & Inklusion",
+      "DEIB-Fragen in der jährlichen Mitgliederumfrage",
+      "Abstimmung mit den DEIB-Initiativen der ICF Global"
+    ]
+  },
   "cta": {
     "eyebrow": "Mitmachen",
     "title": "Gestalten Sie mit uns die Zukunft des Coachings.",

@@ -5,6 +5,7 @@
  */
 import { Mark } from "@/components/marks";
 import { CompactHero, SiteFooter, CARD_SHADOW } from "@/components/site-chrome";
+import { DeibCommitment } from "@/components/about/DeibCommitment";
 import { TeamPreview } from "@/components/team/TeamPreview";
 import { CommunitiesPreview } from "@/components/communities/CommunitiesPreview";
 import { useI18n } from "@/i18n";
@@ -50,11 +51,13 @@ export default function AboutPage() {
           </div>
         </section>
 
+        <DeibCommitment />
+
         <TeamPreview />
 
         <CommunitiesPreview />
 
-        <section className="bg-background py-24">
+        <section className="bg-card py-24">
           <div className="mx-auto max-w-7xl px-8">
             <p className="eyebrow">{t("about.research.eyebrow")}</p>
             <h2 className="mt-3 max-w-2xl display-lg">{t("about.research.title")}</h2>

@@ -83,6 +83,20 @@
     "title": "Advancing professional coaching in Switzerland.",
     "body": "ICF Switzerland strengthens the quality, relevance and visibility of professional coaching. A welcoming, inclusive professional home for coaches across all regions and languages."
   },
+  "deib": {
+    "eyebrow": "Our DEIB commitment",
+    "title": "Diversity, Equity, Inclusion and Belonging",
+    "intro": "DEIB is embedded in everything we do — not a side initiative, but a core value. Our chapter spans 4 languages, multiple nationalities, and a rich variety of coaching backgrounds. A dedicated DEIB team drives our strategy.",
+    "approachTitle": "Our DEIB approach",
+    "approachItems": [
+      "Quarterly DEIB Open House events — peer learning with real cases",
+      "Inclusive Coaching Inspiration Kit for all members",
+      "Event Accessibility Checklist (hybrid, captioning, sensory needs, affordability)",
+      "Neurodiversity & Inclusion webinars and member stories",
+      "DEIB questions embedded in annual member survey",
+      "Alignment with ICF Global DEIB initiatives"
+    ]
+  },
   "cta": {
     "eyebrow": "Get involved",
     "title": "Join us in shaping the future of coaching.",

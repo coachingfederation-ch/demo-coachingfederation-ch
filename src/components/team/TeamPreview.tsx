@@ -18,7 +18,7 @@ export function TeamPreview() {
   if (!members.length) return null;
 
   return (
-    <section className="bg-background py-24">
+    <section className="bg-card py-24">
       <div className="mx-auto grid max-w-7xl gap-12 px-8 md:grid-cols-[1fr_1.1fr] md:items-center">
         <div>
           <p className="eyebrow">{t("team.preview.eyebrow")}</p>
