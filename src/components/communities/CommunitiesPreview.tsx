@@ -21,7 +21,7 @@ export function CommunitiesPreview() {
   if (!featured) return null;
 
   return (
-    <section id="communities" className="scroll-mt-24 bg-background py-24">
+    <section id="communities" className="scroll-mt-24 bg-card py-24">
       <div className="mx-auto grid max-w-7xl gap-12 px-8 md:grid-cols-[1fr_1fr] md:items-center">
         <div>
           <p className="eyebrow">{t("communities.preview.eyebrow")}</p>
