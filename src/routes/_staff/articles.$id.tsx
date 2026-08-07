@@ -53,6 +53,11 @@ type Permissions = {
   canPublish: boolean;
 };
 
+/** Payload accepted by the status server function. */
+type TransitionPayload =
+  | { id: string; action: "submit" | "return_to_draft" | "publish" | "unpublish" }
+  | { id: string; action: "schedule"; scheduledAt: string };
+
 function EditorPage() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
@@ -188,9 +193,7 @@ function EditorPage() {
    * crash: we explain it in a toast and re-read the row so the buttons match
    * the article's real state again.
    */
-  const runTransition = async (
-    payload: Parameters<typeof changeArticleStatus>[0]["data"],
-  ): Promise<boolean> => {
+  const runTransition = async (payload: TransitionPayload): Promise<boolean> => {
     try {
       const patch = await changeArticleStatus({ data: payload });
       update(patch as Partial<Article>);
