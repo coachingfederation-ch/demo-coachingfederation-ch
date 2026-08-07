@@ -19,7 +19,7 @@ export function Governance() {
   const documents = tList<{ title: string; desc: string }>("about.governance.documents");
 
   return (
-    <section className="bg-card py-24">
+    <section className="bg-background py-24">
       <div className="mx-auto max-w-7xl px-8">
         <p className="eyebrow">{t("about.governance.eyebrow")}</p>
         <h2 className="mt-3 max-w-2xl display-lg">{t("about.governance.title")}</h2>
