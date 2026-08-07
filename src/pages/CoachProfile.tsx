@@ -150,7 +150,7 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
             >
               <Mark
                 name="asterisk2"
-                className="pointer-events-none absolute -right-6 -bottom-8 h-32 w-32 text-mark-blue/25"
+                className="pointer-events-none absolute -top-4 -right-4 h-20 w-20 text-accent/20"
               />
               <div className="relative">
                 <blockquote className="text-lg leading-relaxed font-semibold sm:text-xl">
@@ -176,24 +176,18 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
             <div
               className={
                 "grid gap-6 " +
-                (specialisations.length > 0 && clientTypes.length > 0 ? "md:grid-cols-12" : "")
+                (specialisations.length > 0 && clientTypes.length > 0
+                  ? "md:grid-cols-[1.35fr_1fr]"
+                  : "")
               }
             >
               {specialisations.length > 0 && (
-                <Panel
-                  index={panel()}
-                  title={t("directory.detail.specialisations")}
-                  className={clientTypes.length > 0 ? "md:col-span-7" : ""}
-                >
+                <Panel index={panel()} title={t("directory.detail.specialisations")}>
                   <Chips labels={specialisations} />
                 </Panel>
               )}
               {clientTypes.length > 0 && (
-                <Panel
-                  index={panel()}
-                  title={t("directory.detail.clientTypes")}
-                  className={specialisations.length > 0 ? "md:col-span-5" : ""}
-                >
+                <Panel index={panel()} title={t("directory.detail.clientTypes")}>
                   <Chips labels={clientTypes} />
                 </Panel>
               )}
