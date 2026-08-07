@@ -22,6 +22,7 @@ import { slugifyVocab } from "@/lib/vocabularies";
 import {
   countOpsAssignments,
   listOpsAssignments,
+  listOpsProjects,
   searchOpsMembers,
 } from "@/lib/ops-admin.functions";
 import { grantMemberRole, revokeMemberRole } from "@/lib/roles.functions";
@@ -48,11 +49,6 @@ export const Route = createFileRoute("/_staff/operational-structure")({
 });
 
 const COLUMNS = "id, slug, name, name_de, name_fr, name_it, sort_order, is_active";
-const PROJECT_COLUMNS =
-  COLUMNS +
-  ", is_community, is_featured_community, description, description_de, description_fr," +
-  " description_it, cadence_note, cadence_note_de, cadence_note_fr, cadence_note_it," +
-  " contact_email, signup_url, language_slugs";
 
 function OperationalStructurePage() {
   const { t } = useCms();
@@ -73,12 +69,14 @@ function OperationalStructurePage() {
   const [reordering, setReordering] = useState(false);
 
   const loadProjects = async () => {
-    const { data, error: err } = await supabase
-      .from("op_projects")
-      .select(PROJECT_COLUMNS)
-      .order("sort_order", { ascending: true });
-    if (err) return setError(err.message);
-    const rows = (data ?? []) as unknown as ProjectRow[];
+    // `contact_email` is not granted to the browser roles (it is the private
+    // community inbox), so the whole project read happens server-side.
+    let rows: ProjectRow[];
+    try {
+      rows = (await listOpsProjects()) as ProjectRow[];
+    } catch (err: unknown) {
+      return setError(err instanceof Error ? err.message : String(err));
+    }
     setProjects(rows);
     setSelected((current) => current ?? rows[0]?.id ?? null);
   };
