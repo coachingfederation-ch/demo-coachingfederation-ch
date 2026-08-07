@@ -745,6 +745,8 @@
     "fieldLocationMode": "Format",
     "fieldCity": "City",
     "fieldVenue": "Venue",
+    "fieldMapLocation": "Map location",
+    "fieldMapLocationHint": "Paste an address or a map link (Google Maps, OpenStreetMap). A map is shown on the event page.",
     "fieldOnlineUrl": "Online link",
     "fieldImageUrl": "Image URL",
     "fieldCapacity": "Capacity (leave empty for unlimited)",

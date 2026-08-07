@@ -129,6 +129,7 @@ function EventEditor() {
           venue_name: event.venue_name,
           city: event.city,
           online_url: event.online_url,
+          map_location: event.map_location,
           image_url: event.image_url,
           image_credit_name: event.image_credit_name,
           image_credit_url: event.image_credit_url,

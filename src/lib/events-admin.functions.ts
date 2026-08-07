@@ -16,7 +16,7 @@ import { expandRecurrence, occurrenceSlug, RECURRENCE_FREQUENCIES } from "./recu
 const LIST_COLUMNS =
   "id, series_id, slug, title, summary, language, status, starts_at, ends_at, timezone, location_mode, venue_name, city, capacity, is_featured, category_id, region_id, organizer_id, updated_at";
 
-const EDIT_COLUMNS = `${LIST_COLUMNS}, community_id, series_id, recurrence, description, image_url, image_credit_name, image_credit_url, online_url, registration_mode, registration_opens_at, registration_closes_at, guest_registration_allowed, published_at, content_updated_at`;
+const EDIT_COLUMNS = `${LIST_COLUMNS}, community_id, series_id, recurrence, description, image_url, image_credit_name, image_credit_url, online_url, map_location, registration_mode, registration_opens_at, registration_closes_at, guest_registration_allowed, published_at, content_updated_at`;
 
 const recurrenceRule = z.object({
   frequency: z.enum(RECURRENCE_FREQUENCIES),
@@ -48,6 +48,9 @@ const eventInput = z.object({
   venue_name: z.string().trim().max(200).nullable().optional(),
   city: z.string().trim().max(120).nullable().optional(),
   online_url: z.string().trim().url().max(500).nullable().optional().or(z.literal("")),
+  // Free-form: either a plain address ("Bahnhofstrasse 1, Zürich") or a pasted
+  // map link. The public page turns whichever it is into an embedded map.
+  map_location: z.string().trim().max(1000).nullable().optional().or(z.literal("")),
   image_url: z.string().trim().url().max(1000).nullable().optional().or(z.literal("")),
   // Unsplash attribution travels with the picked image; a hand-pasted URL
   // simply leaves both blank.
@@ -77,6 +80,7 @@ function normalize(input: z.infer<typeof eventInput>) {
     venue_name: blankToNull(input.venue_name),
     city: blankToNull(input.city),
     online_url: blankToNull(input.online_url),
+    map_location: blankToNull(input.map_location),
     image_url: blankToNull(input.image_url),
     image_credit_name: blankToNull(input.image_credit_name),
     image_credit_url: blankToNull(input.image_credit_url),
@@ -344,6 +348,7 @@ export const generateEventOccurrences = createServerFn({ method: "POST" })
         venue_name: source.venue_name,
         city: source.city,
         online_url: source.online_url,
+        map_location: source.map_location,
         image_url: source.image_url,
         image_credit_name: source.image_credit_name,
         image_credit_url: source.image_credit_url,

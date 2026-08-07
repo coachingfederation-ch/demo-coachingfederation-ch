@@ -745,6 +745,8 @@
     "fieldLocationMode": "Format",
     "fieldCity": "Ville",
     "fieldVenue": "Lieu",
+    "fieldMapLocation": "Emplacement sur la carte",
+    "fieldMapLocationHint": "Collez une adresse ou un lien de carte (Google Maps, OpenStreetMap). Une carte s'affiche sur la page de l'événement.",
     "fieldOnlineUrl": "Lien en ligne",
     "fieldImageUrl": "URL de l'image",
     "fieldCapacity": "Capacité (laisser vide pour illimité)",

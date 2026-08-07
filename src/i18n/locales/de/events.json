@@ -67,7 +67,10 @@
     "errorTitle": "Dieses Event konnte nicht geladen werden",
     "errorBody": "Bitte versuchen Sie es in einem Moment erneut.",
     "hostedBy": "Gastgeber",
-    "photoCredit": "Foto von {name} auf Unsplash"
+    "photoCredit": "Foto von {name} auf Unsplash",
+    "gettingThere": "Anfahrt",
+    "mapTitle": "Karte des Veranstaltungsorts",
+    "openInMaps": "In Google Maps öffnen"
   },
   "filters": {
     "when": "Zeitraum",
