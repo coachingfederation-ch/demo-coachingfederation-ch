@@ -12,6 +12,15 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { assertStaff as assertStaffRole } from "./authz";
 import type { AuthedContext } from "./authz";
 
+/** True when the caller holds the `admin` grant (read through their own RLS). */
+async function callerIsAdmin(context: AuthedContext): Promise<boolean> {
+  const { data } = await context.supabase
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", context.userId);
+  return ((data ?? []) as { role: string }[]).some((r) => r.role === "admin");
+}
+
 /**
  * Staff gate: admin, editor or organizer. Delegates to the shared guard and
  * hands back the caller's RLS-scoped client, which is what the handlers below
@@ -38,6 +47,8 @@ const contentSchema = idSchema.extend({
 });
 
 const transitionSchema = z.union([
+  idSchema.extend({ action: z.literal("submit") }),
+  idSchema.extend({ action: z.literal("return_to_draft") }),
   idSchema.extend({ action: z.literal("publish") }),
   idSchema.extend({ action: z.literal("schedule"), scheduledAt: z.string().datetime() }),
   idSchema.extend({ action: z.literal("unpublish") }),
@@ -48,8 +59,14 @@ export const getArticleEditorData = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => idSchema.parse(input))
   .handler(async ({ context, data }) => {
     const client = await assertStaff(context);
-    const { loadArticleEditorData } = await import("./articles.server");
-    return await loadArticleEditorData(client, data.id);
+    const { loadArticleEditorData, loadArticlePermissions } = await import("./articles.server");
+    const loaded = await loadArticleEditorData(client, data.id);
+    const permissions = await loadArticlePermissions(
+      context.userId,
+      await callerIsAdmin(context),
+      loaded.article?.created_by ?? null,
+    );
+    return { ...loaded, permissions };
   });
 
 export const saveArticle = createServerFn({ method: "POST" })
@@ -67,9 +84,15 @@ export const changeArticleStatus = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => transitionSchema.parse(input))
   .handler(async ({ context, data }) => {
     const client = await assertStaff(context);
-    const { transitionArticle } = await import("./articles.server");
+    const { transitionArticle, loadArticlePermissions } = await import("./articles.server");
     const { id, ...transition } = data;
-    return await transitionArticle(client, id, transition as never);
+    const { data: row } = await client.from("articles").select("created_by").eq("id", id).maybeSingle();
+    const permissions = await loadArticlePermissions(
+      context.userId,
+      await callerIsAdmin(context),
+      (row as { created_by: string | null } | null)?.created_by ?? null,
+    );
+    return await transitionArticle(client, id, transition as never, permissions);
   });
 
 export const setArticleFeaturedFlag = createServerFn({ method: "POST" })

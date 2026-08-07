@@ -18,6 +18,11 @@ export function StatusPill({ status, t }: { status: Status; t: (k: string) => st
       dot: "var(--warn)",
       label: t("status.draft"),
     },
+    review: {
+      cls: "bg-primary/10 text-primary",
+      dot: "var(--primary)",
+      label: t("status.review"),
+    },
     scheduled: {
       cls: "bg-teal-soft text-teal-foreground",
       dot: "var(--teal)",
