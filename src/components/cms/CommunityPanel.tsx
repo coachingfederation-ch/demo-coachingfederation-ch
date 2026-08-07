@@ -199,10 +199,8 @@ export function CommunityPanel({
               <RichTextEditor
                 value={row.description ?? ""}
                 minHeight="12rem"
-                onChange={(next) => {
-                  setRow((p) => ({ ...p, description: next }));
-                  void save({ description: next || null });
-                }}
+                onChange={(next) => setRow((p) => ({ ...p, description: next }))}
+                onBlur={(next) => void save({ description: next || null })}
               />
             </div>
           </label>
@@ -292,10 +290,12 @@ export function CommunityPanel({
                   <RichTextEditor
                     value={(row[localeField("description", locale)] as string | null) ?? ""}
                     minHeight="9rem"
-                    onChange={(next) => {
-                      setRow((p) => ({ ...p, [localeField("description", locale)]: next }));
-                      void save({ [localeField("description", locale)]: next || null });
-                    }}
+                    onChange={(next) =>
+                      setRow((p) => ({ ...p, [localeField("description", locale)]: next }))
+                    }
+                    onBlur={(next) =>
+                      void save({ [localeField("description", locale)]: next || null })
+                    }
                   />
                 </div>
               </div>
