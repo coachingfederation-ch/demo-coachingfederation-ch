@@ -84,6 +84,13 @@ export function CultureSurvey() {
         },
       });
       if (res.ok) setStep("done");
+      if (res.ok)
+        trackEvent("Organisation Survey Completed", {
+          locale,
+          primary_pressure: pressure,
+          maturity_band: band,
+          total_score: total,
+        });
       else setError(t("organisations.survey.form.error"));
     } catch {
       setError(t("organisations.survey.form.error"));
