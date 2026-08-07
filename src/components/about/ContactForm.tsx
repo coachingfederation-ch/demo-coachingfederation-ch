@@ -97,7 +97,7 @@ export function ContactForm() {
               target="_top"
               className="underline underline-offset-2 hover:text-primary"
             >
-              Privacy Policy
+              {t("common.footer.privacy")}
             </a>
             .
           </p>
