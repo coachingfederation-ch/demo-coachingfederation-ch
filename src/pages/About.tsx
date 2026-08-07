@@ -89,6 +89,8 @@ export default function AboutPage() {
           </div>
         </section>
 
+        <ContactForm />
+
         <section className="bg-hero text-hero-foreground">
           <div className="mx-auto max-w-7xl px-8 py-20 text-center">
             <p className="eyebrow !text-accent">{t("about.cta.eyebrow")}</p>
