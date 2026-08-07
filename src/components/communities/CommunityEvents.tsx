@@ -34,7 +34,7 @@ export function CommunityEvents({
     <section className="bg-card py-20">
       <div className="mx-auto max-w-5xl px-6 sm:px-8">
         <p className="eyebrow">{t("communities.detail.events.eyebrow")}</p>
-        <h2 className="mt-3 max-w-2xl display-md">
+        <h2 className="mt-3 max-w-2xl display-lg">
           {hasOwn
             ? t("communities.detail.events.title")
             : t("communities.detail.events.fallbackTitle")}

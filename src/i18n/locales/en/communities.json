@@ -28,7 +28,15 @@
     "peopleHeading": "Volunteers in this community",
     "noMembers": "No volunteers are listed for this community yet.",
     "noDescription": "A description for this community is coming soon.",
-    "andMore": "and {count} more volunteers"
+    "andMore": "and {count} more volunteers",
+    "events": {
+      "eyebrow": "What's coming up",
+      "title": "Upcoming events",
+      "lede": "The next gatherings hosted by this community.",
+      "fallbackTitle": "Upcoming events nearby",
+      "fallbackLede": "This community has no dates in the calendar right now — here is what other local communities are hosting.",
+      "all": "See all events"
+    }
   },
   "preview": {
     "eyebrow": "Local communities",
