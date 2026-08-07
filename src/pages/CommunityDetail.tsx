@@ -8,14 +8,21 @@ import { ArrowLeft, CalendarClock, Mail, ArrowUpRight } from "lucide-react";
 import { CompactHero, SiteFooter } from "@/components/site-chrome";
 import { Markdown } from "@/components/markdown";
 import { CommunityRing } from "@/components/communities/CommunityRing";
+import { CommunityEvents } from "@/components/communities/CommunityEvents";
 import { LocaleLink, useI18n } from "@/i18n";
 import { getCommunity } from "@/lib/communities.functions";
+import { listCommunityEvents } from "@/lib/events.functions";
 
 export default function CommunityDetailPage({ slug }: { slug: string }) {
   const { t, locale } = useI18n();
   const { data, isPending, isError } = useQuery({
     queryKey: ["community", slug, locale],
     queryFn: () => getCommunity({ data: { slug, locale } }),
+    retry: false,
+  });
+  const { data: eventsData } = useQuery({
+    queryKey: ["community-events", slug, locale],
+    queryFn: () => listCommunityEvents({ data: { slug, locale } }),
     retry: false,
   });
 
@@ -106,6 +113,13 @@ export default function CommunityDetailPage({ slug }: { slug: string }) {
             )}
           </div>
         </section>
+        {eventsData ? (
+          <CommunityEvents
+            events={eventsData.events}
+            communitySlug={slug}
+            hasOwn={eventsData.hasOwn}
+          />
+        ) : null}
       </main>
       <SiteFooter />
     </div>
