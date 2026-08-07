@@ -3,10 +3,9 @@
  * CTAs, fees, regions, external links and the standard disclaimer note.
  * Extracted verbatim from src/pages/CoachProfile.tsx.
  */
-import { CARD_SHADOW } from "@/components/site-chrome";
 import { useI18n } from "@/i18n";
 import type { PublicCoachProfile } from "@/lib/directory.functions";
-import { Chips, Fact, Prose, SideCard } from "@/components/coaches/profile/shared";
+import { Chips, Fact, PROFILE_CARD, Prose, SideCard } from "@/components/coaches/profile/shared";
 
 export function CoachProfileSidebar({
   profile,
@@ -38,51 +37,54 @@ export function CoachProfileSidebar({
   return (
     <aside className="flex flex-col gap-6 lg:sticky lg:top-8">
       {(hasSidebarFacts || hasCta) && (
-        <div className={"rounded-2xl border border-border/60 bg-card p-6 " + CARD_SHADOW}>
-          <h2 className="eyebrow text-muted-foreground">
+        <div className={PROFILE_CARD + " overflow-hidden"}>
+          {/* Blue masthead makes the fact ledger read as the card's title block. */}
+          <h2 className="eyebrow bg-primary px-6 py-4 text-primary-foreground">
             {t("directory.detail.workWith").replace("{name}", name.split(" ")[0] ?? name)}
           </h2>
-          {hasSidebarFacts && (
-            <dl className="mt-4">
-              <Fact
-                label={t("directory.detail.formats")}
-                value={formats.length ? formats.join(" · ") : null}
-              />
-              <Fact label={t("directory.detail.session")} value={profile.session_length_note} />
-              <Fact
-                label={t("directory.detail.languages")}
-                value={languages.length ? languages.join(" · ") : null}
-              />
-              <Fact label={t("directory.detail.experience")} value={experience} />
-              <Fact label={t("directory.detail.availability")} value={availabilityText} />
-            </dl>
-          )}
-          {hasCta && (
-            <div className="mt-5 flex flex-col gap-2">
-              {bookingUrl && (
-                <a
-                  href={bookingUrl}
-                  target="_blank"
-                  rel="noopener noreferrer nofollow"
-                  className="inline-flex h-11 items-center justify-center rounded-full bg-accent px-5 text-sm font-semibold text-accent-foreground"
-                >
-                  {t("directory.detail.book")}
-                </a>
-              )}
-              {contactEmail && (
-                <a
-                  href={`mailto:${contactEmail}`}
-                  target="_top"
-                  className="inline-flex h-11 items-center justify-center rounded-full border-2 border-primary px-5 text-sm font-semibold text-primary hover:bg-secondary"
-                >
-                  {t("directory.detail.message")}
-                </a>
-              )}
-              {profile.response_time_note && (
-                <p className="text-xs text-muted-foreground">{profile.response_time_note}</p>
-              )}
-            </div>
-          )}
+          <div className="p-6">
+            {hasSidebarFacts && (
+              <dl>
+                <Fact
+                  label={t("directory.detail.formats")}
+                  value={formats.length ? formats.join(" · ") : null}
+                />
+                <Fact label={t("directory.detail.session")} value={profile.session_length_note} />
+                <Fact
+                  label={t("directory.detail.languages")}
+                  value={languages.length ? languages.join(" · ") : null}
+                />
+                <Fact label={t("directory.detail.experience")} value={experience} />
+                <Fact label={t("directory.detail.availability")} value={availabilityText} />
+              </dl>
+            )}
+            {hasCta && (
+              <div className={(hasSidebarFacts ? "mt-6 " : "") + "flex flex-col gap-2"}>
+                {bookingUrl && (
+                  <a
+                    href={bookingUrl}
+                    target="_blank"
+                    rel="noopener noreferrer nofollow"
+                    className="inline-flex h-11 items-center justify-center rounded-full bg-accent px-5 text-sm font-semibold text-accent-foreground transition-transform duration-200 hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                  >
+                    {t("directory.detail.book")}
+                  </a>
+                )}
+                {contactEmail && (
+                  <a
+                    href={`mailto:${contactEmail}`}
+                    target="_top"
+                    className="inline-flex h-11 items-center justify-center rounded-full border-2 border-primary px-5 text-sm font-semibold text-primary hover:bg-secondary"
+                  >
+                    {t("directory.detail.message")}
+                  </a>
+                )}
+                {profile.response_time_note && (
+                  <p className="mt-1 text-xs text-muted-foreground">{profile.response_time_note}</p>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       )}
 
