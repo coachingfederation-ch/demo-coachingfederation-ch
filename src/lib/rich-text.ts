@@ -98,15 +98,11 @@ export function richTextToHtml(markdown: string) {
     .join("");
 }
 
-function escapeMd(text: string) {
-  return text.replace(/([*_])/g, "\\$1");
-}
-
 function serializeNode(node: Node, bold: boolean, italic: boolean): string {
   if (node.nodeType === 3) {
     const text = node.textContent ?? "";
     if (!text) return "";
-    const escaped = escapeMd(text);
+    const escaped = text;
     if (!escaped.trim()) return escaped;
     const [, lead = "", core = "", tail = ""] = /^(\s*)([\s\S]*?)(\s*)$/.exec(escaped) ?? [];
     let out = core;
