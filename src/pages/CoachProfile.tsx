@@ -137,7 +137,7 @@ export default function CoachProfilePage({ profile }: { profile: PublicCoachProf
       >
         <div className="flex min-w-0 flex-col gap-6">
           {profile.description && (
-            <Panel index={panel()} title={t("directory.detail.about")} mark="line2">
+            <Panel index={panel()} title={t("directory.detail.about")} mark="highlight3">
               <Prose text={profile.description} />
             </Panel>
           )}
