@@ -27,7 +27,7 @@ export function ContactForm() {
   return (
     <section
       id="contact"
-      className="bg-background py-24"
+      className="bg-card py-24"
       aria-label={t("about.contact.eyebrow")}
     >
       <div className="mx-auto max-w-7xl px-8">

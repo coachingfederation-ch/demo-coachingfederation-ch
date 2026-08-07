@@ -57,11 +57,11 @@ export default function AboutPage() {
 
         <TeamPreview />
 
-        <CommunitiesPreview />
-
         <Governance />
 
-        <section className="bg-card py-24">
+        <CommunitiesPreview />
+
+        <section className="bg-background py-24">
           <div className="mx-auto max-w-7xl px-8">
             <p className="eyebrow">{t("about.research.eyebrow")}</p>
             <h2 className="mt-3 max-w-2xl display-lg">{t("about.research.title")}</h2>
