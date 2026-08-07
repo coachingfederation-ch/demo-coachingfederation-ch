@@ -482,7 +482,7 @@ export function EventLocationSection({
         </Field>
       </div>
       <div className="mt-4">
-        <Field label={t("events.fieldMapLocation")} hint={t("events.fieldMapLocationHint")}>
+        <Field label={t("events.fieldMapLocation")}>
           <input
             className={inputClass}
             value={event.map_location ?? ""}
@@ -490,6 +490,9 @@ export function EventLocationSection({
             placeholder="Bahnhofstrasse 1, 8001 Zürich"
           />
         </Field>
+        <p className="mt-1.5 text-xs text-muted-foreground">
+          {t("events.fieldMapLocationHint")}
+        </p>
       </div>
     </Section>
   );
