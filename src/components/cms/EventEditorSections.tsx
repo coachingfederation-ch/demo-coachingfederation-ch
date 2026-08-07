@@ -63,14 +63,19 @@ export function EventDetailsSection({
   patch,
   categories,
   regions,
+  communities,
   t,
 }: {
   event: Managed;
   patch: Patch;
   categories: VocabRow[];
   regions: VocabRow[];
+  communities: { id: string; name: string }[];
   t: (k: string) => string;
 }) {
+  // A community event is placed by community, not by region — the two facets
+  // are mutually exclusive, so switching category clears the other value.
+  const isCommunity = categories.find((c) => c.id === event.category_id)?.slug === "community";
   return (
     <>
       <Section title={t("events.section.details")}>
@@ -106,7 +111,15 @@ export function EventDetailsSection({
             <select
               className={inputClass}
               value={event.category_id ?? ""}
-              onChange={(e) => patch({ category_id: e.target.value || null })}
+              onChange={(e) => {
+                const next = e.target.value || null;
+                const nextIsCommunity =
+                  categories.find((c) => c.id === next)?.slug === "community";
+                patch({
+                  category_id: next,
+                  ...(nextIsCommunity ? { region_id: null } : { community_id: null }),
+                });
+              }}
             >
               <option value="">{t("events.fieldUnset")}</option>
               {categories.map((c) => (
@@ -116,20 +129,37 @@ export function EventDetailsSection({
               ))}
             </select>
           </Field>
-          <Field label={t("events.fieldRegion")}>
-            <select
-              className={inputClass}
-              value={event.region_id ?? ""}
-              onChange={(e) => patch({ region_id: e.target.value || null })}
-            >
-              <option value="">{t("events.fieldUnset")}</option>
-              {regions.map((r) => (
-                <option key={r.id} value={r.id}>
-                  {vocabLabel(r, "en")}
-                </option>
-              ))}
-            </select>
-          </Field>
+          {isCommunity ? (
+            <Field label={t("events.fieldCommunity")}>
+              <select
+                className={inputClass}
+                value={event.community_id ?? ""}
+                onChange={(e) => patch({ community_id: e.target.value || null })}
+              >
+                <option value="">{t("events.fieldUnset")}</option>
+                {communities.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+            </Field>
+          ) : (
+            <Field label={t("events.fieldRegion")}>
+              <select
+                className={inputClass}
+                value={event.region_id ?? ""}
+                onChange={(e) => patch({ region_id: e.target.value || null })}
+              >
+                <option value="">{t("events.fieldUnset")}</option>
+                {regions.map((r) => (
+                  <option key={r.id} value={r.id}>
+                    {vocabLabel(r, "en")}
+                  </option>
+                ))}
+              </select>
+            </Field>
+          )}
           <Field label={t("events.fieldFeatured")}>
             <input
               type="checkbox"
