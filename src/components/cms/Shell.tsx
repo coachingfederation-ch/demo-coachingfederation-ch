@@ -45,6 +45,7 @@ const nav = [
   { to: "/integration", key: "nav.integration", icon: PlugZap, allowedRoles: [] },
   { to: "/operational-structure", key: "nav.opsStructure", icon: Network, allowedRoles: [] },
   { to: "/manage/europe-pulse", key: "nav.europePulse", icon: Globe2, allowedRoles: [] },
+  { to: "/manage/governance", key: "nav.governance", icon: FileText, allowedRoles: ["editor"] },
   { to: "/roles", key: "nav.roles", icon: ShieldCheck, allowedRoles: [] },
 ] as const satisfies ReadonlyArray<{
   to: string;
