@@ -1,11 +1,16 @@
 /**
- * Tiny Markdown subset (bold, italic, bullet lists, paragraphs) shared by the
- * member profile WYSIWYG field and the public profile renderer.
+ * Tiny Markdown subset (bold, italic, bullet lists, numbered lists, three
+ * heading levels and paragraphs) shared by the standard rich-text editor and
+ * the public renderers.
  * Exports: parseRichText, richTextToHtml, htmlToRichText, plus the block types.
  */
 
 export type RichInline = { text: string; bold?: boolean; italic?: boolean };
-export type RichBlock = { type: "p"; inline: RichInline[] } | { type: "ul"; items: RichInline[][] };
+export type RichBlock =
+  | { type: "p"; inline: RichInline[] }
+  | { type: "h"; level: 1 | 2 | 3; inline: RichInline[] }
+  | { type: "ul"; items: RichInline[][] }
+  | { type: "ol"; items: RichInline[][] };
 
 const TOKEN = /(\*\*[^*]+\*\*|__[^_]+__|\*[^*\n]+\*|_[^_\n]+_)/g;
 
@@ -33,6 +38,7 @@ export function parseRichText(markdown: string): RichBlock[] {
   const blocks: RichBlock[] = [];
   let paragraph: string[] = [];
   let list: string[] = [];
+  let listType: "ul" | "ol" = "ul";
 
   const flushParagraph = () => {
     if (!paragraph.length) return;
@@ -41,19 +47,36 @@ export function parseRichText(markdown: string): RichBlock[] {
   };
   const flushList = () => {
     if (!list.length) return;
-    blocks.push({ type: "ul", items: list.map(parseInline) });
+    blocks.push({ type: listType, items: list.map(parseInline) });
     list = [];
   };
 
   for (const rawLine of markdown.replace(/\r\n/g, "\n").split("\n")) {
     const line = rawLine.trimEnd();
     const bullet = /^\s*[-*•]\s+(.*)$/.exec(line);
+    const numbered = /^\s*\d+[.)]\s+(.*)$/.exec(line);
+    const heading = /^(#{2,4})\s+(.*)$/.exec(line);
     if (bullet) {
       flushParagraph();
+      if (listType !== "ul") flushList();
+      listType = "ul";
       list.push(bullet[1] ?? "");
       continue;
     }
+    if (numbered) {
+      flushParagraph();
+      if (listType !== "ol") flushList();
+      listType = "ol";
+      list.push(numbered[1] ?? "");
+      continue;
+    }
     flushList();
+    if (heading) {
+      flushParagraph();
+      const level = ((heading[1] ?? "##").length - 1) as 1 | 2 | 3;
+      blocks.push({ type: "h", level, inline: parseInline(heading[2] ?? "") });
+      continue;
+    }
     if (!line.trim()) flushParagraph();
     else paragraph.push(line);
   }
@@ -88,11 +111,15 @@ export function richTextToHtml(markdown: string) {
   const blocks = parseRichText(markdown);
   if (!blocks.length) return "<p><br></p>";
   return blocks
-    .map((block) =>
-      block.type === "p"
-        ? `<p>${inlineToHtml(block.inline)}</p>`
-        : `<ul>${block.items.map((item) => `<li>${inlineToHtml(item)}</li>`).join("")}</ul>`,
-    )
+    .map((block) => {
+      if (block.type === "p") return `<p>${inlineToHtml(block.inline)}</p>`;
+      if (block.type === "h") {
+        const tag = `h${block.level + 1}`;
+        return `<${tag}>${inlineToHtml(block.inline)}</${tag}>`;
+      }
+      const items = block.items.map((item) => `<li>${inlineToHtml(item)}</li>`).join("");
+      return `<${block.type}>${items}</${block.type}>`;
+    })
     .join("");
 }
 
@@ -128,10 +155,19 @@ export function htmlToRichText(root: HTMLElement): string {
       if (child.nodeType === 1) {
         const el = child as HTMLElement;
         if (el.tagName === "UL" || el.tagName === "OL") {
+          const ordered = el.tagName === "OL";
+          let index = 1;
           for (const li of Array.from(el.querySelectorAll(":scope > li"))) {
             const text = serializeNode(li, false, false).trim();
-            lines.push(`- ${text}`);
+            lines.push(ordered ? `${index++}. ${text}` : `- ${text}`);
           }
+          lines.push("");
+          continue;
+        }
+        if (/^H[234]$/.test(el.tagName)) {
+          const hashes = "#".repeat(Number(el.tagName.slice(1)));
+          const text = serializeNode(el, false, false).replace(/\n+/g, " ").trim();
+          if (text) lines.push(`${hashes} ${text}`, "");
           continue;
         }
         if (el.tagName === "DIV" || el.tagName === "P") {

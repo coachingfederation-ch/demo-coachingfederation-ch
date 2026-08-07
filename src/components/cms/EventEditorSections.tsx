@@ -7,6 +7,7 @@ import * as React from "react";
 import { ImagePlus, X } from "lucide-react";
 import { EventTranslationsPanel } from "@/components/cms/EventTranslationsPanel";
 import { EventHostsPanel } from "@/components/cms/EventHostsPanel";
+import { RichTextEditor } from "@/components/cms/RichTextField";
 import type { getManagedEvent, listEventRegistrations } from "@/lib/events-admin.functions";
 import {
   DEFAULT_RULE,
@@ -358,11 +359,10 @@ export function EventContentSection({
             />
           </Field>
           <Field label={t("events.fieldDescription")}>
-            <textarea
-              rows={8}
-              className={inputClass}
+            <RichTextEditor
               value={event.description ?? ""}
-              onChange={(e) => patch({ description: e.target.value })}
+              minHeight="16rem"
+              onChange={(next) => patch({ description: next })}
             />
           </Field>
           <EventTranslationsPanel

@@ -6,6 +6,12 @@
  * plain prose, so nothing ever looks half-built.
  */
 import { Prose } from "@/components/coaches/profile/shared";
+import { RichTextView } from "@/components/rich-text-view";
+
+/** Each waypoint can now carry light formatting, so render it as rich text. */
+function StepBody({ text, className }: { text: string; className: string }) {
+  return <RichTextView text={text} className={className} />;
+}
 
 export function HowIWorkFlow({ text }: { text: string }) {
   const steps = text
@@ -44,7 +50,7 @@ export function HowIWorkFlow({ text }: { text: string }) {
             >
               {index + 1}
             </span>
-            <p className="pt-2 text-sm leading-relaxed text-muted-foreground md:pt-3">{step}</p>
+            <StepBody text={step} className="gap-2 pt-2 text-sm text-muted-foreground md:pt-3" />
           </li>
         ))}
       </ol>
@@ -67,7 +73,7 @@ export function HowIWorkFlow({ text }: { text: string }) {
           >
             {index + 1}
           </span>
-          <p className="pt-3 text-sm leading-relaxed text-muted-foreground">{step}</p>
+          <StepBody text={step} className="gap-2 pt-3 text-sm text-muted-foreground" />
         </li>
       ))}
     </ol>

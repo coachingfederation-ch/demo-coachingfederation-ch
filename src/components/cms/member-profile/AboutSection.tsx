@@ -4,7 +4,7 @@
  */
 import { Section } from "./shared";
 import { DESCRIPTION_MAX, TAGLINE_MAX } from "./types";
-import { RichTextField } from "@/components/cms/RichTextField";
+import { RichTextEditor } from "@/components/cms/RichTextField";
 
 export function AboutSection({
   t,
@@ -37,7 +37,7 @@ export function AboutSection({
       >
         {t("member.description")}
       </label>
-      <RichTextField
+      <RichTextEditor
         id="description"
         value={description}
         onChange={(next) => setDescription(next.slice(0, DESCRIPTION_MAX))}

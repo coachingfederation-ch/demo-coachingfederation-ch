@@ -7,6 +7,7 @@
 import { useEffect, useState } from "react";
 import { Eye, Languages } from "lucide-react";
 import { MarkdownPreview } from "@/components/cms/MarkdownEditor";
+import { RichTextEditor } from "@/components/cms/RichTextField";
 import { LOCALE_ORDER, type Locale } from "@/i18n/config";
 import { TranslationLocaleList } from "./TranslationLocaleList";
 import type { TranslationFieldConfig, TranslationLocaleItem } from "./types";
@@ -257,6 +258,12 @@ function FieldBlock({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           className="w-full rounded-lg border border-border bg-card px-2 py-1.5 text-sm outline-none focus:ring-2 focus:ring-ring/20"
+        />
+      ) : field.type === "rich" ? (
+        <RichTextEditor
+          value={value}
+          minHeight={`${(field.rows ?? 6) * 1.6}rem`}
+          onChange={onChange}
         />
       ) : onTogglePreview ? (
         <div className="space-y-2">
