@@ -16,7 +16,12 @@ type AuditRow = Awaited<ReturnType<typeof listRoleAdminData>>["audit"][number];
 
 const RIGHTS: { role: ManagedRole; labelKey: string; descKey: string; icon: typeof ShieldCheck }[] =
   [
-    { role: "editor", labelKey: "roles.editorBadge", descKey: "roles.editorDesc", icon: ShieldCheck },
+    {
+      role: "editor",
+      labelKey: "roles.editorBadge",
+      descKey: "roles.editorDesc",
+      icon: ShieldCheck,
+    },
     {
       role: "organizer",
       labelKey: "roles.organizerBadge",
