@@ -14,9 +14,9 @@ import { MAX_EVENT_HOSTS } from "./event-hosts";
 import { expandRecurrence, occurrenceSlug, RECURRENCE_FREQUENCIES } from "./recurrence";
 
 const LIST_COLUMNS =
-  "id, slug, title, summary, language, status, starts_at, ends_at, timezone, location_mode, venue_name, city, capacity, is_featured, category_id, region_id, organizer_id, updated_at";
+  "id, series_id, slug, title, summary, language, status, starts_at, ends_at, timezone, location_mode, venue_name, city, capacity, is_featured, category_id, region_id, organizer_id, updated_at";
 
-const EDIT_COLUMNS = `${LIST_COLUMNS}, community_id, description, image_url, image_credit_name, image_credit_url, online_url, registration_mode, registration_opens_at, registration_closes_at, guest_registration_allowed, published_at, content_updated_at`;
+const EDIT_COLUMNS = `${LIST_COLUMNS}, community_id, series_id, recurrence, description, image_url, image_credit_name, image_credit_url, online_url, registration_mode, registration_opens_at, registration_closes_at, guest_registration_allowed, published_at, content_updated_at`;
 
 const recurrenceRule = z.object({
   frequency: z.enum(RECURRENCE_FREQUENCIES),
@@ -283,4 +283,113 @@ export const setEventHosts = createServerFn({ method: "POST" })
     }
     const { loadEventHosts } = await import("./event-hosts.server");
     return loadEventHosts(data.eventId);
+  });
+
+/**
+ * Materialise a repeating series.
+ *
+ * The rule is re-expanded here — never trust a client-supplied date list — and
+ * every occurrence is inserted as an independent draft copy of the source
+ * event (content, timing offsets, location, registration settings, hosts).
+ * Dates whose slug already exists are skipped, so re-running is safe.
+ */
+export const generateEventOccurrences = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) =>
+    z.object({ id: z.string().uuid(), rule: recurrenceRule }).parse(input),
+  )
+  .handler(async ({ context, data }) => {
+    await assertOrganizer(context);
+
+    const { data: source, error: loadError } = await context.supabase
+      .from("events")
+      .select(EDIT_COLUMNS)
+      .eq("id", data.id)
+      .maybeSingle();
+    if (loadError) throw new Error(loadError.message);
+    if (!source) throw new Error("Event not found.");
+
+    const dates = expandRecurrence(source.starts_at as string, data.rule);
+    if (dates.length === 0) return { created: 0, skipped: 0 };
+
+    const seriesId = (source.series_id as string | null) ?? crypto.randomUUID();
+    const startMs = new Date(source.starts_at as string).getTime();
+    const durationMs = source.ends_at
+      ? new Date(source.ends_at as string).getTime() - startMs
+      : null;
+
+    const slugs = dates.map((iso) => occurrenceSlug(source.slug as string, iso));
+    const { data: taken, error: takenError } = await context.supabase
+      .from("events")
+      .select("slug")
+      .in("slug", slugs);
+    if (takenError) throw new Error(takenError.message);
+    const existing = new Set((taken ?? []).map((r) => r.slug as string));
+
+    const rows = dates
+      .map((iso, i) => ({ iso, slug: slugs[i]! }))
+      .filter(({ slug }) => !existing.has(slug))
+      .map(({ iso, slug }) => ({
+        slug,
+        series_id: seriesId,
+        title: source.title,
+        summary: source.summary,
+        description: source.description,
+        language: source.language,
+        starts_at: iso,
+        ends_at: durationMs === null ? null : new Date(new Date(iso).getTime() + durationMs).toISOString(),
+        timezone: source.timezone,
+        location_mode: source.location_mode,
+        venue_name: source.venue_name,
+        city: source.city,
+        online_url: source.online_url,
+        image_url: source.image_url,
+        image_credit_name: source.image_credit_name,
+        image_credit_url: source.image_credit_url,
+        capacity: source.capacity,
+        registration_mode: source.registration_mode,
+        guest_registration_allowed: source.guest_registration_allowed,
+        category_id: source.category_id,
+        region_id: source.region_id,
+        community_id: source.community_id,
+        // Occurrences never inherit "featured" or a published state.
+        is_featured: false,
+        status: "draft" as const,
+        organizer_id: context.userId,
+      }));
+
+    let created: { id: string }[] = [];
+    if (rows.length > 0) {
+      const { data: inserted, error } = await context.supabase
+        .from("events")
+        .insert(rows)
+        .select("id");
+      if (error) throw new Error(error.message);
+      created = (inserted ?? []) as { id: string }[];
+
+      // Hosts travel with the series so each date shows the same coaches.
+      const { data: hosts } = await context.supabase
+        .from("event_hosts")
+        .select("profile_id, sort_order")
+        .eq("event_id", data.id);
+      if (hosts && hosts.length > 0) {
+        const hostRows = created.flatMap((row) =>
+          hosts.map((h) => ({
+            event_id: row.id,
+            profile_id: h.profile_id as string,
+            sort_order: h.sort_order as number,
+          })),
+        );
+        const { error: hostError } = await context.supabase.from("event_hosts").insert(hostRows);
+        if (hostError) throw new Error(hostError.message);
+      }
+    }
+
+    const { error: markError } = await context.supabase
+      .from("events")
+      .update({ series_id: seriesId, recurrence: data.rule })
+      .eq("id", data.id);
+    if (markError) throw new Error(markError.message);
+
+    return { created: created.length, skipped: dates.length - rows.length };
   });
