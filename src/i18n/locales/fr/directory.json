@@ -10,6 +10,37 @@
     "titlePost": ".",
     "lede": "Chaque coach référencé détient une accréditation ICF active et s'engage à respecter le Code de déontologie de l'ICF."
   },
+  "finderContext": {
+    "credentials": {
+      "title": "Les accréditations ICF expliquées",
+      "lede": "Trois niveaux d'accréditation reflètent la formation, l'expérience et l'engagement d'un coach envers les normes professionnelles.",
+      "acc": {
+        "abbr": "ACC",
+        "title": "Associate Certified Coach",
+        "description": "Min. 60 heures de coaching + formation agréée par l'ICF. Niveau d'entrée."
+      },
+      "pcc": {
+        "abbr": "PCC",
+        "title": "Professional Certified Coach",
+        "description": "Min. 500 heures de coaching + compétences démontrées. Le plus répandu chez les coachs suisses."
+      },
+      "mcc": {
+        "abbr": "MCC",
+        "title": "Master Certified Coach",
+        "description": "Min. 2 500 heures de coaching. Plus haut niveau d'accréditation ICF."
+      }
+    },
+    "deib": {
+      "title": "Trouvez un coach qui comprend votre contexte",
+      "lede": "Nos coachs ont des parcours professionnels et personnels variés. Recherchez des coachs avec une compétence culturelle, une capacité multilingue ou des domaines d'attention comme la neurodiversité et l'inclusion."
+    },
+    "organisations": {
+      "title": "Vous cherchez plusieurs coachs ?",
+      "lede": "Contactez-nous pour des recommandations personnalisées auprès de coachs spécialisés en coaching organisationnel et d'équipe.",
+      "cta": "Contacter ICF Suisse"
+    }
+  },
+  },
   "filters": {
     "title": "Filtrer",
     "searchLabel": "Recherche",
