@@ -74,6 +74,7 @@ import { Route as StaffArticlesIdRouteImport } from './routes/_staff/articles.$i
 import { Route as StaffArticlesCategoriesRouteImport } from './routes/_staff/articles.categories'
 import { Route as StaffArticlesNewRouteImport } from './routes/_staff/articles.new'
 import { Route as StaffManageEuropePulseRouteImport } from './routes/_staff/manage.europe-pulse'
+import { Route as StaffManageGovernanceRouteImport } from './routes/_staff/manage.governance'
 import { Route as StaffMembersIndexRouteImport } from './routes/_staff/members.index'
 import { Route as StaffMembersIdRouteImport } from './routes/_staff/members.$id'
 import { Route as ApiPublicEuropePulseScanRouteImport } from './routes/api/public/europe-pulse-scan'
@@ -409,6 +410,11 @@ const StaffManageEuropePulseRoute = StaffManageEuropePulseRouteImport.update({
   path: '/manage/europe-pulse',
   getParentRoute: () => StaffRouteRoute,
 } as any)
+const StaffManageGovernanceRoute = StaffManageGovernanceRouteImport.update({
+  id: '/manage/governance',
+  path: '/manage/governance',
+  getParentRoute: () => StaffRouteRoute,
+} as any)
 const StaffMembersIndexRoute = StaffMembersIndexRouteImport.update({
   id: '/members/',
   path: '/members/',
@@ -507,6 +513,7 @@ export interface FileRoutesByFullPath {
   '/articles/categories': typeof StaffArticlesCategoriesRoute
   '/articles/new': typeof StaffArticlesNewRoute
   '/manage/europe-pulse': typeof StaffManageEuropePulseRoute
+  '/manage/governance': typeof StaffManageGovernanceRoute
   '/members/$id': typeof StaffMembersIdRoute
   '/api/public/europe-pulse-scan': typeof ApiPublicEuropePulseScanRoute
   '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
@@ -575,6 +582,7 @@ export interface FileRoutesByTo {
   '/articles/categories': typeof StaffArticlesCategoriesRoute
   '/articles/new': typeof StaffArticlesNewRoute
   '/manage/europe-pulse': typeof StaffManageEuropePulseRoute
+  '/manage/governance': typeof StaffManageGovernanceRoute
   '/members/$id': typeof StaffMembersIdRoute
   '/api/public/europe-pulse-scan': typeof ApiPublicEuropePulseScanRoute
   '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
@@ -650,6 +658,7 @@ export interface FileRoutesById {
   '/_staff/articles/categories': typeof StaffArticlesCategoriesRoute
   '/_staff/articles/new': typeof StaffArticlesNewRoute
   '/_staff/manage/europe-pulse': typeof StaffManageEuropePulseRoute
+  '/_staff/manage/governance': typeof StaffManageGovernanceRoute
   '/_staff/members/$id': typeof StaffMembersIdRoute
   '/api/public/europe-pulse-scan': typeof ApiPublicEuropePulseScanRoute
   '/api/public/member-sync': typeof ApiPublicMemberSyncRoute
@@ -724,6 +733,7 @@ export interface FileRouteTypes {
     | '/articles/categories'
     | '/articles/new'
     | '/manage/europe-pulse'
+    | '/manage/governance'
     | '/members/$id'
     | '/api/public/europe-pulse-scan'
     | '/api/public/member-sync'
@@ -792,6 +802,7 @@ export interface FileRouteTypes {
     | '/articles/categories'
     | '/articles/new'
     | '/manage/europe-pulse'
+    | '/manage/governance'
     | '/members/$id'
     | '/api/public/europe-pulse-scan'
     | '/api/public/member-sync'
@@ -866,6 +877,7 @@ export interface FileRouteTypes {
     | '/_staff/articles/categories'
     | '/_staff/articles/new'
     | '/_staff/manage/europe-pulse'
+    | '/_staff/manage/governance'
     | '/_staff/members/$id'
     | '/api/public/europe-pulse-scan'
     | '/api/public/member-sync'
@@ -1373,6 +1385,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StaffManageEuropePulseRouteImport
       parentRoute: typeof StaffRouteRoute
     }
+    '/_staff/manage/governance': {
+      id: '/_staff/manage/governance'
+      path: '/manage/governance'
+      fullPath: '/manage/governance'
+      preLoaderRoute: typeof StaffManageGovernanceRouteImport
+      parentRoute: typeof StaffRouteRoute
+    }
     '/_staff/members/': {
       id: '/_staff/members/'
       path: '/members'
@@ -1521,6 +1540,7 @@ interface StaffRouteRouteChildren {
   StaffRolesRoute: typeof StaffRolesRoute
   StaffVocabulariesRoute: typeof StaffVocabulariesRoute
   StaffManageEuropePulseRoute: typeof StaffManageEuropePulseRoute
+  StaffManageGovernanceRoute: typeof StaffManageGovernanceRoute
   StaffMembersIdRoute: typeof StaffMembersIdRoute
   StaffMembersIndexRoute: typeof StaffMembersIndexRoute
   StaffManageEventsIdRoute: typeof StaffManageEventsIdRoute
@@ -1535,6 +1555,7 @@ const StaffRouteRouteChildren: StaffRouteRouteChildren = {
   StaffRolesRoute: StaffRolesRoute,
   StaffVocabulariesRoute: StaffVocabulariesRoute,
   StaffManageEuropePulseRoute: StaffManageEuropePulseRoute,
+  StaffManageGovernanceRoute: StaffManageGovernanceRoute,
   StaffMembersIdRoute: StaffMembersIdRoute,
   StaffMembersIndexRoute: StaffMembersIndexRoute,
   StaffManageEventsIdRoute: StaffManageEventsIdRoute,
