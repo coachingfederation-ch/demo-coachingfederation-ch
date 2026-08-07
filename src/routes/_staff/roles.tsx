@@ -1,11 +1,11 @@
 /**
  * Admin-only role administration.
  *
- * The single thing manageable here is the additive `editor` grant on a claimed
- * member: it adds Insights CMS access and changes nothing about membership,
- * the directory profile or Member Area access. `admin` is provisioned by
- * migration and deliberately absent from this screen; `user` is dormant and
- * not surfaced.
+ * The manageable rights are the additive `editor`, `organizer` and `publisher`
+ * grants on a claimed member: they add CMS capabilities and change nothing
+ * about membership, the directory profile or Member Area access. The table is
+ * an overview; assignment happens in the per-account detail panel. `admin` is
+ * provisioned by migration and read-only here; `user` is dormant.
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { requireStaffAccess, ADMIN_ONLY } from "@/lib/staff-guard";
@@ -15,6 +15,7 @@ import { Shell } from "@/components/cms/Shell";
 import { useCms } from "@/i18n/cms";
 import { useMyRoles } from "@/lib/roles";
 import { RoleTableRow } from "@/components/cms/RoleTableRow";
+import { RoleDetailPanel } from "@/components/cms/RoleDetailPanel";
 import { QaTestAccountPanel } from "@/components/cms/QaTestAccountPanel";
 import {
   grantMemberRole,
@@ -49,6 +50,7 @@ function RolesPage() {
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState<string | null>(null);
   const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const load = async () => {
     try {
@@ -70,7 +72,8 @@ function RolesPage() {
   }, []);
 
   const toggle = async (row: MemberRow, role: ManagedRole) => {
-    const held = role === "editor" ? row.isEditor : row.isOrganizer;
+    const held =
+      role === "editor" ? row.isEditor : role === "organizer" ? row.isOrganizer : row.isPublisher;
     setPending(`${row.memberId}:${role}`);
     try {
       if (held) await revokeMemberRole({ data: { memberId: row.memberId, role } });
@@ -108,6 +111,11 @@ function RolesPage() {
       (m) => m.name.toLowerCase().includes(q) || (m.email ?? "").toLowerCase().includes(q),
     );
   }, [members, query]);
+
+  const selected = useMemo(
+    () => members.find((m) => m.memberId === selectedId) ?? null,
+    [members, selectedId],
+  );
 
   if (!rolesLoading && !roles.isAdmin) {
     return (
@@ -170,9 +178,7 @@ function RolesPage() {
                   <RoleTableRow
                     key={m.memberId}
                     member={m}
-                    pending={pending}
-                    onToggle={toggle}
-                    onRemoveAccess={removeAccess}
+                    onOpen={(row) => setSelectedId(row.memberId)}
                     t={t}
                   />
                 ))
@@ -180,6 +186,17 @@ function RolesPage() {
             </tbody>
           </table>
         </div>
+
+        {selected ? (
+          <RoleDetailPanel
+            member={selected}
+            pending={pending}
+            onToggle={toggle}
+            onRemoveAccess={removeAccess}
+            onClose={() => setSelectedId(null)}
+            t={t}
+          />
+        ) : null}
 
         {/* Internal accounts        </div>
 
