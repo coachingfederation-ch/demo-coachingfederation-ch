@@ -97,6 +97,19 @@
       "Allineamento con le iniziative DEIB di ICF Global"
     ]
   },
+  "contact": {
+    "eyebrow": "Contatto",
+    "title": "Scrivici",
+    "lede": "Domande su membership, eventi o partnership? Saremo lieti di sentirti.",
+    "nameLabel": "Nome",
+    "namePlaceholder": "Il tuo nome",
+    "emailLabel": "Email",
+    "emailPlaceholder": "tua@email.com",
+    "messageLabel": "Messaggio",
+    "messagePlaceholder": "Come possiamo aiutarti?",
+    "send": "Invia email",
+    "privacy": "Inviando, accetti che il tuo messaggio venga elaborato via email. Leggi la nostra"
+  },
   "cta": {
     "eyebrow": "Partecipa",
     "title": "Unisciti a noi per plasmare il futuro del coaching.",
