@@ -48,7 +48,7 @@ export function EventTranslationsPanel({
           {
             key: "description",
             label: t("eventTranslations.descriptionField"),
-            type: "textarea",
+            type: "rich",
             rows: 10,
           },
         ],
