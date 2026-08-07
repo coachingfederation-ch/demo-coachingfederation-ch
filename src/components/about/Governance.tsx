@@ -3,7 +3,8 @@
  * governance links such as AGM, Code of Ethics, DEIB statement, charter
  * status and annual report.
  */
-import { ExternalLink } from "lucide-react";
+import { ArrowRight, ExternalLink } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { useI18n } from "@/i18n";
 
 const GOVERNANCE_URLS: Record<string, string> = {
@@ -15,7 +16,7 @@ const GOVERNANCE_URLS: Record<string, string> = {
 };
 
 export function Governance() {
-  const { t, tList } = useI18n();
+  const { t, tList, localePath } = useI18n();
   const documents = tList<{ title: string; desc: string }>("about.governance.documents");
 
   return (
@@ -53,6 +54,16 @@ export function Governance() {
               </a>
             );
           })}
+        </div>
+
+        <div className="mt-10">
+          <Link
+            to={localePath("/governance")}
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          >
+            {t("governance.archiveCta")}
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </Link>
         </div>
       </div>
     </section>
