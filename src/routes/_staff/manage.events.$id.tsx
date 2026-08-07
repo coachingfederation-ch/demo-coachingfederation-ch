@@ -23,6 +23,7 @@ import { useCms } from "@/i18n/cms";
 import { fetchVocabulary, type VocabRow } from "@/lib/vocabularies";
 import {
   getManagedEvent,
+  listCommunityOptions,
   listEventRegistrations,
   setEventStatus,
   setRegistrationStatus,
