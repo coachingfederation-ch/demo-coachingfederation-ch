@@ -22,6 +22,7 @@ export interface TranslationLocaleItem {
 export interface TranslationFieldConfig<F extends string = string> {
   key: F;
   label: string;
-  type: "input" | "textarea" | "markdown";
+  /** "rich" renders the standard formatting toolbar (long-form fields). */
+  type: "input" | "textarea" | "markdown" | "rich";
   rows?: number;
 }
