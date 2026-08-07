@@ -794,7 +794,29 @@
     "fieldCategory": "Kategorie",
     "fieldCommunity": "Community",
     "fieldRegion": "Region",
-    "fieldUnset": "— nicht festgelegt —"
+    "fieldUnset": "— nicht festgelegt —",
+    "repeat": {
+      "section": "Wiederholung",
+      "hint": "Dasselbe Event an mehreren Terminen anlegen, bis zu 12 Monate im Voraus. Jeder Termin wird ein eigenes Event mit eigenen Anmeldungen.",
+      "enable": "Dieses Event wiederholt sich",
+      "frequency": "Wiederholung",
+      "weekly": "Wöchentlich",
+      "monthlyDate": "Monatlich, gleiches Datum",
+      "monthlyWeekday": "Monatlich, gleicher Wochentag",
+      "interval": "Alle N Wochen",
+      "endMode": "Endet",
+      "endAfter": "Nach einer Anzahl Termine",
+      "endOn": "An einem Datum",
+      "count": "Anzahl Termine (inkl. diesem)",
+      "until": "Letzter Termin",
+      "preview": "Zu erstellende Termine",
+      "none": "Keine weiteren Termine in den nächsten 12 Monaten.",
+      "create": "Termine erstellen",
+      "creating": "Wird erstellt…",
+      "created": "Erstellte Termine:",
+      "skipped": "bereits vorhanden:",
+      "badge": "Serie"
+    }
   },
   "eventTranslations": {
     "title": "Übersetzungen",

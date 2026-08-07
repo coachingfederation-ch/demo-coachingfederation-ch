@@ -794,7 +794,29 @@
     "fieldCategory": "Categoria",
     "fieldCommunity": "Community",
     "fieldRegion": "Regione",
-    "fieldUnset": "— non impostato —"
+    "fieldUnset": "— non impostato —",
+    "repeat": {
+      "section": "Ripetizione",
+      "hint": "Crea lo stesso evento in più date, fino a 12 mesi in anticipo. Ogni data diventa un evento a sé con le proprie iscrizioni.",
+      "enable": "Questo evento si ripete",
+      "frequency": "Ripetizione",
+      "weekly": "Ogni settimana",
+      "monthlyDate": "Ogni mese, stessa data",
+      "monthlyWeekday": "Ogni mese, stesso giorno della settimana",
+      "interval": "Ogni N settimane",
+      "endMode": "Termina",
+      "endAfter": "Dopo un numero di date",
+      "endOn": "In una data",
+      "count": "Numero di date (inclusa questa)",
+      "until": "Ultima data",
+      "preview": "Date da creare",
+      "none": "Nessuna altra data nei prossimi 12 mesi.",
+      "create": "Crea le date",
+      "creating": "Creazione…",
+      "created": "Date create:",
+      "skipped": "già esistenti:",
+      "badge": "Serie"
+    }
   },
   "eventTranslations": {
     "title": "Traduzioni",

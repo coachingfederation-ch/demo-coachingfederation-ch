@@ -3,10 +3,17 @@
  * (src/routes/_staff/manage.events.$id.tsx). Extracted verbatim from that
  * route so the page component stays a thin orchestrator over `event` state.
  */
+import * as React from "react";
 import { ImagePlus, X } from "lucide-react";
 import { EventTranslationsPanel } from "@/components/cms/EventTranslationsPanel";
 import { EventHostsPanel } from "@/components/cms/EventHostsPanel";
 import type { getManagedEvent, listEventRegistrations } from "@/lib/events-admin.functions";
+import {
+  DEFAULT_RULE,
+  expandRecurrence,
+  MAX_OCCURRENCES,
+  type RecurrenceRule,
+} from "@/lib/recurrence";
 import type { VocabRow } from "@/lib/vocabularies";
 import { vocabLabel } from "@/lib/vocabularies";
 
@@ -113,8 +120,7 @@ export function EventDetailsSection({
               value={event.category_id ?? ""}
               onChange={(e) => {
                 const next = e.target.value || null;
-                const nextIsCommunity =
-                  categories.find((c) => c.id === next)?.slug === "community";
+                const nextIsCommunity = categories.find((c) => c.id === next)?.slug === "community";
                 patch({
                   category_id: next,
                   ...(nextIsCommunity ? { region_id: null } : { community_id: null }),
@@ -193,6 +199,138 @@ export function EventDetailsSection({
         </div>
       </Section>
     </>
+  );
+}
+
+/**
+ * Repeat panel: turns one event into a series of independent dated copies.
+ * Dates are previewed with the very same expander the server uses, so the
+ * list staff read is the list that gets created.
+ */
+export function EventRepeatSection({
+  event,
+  onGenerate,
+  t,
+}: {
+  event: Managed;
+  onGenerate: (rule: RecurrenceRule) => Promise<void>;
+  t: (k: string) => string;
+}) {
+  const stored = (event as { recurrence?: RecurrenceRule | null }).recurrence ?? null;
+  const [enabled, setEnabled] = React.useState(Boolean(stored));
+  const [rule, setRule] = React.useState<RecurrenceRule>(stored ?? DEFAULT_RULE);
+  const [busy, setBusy] = React.useState(false);
+
+  const dates = enabled ? expandRecurrence(event.starts_at, rule) : [];
+  const patchRule = (next: Partial<RecurrenceRule>) => setRule({ ...rule, ...next });
+
+  return (
+    <Section title={t("events.repeat.section")} hint={t("events.repeat.hint")}>
+      <label className="flex items-center gap-2 text-sm">
+        <input type="checkbox" checked={enabled} onChange={(e) => setEnabled(e.target.checked)} />
+        <span>{t("events.repeat.enable")}</span>
+      </label>
+
+      {enabled ? (
+        <>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <Field label={t("events.repeat.frequency")}>
+              <select
+                className={inputClass}
+                value={rule.frequency}
+                onChange={(e) =>
+                  patchRule({ frequency: e.target.value as RecurrenceRule["frequency"] })
+                }
+              >
+                <option value="weekly">{t("events.repeat.weekly")}</option>
+                <option value="monthly_date">{t("events.repeat.monthlyDate")}</option>
+                <option value="monthly_weekday">{t("events.repeat.monthlyWeekday")}</option>
+              </select>
+            </Field>
+            {rule.frequency === "weekly" ? (
+              <Field label={t("events.repeat.interval")}>
+                <input
+                  type="number"
+                  min={1}
+                  max={8}
+                  className={inputClass}
+                  value={rule.interval}
+                  onChange={(e) => patchRule({ interval: Number(e.target.value) || 1 })}
+                />
+              </Field>
+            ) : null}
+            <Field label={t("events.repeat.endMode")}>
+              <select
+                className={inputClass}
+                value={rule.endMode}
+                onChange={(e) =>
+                  patchRule({ endMode: e.target.value as RecurrenceRule["endMode"] })
+                }
+              >
+                <option value="count">{t("events.repeat.endAfter")}</option>
+                <option value="until">{t("events.repeat.endOn")}</option>
+              </select>
+            </Field>
+            {rule.endMode === "count" ? (
+              <Field label={t("events.repeat.count")}>
+                <input
+                  type="number"
+                  min={2}
+                  max={MAX_OCCURRENCES + 1}
+                  className={inputClass}
+                  value={rule.count ?? 2}
+                  onChange={(e) => patchRule({ count: Number(e.target.value) || 2 })}
+                />
+              </Field>
+            ) : (
+              <Field label={t("events.repeat.until")}>
+                <input
+                  type="date"
+                  className={inputClass}
+                  value={rule.until ?? ""}
+                  onChange={(e) => patchRule({ until: e.target.value || null })}
+                />
+              </Field>
+            )}
+          </div>
+
+          <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+            {t("events.repeat.preview")}
+          </p>
+          {dates.length === 0 ? (
+            <p className="mt-1 text-sm text-muted-foreground">{t("events.repeat.none")}</p>
+          ) : (
+            <p className="mt-1 text-sm text-foreground">
+              {dates
+                .map((iso) =>
+                  new Date(iso).toLocaleDateString(undefined, {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  }),
+                )
+                .join(" · ")}
+            </p>
+          )}
+
+          <button
+            type="button"
+            disabled={busy || dates.length === 0}
+            className="mt-4 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground disabled:opacity-50"
+            onClick={async () => {
+              setBusy(true);
+              try {
+                await onGenerate(rule);
+              } finally {
+                setBusy(false);
+              }
+            }}
+          >
+            {busy ? t("events.repeat.creating") : `${t("events.repeat.create")} (${dates.length})`}
+          </button>
+        </>
+      ) : null}
+    </Section>
   );
 }
 
