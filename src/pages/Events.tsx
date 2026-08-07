@@ -316,14 +316,17 @@ export default function EventsPage({ data }: { data: EventsPageData }) {
                     >
                       <div
                         className={
-                          "grid aspect-[16/10] w-full place-items-center " + v.bg + " " + v.fg
+                          "relative h-44 w-full shrink-0 overflow-hidden grid place-items-center " +
+                          v.bg +
+                          " " +
+                          v.fg
                         }
                       >
                         {e.image_url ? (
                           <img
                             src={e.image_url}
                             alt=""
-                            className="h-full w-full object-cover"
+                            className="absolute inset-0 h-full w-full object-cover"
                             loading="lazy"
                           />
                         ) : (
