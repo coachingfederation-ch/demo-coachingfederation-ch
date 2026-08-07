@@ -97,6 +97,34 @@
       "Abstimmung mit den DEIB-Initiativen der ICF Global"
     ]
   },
+  "governance": {
+    "eyebrow": "Unsere Governance",
+    "title": "Verantwortung und Transparenz",
+    "lede": "Wichtige Dokumente, die leiten, wie wir arbeiten, Entscheidungen treffen und unsere Mitglieder dienen.",
+    "link": "Ansehen",
+    "documents": [
+      {
+        "title": "Annual General Meeting (AGM)",
+        "desc": "Unsere jährliche Mitgliederversammlung, Abstimmungsverfahren und Protokolle."
+      },
+      {
+        "title": "Code of Ethics",
+        "desc": "ICF Code of Ethics und Standards of Conduct, die alle Mitglieder anerkennen."
+      },
+      {
+        "title": "DEIB Commitment Statement",
+        "desc": "Unsere Verpflichtung zu Diversity, Equity, Inclusion and Belonging."
+      },
+      {
+        "title": "ICF Global Charter Chapter status",
+        "desc": "Offizielle Anerkennung als ICF Charter Chapter in der Schweiz."
+      },
+      {
+        "title": "Annual Report / Impact Review",
+        "desc": "Jährlicher Überblick über Aktivitäten, Wirkung und Finanzen des Chapters."
+      }
+    ]
+  },
   "contact": {
     "eyebrow": "Kontakt",
     "title": "Schreiben Sie uns",
