@@ -37,7 +37,7 @@ export const Route = createFileRoute("/_staff/articles/")({
   component: ArticlesPage,
 });
 
-type Status = "draft" | "scheduled" | "published" | "unpublished";
+type Status = "draft" | "review" | "scheduled" | "published" | "unpublished";
 type Lang = "en" | "fr" | "de" | "it";
 
 interface Row {
@@ -51,8 +51,17 @@ interface Row {
   translations?: { locale: string }[] | null;
 }
 
-const filters = ["All", "Drafts", "Scheduled", "Published", "Unpublished"] as const;
+const filters = ["All", "Drafts", "In review", "Scheduled", "Published", "Unpublished"] as const;
 type Filter = (typeof filters)[number];
+
+/** Filter chip → status value. Kept explicit so labels can be worded freely. */
+const FILTER_STATUS: Record<Exclude<Filter, "All">, Status> = {
+  Drafts: "draft",
+  "In review": "review",
+  Scheduled: "scheduled",
+  Published: "published",
+  Unpublished: "unpublished",
+};
 
 function StatusPill({ status, t }: { status: Status; t: (k: string) => string }) {
   const map: Record<Status, { bg: string; dot: string; label: string }> = {
@@ -60,6 +69,11 @@ function StatusPill({ status, t }: { status: Status; t: (k: string) => string })
       bg: "bg-warn-soft text-[color:var(--warn)]",
       dot: "var(--warn)",
       label: t("status.draft"),
+    },
+    review: {
+      bg: "bg-primary/10 text-primary",
+      dot: "var(--primary)",
+      label: t("status.review"),
     },
     scheduled: {
       bg: "bg-teal-soft text-teal-foreground",
@@ -126,9 +140,7 @@ function ArticlesPage() {
   const filtered = useMemo(() => {
     if (!rows) return [];
     const byStatus =
-      filter === "All"
-        ? rows
-        : rows.filter((r) => r.status === filter.toLowerCase().replace(/s$/, ""));
+      filter === "All" ? rows : rows.filter((r) => r.status === FILTER_STATUS[filter]);
     const needle = q.trim().toLowerCase();
     return needle ? byStatus.filter((r) => r.title.toLowerCase().includes(needle)) : byStatus;
   }, [rows, filter, q]);
