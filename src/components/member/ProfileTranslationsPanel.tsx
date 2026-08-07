@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Languages, Loader2 } from "lucide-react";
 import { useCms } from "@/i18n/cms";
+import { RichTextEditor } from "@/components/cms/RichTextField";
 import { LOCALE_ORDER, type Locale } from "@/i18n/config";
 import {
   FIELD_MAX,
@@ -320,7 +321,9 @@ function FieldEditor({
 }) {
   // Fields the coach left blank in the main language are not worth showing.
   if (!source.trim() && !value.trim()) return null;
-  const long = LONG_FIELDS.includes(field);
+  // Testimonial quotes stay plain: one quoted sentence needs no formatting.
+  const long = LONG_FIELDS.includes(field) && field !== "testimonial_quote";
+  const plainLong = field === "testimonial_quote";
   const id = `translation-${field}`;
   return (
     <div>
@@ -337,6 +340,15 @@ function FieldEditor({
         </p>
       )}
       {long ? (
+        <div className="mt-1.5">
+          <RichTextEditor
+            id={id}
+            value={value}
+            minHeight="9rem"
+            onChange={(next) => onChange(next.slice(0, FIELD_MAX[field]))}
+          />
+        </div>
+      ) : plainLong ? (
         <textarea
           id={id}
           rows={4}
