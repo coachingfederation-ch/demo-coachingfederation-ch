@@ -67,7 +67,10 @@
     "errorTitle": "We couldn't load this event",
     "errorBody": "Please try again in a moment.",
     "hostedBy": "Hosted by",
-    "photoCredit": "Photo by {name} on Unsplash"
+    "photoCredit": "Photo by {name} on Unsplash",
+    "gettingThere": "Getting there",
+    "mapTitle": "Map of the event location",
+    "openInMaps": "Open in Google Maps"
   },
   "filters": {
     "when": "When",

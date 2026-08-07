@@ -67,7 +67,10 @@
     "errorTitle": "Impossibile caricare questo evento",
     "errorBody": "Riprova tra qualche istante.",
     "hostedBy": "Ospitato da",
-    "photoCredit": "Foto di {name} su Unsplash"
+    "photoCredit": "Foto di {name} su Unsplash",
+    "gettingThere": "Come arrivare",
+    "mapTitle": "Mappa del luogo dell'evento",
+    "openInMaps": "Apri in Google Maps"
   },
   "filters": {
     "when": "Periodo",
