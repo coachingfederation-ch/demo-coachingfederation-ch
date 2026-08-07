@@ -11,6 +11,7 @@
  * the admin project list is read here too rather than from the browser client.
  */
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import type { ProjectRow } from "@/components/cms/ops/types";
 
 /** Columns the operational-structure editor needs, including the private ones. */
 const PROJECT_COLUMNS =
@@ -36,13 +37,13 @@ export type OpsAssignment = {
 /** Name search for the assignment picker, capped for a chapter of hundreds. */
 
 /** Every project/community row for the admin editor, private columns included. */
-export async function listOpsProjects(): Promise<Record<string, unknown>[]> {
+export async function listOpsProjects(): Promise<ProjectRow[]> {
   const { data, error } = await supabaseAdmin
     .from("op_projects")
     .select(PROJECT_COLUMNS)
     .order("sort_order", { ascending: true });
   if (error) throw error;
-  return (data ?? []) as unknown as Record<string, unknown>[];
+  return (data ?? []) as unknown as ProjectRow[];
 }
 
 export async function searchOpsMembers(term: string): Promise<OpsMemberOption[]> {
