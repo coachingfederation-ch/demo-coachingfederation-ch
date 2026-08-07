@@ -47,7 +47,14 @@ function NewArticlePage() {
     }
     const { data, error } = await supabase
       .from("articles")
-      .insert({ language: lang, author_id: userData.user.id, title: "Untitled" })
+      .insert({
+        language: lang,
+        author_id: userData.user.id,
+        // The four-eye rule keys off who *created* the row, which is not
+        // necessarily the byline chosen later in the editor.
+        created_by: userData.user.id,
+        title: "Untitled",
+      })
       .select("id")
       .single();
     if (error) {

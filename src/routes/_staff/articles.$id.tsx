@@ -6,7 +6,6 @@
 
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { requireStaffAccess, ARTICLE_ROLES } from "@/lib/staff-guard";
-import { useMyRoles } from "@/lib/roles";
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
@@ -45,12 +44,20 @@ type Status = ArticleStatus;
 type Lang = ArticleLang;
 type Article = ArticleRow;
 
+/** What the caller may do with this article under the four-eye rule. */
+type Permissions = {
+  isAdmin: boolean;
+  isPublisher: boolean;
+  isCreator: boolean;
+  canPublish: boolean;
+};
+
 function EditorPage() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
   const { t, locale } = useCms();
-  const { roles } = useMyRoles();
   const [article, setArticle] = useState<Article | null>(null);
+  const [permissions, setPermissions] = useState<Permissions | null>(null);
   const [categories, setCategories] = useState<CategoryRow[]>([]);
   const [profiles, setProfiles] = useState<ProfileRow[]>([]);
   const bodyRef = useRef<HTMLTextAreaElement | null>(null);
@@ -61,6 +68,7 @@ function EditorPage() {
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [featuredNote, setFeaturedNote] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
   const [unsplashOpen, setUnsplashOpen] = useState(false);
 
   useEffect(() => {
@@ -69,6 +77,7 @@ function EditorPage() {
         const data = await getArticleEditorData({ data: { id } });
         setCategories(data.categories);
         setProfiles(data.profiles);
+        setPermissions(data.permissions as Permissions);
         if (!data.article) setNotFound(true);
         else setArticle(data.article);
       } catch {
@@ -177,8 +186,33 @@ function EditorPage() {
     try {
       const patch = await changeArticleStatus({ data: { id: article.id, action: "publish" } });
       update(patch as Partial<Article>);
+      setActionError(null);
     } catch {
-      /* the status pill simply stays as it was */
+      setActionError(t("editor.publishFailed"));
+    }
+  };
+
+  const submitForReview = async () => {
+    if (!article) return;
+    try {
+      const patch = await changeArticleStatus({ data: { id: article.id, action: "submit" } });
+      update(patch as Partial<Article>);
+      setActionError(null);
+    } catch {
+      setActionError(t("editor.publishFailed"));
+    }
+  };
+
+  const returnToDraft = async () => {
+    if (!article) return;
+    try {
+      const patch = await changeArticleStatus({
+        data: { id: article.id, action: "return_to_draft" },
+      });
+      update(patch as Partial<Article>);
+      setActionError(null);
+    } catch {
+      setActionError(t("editor.publishFailed"));
     }
   };
 
@@ -251,6 +285,17 @@ function EditorPage() {
   }
 
   const languageLocked = !!article.first_published_at;
+  // Publishing rights come from the operational structure (Communication &
+  // Marketing → Publisher) plus the four-eye rule, never from the CMS role.
+  const canPublish = !!permissions?.canPublish;
+  const canUnpublish =
+    (article.status === "published" || article.status === "scheduled") &&
+    (!!permissions?.isPublisher || !!permissions?.isAdmin);
+  const canSubmit =
+    article.status === "draft" ||
+    article.status === "unpublished" ||
+    article.status === "published" ||
+    article.status === "scheduled";
   const saveLabel =
     saveState === "saving"
       ? t("editor.saving")
@@ -273,7 +318,18 @@ function EditorPage() {
           <span className="text-xs text-muted-foreground">{saveLabel}</span>
         </div>
         <div className="flex items-center gap-2">
-          {roles.isEditor && (article.status === "published" || article.status === "scheduled") ? (
+          {actionError ? (
+            <span className="max-w-xs text-xs text-destructive">{actionError}</span>
+          ) : null}
+          {article.status === "review" && !canPublish ? (
+            <span className="max-w-xs text-xs text-muted-foreground">
+              {permissions?.isCreator && permissions.isPublisher
+                ? t("editor.reviewSelfBlocked")
+                : t("editor.reviewNeedsPublisher")}
+            </span>
+          ) : null}
+
+          {canUnpublish ? (
             <button
               onClick={unpublish}
               className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium hover:bg-secondary"
@@ -281,7 +337,28 @@ function EditorPage() {
               {t("editor.unpublish")}
             </button>
           ) : null}
-          {roles.isEditor ? (
+
+          {article.status === "review" && (permissions?.isPublisher || permissions?.isAdmin) ? (
+            <button
+              onClick={returnToDraft}
+              className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium hover:bg-secondary"
+            >
+              {t("editor.returnToDraft")}
+            </button>
+          ) : null}
+
+          {canSubmit ? (
+            <button
+              onClick={submitForReview}
+              className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] hover:opacity-95"
+            >
+              {article.status === "published" || article.status === "scheduled"
+                ? t("editor.submitChanges")
+                : t("editor.submitForReview")}
+            </button>
+          ) : null}
+
+          {article.status === "review" && canPublish ? (
             <>
               <button
                 onClick={schedule}
@@ -293,7 +370,7 @@ function EditorPage() {
                 onClick={publishNow}
                 className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] hover:opacity-95"
               >
-                {article.status === "published" ? t("editor.republish") : t("editor.publish")}
+                {article.first_published_at ? t("editor.republish") : t("editor.publish")}
               </button>
             </>
           ) : null}

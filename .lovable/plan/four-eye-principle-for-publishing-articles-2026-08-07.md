@@ -30,17 +30,20 @@ unpublished --submit--> in review --publish--> published
 ## Technical notes
 
 **Database (one migration)**
+
 - Add `review` to the `article_status` enum.
 - Add `articles.created_by uuid` (nullable, references `auth.users`), set on insert in the "new article" path. Left NULL for existing rows.
 - Add `private.is_article_publisher(_user_id uuid)` — security definer, stable: true when an `op_assignments` row links `members.auth_user_id = _user_id` to project slug `communication-marketing` and role slug `publisher`. Both already exist in the operational structure, so no seed data is needed.
 - Tighten the `articles` UPDATE path so status changes to `published` / `scheduled` require `private.is_article_publisher(auth.uid())` or the admin role, and forbid the transition when `created_by = auth.uid()` unless admin. The public read policy is unchanged — `review` rows are not published, so they stay invisible.
 
 **Server functions (`src/lib/articles.server.ts`, `articles.functions.ts`)**
+
 - Extend `ArticleTransition` with `submit` and `return_to_draft`; keep `publish` / `schedule` / `unpublish`.
 - `transitionArticle` validates the state machine (which transitions are legal from which status) and re-checks publisher eligibility and the self-publish block server-side before writing. RLS remains the backstop.
 - `getArticleEditorData` also returns `{ canPublish, isCreator, isPublisher }`, so the UI disables actions from real permissions rather than guessing from roles.
 
 **Client**
+
 - `ArticleStatus` union in `src/lib/articles.ts` gains `"review"`; `StatusPill` gains its colour.
 - `src/routes/_staff/articles.$id.tsx` header actions are driven by `(status, permissions)` instead of `roles.isEditor`.
 - Articles index gains the review status in its labels and sorting.
@@ -51,6 +54,7 @@ unpublished --submit--> in review --publish--> published
 **Summary** — Introduces a four-eye publishing gate for Insights articles: an explicit review state, a creator recorded per article, and publish rights limited to Communication & Marketing Publishers who did not create the article.
 
 **Changes**
+
 - UI: review status pill, state-driven header actions, submit and return-to-draft actions, ineligibility explanation, four-language strings.
 - Server: extended transition state machine with publisher and self-publish checks.
 - Backend/schema: `review` enum value, `articles.created_by`, `private.is_article_publisher`, tightened articles update policy.
@@ -62,3 +66,7 @@ unpublished --submit--> in review --publish--> published
 **Risks & Rollback** — Blast radius is the Insights CMS only; public pages read `published` rows exactly as before. Rollback is a code revert; the added column and enum value are additive and safe to leave in place.
 
 **Follow-ups / Known Debt** — No email notification when an article enters review, and no audit trail of who approved what beyond `published_at`. Both can be added later.
+
+# Approval Note
+
+Create a additional documentation for this feature and system configuration behavior in /docs

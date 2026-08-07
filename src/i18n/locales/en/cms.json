@@ -55,14 +55,16 @@
       "Drafts": "Drafts",
       "Scheduled": "Scheduled",
       "Published": "Published",
-      "Unpublished": "Unpublished"
+      "Unpublished": "Unpublished",
+      "In review": "In review"
     }
   },
   "status": {
     "draft": "Draft",
     "scheduled": "Scheduled",
     "published": "Published",
-    "unpublished": "Unpublished"
+    "unpublished": "Unpublished",
+    "review": "In review"
   },
   "new": {
     "title": "New article",
@@ -114,7 +116,13 @@
     "languageUnlocked": "Source language can be changed until first publication",
     "imageError": "Could not create a link for this image.",
     "previewEmpty": "Nothing to preview yet — start writing.",
-    "unnamedAuthor": "Unnamed account"
+    "unnamedAuthor": "Unnamed account",
+    "submitForReview": "Submit for review",
+    "submitChanges": "Submit changes for review",
+    "returnToDraft": "Return to draft",
+    "reviewNeedsPublisher": "A publisher from Communication & Marketing has to publish this article.",
+    "reviewSelfBlocked": "You created this article — another publisher has to review and publish it.",
+    "publishFailed": "That action was refused. Please reload and try again."
   },
   "translations": {
     "title": "Translations",

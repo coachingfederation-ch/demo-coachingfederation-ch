@@ -69,6 +69,7 @@ export type Database = {
           content: string
           content_updated_at: string
           created_at: string
+          created_by: string | null
           excerpt: string
           featured_image_url: string | null
           first_published_at: string | null
@@ -91,6 +92,7 @@ export type Database = {
           content?: string
           content_updated_at?: string
           created_at?: string
+          created_by?: string | null
           excerpt?: string
           featured_image_url?: string | null
           first_published_at?: string | null
@@ -113,6 +115,7 @@ export type Database = {
           content?: string
           content_updated_at?: string
           created_at?: string
+          created_by?: string | null
           excerpt?: string
           featured_image_url?: string | null
           first_published_at?: string | null
@@ -2787,7 +2790,12 @@ export type Database = {
         | "member"
         | "organizer"
       article_lang: "en" | "fr" | "de" | "it"
-      article_status: "draft" | "scheduled" | "published" | "unpublished"
+      article_status:
+        | "draft"
+        | "scheduled"
+        | "published"
+        | "unpublished"
+        | "review"
       event_location_mode: "in_person" | "online" | "hybrid"
       event_registration_mode: "none" | "rsvp"
       event_registration_status: "confirmed" | "cancelled"
@@ -2941,7 +2949,13 @@ export const Constants = {
         "organizer",
       ],
       article_lang: ["en", "fr", "de", "it"],
-      article_status: ["draft", "scheduled", "published", "unpublished"],
+      article_status: [
+        "draft",
+        "scheduled",
+        "published",
+        "unpublished",
+        "review",
+      ],
       event_location_mode: ["in_person", "online", "hybrid"],
       event_registration_mode: ["none", "rsvp"],
       event_registration_status: ["confirmed", "cancelled"],
