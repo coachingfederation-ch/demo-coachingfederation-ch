@@ -36,7 +36,7 @@ export function Governance() {
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-col justify-between rounded-2xl border border-border/70 bg-background p-6 shadow-[var(--shadow-soft)] transition hover:shadow-[var(--shadow-card)]"
+                className="group flex flex-col justify-between rounded-2xl border border-border/70 bg-card p-6 shadow-[var(--shadow-soft)] transition hover:shadow-[var(--shadow-card)]"
               >
                 <div>
                   <h3 className="text-lg font-semibold tracking-tight text-foreground">
