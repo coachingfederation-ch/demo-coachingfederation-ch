@@ -28,7 +28,15 @@
     "peopleHeading": "Volunteers in dieser Community",
     "noMembers": "Für diese Community sind noch keine Volunteers aufgeführt.",
     "noDescription": "Eine Beschreibung für diese Community folgt in Kürze.",
-    "andMore": "und {count} weitere Volunteers"
+    "andMore": "und {count} weitere Volunteers",
+    "events": {
+      "eyebrow": "Demnächst",
+      "title": "Kommende Veranstaltungen",
+      "lede": "Die nächsten Treffen dieser Community.",
+      "fallbackTitle": "Kommende Veranstaltungen in der Nähe",
+      "fallbackLede": "Diese Community hat derzeit keine Termine im Kalender — hier sind die Treffen anderer lokaler Communities.",
+      "all": "Alle Veranstaltungen ansehen"
+    }
   },
   "preview": {
     "eyebrow": "Lokale Communitys",

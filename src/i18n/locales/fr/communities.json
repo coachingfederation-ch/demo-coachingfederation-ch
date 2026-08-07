@@ -28,7 +28,15 @@
     "peopleHeading": "Bénévoles dans cette communauté",
     "noMembers": "Aucun bénévole n'est encore répertorié pour cette communauté.",
     "noDescription": "La description de cette communauté sera bientôt disponible.",
-    "andMore": "et {count} autres bénévoles"
+    "andMore": "et {count} autres bénévoles",
+    "events": {
+      "eyebrow": "À venir",
+      "title": "Prochains événements",
+      "lede": "Les prochaines rencontres organisées par cette communauté.",
+      "fallbackTitle": "Prochains événements à proximité",
+      "fallbackLede": "Cette communauté n'a pas de date au calendrier pour le moment — voici ce que proposent les autres communautés locales.",
+      "all": "Voir tous les événements"
+    }
   },
   "preview": {
     "eyebrow": "Communautés locales",
