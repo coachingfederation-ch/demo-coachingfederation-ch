@@ -82,12 +82,12 @@ export function CoachFinderContext() {
                         {card.title}
                       </span>
                     </div>
-                    <div
-                      className="pointer-events-none absolute -bottom-1 left-0 h-2 w-24 text-mark-yellow"
+                    <span
+                      className="pointer-events-none absolute -bottom-1 left-0 h-2 w-full text-mark-yellow"
                       aria-hidden
                     >
                       <Mark name="highlight1" className="h-full w-full" />
-                    </div>
+                    </span>
                   </div>
                   <p className="mt-5 text-sm leading-relaxed text-foreground">
                     {card.description}
