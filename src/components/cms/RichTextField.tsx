@@ -27,11 +27,13 @@ export function RichTextEditor({
   id,
   value,
   onChange,
+  onBlur,
   minHeight = "14rem",
 }: {
   id?: string;
   value: string;
   onChange: (next: string) => void;
+  onBlur?: (next: string) => void;
   minHeight?: string;
 }) {
   const { t } = useCms();
@@ -50,10 +52,11 @@ export function RichTextEditor({
 
   const emit = () => {
     const el = ref.current;
-    if (!el) return;
+    if (!el) return "";
     const next = htmlToRichText(el);
     emitted.current = next;
     onChange(next);
+    return next;
   };
 
   const refreshActive = () => {
@@ -119,7 +122,10 @@ export function RichTextEditor({
         role="textbox"
         aria-multiline="true"
         onInput={emit}
-        onBlur={emit}
+        onBlur={() => {
+          const next = emit();
+          onBlur?.(next);
+        }}
         onKeyUp={refreshActive}
         onMouseUp={refreshActive}
         onPaste={(e) => {
