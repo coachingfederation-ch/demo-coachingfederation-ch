@@ -11,11 +11,24 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { assertOrganizer } from "./authz";
 import { MAX_EVENT_HOSTS } from "./event-hosts";
+import { expandRecurrence, occurrenceSlug, RECURRENCE_FREQUENCIES } from "./recurrence";
 
 const LIST_COLUMNS =
   "id, slug, title, summary, language, status, starts_at, ends_at, timezone, location_mode, venue_name, city, capacity, is_featured, category_id, region_id, organizer_id, updated_at";
 
 const EDIT_COLUMNS = `${LIST_COLUMNS}, community_id, description, image_url, image_credit_name, image_credit_url, online_url, registration_mode, registration_opens_at, registration_closes_at, guest_registration_allowed, published_at, content_updated_at`;
+
+const recurrenceRule = z.object({
+  frequency: z.enum(RECURRENCE_FREQUENCIES),
+  interval: z.number().int().min(1).max(8),
+  endMode: z.enum(["count", "until"]),
+  count: z.number().int().min(2).max(61).nullable().optional(),
+  until: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/)
+    .nullable()
+    .optional(),
+});
 
 const eventInput = z.object({
   title: z.string().trim().min(3).max(200),
