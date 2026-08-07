@@ -45,6 +45,82 @@ export async function loadArticleEditorData(client: Client, id: string) {
 }
 
 /**
+ * Four-eye principle.
+ *
+ * Publishing is not an editorial role, it is an operational assignment: the
+ * account must sit in the "Communication & Marketing" project with the
+ * "Publisher" role (operational structure), and it must not be the account
+ * that created the article. Admins may override the self-publish block only.
+ *
+ * The database enforces the same two rules in `tg_articles_publish_guard`;
+ * this function exists so the UI can disable actions and explain why, and so
+ * the server function can fail with a readable message instead of a raw
+ * Postgres exception.
+ */
+export type ArticlePermissions = {
+  isAdmin: boolean;
+  isPublisher: boolean;
+  isCreator: boolean;
+  /** May move the article into published/scheduled. */
+  canPublish: boolean;
+};
+
+export const PUBLISHER_PROJECT_SLUG = "communication-marketing";
+export const PUBLISHER_ROLE_SLUG = "publisher";
+
+/** True when `userId` holds the Publisher assignment in Communication & Marketing. */
+export async function isArticlePublisher(userId: string): Promise<boolean> {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+  const { data: member } = await supabaseAdmin
+    .from("members")
+    .select("id")
+    .eq("auth_user_id", userId)
+    .maybeSingle();
+  if (!member) return false;
+
+  const { data: project } = await supabaseAdmin
+    .from("op_projects")
+    .select("id")
+    .eq("slug", PUBLISHER_PROJECT_SLUG)
+    .maybeSingle();
+  if (!project) return false;
+
+  const { data: role } = await supabaseAdmin
+    .from("op_project_roles")
+    .select("id")
+    .eq("project_id", project.id)
+    .eq("slug", PUBLISHER_ROLE_SLUG)
+    .eq("is_active", true)
+    .maybeSingle();
+  if (!role) return false;
+
+  const { data: assignment } = await supabaseAdmin
+    .from("op_assignments")
+    .select("id")
+    .eq("member_id", member.id)
+    .eq("project_id", project.id)
+    .eq("role_id", role.id)
+    .maybeSingle();
+  return !!assignment;
+}
+
+export async function loadArticlePermissions(
+  userId: string,
+  isAdmin: boolean,
+  createdBy: string | null,
+): Promise<ArticlePermissions> {
+  const isPublisher = await isArticlePublisher(userId);
+  const isCreator = !!createdBy && createdBy === userId;
+  return {
+    isAdmin,
+    isPublisher,
+    isCreator,
+    canPublish: isAdmin ? true : isPublisher && !isCreator,
+  };
+}
+
+/**
  * The fields the editor autosaves. Status, scheduling and `is_featured` are
  * deliberately absent — those are explicit actions, not keystrokes.
  */
@@ -73,33 +149,74 @@ export async function saveArticleContent(client: Client, id: string, patch: Arti
  * article's source language after the first publication.
  */
 export type ArticleTransition =
+  | { action: "submit" }
+  | { action: "return_to_draft" }
   | { action: "publish" }
   | { action: "schedule"; scheduledAt: string }
   | { action: "unpublish" };
 
 export type ArticleStatusPatch = {
-  status: "published" | "scheduled" | "unpublished";
+  status: "draft" | "review" | "published" | "scheduled" | "unpublished";
   published_at?: string | null;
   first_published_at?: string | null;
   scheduled_at: string | null;
+};
+
+/**
+ * The editorial state machine. Everything reaches `published` through
+ * `review`, including a re-publication after edits, so a second pair of eyes
+ * always sees the version that goes live.
+ */
+const LEGAL_FROM: Record<ArticleTransition["action"], string[]> = {
+  submit: ["draft", "unpublished", "published", "scheduled"],
+  return_to_draft: ["review"],
+  publish: ["review"],
+  schedule: ["review"],
+  unpublish: ["published", "scheduled"],
 };
 
 export async function transitionArticle(
   client: Client,
   id: string,
   transition: ArticleTransition,
+  permissions: ArticlePermissions,
 ): Promise<ArticleStatusPatch> {
   const { data: current, error: readError } = await client
     .from("articles")
-    .select("first_published_at")
+    .select("first_published_at, status")
     .eq("id", id)
     .maybeSingle();
   if (readError) throw readError;
   if (!current) throw new Error("Article not found.");
-  const firstPublished = (current as { first_published_at: string | null }).first_published_at;
+  const row = current as { first_published_at: string | null; status: string };
+  const firstPublished = row.first_published_at;
+
+  if (!LEGAL_FROM[transition.action].includes(row.status)) {
+    throw new Error("That change is not possible from the article's current status.");
+  }
+
+  const needsPublishRights =
+    transition.action === "publish" ||
+    transition.action === "schedule" ||
+    transition.action === "unpublish";
+  if (needsPublishRights && !permissions.isAdmin && !permissions.isPublisher) {
+    throw new Error(
+      "Only a publisher in the Communication & Marketing project may publish or unpublish articles.",
+    );
+  }
+  if (
+    (transition.action === "publish" || transition.action === "schedule") &&
+    !permissions.canPublish
+  ) {
+    throw new Error("You created this article — another publisher has to review and publish it.");
+  }
 
   let patch: ArticleStatusPatch;
-  if (transition.action === "publish") {
+  if (transition.action === "submit") {
+    patch = { status: "review", scheduled_at: null };
+  } else if (transition.action === "return_to_draft") {
+    patch = { status: "draft", scheduled_at: null };
+  } else if (transition.action === "publish") {
     const now = new Date().toISOString();
     patch = {
       status: "published",
