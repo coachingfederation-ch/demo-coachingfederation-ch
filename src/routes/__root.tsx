@@ -20,6 +20,7 @@ import { LOCALE_HTML_LANG } from "../i18n/config";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LanguageNotice } from "../components/language-notice";
 import { AssistantWidget } from "../components/assistant/AssistantWidget";
+import { Toaster } from "../components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -177,6 +178,8 @@ function RootComponent() {
       <Outlet />
       <LanguageNotice />
       <AssistantWidget />
+      {/* Single global toast outlet — refused actions surface here rather than throwing. */}
+      <Toaster position="top-center" richColors />
     </QueryClientProvider>
   );
 }
