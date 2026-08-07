@@ -22,6 +22,7 @@ import { HowIWorkFlow } from "@/components/coaches/profile/HowIWorkFlow";
 import { CoachProfileHero } from "@/components/coaches/profile/CoachProfileHero";
 import { CoachProfileSidebar } from "@/components/coaches/profile/CoachProfileSidebar";
 import { Mark } from "@/components/marks";
+import { useTrackView } from "@/lib/amplitude";
 
 export function CoachProfileShell({ children }: { children: React.ReactNode }) {
   return (
@@ -57,6 +58,12 @@ export function CoachFallback({ titleKey, bodyKey }: { titleKey: string; bodyKey
 
 export default function CoachProfilePage({ profile }: { profile: PublicCoachProfile }) {
   const { t, locale } = useI18n();
+  useTrackView("Coach Profile Viewed", profile.profile_id ?? "", {
+    coach_profile_id: profile.profile_id,
+    credential: profile.credential_slug,
+    city: profile.city,
+    accepting_clients: profile.availability_slug !== "not-accepting",
+  });
   const { data: vocab } = useQuery<CoachFinderVocabularies>({
     queryKey: ["coach-finder-vocabularies"],
     queryFn: fetchActiveVocabularies,
