@@ -74,7 +74,6 @@ function EditorPage() {
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [featuredNote, setFeaturedNote] = useState<string | null>(null);
-  const [actionError, setActionError] = useState<string | null>(null);
   const [unsplashOpen, setUnsplashOpen] = useState(false);
 
   useEffect(() => {

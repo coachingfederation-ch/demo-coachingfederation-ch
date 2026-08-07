@@ -122,7 +122,8 @@
     "returnToDraft": "Return to draft",
     "reviewNeedsPublisher": "A publisher from Communication & Marketing has to publish this article.",
     "reviewSelfBlocked": "You created this article — another publisher has to review and publish it.",
-    "publishFailed": "That action was refused. Please reload and try again."
+    "publishFailed": "That action was refused. Please reload and try again.",
+    "statusUnchanged": "The article status did not change."
   },
   "translations": {
     "title": "Translations",

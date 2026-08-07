@@ -122,7 +122,8 @@
     "returnToDraft": "Zurück in den Entwurf",
     "reviewNeedsPublisher": "Eine Publisherin oder ein Publisher aus Communication & Marketing muss diesen Artikel veröffentlichen.",
     "reviewSelfBlocked": "Du hast diesen Artikel erstellt — eine andere Person mit Publisher-Rolle muss ihn prüfen und veröffentlichen.",
-    "publishFailed": "Diese Aktion wurde abgelehnt. Bitte lade die Seite neu und versuche es erneut."
+    "publishFailed": "Diese Aktion wurde abgelehnt. Bitte lade die Seite neu und versuche es erneut.",
+    "statusUnchanged": "Der Artikelstatus wurde nicht geändert."
   },
   "translations": {
     "title": "Übersetzungen",
