@@ -3,9 +3,14 @@
  * Exports: initAmplitude, trackAmplitudePageView, trackEvent, identifyUser.
  * Used by components/analytics.tsx and any component that reports a product event.
  */
+import { useEffect } from "react";
 import * as amplitude from "@amplitude/analytics-browser";
 
-const apiKey = import.meta.env["VITE_AMPLITUDE_API_KEY"] as string | undefined;
+// The browser ingestion key is a publishable value (it ships in the client
+// bundle by design); an env override keeps staging/prod separable later.
+const apiKey =
+  (import.meta.env["VITE_AMPLITUDE_API_KEY"] as string | undefined) ??
+  "058150d8c38b3a0d967264916a0e226d";
 
 let initialised = false;
 
@@ -50,4 +55,17 @@ export function trackEvent(name: string, properties?: Record<string, unknown>) {
 export function identifyUser(userId: string | null) {
   if (!initialised) return;
   amplitude.setUserId(userId ?? undefined);
+}
+
+/**
+ * Fires a single view event when the component mounts (and whenever the
+ * identifying key changes), so detail pages report one event per item.
+ */
+export function useTrackView(name: string, key: string, properties?: Record<string, unknown>) {
+  useEffect(() => {
+    trackEvent(name, properties);
+    // Properties are derived from `key`; re-firing on object identity would
+    // double-count every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [name, key]);
 }
