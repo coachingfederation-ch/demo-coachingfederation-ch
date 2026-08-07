@@ -4,6 +4,7 @@
  * Field/TextArea inputs. Consumed by MemberProfileEditor and its sections.
  */
 import { vocabLabel, type VocabRow } from "@/lib/vocabularies";
+import { RichTextEditor } from "@/components/cms/RichTextField";
 
 export function Chips({
   rows,
