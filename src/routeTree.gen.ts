@@ -19,6 +19,7 @@ import { Route as EuropePulseRouteImport } from './routes/europe-pulse'
 import { Route as FindACoachRouteImport } from './routes/find-a-coach'
 import { Route as ForCoachesRouteImport } from './routes/for-coaches'
 import { Route as ForOrganisationsRouteImport } from './routes/for-organisations'
+import { Route as GovernanceRouteImport } from './routes/governance'
 import { Route as ImprintRouteImport } from './routes/imprint'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as McpRouteImport } from './routes/mcp'
@@ -126,6 +127,11 @@ const ForCoachesRoute = ForCoachesRouteImport.update({
 const ForOrganisationsRoute = ForOrganisationsRouteImport.update({
   id: '/for-organisations',
   path: '/for-organisations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GovernanceRoute = GovernanceRouteImport.update({
+  id: '/governance',
+  path: '/governance',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ImprintRoute = ImprintRouteImport.update({
@@ -444,6 +450,7 @@ export interface FileRoutesByFullPath {
   '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
+  '/governance': typeof GovernanceRoute
   '/imprint': typeof ImprintRoute
   '/insights': typeof InsightsRouteWithChildren
   '/mcp': typeof McpRoute
@@ -513,6 +520,7 @@ export interface FileRoutesByTo {
   '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
+  '/governance': typeof GovernanceRoute
   '/imprint': typeof ImprintRoute
   '/mcp': typeof McpRoute
   '/no-access': typeof NoAccessRoute
@@ -583,6 +591,7 @@ export interface FileRoutesById {
   '/find-a-coach': typeof FindACoachRoute
   '/for-coaches': typeof ForCoachesRoute
   '/for-organisations': typeof ForOrganisationsRoute
+  '/governance': typeof GovernanceRoute
   '/imprint': typeof ImprintRoute
   '/insights': typeof InsightsRouteWithChildren
   '/mcp': typeof McpRoute
@@ -655,6 +664,7 @@ export interface FileRouteTypes {
     | '/find-a-coach'
     | '/for-coaches'
     | '/for-organisations'
+    | '/governance'
     | '/imprint'
     | '/insights'
     | '/mcp'
@@ -724,6 +734,7 @@ export interface FileRouteTypes {
     | '/find-a-coach'
     | '/for-coaches'
     | '/for-organisations'
+    | '/governance'
     | '/imprint'
     | '/mcp'
     | '/no-access'
@@ -793,6 +804,7 @@ export interface FileRouteTypes {
     | '/find-a-coach'
     | '/for-coaches'
     | '/for-organisations'
+    | '/governance'
     | '/imprint'
     | '/insights'
     | '/mcp'
@@ -866,6 +878,7 @@ export interface RootRouteChildren {
   FindACoachRoute: typeof FindACoachRoute
   ForCoachesRoute: typeof ForCoachesRoute
   ForOrganisationsRoute: typeof ForOrganisationsRoute
+  GovernanceRoute: typeof GovernanceRoute
   ImprintRoute: typeof ImprintRoute
   InsightsRoute: typeof InsightsRouteWithChildren
   McpRoute: typeof McpRoute
@@ -961,6 +974,13 @@ declare module '@tanstack/react-router' {
       path: '/for-organisations'
       fullPath: '/for-organisations'
       preLoaderRoute: typeof ForOrganisationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/governance': {
+      id: '/governance'
+      path: '/governance'
+      fullPath: '/governance'
+      preLoaderRoute: typeof GovernanceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/imprint': {
@@ -1539,6 +1559,7 @@ const rootRouteChildren: RootRouteChildren = {
   FindACoachRoute: FindACoachRoute,
   ForCoachesRoute: ForCoachesRoute,
   ForOrganisationsRoute: ForOrganisationsRoute,
+  GovernanceRoute: GovernanceRoute,
   ImprintRoute: ImprintRoute,
   InsightsRoute: InsightsRouteWithChildren,
   McpRoute: McpRoute,
