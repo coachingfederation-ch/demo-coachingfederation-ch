@@ -55,14 +55,16 @@
       "Drafts": "Brouillons",
       "Scheduled": "Planifiés",
       "Published": "Publiés",
-      "Unpublished": "Dépubliés"
+      "Unpublished": "Dépubliés",
+      "In review": "En relecture"
     }
   },
   "status": {
     "draft": "Brouillon",
     "scheduled": "Planifié",
     "published": "Publié",
-    "unpublished": "Dépublié"
+    "unpublished": "Dépublié",
+    "review": "En relecture"
   },
   "new": {
     "title": "Nouvel article",
@@ -114,7 +116,13 @@
     "languageUnlocked": "La langue source peut être modifiée jusqu'à la première publication",
     "imageError": "Impossible de créer un lien pour cette image.",
     "previewEmpty": "Rien à prévisualiser pour l'instant — commencez à écrire.",
-    "unnamedAuthor": "Compte sans nom"
+    "unnamedAuthor": "Compte sans nom",
+    "submitForReview": "Soumettre pour relecture",
+    "submitChanges": "Soumettre les modifications",
+    "returnToDraft": "Remettre en brouillon",
+    "reviewNeedsPublisher": "Une personne « Publisher » de Communication & Marketing doit publier cet article.",
+    "reviewSelfBlocked": "Vous avez créé cet article — une autre personne « Publisher » doit le relire et le publier.",
+    "publishFailed": "Action refusée. Veuillez recharger la page et réessayer."
   },
   "translations": {
     "title": "Traductions",

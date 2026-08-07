@@ -55,14 +55,16 @@
       "Drafts": "Bozze",
       "Scheduled": "Programmati",
       "Published": "Pubblicati",
-      "Unpublished": "Non pubblicati"
+      "Unpublished": "Non pubblicati",
+      "In review": "In revisione"
     }
   },
   "status": {
     "draft": "Bozza",
     "scheduled": "Programmato",
     "published": "Pubblicato",
-    "unpublished": "Non pubblicato"
+    "unpublished": "Non pubblicato",
+    "review": "In revisione"
   },
   "new": {
     "title": "Nuovo articolo",
@@ -114,7 +116,13 @@
     "languageUnlocked": "La lingua originale può essere modificata fino alla prima pubblicazione",
     "imageError": "Impossibile creare un link per questa immagine.",
     "previewEmpty": "Niente da mostrare in anteprima — inizia a scrivere.",
-    "unnamedAuthor": "Account senza nome"
+    "unnamedAuthor": "Account senza nome",
+    "submitForReview": "Invia per revisione",
+    "submitChanges": "Invia le modifiche per revisione",
+    "returnToDraft": "Riporta a bozza",
+    "reviewNeedsPublisher": "Un publisher di Communication & Marketing deve pubblicare questo articolo.",
+    "reviewSelfBlocked": "Hai creato tu questo articolo — deve rivederlo e pubblicarlo un altro publisher.",
+    "publishFailed": "Azione rifiutata. Ricarica la pagina e riprova."
   },
   "translations": {
     "title": "Traduzioni",

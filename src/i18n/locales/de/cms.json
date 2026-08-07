@@ -55,14 +55,16 @@
       "Drafts": "Entwürfe",
       "Scheduled": "Geplant",
       "Published": "Veröffentlicht",
-      "Unpublished": "Unveröffentlicht"
+      "Unpublished": "Unveröffentlicht",
+      "In review": "In Prüfung"
     }
   },
   "status": {
     "draft": "Entwurf",
     "scheduled": "Geplant",
     "published": "Veröffentlicht",
-    "unpublished": "Unveröffentlicht"
+    "unpublished": "Unveröffentlicht",
+    "review": "In Prüfung"
   },
   "new": {
     "title": "Neuer Artikel",
@@ -114,7 +116,13 @@
     "languageUnlocked": "Quellsprache kann bis zur ersten Veröffentlichung geändert werden",
     "imageError": "Es konnte kein Link für dieses Bild erstellt werden.",
     "previewEmpty": "Noch nichts zum Vorschauen da — beginnen Sie zu schreiben.",
-    "unnamedAuthor": "Unbenanntes Konto"
+    "unnamedAuthor": "Unbenanntes Konto",
+    "submitForReview": "Zur Prüfung einreichen",
+    "submitChanges": "Änderungen zur Prüfung einreichen",
+    "returnToDraft": "Zurück in den Entwurf",
+    "reviewNeedsPublisher": "Eine Publisherin oder ein Publisher aus Communication & Marketing muss diesen Artikel veröffentlichen.",
+    "reviewSelfBlocked": "Du hast diesen Artikel erstellt — eine andere Person mit Publisher-Rolle muss ihn prüfen und veröffentlichen.",
+    "publishFailed": "Diese Aktion wurde abgelehnt. Bitte lade die Seite neu und versuche es erneut."
   },
   "translations": {
     "title": "Übersetzungen",
