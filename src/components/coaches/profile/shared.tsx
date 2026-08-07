@@ -5,6 +5,7 @@
  */
 import { CARD_SHADOW } from "@/components/site-chrome";
 import { Mark, type MarkName } from "@/components/marks";
+import { parseRichText, type RichInline } from "@/lib/rich-text";
 
 /**
  * Shared card surface: raised white on the bone page, hairline border and a
@@ -76,19 +77,48 @@ export function SideCard({
   );
 }
 
-/** Free-text block: blank lines become paragraphs, single breaks are kept. */
-export function Prose({ text }: { text: string }) {
-  const paragraphs = text.split(/\n\s*\n/).filter((p) => p.trim());
+/** Renders bold/italic runs of one line. */
+function Runs({ inline }: { inline: RichInline[] }) {
   return (
-    <div className="flex flex-col gap-3">
-      {paragraphs.map((paragraph, index) => (
-        <p
-          key={index}
-          className="whitespace-pre-line text-[0.95rem] leading-relaxed text-muted-foreground"
-        >
-          {paragraph.trim()}
-        </p>
-      ))}
+    <>
+      {inline.map((run, index) => {
+        if (run.bold)
+          return (
+            <strong key={index} className="font-semibold text-foreground">
+              {run.text}
+            </strong>
+          );
+        if (run.italic) return <em key={index}>{run.text}</em>;
+        return <span key={index}>{run.text}</span>;
+      })}
+    </>
+  );
+}
+
+/**
+ * Free-text block: blank lines become paragraphs, single breaks are kept, and
+ * light Markdown (bold, italic, bullet lists) authored in the member editor is
+ * rendered.
+ */
+export function Prose({ text }: { text: string }) {
+  const blocks = parseRichText(text);
+  return (
+    <div className="flex flex-col gap-3 text-[0.95rem] leading-relaxed text-muted-foreground">
+      {blocks.map((block, index) =>
+        block.type === "p" ? (
+          <p key={index} className="whitespace-pre-line">
+            <Runs inline={block.inline} />
+          </p>
+        ) : (
+          <ul key={index} className="list-disc space-y-1.5 pl-5">
+            {block.items.map((item, itemIndex) => (
+              <li key={itemIndex}>
+                <Runs inline={item} />
+              </li>
+            ))}
+          </ul>
+        ),
+      )}
     </div>
   );
 }
