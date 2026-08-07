@@ -792,6 +792,7 @@
       "saveError": "Impossibile salvare i relatori."
     },
     "fieldCategory": "Categoria",
+    "fieldCommunity": "Community",
     "fieldRegion": "Regione",
     "fieldUnset": "— non impostato —"
   },

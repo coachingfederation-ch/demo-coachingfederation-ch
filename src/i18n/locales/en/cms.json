@@ -792,6 +792,7 @@
       "saveError": "Could not save hosts."
     },
     "fieldCategory": "Category",
+    "fieldCommunity": "Community",
     "fieldRegion": "Region",
     "fieldUnset": "— not set —"
   },

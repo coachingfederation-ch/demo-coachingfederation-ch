@@ -15,7 +15,7 @@ import { MAX_EVENT_HOSTS } from "./event-hosts";
 const LIST_COLUMNS =
   "id, slug, title, summary, language, status, starts_at, ends_at, timezone, location_mode, venue_name, city, capacity, is_featured, category_id, region_id, organizer_id, updated_at";
 
-const EDIT_COLUMNS = `${LIST_COLUMNS}, description, image_url, image_credit_name, image_credit_url, online_url, registration_mode, registration_opens_at, registration_closes_at, guest_registration_allowed, published_at, content_updated_at`;
+const EDIT_COLUMNS = `${LIST_COLUMNS}, community_id, description, image_url, image_credit_name, image_credit_url, online_url, registration_mode, registration_opens_at, registration_closes_at, guest_registration_allowed, published_at, content_updated_at`;
 
 const eventInput = z.object({
   title: z.string().trim().min(3).max(200),
@@ -48,6 +48,9 @@ const eventInput = z.object({
   is_featured: z.boolean(),
   category_id: z.string().uuid().nullable().optional(),
   region_id: z.string().uuid().nullable().optional(),
+  // Community events name the local community that runs them; other
+  // categories use the region facet instead.
+  community_id: z.string().uuid().nullable().optional(),
 });
 
 /** Empty strings from the form mean "unset", not "the empty string". */
@@ -67,12 +70,27 @@ function normalize(input: z.infer<typeof eventInput>) {
     capacity: input.capacity ?? null,
     category_id: input.category_id ?? null,
     region_id: input.region_id ?? null,
+    community_id: input.community_id ?? null,
     registration_opens_at: blankToNull(input.registration_opens_at),
     registration_closes_at: blankToNull(input.registration_closes_at),
   };
 }
 
 /** Events the caller may manage (RLS narrows organizers to their own). */
+export const listCommunityOptions = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertOrganizer(context);
+    const { data, error } = await context.supabase
+      .from("op_projects")
+      .select("id, name")
+      .eq("is_community", true)
+      .eq("is_active", true)
+      .order("name", { ascending: true });
+    if (error) throw new Error(error.message);
+    return (data ?? []) as { id: string; name: string }[];
+  });
+
 export const listManagedEvents = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
