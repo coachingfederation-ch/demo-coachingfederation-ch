@@ -1033,6 +1033,7 @@ export type Database = {
           capacity: number | null
           category_id: string | null
           city: string | null
+          community_id: string | null
           content_updated_at: string
           created_at: string
           description: string | null
@@ -1065,6 +1066,7 @@ export type Database = {
           capacity?: number | null
           category_id?: string | null
           city?: string | null
+          community_id?: string | null
           content_updated_at?: string
           created_at?: string
           description?: string | null
@@ -1097,6 +1099,7 @@ export type Database = {
           capacity?: number | null
           category_id?: string | null
           city?: string | null
+          community_id?: string | null
           content_updated_at?: string
           created_at?: string
           description?: string | null
@@ -1131,6 +1134,20 @@ export type Database = {
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "cf_event_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "events_community_id_fkey"
+            columns: ["community_id"]
+            isOneToOne: false
+            referencedRelation: "op_projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "events_community_id_fkey"
+            columns: ["community_id"]
+            isOneToOne: false
+            referencedRelation: "team_projects_public"
             referencedColumns: ["id"]
           },
           {
