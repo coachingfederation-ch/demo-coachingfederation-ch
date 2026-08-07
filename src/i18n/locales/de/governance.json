@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "title": "Governance-Dokumente — The Switzerland Chapter of ICF",
+    "description": "Alle Governance-Dokumente von The Switzerland Chapter of ICF: Generalversammlung, Ethikkodex, DEIB-Verpflichtung, Charter-Status und Jahresberichte."
+  },
+  "hero": {
+    "eyebrow": "Governance-Archiv",
+    "titlePre": "Verantwortung, ",
+    "titleAccent": "nachvollziehbar",
+    "lede": "Alle veröffentlichten Governance-Dokumente, nach Thema und Jahr geordnet. Nur zum Lesen und für alle zugänglich."
+  },
+  "filterLabel": "Nach Thema filtern",
+  "searchLabel": "Governance-Dokumente durchsuchen",
+  "searchPlaceholder": "Dokumente durchsuchen",
+  "loading": "Dokumente werden geladen…",
+  "empty": "Für diese Auswahl gibt es noch keine Dokumente.",
+  "undated": "Ohne Datum",
+  "download": "Herunterladen",
+  "open": "Öffnen",
+  "unavailable": "Nicht verfügbar",
+  "categories": {
+    "all": "Alle Dokumente",
+    "agm": "Generalversammlung",
+    "code-of-ethics": "Ethikkodex",
+    "deib": "DEIB",
+    "charter": "Charter-Status",
+    "annual-report": "Jahresberichte",
+    "other": "Weitere"
+  },
+  "archiveCta": "Alle Governance-Dokumente ansehen"
+}

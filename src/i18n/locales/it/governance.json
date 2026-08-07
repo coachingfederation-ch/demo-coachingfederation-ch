@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "title": "Documenti di governance — The Switzerland Chapter of ICF",
+    "description": "Consulta i documenti di governance di The Switzerland Chapter of ICF: assemblea generale, Codice etico, impegno DEIB, statuto di charter e rapporti annuali."
+  },
+  "hero": {
+    "eyebrow": "Archivio governance",
+    "titlePre": "Responsabilità, ",
+    "titleAccent": "documentata",
+    "lede": "Tutti i documenti di governance che pubblichiamo, ordinati per tema e per anno. Solo in lettura e aperti a tutti."
+  },
+  "filterLabel": "Filtra per tema",
+  "searchLabel": "Cerca documenti di governance",
+  "searchPlaceholder": "Cerca documenti",
+  "loading": "Caricamento dei documenti…",
+  "empty": "Nessun documento corrisponde alla tua selezione.",
+  "undated": "Senza data",
+  "download": "Scarica",
+  "open": "Apri",
+  "unavailable": "Non disponibile",
+  "categories": {
+    "all": "Tutti i documenti",
+    "agm": "Assemblea generale",
+    "code-of-ethics": "Codice etico",
+    "deib": "DEIB",
+    "charter": "Statuto di charter",
+    "annual-report": "Rapporti annuali",
+    "other": "Altro"
+  },
+  "archiveCta": "Vedi tutti i documenti di governance"
+}

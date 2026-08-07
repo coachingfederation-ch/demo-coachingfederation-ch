@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "title": "Governance documents — The Switzerland Chapter of ICF",
+    "description": "Browse the governance documents of The Switzerland Chapter of ICF: AGM records, Code of Ethics, DEIB commitment, charter status and annual reports."
+  },
+  "hero": {
+    "eyebrow": "Governance archive",
+    "titlePre": "Accountability, ",
+    "titleAccent": "on the record",
+    "lede": "Every governance document we publish, organised by topic and year. Read-only and open to everyone."
+  },
+  "filterLabel": "Filter by topic",
+  "searchLabel": "Search governance documents",
+  "searchPlaceholder": "Search documents",
+  "loading": "Loading documents…",
+  "empty": "No documents match your selection yet.",
+  "undated": "Undated",
+  "download": "Download",
+  "open": "Open",
+  "unavailable": "Not available",
+  "categories": {
+    "all": "All documents",
+    "agm": "Annual General Meeting",
+    "code-of-ethics": "Code of Ethics",
+    "deib": "DEIB",
+    "charter": "Charter status",
+    "annual-report": "Annual reports",
+    "other": "Other"
+  },
+  "archiveCta": "View all governance documents"
+}

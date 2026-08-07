@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "title": "Documents de gouvernance — The Switzerland Chapter of ICF",
+    "description": "Consultez les documents de gouvernance de The Switzerland Chapter of ICF : assemblée générale, Code de déontologie, engagement DEIB, statut de charte et rapports annuels."
+  },
+  "hero": {
+    "eyebrow": "Archives de gouvernance",
+    "titlePre": "La responsabilité, ",
+    "titleAccent": "documentée",
+    "lede": "Tous les documents de gouvernance que nous publions, classés par thème et par année. En lecture seule et accessibles à toutes et tous."
+  },
+  "filterLabel": "Filtrer par thème",
+  "searchLabel": "Rechercher des documents de gouvernance",
+  "searchPlaceholder": "Rechercher des documents",
+  "loading": "Chargement des documents…",
+  "empty": "Aucun document ne correspond à votre sélection pour le moment.",
+  "undated": "Sans date",
+  "download": "Télécharger",
+  "open": "Ouvrir",
+  "unavailable": "Non disponible",
+  "categories": {
+    "all": "Tous les documents",
+    "agm": "Assemblée générale",
+    "code-of-ethics": "Code de déontologie",
+    "deib": "DEIB",
+    "charter": "Statut de charte",
+    "annual-report": "Rapports annuels",
+    "other": "Autres"
+  },
+  "archiveCta": "Voir tous les documents de gouvernance"
+}
