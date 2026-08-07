@@ -1165,6 +1165,63 @@ export type Database = {
           },
         ]
       }
+      governance_documents: {
+        Row: {
+          category: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          document_date: string | null
+          external_url: string | null
+          file_path: string | null
+          file_size_bytes: number | null
+          id: string
+          is_published: boolean
+          language: Database["public"]["Enums"]["article_lang"]
+          mime_type: string | null
+          sort_order: number
+          title: string
+          updated_at: string
+          year: number | null
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          document_date?: string | null
+          external_url?: string | null
+          file_path?: string | null
+          file_size_bytes?: number | null
+          id?: string
+          is_published?: boolean
+          language?: Database["public"]["Enums"]["article_lang"]
+          mime_type?: string | null
+          sort_order?: number
+          title: string
+          updated_at?: string
+          year?: number | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          document_date?: string | null
+          external_url?: string | null
+          file_path?: string | null
+          file_size_bytes?: number | null
+          id?: string
+          is_published?: boolean
+          language?: Database["public"]["Enums"]["article_lang"]
+          mime_type?: string | null
+          sort_order?: number
+          title?: string
+          updated_at?: string
+          year?: number | null
+        }
+        Relationships: []
+      }
       integration_config: {
         Row: {
           account_claim_enabled: boolean
