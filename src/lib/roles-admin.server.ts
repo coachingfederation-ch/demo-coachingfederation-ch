@@ -20,6 +20,7 @@ export type ClaimedMemberRole = {
   activityState: string;
   isEditor: boolean;
   isOrganizer: boolean;
+  isPublisher: boolean;
   isAdmin: boolean;
 };
 
@@ -70,9 +71,45 @@ export async function listClaimedMemberRoles(): Promise<ClaimedMemberRole[]> {
       activityState: m.activity_state as string,
       isEditor: roles.includes("editor"),
       isOrganizer: roles.includes("organizer"),
+      isPublisher: roles.includes("publisher"),
       isAdmin: roles.includes("admin"),
     };
   });
+}
+
+/** Grant/revoke history for one account — shown in the per-account detail view. */
+export async function listRoleGrantAuditForUser(
+  authUserId: string,
+  limit = 20,
+): Promise<RoleGrantEntry[]> {
+  const { data, error } = await supabaseAdmin
+    .from("role_grants")
+    .select("id, user_id, role, action, actor_user_id, created_at")
+    .eq("user_id", authUserId)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error) throw error;
+
+  const actorIds = [
+    ...new Set((data ?? []).map((r) => r.actor_user_id as string | null).filter(Boolean)),
+  ] as string[];
+  const names = await namesByAuthUser(actorIds);
+  const unnamed = actorIds.filter((id) => !names.has(id));
+  if (unnamed.length) {
+    const emails = await emailsByAuthUser(unnamed);
+    for (const [id, email] of emails) names.set(id, email);
+  }
+
+  return (data ?? []).map((row) => ({
+    id: row.id as string,
+    userId: row.user_id as string,
+    role: row.role as string,
+    action: row.action as string,
+    actorUserId: (row.actor_user_id as string | null) ?? null,
+    createdAt: row.created_at as string,
+    subjectName: null,
+    actorName: row.actor_user_id ? (names.get(row.actor_user_id as string) ?? null) : null,
+  }));
 }
 
 /** Recent grant/revoke history, resolved to human-readable names. */
@@ -190,7 +227,7 @@ export async function listInternalStaffAccounts(): Promise<InternalStaffAccount[
   const { data: roleRows, error } = await supabaseAdmin
     .from("user_roles")
     .select("user_id, role")
-    .in("role", ["admin", "editor", "organizer"]);
+    .in("role", ["admin", "editor", "organizer", "publisher"]);
   if (error) throw error;
 
   const byUser = new Map<string, string[]>();
