@@ -4,11 +4,12 @@
  * credentials, specialisations, formats, accepting-only, pagination) are
  * local state that drives the server-side query plus client-side narrowing.
  */
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useI18n } from "@/i18n";
 import { queryCoachDirectory } from "@/lib/directory.functions";
+import { trackEvent } from "@/lib/amplitude";
 import {
   activeFinderModes,
   fetchCoachFinderConfig,
@@ -127,6 +128,7 @@ export function useCoachDirectoryFilters() {
   });
 
   function clearAll() {
+    trackEvent("Coach Search Cleared");
     setQuery("");
     setRegion("all");
     setLanguage("all");
@@ -182,6 +184,28 @@ export function useCoachDirectoryFilters() {
           : t(`directory.results.${countKey}`)
       ).replace("{count}", String(shownCount));
   const hasMore = !isSample && !narrowed && (page + 1) * pageSize < total;
+
+  // One search event per settled filter set: the effect keys on the serialised
+  // filters, so typing a query or toggling a facet reports once, not per render.
+  const searchSignature = JSON.stringify({ ...filters, query: query.trim(), acceptingOnly });
+  useEffect(() => {
+    if (isPending || !dirty) return;
+    trackEvent("Coach Search Performed", {
+      mode,
+      query: query.trim() || null,
+      region,
+      language,
+      credentials,
+      specialisations: specializations,
+      formats,
+      accepting_only: acceptingOnly,
+      page,
+      result_count: results.length,
+      total_matches: total,
+    });
+    // Everything reported is derived from the signature above.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchSignature, isPending]);
 
   return {
     t,
