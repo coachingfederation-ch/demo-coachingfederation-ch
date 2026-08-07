@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { Languages, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useCms } from "@/i18n/cms";
+import { RichTextEditor } from "@/components/cms/RichTextField";
 import { translateCommunity } from "@/lib/community-translations.functions";
 
 const INPUT =
@@ -194,13 +195,16 @@ export function CommunityPanel({
 
           <label className="block text-xs font-semibold text-muted-foreground">
             {t("ops.community.description")}
-            <textarea
-              rows={6}
-              value={row.description ?? ""}
-              onChange={(e) => setRow((p) => ({ ...p, description: e.target.value }))}
-              onBlur={(e) => void save({ description: e.target.value || null })}
-              className={INPUT + " mt-1 font-normal"}
-            />
+            <div className="font-normal">
+              <RichTextEditor
+                value={row.description ?? ""}
+                minHeight="12rem"
+                onChange={(next) => {
+                  setRow((p) => ({ ...p, description: next }));
+                  void save({ description: next || null });
+                }}
+              />
+            </div>
           </label>
 
           <fieldset>
@@ -284,19 +288,16 @@ export function CommunityPanel({
                   }
                   className={INPUT + " mt-2"}
                 />
-                <textarea
-                  aria-label={t("ops.community.description")}
-                  placeholder={t("ops.community.description")}
-                  rows={4}
-                  value={(row[localeField("description", locale)] as string | null) ?? ""}
-                  onChange={(e) =>
-                    setRow((p) => ({ ...p, [localeField("description", locale)]: e.target.value }))
-                  }
-                  onBlur={(e) =>
-                    void save({ [localeField("description", locale)]: e.target.value || null })
-                  }
-                  className={INPUT + " mt-2"}
-                />
+                <div className="mt-2">
+                  <RichTextEditor
+                    value={(row[localeField("description", locale)] as string | null) ?? ""}
+                    minHeight="9rem"
+                    onChange={(next) => {
+                      setRow((p) => ({ ...p, [localeField("description", locale)]: next }));
+                      void save({ [localeField("description", locale)]: next || null });
+                    }}
+                  />
+                </div>
               </div>
             ))}
           </div>
