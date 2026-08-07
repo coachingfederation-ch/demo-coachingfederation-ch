@@ -120,7 +120,7 @@
     "submitForReview": "Invia per revisione",
     "submitChanges": "Invia le modifiche per revisione",
     "returnToDraft": "Riporta a bozza",
-    "reviewNeedsPublisher": "Un publisher di Communication & Marketing deve pubblicare questo articolo.",
+    "reviewNeedsPublisher": "Un account con diritti di pubblicazione deve pubblicare questo articolo.",
     "reviewSelfBlocked": "Hai creato tu questo articolo — deve rivederlo e pubblicarlo un altro publisher.",
     "publishFailed": "Azione rifiutata. Ricarica la pagina e riprova.",
     "statusUnchanged": "Lo stato dell'articolo non è cambiato."
@@ -712,7 +712,15 @@
     "qaCreated": "Account di test creato",
     "qaCredentialsNote": "Mostrato una sola volta — copialo ora. Nulla viene salvato o inviato via e-mail.",
     "removeAccess": "Rimuovi accesso",
-    "removeConfirm": "Rimuovere l'accesso redattore e organizzatore per {name}? Mangeranno la loro iscrizione e l'accesso all'Area membri."
+    "removeConfirm": "Rimuovere l'accesso editor, organizer e publisher per {name}? L'iscrizione e l'area soci restano invariate.",
+    "publisherBadge": "Publisher",
+    "manage": "Gestisci",
+    "close": "Chiudi",
+    "rightsTitle": "Diritti di accesso",
+    "accountAuditTitle": "Modifiche recenti per questo account",
+    "editorDesc": "Creare e modificare articoli",
+    "organizerDesc": "Creare e gestire eventi",
+    "publisherDesc": "Revisionare e pubblicare articoli"
   },
   "events": {
     "title": "Eventi",

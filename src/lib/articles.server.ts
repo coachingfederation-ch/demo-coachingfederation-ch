@@ -47,10 +47,9 @@ export async function loadArticleEditorData(client: Client, id: string) {
 /**
  * Four-eye principle.
  *
- * Publishing is not an editorial role, it is an operational assignment: the
- * account must sit in the "Communication & Marketing" project with the
- * "Publisher" role (operational structure), and it must not be the account
- * that created the article. Admins may override the self-publish block only.
+ * Publishing is its own access right: the account must hold the `publisher`
+ * role, and it must not be the account that created the article. Admins may
+ * override the self-publish block only.
  *
  * The database enforces the same two rules in `tg_articles_publish_guard`;
  * this function exists so the UI can disable actions and explain why, and so
@@ -65,44 +64,16 @@ export type ArticlePermissions = {
   canPublish: boolean;
 };
 
-export const PUBLISHER_PROJECT_SLUG = "communication-marketing";
-export const PUBLISHER_ROLE_SLUG = "publisher";
-
-/** True when `userId` holds the Publisher assignment in Communication & Marketing. */
+/** True when `userId` holds the `publisher` grant. */
 export async function isArticlePublisher(userId: string): Promise<boolean> {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-
-  const { data: member } = await supabaseAdmin
-    .from("members")
-    .select("id")
-    .eq("auth_user_id", userId)
+  const { data } = await supabaseAdmin
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", userId)
+    .eq("role", "publisher")
     .maybeSingle();
-  if (!member) return false;
-
-  const { data: project } = await supabaseAdmin
-    .from("op_projects")
-    .select("id")
-    .eq("slug", PUBLISHER_PROJECT_SLUG)
-    .maybeSingle();
-  if (!project) return false;
-
-  const { data: role } = await supabaseAdmin
-    .from("op_project_roles")
-    .select("id")
-    .eq("project_id", project.id)
-    .eq("slug", PUBLISHER_ROLE_SLUG)
-    .eq("is_active", true)
-    .maybeSingle();
-  if (!role) return false;
-
-  const { data: assignment } = await supabaseAdmin
-    .from("op_assignments")
-    .select("id")
-    .eq("member_id", member.id)
-    .eq("project_id", project.id)
-    .eq("role_id", role.id)
-    .maybeSingle();
-  return !!assignment;
+  return !!data;
 }
 
 export async function loadArticlePermissions(
@@ -200,9 +171,7 @@ export async function transitionArticle(
     transition.action === "schedule" ||
     transition.action === "unpublish";
   if (needsPublishRights && !permissions.isAdmin && !permissions.isPublisher) {
-    throw new Error(
-      "Only a publisher in the Communication & Marketing project may publish or unpublish articles.",
-    );
+    throw new Error("Only an account with publishing rights may publish or unpublish articles.");
   }
   if (
     (transition.action === "publish" || transition.action === "schedule") &&

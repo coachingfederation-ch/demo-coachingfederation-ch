@@ -276,8 +276,8 @@ function EditorPage() {
   }
 
   const languageLocked = !!article.first_published_at;
-  // Publishing rights come from the operational structure (Communication &
-  // Marketing → Publisher) plus the four-eye rule, never from the CMS role.
+  // Publishing rights come from the `publisher` access right plus the
+  // four-eye rule (nobody publishes what they created).
   const canPublish = !!permissions?.canPublish;
   const canUnpublish =
     (article.status === "published" || article.status === "scheduled") &&

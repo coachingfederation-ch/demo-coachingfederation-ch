@@ -120,7 +120,7 @@
     "submitForReview": "Submit for review",
     "submitChanges": "Submit changes for review",
     "returnToDraft": "Return to draft",
-    "reviewNeedsPublisher": "A publisher from Communication & Marketing has to publish this article.",
+    "reviewNeedsPublisher": "An account with publishing rights has to publish this article.",
     "reviewSelfBlocked": "You created this article — another publisher has to review and publish it.",
     "publishFailed": "That action was refused. Please reload and try again.",
     "statusUnchanged": "The article status did not change."
@@ -712,7 +712,15 @@
     "qaCreated": "Test account created",
     "qaCredentialsNote": "Shown once — copy it now. Nothing is stored or emailed.",
     "removeAccess": "Remove access",
-    "removeConfirm": "Remove editor and organizer access for {name}? They keep their membership and Member Area access."
+    "removeConfirm": "Remove editor, organizer and publisher access for {name}? They keep their membership and Member Area access.",
+    "publisherBadge": "Publisher",
+    "manage": "Manage",
+    "close": "Close",
+    "rightsTitle": "Access rights",
+    "accountAuditTitle": "Recent changes for this account",
+    "editorDesc": "Create and edit articles",
+    "organizerDesc": "Create and manage events",
+    "publisherDesc": "Review and publish articles"
   },
   "events": {
     "title": "Events",

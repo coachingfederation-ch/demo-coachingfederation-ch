@@ -13,13 +13,13 @@
  *
  * Client-safe: no imports, no secrets, no I/O.
  */
-export type AppRole = "admin" | "editor" | "organizer" | "member" | "user";
+export type AppRole = "admin" | "editor" | "organizer" | "publisher" | "member" | "user";
 
 /** Roles that may reach the staff CMS. */
-export const STAFF_ROLES: AppRole[] = ["admin", "editor", "organizer"];
+export const STAFF_ROLES: AppRole[] = ["admin", "editor", "organizer", "publisher"];
 
 /** The roles an admin may grant or revoke through the application. */
-export const MANAGED_ROLES = ["editor", "organizer"] as const;
+export const MANAGED_ROLES = ["editor", "organizer", "publisher"] as const;
 export type ManagedRole = (typeof MANAGED_ROLES)[number];
 
 /** @deprecated use MANAGED_ROLES. Kept so older call sites keep compiling. */
@@ -30,6 +30,7 @@ export type RoleSet = {
   isAdmin: boolean;
   isEditor: boolean;
   isOrganizer: boolean;
+  isPublisher: boolean;
   isStaff: boolean;
   isMember: boolean;
 };
@@ -39,6 +40,7 @@ export const EMPTY_ROLES: RoleSet = {
   isAdmin: false,
   isEditor: false,
   isOrganizer: false,
+  isPublisher: false,
   isStaff: false,
   isMember: false,
 };
@@ -51,6 +53,8 @@ export function toRoleSet(roles: AppRole[]): RoleSet {
     isEditor: has("admin") || has("editor"),
     // Editors and admins manage every event, so they are organizers too.
     isOrganizer: has("admin") || has("editor") || has("organizer"),
+    // Publishing rights are an explicit grant; only admin overrides it.
+    isPublisher: has("admin") || has("publisher"),
     isStaff: STAFF_ROLES.some(has),
     isMember: has("member"),
   };
@@ -81,6 +85,7 @@ export function landingPath(
     roles.isStaff &&
     hasExactRole(roles.roles, "organizer") &&
     !hasExactRole(roles.roles, "editor") &&
+    !hasExactRole(roles.roles, "publisher") &&
     !roles.isAdmin
   )
     return "/manage/events";

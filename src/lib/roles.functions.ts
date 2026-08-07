@@ -94,6 +94,16 @@ export const provisionQaTestAccount = createServerFn({ method: "POST" })
   });
 
 /** Adds a managed staff grant to a claimed member. Membership is untouched. */
+export const listAccountRoleAudit = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => accountSchema.parse(input))
+  .handler(async ({ context, data }) => {
+    await assertAdmin(context);
+    const { listRoleGrantAuditForUser } = await import("./roles-admin.server");
+    return { audit: await listRoleGrantAuditForUser(data.authUserId) };
+  });
+
+/** Adds a managed staff grant to a claimed member. Membership is untouched. */
 export const grantMemberRole = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => grantSchema.parse(input))

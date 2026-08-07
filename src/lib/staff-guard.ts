@@ -26,6 +26,7 @@ import type { AppRole, RoleSet } from "@/lib/role-model";
  */
 function fallbackFor(roles: RoleSet): "/articles" | "/manage/events" | "/member" | "/no-access" {
   if (hasExactRole(roles.roles, "editor")) return "/articles";
+  if (hasExactRole(roles.roles, "publisher")) return "/articles";
   if (hasExactRole(roles.roles, "organizer")) return "/manage/events";
   if (roles.isMember) return "/member";
   return "/no-access";
@@ -51,7 +52,11 @@ export async function requireStaffAccess(
 
 /** Admin-only screens: no non-admin role may enter. */
 export const ADMIN_ONLY: AppRole[] = [];
-/** Editorial screens (`/articles/*`). */
-export const ARTICLE_ROLES: AppRole[] = ["editor"];
+/**
+ * Editorial screens (`/articles/*`). Publishers belong here too: reviewing and
+ * publishing happens in the article editor, and RLS still decides what they
+ * may change.
+ */
+export const ARTICLE_ROLES: AppRole[] = ["editor", "publisher"];
 /** Event management screens (`/manage/events/*`). */
 export const EVENT_ROLES: AppRole[] = ["organizer"];

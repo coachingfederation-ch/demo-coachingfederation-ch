@@ -30,15 +30,14 @@ which action is possible from which status. `submit` is accepted from `draft`,
 
 ## Who may publish
 
-Publishing is not an editorial rank, it is an **operational assignment**. The
-account must sit in the `communication-marketing` project with an active
-`publisher` role in the operational structure (`/operational-structure`), which
-means the right to publish is granted and revoked by the people who maintain
-the org structure, not by a hidden flag on a user record.
+Publishing is its own **access right**, separate from editing. The account must
+hold the `publisher` role, granted and revoked by an admin on the Roles screen
+(`/roles`) in the per-account detail panel. Editing and publishing are
+deliberately different grants: an editor writes, a publisher signs off.
 
 Two conditions gate the `publish` and `schedule` actions:
 
-1. The actor holds that Publisher assignment.
+1. The actor holds the `publisher` role.
 2. The actor is **not** the article's `created_by`.
 
 Admins bypass the assignment check but are still subject to rule 2 only insofar
@@ -49,7 +48,7 @@ readers: a ghost-written piece is still blocked for the person who typed it.
 | Actor                        | submit | publish own | publish other's | unpublish |
 | ---------------------------- | ------ | ----------- | --------------- | --------- |
 | Contributor / editor         | yes    | no          | no              | no        |
-| Publisher (Comm. & Marketing)| yes    | no          | yes             | yes       |
+| Publisher                    | yes    | no          | yes             | yes       |
 | Admin                        | yes    | yes         | yes             | yes       |
 
 ## Enforced twice, on purpose

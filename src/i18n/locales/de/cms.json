@@ -120,7 +120,7 @@
     "submitForReview": "Zur Prüfung einreichen",
     "submitChanges": "Änderungen zur Prüfung einreichen",
     "returnToDraft": "Zurück in den Entwurf",
-    "reviewNeedsPublisher": "Eine Publisherin oder ein Publisher aus Communication & Marketing muss diesen Artikel veröffentlichen.",
+    "reviewNeedsPublisher": "Ein Konto mit Veröffentlichungsrechten muss diesen Artikel veröffentlichen.",
     "reviewSelfBlocked": "Du hast diesen Artikel erstellt — eine andere Person mit Publisher-Rolle muss ihn prüfen und veröffentlichen.",
     "publishFailed": "Diese Aktion wurde abgelehnt. Bitte lade die Seite neu und versuche es erneut.",
     "statusUnchanged": "Der Artikelstatus wurde nicht geändert."
@@ -712,7 +712,15 @@
     "qaCreated": "Testkonto erstellt",
     "qaCredentialsNote": "Wird nur einmal angezeigt — jetzt kopieren. Es wird nichts gespeichert oder per E-Mail versendet.",
     "removeAccess": "Zugriff entfernen",
-    "removeConfirm": "Redaktor- und Organisator-Zugriff für {name} entfernen? Die Mitgliedschaft und der Zugang zum Mitgliederbereich bleiben erhalten."
+    "removeConfirm": "Editor-, Organizer- und Publisher-Zugriff für {name} entfernen? Mitgliedschaft und Mitgliederbereich bleiben bestehen.",
+    "publisherBadge": "Publisher",
+    "manage": "Verwalten",
+    "close": "Schliessen",
+    "rightsTitle": "Zugriffsrechte",
+    "accountAuditTitle": "Letzte Änderungen für dieses Konto",
+    "editorDesc": "Artikel erstellen und bearbeiten",
+    "organizerDesc": "Veranstaltungen erstellen und verwalten",
+    "publisherDesc": "Artikel prüfen und veröffentlichen"
   },
   "events": {
     "title": "Events",
