@@ -28,6 +28,7 @@ import {
   setArticleFeaturedFlag,
 } from "@/lib/articles.functions";
 import { useCms } from "@/i18n/cms";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/_staff/articles/$id")({
   beforeLoad: ({ context }) => requireStaffAccess(context.queryClient, ARTICLE_ROLES),
@@ -52,6 +53,11 @@ type Permissions = {
   canPublish: boolean;
 };
 
+/** Payload accepted by the status server function. */
+type TransitionPayload =
+  | { id: string; action: "submit" | "return_to_draft" | "publish" | "unpublish" }
+  | { id: string; action: "schedule"; scheduledAt: string };
+
 function EditorPage() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
@@ -68,7 +74,6 @@ function EditorPage() {
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [featuredNote, setFeaturedNote] = useState<string | null>(null);
-  const [actionError, setActionError] = useState<string | null>(null);
   const [unsplashOpen, setUnsplashOpen] = useState(false);
 
   useEffect(() => {
@@ -181,40 +186,38 @@ function EditorPage() {
     setFeaturedNote(next ? t("editor.featuredOn") : t("editor.featuredOff"));
   };
 
-  const publishNow = async () => {
-    if (!article) return;
+  /**
+   * All status changes go through here. A refusal is an expected outcome of the
+   * four-eye rule (wrong status, missing publisher rights, own article), not a
+   * crash: we explain it in a toast and re-read the row so the buttons match
+   * the article's real state again.
+   */
+  const runTransition = async (payload: TransitionPayload): Promise<boolean> => {
     try {
-      const patch = await changeArticleStatus({ data: { id: article.id, action: "publish" } });
+      const patch = await changeArticleStatus({ data: payload });
       update(patch as Partial<Article>);
-      setActionError(null);
-    } catch {
-      setActionError(t("editor.publishFailed"));
+      return true;
+    } catch (err) {
+      const message = err instanceof Error && err.message ? err.message : t("editor.publishFailed");
+      toast.info(message, { description: t("editor.statusUnchanged") });
+      try {
+        const fresh = await getArticleEditorData({ data: { id: payload.id } });
+        if (fresh.article) setArticle(fresh.article);
+        setPermissions(fresh.permissions as Permissions);
+      } catch {
+        /* the toast already told the user; leave the editor as it is */
+      }
+      return false;
     }
   };
 
-  const submitForReview = async () => {
-    if (!article) return;
-    try {
-      const patch = await changeArticleStatus({ data: { id: article.id, action: "submit" } });
-      update(patch as Partial<Article>);
-      setActionError(null);
-    } catch {
-      setActionError(t("editor.publishFailed"));
-    }
-  };
+  const publishNow = () => (article ? void runTransition({ id: article.id, action: "publish" }) : undefined);
 
-  const returnToDraft = async () => {
-    if (!article) return;
-    try {
-      const patch = await changeArticleStatus({
-        data: { id: article.id, action: "return_to_draft" },
-      });
-      update(patch as Partial<Article>);
-      setActionError(null);
-    } catch {
-      setActionError(t("editor.publishFailed"));
-    }
-  };
+  const submitForReview = () =>
+    article ? void runTransition({ id: article.id, action: "submit" }) : undefined;
+
+  const returnToDraft = () =>
+    article ? void runTransition({ id: article.id, action: "return_to_draft" }) : undefined;
 
   const schedule = async () => {
     if (!article) return;
@@ -225,27 +228,15 @@ function EditorPage() {
     if (!input) return;
     const dt = new Date(input.replace(" ", "T"));
     if (isNaN(dt.getTime())) {
-      alert(t("editor.invalidDate"));
+      toast.info(t("editor.invalidDate"));
       return;
     }
-    try {
-      const patch = await changeArticleStatus({
-        data: { id: article.id, action: "schedule", scheduledAt: dt.toISOString() },
-      });
-      update(patch as Partial<Article>);
-    } catch {
-      /* keep the current status */
-    }
+    await runTransition({ id: article.id, action: "schedule", scheduledAt: dt.toISOString() });
   };
 
   const unpublish = async () => {
     if (!article) return;
-    try {
-      const patch = await changeArticleStatus({ data: { id: article.id, action: "unpublish" } });
-      update(patch as Partial<Article>);
-    } catch {
-      /* keep the current status */
-    }
+    await runTransition({ id: article.id, action: "unpublish" });
   };
 
   const remove = async () => {
@@ -318,9 +309,6 @@ function EditorPage() {
           <span className="text-xs text-muted-foreground">{saveLabel}</span>
         </div>
         <div className="flex items-center gap-2">
-          {actionError ? (
-            <span className="max-w-xs text-xs text-destructive">{actionError}</span>
-          ) : null}
           {article.status === "review" && !canPublish ? (
             <span className="max-w-xs text-xs text-muted-foreground">
               {permissions?.isCreator && permissions.isPublisher

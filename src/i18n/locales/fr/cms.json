@@ -122,7 +122,8 @@
     "returnToDraft": "Remettre en brouillon",
     "reviewNeedsPublisher": "Une personne « Publisher » de Communication & Marketing doit publier cet article.",
     "reviewSelfBlocked": "Vous avez créé cet article — une autre personne « Publisher » doit le relire et le publier.",
-    "publishFailed": "Action refusée. Veuillez recharger la page et réessayer."
+    "publishFailed": "Action refusée. Veuillez recharger la page et réessayer.",
+    "statusUnchanged": "Le statut de l'article n'a pas changé."
   },
   "translations": {
     "title": "Traductions",

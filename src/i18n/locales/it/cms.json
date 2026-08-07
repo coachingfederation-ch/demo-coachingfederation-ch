@@ -122,7 +122,8 @@
     "returnToDraft": "Riporta a bozza",
     "reviewNeedsPublisher": "Un publisher di Communication & Marketing deve pubblicare questo articolo.",
     "reviewSelfBlocked": "Hai creato tu questo articolo — deve rivederlo e pubblicarlo un altro publisher.",
-    "publishFailed": "Azione rifiutata. Ricarica la pagina e riprova."
+    "publishFailed": "Azione rifiutata. Ricarica la pagina e riprova.",
+    "statusUnchanged": "Lo stato dell'articolo non è cambiato."
   },
   "translations": {
     "title": "Traduzioni",
