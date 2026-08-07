@@ -35,7 +35,7 @@ type Row = {
   description: string | null;
   category: GovernanceCategory;
   year: number | null;
-  language: string;
+  language: (typeof LANGUAGES)[number];
   file_path: string | null;
   external_url: string | null;
   file_size_bytes: number | null;
@@ -44,10 +44,12 @@ type Row = {
   sort_order: number;
 };
 
+const LANGUAGES = ["en", "de", "fr", "it"] as const;
+
 const COLUMNS =
   "id, title, description, category, year, language, file_path, external_url, file_size_bytes, mime_type, is_published, sort_order";
 
-const LANGUAGES = ["en", "de", "fr", "it"] as const;
+
 
 function GovernanceCmsPage() {
   const { t } = useCms();
@@ -59,7 +61,7 @@ function GovernanceCmsPage() {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState<GovernanceCategory>("agm");
   const [year, setYear] = useState<string>(String(new Date().getFullYear()));
-  const [language, setLanguage] = useState<string>("en");
+  const [language, setLanguage] = useState<(typeof LANGUAGES)[number]>("en");
   const [externalUrl, setExternalUrl] = useState("");
   const [file, setFile] = useState<File | null>(null);
 
@@ -111,7 +113,7 @@ function GovernanceCmsPage() {
       description: description.trim() || null,
       category,
       year: Number.isFinite(parsedYear) ? parsedYear : null,
-      language: language as "en" | "de" | "fr" | "it",
+      language,
       file_path: filePath,
       external_url: filePath ? null : externalUrl.trim() || null,
       file_size_bytes: file ? file.size : null,
@@ -208,7 +210,7 @@ function GovernanceCmsPage() {
             />
             <select
               value={language}
-              onChange={(e) => setLanguage(e.target.value)}
+              onChange={(e) => setLanguage(e.target.value as (typeof LANGUAGES)[number])}
               aria-label={t("governance.fieldLanguage")}
               className={inputClass}
             >
