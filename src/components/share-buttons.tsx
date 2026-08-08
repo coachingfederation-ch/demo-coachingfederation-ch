@@ -5,6 +5,7 @@
 import { useState } from "react";
 import { Linkedin, Mail, Link2, Check } from "lucide-react";
 import { useI18n } from "@/i18n";
+import { trackGoal } from "@/lib/plausible";
 
 /** X (formerly Twitter) has no lucide glyph, so the mark is inlined. */
 function XIcon({ className }: { className?: string }) {
@@ -23,6 +24,11 @@ function shareTargets(url: string, title: string) {
     x: `https://x.com/intent/post?url=${u}&text=${t}`,
     email: `mailto:?subject=${t}&body=${t}%0A%0A${u}`,
   };
+}
+
+/** One shared reporter so inline and block share actions land as one goal. */
+function reportShare(channel: string) {
+  trackGoal("Article Share", { channel });
 }
 
 const ICON_BTN =
