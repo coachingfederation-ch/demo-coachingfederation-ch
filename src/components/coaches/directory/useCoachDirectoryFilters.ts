@@ -183,15 +183,6 @@ export function useCoachDirectoryFilters() {
       ).replace("{count}", String(shownCount));
   const hasMore = !isSample && !narrowed && (page + 1) * pageSize < total;
 
-  // One search event per settled filter set: the effect keys on the serialised
-  // filters, so typing a query or toggling a facet reports once, not per render.
-  const searchSignature = JSON.stringify({ ...filters, query: query.trim(), acceptingOnly });
-  useEffect(() => {
-    if (isPending || !dirty) return;
-    // Everything reported is derived from the signature above.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchSignature, isPending]);
-
   return {
     t,
     modes,
