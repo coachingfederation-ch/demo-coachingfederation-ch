@@ -59,7 +59,7 @@ export async function latestLinkedInPost(articleId: string): Promise<LinkedInPos
   const { data, error } = await db
     .from("article_linkedin_posts")
     .select(
-      "id, status, linkedin_post_urn, linkedin_post_url, posted_at, commentary, image_mode, error_message, created_at",
+      "id, status, linkedin_post_urn, linkedin_post_url, posted_at, commentary, image_mode, mark_layout, error_message, created_at",
     )
     .eq("article_id", articleId)
     .order("created_at", { ascending: false })
@@ -304,6 +304,8 @@ export async function postArticle(input: {
   commentary: string;
   imageMode: LinkedInImageMode;
   imageBase64: string;
+  /** The brush placement the publisher arranged, so it can be restored later. */
+  markLayout: unknown;
   userId: string;
 }): Promise<LinkedInPostRecord> {
   const db = await admin();
@@ -323,6 +325,7 @@ export async function postArticle(input: {
       status: "pending",
       commentary: input.commentary,
       image_mode: input.imageMode,
+      mark_layout: input.markLayout ?? null,
       created_by: input.userId,
     })
     .select("id")
@@ -346,7 +349,7 @@ export async function postArticle(input: {
       })
       .eq("id", row.id)
       .select(
-        "id, status, linkedin_post_urn, linkedin_post_url, posted_at, commentary, image_mode, error_message, created_at",
+        "id, status, linkedin_post_urn, linkedin_post_url, posted_at, commentary, image_mode, mark_layout, error_message, created_at",
       )
       .single();
     if (error) throw new Error(error.message);

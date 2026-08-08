@@ -977,7 +977,12 @@
     "pageName": "Nome della pagina",
     "pageSave": "Salva pagina",
     "pageSaved": "Pagina LinkedIn salvata.",
-    "shuffle": "Cambia segni",
-    "languages": "DE · FR · IT · EN in un unico post"
+    "languages": "DE · FR · IT · EN in un unico post",
+    "suggest": "Proponi una disposizione",
+    "brushes": "Pennelli",
+    "markLimit": "trascina per spostare, angolo per ridimensionare",
+    "markOverlap": "Un segno si sovrappone all'area del titolo.",
+    "markRemove": "Rimuovi segno",
+    "markColour": "Colore del segno"
   }
 }

@@ -28,6 +28,8 @@ export type LinkedInPostRecord = {
   posted_at: string | null;
   commentary: string;
   image_mode: string;
+  /** Saved brush placement (percentage geometry), null for older posts. */
+  mark_layout: unknown;
   error_message: string | null;
   created_at: string;
 };
