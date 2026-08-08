@@ -31,7 +31,9 @@ export function LinkedInPageSettings() {
   const save = async () => {
     setSaving(true);
     try {
-      const next = await saveLinkedInPage({ data: { organizationUrn: urn, organizationName: name } });
+      const next = await saveLinkedInPage({
+        data: { organizationUrn: urn, organizationName: name },
+      });
       setConnected(next.connected);
       toast.success(t("linkedin.pageSaved"));
     } catch (err) {
