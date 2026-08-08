@@ -6,7 +6,6 @@
 import { useI18n } from "@/i18n";
 import type { PublicCoachProfile } from "@/lib/directory.functions";
 import { Chips, Fact, PROFILE_CARD, Prose, SideCard } from "@/components/coaches/profile/shared";
-import { trackEvent } from "@/lib/amplitude";
 
 export function CoachProfileSidebar({
   profile,
@@ -67,13 +66,6 @@ export function CoachProfileSidebar({
                     target="_blank"
                     rel="noopener noreferrer nofollow"
                     className="inline-flex h-11 items-center justify-center rounded-full bg-accent px-5 text-sm font-semibold text-accent-foreground transition-transform duration-200 hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
-                    onClick={() =>
-                      trackEvent("Coach Contact Clicked", {
-                        channel: "booking",
-                        placement: "sidebar",
-                        coach_profile_id: profile.profile_id,
-                      })
-                    }
                   >
                     {t("directory.detail.book")}
                   </a>
@@ -83,13 +75,6 @@ export function CoachProfileSidebar({
                     href={`mailto:${contactEmail}`}
                     target="_top"
                     className="inline-flex h-11 items-center justify-center rounded-full border-2 border-primary px-5 text-sm font-semibold text-primary hover:bg-secondary"
-                    onClick={() =>
-                      trackEvent("Coach Contact Clicked", {
-                        channel: "email",
-                        placement: "sidebar",
-                        coach_profile_id: profile.profile_id,
-                      })
-                    }
                   >
                     {t("directory.detail.message")}
                   </a>

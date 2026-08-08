@@ -5,7 +5,6 @@
 import { useState } from "react";
 import { Linkedin, Mail, Link2, Check } from "lucide-react";
 import { useI18n } from "@/i18n";
-import { trackEvent } from "@/lib/amplitude";
 
 /** X (formerly Twitter) has no lucide glyph, so the mark is inlined. */
 function XIcon({ className }: { className?: string }) {
@@ -26,11 +25,6 @@ function shareTargets(url: string, title: string) {
   };
 }
 
-/** One shared reporter so inline and block share actions land as one event. */
-function reportShare(channel: string, url: string, title: string) {
-  trackEvent("Article Shared", { channel, article_url: url, article_title: title });
-}
-
 const ICON_BTN =
   "inline-flex h-11 w-11 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
@@ -46,7 +40,6 @@ export function ShareInline({ url, title }: { url: string; title: string }) {
         rel="noopener noreferrer"
         aria-label={t("insights.share.linkedin")}
         className={ICON_BTN}
-        onClick={() => reportShare("linkedin", url, title)}
       >
         <Linkedin className="h-4 w-4" />
       </a>
@@ -56,7 +49,6 @@ export function ShareInline({ url, title }: { url: string; title: string }) {
         rel="noopener noreferrer"
         aria-label={t("insights.share.x")}
         className={ICON_BTN}
-        onClick={() => reportShare("x", url, title)}
       >
         <XIcon className="h-4 w-4" />
       </a>
@@ -65,7 +57,6 @@ export function ShareInline({ url, title }: { url: string; title: string }) {
         target="_top"
         aria-label={t("insights.share.email")}
         className={ICON_BTN}
-        onClick={() => reportShare("email", url, title)}
       >
         <Mail className="h-4 w-4" />
       </a>
@@ -87,7 +78,6 @@ export function ShareBlock({ url, title }: { url: string; title: string }) {
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
-      reportShare("copy_link", url, title);
       window.setTimeout(() => setCopied(false), 2000);
     } catch {
       /* clipboard blocked — the explicit share links remain available */
@@ -98,32 +88,15 @@ export function ShareBlock({ url, title }: { url: string; title: string }) {
     <section className="mt-14 rounded-2xl border border-border/70 bg-card p-6 sm:p-8">
       <h2 className="text-lg font-semibold tracking-tight">{t("insights.share.title")}</h2>
       <div className="mt-4 flex flex-wrap gap-3">
-        <a
-          href={links.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={LABEL_BTN}
-          onClick={() => reportShare("linkedin", url, title)}
-        >
+        <a href={links.linkedin} target="_blank" rel="noopener noreferrer" className={LABEL_BTN}>
           <Linkedin className="h-4 w-4" />
           {t("insights.share.linkedin")}
         </a>
-        <a
-          href={links.x}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={LABEL_BTN}
-          onClick={() => reportShare("x", url, title)}
-        >
+        <a href={links.x} target="_blank" rel="noopener noreferrer" className={LABEL_BTN}>
           <XIcon className="h-4 w-4" />
           {t("insights.share.x")}
         </a>
-        <a
-          href={links.email}
-          target="_top"
-          className={LABEL_BTN}
-          onClick={() => reportShare("email", url, title)}
-        >
+        <a href={links.email} target="_top" className={LABEL_BTN}>
           <Mail className="h-4 w-4" />
           {t("insights.share.email")}
         </a>

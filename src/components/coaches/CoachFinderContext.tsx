@@ -37,11 +37,7 @@ export function CoachFinderContext() {
     <section className="bg-background py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Mobile disclosure: native <details> open by default, controlled via state so the toggle label flips. */}
-        <details
-          open={open}
-          onToggle={(e) => setOpen(e.currentTarget.open)}
-          className="group"
-        >
+        <details open={open} onToggle={(e) => setOpen(e.currentTarget.open)} className="group">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-2xl bg-card p-5 shadow-[var(--shadow-soft)] lg:hidden">
             <h2 className="font-display text-xl font-semibold tracking-tight text-foreground">
               {t("directory.finderContext.credentials.title")}
@@ -72,19 +68,19 @@ export function CoachFinderContext() {
                   key={card.abbr}
                   className="relative overflow-hidden rounded-2xl bg-card p-6 shadow-[var(--shadow-soft)]"
                 >
-                <div className="relative z-10">
-                  <div className="flex items-baseline gap-2">
-                    <span className="font-display text-3xl font-semibold text-primary">
-                      {card.abbr}
-                    </span>
-                    <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      {card.title}
-                    </span>
+                  <div className="relative z-10">
+                    <div className="flex items-baseline gap-2">
+                      <span className="font-display text-3xl font-semibold text-primary">
+                        {card.abbr}
+                      </span>
+                      <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        {card.title}
+                      </span>
+                    </div>
+                    <p className="mt-5 text-sm leading-relaxed text-foreground">
+                      {card.description}
+                    </p>
                   </div>
-                  <p className="mt-5 text-sm leading-relaxed text-foreground">
-                    {card.description}
-                  </p>
-                </div>
                 </div>
               ))}
             </div>
@@ -93,10 +89,7 @@ export function CoachFinderContext() {
             <div className="grid gap-5 lg:grid-cols-2">
               <div className="relative overflow-hidden rounded-2xl border border-mark-yellow/40 bg-mark-yellow/15 p-6">
                 <div className="relative z-10 flex gap-4">
-                  <div
-                    className="mt-1 h-8 w-8 shrink-0 text-mark-yellow"
-                    aria-hidden
-                  >
+                  <div className="mt-1 h-8 w-8 shrink-0 text-mark-yellow" aria-hidden>
                     <Mark name="asterisk2" className="h-full w-full" />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -113,10 +106,7 @@ export function CoachFinderContext() {
               <div className="relative overflow-hidden rounded-2xl bg-hero p-6 text-hero-foreground">
                 <div className="relative z-10">
                   <div className="flex items-start gap-4">
-                    <div
-                      className="mt-1 h-8 w-8 shrink-0 text-hero-foreground/80"
-                      aria-hidden
-                    >
+                    <div className="mt-1 h-8 w-8 shrink-0 text-hero-foreground/80" aria-hidden>
                       <Mark name="arrow2" className="h-full w-full" />
                     </div>
                     <div className="min-w-0 flex-1">

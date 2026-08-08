@@ -21,7 +21,6 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LanguageNotice } from "../components/language-notice";
 import { AssistantWidget } from "../components/assistant/AssistantWidget";
 import { Toaster } from "../components/ui/sonner";
-import { Analytics } from "../components/analytics";
 
 function NotFoundComponent() {
   return (
@@ -177,7 +176,6 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
-      <Analytics />
       <LanguageNotice />
       <AssistantWidget />
       {/* Single global toast outlet — refused actions surface here rather than throwing. */}

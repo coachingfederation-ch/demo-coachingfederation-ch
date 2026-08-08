@@ -16,7 +16,6 @@ import {
   type PulseItem,
 } from "@/lib/europe-pulse";
 import { listEuropePulse } from "@/lib/europe-pulse.functions";
-import { useTrackView } from "@/lib/amplitude";
 
 function TypeChip({ label }: { label: string }) {
   return (
@@ -165,12 +164,6 @@ export default function EuropePulsePage() {
   const items = data?.items ?? [];
   const weekLabel = formatPulseDate(data?.weekOf ?? null, locale);
   const countries = new Set(items.map((i) => i.countryCode)).size;
-  useTrackView("Europe Pulse Edition Viewed", data?.weekOf ?? "", {
-    week_of: data?.weekOf ?? null,
-    item_count: items.length,
-    country_count: countries,
-    locale,
-  });
 
   return (
     <div className="min-h-dvh bg-background text-foreground">
