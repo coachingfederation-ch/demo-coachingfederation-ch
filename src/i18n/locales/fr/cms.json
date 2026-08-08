@@ -970,6 +970,12 @@
     "lastFailed": "Dernière tentative échouée :",
     "notConnected": "LinkedIn n'est pas encore connecté. Connectez d'abord le connecteur LinkedIn.",
     "noPage": "Aucune page entreprise LinkedIn n'est encore configurée pour le chapitre.",
-    "kickerFallback": "Insights"
+    "kickerFallback": "Insights",
+    "pageTitle": "Page entreprise LinkedIn",
+    "pageBody": "Les posts d'articles sont publiés sur cette page.",
+    "pageUrn": "URN de l'organisation",
+    "pageName": "Nom de la page",
+    "pageSave": "Enregistrer la page",
+    "pageSaved": "Page LinkedIn enregistrée."
   }
 }

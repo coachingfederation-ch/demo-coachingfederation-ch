@@ -970,6 +970,12 @@
     "lastFailed": "Letzter Versuch fehlgeschlagen:",
     "notConnected": "LinkedIn ist noch nicht verbunden. Bitte zuerst den LinkedIn-Connector verbinden.",
     "noPage": "Für das Chapter ist noch keine LinkedIn-Unternehmensseite konfiguriert.",
-    "kickerFallback": "Insights"
+    "kickerFallback": "Insights",
+    "pageTitle": "LinkedIn-Unternehmensseite",
+    "pageBody": "Artikelbeiträge werden auf dieser Seite veröffentlicht.",
+    "pageUrn": "Organisations-URN",
+    "pageName": "Seitenname",
+    "pageSave": "Seite speichern",
+    "pageSaved": "LinkedIn-Seite gespeichert."
   }
 }

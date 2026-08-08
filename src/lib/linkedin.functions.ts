@@ -7,6 +7,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { assertLinkedInPublisher } from "./linkedin-authz";
+import { assertAdmin } from "./authz";
 import { LINKEDIN_COMMENTARY_LIMIT } from "./linkedin";
 
 const draftInput = z.object({ articleId: z.string().uuid() });
@@ -56,4 +57,32 @@ export const publishArticleToLinkedIn = createServerFn({ method: "POST" })
     const userId = await assertLinkedInPublisher(context);
     const server = await import("./linkedin.server");
     return server.postArticle({ ...data, userId });
+  });
+
+const pageInput = z.object({
+  organizationUrn: z
+    .string()
+    .trim()
+    .max(200)
+    .regex(/^$|^urn:li:organization:\d+$/, "Expected a urn:li:organization:<id> value"),
+  organizationName: z.string().trim().max(200),
+});
+
+/** Reads the configured LinkedIn company page (admin settings screen). */
+export const getLinkedInPage = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertAdmin(context);
+    const server = await import("./linkedin.server");
+    return server.linkedInReadiness();
+  });
+
+/** Sets the LinkedIn company page every article post is published to. */
+export const saveLinkedInPage = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) => pageInput.parse(data))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const server = await import("./linkedin.server");
+    return server.saveLinkedInPage(data.organizationUrn || null, data.organizationName || null);
   });

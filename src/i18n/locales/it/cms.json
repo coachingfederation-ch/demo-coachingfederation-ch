@@ -970,6 +970,12 @@
     "lastFailed": "Ultimo tentativo fallito:",
     "notConnected": "LinkedIn non è ancora collegato. Collega prima il connettore LinkedIn.",
     "noPage": "Nessuna pagina aziendale LinkedIn è ancora configurata per il chapter.",
-    "kickerFallback": "Insights"
+    "kickerFallback": "Insights",
+    "pageTitle": "Pagina aziendale LinkedIn",
+    "pageBody": "I post degli articoli vengono pubblicati su questa pagina.",
+    "pageUrn": "URN dell'organizzazione",
+    "pageName": "Nome della pagina",
+    "pageSave": "Salva pagina",
+    "pageSaved": "Pagina LinkedIn salvata."
   }
 }

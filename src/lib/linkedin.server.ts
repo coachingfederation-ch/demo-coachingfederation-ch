@@ -305,3 +305,14 @@ function decodeBase64(value: string): Uint8Array {
   for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
   return bytes;
 }
+
+/** Persists the chapter's LinkedIn company page. Admin-gated by the caller. */
+export async function saveLinkedInPage(urn: string | null, name: string | null) {
+  const db = await admin();
+  const { error } = await db
+    .from("linkedin_config")
+    .update({ organization_urn: urn, organization_name: name })
+    .eq("id", true);
+  if (error) throw new Error(error.message);
+  return linkedInReadiness();
+}

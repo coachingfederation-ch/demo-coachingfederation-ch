@@ -970,6 +970,12 @@
     "lastFailed": "Last attempt failed:",
     "notConnected": "LinkedIn is not connected yet. Link the LinkedIn connector before posting.",
     "noPage": "No LinkedIn company page is configured for the chapter yet.",
-    "kickerFallback": "Insights"
+    "kickerFallback": "Insights",
+    "pageTitle": "LinkedIn company page",
+    "pageBody": "Article posts are published to this page.",
+    "pageUrn": "Organisation URN",
+    "pageName": "Page name",
+    "pageSave": "Save page",
+    "pageSaved": "LinkedIn page saved."
   }
 }
