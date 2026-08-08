@@ -210,11 +210,38 @@ export function LinkedInShareCard({
                 </div>
               </div>
               {/* Preview is a scaled clone; the ref'd node below is rasterised at full size. */}
-              <div
-                className="overflow-hidden rounded-xl border border-border"
-                style={{ width: LINKEDIN_CARD_WIDTH * 0.5, height: LINKEDIN_CARD_HEIGHT * 0.5 }}
-              >
-                <div className="relative">
+              {mode === "marks" ? (
+                <LinkedInMarkEditor
+                  marks={marks}
+                  onChange={setMarks}
+                  width={LINKEDIN_CARD_WIDTH * 0.5}
+                  height={LINKEDIN_CARD_HEIGHT * 0.5}
+                  labels={{
+                    palette: t("linkedin.brushes"),
+                    limit: t("linkedin.markLimit"),
+                    overlap: t("linkedin.markOverlap"),
+                    remove: t("linkedin.markRemove"),
+                    colour: t("linkedin.markColour"),
+                  }}
+                >
+                  <div
+                    className="pointer-events-none absolute inset-0"
+                    style={{ transform: "scale(0.5)", transformOrigin: "top left" }}
+                  >
+                    <LinkedInCard
+                      title={draft?.article.title ?? ""}
+                      kicker={categoryLabel}
+                      mode={mode}
+                      imageDataUrl={imageDataUrl}
+                      marks={marks}
+                    />
+                  </div>
+                </LinkedInMarkEditor>
+              ) : (
+                <div
+                  className="overflow-hidden rounded-xl border border-border"
+                  style={{ width: LINKEDIN_CARD_WIDTH * 0.5, height: LINKEDIN_CARD_HEIGHT * 0.5 }}
+                >
                   <div style={{ transform: "scale(0.5)", transformOrigin: "top left" }}>
                     <LinkedInCard
                       title={draft?.article.title ?? ""}
@@ -224,25 +251,8 @@ export function LinkedInShareCard({
                       marks={marks}
                     />
                   </div>
-                  {mode === "marks" ? (
-                    <div className="absolute inset-0">
-                      <LinkedInMarkEditor
-                        marks={marks}
-                        onChange={setMarks}
-                        width={LINKEDIN_CARD_WIDTH * 0.5}
-                        height={LINKEDIN_CARD_HEIGHT * 0.5}
-                        labels={{
-                          palette: t("linkedin.brushes"),
-                          limit: t("linkedin.markLimit"),
-                          overlap: t("linkedin.markOverlap"),
-                          remove: t("linkedin.markRemove"),
-                          colour: t("linkedin.markColour"),
-                        }}
-                      />
-                    </div>
-                  ) : null}
                 </div>
-              </div>
+              )}
             </div>
 
             <label className="block">

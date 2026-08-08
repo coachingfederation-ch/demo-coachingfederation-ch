@@ -30,12 +30,14 @@ export function LinkedInMarkEditor({
   width,
   height,
   labels,
+  children,
 }: {
   marks: PlacedMark[];
   onChange: (next: PlacedMark[]) => void;
   /** Size of the scaled preview the overlay sits on, in CSS pixels. */
   width: number;
   height: number;
+  children: React.ReactNode;
   labels: {
     palette: string;
     limit: string;
@@ -110,7 +112,7 @@ export function LinkedInMarkEditor({
 
       <div
         ref={surfaceRef}
-        className="relative select-none touch-none"
+        className="relative select-none touch-none overflow-hidden rounded-xl border border-border"
         style={{ width, height }}
         onPointerMove={onPointerMove}
         onPointerUp={endDrag}
@@ -123,6 +125,7 @@ export function LinkedInMarkEditor({
         }}
         tabIndex={-1}
       >
+        {children}
         {marks.map((mark) => {
           const isSelected = selected === mark.id;
           return (
