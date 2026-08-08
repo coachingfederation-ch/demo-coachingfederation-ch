@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { useI18n } from "@/i18n";
 import { recordDeckDownload } from "@/lib/deck-download.functions";
+import { trackGoal } from "@/lib/plausible";
 import deckEn from "@/assets/deck/deck-en.pdf.asset.json";
 import deckDe from "@/assets/deck/deck-de.pdf.asset.json";
 import deckFr from "@/assets/deck/deck-fr.pdf.asset.json";
@@ -43,6 +44,7 @@ export function DeckDownload() {
     } catch {
       // Never block the download on tracking failure.
     }
+    trackGoal("Deck Download", { locale });
     const a = document.createElement("a");
     a.href = deck.url;
     a.download = deck.original_filename;

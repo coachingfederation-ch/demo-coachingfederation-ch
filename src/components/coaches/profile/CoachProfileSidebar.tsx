@@ -5,6 +5,7 @@
  */
 import { useI18n } from "@/i18n";
 import type { PublicCoachProfile } from "@/lib/directory.functions";
+import { trackGoal } from "@/lib/plausible";
 import { Chips, Fact, PROFILE_CARD, Prose, SideCard } from "@/components/coaches/profile/shared";
 
 export function CoachProfileSidebar({
@@ -65,6 +66,7 @@ export function CoachProfileSidebar({
                     href={bookingUrl}
                     target="_blank"
                     rel="noopener noreferrer nofollow"
+                    onClick={() => trackGoal("Coach Contact", { channel: "booking" })}
                     className="inline-flex h-11 items-center justify-center rounded-full bg-accent px-5 text-sm font-semibold text-accent-foreground transition-transform duration-200 hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
                   >
                     {t("directory.detail.book")}
@@ -74,6 +76,7 @@ export function CoachProfileSidebar({
                   <a
                     href={`mailto:${contactEmail}`}
                     target="_top"
+                    onClick={() => trackGoal("Coach Contact", { channel: "email" })}
                     className="inline-flex h-11 items-center justify-center rounded-full border-2 border-primary px-5 text-sm font-semibold text-primary hover:bg-secondary"
                   >
                     {t("directory.detail.message")}
