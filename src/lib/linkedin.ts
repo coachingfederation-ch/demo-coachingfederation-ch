@@ -12,11 +12,12 @@ export type LinkedInImageMode = "feature" | "marks";
 export const LINKEDIN_COMMENTARY_LIMIT = 3000;
 
 /**
- * Square 1:1 artwork — it takes the most vertical space in the LinkedIn feed
- * on mobile and matches the chapter's recent posts.
+ * Golden-ratio artwork (1:1.618) — a calm editorial landscape frame that
+ * LinkedIn renders without cropping, and that leaves a clean right-hand
+ * column for the brush marks.
  */
 export const LINKEDIN_CARD_WIDTH = 1200;
-export const LINKEDIN_CARD_HEIGHT = 1200;
+export const LINKEDIN_CARD_HEIGHT = 742;
 
 /** One posting attempt, as stored in `article_linkedin_posts`. */
 export type LinkedInPostRecord = {
