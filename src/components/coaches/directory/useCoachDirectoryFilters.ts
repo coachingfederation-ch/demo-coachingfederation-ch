@@ -130,7 +130,11 @@ export function useCoachDirectoryFilters() {
   // One goal per settled filter set: the effect keys on the serialised filters,
   // so typing a query or toggling a facet reports once, not per render. Only
   // non-identifying facets are sent — never the free-text query itself.
-  const searchSignature = JSON.stringify({ ...filters, hasQuery: query.trim() !== "", acceptingOnly });
+  const searchSignature = JSON.stringify({
+    ...filters,
+    hasQuery: query.trim() !== "",
+    acceptingOnly,
+  });
   useEffect(() => {
     if (isPending || !dirty) return;
     const f = JSON.parse(searchSignature) as Record<string, unknown>;
