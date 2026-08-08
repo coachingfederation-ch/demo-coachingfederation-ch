@@ -16,6 +16,7 @@ import {
 import { LocaleLink, useI18n } from "@/i18n";
 import { localizePath, SITE_URL } from "@/i18n/config";
 import { ShareInline, ShareBlock } from "@/components/share-buttons";
+import { useTrackView } from "@/lib/plausible";
 
 export function DetailShell({ children }: { children: React.ReactNode }) {
   return (
@@ -56,6 +57,7 @@ type DetailArticle = Omit<PublicArticle, "is_featured"> & {
 
 export default function InsightDetailPage({ article }: { article: DetailArticle }) {
   const { t, locale } = useI18n();
+  useTrackView("Insight View", article.id, { article_id: article.id });
   const tile = tileFor(article.id);
   const category = articleCategoryLabel(article as PublicArticle, locale);
   const byline = authorName(article.author) ?? t("insights.byline");
