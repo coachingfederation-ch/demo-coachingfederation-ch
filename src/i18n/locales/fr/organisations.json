@@ -175,6 +175,45 @@
       "again": "Télécharger à nouveau"
     }
   },
+  "segments": {
+    "eyebrow": "Qui nous accompagnons",
+    "title": "De la Genève intergouvernementale aux conseils d'administration suisses et au-delà.",
+    "lede": "Choisissez le contexte le plus proche du vôtre : nous indiquons la voie et le programme par lesquels des organisations comparables commencent le plus souvent.",
+    "reset": "Tout afficher",
+    "context": "Fréquent pour {segment} : {route}",
+    "items": [
+      {
+        "label": "Intergouvernemental (OIG)",
+        "definition": "Agences de l'ONU, OMS, OMC, OIT, WEF et l'ensemble de la Genève internationale.",
+        "angle": "Des coachs à l'aise avec la gouvernance multilatérale, la complexité diplomatique et de strictes exigences de neutralité.",
+        "route": "un projet pilote de coaching de dirigeants"
+      },
+      {
+        "label": "Non gouvernemental (ONG / OING)",
+        "definition": "Organisations humanitaires et de plaidoyer, des OING mondiales aux associations locales.",
+        "angle": "Leadership porté par la mission avec des ressources limitées, résilience dans des contextes exigeants, coaching pour structures plates ou en réseau.",
+        "route": "un coaching d'équipe pour les unités sous pression"
+      },
+      {
+        "label": "Gouvernemental (Suisse)",
+        "definition": "Administrations fédérale, cantonales et communales.",
+        "angle": "Transformation du secteur public, collaboration interdépartementale et modèles d'engagement compatibles avec les marchés publics.",
+        "route": "un projet pilote de coaching de dirigeants"
+      },
+      {
+        "label": "Commercial",
+        "definition": "Entreprises privées de la banque, de la pharma, des télécoms et de l'industrie.",
+        "angle": "Retour sur investissement mesurable, performance des dirigeants et accompagnement des restructurations et transformations.",
+        "route": "la construction d'une culture de coaching interne"
+      },
+      {
+        "label": "Sociétal",
+        "definition": "Éducation, fondations et organisations à but non lucratif hors champ humanitaire et OING.",
+        "angle": "Gouvernance portée par la mission, leadership des comités et des bénévoles, formats adaptés à des budgets serrés.",
+        "route": "un coaching d'équipe pour les unités sous pression"
+      }
+    ]
+  },
   "initiatives": {
     "eyebrow": "Manières de collaborer avec nous",
     "title": "Trois voies d'accès au coaching, selon votre maturité.",

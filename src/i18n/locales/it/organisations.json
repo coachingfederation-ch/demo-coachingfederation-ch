@@ -175,6 +175,45 @@
       "again": "Scarica di nuovo"
     }
   },
+  "segments": {
+    "eyebrow": "Chi accompagniamo",
+    "title": "Dalla Ginevra intergovernativa ai consigli d'amministrazione svizzeri e oltre.",
+    "lede": "Scegli il contesto più vicino al tuo: indichiamo il percorso e il programma da cui partono di solito organizzazioni simili.",
+    "reset": "Mostra tutti",
+    "context": "Frequente per {segment}: {route}",
+    "items": [
+      {
+        "label": "Intergovernativo (IGO)",
+        "definition": "Agenzie ONU, OMS, OMC, OIL, WEF e l'ampia comunità internazionale di Ginevra.",
+        "angle": "Coach a proprio agio con la governance multilaterale, la complessità diplomatica e rigorosi requisiti di neutralità.",
+        "route": "un progetto pilota di coaching per dirigenti"
+      },
+      {
+        "label": "Non governativo (ONG / INGO)",
+        "definition": "Organizzazioni umanitarie e di advocacy, dalle INGO globali alle associazioni locali.",
+        "angle": "Leadership guidata dalla missione con risorse limitate, resilienza in contesti impegnativi, coaching per strutture piatte o a rete.",
+        "route": "coaching di team per unità sotto pressione"
+      },
+      {
+        "label": "Governativo (Svizzera)",
+        "definition": "Amministrazione federale, cantonale e comunale.",
+        "angle": "Trasformazione del settore pubblico, collaborazione interdipartimentale e modelli di incarico compatibili con gli appalti.",
+        "route": "un progetto pilota di coaching per dirigenti"
+      },
+      {
+        "label": "Commerciale",
+        "definition": "Aziende private di banche, farmaceutica, telecomunicazioni e industria.",
+        "angle": "ROI misurabile, performance dei dirigenti e coaching durante ristrutturazioni e trasformazioni.",
+        "route": "la costruzione di una cultura di coaching interna"
+      },
+      {
+        "label": "Sociale",
+        "definition": "Istruzione, fondazioni e non profit al di fuori dell'ambito umanitario e INGO.",
+        "angle": "Governance guidata dalla missione, leadership di comitati e volontari e formati attenti al budget.",
+        "route": "coaching di team per unità sotto pressione"
+      }
+    ]
+  },
   "initiatives": {
     "eyebrow": "Come collaborare con noi",
     "title": "Tre percorsi di coaching, a seconda delle vostre esigenze.",

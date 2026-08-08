@@ -64,7 +64,7 @@ const initiativeVisuals: { bg: string; fg: string; mark: MarkName }[] = [
   { bg: "bg-mark-cream", fg: "text-mark-indigo", mark: "asterisk3" },
 ];
 
-export function Initiatives() {
+export function Initiatives({ contextLine }: { contextLine?: string }) {
   const { t, tList } = useI18n();
   const items = tList<{ tag: string; title: string; desc: string; lead?: string; cta: string }>(
     "organisations.initiatives.items",
@@ -75,7 +75,14 @@ export function Initiatives() {
       <div className="mx-auto max-w-7xl px-8">
         <p className="eyebrow">{t("organisations.initiatives.eyebrow")}</p>
         <h2 className="mt-3 max-w-2xl display-lg">{t("organisations.initiatives.title")}</h2>
-        <div className="mt-14 space-y-6">
+        {/* Reserved slot keeps the grid from shifting when a segment is selected. */}
+        <p
+          aria-live="polite"
+          className="mt-4 min-h-[1.25rem] text-sm font-semibold leading-relaxed text-primary"
+        >
+          {contextLine ?? ""}
+        </p>
+        <div className="mt-10 space-y-6">
           {items.map((item, i) => {
             const v = initiativeVisuals[i % initiativeVisuals.length];
             return (
