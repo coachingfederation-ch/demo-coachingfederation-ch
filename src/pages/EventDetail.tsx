@@ -22,6 +22,7 @@ import {
 } from "@/lib/events";
 import type { EventHost } from "@/lib/event-hosts";
 import { eventMap } from "@/lib/event-map";
+import { trackGoal, useTrackView } from "@/lib/plausible";
 import {
   cancelMyRegistration,
   getMyRegistration,
@@ -88,6 +89,9 @@ export default function EventDetailPage({
   event: PublicEvent & { hosts?: EventHost[] };
 }) {
   const { t, locale } = useI18n();
+  useTrackView("Event View", event.slug ?? event.id ?? "", {
+    event_slug: event.slug ?? "",
+  });
   const tz = event.timezone ?? "Europe/Zurich";
   const past = isPastEvent(event);
   const hosts = event.hosts ?? [];
@@ -131,6 +135,10 @@ export default function EventDetailPage({
       : await submitGuestRegistration({ data: payload });
     if (result.ok) {
       setState({ kind: "done" });
+      trackGoal("Event Registration", {
+        event_slug: event.slug ?? "",
+        member: signedIn,
+      });
       // refetch() ignores `enabled`, so only call it for signed-in visitors —
       // otherwise the protected server fn runs without a bearer token and 401s.
       if (signedIn) void mine.refetch();

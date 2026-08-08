@@ -84,6 +84,7 @@ export function CultureSurvey() {
         },
       });
       if (res.ok) {
+        trackGoal("Organisation Survey", { maturity_band: band, locale });
         setStep("done");
       } else setError(t("organisations.survey.form.error"));
     } catch {
