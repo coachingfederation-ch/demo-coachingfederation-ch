@@ -88,29 +88,15 @@ export function ShareBlock({ url, title }: { url: string; title: string }) {
     <section className="mt-14 rounded-2xl border border-border/70 bg-card p-6 sm:p-8">
       <h2 className="text-lg font-semibold tracking-tight">{t("insights.share.title")}</h2>
       <div className="mt-4 flex flex-wrap gap-3">
-        <a
-          href={links.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={LABEL_BTN}
-        >
+        <a href={links.linkedin} target="_blank" rel="noopener noreferrer" className={LABEL_BTN}>
           <Linkedin className="h-4 w-4" />
           {t("insights.share.linkedin")}
         </a>
-        <a
-          href={links.x}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={LABEL_BTN}
-        >
+        <a href={links.x} target="_blank" rel="noopener noreferrer" className={LABEL_BTN}>
           <XIcon className="h-4 w-4" />
           {t("insights.share.x")}
         </a>
-        <a
-          href={links.email}
-          target="_top"
-          className={LABEL_BTN}
-        >
+        <a href={links.email} target="_top" className={LABEL_BTN}>
           <Mail className="h-4 w-4" />
           {t("insights.share.email")}
         </a>

@@ -7,7 +7,8 @@ import { ArrowRight, ExternalLink } from "lucide-react";
 import { LocaleLink, useI18n } from "@/i18n";
 
 const GOVERNANCE_URLS: Record<string, string> = {
-  "Annual General Meeting (AGM)": "https://coachingfederation.org/about/icf-membership/chapter-membership",
+  "Annual General Meeting (AGM)":
+    "https://coachingfederation.org/about/icf-membership/chapter-membership",
   "Code of Ethics": "https://coachingfederation.org/ethics/code-of-ethics",
   "DEIB Commitment Statement": "https://coachingfederation.org/about/diversity-equity-inclusion",
   "ICF Global Charter Chapter status": "https://coachingfederation.org/chapters",
@@ -42,9 +43,7 @@ export function Governance() {
                   <h3 className="text-lg font-semibold tracking-tight text-foreground">
                     {doc.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    {doc.desc}
-                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{doc.desc}</p>
                 </div>
                 <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary">
                   {t("about.governance.link")}

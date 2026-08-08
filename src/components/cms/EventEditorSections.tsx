@@ -490,9 +490,7 @@ export function EventLocationSection({
             placeholder="Bahnhofstrasse 1, 8001 Zürich"
           />
         </Field>
-        <p className="mt-1.5 text-xs text-muted-foreground">
-          {t("events.fieldMapLocationHint")}
-        </p>
+        <p className="mt-1.5 text-xs text-muted-foreground">{t("events.fieldMapLocationHint")}</p>
       </div>
     </Section>
   );

@@ -18,25 +18,17 @@ export function ContactForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const subject = encodeURIComponent(`Contact from ${name || "ICF Website"}`);
-    const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\n\n${message}`,
-    );
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
     window.location.href = `mailto:${OFFICE_EMAIL}?subject=${subject}&body=${body}`;
   };
 
   return (
-    <section
-      id="contact"
-      className="bg-card py-24"
-      aria-label={t("about.contact.eyebrow")}
-    >
+    <section id="contact" className="bg-card py-24" aria-label={t("about.contact.eyebrow")}>
       <div className="mx-auto max-w-7xl px-8">
         <div className="mx-auto max-w-2xl text-center">
           <p className="eyebrow">{t("about.contact.eyebrow")}</p>
           <h2 className="mt-3 display-lg">{t("about.contact.title")}</h2>
-          <p className="mt-4 text-muted-foreground">
-            {t("about.contact.lede")}
-          </p>
+          <p className="mt-4 text-muted-foreground">{t("about.contact.lede")}</p>
         </div>
 
         <form

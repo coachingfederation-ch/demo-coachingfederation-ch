@@ -176,10 +176,9 @@ export function useCoachDirectoryFilters() {
       )
         .replace("{shown}", String(results.length))
         .replace("{total}", String(total))
-    : (
-        modeLabel
-          ? t(`directory.results.${countKey}Mode`).replace("{mode}", modeLabel)
-          : t(`directory.results.${countKey}`)
+    : (modeLabel
+        ? t(`directory.results.${countKey}Mode`).replace("{mode}", modeLabel)
+        : t(`directory.results.${countKey}`)
       ).replace("{count}", String(shownCount));
   const hasMore = !isSample && !narrowed && (page + 1) * pageSize < total;
 
