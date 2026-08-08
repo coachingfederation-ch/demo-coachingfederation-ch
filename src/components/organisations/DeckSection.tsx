@@ -160,21 +160,21 @@ export function DeckSection() {
                 className={
                   "relative h-6 min-w-6 rounded-full px-1.5 transition-all before:absolute before:inset-x-1.5 before:top-1/2 before:h-1.5 before:-translate-y-1/2 before:rounded-full before:transition-all " +
                   (i === index
-                    ? "w-10 before:bg-primary"
-                    : "w-6 before:bg-border hover:before:bg-muted-foreground/60")
+                    ? "w-10 before:bg-hero-foreground"
+                    : "w-6 before:bg-hero-foreground/40 hover:before:bg-hero-foreground/70")
                 }
               />
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <span className="btn-mono text-xs !text-muted-foreground">
+            <span className="btn-mono text-xs !text-hero-foreground/80">
               {index + 1} / {count}
             </span>
             <button
               type="button"
               onClick={() => go(index - 1)}
               disabled={index === 0}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-primary transition hover:bg-secondary disabled:opacity-30"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-hero-foreground/30 text-hero-foreground transition hover:bg-hero-foreground/10 disabled:opacity-30"
             >
               <span aria-hidden>←</span>
               <span className="sr-only">{t("organisations.deck.prev")}</span>
@@ -183,7 +183,7 @@ export function DeckSection() {
               type="button"
               onClick={() => go(index + 1)}
               disabled={index === count - 1}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-primary transition hover:bg-secondary disabled:opacity-30"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-hero-foreground/30 text-hero-foreground transition hover:bg-hero-foreground/10 disabled:opacity-30"
             >
               <span aria-hidden>→</span>
               <span className="sr-only">{t("organisations.deck.next")}</span>
