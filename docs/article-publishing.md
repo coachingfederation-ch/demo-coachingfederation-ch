@@ -31,17 +31,27 @@ which action is possible from which status. `submit` is accepted from `draft`,
 ## Who may publish
 
 Publishing is its own **access right**, separate from editing. The account must
-hold the `publisher` role, granted and revoked by an admin on the Roles screen
-(`/roles`) in the per-account detail panel. Editing and publishing are
-deliberately different grants: an editor writes, a publisher signs off.
+hold the first-class `publisher` role from the `app_role` enum, stored in
+`public.user_roles` alongside `editor` and `organizer`. Admins grant and revoke
+it on the Roles screen (`/roles`) through the per-account detail panel
+(`src/components/cms/RoleDetailPanel.tsx`); the manageable set is
+`MANAGED_ROLES` in `src/lib/role-model.ts`. Editing and publishing are
+deliberately different grants: an editor writes, a publisher signs off. The
+role is *not* derived from the operational structure — an `op_assignments` row
+in Communication & Marketing grants nothing by itself.
+
+Publishers reach the editorial screens like editors: `ARTICLE_ROLES` in
+`src/lib/staff-guard.ts` covers `editor` and `publisher`, and a publisher with
+no other staff role lands on `/articles` after sign-in.
 
 Two conditions gate the `publish` and `schedule` actions:
 
 1. The actor holds the `publisher` role.
 2. The actor is **not** the article's `created_by`.
 
-Admins bypass the assignment check but are still subject to rule 2 only insofar
-as the trigger allows — see the table below. `created_by` is the account that
+`unpublish` requires the publishing right too, but not rule 2 — taking
+something offline is never the risky direction. Admins bypass both rules; see
+the table below. `created_by` is the account that
 created the record, deliberately distinct from the `author_id` shown to
 readers: a ghost-written piece is still blocked for the person who typed it.
 
@@ -57,11 +67,14 @@ The same two rules exist in two places:
 
 - `loadArticlePermissions` / `transitionArticle` in
   `src/lib/articles.server.ts`, so the editor can disable buttons and explain
-  the refusal in plain language.
+  the refusal in plain language. `isArticlePublisher` reads `user_roles`
+  through the admin client, because the caller cannot read other accounts'
+  grants.
 - `tg_articles_publish_guard`, a `BEFORE UPDATE` trigger on `public.articles`,
-  backed by `private.is_article_publisher`. This is the real boundary: it holds
+  backed by `private.is_article_publisher`, which is a thin wrapper over
+  `private.has_role(_user_id, 'publisher')`. This is the real boundary: it holds
   for any write that reaches the table, including one crafted by hand against
-  the API.
+  the API. It fires only on a status change into `published` / `scheduled`.
 
 The server layer is a courtesy; the trigger is the guarantee. When you change a
 rule, change both — a UI-only change is not a rule change.
