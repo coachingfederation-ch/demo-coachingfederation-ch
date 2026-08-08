@@ -1,0 +1,1 @@
+ALTER TABLE public.article_linkedin_posts ADD COLUMN IF NOT EXISTS mark_layout jsonb;
