@@ -7,6 +7,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { CARD_SHADOW } from "@/components/site-chrome";
 import { useI18n } from "@/i18n";
 import { submitOrganisationSurvey } from "@/lib/organisation-survey.functions";
+import { trackGoal } from "@/lib/plausible";
 import {
   bandFor,
   DIMENSIONS,
