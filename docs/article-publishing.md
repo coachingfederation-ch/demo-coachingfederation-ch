@@ -131,3 +131,36 @@ Status labels and action wording are translated in
 `src/i18n/locales/<lang>/cms.json` (`editor.*` for the article screen,
 `roles.*` for the Roles screen); adding a status means adding a string in all
 four languages, not just English.
+## Sharing to LinkedIn
+
+A published article can be pushed to the chapter's LinkedIn company page from
+the article editor sidebar ("Publish to LinkedIn"). The action is restricted to
+accounts holding `publisher` or `admin`, mirroring the four-eye publish gate:
+whoever may put an article live may put it in front of the LinkedIn audience.
+
+Flow:
+
+1. The publisher opens the dialog. `getLinkedInDraft`
+   (`src/lib/linkedin.functions.ts`) loads the article, drafts the post text
+   with Lovable AI, and reports connector readiness. A model failure is not
+   fatal — the draft falls back to title + excerpt + canonical URL.
+2. The dialog shows an editable post text plus a branded 1200x627 visual
+   (`src/components/cms/LinkedInCard.tsx`): Deep Blue ground, the chapter
+   lockup, the article title, and either the article's feature image or ICF
+   brush marks. Nothing is sent until the publisher presses "Post to LinkedIn".
+3. The card is rasterised in the browser (`html-to-image`) so the posted image
+   is exactly what was approved, then `publishArticleToLinkedIn` uploads it and
+   creates the post through the Lovable connector gateway. The app never sees a
+   LinkedIn access token.
+
+Storage: every attempt is one row in `article_linkedin_posts` with `status`
+(`pending`, `posted`, `failed`), `linkedin_post_urn`, `linkedin_post_url`,
+`posted_at`, the commentary that was sent, the chosen visual, and any error
+returned by LinkedIn. The table is read-only over the Data API for staff and
+written only by the server, so the audit trail cannot be edited by the account
+that triggered the post. The sidebar shows the newest attempt.
+
+Setup: link the LinkedIn connector (it needs `w_organization_social` on the
+chapter page), then set the target page on `/integration` — Organisation URN in
+the form `urn:li:organization:<id>` plus a display name. Both are stored in
+`linkedin_config`; only admins may change them.
