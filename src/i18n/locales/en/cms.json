@@ -944,5 +944,38 @@
     "preview": "Open document",
     "delete": "Delete document",
     "empty": "No governance documents yet."
+  },
+  "linkedin": {
+    "section": "LinkedIn",
+    "hint": "Share this article on the chapter's LinkedIn page. You review the text and visual before anything is posted.",
+    "action": "Publish to LinkedIn",
+    "preparing": "Preparing draft…",
+    "needsPublished": "Only published articles can be shared.",
+    "dialogTitle": "Publish to LinkedIn",
+    "dialogBody": "Review the visual and the post text, then confirm.",
+    "postingTo": "Posting to",
+    "visual": "Visual",
+    "mode": {
+      "feature": "Feature image",
+      "marks": "Brush marks"
+    },
+    "commentary": "Post text",
+    "cancel": "Cancel",
+    "confirm": "Post to LinkedIn",
+    "posting": "Posting…",
+    "posted": "Posted to LinkedIn.",
+    "postFailed": "LinkedIn refused the post.",
+    "draftFailed": "Could not prepare the draft.",
+    "alreadyPosted": "Posted on",
+    "lastFailed": "Last attempt failed:",
+    "notConnected": "LinkedIn is not connected yet. Link the LinkedIn connector before posting.",
+    "noPage": "No LinkedIn company page is configured for the chapter yet.",
+    "kickerFallback": "Insights",
+    "pageTitle": "LinkedIn company page",
+    "pageBody": "Article posts are published to this page.",
+    "pageUrn": "Organisation URN",
+    "pageName": "Page name",
+    "pageSave": "Save page",
+    "pageSaved": "LinkedIn page saved."
   }
 }

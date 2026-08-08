@@ -944,5 +944,38 @@
     "preview": "Dokument öffnen",
     "delete": "Dokument löschen",
     "empty": "Noch keine Governance-Dokumente."
+  },
+  "linkedin": {
+    "section": "LinkedIn",
+    "hint": "Diesen Artikel auf der LinkedIn-Seite des Chapters teilen. Text und Visual werden vor dem Posten geprüft.",
+    "action": "Auf LinkedIn veröffentlichen",
+    "preparing": "Entwurf wird vorbereitet…",
+    "needsPublished": "Nur veröffentlichte Artikel können geteilt werden.",
+    "dialogTitle": "Auf LinkedIn veröffentlichen",
+    "dialogBody": "Visual und Beitragstext prüfen, dann bestätigen.",
+    "postingTo": "Veröffentlichen auf",
+    "visual": "Visual",
+    "mode": {
+      "feature": "Beitragsbild",
+      "marks": "Pinselstriche"
+    },
+    "commentary": "Beitragstext",
+    "cancel": "Abbrechen",
+    "confirm": "Auf LinkedIn posten",
+    "posting": "Wird gepostet…",
+    "posted": "Auf LinkedIn veröffentlicht.",
+    "postFailed": "LinkedIn hat den Beitrag abgelehnt.",
+    "draftFailed": "Entwurf konnte nicht erstellt werden.",
+    "alreadyPosted": "Veröffentlicht am",
+    "lastFailed": "Letzter Versuch fehlgeschlagen:",
+    "notConnected": "LinkedIn ist noch nicht verbunden. Bitte zuerst den LinkedIn-Connector verbinden.",
+    "noPage": "Für das Chapter ist noch keine LinkedIn-Unternehmensseite konfiguriert.",
+    "kickerFallback": "Insights",
+    "pageTitle": "LinkedIn-Unternehmensseite",
+    "pageBody": "Artikelbeiträge werden auf dieser Seite veröffentlicht.",
+    "pageUrn": "Organisations-URN",
+    "pageName": "Seitenname",
+    "pageSave": "Seite speichern",
+    "pageSaved": "LinkedIn-Seite gespeichert."
   }
 }

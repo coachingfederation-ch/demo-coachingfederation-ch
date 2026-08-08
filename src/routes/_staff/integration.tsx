@@ -10,6 +10,7 @@ import { Fragment, useEffect, useState } from "react";
 import { AlertTriangle, CheckCircle2, ChevronRight, ClipboardCheck, RefreshCw } from "lucide-react";
 import { Shell } from "@/components/cms/Shell";
 import { ContentOwnershipPanel } from "@/components/cms/ContentOwnershipPanel";
+import { LinkedInPageSettings } from "@/components/cms/LinkedInPageSettings";
 import { SyncRunDetail } from "@/components/cms/SyncRunDetail";
 import { useCms } from "@/i18n/cms";
 import {
@@ -206,6 +207,8 @@ function IntegrationPage() {
             </section>
 
             <ContentOwnershipPanel />
+
+            <LinkedInPageSettings />
 
             <section className={CARD + " border-destructive/40"}>
               <h2 className="flex items-center gap-2 text-sm font-bold text-destructive">

@@ -944,5 +944,38 @@
     "preview": "Ouvrir le document",
     "delete": "Supprimer le document",
     "empty": "Aucun document de gouvernance pour l’instant."
+  },
+  "linkedin": {
+    "section": "LinkedIn",
+    "hint": "Partagez cet article sur la page LinkedIn du chapitre. Vous validez le texte et le visuel avant publication.",
+    "action": "Publier sur LinkedIn",
+    "preparing": "Préparation du brouillon…",
+    "needsPublished": "Seuls les articles publiés peuvent être partagés.",
+    "dialogTitle": "Publier sur LinkedIn",
+    "dialogBody": "Vérifiez le visuel et le texte, puis confirmez.",
+    "postingTo": "Publication sur",
+    "visual": "Visuel",
+    "mode": {
+      "feature": "Image de l'article",
+      "marks": "Traits de pinceau"
+    },
+    "commentary": "Texte du post",
+    "cancel": "Annuler",
+    "confirm": "Publier sur LinkedIn",
+    "posting": "Publication…",
+    "posted": "Publié sur LinkedIn.",
+    "postFailed": "LinkedIn a refusé la publication.",
+    "draftFailed": "Impossible de préparer le brouillon.",
+    "alreadyPosted": "Publié le",
+    "lastFailed": "Dernière tentative échouée :",
+    "notConnected": "LinkedIn n'est pas encore connecté. Connectez d'abord le connecteur LinkedIn.",
+    "noPage": "Aucune page entreprise LinkedIn n'est encore configurée pour le chapitre.",
+    "kickerFallback": "Insights",
+    "pageTitle": "Page entreprise LinkedIn",
+    "pageBody": "Les posts d'articles sont publiés sur cette page.",
+    "pageUrn": "URN de l'organisation",
+    "pageName": "Nom de la page",
+    "pageSave": "Enregistrer la page",
+    "pageSaved": "Page LinkedIn enregistrée."
   }
 }
