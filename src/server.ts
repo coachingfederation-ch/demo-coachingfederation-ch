@@ -55,10 +55,16 @@ async function normalizeCatastrophicSsrResponse(
 function isClientAbort(request: Request, error: unknown): boolean {
   if (request.signal?.aborted) return true;
   for (let current = error, depth = 0; current && depth < 5; depth += 1) {
-    const candidate = current as { name?: unknown; code?: unknown; message?: unknown; cause?: unknown };
+    const candidate = current as {
+      name?: unknown;
+      code?: unknown;
+      message?: unknown;
+      cause?: unknown;
+    };
     if (candidate.name === "AbortError") return true;
     if (candidate.code === "ECONNRESET" || candidate.code === "ECONNABORTED") return true;
-    if (typeof candidate.message === "string" && candidate.message.trim() === "aborted") return true;
+    if (typeof candidate.message === "string" && candidate.message.trim() === "aborted")
+      return true;
     current = candidate.cause;
   }
   return false;
