@@ -108,13 +108,6 @@ export function CoachProfileHero({
                     target="_blank"
                     rel="noopener noreferrer nofollow"
                     className="inline-flex h-11 items-center rounded-full bg-accent px-5 text-sm font-semibold text-accent-foreground"
-                    onClick={() =>
-                      trackEvent("Coach Contact Clicked", {
-                        channel: "booking",
-                        placement: "hero",
-                        coach_profile_id: profile.profile_id,
-                      })
-                    }
                   >
                     {t("directory.detail.book")}
                   </a>
@@ -124,13 +117,6 @@ export function CoachProfileHero({
                     href={`mailto:${contactEmail}`}
                     target="_top"
                     className="inline-flex h-11 items-center rounded-full border border-hero-foreground/40 px-5 text-sm font-semibold text-hero-foreground hover:bg-hero-foreground/10"
-                    onClick={() =>
-                      trackEvent("Coach Contact Clicked", {
-                        channel: "email",
-                        placement: "hero",
-                        coach_profile_id: profile.profile_id,
-                      })
-                    }
                   >
                     {t("directory.detail.message")}
                   </a>
