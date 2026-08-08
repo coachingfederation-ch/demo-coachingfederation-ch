@@ -49,13 +49,13 @@ export function DeckSection() {
   const slide = slides[index];
 
   return (
-    // Base surface: the deck used to be a second full-indigo band, which competed
-    // with the hero and the closing CTA. Indigo now survives only as accent chrome.
-    <section className="bg-background py-24">
+    // The deck now sits on the official Deep Blue hero band, with white
+    // foreground text and light cards that keep the slide content readable.
+    <section className="bg-hero py-24 text-hero-foreground">
       <div className="mx-auto max-w-7xl px-8">
-        <p className="eyebrow">{t("organisations.deck.eyebrow")}</p>
+        <p className="eyebrow !text-hero-foreground">{t("organisations.deck.eyebrow")}</p>
         <h2 className="mt-3 max-w-2xl display-lg">{t("organisations.deck.title")}</h2>
-        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-hero-foreground/80">
           {t("organisations.deck.lede")}
         </p>
 
@@ -160,21 +160,21 @@ export function DeckSection() {
                 className={
                   "relative h-6 min-w-6 rounded-full px-1.5 transition-all before:absolute before:inset-x-1.5 before:top-1/2 before:h-1.5 before:-translate-y-1/2 before:rounded-full before:transition-all " +
                   (i === index
-                    ? "w-10 before:bg-primary"
-                    : "w-6 before:bg-border hover:before:bg-muted-foreground/60")
+                    ? "w-10 before:bg-hero-foreground"
+                    : "w-6 before:bg-hero-foreground/40 hover:before:bg-hero-foreground/70")
                 }
               />
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <span className="btn-mono text-xs !text-muted-foreground">
+            <span className="btn-mono text-xs !text-hero-foreground/80">
               {index + 1} / {count}
             </span>
             <button
               type="button"
               onClick={() => go(index - 1)}
               disabled={index === 0}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-primary transition hover:bg-secondary disabled:opacity-30"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-hero-foreground/30 text-hero-foreground transition hover:bg-hero-foreground/10 disabled:opacity-30"
             >
               <span aria-hidden>←</span>
               <span className="sr-only">{t("organisations.deck.prev")}</span>
@@ -183,7 +183,7 @@ export function DeckSection() {
               type="button"
               onClick={() => go(index + 1)}
               disabled={index === count - 1}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-primary transition hover:bg-secondary disabled:opacity-30"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-hero-foreground/30 text-hero-foreground transition hover:bg-hero-foreground/10 disabled:opacity-30"
             >
               <span aria-hidden>→</span>
               <span className="sr-only">{t("organisations.deck.next")}</span>
@@ -192,12 +192,12 @@ export function DeckSection() {
         </div>
 
         {sources.length > 0 ? (
-          <div className="mt-10 border-t border-border pt-6">
+          <div className="mt-10 border-t border-hero-foreground/20 pt-6">
             <button
               type="button"
               onClick={() => setShowSources((v) => !v)}
               aria-expanded={showSources}
-              className="text-xs font-semibold uppercase tracking-wider text-muted-foreground transition hover:text-foreground"
+              className="text-xs font-semibold uppercase tracking-wider text-hero-foreground/80 transition hover:text-hero-foreground"
             >
               {t("organisations.deck.sourcesLabel")} {showSources ? "−" : "+"}
             </button>
@@ -205,10 +205,10 @@ export function DeckSection() {
               <div className="mt-6 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                 {sources.map((g) => (
                   <div key={g.group}>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-primary">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-hero-foreground">
                       {g.group}
                     </p>
-                    <ul className="mt-2 space-y-1 text-xs leading-relaxed text-muted-foreground">
+                    <ul className="mt-2 space-y-1 text-xs leading-relaxed text-hero-foreground/80">
                       {g.items.map((s) => (
                         <li key={s}>{s}</li>
                       ))}
