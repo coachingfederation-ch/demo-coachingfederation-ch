@@ -176,13 +176,15 @@ export function ThirdPartiesSection() {
 
         <div className="space-y-4">
           <h4 className="text-base font-semibold tracking-tight">
-            d) Analytics providers (if applicable)
+            d) Analytics providers
           </h4>
           <p className="text-foreground/80">
-            [Confirm: whether any analytics or tracking tools are used — e.g., Google Analytics,
-            Plausible, Fathom, Vercel Analytics, or other. If none are used, state &quot;We do not
-            use third-party analytics or tracking tools.&quot; If any are used, list the provider,
-            what data is collected, and the processing location.]
+            We use Plausible Analytics (Plausible Insights OÜ, Estonia) to understand how this
+            website is used. Plausible is cookieless and privacy-focused: it records aggregated page
+            views and a small number of goals (for example a deck download, an event registration or
+            an article share) without cookies, without cross-site tracking and without storing
+            personal data or full IP addresses. No individual visitor can be identified, and the
+            data is processed on servers in the European Union.
           </p>
         </div>
 
