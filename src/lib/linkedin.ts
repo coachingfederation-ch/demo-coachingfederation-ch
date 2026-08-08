@@ -19,6 +19,16 @@ export const LINKEDIN_COMMENTARY_LIMIT = 3000;
 export const LINKEDIN_CARD_WIDTH = 1200;
 export const LINKEDIN_CARD_HEIGHT = 742;
 
+/** Persisted brush placement, exactly as stored in the post row. */
+export type LinkedInMarkLayoutRow = {
+  id: string;
+  name: string;
+  xPct: number;
+  yPct: number;
+  sizePct: number;
+  color: string;
+};
+
 /** One posting attempt, as stored in `article_linkedin_posts`. */
 export type LinkedInPostRecord = {
   id: string;
@@ -29,7 +39,7 @@ export type LinkedInPostRecord = {
   commentary: string;
   image_mode: string;
   /** Saved brush placement (percentage geometry), null for older posts. */
-  mark_layout: unknown;
+  mark_layout: LinkedInMarkLayoutRow[] | null;
   error_message: string | null;
   created_at: string;
 };

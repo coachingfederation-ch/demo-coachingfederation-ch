@@ -305,7 +305,7 @@ export async function postArticle(input: {
   imageMode: LinkedInImageMode;
   imageBase64: string;
   /** The brush placement the publisher arranged, so it can be restored later. */
-  markLayout: unknown;
+  markLayout: LinkedInMarkLayoutRow[];
   userId: string;
 }): Promise<LinkedInPostRecord> {
   const db = await admin();
