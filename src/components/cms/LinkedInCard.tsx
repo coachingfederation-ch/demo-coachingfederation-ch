@@ -1,13 +1,16 @@
 /**
  * The branded 1200x742 (golden-ratio) visual that accompanies a LinkedIn post.
- * Exports: LinkedInCard, toDataUrl. Rendered off-screen at full size by
+ * Exports: LinkedInCard. Rendered off-screen at full size by
  * LinkedInShareCard.tsx and rasterised with html-to-image.
+ *
+ * The card is pure artwork: marks are drawn from the placement data the
+ * publisher arranged, and no editor chrome ever lives inside it.
  */
 import { forwardRef } from "react";
 import { Mark } from "@/components/marks";
 import icfLogo from "@/assets/icf-switzerland-charter-chapter.png.asset.json";
 import { LINKEDIN_CARD_HEIGHT, LINKEDIN_CARD_WIDTH, type LinkedInImageMode } from "@/lib/linkedin";
-import { LINKEDIN_MARK_COMPOSITIONS } from "@/lib/linkedin-visuals";
+import { markHeightPct, type PlacedMark } from "@/lib/linkedin-visuals";
 
 export const LinkedInCard = forwardRef<
   HTMLDivElement,
@@ -16,16 +19,10 @@ export const LinkedInCard = forwardRef<
     kicker: string;
     mode: LinkedInImageMode;
     imageDataUrl: string | null;
-    /** Which brush-mark composition to draw (wraps around the table). */
-    variant: number;
+    marks: PlacedMark[];
   }
->(function LinkedInCard({ title, kicker, mode, imageDataUrl, variant }, ref) {
+>(function LinkedInCard({ title, kicker, mode, imageDataUrl, marks }, ref) {
   const showPhoto = mode === "feature" && !!imageDataUrl;
-  const composition =
-    LINKEDIN_MARK_COMPOSITIONS[
-      ((variant % LINKEDIN_MARK_COMPOSITIONS.length) + LINKEDIN_MARK_COMPOSITIONS.length) %
-        LINKEDIN_MARK_COMPOSITIONS.length
-    ]!;
 
   return (
     <div
@@ -33,24 +30,29 @@ export const LinkedInCard = forwardRef<
       style={{ width: LINKEDIN_CARD_WIDTH, height: LINKEDIN_CARD_HEIGHT }}
       className="relative flex flex-col overflow-hidden bg-[#212251] text-white"
     >
-      {showPhoto ? null : (
-        <>
-          {composition.items.map((item) => (
+      {showPhoto
+        ? null
+        : marks.map((mark) => (
             <Mark
-              key={item.name}
-              name={item.name}
-              className={`pointer-events-none ${item.className}`}
+              key={mark.id}
+              name={mark.name}
+              className="pointer-events-none absolute"
+              style={{
+                left: `${mark.xPct}%`,
+                top: `${mark.yPct}%`,
+                width: `${mark.sizePct}%`,
+                height: `${markHeightPct(mark.sizePct)}%`,
+                color: mark.color,
+              }}
             />
           ))}
-        </>
-      )}
 
       <div
         className="relative z-10 flex flex-col justify-between p-16"
         style={{ height: showPhoto ? "61.8%" : "100%" }}
       >
         <img src={icfLogo.url} alt="" className="h-24 w-auto object-contain object-left" />
-        {/* Text keeps to the left 61.8% column so brush marks never sit under it. */}
+        {/* Text keeps to the left 61.8% column so brush marks stay clear of it. */}
         <div style={{ width: showPhoto ? "100%" : "61.8%" }}>
           <div className="mb-5 text-[17px] font-bold uppercase tracking-[0.22em] text-[#EFCB30]">
             {kicker}

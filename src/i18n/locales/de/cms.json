@@ -977,7 +977,12 @@
     "pageName": "Seitenname",
     "pageSave": "Seite speichern",
     "pageSaved": "LinkedIn-Seite gespeichert.",
-    "shuffle": "Striche wechseln",
-    "languages": "DE · FR · IT · EN in einem Beitrag"
+    "languages": "DE · FR · IT · EN in einem Beitrag",
+    "suggest": "Layout vorschlagen",
+    "brushes": "Pinsel",
+    "markLimit": "ziehen zum Verschieben, Ecke zum Skalieren",
+    "markOverlap": "Ein Zeichen überlagert den Titelbereich.",
+    "markRemove": "Zeichen entfernen",
+    "markColour": "Farbe des Zeichens"
   }
 }

@@ -977,7 +977,12 @@
     "pageName": "Nom de la page",
     "pageSave": "Enregistrer la page",
     "pageSaved": "Page LinkedIn enregistrée.",
-    "shuffle": "Changer les traits",
-    "languages": "DE · FR · IT · EN en une publication"
+    "languages": "DE · FR · IT · EN en une publication",
+    "suggest": "Proposer une mise en page",
+    "brushes": "Pinceaux",
+    "markLimit": "glisser pour déplacer, coin pour redimensionner",
+    "markOverlap": "Un tracé recouvre la zone du titre.",
+    "markRemove": "Supprimer le tracé",
+    "markColour": "Couleur du tracé"
   }
 }

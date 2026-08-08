@@ -83,7 +83,16 @@ function load(name: MarkName): Promise<string> | string | undefined {
   });
 }
 
-export function Mark({ name, className }: { name: MarkName; className?: string }) {
+export function Mark({
+  name,
+  className,
+  style,
+}: {
+  name: MarkName;
+  className?: string;
+  /** Inline geometry/colour, used by the LinkedIn card's placed marks. */
+  style?: React.CSSProperties;
+}) {
   const [svg, setSvg] = useState<string | undefined>(() => cache.get(name));
 
   useEffect(() => {
@@ -105,6 +114,7 @@ export function Mark({ name, className }: { name: MarkName; className?: string }
   return (
     <span
       aria-hidden
+      style={style}
       className={"inline-flex items-center justify-center " + (className ?? "")}
       dangerouslySetInnerHTML={svg ? { __html: svg } : undefined}
     />

@@ -19,7 +19,13 @@ import {
 } from "@/components/ui/dialog";
 import { LinkedInCard } from "@/components/cms/LinkedInCard";
 import { toDataUrl } from "@/lib/linkedin-image";
-import { linkedInVariantIndex } from "@/lib/linkedin-visuals";
+import {
+  linkedInVariantIndex,
+  sanitizeMarkLayout,
+  suggestedLayout,
+  type PlacedMark,
+} from "@/lib/linkedin-visuals";
+import { LinkedInMarkEditor } from "@/components/cms/LinkedInMarkEditor";
 import { useCms } from "@/i18n/cms";
 import { getLinkedInDraft, publishArticleToLinkedIn } from "@/lib/linkedin.functions";
 import {
@@ -52,6 +58,9 @@ export function LinkedInShareCard({
   const [mode, setMode] = useState<LinkedInImageMode>("feature");
   const [imageDataUrl, setImageDataUrl] = useState<string | null>(null);
   const [variant, setVariant] = useState(() => linkedInVariantIndex(articleId));
+  const [marks, setMarks] = useState<PlacedMark[]>(() =>
+    suggestedLayout(linkedInVariantIndex(articleId)),
+  );
   const [latest, setLatest] = useState<LinkedInPostRecord | null>(null);
   const cardRef = useRef<HTMLDivElement | null>(null);
 
@@ -69,7 +78,10 @@ export function LinkedInShareCard({
         : null;
       setImageDataUrl(photo);
       setMode(photo ? "feature" : "marks");
-      setVariant(linkedInVariantIndex(articleId));
+      const seed = linkedInVariantIndex(articleId);
+      setVariant(seed);
+      const saved = sanitizeMarkLayout(data.latest?.mark_layout);
+      setMarks(saved && saved.length > 0 ? saved : suggestedLayout(seed));
       setOpen(true);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : t("linkedin.draftFailed"));
@@ -89,7 +101,7 @@ export function LinkedInShareCard({
         cacheBust: true,
       });
       const record = await publishArticleToLinkedIn({
-        data: { articleId, commentary, imageMode: mode, imageBase64: png },
+        data: { articleId, commentary, imageMode: mode, imageBase64: png, markLayout: marks },
       });
       setLatest(record);
       setOpen(false);
@@ -184,30 +196,63 @@ export function LinkedInShareCard({
                   </div>
                   <button
                     type="button"
-                    onClick={() => setVariant((v) => v + 1)}
+                    onClick={() => {
+                      const next = variant + 1;
+                      setVariant(next);
+                      setMarks(suggestedLayout(next));
+                    }}
                     disabled={mode === "feature"}
                     className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground hover:bg-secondary disabled:opacity-40"
                   >
                     <Shuffle className="h-3 w-3" />
-                    {t("linkedin.shuffle")}
+                    {t("linkedin.suggest")}
                   </button>
                 </div>
               </div>
               {/* Preview is a scaled clone; the ref'd node below is rasterised at full size. */}
-              <div
-                className="overflow-hidden rounded-xl border border-border"
-                style={{ width: LINKEDIN_CARD_WIDTH * 0.5, height: LINKEDIN_CARD_HEIGHT * 0.5 }}
-              >
-                <div style={{ transform: "scale(0.5)", transformOrigin: "top left" }}>
-                  <LinkedInCard
-                    title={draft?.article.title ?? ""}
-                    kicker={categoryLabel}
-                    mode={mode}
-                    imageDataUrl={imageDataUrl}
-                    variant={variant}
-                  />
+              {mode === "marks" ? (
+                <LinkedInMarkEditor
+                  marks={marks}
+                  onChange={setMarks}
+                  width={LINKEDIN_CARD_WIDTH * 0.5}
+                  height={LINKEDIN_CARD_HEIGHT * 0.5}
+                  labels={{
+                    palette: t("linkedin.brushes"),
+                    limit: t("linkedin.markLimit"),
+                    overlap: t("linkedin.markOverlap"),
+                    remove: t("linkedin.markRemove"),
+                    colour: t("linkedin.markColour"),
+                  }}
+                >
+                  <div
+                    className="pointer-events-none absolute inset-0"
+                    style={{ transform: "scale(0.5)", transformOrigin: "top left" }}
+                  >
+                    <LinkedInCard
+                      title={draft?.article.title ?? ""}
+                      kicker={categoryLabel}
+                      mode={mode}
+                      imageDataUrl={imageDataUrl}
+                      marks={marks}
+                    />
+                  </div>
+                </LinkedInMarkEditor>
+              ) : (
+                <div
+                  className="overflow-hidden rounded-xl border border-border"
+                  style={{ width: LINKEDIN_CARD_WIDTH * 0.5, height: LINKEDIN_CARD_HEIGHT * 0.5 }}
+                >
+                  <div style={{ transform: "scale(0.5)", transformOrigin: "top left" }}>
+                    <LinkedInCard
+                      title={draft?.article.title ?? ""}
+                      kicker={categoryLabel}
+                      mode={mode}
+                      imageDataUrl={imageDataUrl}
+                      marks={marks}
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             <label className="block">
@@ -254,7 +299,7 @@ export function LinkedInShareCard({
           kicker={categoryLabel}
           mode={mode}
           imageDataUrl={imageDataUrl}
-          variant={variant}
+          marks={marks}
         />
       </div>
     </div>

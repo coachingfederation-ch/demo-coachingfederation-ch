@@ -18,6 +18,20 @@ const publishInput = z.object({
   imageMode: z.enum(["feature", "marks"]),
   /** Base64 PNG rendered in the browser from the branded card. */
   imageBase64: z.string().min(100).max(8_000_000),
+  /** Brush placements, stored so the next post starts from the same layout. */
+  markLayout: z
+    .array(
+      z.object({
+        id: z.string().max(64),
+        name: z.string().max(32),
+        xPct: z.number(),
+        yPct: z.number(),
+        sizePct: z.number(),
+        color: z.string().max(16),
+      }),
+    )
+    .max(3)
+    .default([]),
 });
 
 /** Loads the article, an AI-drafted commentary and the connector readiness. */

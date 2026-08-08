@@ -25,6 +25,7 @@ export type Database = {
           image_mode: string
           linkedin_post_url: string | null
           linkedin_post_urn: string | null
+          mark_layout: Json | null
           posted_at: string | null
           status: Database["public"]["Enums"]["linkedin_post_status"]
           updated_at: string
@@ -39,6 +40,7 @@ export type Database = {
           image_mode?: string
           linkedin_post_url?: string | null
           linkedin_post_urn?: string | null
+          mark_layout?: Json | null
           posted_at?: string | null
           status?: Database["public"]["Enums"]["linkedin_post_status"]
           updated_at?: string
@@ -53,6 +55,7 @@ export type Database = {
           image_mode?: string
           linkedin_post_url?: string | null
           linkedin_post_urn?: string | null
+          mark_layout?: Json | null
           posted_at?: string | null
           status?: Database["public"]["Enums"]["linkedin_post_status"]
           updated_at?: string
