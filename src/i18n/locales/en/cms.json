@@ -976,6 +976,8 @@
     "pageUrn": "Organisation URN",
     "pageName": "Page name",
     "pageSave": "Save page",
-    "pageSaved": "LinkedIn page saved."
+    "pageSaved": "LinkedIn page saved.",
+    "shuffle": "Shuffle marks",
+    "languages": "DE · FR · IT · EN in one post"
   }
 }
