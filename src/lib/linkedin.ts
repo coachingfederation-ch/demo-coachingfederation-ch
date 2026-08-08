@@ -11,9 +11,12 @@ export type LinkedInImageMode = "feature" | "marks";
 /** LinkedIn's hard limit for post commentary. */
 export const LINKEDIN_COMMENTARY_LIMIT = 3000;
 
-/** LinkedIn's recommended landscape image ratio (1.91:1). */
+/**
+ * Square 1:1 artwork — it takes the most vertical space in the LinkedIn feed
+ * on mobile and matches the chapter's recent posts.
+ */
 export const LINKEDIN_CARD_WIDTH = 1200;
-export const LINKEDIN_CARD_HEIGHT = 627;
+export const LINKEDIN_CARD_HEIGHT = 1200;
 
 /** One posting attempt, as stored in `article_linkedin_posts`. */
 export type LinkedInPostRecord = {

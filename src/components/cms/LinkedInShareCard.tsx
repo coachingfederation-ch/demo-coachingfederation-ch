@@ -8,7 +8,7 @@
  */
 import { useRef, useState } from "react";
 import { toPng } from "html-to-image";
-import { Linkedin, ExternalLink } from "lucide-react";
+import { Linkedin, ExternalLink, Shuffle } from "lucide-react";
 import { toast } from "sonner";
 import {
   Dialog,
@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dialog";
 import { LinkedInCard } from "@/components/cms/LinkedInCard";
 import { toDataUrl } from "@/lib/linkedin-image";
+import { linkedInVariantIndex } from "@/lib/linkedin-visuals";
 import { useCms } from "@/i18n/cms";
 import { getLinkedInDraft, publishArticleToLinkedIn } from "@/lib/linkedin.functions";
 import {
@@ -50,6 +51,7 @@ export function LinkedInShareCard({
   const [commentary, setCommentary] = useState("");
   const [mode, setMode] = useState<LinkedInImageMode>("feature");
   const [imageDataUrl, setImageDataUrl] = useState<string | null>(null);
+  const [variant, setVariant] = useState(() => linkedInVariantIndex(articleId));
   const [latest, setLatest] = useState<LinkedInPostRecord | null>(null);
   const cardRef = useRef<HTMLDivElement | null>(null);
 
@@ -67,6 +69,7 @@ export function LinkedInShareCard({
         : null;
       setImageDataUrl(photo);
       setMode(photo ? "feature" : "marks");
+      setVariant(linkedInVariantIndex(articleId));
       setOpen(true);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : t("linkedin.draftFailed"));
@@ -162,19 +165,32 @@ export function LinkedInShareCard({
                 <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
                   {t("linkedin.visual")}
                 </span>
-                <div className="flex gap-1 rounded-full border border-border p-0.5">
-                  {(["feature", "marks"] as LinkedInImageMode[]).map((m) => (
-                    <button
-                      key={m}
-                      onClick={() => setMode(m)}
-                      disabled={m === "feature" && !imageDataUrl}
-                      className={`rounded-full px-3 py-1 text-xs font-medium disabled:opacity-40 ${
-                        mode === m ? "bg-primary text-primary-foreground" : "text-muted-foreground"
-                      }`}
-                    >
-                      {t(`linkedin.mode.${m}`)}
-                    </button>
-                  ))}
+                <div className="flex items-center gap-2">
+                  <div className="flex gap-1 rounded-full border border-border p-0.5">
+                    {(["feature", "marks"] as LinkedInImageMode[]).map((m) => (
+                      <button
+                        key={m}
+                        onClick={() => setMode(m)}
+                        disabled={m === "feature" && !imageDataUrl}
+                        className={`rounded-full px-3 py-1 text-xs font-medium disabled:opacity-40 ${
+                          mode === m
+                            ? "bg-primary text-primary-foreground"
+                            : "text-muted-foreground"
+                        }`}
+                      >
+                        {t(`linkedin.mode.${m}`)}
+                      </button>
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setVariant((v) => v + 1)}
+                    disabled={mode === "feature"}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground hover:bg-secondary disabled:opacity-40"
+                  >
+                    <Shuffle className="h-3 w-3" />
+                    {t("linkedin.shuffle")}
+                  </button>
                 </div>
               </div>
               {/* Preview is a scaled clone; the ref'd node below is rasterised at full size. */}
@@ -188,6 +204,7 @@ export function LinkedInShareCard({
                     kicker={categoryLabel}
                     mode={mode}
                     imageDataUrl={imageDataUrl}
+                    variant={variant}
                   />
                 </div>
               </div>
@@ -204,7 +221,7 @@ export function LinkedInShareCard({
                 className="mt-2 w-full rounded-xl border border-border bg-card p-3 text-sm outline-none focus:ring-2 focus:ring-ring/20"
               />
               <span className="mt-1 block text-xs text-muted-foreground">
-                {commentary.length}/{LINKEDIN_COMMENTARY_LIMIT} — {draft?.url}
+                {commentary.length}/{LINKEDIN_COMMENTARY_LIMIT} · {t("linkedin.languages")}
               </span>
             </label>
 
@@ -237,6 +254,7 @@ export function LinkedInShareCard({
           kicker={categoryLabel}
           mode={mode}
           imageDataUrl={imageDataUrl}
+          variant={variant}
         />
       </div>
     </div>

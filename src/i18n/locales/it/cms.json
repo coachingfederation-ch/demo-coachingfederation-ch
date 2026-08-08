@@ -976,6 +976,8 @@
     "pageUrn": "URN dell'organizzazione",
     "pageName": "Nome della pagina",
     "pageSave": "Salva pagina",
-    "pageSaved": "Pagina LinkedIn salvata."
+    "pageSaved": "Pagina LinkedIn salvata.",
+    "shuffle": "Cambia segni",
+    "languages": "DE · FR · IT · EN in un unico post"
   }
 }

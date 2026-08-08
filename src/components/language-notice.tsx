@@ -47,7 +47,11 @@ export function LanguageNotice() {
   // an unmatched path stops at the `/$locale` layout, which still counts as a
   // "found" route, so the target only counts when it resolves to a leaf.
   const target = localizePath(path, preferred);
-  const found = router.getMatchedRoutes(target).foundRoute;
+  // Newer router versions return a tuple: [matchedRoutes, rawParams, foundRoute].
+  const matched = router.getMatchedRoutes(target) as unknown;
+  const found = Array.isArray(matched)
+    ? (matched[2] as { children?: unknown[] } | undefined)
+    : (matched as { foundRoute?: { children?: unknown[] } }).foundRoute;
   if (!found || (found.children?.length ?? 0) > 0) return null;
 
   return (

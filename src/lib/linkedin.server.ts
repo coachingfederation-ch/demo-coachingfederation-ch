@@ -10,7 +10,7 @@
  * Data API: an audit trail must not be editable by the account that triggered
  * the post.
  */
-import { SITE_URL, localizePath, isLocale, type Locale } from "@/i18n/config";
+import { SITE_URL, localizePath, isLocale, LOCALE_ORDER, type Locale } from "@/i18n/config";
 import { linkedInPostUrl, type LinkedInImageMode, type LinkedInPostRecord } from "./linkedin";
 
 const GATEWAY_URL = "https://connector-gateway.lovable.dev/linkedin";
@@ -76,26 +76,89 @@ const LANGUAGE_NAMES: Record<string, string> = {
   it: "Swiss Italian",
 };
 
+/** LinkedIn's hard commentary limit; the combined post must fit inside it. */
+const COMMENTARY_LIMIT = 3000;
+const BLOCK_DIVIDER = "\n\n— — —\n\n";
+
+/** Existing human/AI translations, used as the source when one exists. */
+async function articleTranslations(articleId: string) {
+  const db = await admin();
+  const { data } = await db
+    .from("article_translations")
+    .select("locale, title, excerpt")
+    .eq("article_id", articleId);
+  const map: Record<string, { title: string; excerpt: string }> = {};
+  for (const row of (data ?? []) as { locale: string; title: string; excerpt: string }[]) {
+    map[row.locale] = { title: row.title, excerpt: row.excerpt };
+  }
+  return map;
+}
+
+/** Trims to a sentence boundary rather than mid-word. */
+function clampBlock(text: string, budget: number) {
+  if (text.length <= budget) return text;
+  const cut = text.slice(0, budget);
+  const stop = Math.max(cut.lastIndexOf("."), cut.lastIndexOf("!"), cut.lastIndexOf("?"));
+  const safe = stop > budget * 0.5 ? cut.slice(0, stop + 1) : cut.slice(0, cut.lastIndexOf(" "));
+  return safe.trimEnd();
+}
+
+/** Keeps the joined post inside LinkedIn's limit, trimming from the end. */
+function joinWithinLimit(blocks: string[]) {
+  let joined = blocks.join(BLOCK_DIVIDER);
+  let i = blocks.length - 1;
+  while (joined.length > COMMENTARY_LIMIT && i >= 0) {
+    const over = joined.length - COMMENTARY_LIMIT;
+    const block = blocks[i]!;
+    blocks[i] = clampBlock(block, Math.max(80, block.length - over - BLOCK_DIVIDER.length));
+    joined = blocks.join(BLOCK_DIVIDER);
+    i -= 1;
+  }
+  return joined.slice(0, COMMENTARY_LIMIT);
+}
+
 /**
  * Drafts LinkedIn commentary from the article. A model failure is not fatal:
  * the publisher edits the text anyway, so we fall back to title + excerpt
  * rather than blocking the dialog.
  */
 export async function draftCommentary(article: Article, url: string): Promise<string> {
-  const fallback = `${article.title}\n\n${article.excerpt}\n\n${url}`;
+  const translations = await articleTranslations(article.id);
+  /** DE · FR · IT · EN, each linking to its own localized article URL. */
+  const targets = LOCALE_ORDER.map((locale) => {
+    const source = translations[locale];
+    return {
+      locale,
+      name: LANGUAGE_NAMES[locale] ?? "English",
+      title: source?.title ?? article.title,
+      excerpt: source?.excerpt ?? article.excerpt,
+      url: `${SITE_URL}${localizePath(`/insights/${article.id}`, locale)}`,
+    };
+  });
+
+  const fallback = joinWithinLimit(targets.map((t) => `${t.title}\n\n${t.excerpt}\n\n${t.url}`));
   const apiKey = process.env["LOVABLE_API_KEY"];
   if (!apiKey) return fallback;
 
   const prompt = [
-    `Write a LinkedIn post in ${LANGUAGE_NAMES[article.language] ?? "English"} for The Switzerland Chapter of ICF.`,
-    "Structure: one short hook line, then two or three short lines of substance, then a closing invitation to read the article.",
-    "Warm, professional, specific. No emoji spam (at most one). No invented statistics or claims.",
-    "End with at most three relevant hashtags on their own line.",
-    "Do not include the article link — it is appended separately. Reply with the post text only, no quotes, no markdown.",
+    "Write ONE LinkedIn post for The Switzerland Chapter of ICF containing four language blocks, in this order: German, French, Italian, English.",
+    "Each block: one short hook line, then one or two short lines of substance, then a closing invitation to read the article, then the article link for that language on its own line.",
+    "Separate the blocks with a line containing exactly: — — —",
+    "Hard budget: at most 600 characters per block, and at most 2800 characters in total.",
+    "Warm, professional, specific. At most one emoji in the whole post. No invented statistics or claims.",
+    "Finish the whole post with at most three relevant hashtags on their own line (once, after the English block).",
+    "Reply with the post text only — no quotes, no markdown, no language labels.",
     "",
-    `TITLE: ${article.title}`,
-    `EXCERPT: ${article.excerpt}`,
-    `ARTICLE: ${article.content.slice(0, 6000)}`,
+    ...targets.map((t) =>
+      [
+        `LANGUAGE: ${t.name}`,
+        `TITLE: ${t.title}`,
+        `EXCERPT: ${t.excerpt}`,
+        `LINK: ${t.url}`,
+        "",
+      ].join("\n"),
+    ),
+    `ARTICLE (source language ${LANGUAGE_NAMES[article.language] ?? "English"}): ${article.content.slice(0, 6000)}`,
   ].join("\n");
 
   try {
@@ -117,7 +180,8 @@ export async function draftCommentary(article: Article, url: string): Promise<st
     const payload = (await res.json()) as { choices?: { message?: { content?: string } }[] };
     const text = payload.choices?.[0]?.message?.content?.trim();
     if (!text) return fallback;
-    return `${text}\n\n${url}`;
+    void url;
+    return joinWithinLimit(text.split(/\n\s*—\s*—\s*—\s*\n/).map((b) => b.trim()));
   } catch {
     return fallback;
   }

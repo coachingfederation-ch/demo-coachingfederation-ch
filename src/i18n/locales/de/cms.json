@@ -976,6 +976,8 @@
     "pageUrn": "Organisations-URN",
     "pageName": "Seitenname",
     "pageSave": "Seite speichern",
-    "pageSaved": "LinkedIn-Seite gespeichert."
+    "pageSaved": "LinkedIn-Seite gespeichert.",
+    "shuffle": "Striche wechseln",
+    "languages": "DE · FR · IT · EN in einem Beitrag"
   }
 }
