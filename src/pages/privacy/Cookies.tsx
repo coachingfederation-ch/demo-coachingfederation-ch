@@ -48,10 +48,10 @@ export function CookiesSection() {
               "Not required",
             ],
             [
-              "[Confirm: Analytics cookies]",
-              "[Confirm: if analytics are added before launch]",
-              "[Confirm: duration]",
-              "May be required depending on configuration and applicable law; The Switzerland Chapter of ICF will request consent where required",
+              "Plausible Analytics",
+              "Aggregated website statistics (page views and a small number of goals such as downloads and shares). Cookieless, EU-hosted, no personal data and no cross-site tracking",
+              "No cookie is set",
+              "Not required",
             ],
             [
               "[Confirm: Any other cookies]",
