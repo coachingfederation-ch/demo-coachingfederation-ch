@@ -3,9 +3,13 @@
  * Exports: LINKEDIN_MARK_COMPOSITIONS, linkedInVariantIndex.
  * Client-safe so the dialog preview and the rasterised card agree.
  *
- * Rules kept deliberately tight (brand guide): at most two marks per card,
- * every mark fully inside the frame with a safe margin, nothing smaller than
- * roughly a quarter of the card height, and no more than three accent colours.
+ * Composition rules (brand guide + golden ratio):
+ * - The card is 1200x742 (1:1.618). The text column occupies the left 61.8%
+ *   (742px); every mark lives in the right 38.2% column so nothing ever sits
+ *   under the kicker, headline or chapter name.
+ * - Two marks max: a primary at 400px (~0.54 of the card height) and a
+ *   secondary at 247px (400/1.618), both fully inside a 46px safe margin.
+ * - At most three accent colours, Blue / Light Blue / Yellow on Deep Blue.
  */
 import type { MarkName } from "@/components/marks";
 
@@ -13,56 +17,55 @@ const BLUE = "text-[#2B379B]";
 const LIGHT = "text-[#5778FA]";
 const YELLOW = "text-[#EFCB30]";
 
+/** Golden-ratio placement slots inside the right-hand 38.2% column. */
+const PRIMARY_HIGH = "absolute right-[46px] top-[46px] h-[400px] w-[400px]";
+const PRIMARY_LOW = "absolute right-[46px] top-[248px] h-[400px] w-[400px]";
+const SECONDARY_LOW = "absolute right-[92px] bottom-[46px] h-[247px] w-[247px]";
+const SECONDARY_HIGH = "absolute right-[92px] top-[46px] h-[247px] w-[247px]";
+const SECONDARY_EDGE = "absolute right-[286px] top-[171px] h-[247px] w-[247px]";
+
 export type MarkPlacement = { name: MarkName; className: string };
 
 export type LinkedInMarkComposition = {
-  /** Short accent stroke under the headline. */
-  accent: MarkPlacement;
-  /** Decorative marks behind the text block (max two). */
+  /** Decorative marks in the right-hand column (max two). */
   items: MarkPlacement[];
 };
 
 export const LINKEDIN_MARK_COMPOSITIONS: LinkedInMarkComposition[] = [
   {
-    accent: { name: "line2", className: `mt-8 block h-8 w-80 ${LIGHT}` },
     items: [
-      { name: "circular2", className: `absolute right-12 top-14 h-[380px] w-[380px] ${BLUE}` },
-      { name: "asterisk2", className: `absolute bottom-28 right-20 h-44 w-44 ${YELLOW}` },
+      { name: "circular2", className: `${PRIMARY_HIGH} ${BLUE}` },
+      { name: "asterisk2", className: `${SECONDARY_LOW} ${YELLOW}` },
     ],
   },
   {
-    accent: { name: "stroke2", className: `mt-8 block h-8 w-96 ${YELLOW}` },
     items: [
-      { name: "arrow2", className: `absolute right-16 top-24 h-72 w-72 ${LIGHT}` },
-      { name: "star3", className: `absolute bottom-32 right-24 h-40 w-40 ${BLUE}` },
+      { name: "arrow2", className: `${PRIMARY_LOW} ${LIGHT}` },
+      { name: "star3", className: `${SECONDARY_HIGH} ${YELLOW}` },
     ],
   },
   {
-    accent: { name: "line4", className: `mt-8 block h-8 w-80 ${YELLOW}` },
     items: [
-      { name: "circular3", className: `absolute right-14 top-16 h-[400px] w-[400px] ${LIGHT}` },
-      { name: "star1", className: `absolute bottom-28 right-16 h-48 w-48 ${BLUE}` },
+      { name: "circular3", className: `${PRIMARY_HIGH} ${LIGHT}` },
+      { name: "star1", className: `${SECONDARY_LOW} ${BLUE}` },
     ],
   },
   {
-    accent: { name: "stroke4", className: `mt-8 block h-8 w-72 ${LIGHT}` },
     items: [
-      { name: "asterisk4", className: `absolute right-16 top-20 h-72 w-72 ${YELLOW}` },
-      { name: "other3", className: `absolute bottom-24 right-20 h-56 w-56 ${BLUE}` },
+      { name: "asterisk4", className: `${PRIMARY_LOW} ${YELLOW}` },
+      { name: "other3", className: `${SECONDARY_HIGH} ${BLUE}` },
     ],
   },
   {
-    accent: { name: "line3", className: `mt-8 block h-8 w-80 ${YELLOW}` },
     items: [
-      { name: "highlight2", className: `absolute right-14 top-20 h-64 w-[420px] ${BLUE}` },
-      { name: "arrow3", className: `absolute bottom-28 right-20 h-52 w-52 ${LIGHT}` },
+      { name: "highlight2", className: `${PRIMARY_HIGH} ${BLUE}` },
+      { name: "arrow3", className: `${SECONDARY_EDGE} ${LIGHT}` },
     ],
   },
   {
-    accent: { name: "stroke3", className: `mt-8 block h-8 w-72 ${LIGHT}` },
     items: [
-      { name: "star2", className: `absolute right-16 top-16 h-[340px] w-[340px] ${BLUE}` },
-      { name: "asterisk1", className: `absolute bottom-24 right-24 h-44 w-44 ${YELLOW}` },
+      { name: "star2", className: `${PRIMARY_LOW} ${BLUE}` },
+      { name: "asterisk1", className: `${SECONDARY_HIGH} ${YELLOW}` },
     ],
   },
 ];
