@@ -192,12 +192,12 @@ export function DeckSection() {
         </div>
 
         {sources.length > 0 ? (
-          <div className="mt-10 border-t border-border pt-6">
+          <div className="mt-10 border-t border-hero-foreground/20 pt-6">
             <button
               type="button"
               onClick={() => setShowSources((v) => !v)}
               aria-expanded={showSources}
-              className="text-xs font-semibold uppercase tracking-wider text-muted-foreground transition hover:text-foreground"
+              className="text-xs font-semibold uppercase tracking-wider text-hero-foreground/80 transition hover:text-hero-foreground"
             >
               {t("organisations.deck.sourcesLabel")} {showSources ? "−" : "+"}
             </button>
@@ -205,10 +205,10 @@ export function DeckSection() {
               <div className="mt-6 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                 {sources.map((g) => (
                   <div key={g.group}>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-primary">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-hero-foreground">
                       {g.group}
                     </p>
-                    <ul className="mt-2 space-y-1 text-xs leading-relaxed text-muted-foreground">
+                    <ul className="mt-2 space-y-1 text-xs leading-relaxed text-hero-foreground/80">
                       {g.items.map((s) => (
                         <li key={s}>{s}</li>
                       ))}
