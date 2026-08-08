@@ -1,5 +1,5 @@
 /**
- * The branded 1200x627 visual that accompanies a LinkedIn post.
+ * The branded 1200x742 (golden-ratio) visual that accompanies a LinkedIn post.
  * Exports: LinkedInCard, toDataUrl. Rendered off-screen at full size by
  * LinkedInShareCard.tsx and rasterised with html-to-image.
  */
@@ -46,25 +46,26 @@ export const LinkedInCard = forwardRef<
       )}
 
       <div
-        className={`relative z-10 flex flex-col justify-between p-16 ${showPhoto ? "h-1/2" : "h-full"}`}
+        className="relative z-10 flex flex-col justify-between p-16"
+        style={{ height: showPhoto ? "61.8%" : "100%" }}
       >
         <img src={icfLogo.url} alt="" className="h-24 w-auto object-contain object-left" />
-        <div>
+        {/* Text keeps to the left 61.8% column so brush marks never sit under it. */}
+        <div style={{ width: showPhoto ? "100%" : "61.8%" }}>
           <div className="mb-5 text-[17px] font-bold uppercase tracking-[0.22em] text-[#EFCB30]">
             {kicker}
           </div>
           <h2
-            className="font-display text-[58px] font-bold leading-[1.08] tracking-tight"
+            className="font-display text-[54px] font-bold leading-[1.08] tracking-tight"
             style={{
               display: "-webkit-box",
-              WebkitLineClamp: showPhoto ? 3 : 5,
+              WebkitLineClamp: showPhoto ? 3 : 4,
               WebkitBoxOrient: "vertical",
               overflow: "hidden",
             }}
           >
             {title}
           </h2>
-          <Mark name={composition.accent.name} className={composition.accent.className} />
         </div>
         {showPhoto ? null : (
           <div className="text-[19px] font-semibold text-white/75">
@@ -74,7 +75,7 @@ export const LinkedInCard = forwardRef<
       </div>
 
       {showPhoto ? (
-        <div className="relative h-1/2 w-full">
+        <div className="relative w-full" style={{ height: "38.2%" }}>
           <img src={imageDataUrl ?? ""} alt="" className="h-full w-full object-cover" />
           <div
             className="absolute inset-x-0 top-0 h-28"
