@@ -3,11 +3,13 @@
  * Exports: ForOrganisationsPage (default). Rendered by src/routes/for-organisations.tsx
  * and the locale-prefixed equivalent in src/routes/$locale/for-organisations.tsx.
  */
+import { useMemo, useState } from "react";
 import { Mark, type MarkName } from "@/components/marks";
 import { CompactHero, SiteFooter, CARD_SHADOW } from "@/components/site-chrome";
 import { CultureSurvey } from "@/components/organisations/CultureSurvey";
 import { BrevoChat } from "@/components/organisations/BrevoChat";
 import { DeckSection } from "@/components/organisations/DeckSection";
+import { WhoWeServe, SEGMENT_IDS, type SegmentId } from "@/components/organisations/WhoWeServe";
 import {
   Differentiators,
   EventsStrip,
@@ -22,6 +24,15 @@ const programmeVisuals: { bg: string; fg: string; mark: MarkName }[] = [
   { bg: "bg-mark-yellow", fg: "text-mark-indigo", mark: "asterisk1" },
 ];
 
+/** Index of the programme card (executive / team / cultures) surfaced first per segment. */
+const segmentProgrammeLead: Record<SegmentId, number> = {
+  igo: 0,
+  ngo: 1,
+  gov: 2,
+  commercial: 0,
+  societal: 1,
+};
+
 export default function ForOrganisationsPage() {
   const { t, tList } = useI18n();
   const outcomes = tList<{ stat: string; title: string; desc: string }>(
@@ -29,6 +40,24 @@ export default function ForOrganisationsPage() {
   );
   const steps = tList<{ n: string; title: string; desc: string }>("organisations.steps.items");
   const programmes = tList<{ tag: string; title: string }>("organisations.programmes.items");
+  const segments = tList<{ label: string; route: string }>("organisations.segments.items");
+  const [segment, setSegment] = useState<SegmentId | null>(null);
+
+  const segmentIndex = segment ? SEGMENT_IDS.indexOf(segment) : -1;
+  const segmentCopy = segmentIndex >= 0 ? segments[segmentIndex] : undefined;
+  const contextLine = segmentCopy
+    ? t("organisations.segments.context")
+        .replace("{segment}", segmentCopy.label)
+        .replace("{route}", segmentCopy.route)
+    : undefined;
+
+  // Reorder without dropping cards: the lead programme moves to the front, rest keep order.
+  const orderedProgrammes = useMemo(() => {
+    if (!segment) return programmes.map((p, i) => ({ item: p, visual: i }));
+    const lead = segmentProgrammeLead[segment];
+    const indices = programmes.map((_, i) => i).sort((a, b) => (a === lead ? -1 : b === lead ? 1 : 0));
+    return indices.map((i) => ({ item: programmes[i], visual: i }));
+  }, [programmes, segment]);
 
   return (
     <div className="min-h-dvh bg-background text-foreground">
@@ -68,6 +97,8 @@ export default function ForOrganisationsPage() {
 
         <DeckSection />
 
+        <WhoWeServe selected={segment} onSelect={setSegment} />
+
         {/* Raised surface: the numbered "how it works" list. */}
         <section className="bg-card py-24">
           <div className="mx-auto max-w-7xl px-8">
@@ -89,7 +120,7 @@ export default function ForOrganisationsPage() {
           </div>
         </section>
 
-        <Initiatives />
+        <Initiatives contextLine={contextLine} />
 
         {/* Raised surface: programme cards. */}
         <section className="bg-card py-24">
@@ -97,8 +128,8 @@ export default function ForOrganisationsPage() {
             <p className="eyebrow">{t("organisations.programmes.eyebrow")}</p>
             <h2 className="mt-3 max-w-2xl display-lg">{t("organisations.programmes.title")}</h2>
             <div className="mt-12 grid gap-4 md:grid-cols-3">
-              {programmes.map((p, i) => {
-                const v = programmeVisuals[i];
+              {orderedProgrammes.map(({ item: p, visual }) => {
+                const v = programmeVisuals[visual];
                 return (
                   <a
                     key={p.tag}
