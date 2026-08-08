@@ -55,7 +55,7 @@ export function DeckSection() {
       <div className="mx-auto max-w-7xl px-8">
         <p className="eyebrow !text-hero-foreground">{t("organisations.deck.eyebrow")}</p>
         <h2 className="mt-3 max-w-2xl display-lg">{t("organisations.deck.title")}</h2>
-        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-hero-foreground/80">
+        <p className="mt-4 max-w-2xl text-base leading-relaxed text-hero-foreground/90">
           {t("organisations.deck.lede")}
         </p>
 
@@ -85,7 +85,7 @@ export function DeckSection() {
           >
             <Mark
               name="circular1"
-              className="pointer-events-none absolute -right-10 -top-12 h-48 w-48 text-accent/10 md:h-64 md:w-64"
+              className="pointer-events-none absolute -right-10 -top-12 h-48 w-48 text-accent/35 md:h-64 md:w-64"
             />
             <div className="relative">
               {slide.kicker ? <p className="eyebrow">{slide.kicker}</p> : null}
@@ -106,7 +106,7 @@ export function DeckSection() {
                 </blockquote>
               ) : null}
               {slide.body ? (
-                <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
+                <p className="mt-4 max-w-2xl text-base leading-relaxed text-foreground/80 md:text-lg">
                   {slide.body}
                 </p>
               ) : null}
@@ -115,7 +115,7 @@ export function DeckSection() {
                   <div className="relative shrink-0">
                     <Mark
                       name="circular2"
-                      className="pointer-events-none absolute left-1/2 top-1/2 h-[130%] w-[130%] -translate-x-1/2 -translate-y-1/2 text-accent/15"
+                      className="pointer-events-none absolute left-1/2 top-1/2 h-[130%] w-[130%] -translate-x-1/2 -translate-y-1/2 text-accent/40"
                     />
                     <span className="relative block text-[5.5rem] font-bold leading-[0.85] tracking-tighter text-primary md:text-[9rem]">
                       {slide.stat}
@@ -143,7 +143,7 @@ export function DeckSection() {
               ) : null}
             </div>
             {slide.source ? (
-              <p className="relative mt-8 text-xs text-muted-foreground">{slide.source}</p>
+              <p className="relative mt-8 text-xs font-medium text-foreground/70">{slide.source}</p>
             ) : null}
           </article>
         </div>
@@ -160,21 +160,21 @@ export function DeckSection() {
                 className={
                   "relative h-6 min-w-6 rounded-full px-1.5 transition-all before:absolute before:inset-x-1.5 before:top-1/2 before:h-1.5 before:-translate-y-1/2 before:rounded-full before:transition-all " +
                   (i === index
-                    ? "w-10 before:bg-hero-foreground"
-                    : "w-6 before:bg-hero-foreground/40 hover:before:bg-hero-foreground/70")
+                    ? "w-10 before:bg-accent"
+                    : "w-6 before:bg-hero-foreground/60 hover:before:bg-hero-foreground")
                 }
               />
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <span className="btn-mono text-xs !text-hero-foreground/80">
+            <span className="btn-mono text-xs !text-hero-foreground">
               {index + 1} / {count}
             </span>
             <button
               type="button"
               onClick={() => go(index - 1)}
               disabled={index === 0}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-hero-foreground/30 text-hero-foreground transition hover:bg-hero-foreground/10 disabled:opacity-30"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-hero-foreground/60 text-hero-foreground transition hover:bg-hero-foreground/15 disabled:opacity-40"
             >
               <span aria-hidden>←</span>
               <span className="sr-only">{t("organisations.deck.prev")}</span>
@@ -183,7 +183,7 @@ export function DeckSection() {
               type="button"
               onClick={() => go(index + 1)}
               disabled={index === count - 1}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-hero-foreground/30 text-hero-foreground transition hover:bg-hero-foreground/10 disabled:opacity-30"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-hero-foreground/60 text-hero-foreground transition hover:bg-hero-foreground/15 disabled:opacity-40"
             >
               <span aria-hidden>→</span>
               <span className="sr-only">{t("organisations.deck.next")}</span>
@@ -192,12 +192,12 @@ export function DeckSection() {
         </div>
 
         {sources.length > 0 ? (
-          <div className="mt-10 border-t border-hero-foreground/20 pt-6">
+          <div className="mt-10 border-t border-hero-foreground/35 pt-6">
             <button
               type="button"
               onClick={() => setShowSources((v) => !v)}
               aria-expanded={showSources}
-              className="text-xs font-semibold uppercase tracking-wider text-hero-foreground/80 transition hover:text-hero-foreground"
+              className="text-xs font-semibold uppercase tracking-wider text-hero-foreground transition hover:text-accent"
             >
               {t("organisations.deck.sourcesLabel")} {showSources ? "−" : "+"}
             </button>
@@ -208,7 +208,7 @@ export function DeckSection() {
                     <p className="text-xs font-semibold uppercase tracking-wider text-hero-foreground">
                       {g.group}
                     </p>
-                    <ul className="mt-2 space-y-1 text-xs leading-relaxed text-hero-foreground/80">
+                    <ul className="mt-2 space-y-1 text-xs leading-relaxed text-hero-foreground/90">
                       {g.items.map((s) => (
                         <li key={s}>{s}</li>
                       ))}
