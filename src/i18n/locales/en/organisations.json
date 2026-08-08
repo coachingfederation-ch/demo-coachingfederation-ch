@@ -172,6 +172,45 @@
       "again": "Download again"
     }
   },
+  "segments": {
+    "eyebrow": "Who we serve",
+    "title": "From intergovernmental Geneva to Swiss boardrooms and beyond.",
+    "lede": "Pick the context closest to yours and we will point to the route and programme most organisations like you start with.",
+    "reset": "See all",
+    "context": "Common for {segment}: {route}",
+    "items": [
+      {
+        "label": "Intergovernmental (IGO)",
+        "definition": "UN agencies, WHO, WTO, ILO, WEF and the wider international Geneva community.",
+        "angle": "Coaches fluent in multilateral governance, diplomatic complexity and strict neutrality requirements.",
+        "route": "a focused executive coaching pilot"
+      },
+      {
+        "label": "Non-governmental (NGO / INGO)",
+        "definition": "Humanitarian and advocacy organisations, from global INGOs to local associations.",
+        "angle": "Mission-driven leadership under resource constraint, resilience in high-stakes work, coaching for flat or networked structures.",
+        "route": "team coaching for units under pressure"
+      },
+      {
+        "label": "Governmental (Swiss)",
+        "definition": "Federal, cantonal and communal administration.",
+        "angle": "Public-sector transformation, cross-departmental collaboration and procurement-compatible engagement models.",
+        "route": "a focused executive coaching pilot"
+      },
+      {
+        "label": "Commercial",
+        "definition": "Private companies across banking, pharma, telecom and industry.",
+        "angle": "Measurable ROI, executive performance and coaching through restructuring and transformation.",
+        "route": "building an internal coaching culture"
+      },
+      {
+        "label": "Societal",
+        "definition": "Education, foundations and non-profits outside the humanitarian and INGO space.",
+        "angle": "Mission-driven governance, board and volunteer leadership, and budget-conscious engagement options.",
+        "route": "team coaching for units under pressure"
+      }
+    ]
+  },
   "initiatives": {
     "eyebrow": "Ways to work with us",
     "title": "Three routes into coaching, depending on where you are.",
