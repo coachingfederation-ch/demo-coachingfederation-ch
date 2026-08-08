@@ -123,8 +123,11 @@ wiring it up.
 | Editor UI and transitions     | `src/routes/_staff/articles.$id.tsx`        |
 | Status pill, sidebar metadata | `src/components/cms/ArticleMetaSidebar.tsx` |
 | Index filters and labels      | `src/routes/_staff/articles.index.tsx`      |
+| Role grants and detail panel  | `src/routes/_staff/roles.tsx`, `src/components/cms/RoleDetailPanel.tsx` |
+| Role model and staff routing  | `src/lib/role-model.ts`, `src/lib/staff-guard.ts` |
 | Database guard                | `tg_articles_publish_guard` on `articles`   |
 
 Status labels and action wording are translated in
-`src/i18n/locales/<lang>/editor.json`; adding a status means adding a string in
-all four languages, not just English.
+`src/i18n/locales/<lang>/cms.json` (`editor.*` for the article screen,
+`roles.*` for the Roles screen); adding a status means adding a string in all
+four languages, not just English.
