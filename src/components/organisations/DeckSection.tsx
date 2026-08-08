@@ -49,13 +49,13 @@ export function DeckSection() {
   const slide = slides[index];
 
   return (
-    // Base surface: the deck used to be a second full-indigo band, which competed
-    // with the hero and the closing CTA. Indigo now survives only as accent chrome.
-    <section className="bg-background py-24">
+    // The deck now sits on the official Deep Blue hero band, with white
+    // foreground text and light cards that keep the slide content readable.
+    <section className="bg-hero py-24 text-hero-foreground">
       <div className="mx-auto max-w-7xl px-8">
-        <p className="eyebrow">{t("organisations.deck.eyebrow")}</p>
+        <p className="eyebrow text-hero-foreground">{t("organisations.deck.eyebrow")}</p>
         <h2 className="mt-3 max-w-2xl display-lg">{t("organisations.deck.title")}</h2>
-        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-hero-foreground/80">
           {t("organisations.deck.lede")}
         </p>
 
