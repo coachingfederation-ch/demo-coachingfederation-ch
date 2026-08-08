@@ -8,11 +8,11 @@ import { supabase } from "@/integrations/supabase/client";
 
 export const navItems = [
   { key: "home", to: "/" },
-  { key: "forOrganisations", to: "/for-organisations" },
+  { key: "about", to: "/about" },
   { key: "forCoaches", to: "/for-coaches" },
+  { key: "forOrganisations", to: "/for-organisations" },
   { key: "insights", to: "/insights" },
   { key: "events", to: "/events" },
-  { key: "about", to: "/about" },
 ] as const;
 
 export const CARD_SHADOW =
