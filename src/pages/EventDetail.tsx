@@ -22,7 +22,6 @@ import {
 } from "@/lib/events";
 import type { EventHost } from "@/lib/event-hosts";
 import { eventMap } from "@/lib/event-map";
-import { trackEvent, useTrackView } from "@/lib/amplitude";
 import {
   cancelMyRegistration,
   getMyRegistration,
@@ -94,12 +93,6 @@ export default function EventDetailPage({
   const hosts = event.hosts ?? [];
   const marks = heroMarks(event.slug ?? event.id ?? "");
   const map = eventMap(event.map_location);
-  useTrackView("Event Viewed", event.id ?? event.slug ?? "", {
-    event_id: event.id,
-    event_slug: event.slug,
-    event_title: event.title,
-    is_past: past,
-  });
 
   const session = useQuery({
     queryKey: ["auth-user-id"],
@@ -138,12 +131,6 @@ export default function EventDetailPage({
       : await submitGuestRegistration({ data: payload });
     if (result.ok) {
       setState({ kind: "done" });
-      trackEvent("Event Registration Submitted", {
-        event_id: event.id,
-        event_slug: event.slug,
-        event_title: event.title,
-        signed_in: signedIn,
-      });
       // refetch() ignores `enabled`, so only call it for signed-in visitors —
       // otherwise the protected server fn runs without a bearer token and 401s.
       if (signedIn) void mine.refetch();

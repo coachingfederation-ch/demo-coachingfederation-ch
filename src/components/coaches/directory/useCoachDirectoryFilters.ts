@@ -9,7 +9,6 @@ import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useI18n } from "@/i18n";
 import { queryCoachDirectory } from "@/lib/directory.functions";
-import { trackEvent } from "@/lib/amplitude";
 import {
   activeFinderModes,
   fetchCoachFinderConfig,
@@ -128,7 +127,6 @@ export function useCoachDirectoryFilters() {
   });
 
   function clearAll() {
-    trackEvent("Coach Search Cleared");
     setQuery("");
     setRegion("all");
     setLanguage("all");
@@ -190,19 +188,6 @@ export function useCoachDirectoryFilters() {
   const searchSignature = JSON.stringify({ ...filters, query: query.trim(), acceptingOnly });
   useEffect(() => {
     if (isPending || !dirty) return;
-    trackEvent("Coach Search Performed", {
-      mode,
-      query: query.trim() || null,
-      region,
-      language,
-      credentials,
-      specialisations: specializations,
-      formats,
-      accepting_only: acceptingOnly,
-      page,
-      result_count: results.length,
-      total_matches: total,
-    });
     // Everything reported is derived from the signature above.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchSignature, isPending]);

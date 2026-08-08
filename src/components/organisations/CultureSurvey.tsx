@@ -7,7 +7,6 @@ import { useServerFn } from "@tanstack/react-start";
 import { CARD_SHADOW } from "@/components/site-chrome";
 import { useI18n } from "@/i18n";
 import { submitOrganisationSurvey } from "@/lib/organisation-survey.functions";
-import { trackEvent } from "@/lib/amplitude";
 import {
   bandFor,
   DIMENSIONS,
@@ -86,12 +85,6 @@ export function CultureSurvey() {
       });
       if (res.ok) {
         setStep("done");
-        trackEvent("Organisation Survey Completed", {
-          locale,
-          primary_pressure: pressure,
-          maturity_band: band,
-          total_score: total,
-        });
       } else setError(t("organisations.survey.form.error"));
     } catch {
       setError(t("organisations.survey.form.error"));

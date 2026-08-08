@@ -6,7 +6,6 @@ import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { useI18n } from "@/i18n";
 import { recordDeckDownload } from "@/lib/deck-download.functions";
-import { trackEvent } from "@/lib/amplitude";
 import deckEn from "@/assets/deck/deck-en.pdf.asset.json";
 import deckDe from "@/assets/deck/deck-de.pdf.asset.json";
 import deckFr from "@/assets/deck/deck-fr.pdf.asset.json";
@@ -51,7 +50,6 @@ export function DeckDownload() {
     document.body.appendChild(a);
     a.click();
     a.remove();
-    trackEvent("Deck Downloaded", { locale, email_provided: Boolean(value) });
     setDone(true);
   }
 

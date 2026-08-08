@@ -5,7 +5,6 @@
 import { useState } from "react";
 import { Linkedin, Mail, Link2, Check } from "lucide-react";
 import { useI18n } from "@/i18n";
-import { trackEvent } from "@/lib/amplitude";
 
 /** X (formerly Twitter) has no lucide glyph, so the mark is inlined. */
 function XIcon({ className }: { className?: string }) {

@@ -5,7 +5,6 @@
 import { CoachAvatar } from "@/components/coaches/directory";
 import { LocaleLink, useI18n } from "@/i18n";
 import type { PublicCoachProfile } from "@/lib/directory.functions";
-import { trackEvent } from "@/lib/amplitude";
 
 export function CoachProfileHero({
   profile,

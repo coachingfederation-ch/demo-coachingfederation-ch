@@ -6,7 +6,6 @@
 import { useI18n } from "@/i18n";
 import type { PublicCoachProfile } from "@/lib/directory.functions";
 import { Chips, Fact, PROFILE_CARD, Prose, SideCard } from "@/components/coaches/profile/shared";
-import { trackEvent } from "@/lib/amplitude";
 
 export function CoachProfileSidebar({
   profile,
