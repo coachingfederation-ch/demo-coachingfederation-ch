@@ -98,11 +98,11 @@ export function CultureSurvey() {
   const selectedInsight = pressures.find((p) => p.id === pressure)?.insight;
 
   return (
-    <section id="assessment" className="bg-background py-24">
+    <section id="assessment" className="bg-hero py-24 text-hero-foreground">
       <div className="mx-auto max-w-4xl px-8">
-        <p className="eyebrow">{t("organisations.survey.eyebrow")}</p>
+        <p className="eyebrow !text-hero-foreground">{t("organisations.survey.eyebrow")}</p>
         <h2 className="mt-3 display-lg">{t("organisations.survey.title")}</h2>
-        <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+        <p className="mt-4 text-sm leading-relaxed text-hero-foreground/80">
           {t("organisations.survey.lede")}
         </p>
 
