@@ -56,8 +56,7 @@ const clampNumber = (value: number, min: number, max: number) =>
 
 /** Keeps a mark sized sensibly and fully inside the safe margin. */
 export function clampMark(mark: PlacedMark): PlacedMark {
-  const maxByHeight =
-    ((100 - 2 * MARGIN_Y_PCT) * LINKEDIN_CARD_HEIGHT) / LINKEDIN_CARD_WIDTH;
+  const maxByHeight = ((100 - 2 * MARGIN_Y_PCT) * LINKEDIN_CARD_HEIGHT) / LINKEDIN_CARD_WIDTH;
   const sizePct = clampNumber(
     mark.sizePct,
     MARK_MIN_SIZE_PCT,

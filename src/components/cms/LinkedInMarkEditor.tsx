@@ -206,7 +206,8 @@ export function LinkedInMarkEditor({
                       surfaceRef.current?.setPointerCapture(event.pointerId);
                     }}
                     onKeyDown={(event) => {
-                      if (event.key === "ArrowRight") update(mark.id, { sizePct: mark.sizePct + 2 });
+                      if (event.key === "ArrowRight")
+                        update(mark.id, { sizePct: mark.sizePct + 2 });
                       if (event.key === "ArrowLeft") update(mark.id, { sizePct: mark.sizePct - 2 });
                     }}
                     className="absolute -bottom-1.5 -right-1.5 h-3.5 w-3.5 cursor-se-resize rounded-full border border-background bg-primary"
