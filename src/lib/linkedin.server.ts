@@ -11,7 +11,12 @@
  * the post.
  */
 import { SITE_URL, localizePath, isLocale, LOCALE_ORDER, type Locale } from "@/i18n/config";
-import { linkedInPostUrl, type LinkedInImageMode, type LinkedInPostRecord } from "./linkedin";
+import {
+  linkedInPostUrl,
+  type LinkedInImageMode,
+  type LinkedInMarkLayoutRow,
+  type LinkedInPostRecord,
+} from "./linkedin";
 
 const GATEWAY_URL = "https://connector-gateway.lovable.dev/linkedin";
 /** Pinned LinkedIn REST version; bump deliberately, never implicitly. */
