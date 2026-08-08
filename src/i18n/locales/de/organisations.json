@@ -175,6 +175,45 @@
       "again": "Erneut herunterladen"
     }
   },
+  "segments": {
+    "eyebrow": "Wen wir begleiten",
+    "title": "Vom zwischenstaatlichen Genf bis in Schweizer Chefetagen und darüber hinaus.",
+    "lede": "Wählen Sie den Kontext, der Ihrem am nächsten kommt, und wir zeigen den Weg und das Programm, mit dem vergleichbare Organisationen meist starten.",
+    "reset": "Alle anzeigen",
+    "context": "Üblich für {segment}: {route}",
+    "items": [
+      {
+        "label": "Zwischenstaatlich (IGO)",
+        "definition": "UN-Organisationen, WHO, WTO, ILO, WEF und die breitere internationale Gemeinschaft in Genf.",
+        "angle": "Coaches, die multilaterale Governance, diplomatische Komplexität und strenge Neutralitätsanforderungen verstehen.",
+        "route": "ein fokussiertes Executive-Coaching-Pilotprojekt"
+      },
+      {
+        "label": "Nichtstaatlich (NGO / INGO)",
+        "definition": "Humanitäre und Advocacy-Organisationen, von globalen INGOs bis zu lokalen Vereinen.",
+        "angle": "Sinngetriebene Führung unter knappen Ressourcen, Resilienz in belastenden Einsätzen, Coaching für flache oder vernetzte Strukturen.",
+        "route": "Teamcoaching für Einheiten unter Druck"
+      },
+      {
+        "label": "Staatlich (Schweiz)",
+        "definition": "Bundes-, Kantons- und Gemeindeverwaltung.",
+        "angle": "Transformation im öffentlichen Sektor, departementsübergreifende Zusammenarbeit und beschaffungskonforme Vertragsmodelle.",
+        "route": "ein fokussiertes Executive-Coaching-Pilotprojekt"
+      },
+      {
+        "label": "Privatwirtschaft",
+        "definition": "Privatunternehmen aus Banken, Pharma, Telekom und Industrie.",
+        "angle": "Messbarer ROI, Führungsleistung und Coaching durch Restrukturierung und Transformation.",
+        "route": "Aufbau einer internen Coaching-Kultur"
+      },
+      {
+        "label": "Gesellschaftlich",
+        "definition": "Bildung, Stiftungen und Non-Profits ausserhalb des humanitären und INGO-Bereichs.",
+        "angle": "Sinngetriebene Governance, Vorstands- und Freiwilligenführung sowie budgetbewusste Formate.",
+        "route": "Teamcoaching für Einheiten unter Druck"
+      }
+    ]
+  },
   "initiatives": {
     "eyebrow": "Möglichkeiten der Zusammenarbeit",
     "title": "Drei Wege zu Coaching, je nachdem, wo Sie stehen.",
