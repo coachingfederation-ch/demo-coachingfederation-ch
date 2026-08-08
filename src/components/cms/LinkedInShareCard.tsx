@@ -166,20 +166,22 @@ export function LinkedInShareCard({
                   {t("linkedin.visual")}
                 </span>
                 <div className="flex items-center gap-2">
-                <div className="flex gap-1 rounded-full border border-border p-0.5">
-                  {(["feature", "marks"] as LinkedInImageMode[]).map((m) => (
-                    <button
-                      key={m}
-                      onClick={() => setMode(m)}
-                      disabled={m === "feature" && !imageDataUrl}
-                      className={`rounded-full px-3 py-1 text-xs font-medium disabled:opacity-40 ${
-                        mode === m ? "bg-primary text-primary-foreground" : "text-muted-foreground"
-                      }`}
-                    >
-                      {t(`linkedin.mode.${m}`)}
-                    </button>
-                  ))}
-                </div>
+                  <div className="flex gap-1 rounded-full border border-border p-0.5">
+                    {(["feature", "marks"] as LinkedInImageMode[]).map((m) => (
+                      <button
+                        key={m}
+                        onClick={() => setMode(m)}
+                        disabled={m === "feature" && !imageDataUrl}
+                        className={`rounded-full px-3 py-1 text-xs font-medium disabled:opacity-40 ${
+                          mode === m
+                            ? "bg-primary text-primary-foreground"
+                            : "text-muted-foreground"
+                        }`}
+                      >
+                        {t(`linkedin.mode.${m}`)}
+                      </button>
+                    ))}
+                  </div>
                   <button
                     type="button"
                     onClick={() => setVariant((v) => v + 1)}

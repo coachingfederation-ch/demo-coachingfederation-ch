@@ -136,9 +136,7 @@ export async function draftCommentary(article: Article, url: string): Promise<st
     };
   });
 
-  const fallback = joinWithinLimit(
-    targets.map((t) => `${t.title}\n\n${t.excerpt}\n\n${t.url}`),
-  );
+  const fallback = joinWithinLimit(targets.map((t) => `${t.title}\n\n${t.excerpt}\n\n${t.url}`));
   const apiKey = process.env["LOVABLE_API_KEY"];
   if (!apiKey) return fallback;
 
