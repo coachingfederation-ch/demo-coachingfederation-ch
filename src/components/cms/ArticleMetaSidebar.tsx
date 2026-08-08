@@ -4,6 +4,7 @@
  * Extracted from articles.$id.tsx to keep the route file focused on wiring.
  */
 import { TranslationsPanel } from "@/components/cms/TranslationsPanel";
+import { LinkedInShareCard } from "@/components/cms/LinkedInShareCard";
 import { authorName, categoryLabel } from "@/lib/articles";
 import type { Locale } from "@/i18n/config";
 import type { ArticleRow, ArticleStatus, CategoryRow, ProfileRow } from "@/lib/articles";
@@ -60,6 +61,7 @@ export function ArticleMetaSidebar({
   toggleFeatured,
   featuredNote,
   remove,
+  canShareLinkedIn,
 }: {
   article: Article;
   categories: CategoryRow[];
@@ -70,6 +72,7 @@ export function ArticleMetaSidebar({
   toggleFeatured: () => void;
   featuredNote: string | null;
   remove: () => void;
+  canShareLinkedIn: boolean;
 }) {
   return (
     <aside className="space-y-6">
@@ -160,6 +163,16 @@ export function ArticleMetaSidebar({
           contentUpdatedAt={article.content_updated_at}
         />
       </div>
+
+      <LinkedInShareCard
+        articleId={article.id}
+        canShare={canShareLinkedIn}
+        isPublished={article.status === "published"}
+        categoryLabel={(() => {
+          const cat = categories.find((c) => c.id === article.category_id);
+          return cat ? categoryLabel(cat, locale) : t("linkedin.kickerFallback");
+        })()}
+      />
 
       <div>
         <div className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">

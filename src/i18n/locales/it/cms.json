@@ -944,5 +944,32 @@
     "preview": "Apri documento",
     "delete": "Elimina documento",
     "empty": "Nessun documento di governance."
+  },
+  "linkedin": {
+    "section": "LinkedIn",
+    "hint": "Condividi questo articolo sulla pagina LinkedIn del chapter. Testo e visual vengono verificati prima della pubblicazione.",
+    "action": "Pubblica su LinkedIn",
+    "preparing": "Preparazione della bozza…",
+    "needsPublished": "Solo gli articoli pubblicati possono essere condivisi.",
+    "dialogTitle": "Pubblica su LinkedIn",
+    "dialogBody": "Controlla il visual e il testo, poi conferma.",
+    "postingTo": "Pubblicazione su",
+    "visual": "Visual",
+    "mode": {
+      "feature": "Immagine dell'articolo",
+      "marks": "Segni a pennello"
+    },
+    "commentary": "Testo del post",
+    "cancel": "Annulla",
+    "confirm": "Pubblica su LinkedIn",
+    "posting": "Pubblicazione…",
+    "posted": "Pubblicato su LinkedIn.",
+    "postFailed": "LinkedIn ha rifiutato il post.",
+    "draftFailed": "Impossibile preparare la bozza.",
+    "alreadyPosted": "Pubblicato il",
+    "lastFailed": "Ultimo tentativo fallito:",
+    "notConnected": "LinkedIn non è ancora collegato. Collega prima il connettore LinkedIn.",
+    "noPage": "Nessuna pagina aziendale LinkedIn è ancora configurata per il chapter.",
+    "kickerFallback": "Insights"
   }
 }

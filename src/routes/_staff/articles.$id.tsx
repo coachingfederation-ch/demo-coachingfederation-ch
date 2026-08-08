@@ -211,7 +211,8 @@ function EditorPage() {
     }
   };
 
-  const publishNow = () => (article ? void runTransition({ id: article.id, action: "publish" }) : undefined);
+  const publishNow = () =>
+    article ? void runTransition({ id: article.id, action: "publish" }) : undefined;
 
   const submitForReview = () =>
     article ? void runTransition({ id: article.id, action: "submit" }) : undefined;
@@ -389,6 +390,7 @@ function EditorPage() {
           toggleFeatured={toggleFeatured}
           featuredNote={featuredNote}
           remove={remove}
+          canShareLinkedIn={!!permissions?.isPublisher || !!permissions?.isAdmin}
         />
       </div>
     </Shell>

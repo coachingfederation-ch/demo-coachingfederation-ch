@@ -14,6 +14,59 @@ export type Database = {
   }
   public: {
     Tables: {
+      article_linkedin_posts: {
+        Row: {
+          article_id: string
+          commentary: string
+          created_at: string
+          created_by: string | null
+          error_message: string | null
+          id: string
+          image_mode: string
+          linkedin_post_url: string | null
+          linkedin_post_urn: string | null
+          posted_at: string | null
+          status: Database["public"]["Enums"]["linkedin_post_status"]
+          updated_at: string
+        }
+        Insert: {
+          article_id: string
+          commentary?: string
+          created_at?: string
+          created_by?: string | null
+          error_message?: string | null
+          id?: string
+          image_mode?: string
+          linkedin_post_url?: string | null
+          linkedin_post_urn?: string | null
+          posted_at?: string | null
+          status?: Database["public"]["Enums"]["linkedin_post_status"]
+          updated_at?: string
+        }
+        Update: {
+          article_id?: string
+          commentary?: string
+          created_at?: string
+          created_by?: string | null
+          error_message?: string | null
+          id?: string
+          image_mode?: string
+          linkedin_post_url?: string | null
+          linkedin_post_urn?: string | null
+          posted_at?: string | null
+          status?: Database["public"]["Enums"]["linkedin_post_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_linkedin_posts_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       article_translations: {
         Row: {
           article_id: string
@@ -1291,6 +1344,30 @@ export type Database = {
           last_sync_run_id?: string | null
           mode?: Database["public"]["Enums"]["integration_mode"]
           soap_endpoint_key?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      linkedin_config: {
+        Row: {
+          created_at: string
+          id: boolean
+          organization_name: string | null
+          organization_urn: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: boolean
+          organization_name?: string | null
+          organization_urn?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: boolean
+          organization_name?: string | null
+          organization_urn?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -2802,6 +2879,7 @@ export type Database = {
       event_registration_status: "confirmed" | "cancelled"
       event_status: "draft" | "published" | "cancelled"
       integration_mode: "test" | "live"
+      linkedin_post_status: "pending" | "posted" | "failed"
       member_activity_state: "active" | "inactive" | "grace" | "anonymized"
       member_visibility:
         | "draft"
@@ -2963,6 +3041,7 @@ export const Constants = {
       event_registration_status: ["confirmed", "cancelled"],
       event_status: ["draft", "published", "cancelled"],
       integration_mode: ["test", "live"],
+      linkedin_post_status: ["pending", "posted", "failed"],
       member_activity_state: ["active", "inactive", "grace", "anonymized"],
       member_visibility: [
         "draft",
